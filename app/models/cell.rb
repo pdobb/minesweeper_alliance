@@ -1,6 +1,12 @@
 class Cell < ApplicationRecord
   belongs_to :board
 
+  serialize :coordinates, coder: CoordinatesCoder
+
+  delegate :x,
+           :y,
+           to: :coordinates
+
   private
 
   def inspect_identification
@@ -12,6 +18,6 @@ class Cell < ApplicationRecord
   end
 
   def inspect_info
-    "#{x.to_i}, #{y.to_i}"
+    coordinates.inspect
   end
 end

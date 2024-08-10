@@ -22,6 +22,11 @@ class Board < ApplicationRecord
     }
   end
 
+  # [
+  #   [<Cell(💣) (0, 0)>, <Cell(💣) (1, 0)>, <Cell(◻️) (2, 0)>],
+  #   [<Cell(◻️) (0, 1)>, <Cell(💣) (1, 1)>, <Cell(◻️) (2, 1)>],
+  #   [<Cell(◻️) (0, 2)>, <Cell(💣) (1, 2)>, <Cell(◻️) (2, 2)>]
+  # ]
   def grid
     cells.group_by(&:y).values
   end
@@ -36,15 +41,10 @@ class Board < ApplicationRecord
     "#{cells.size} Cells"
   end
 
-  # [
-  #   [<Cell(💣) 0, 0>, <Cell(💣) 1, 0>, <Cell(◻️) 2, 0>],
-  #   [<Cell(◻️) 0, 1>, <Cell(💣) 1, 1>, <Cell(◻️) 2, 1>],
-  #   [<Cell(◻️) 0, 2>, <Cell(💣) 1, 2>, <Cell(◻️) 2, 2>]
-  # ]
   def generate
     Array.new(rows) { |y|
       Array.new(columns) { |x|
-        cells.build(x:, y:)
+        cells.build(coordinates: Coordinates.new(x:, y:))
       }
     }
   end
