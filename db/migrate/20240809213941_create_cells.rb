@@ -4,6 +4,7 @@ class CreateCells < ActiveRecord::Migration[7.1]
       t.references :board, null: false, foreign_key: true
       t.jsonb :coordinates, null: false, default: "{}"
       t.string :value
+      t.boolean :mine, null: false, default: false, index: true
 
       t.timestamps
     end

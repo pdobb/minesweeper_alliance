@@ -23,6 +23,10 @@ class Board < ApplicationRecord
     }
   end
 
+  def place_mines
+    Cell.place_mines(cells.limit(mines).by_random)
+  end
+
   def cells_grid
     Grid.new(cells)
   end
@@ -36,11 +40,15 @@ class Board < ApplicationRecord
   private
 
   def inspect_identification
-    identify(:columns, :rows, :mines)
+    identify
   end
 
-  def inspect_info
-    "#{cells.size} Cells"
+  def inspect_info(scope:)
+    scope.join_info([
+      "#{columns} x #{rows} Grid",
+      "◻️ #{cells.size}",
+      "💣 #{cells.is_a_mine.size}",
+    ])
   end
 
   def generate
