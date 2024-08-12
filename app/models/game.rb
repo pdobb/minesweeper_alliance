@@ -9,4 +9,10 @@ class Game < ApplicationRecord
     new_board = Board.build_for(new, difficulty_level:)
     new_board.game
   end
+
+  private
+
+  def inspect_identification
+    identify
+  end
 end

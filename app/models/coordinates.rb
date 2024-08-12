@@ -14,4 +14,8 @@ class Coordinates < Data.define(:x, :y)
       with(x: x.pred, y: y.next), with(y: y.next), with(x: x.next, y: y.next),
     ]
   end
+
+  def render
+    "(#{x}, #{y})"
+  end
 end

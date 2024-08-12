@@ -37,10 +37,14 @@ class Cell < ApplicationRecord
     board.clamp_coordinates(coordinates.neighbors)
   end
 
+  def render
+    "#{inspect_flags} #{coordinates.render}"
+  end
+
   private
 
   def inspect_identification
-    "Cell"
+    identify
   end
 
   def inspect_flags

@@ -31,6 +31,11 @@ class Board < ApplicationRecord
     Grid.new(cells)
   end
 
+  def render
+    puts self.inspect
+    cells_grid.render
+  end
+
   def clamp_coordinates(coordinates_array)
     coordinates_array.select { |coordinates|
       columns_range.cover?(coordinates.x) && rows_range.cover?(coordinates.y)
