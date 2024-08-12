@@ -1,5 +1,6 @@
 class Board < ApplicationRecord
   DEFAULTS = {
+    test: { columns: 3, rows: 3, mines: 3 },
     beginner: { columns: 9, rows: 9, mines: 10 },
     intermediate: { columns: 16, rows: 16, mines: 40 },
     expert: { columns: 24, rows: 24, mines: 99 },
@@ -22,13 +23,14 @@ class Board < ApplicationRecord
     }
   end
 
-  # [
-  #   [<Cell(💣) (0, 0)>, <Cell(💣) (1, 0)>, <Cell(◻️) (2, 0)>],
-  #   [<Cell(◻️) (0, 1)>, <Cell(💣) (1, 1)>, <Cell(◻️) (2, 1)>],
-  #   [<Cell(◻️) (0, 2)>, <Cell(💣) (1, 2)>, <Cell(◻️) (2, 2)>]
-  # ]
-  def grid
-    cells.group_by(&:y).values
+  def cells_grid
+    Grid.new(cells)
+  end
+
+  def clamp_coordinates(coordinates_array)
+    coordinates_array.select { |coordinates|
+      columns_range.cover?(coordinates.x) && rows_range.cover?(coordinates.y)
+    }
   end
 
   private
@@ -47,5 +49,13 @@ class Board < ApplicationRecord
         cells.build(coordinates: Coordinates.new(x:, y:))
       }
     }
+  end
+
+  def columns_range
+    0..columns
+  end
+
+  def rows_range
+    0..rows
   end
 end
