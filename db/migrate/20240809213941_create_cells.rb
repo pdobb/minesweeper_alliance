@@ -2,7 +2,7 @@ class CreateCells < ActiveRecord::Migration[7.1]
   def change
     create_table :cells do |t|
       t.references :board, null: false, foreign_key: true
-      t.jsonb :coordinates, null: false, default: "{}"
+      t.jsonb :coordinates, null: false, default: {}
       t.string :value
       t.boolean :mine, null: false, default: false, index: true
 

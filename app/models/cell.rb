@@ -3,8 +3,7 @@ class Cell < ApplicationRecord
 
   belongs_to :board
 
-  serialize :coordinates, coder: CoordinatesCoder
-
+  attribute :coordinates, CoordinatesType.new
   delegate :x,
            :y,
            to: :coordinates

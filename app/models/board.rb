@@ -28,7 +28,7 @@ class Board < ApplicationRecord
   end
 
   def cells_grid
-    Grid.new(cells)
+    Grid.new(cells.by_coordinates_asc)
   end
 
   def render
