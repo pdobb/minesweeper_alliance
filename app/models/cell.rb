@@ -1,4 +1,8 @@
 class Cell < ApplicationRecord
+  CELL_ICON = "◻️"
+  REVEALED_CELL_ICON = "☑️"
+  MINE_ICON = "💣"
+  FLAG_ICON = "🚩"
 
   belongs_to :board
 
@@ -8,6 +12,8 @@ class Cell < ApplicationRecord
            to: :coordinates
 
   scope :is_a_mine, -> { where(mine: true) }
+  scope :is_flagged, -> { where(flagged: true) }
+  scope :is_revealed, -> { where(revealed: true) }
 
   scope :for_coordinates, ->(coordinates) { where(coordinates:) }
 
@@ -39,8 +45,17 @@ class Cell < ApplicationRecord
     identify
   end
 
-  def inspect_flags
-    mine? ? "💣" : "◻️"
+  def inspect_flags(scope:)
+    scope.join_flags([
+      if revealed?
+        REVEALED_CELL_ICON
+      elsif flagged?
+        FLAG_ICON
+      else
+        CELL_ICON
+      end,
+      (MINE_ICON if mine?)
+    ])
   end
 
   def inspect_info

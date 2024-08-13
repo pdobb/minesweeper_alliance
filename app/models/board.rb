@@ -31,6 +31,15 @@ class Board < ApplicationRecord
     cells.limit(mines).by_random.update_all(mine: true)
   end
 
+  def any_mines? = cells.is_a_mine.any?
+
+  def cells_count = cells.size
+  def mines_count = cells.is_a_mine.size
+  def revealed_cells_count = cells.is_revealed.size
+  def flags_count = cells.is_flagged.size
+
+  def display_grid_size = "#{columns} x #{rows}"
+
   def cells_grid
     Grid.new(cells.by_coordinates_asc)
   end
@@ -54,9 +63,11 @@ class Board < ApplicationRecord
 
   def inspect_info(scope:)
     scope.join_info([
-      "#{columns} x #{rows} Grid",
-      "◻️ #{cells.size}",
-      "💣 #{cells.is_a_mine.size}",
+      "#{display_grid_size} Grid",
+      "#{Cell::CELL_ICON} #{cells_count}",
+      "#{Cell::MINE_ICON} #{mines_count}",
+      "#{Cell::REVEALED_CELL_ICON} #{revealed_cells_count}",
+      "#{Cell::FLAG_ICON} #{flags_count}",
     ])
   end
 
