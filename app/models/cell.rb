@@ -25,8 +25,28 @@ class Cell < ApplicationRecord
   }
   scope :by_random, -> { order("RANDOM()") }
 
+  def display_name
+    value.inspect
+  end
+
+  def reveal
+    return if revealed?
+
+    # end_game(:fail) if mine?
+
+    update(
+      revealed: true,
+      value: determine_value)
+
+    # recurse if value is " " (i.e. no neighboring mines)
+
+    # end_game(:win) if all_non_mine_cells_have_been_revealed?
+  end
+
+  def neighboring_mines_count = neighbors.is_a_mine.count
+
   def neighbors
-    return [] unless board
+    return Cell.none unless board
 
     board.cells.for_coordinates(neighboring_coordinates).by_coordinates_asc
   end
@@ -42,7 +62,7 @@ class Cell < ApplicationRecord
   end
 
   def render
-    "#{inspect_flags} #{coordinates.render}"
+    "#{current_state} #{coordinates.render}"
   end
 
   private
@@ -53,18 +73,26 @@ class Cell < ApplicationRecord
 
   def inspect_flags(scope:)
     scope.join_flags([
-      if revealed?
-        REVEALED_CELL_ICON
-      elsif flagged?
-        FLAG_ICON
-      else
-        CELL_ICON
-      end,
+      current_state,
       (MINE_ICON if mine?)
     ])
   end
 
   def inspect_info
     coordinates.inspect
+  end
+
+  def determine_value
+    mine? ? MINE_ICON : neighboring_mines_count
+  end
+
+  def current_state
+    if revealed?
+      REVEALED_CELL_ICON
+    elsif flagged?
+      FLAG_ICON
+    else
+      CELL_ICON
+    end
   end
 end
