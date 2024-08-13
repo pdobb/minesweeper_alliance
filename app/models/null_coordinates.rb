@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class NullCoordinates
   def x = nil
   def y = nil

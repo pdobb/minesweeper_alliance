@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Cell < ApplicationRecord
   CELL_ICON = "◻️"
   REVEALED_CELL_ICON = "☑️"

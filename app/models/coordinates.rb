@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Coordinates < Data.define(:x, :y)
   def inspect
     "(#{x}, #{y})"

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # CoordinatesType is a custom ActiveModel `attributes` API type. It allows for:
 # - casting {Coordinates}, Hash, and String objects to {Coordinates} objects
 # - serializing {Coordinates} objects to JSON
