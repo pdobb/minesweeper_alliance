@@ -50,9 +50,11 @@ class Board < ApplicationRecord
   end
 
   def clamp_coordinates(coordinates_array)
-    coordinates_array.select { |coordinates|
-      columns_range.cover?(coordinates.x) && rows_range.cover?(coordinates.y)
-    }
+    coordinates_array.select(&method(:in_bounds?))
+  end
+
+  def in_bounds?(coordinates)
+    columns_range.include?(coordinates.x) && rows_range.include?(coordinates.y)
   end
 
   private
@@ -74,9 +76,13 @@ class Board < ApplicationRecord
   def generate
     Array.new(rows) { |y|
       Array.new(columns) { |x|
-        cells.build(coordinates: Coordinates.new(x:, y:))
+        build_cell(x:, y:)
       }
     }
+  end
+
+  def build_cell(x:, y:)
+    cells.build(coordinates: Coordinates[x, y])
   end
 
   def columns_range
