@@ -24,6 +24,8 @@ class Cell < ApplicationRecord
   scope :by_random, -> { order("RANDOM()") }
 
   def neighbors
+    return [] unless board
+
     board.cells.for_coordinates(neighboring_coordinates).by_coordinates_asc
   end
 
@@ -32,6 +34,8 @@ class Cell < ApplicationRecord
   end
 
   def neighboring_coordinates
+    return [] unless board
+
     board.clamp_coordinates(coordinates.neighbors)
   end
 
