@@ -1,4 +1,6 @@
 class Board < ApplicationRecord
+  Error = Class.new(StandardError)
+
   DEFAULTS = {
     test: { columns: 3, rows: 3, mines: 3 },
     beginner: { columns: 9, rows: 9, mines: 10 },
@@ -24,7 +26,9 @@ class Board < ApplicationRecord
   end
 
   def place_mines
-    Cell.place_mines(cells.limit(mines).by_random)
+    raise(Error, "mines have already been placed") if any_mines?
+
+    cells.limit(mines).by_random.update_all(mine: true)
   end
 
   def cells_grid

@@ -1,5 +1,4 @@
 class Cell < ApplicationRecord
-  Error = Class.new(StandardError)
 
   belongs_to :board
 
@@ -17,12 +16,6 @@ class Cell < ApplicationRecord
       order(Arel.sql("coordinates->>'x'").asc)
   }
   scope :by_random, -> { order("RANDOM()") }
-
-  def self.place_mines(cells)
-    raise Error, "mines have already been placed" if cells.is_a_mine.any?
-
-    cells.update_all(mine: true)
-  end
 
   def neighbors
     board.cells.for_coordinates(neighboring_coordinates).by_coordinates_asc
