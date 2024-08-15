@@ -16,8 +16,9 @@ class Game < ApplicationRecord
   end
 
   def self.build_for(difficulty_level)
-    new_board = Board.build_for(new, difficulty_level:)
-    new_board.game
+    new.tap { |new_game|
+      Board.build_for(new_game, difficulty_level:)
+    }
   end
 
   private
