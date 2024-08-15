@@ -31,6 +31,7 @@ class Board < ApplicationRecord
     raise(Error, "mines have already been placed") if any_mines?
 
     cells.limit(mines).by_random.update_all(mine: true)
+    game.set_status_in_progress! # TODO: Find a better spot for this.
   end
 
   def any_mines? = cells.is_a_mine.any?

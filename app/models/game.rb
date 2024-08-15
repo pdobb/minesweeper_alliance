@@ -1,7 +1,15 @@
 # frozen_string_literal: true
 
 class Game < ApplicationRecord
+  include Statusable::HasStatuses
+
   has_one :board
+
+  has_statuses(%w[
+    Initializing
+    In-Progress
+    Completed
+  ])
 
   def self.create_for(...)
     build_for(...).tap(&:save!)
@@ -16,5 +24,9 @@ class Game < ApplicationRecord
 
   def inspect_identification
     identify
+  end
+
+  def inspect_flags
+    status
   end
 end
