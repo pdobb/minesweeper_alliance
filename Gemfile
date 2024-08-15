@@ -32,6 +32,7 @@ gem "tzinfo-data", platforms: %i[ windows jruby ]
 
 gem "object_identifier"
 gem "object_inspector"
+gem "statusable"
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
