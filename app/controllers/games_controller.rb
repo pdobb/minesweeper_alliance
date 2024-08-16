@@ -18,11 +18,7 @@ class GamesController < ApplicationController
 
   # GamesController::GameView is a view model for displaying our Game Model.
   class GameView
-    attr_reader :object
-
-    def initialize(object)
-      @object = object
-    end
+    include ViewBehaviors
 
     def rows
       cells_grid.map { |row| CellView.wrap(row) }
@@ -30,31 +26,26 @@ class GamesController < ApplicationController
 
     private
 
-    def board
-      object.board
-    end
-
     def cells_grid
       board.cells_grid.to_a
+    end
+
+    def board
+      to_model.board
     end
   end
 
   # GamesController::CellView
   class CellView
+    include ViewBehaviors
     include WrapBehaviors
-
-    attr_reader :object
-
-    def initialize(object)
-      @object = object
-    end
 
     def css_background_color
       "bg-slate-300"
     end
 
     def render
-      object.render
+      to_model.render
     end
   end
 end
