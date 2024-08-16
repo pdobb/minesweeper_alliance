@@ -25,9 +25,7 @@ class GamesController < ApplicationController
     end
 
     def rows
-      board.cells_grid.to_a.map { |row|
-        row.map { |cell| CellView.new(cell) }
-      }
+      cells_grid.map { |row| CellView.wrap(row) }
     end
 
     private
@@ -35,10 +33,16 @@ class GamesController < ApplicationController
     def board
       object.board
     end
+
+    def cells_grid
+      board.cells_grid.to_a
+    end
   end
 
   # GamesController::CellView
   class CellView
+    include WrapBehaviors
+
     attr_reader :object
 
     def initialize(object)
