@@ -30,7 +30,7 @@ class Cell < ApplicationRecord
   end
 
   def reveal
-    return if revealed?
+    return self if revealed?
 
     # end_game(:fail) if mine?
 
@@ -41,6 +41,8 @@ class Cell < ApplicationRecord
     # recurse if value is " " (i.e. no neighboring mines)
 
     # end_game(:win) if all_non_mine_cells_have_been_revealed?
+
+    self
   end
 
   def neighboring_mines_count = neighbors.is_a_mine.count

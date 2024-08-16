@@ -12,7 +12,12 @@ class Game < ApplicationRecord
   ])
 
   def self.create_for(...)
-    build_for(...).tap(&:save!)
+    new_game = build_for(...).tap(&:save!)
+
+    # FIXME: Move elsewhere.
+    new_game.set_status_in_progress!
+    new_game.board.place_mines
+    new_game
   end
 
   def self.build_for(difficulty_level)

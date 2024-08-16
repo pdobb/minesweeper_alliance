@@ -1,15 +1,16 @@
-<table>
-  <tbody>
+<table class="mx-auto">
+  <tbody
+    class="
+      *:*:p-1
+      *:*:size-8
+      *:*:border *:*:border-zinc-400
+      *:*:text-center
+    "
+  >
     <% @game_view.rows.each do |row| %>
       <tr>
         <% row.each do |cell| %>
-          <td
-            class="
-              p-1
-              border border-zinc-400
-              <%= cell.css_background_color %>
-            "
-          >
+          <td class="<%= cell.css_class %>">
             <%= cell.render %>
           </td>
         <% end %>

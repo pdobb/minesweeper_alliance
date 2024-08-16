@@ -40,12 +40,15 @@ class GamesController < ApplicationController
     include ViewBehaviors
     include WrapBehaviors
 
-    def css_background_color
-      "bg-slate-300"
+    delegate :revealed?,
+             to: :to_model
+
+    def css_class
+      "bg-slate-300" unless revealed?
     end
 
     def render
-      to_model.render
+      to_model.value
     end
   end
 end
