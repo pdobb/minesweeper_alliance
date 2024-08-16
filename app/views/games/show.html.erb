@@ -1,0 +1,19 @@
+<table>
+  <tbody>
+    <% @board.cells_grid.to_a.each do |row| %>
+      <tr>
+        <% row.each do |cell| %>
+          <td
+            class="
+              p-1
+              border border-zinc-400
+              <%= "bg-slate-300" unless cell.revealed? %>
+            "
+          >
+            <%= cell.render %>
+          </td>
+        <% end %>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
