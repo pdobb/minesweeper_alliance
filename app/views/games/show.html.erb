@@ -1,13 +1,13 @@
 <table>
   <tbody>
-    <% @board.cells_grid.to_a.each do |row| %>
+    <% @game_view.rows.each do |row| %>
       <tr>
         <% row.each do |cell| %>
           <td
             class="
               p-1
               border border-zinc-400
-              <%= "bg-slate-300" unless cell.revealed? %>
+              <%= cell.css_background_color %>
             "
           >
             <%= cell.render %>
