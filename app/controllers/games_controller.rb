@@ -53,7 +53,7 @@ class GamesController < ApplicationController
     end
 
     def render
-      to_model.value
+      to_model.value&.delete(Cell::BLANK_VALUE)
     end
   end
 end

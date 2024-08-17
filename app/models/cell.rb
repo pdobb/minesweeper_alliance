@@ -6,6 +6,8 @@ class Cell < ApplicationRecord
   MINE_ICON = "💣"
   FLAG_ICON = "🚩"
 
+  BLANK_VALUE = "0"
+
   belongs_to :board, touch: true
 
   attribute :coordinates, CoordinatesType.new
