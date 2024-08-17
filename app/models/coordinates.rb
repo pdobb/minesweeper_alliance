@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Coordinates represents an X/Y pair. e.g. {Cell}s can locate themselves within
+# the {Board} by their Coordinates.
 Coordinates =
   Data.define(:x, :y) {
     def inspect
@@ -9,6 +11,8 @@ Coordinates =
     def to_s
       inspect
     end
+
+    # :reek:DuplicateMethodCall
 
     # rubocop:disable all
     def neighbors

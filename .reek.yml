@@ -1,0 +1,28 @@
+directories:
+  app/channels/application_cable:
+    IrresponsibleModule:
+      enabled: false
+  app/components:
+    IrresponsibleModule:
+      enabled: false
+  app/controllers:
+    IrresponsibleModule:
+      enabled: false
+  app/helpers:
+    IrresponsibleModule:
+      enabled: false
+    UtilityFunction:
+      enabled: false
+    LongParameterList:
+      enabled: false
+  app/mailers:
+    IrresponsibleModule:
+      enabled: false
+  test:
+    IrresponsibleModule:
+      enabled: false
+    UtilityFunction:
+      enabled: false
+
+exclude_paths:
+  - db/migrate

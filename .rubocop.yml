@@ -11,6 +11,7 @@ AllCops:
   TargetRubyVersion: 3.3
   Exclude:
     - bin/bundle
+    - db/schema.rb
 
 Layout/LineLength:
   Exclude:

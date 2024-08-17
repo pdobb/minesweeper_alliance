@@ -6,6 +6,7 @@
 #
 # @see Grid
 class Board < ApplicationRecord
+  # Board::Error represents any StandardError related to Board processing.
   Error = Class.new(StandardError)
 
   DEFAULTS = {
@@ -104,14 +105,18 @@ class Board < ApplicationRecord
     ])
   end
 
+  # :reek:UncommunicativeVariableName
   def generate
-    Array.new(rows) { |y|
-      Array.new(columns) { |x|
-        build_cell(x:, y:)
-      }
-    }
+    Array.new(rows) { |y| generate_row(y) }
   end
 
+  # :reek:UncommunicativeParameterName
+  # :reek:UncommunicativeVariableName
+  def generate_row(y) # rubocop:disable Naming/MethodParameterName
+    Array.new(columns) { |x| build_cell(x:, y:) }
+  end
+
+  # :reek:UncommunicativeParameterName
   def build_cell(x:, y:) # rubocop:disable Naming/MethodParameterName
     cells.build(coordinates: Coordinates[x, y])
   end

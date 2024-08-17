@@ -38,16 +38,24 @@ class Grid
   #   1 => ◻️ (0, 1) ◻️ (1, 1) ◻️ (2, 1)
   #   2 => ◻️ (0, 2) ◻️ (1, 2) ◻️ (2, 2)
   def render
-    to_h.each do |y, row|
-      print "#{y} => " # rubocop:disable Rails/Output
-
-      row.each do |cell|
-        print cell.render, " "
-      end
-
-      print "\n" # rubocop:disable Rails/Output
+    to_h.each do |column_number, row|
+      render_row(column_number:, row:)
     end
 
     nil
   end
+
+  private
+
+  # rubocop:disable Rails/Output
+  def render_row(column_number:, row:)
+    print "#{column_number} => "
+
+    row.each do |cell|
+      print cell.render, " "
+    end
+
+    print "\n"
+  end
+  # rubocop:enable Rails/Output
 end

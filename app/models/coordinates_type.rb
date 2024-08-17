@@ -13,19 +13,14 @@ class CoordinatesType < ActiveModel::Type::Value
     :jsonb
   end
 
-  def cast_value(value) # rubocop:todo Metrics/MethodLength
+  def cast_value(value)
     case value
     when Coordinates
       value
     when Hash
       Coordinates.new(**value.symbolize_keys)
     when String
-      begin
-        hash = ActiveSupport::JSON.decode(value)
-        Coordinates.new(**hash.symbolize_keys)
-      rescue
-        NullCoordinates.new
-      end
+      cast_string_value(value)
     when NilClass
       NullCoordinates.new
     end
@@ -41,5 +36,14 @@ class CoordinatesType < ActiveModel::Type::Value
     else
       super
     end
+  end
+
+  private
+
+  def cast_string_value(value)
+    hash = ActiveSupport::JSON.decode(value)
+    Coordinates.new(**hash.symbolize_keys)
+  rescue
+    NullCoordinates.new
   end
 end
