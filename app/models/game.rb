@@ -6,18 +6,27 @@ class Game < ApplicationRecord
   has_one :board
 
   has_statuses([
-    "Initializing",
     "In-Progress",
     "Alliance Wins",
     "Mines Win",
   ])
+
+  def self.find_or_create_current(...)
+    current || create_for(...)
+  rescue ActiveRecord::RecordNotUnique
+    # Handle race condition where > 1 Game is being created at the same time.
+    retry
+  end
+
+  def self.current
+    for_status_in_progress.take
+  end
 
   def self.create_for(...)
     new_game = build_for(...).tap(&:save!)
 
     # FIXME: Move elsewhere.
     new_game.board.place_mines
-    new_game.set_status_in_progress!
     new_game
   end
 

@@ -1,31 +1,20 @@
 # frozen_string_literal: true
 
 class GamesController < ApplicationController
-  before_action :require_game, only: :show
-
   def show
+    current_game = Game.find_or_create_current(:beginner)
+    @game_view = GameView.new(current_game)
   end
 
-  private
-
-  def require_game
-    game =
-      Game.for_status_in_progress.take ||
-        Game.create_for(:beginner)
-
-    @game_view = GameView.new(game)
-  end
-
-  # GamesController::GameView is a view model for displaying our Game Model.
+  # GamesController::GameView is a view model for displaying {Game}s.
   class GameView
     include ViewBehaviors
 
+    delegate :board,
+             to: :to_model
+
     def rows
       cells_grid.map { |row| CellView.wrap(row) }
-    end
-
-    def board
-      to_model.board
     end
 
     private
@@ -35,7 +24,7 @@ class GamesController < ApplicationController
     end
   end
 
-  # GamesController::CellView
+  # GamesController::CellView is a view model for display {Cell}s.
   class CellView
     include ViewBehaviors
     include WrapBehaviors

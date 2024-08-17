@@ -3,7 +3,11 @@
 class CreateGames < ActiveRecord::Migration[7.1]
   def change
     create_table :games do |t|
-      t.string :status, null: false, default: "Initializing", index: true
+      t.string :status, null: false, default: Game.status_in_progress
+      t.index(
+        :status,
+        unique: true,
+        where: "status = '#{Game.status_in_progress}'")
 
       t.timestamps
     end
