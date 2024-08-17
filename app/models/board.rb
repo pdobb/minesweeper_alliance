@@ -9,12 +9,11 @@ class Board < ApplicationRecord
   # Board::Error represents any StandardError related to Board processing.
   Error = Class.new(StandardError)
 
-  DEFAULTS = {
+  DIFFICULTY_LEVELS_MAP = {
     test: { columns: 3, rows: 3, mines: 3 },
     beginner: { columns: 9, rows: 9, mines: 10 },
     intermediate: { columns: 16, rows: 16, mines: 40 },
-    expert: { columns: 24, rows: 24, mines: 99 },
-    web: { columns: 30, rows: 16, mines: 99 },
+    expert: { columns: 30, rows: 16, mines: 99 },
   }.freeze
 
   after_update_commit -> { broadcast_refresh }
@@ -24,7 +23,7 @@ class Board < ApplicationRecord
 
   def self.build_for(game, difficulty_level:)
     defaults_for_given_difficulty_level =
-      DEFAULTS.fetch(difficulty_level.to_sym)
+      DIFFICULTY_LEVELS_MAP.fetch(difficulty_level.to_sym)
 
     build_for_custom(game, **defaults_for_given_difficulty_level)
   end
