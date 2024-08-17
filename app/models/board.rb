@@ -41,6 +41,20 @@ class Board < ApplicationRecord
     cells.by_random.is_not_revealed.take.reveal
   end
 
+  def check_for_victory
+    game.end_in_victory if all_safe_cells_have_been_revealed?
+    self
+  end
+
+  def end_game_in_defeat
+    game.end_in_defeat
+    self
+  end
+
+  def all_safe_cells_have_been_revealed?
+    cells.is_not_a_mine.is_not_revealed.none?
+  end
+
   def any_mines? = cells.is_a_mine.any?
 
   def cells_count = cells.size

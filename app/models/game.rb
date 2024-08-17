@@ -5,18 +5,19 @@ class Game < ApplicationRecord
 
   has_one :board
 
-  has_statuses(%w[
-    Initializing
-    In-Progress
-    Completed
+  has_statuses([
+    "Initializing",
+    "In-Progress",
+    "Alliance Wins",
+    "Mines Win",
   ])
 
   def self.create_for(...)
     new_game = build_for(...).tap(&:save!)
 
     # FIXME: Move elsewhere.
-    new_game.set_status_in_progress!
     new_game.board.place_mines
+    new_game.set_status_in_progress!
     new_game
   end
 
@@ -24,6 +25,14 @@ class Game < ApplicationRecord
     new.tap { |new_game|
       Board.build_for(new_game, difficulty_level:)
     }
+  end
+
+  def end_in_victory
+    set_status_alliance_wins!
+  end
+
+  def end_in_defeat
+    set_status_mines_win!
   end
 
   private

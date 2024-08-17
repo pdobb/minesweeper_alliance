@@ -16,6 +16,7 @@ class Cell < ApplicationRecord
            to: :coordinates
 
   scope :is_a_mine, -> { where(mine: true) }
+  scope :is_not_a_mine, -> { where(mine: false) }
   scope :is_flagged, -> { where(flagged: true) }
   scope :is_revealed, -> { where(revealed: true) }
   scope :is_not_revealed, -> { where(revealed: false) }
@@ -35,17 +36,26 @@ class Cell < ApplicationRecord
   def reveal
     return self if revealed?
 
-    # end_game(:fail) if mine?
-
     update(
       revealed: true,
       value: determine_value)
 
-    # recurse if value is " " (i.e. no neighboring mines)
+    if mine?
+      board.end_game_in_defeat
+      return self
+    end
 
-    # end_game(:win) if all_non_mine_cells_have_been_revealed?
+    if blank?
+      neighbors.each(&:reveal)
+    end
+
+    board.check_for_victory
 
     self
+  end
+
+  def blank?
+    value == BLANK_VALUE
   end
 
   def neighboring_mines_count = neighbors.is_a_mine.count
