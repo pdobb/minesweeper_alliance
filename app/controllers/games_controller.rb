@@ -24,14 +24,14 @@ class GamesController < ApplicationController
       cells_grid.map { |row| CellView.wrap(row) }
     end
 
+    def board
+      to_model.board
+    end
+
     private
 
     def cells_grid
       board.cells_grid.to_a
-    end
-
-    def board
-      to_model.board
     end
   end
 
@@ -40,11 +40,16 @@ class GamesController < ApplicationController
     include ViewBehaviors
     include WrapBehaviors
 
-    delegate :revealed?,
+    delegate :mine?,
+             :revealed?,
              to: :to_model
 
     def css_class
-      "bg-slate-300" unless revealed?
+      if revealed?
+        "bg-red-600" if mine?
+      else # not revealed?
+        "bg-slate-400"
+      end
     end
 
     def render

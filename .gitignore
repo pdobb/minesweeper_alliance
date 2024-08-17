@@ -38,3 +38,5 @@
 !/app/assets/builds/.keep
 
 /db/schema.rb
+
+/dump.rdb

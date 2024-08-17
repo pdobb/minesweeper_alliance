@@ -6,7 +6,7 @@ class Cell < ApplicationRecord
   MINE_ICON = "💣"
   FLAG_ICON = "🚩"
 
-  belongs_to :board
+  belongs_to :board, touch: true
 
   attribute :coordinates, CoordinatesType.new
   delegate :x,
@@ -16,6 +16,7 @@ class Cell < ApplicationRecord
   scope :is_a_mine, -> { where(mine: true) }
   scope :is_flagged, -> { where(flagged: true) }
   scope :is_revealed, -> { where(revealed: true) }
+  scope :is_not_revealed, -> { where(revealed: false) }
 
   scope :for_coordinates, ->(coordinates) { where(coordinates:) }
 

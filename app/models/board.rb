@@ -11,6 +11,8 @@ class Board < ApplicationRecord
     web: { columns: 30, rows: 16, mines: 99 },
   }
 
+  after_update_commit  -> { broadcast_refresh }
+
   belongs_to :game
   has_many :cells
 
@@ -33,6 +35,10 @@ class Board < ApplicationRecord
     cells.limit(mines).by_random.update_all(mine: true)
 
     self
+  end
+
+  def reveal_random_cell
+    cells.by_random.is_not_revealed.take.reveal
   end
 
   def any_mines? = cells.is_a_mine.any?
