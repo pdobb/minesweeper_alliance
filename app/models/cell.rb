@@ -23,10 +23,7 @@ class Cell < ApplicationRecord
 
   scope :for_coordinates, ->(coordinates) { where(coordinates:) }
 
-  scope :by_coordinates_asc, -> {
-    order(Arel.sql("coordinates->>'y'").asc).
-      order(Arel.sql("coordinates->>'x'").asc)
-  }
+  scope :by_least_recent, -> { order(id: :asc) }
   scope :by_random, -> { order("RANDOM()") }
 
   def display_name
@@ -63,11 +60,7 @@ class Cell < ApplicationRecord
   def neighbors
     return Cell.none unless board
 
-    board.cells.for_coordinates(neighboring_coordinates).by_coordinates_asc
-  end
-
-  def neighboring_coordinates_grid
-    Grid.new(neighboring_coordinates)
+    board.cells.for_coordinates(neighboring_coordinates)
   end
 
   def neighboring_coordinates
@@ -103,7 +96,7 @@ class Cell < ApplicationRecord
 
   def current_state
     if revealed?
-      REVEALED_CELL_ICON
+      "#{value} "
     elsif flagged?
       FLAG_ICON
     else

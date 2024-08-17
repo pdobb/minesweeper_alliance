@@ -65,7 +65,7 @@ class Board < ApplicationRecord
   def display_grid_size = "#{columns} x #{rows}"
 
   def cells_grid
-    Grid.new(cells.by_coordinates_asc)
+    Grid.new(cells.by_least_recent)
   end
 
   def render
