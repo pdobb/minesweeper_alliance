@@ -1,5 +1,8 @@
+# frozen_string_literal: true
+
 require "active_support/concern"
 
+# WrapBehaviors is a mix-in for wrapping all objects within a collection.
 module WrapBehaviors
   extend ActiveSupport::Concern
 

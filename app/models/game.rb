@@ -1,5 +1,8 @@
 # frozen_string_literal: true
 
+# Game represents a game of Minesweeper Alliance. It handles creation of new
+# Games and keeps track of the #status} of each Game in the database, win or
+# lose.
 class Game < ApplicationRecord
   include Statusable::HasStatuses
 

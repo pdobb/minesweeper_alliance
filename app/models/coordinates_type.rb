@@ -13,7 +13,7 @@ class CoordinatesType < ActiveModel::Type::Value
     :jsonb
   end
 
-  def cast_value(value)
+  def cast_value(value) # rubocop:todo Metrics/MethodLength
     case value
     when Coordinates
       value

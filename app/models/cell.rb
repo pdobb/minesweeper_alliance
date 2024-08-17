@@ -1,5 +1,16 @@
 # frozen_string_literal: true
 
+# Cell represents a clickable position on the {Board}. Cells:
+# - may secretly contain a mine
+# - may be blank (indicating that neither it nor any of its neighbors are
+#   mines)
+# - or will otherwise indicate how many of its neighboring Cells do contain a
+#   mine once revealed.
+#
+# Which of these values a Cell is, is discovered when the Cell is revealed (when
+# a player clicks on the Cell).
+# - If a mine is revealed, the {Game} ends in victory for the mines!
+# - If all safe Cells are revealed, the {Game} ends in victory for the alliance!
 class Cell < ApplicationRecord
   CELL_ICON = "◻️"
   REVEALED_CELL_ICON = "☑️"
@@ -23,7 +34,7 @@ class Cell < ApplicationRecord
 
   scope :for_coordinates, ->(coordinates) { where(coordinates:) }
 
-  scope :by_least_recent, -> { order(id: :asc) }
+  scope :by_least_recent, -> { order(:id) } # rubocop:disable Rails/OrderById
   scope :by_random, -> { order("RANDOM()") }
 
   def display_name
@@ -42,9 +53,7 @@ class Cell < ApplicationRecord
       return self
     end
 
-    if blank?
-      neighbors.each(&:reveal)
-    end
+    neighbors.each(&:reveal) if blank?
 
     board.check_for_victory
 
@@ -82,7 +91,7 @@ class Cell < ApplicationRecord
   def inspect_flags(scope:)
     scope.join_flags([
       current_state,
-      (MINE_ICON if mine?)
+      (MINE_ICON if mine?),
     ])
   end
 

@@ -15,6 +15,11 @@ AllCops:
 Layout/LineLength:
   Exclude:
     - Gemfile
+    - config/environments/*.rb
+
+Metrics/BlockLength:
+  Exclude:
+    - config/environments/*.rb
 
 Style/Documentation:
   Exclude:

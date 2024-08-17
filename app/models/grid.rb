@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Grid allows for organizing an Array of {Cell}s. Outputs include: a Hash, an
+# Array of Arrays, or "rendering" the grid by appealing to {Cell#render}.
 class Grid
   attr_reader :cells
 
@@ -7,22 +9,26 @@ class Grid
     @cells = cells
   end
 
+  # rubocop:disable Layout/LineLength
   # @example
   #   {
   #     0=>[<Cell[1](◻️) (0, 0) :: nil>, <Cell[2](◻️) (1, 0) :: nil>, <Cell[3](◻️ / 💣) (2, 0) :: nil>],
   #     1=>[<Cell[4](◻️) (0, 1) :: nil>, <Cell[5](◻️) (1, 1) :: nil>, <Cell[6](◻️ / 💣) (2, 1) :: nil>],
   #     2=>[<Cell[7](◻️) (0, 2) :: nil>, <Cell[8](◻️) (1, 2) :: nil>, <Cell[9](◻️ / 💣) (2, 2) :: nil>]
   #   }
+  # rubocop:enable Layout/LineLength
   def to_h
     cells.group_by { |cell| cell.y || "nil" }
   end
 
+  # rubocop:disable Layout/LineLength
   # @example
   #   [
   #     [<Cell[1](◻️) (0, 0) :: nil>, <Cell[2](◻️) (1, 0) :: nil>, <Cell[3](◻️ / 💣) (2, 0) :: nil>],
   #     [<Cell[4](◻️) (0, 1) :: nil>, <Cell[5](◻️) (1, 1) :: nil>, <Cell[6](◻️ / 💣) (2, 1) :: nil>],
   #     [<Cell[7](◻️) (0, 2) :: nil>, <Cell[8](◻️) (1, 2) :: nil>, <Cell[9](◻️ / 💣) (2, 2) :: nil>]
   #   ]
+  # rubocop:enable Layout/LineLength
   def to_a
     to_h.values
   end
@@ -33,13 +39,13 @@ class Grid
   #   2 => ◻️ (0, 2) ◻️ (1, 2) ◻️ (2, 2)
   def render
     to_h.each do |y, row|
-      print "#{y} => "
+      print "#{y} => " # rubocop:disable Rails/Output
 
       row.each do |cell|
         print cell.render, " "
       end
 
-      print "\n"
+      print "\n" # rubocop:disable Rails/Output
     end
 
     nil

@@ -2,7 +2,7 @@
 
 require "test_helper"
 
-class GameTest < ActiveSupport::TestCase
+class GameTest < ActiveSupport::TestCase # rubocop:todo Minitest/NoTestCases
   # test "the truth" do
   #   assert true
   # end

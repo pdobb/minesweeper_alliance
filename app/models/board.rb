@@ -1,5 +1,10 @@
 # frozen_string_literal: true
 
+# Board represents a collection of {Cell}s. Internally, these {Cell}s are
+# organized as just one big Array, but they can best be though of as an Array of
+# Arrays, forming an X/Y grid.
+#
+# @see Grid
 class Board < ApplicationRecord
   Error = Class.new(StandardError)
 
@@ -9,9 +14,9 @@ class Board < ApplicationRecord
     intermediate: { columns: 16, rows: 16, mines: 40 },
     expert: { columns: 24, rows: 24, mines: 99 },
     web: { columns: 30, rows: 16, mines: 99 },
-  }
+  }.freeze
 
-  after_update_commit  -> { broadcast_refresh }
+  after_update_commit -> { broadcast_refresh }
 
   belongs_to :game
   has_many :cells
@@ -69,12 +74,14 @@ class Board < ApplicationRecord
   end
 
   def render
-    puts self.inspect
+    puts inspect # rubocop:disable Rails/Output
     cells_grid.render
   end
 
   def clamp_coordinates(coordinates_array)
+    # rubocop:todo Performance/MethodObjectAsBlock
     coordinates_array.select(&method(:in_bounds?))
+    # rubocop:enable Performance/MethodObjectAsBlock
   end
 
   def in_bounds?(coordinates)
@@ -105,7 +112,7 @@ class Board < ApplicationRecord
     }
   end
 
-  def build_cell(x:, y:)
+  def build_cell(x:, y:) # rubocop:disable Naming/MethodParameterName
     cells.build(coordinates: Coordinates[x, y])
   end
 

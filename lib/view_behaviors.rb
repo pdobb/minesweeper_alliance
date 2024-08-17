@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "active_support/concern"
 
 # ViewBehaviors simplifies instantiation of View Models.
