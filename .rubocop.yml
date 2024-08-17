@@ -1,0 +1,31 @@
+require:
+  - rubocop-performance
+  - rubocop-minitest
+  - rubocop-rails
+  - rubocop-rake
+
+inherit_gem:
+  gemwork: lib/rubocop/.rubocop-rails.yml
+
+AllCops:
+  TargetRubyVersion: 3.3
+  Exclude:
+    - bin/bundle
+
+Layout/LineLength:
+  Exclude:
+    - Gemfile
+
+Style/Documentation:
+  Exclude:
+    - app/controllers/**/*
+    - app/helpers/**/*
+    - app/mailers/**/*
+    - app/models/concerns/**/*
+    - db/**/*
+    - test/**/*
+
+Style/FrozenStringLiteralComment:
+  Exclude:
+    - config.ru
+    - bin/*
