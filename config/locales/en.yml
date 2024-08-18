@@ -28,5 +28,9 @@
 #       enabled: "ON"
 
 en:
+  time:
+    formats:
+      default: "%m/%d/%Y %l:%M %p %Z"
+
   flash:
     not_found: "%{type} not found."
