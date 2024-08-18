@@ -1,0 +1,5 @@
+<ul>
+  <% @games.each do |game| %>
+    <li><%= link_to(game.inspect, game_path(game)) %></li>
+  <% end %>
+</ul>

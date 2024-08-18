@@ -12,11 +12,7 @@ module ViewBehaviors
     @object = object
   end
 
-  def to_model
-    @object
-  end
-
-  def to_param
-    @object.to_param
-  end
+  def to_model = @object
+  def to_param = to_model.to_param
+  def to_partial_path = to_model.to_partial_path
 end

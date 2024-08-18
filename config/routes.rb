@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  root "games#show"
+  root "games#current"
 
-  # resource :game, only: :show
+  resources :games, only: %i[index show]
 
   # Reveal health status on /up that returns 200 if the app boots with no
   # exceptions, otherwise 500.

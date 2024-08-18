@@ -19,6 +19,15 @@
   </head>
 
   <body>
+    <header class="m-12">
+      <nav class="container mx-auto">
+        <ul class="flex items-center gap-x-6">
+          <li><%= link_to("Current Game", root_path) %></li>
+          <li><%= link_to("Past Games", games_path) %></li>
+        </ul>
+      </nav>
+    </header>
+
     <main class="container mx-auto my-24">
       <%= yield %>
     </main>

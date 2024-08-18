@@ -1,9 +1,27 @@
 # frozen_string_literal: true
 
 class GamesController < ApplicationController
-  def show
+  def current
     current_game = Game.find_or_create_current(:beginner)
     @game_view = GameView.new(current_game)
+  end
+
+  def index
+    @games = Game.not_for_status_in_progress
+  end
+
+  def show
+    setup_game_view
+  end
+
+  private
+
+  def setup_game_view
+    if (game = Game.find_by(id: params[:id]))
+      @game_view = GameView.new(game)
+    else
+      redirect_to(action: :index, alert: t("flash.not_found", type: "Game"))
+    end
   end
 
   # GamesController::GameView is a view model for displaying {Game}s.
