@@ -56,6 +56,9 @@ class GamesController < ApplicationController
   module CellViewBehaviors
     extend ActiveSupport::Concern
 
+    BG_ERROR_COLOR = "bg-red-600"
+    BG_UNREVEALED_COLOR = "bg-slate-400"
+
     include ViewBehaviors
     include WrapBehaviors
 
@@ -66,9 +69,9 @@ class GamesController < ApplicationController
 
     def css_class
       if revealed?
-        "bg-red-600" if mine?
+        BG_ERROR_COLOR if mine?
       else # not revealed?
-        "bg-slate-400"
+        BG_UNREVEALED_COLOR
       end
     end
 
@@ -95,6 +98,29 @@ class GamesController < ApplicationController
   # {Cell}s (i.e. for a non-In-Progress {Game}).
   class InactiveCellView
     include CellViewBehaviors
+
+    delegate :incorrectly_flagged?,
+             to: :to_model
+
+    def render
+      if revealed?
+        super
+      elsif flagged?
+        Cell::FLAG_ICON
+      elsif mine?
+        Cell::MINE_ICON
+      end
+    end
+
+    def css_class
+      if revealed?
+        BG_ERROR_COLOR if mine?
+      elsif incorrectly_flagged?
+        BG_ERROR_COLOR
+      else
+        BG_UNREVEALED_COLOR
+      end
+    end
 
     def clickable?
       false

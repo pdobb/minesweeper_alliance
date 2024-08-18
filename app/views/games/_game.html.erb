@@ -14,7 +14,12 @@
     <% game_view.rows.each do |row| %>
       <tr>
         <% row.each do |cell| %>
-          <td class="<%= cell.css_class %>">
+          <td
+            <% if Rails.env.development? %>
+              id="<%= dom_id(cell) %>"
+            <% end %>
+            class="<%= cell.css_class %>"
+          >
             <%=
               link_to_if(
                 cell.clickable?,

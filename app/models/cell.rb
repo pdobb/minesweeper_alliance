@@ -46,7 +46,7 @@ class Cell < ApplicationRecord
   end
 
   def toggle_flag
-    update(flagged: !flagged?)
+    toggle!(:flagged)
 
     self
   end
@@ -70,10 +70,6 @@ class Cell < ApplicationRecord
     self
   end
 
-  def blank?
-    value == BLANK_VALUE
-  end
-
   def neighboring_mines_count = neighbors.is_a_mine.count
 
   def neighbors
@@ -92,6 +88,10 @@ class Cell < ApplicationRecord
     "#{current_state} #{coordinates.render}"
   end
 
+  def blank? = value == BLANK_VALUE
+  def correctly_flagged? = flagged? && mine?
+  def incorrectly_flagged? = flagged? && !mine?
+
   private
 
   def inspect_identification
@@ -100,13 +100,18 @@ class Cell < ApplicationRecord
 
   def inspect_flags(scope:)
     scope.join_flags([
-      current_state,
+      (revealed? ? REVEALED_CELL_ICON : CELL_ICON),
+      (FLAG_ICON if flagged?),
       (MINE_ICON if mine?),
     ])
   end
 
   def inspect_info
     coordinates.inspect
+  end
+
+  def inspect_issues
+    "INCORRECTLY_FLAGGED" if incorrectly_flagged?
   end
 
   def determine_revealed_value
