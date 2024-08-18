@@ -29,26 +29,39 @@ class GamesController < ApplicationController
     include ViewBehaviors
 
     delegate :board,
+             :status_in_progress?,
              to: :to_model
 
     def rows
-      cells_grid.map { |row| CellView.wrap(row) }
+      status_in_progress? ? build_active_cell_views : build_inactive_cell_views
     end
 
     private
+
+    def build_active_cell_views
+      cells_grid.map { |row| ActiveCellView.wrap(row) }
+    end
+
+    def build_inactive_cell_views
+      cells_grid.map { |row| InactiveCellView.wrap(row) }
+    end
 
     def cells_grid
       board.cells_grid.to_a
     end
   end
 
-  # GamesController::CellView is a view model for display {Cell}s.
-  class CellView
+  # GamesController::CellViewBehaviors is a view model mix-in for displaying
+  # {Cell}s.
+  module CellViewBehaviors
+    extend ActiveSupport::Concern
+
     include ViewBehaviors
     include WrapBehaviors
 
     delegate :mine?,
              :revealed?,
+             :flagged?,
              to: :to_model
 
     def css_class
@@ -60,7 +73,31 @@ class GamesController < ApplicationController
     end
 
     def render
-      to_model.value&.delete(Cell::BLANK_VALUE)
+      to_model.value&.delete(Cell::BLANK_VALUE).to_s
+    end
+
+    def clickable?
+      raise NotImplementedError
+    end
+  end
+
+  # GamesController::ActiveCellView is a view model for displaying Active
+  # {Cell}s (i.e. for an In-Progress {Game}).
+  class ActiveCellView
+    include CellViewBehaviors
+
+    def clickable?
+      !revealed?
+    end
+  end
+
+  # GamesController::InactiveCellView is a view model for displaying Inactive
+  # {Cell}s (i.e. for a non-In-Progress {Game}).
+  class InactiveCellView
+    include CellViewBehaviors
+
+    def clickable?
+      false
     end
   end
 end

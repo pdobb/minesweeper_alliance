@@ -1,17 +1,29 @@
 <table class="mx-auto">
   <tbody
     class="
-      *:*:p-1
+      <%# Cells %>
       *:*:size-8
       *:*:border *:*:border-slate-600
       *:*:text-center
+      <% if game_view.status_in_progress? %>
+        <%# Cell Links %>
+        *:*:*:inline-block *:*:*:size-full *:*:*:cursor-cell
+      <% end %>
     "
   >
-    <% @game_view.rows.each do |row| %>
+    <% game_view.rows.each do |row| %>
       <tr>
         <% row.each do |cell| %>
           <td class="<%= cell.css_class %>">
-            <%= cell.render %>
+            <%=
+              link_to_if(
+                cell.clickable?,
+                cell.render,
+                cell_reveal_path(cell),
+                data: {
+                  controller: "cell",
+                  turbo_method: :post
+                }) %>
           </td>
         <% end %>
       </tr>
