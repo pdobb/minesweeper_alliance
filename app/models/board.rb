@@ -19,7 +19,7 @@ class Board < ApplicationRecord
   after_update_commit -> { broadcast_refresh }
 
   belongs_to :game
-  has_many :cells
+  has_many :cells, dependent: :delete_all
 
   def self.build_for(game, difficulty_level:)
     defaults_for_given_difficulty_level =

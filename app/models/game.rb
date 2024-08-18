@@ -6,7 +6,7 @@
 class Game < ApplicationRecord
   include Statusable::HasStatuses
 
-  has_one :board
+  has_one :board, dependent: :delete
 
   has_statuses([
     "In-Progress",
