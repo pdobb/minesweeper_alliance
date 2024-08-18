@@ -46,6 +46,10 @@ class Board < ApplicationRecord
     cells.by_random.is_not_revealed.take.reveal
   end
 
+  def toggle_flag_on_random_cell
+    cells.by_random.is_not_revealed.take.toggle_flag
+  end
+
   def check_for_victory
     game.end_in_victory if all_safe_cells_have_been_revealed?
     self

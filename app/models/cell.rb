@@ -41,12 +41,22 @@ class Cell < ApplicationRecord
     value.inspect
   end
 
+  def value
+    super || (FLAG_ICON if flagged?)
+  end
+
+  def toggle_flag
+    update(flagged: !flagged?)
+
+    self
+  end
+
   def reveal
     return self if revealed?
 
     update(
       revealed: true,
-      value: determine_value)
+      value: determine_revealed_value)
 
     if mine?
       board.end_game_in_defeat
@@ -99,7 +109,7 @@ class Cell < ApplicationRecord
     coordinates.inspect
   end
 
-  def determine_value
+  def determine_revealed_value
     mine? ? MINE_ICON : neighboring_mines_count
   end
 
