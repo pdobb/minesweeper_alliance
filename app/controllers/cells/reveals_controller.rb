@@ -4,8 +4,12 @@ class Cells::RevealsController < ApplicationController
   include CellActionBehaviors
 
   def create
-    @cell.reveal
+    result = @cell.reveal
 
-    redirect_to(root_path)
+    if result.game_in_progress?
+      redirect_to(root_path)
+    else
+      redirect_to(game_path(result.game))
+    end
   end
 end

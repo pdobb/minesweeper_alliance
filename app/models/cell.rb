@@ -12,6 +12,13 @@
 # - If a mine is revealed, the {Game} ends in victory for the mines!
 # - If all safe Cells are revealed, the {Game} ends in victory for the alliance!
 class Cell < ApplicationRecord
+  # Cell::Result represents a success/failure scenario for having won or lost
+  # lost the current {Game}.
+  Result =
+    Data.define(:game, :payload) {
+      def game_in_progress? = game.status_in_progress?
+    }
+
   CELL_ICON = "◻️"
   REVEALED_CELL_ICON = "☑️"
   MINE_ICON = "💣"
@@ -20,6 +27,7 @@ class Cell < ApplicationRecord
   BLANK_VALUE = "0"
 
   belongs_to :board, touch: true
+  has_one :game, through: :board
 
   attribute :coordinates, CoordinatesType.new
   delegate :x,
@@ -60,14 +68,14 @@ class Cell < ApplicationRecord
 
     if mine?
       board.end_game_in_defeat
-      return self
+      return Result.new(game:, payload: self)
     end
 
     neighbors.each(&:reveal) if blank?
 
     board.check_for_victory
 
-    self
+    Result.new(game:, payload: self)
   end
 
   def neighboring_mines_count = neighbors.is_a_mine.count
