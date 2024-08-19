@@ -13,18 +13,18 @@
   >
     <% game_view.rows.each do |row| %>
       <tr>
-        <% row.each do |cell| %>
+        <% row.each do |cell_view| %>
           <td
             <% if Rails.env.development? %>
-              id="<%= dom_id(cell) %>"
+              id="<%= dom_id(cell_view) %>"
             <% end %>
-            class="<%= cell.css_class %>"
+            class="<%= cell_view.css_class %>"
           >
             <%=
               link_to_if(
-                cell.clickable?,
-                cell.render,
-                cell_reveal_path(cell),
+                cell_view.clickable?,
+                cell_view.render,
+                cell_reveal_path(cell_view),
                 data: {
                   controller: "cell",
                   turbo_method: :post
