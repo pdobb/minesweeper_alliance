@@ -1,0 +1,9 @@
+{
+  "devDependencies": {
+    "eslint": "^8.56.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^5.2.1",
+    "prettier": "^3.2.2",
+    "prettier-plugin-tailwindcss": "^0.5.11"
+  }
+}
