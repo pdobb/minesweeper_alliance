@@ -1,1 +1,32 @@
-<%= render(@game_view, game_view: @game_view) %>
+<table class="mx-auto">
+  <tbody
+    class="
+      <%# Cells %>
+      *:*:size-8
+      *:*:border *:*:border-slate-600
+      *:*:text-center
+      <% if @game_view.status_in_progress? %>
+        <%# Cell Links %>
+        *:*:*:inline-block *:*:*:size-full *:*:*:cursor-cell
+      <% end %>
+    "
+  >
+    <% @game_view.rows.each do |row| %>
+      <tr>
+        <% row.each do |cell_view| %>
+          <td class="<%= cell_view.css_class %>">
+            <%=
+              link_to_if(
+                cell_view.clickable?,
+                cell_view.render,
+                cell_reveal_path(cell_view),
+                data: {
+                  controller: "cell",
+                  turbo_method: :post
+                }) %>
+          </td>
+        <% end %>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
