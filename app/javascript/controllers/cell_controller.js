@@ -14,7 +14,7 @@ export default class extends Controller {
     this.element.addEventListener("contextmenu", (event) => {
       event.preventDefault()
       event.cancelBubble = true
-      this.element.href = this.element.href.replace('/reveal', "/toggle_flag")
+      this.element.href = this.element.href.replace("/reveal", "/toggle_flag")
       this.element.click()
     })
   }

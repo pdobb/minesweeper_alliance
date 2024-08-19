@@ -3,11 +3,11 @@
 one:
   board: one
   x: 1
-  'y': 1
+  "y": 1
   value: MyString
 
 two:
   board: two
   x: 1
-  'y': 1
+  "y": 1
   value: MyString
