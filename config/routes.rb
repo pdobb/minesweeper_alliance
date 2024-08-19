@@ -3,7 +3,7 @@
 Rails.application.routes.draw do
   root "games#current"
 
-  resources :games, only: %i[index show]
+  resources :games, only: %i[index show new create]
 
   resources :cells, only: :none do
     scope module: :cells do

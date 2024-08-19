@@ -1,0 +1,11 @@
+<h1>Do you have what it takes?</h1>
+
+<ul class="flex items-center gap-x-6">
+  <% Board.difficulty_levels.each do |symbol| %>
+    <li>
+      <%= button_to(
+            symbol.to_s.capitalize,
+            games_path(difficulty_level: symbol)) %>
+    </li>
+  <% end %>
+</ul>

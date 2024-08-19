@@ -2,8 +2,11 @@
 
 class GamesController < ApplicationController
   def current
-    current_game = Game.find_or_create_current(:beginner)
-    @game_view = GameView.new(current_game)
+    if (current_game = Game.current)
+      redirect_to(action: :show, id: current_game)
+    else
+      redirect_to(action: :new)
+    end
   end
 
   def index
@@ -12,6 +15,15 @@ class GamesController < ApplicationController
 
   def show
     setup_game_view
+  end
+
+  def new
+  end
+
+  def create
+    current_game = Game.find_or_create_current(params[:difficulty_level])
+
+    redirect_to(action: :show, id: current_game)
   end
 
   private

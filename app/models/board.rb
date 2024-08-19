@@ -21,6 +21,10 @@ class Board < ApplicationRecord
   belongs_to :game
   has_many :cells, dependent: :delete_all
 
+  def self.difficulty_levels
+    DIFFICULTY_LEVELS_MAP.keys
+  end
+
   def self.build_for(game, difficulty_level:)
     defaults_for_given_difficulty_level =
       DIFFICULTY_LEVELS_MAP.fetch(difficulty_level.to_sym)
