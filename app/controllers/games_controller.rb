@@ -10,7 +10,7 @@ class GamesController < ApplicationController
   end
 
   def index
-    @games = Game.not_for_status_in_progress
+    @games = Game.not_for_status_in_progress.by_least_recent
   end
 
   def show

@@ -42,7 +42,6 @@ class Cell < ApplicationRecord
 
   scope :for_coordinates, ->(coordinates) { where(coordinates:) }
 
-  scope :by_least_recent, -> { order(:id) } # rubocop:disable Rails/OrderById
   scope :by_random, -> { order("RANDOM()") }
 
   def display_name
