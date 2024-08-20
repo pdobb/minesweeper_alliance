@@ -1,3 +1,5 @@
+<%= turbo_stream_from(@game.board) %>
+
 <table class="mx-auto table-fixed select-none">
   <tbody
     <% if @game.in_progress? %>
