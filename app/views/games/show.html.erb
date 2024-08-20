@@ -1,4 +1,4 @@
-<table class="mx-auto">
+<table class="mx-auto table-fixed select-none">
   <tbody
     <% if @game_view.in_progress? %>
       data-controller="board"
@@ -9,7 +9,7 @@
     <% end %>
     class="
       <%# Cells %>
-      *:*:size-8
+      *:*:size-8 *:*:min-w-8 *:*:min-h-8
       *:*:border *:*:border-slate-600
       *:*:text-center
       <% if @game_view.in_progress? %>
