@@ -22,9 +22,9 @@ class Cell < ApplicationRecord
   belongs_to :board, touch: true
 
   attribute :coordinates, CoordinatesType.new
-  delegate :x,
-           :y,
-           to: :coordinates
+
+  def x = coordinates.x
+  def y = coordinates.y
 
   scope :is_a_mine, -> { where(mine: true) }
   scope :is_not_a_mine, -> { where(mine: false) }

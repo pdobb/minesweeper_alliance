@@ -40,10 +40,8 @@ class GamesController < ApplicationController
   class GameView
     include ViewBehaviors
 
-    delegate :board,
-             to: :to_model
-    delegate :id,
-             to: :board, prefix: true
+    def board = to_model.board
+    def board_id = board.id
 
     def board_rows
       in_progress? ? build_active_cell_views : build_inactive_cell_views
@@ -77,10 +75,9 @@ class GamesController < ApplicationController
     include ViewBehaviors
     include WrapBehaviors
 
-    delegate :id,
-             :mine?,
-             :revealed?,
-             to: :to_model
+    def id = to_model.id
+    def mine? = to_model.mine?
+    def revealed? = to_model.revealed?
 
     def render
       to_model.value&.delete(Cell::BLANK_VALUE).to_s
@@ -110,9 +107,8 @@ class GamesController < ApplicationController
   class InactiveCellView
     include CellViewBehaviors
 
-    delegate :flagged?,
-             :incorrectly_flagged?,
-             to: :to_model
+    def flagged? = to_model.flagged?
+    def incorrectly_flagged? = to_model.incorrectly_flagged?
 
     def render
       if revealed?
