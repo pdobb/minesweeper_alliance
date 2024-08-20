@@ -4,8 +4,8 @@ class Cells::ToggleFlagsController < ApplicationController
   include CellActionBehaviors
 
   def create
-    @cell.toggle_flag
+    result = @cell.toggle_flag
 
-    redirect_to(root_path)
+    redirect_to(game_path(result.game))
   end
 end
