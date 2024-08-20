@@ -12,13 +12,6 @@
 # - If a mine is revealed, the {Game} ends in victory for the mines!
 # - If all safe Cells are revealed, the {Game} ends in victory for the alliance!
 class Cell < ApplicationRecord
-  # Cell::Result represents a success/failure scenario for having won or lost
-  # lost the current {Game}.
-  Result =
-    Data.define(:game, :payload) {
-      def game_in_progress? = game.status_in_progress?
-    }
-
   CELL_ICON = "◻️"
   REVEALED_CELL_ICON = "☑️"
   MINE_ICON = "💣"
@@ -27,7 +20,6 @@ class Cell < ApplicationRecord
   BLANK_VALUE = "0"
 
   belongs_to :board, touch: true
-  has_one :game, through: :board
 
   attribute :coordinates, CoordinatesType.new
   delegate :x,
@@ -59,8 +51,8 @@ class Cell < ApplicationRecord
     self
   end
 
-  def reveal # rubocop:disable Metrics/AbcSize
-    return Result.new(game:, payload: self) if revealed?
+  def reveal
+    return self if revealed?
 
     update(
       revealed: true,
@@ -68,14 +60,14 @@ class Cell < ApplicationRecord
 
     if mine?
       board.end_game_in_defeat
-      return Result.new(game:, payload: self)
+      return self
     end
 
     neighbors.each(&:reveal) if blank?
 
     board.check_for_victory
 
-    Result.new(game:, payload: self)
+    self
   end
 
   # If a Cell has been revealed and the appropriate number of flags has been
@@ -86,13 +78,13 @@ class Cell < ApplicationRecord
   # Note: This doesn't guarantee success. If any of the flag are wrongly placed
   # then a mine could still go off!
   def reveal_neighbors
-    return Result.new(game:, payload: self) unless revealed?
+    return self unless revealed?
 
     if neighboring_flags_count_matches_value?
       neighbors.is_not_flagged.is_not_revealed.each(&:reveal)
     end
 
-    Result.new(game:, payload: self)
+    self
   end
 
   def neighboring_flags_count = neighbors.is_flagged.size

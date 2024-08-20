@@ -42,6 +42,8 @@ class GamesController < ApplicationController
 
     delegate :board,
              to: :to_model
+    delegate :id,
+             to: :board, prefix: true
 
     def board_rows
       in_progress? ? build_active_cell_views : build_inactive_cell_views

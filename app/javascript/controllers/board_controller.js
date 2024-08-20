@@ -9,25 +9,29 @@ import { Controller } from "@hotwired/stimulus"
 // For Revealed Cells
 //  - Double Click - Reveal Neighbors
 export default class extends Controller {
+  static values = { id: Number }
+
   reveal(event) {
-    let $el = event.toElement
+    let $el = event.target
     if ($el.dataset.revealed === "true") return
 
-    this.#post(`/cells/${$el.dataset.id}/reveal`)
+    this.#post(`/boards/${this.idValue}/cells/${$el.dataset.id}/reveal`)
   }
 
   toggleFlag(event) {
-    let $el = event.toElement
+    let $el = event.target
     if ($el.dataset.revealed === "true") return
 
-    this.#post(`/cells/${$el.dataset.id}/toggle_flag`)
+    this.#post(`/boards/${this.idValue}/cells/${$el.dataset.id}/toggle_flag`)
   }
 
   revealNeighbors(event) {
-    let $el = event.toElement
+    let $el = event.target
     if ($el.dataset.revealed === "false") return
 
-    this.#post(`/cells/${$el.dataset.id}/reveal_neighbors`)
+    this.#post(
+      `/boards/${this.idValue}/cells/${$el.dataset.id}/reveal_neighbors`,
+    )
   }
 
   #post(url) {
