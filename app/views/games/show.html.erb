@@ -1,6 +1,6 @@
 <table class="mx-auto table-fixed select-none">
   <tbody
-    <% if @game_view.in_progress? %>
+    <% if @game.in_progress? %>
       data-controller="board"
       data-action="
         click->board#reveal
@@ -13,7 +13,7 @@
       *:*:size-8 *:*:min-w-8 *:*:min-h-8
       *:*:border *:*:border-slate-600
       *:*:text-center
-      <% if @game_view.in_progress? %>
+      <% if @game.in_progress? %>
         data-[revealed=false]:*:*:cursor-cell
         data-[revealed=true]:*:*:cursor-default
       <% else %>
@@ -21,15 +21,15 @@
       <% end %>
     "
   >
-    <% @game_view.rows.each do |row| %>
+    <% @game.board_rows.each do |row| %>
       <tr>
-        <% row.each do |cell_view| %>
+        <% row.each do |cell| %>
           <td
-            data-id="<%= cell_view.id %>"
-            data-revealed="<%= cell_view.revealed? %>"
-            class="<%= class_names(cell_view.css_class) %>"
+            data-id="<%= cell.id %>"
+            data-revealed="<%= cell.revealed? %>"
+            class="<%= class_names(cell.css_class) %>"
           >
-            <%= cell_view.render %>
+            <%= cell.render %>
           </td>
         <% end %>
       </tr>

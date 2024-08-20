@@ -14,7 +14,7 @@ class GamesController < ApplicationController
   end
 
   def show
-    setup_game_view
+    setup_game
   end
 
   def new
@@ -28,9 +28,9 @@ class GamesController < ApplicationController
 
   private
 
-  def setup_game_view
+  def setup_game
     if (game = Game.find_by(id: params[:id]))
-      @game_view = GameView.new(game)
+      @game = GameView.new(game)
     else
       redirect_to(action: :index, alert: t("flash.not_found", type: "Game"))
     end
@@ -43,7 +43,7 @@ class GamesController < ApplicationController
     delegate :board,
              to: :to_model
 
-    def rows
+    def board_rows
       in_progress? ? build_active_cell_views : build_inactive_cell_views
     end
 
@@ -80,16 +80,12 @@ class GamesController < ApplicationController
              :revealed?,
              to: :to_model
 
-    def css_class
-      if revealed?
-        BG_ERROR_COLOR if mine?
-      else # not revealed?
-        BG_UNREVEALED_COLOR
-      end
-    end
-
     def render
       to_model.value&.delete(Cell::BLANK_VALUE).to_s
+    end
+
+    def css_class
+      raise NotImplementedError
     end
   end
 
@@ -97,6 +93,14 @@ class GamesController < ApplicationController
   # {Cell}s (i.e. for an In-Progress {Game}).
   class ActiveCellView
     include CellViewBehaviors
+
+    def css_class
+      if revealed?
+        BG_ERROR_COLOR if mine?
+      else # not revealed?
+        BG_UNREVEALED_COLOR
+      end
+    end
   end
 
   # GamesController::InactiveCellView is a view model for displaying Inactive
