@@ -6,6 +6,8 @@ import { Controller } from "@hotwired/stimulus"
 // For Unrevealed Cells:
 //  - Left Click - Reveal Cell
 //  - Right Click - Toggle Flag
+// For Revealed Cells
+//  - Double Click - Reveal Neighbors
 export default class extends Controller {
   reveal(event) {
     let $el = event.toElement
@@ -19,6 +21,13 @@ export default class extends Controller {
     if ($el.dataset.revealed === "true") return
 
     this.#post(`/cells/${$el.dataset.id}/toggle_flag`)
+  }
+
+  revealNeighbors(event) {
+    let $el = event.toElement
+    if ($el.dataset.revealed === "false") return
+
+    this.#post(`/cells/${$el.dataset.id}/reveal_neighbors`)
   }
 
   #post(url) {

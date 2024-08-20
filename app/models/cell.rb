@@ -37,6 +37,7 @@ class Cell < ApplicationRecord
   scope :is_a_mine, -> { where(mine: true) }
   scope :is_not_a_mine, -> { where(mine: false) }
   scope :is_flagged, -> { where(flagged: true) }
+  scope :is_not_flagged, -> { where(flagged: false) }
   scope :is_revealed, -> { where(revealed: true) }
   scope :is_not_revealed, -> { where(revealed: false) }
 
@@ -58,8 +59,8 @@ class Cell < ApplicationRecord
     self
   end
 
-  def reveal
-    return self if revealed?
+  def reveal # rubocop:disable Metrics/AbcSize
+    return Result.new(game:, payload: self) if revealed?
 
     update(
       revealed: true,
@@ -77,7 +78,25 @@ class Cell < ApplicationRecord
     Result.new(game:, payload: self)
   end
 
-  def neighboring_mines_count = neighbors.is_a_mine.count
+  # If a Cell has been revealed and the appropriate number of flags has been
+  # placed in the neighboring cells, then we can save the user time by just
+  # going ahead and revealing all of the non-flagged (and non-revealed)
+  # neighboring cells.
+  #
+  # Note: This doesn't guarantee success. If any of the flag are wrongly placed
+  # then a mine could still go off!
+  def reveal_neighbors
+    return Result.new(game:, payload: self) unless revealed?
+
+    if neighboring_flags_count_matches_value?
+      neighbors.is_not_flagged.is_not_revealed.each(&:reveal)
+    end
+
+    Result.new(game:, payload: self)
+  end
+
+  def neighboring_flags_count = neighbors.is_flagged.size
+  def neighboring_mines_count = neighbors.is_a_mine.size
 
   def neighbors
     return Cell.none unless board
@@ -121,10 +140,6 @@ class Cell < ApplicationRecord
     "INCORRECTLY_FLAGGED" if incorrectly_flagged?
   end
 
-  def determine_revealed_value
-    mine? ? MINE_ICON : neighboring_mines_count
-  end
-
   def current_state
     if revealed?
       "#{value} "
@@ -133,5 +148,13 @@ class Cell < ApplicationRecord
     else
       CELL_ICON
     end
+  end
+
+  def neighboring_flags_count_matches_value?
+    neighboring_flags_count == value.to_i
+  end
+
+  def determine_revealed_value
+    mine? ? MINE_ICON : neighboring_mines_count
   end
 end
