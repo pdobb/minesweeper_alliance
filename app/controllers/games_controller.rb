@@ -41,12 +41,13 @@ class GamesController < ApplicationController
     include ViewBehaviors
 
     delegate :board,
-             :status_in_progress?,
              to: :to_model
 
     def rows
-      status_in_progress? ? build_active_cell_views : build_inactive_cell_views
+      in_progress? ? build_active_cell_views : build_inactive_cell_views
     end
+
+    def in_progress? = to_model.status_in_progress?
 
     private
 
@@ -74,9 +75,9 @@ class GamesController < ApplicationController
     include ViewBehaviors
     include WrapBehaviors
 
-    delegate :mine?,
+    delegate :id,
+             :mine?,
              :revealed?,
-             :flagged?,
              to: :to_model
 
     def css_class
@@ -90,20 +91,12 @@ class GamesController < ApplicationController
     def render
       to_model.value&.delete(Cell::BLANK_VALUE).to_s
     end
-
-    def clickable?
-      raise NotImplementedError
-    end
   end
 
   # GamesController::ActiveCellView is a view model for displaying Active
   # {Cell}s (i.e. for an In-Progress {Game}).
   class ActiveCellView
     include CellViewBehaviors
-
-    def clickable?
-      !revealed?
-    end
   end
 
   # GamesController::InactiveCellView is a view model for displaying Inactive
@@ -111,7 +104,8 @@ class GamesController < ApplicationController
   class InactiveCellView
     include CellViewBehaviors
 
-    delegate :incorrectly_flagged?,
+    delegate :flagged?,
+             :incorrectly_flagged?,
              to: :to_model
 
     def render
@@ -132,10 +126,6 @@ class GamesController < ApplicationController
       else
         BG_UNREVEALED_COLOR
       end
-    end
-
-    def clickable?
-      false
     end
   end
 end

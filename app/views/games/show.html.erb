@@ -1,29 +1,34 @@
 <table class="mx-auto">
   <tbody
+    <% if @game_view.in_progress? %>
+      data-controller="board"
+      data-action="
+        click->board#reveal
+        contextmenu->board#toggleFlag:prevent
+      "
+    <% end %>
     class="
       <%# Cells %>
       *:*:size-8
       *:*:border *:*:border-slate-600
       *:*:text-center
-      <% if @game_view.status_in_progress? %>
-        <%# Cell Links %>
-        *:*:*:inline-block *:*:*:size-full *:*:*:cursor-cell
+      <% if @game_view.in_progress? %>
+        data-[revealed=false]:*:*:cursor-cell
+        data-[revealed=true]:*:*:cursor-default
+      <% else %>
+        *:*:cursor-default
       <% end %>
     "
   >
     <% @game_view.rows.each do |row| %>
       <tr>
         <% row.each do |cell_view| %>
-          <td class="<%= cell_view.css_class %>">
-            <%=
-              link_to_if(
-                cell_view.clickable?,
-                cell_view.render,
-                cell_reveal_path(cell_view),
-                data: {
-                  controller: "cell",
-                  turbo_method: :post
-                }) %>
+          <td
+            data-id="<%= cell_view.id %>"
+            data-revealed="<%= cell_view.revealed? %>"
+            class="<%= class_names(cell_view.css_class) %>"
+          >
+            <%= cell_view.render %>
           </td>
         <% end %>
       </tr>
