@@ -3,15 +3,17 @@
 Rails.application.routes.draw do
   root "games#current"
 
-  resources :games, only: %i[index show new create]
-
-  resources :boards, only: :none do
-    scope module: :boards do
-      resources :cells, only: :none do
-        scope module: :cells do
-          resource :reveal, only: :create
-          resource :toggle_flag, only: :create
-          resource :reveal_neighbors, only: :create
+  resources :games, only: %i[index show new create] do
+    scope module: :games do
+      resources :boards, only: :none do
+        scope module: :boards do
+          resources :cells, only: :none do
+            scope module: :cells do
+              resource :reveal, only: :create
+              resource :toggle_flag, only: :create
+              resource :reveal_neighbors, only: :create
+            end
+          end
         end
       end
     end

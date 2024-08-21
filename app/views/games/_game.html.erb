@@ -49,18 +49,19 @@
       <div class="text-center">
         <%= link_to(
               "Reveal a Random Cell",
-              board_cell_reveal_path(board, board.random_cell_id_for_reveal.to_i),
+              game_board_cell_reveal_path(
+                game, board, board.random_cell_id_for_reveal.to_i),
               id: "reveal",
               data: { turbo_method: :post }) %>
         <%= link_to(
               "",
-              board_cell_toggle_flag_path(board, 0),
+              game_board_cell_toggle_flag_path(game, board, 0),
               id: "toggleFlag",
               class: "hidden",
               data: { turbo_method: :post }) %>
         <%= link_to(
               "",
-              board_cell_reveal_neighbors_path(board, 0),
+              game_board_cell_reveal_neighbors_path(game, board, 0),
               id: "revealNeighbors",
               class: "hidden",
               data: { turbo_method: :post }) %>
