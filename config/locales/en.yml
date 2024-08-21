@@ -28,10 +28,16 @@
 #       enabled: "ON"
 
 en:
+  date:
+    formats:
+      default: "%m/%d/%Y"
+      weekday_month_day_abbreviated: "%a, %b %d"
+
   time:
     formats:
       default: "%m/%d/%Y %l:%M %p %Z"
       default_with_seconds: "%m/%d/%Y %l:%M:%S %p %Z"
+      padded_time_meridian_zone: "%I:%M %p %Z"
 
   flash:
     not_found: "%{type} not found."

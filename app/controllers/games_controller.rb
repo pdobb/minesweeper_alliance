@@ -10,7 +10,9 @@ class GamesController < ApplicationController
   end
 
   def index
-    @games = Game.not_for_status_in_progress.by_least_recent
+    @games =
+      Game.not_for_status_in_progress.by_most_recent.
+        group_by { |game| game.updated_at.to_date }
   end
 
   def show
@@ -44,17 +46,13 @@ class GamesController < ApplicationController
     def board_id = board.id
     def in_progress? = to_model.status_in_progress?
     def over? = to_model.over?
+    def status = to_model.status
+    def status_mojis = to_model.status_mojis
 
     def result
-      status = to_model.status
+      return status if in_progress?
 
-      if to_model.status_mines_win?
-        "#{status} #{Cell::MINE_ICON}"
-      elsif to_model.status_alliance_wins?
-        "#{status} ⛴️⚓️🎉"
-      else
-        status
-      end
+      "#{status} #{status_mojis}"
     end
 
     def board_rows

@@ -1,5 +1,21 @@
-<ul>
-  <% @games.each do |game| %>
-    <li><%= link_to(game.inspect, game_path(game)) %></li>
+<div class="space-y-3">
+  <% @games.each do |date, games| %>
+    <h2><%= l(date, format: :weekday_month_day_abbreviated) %></h2>
+    <div
+      class="
+        grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4
+        gap-y-1
+      "
+    >
+      <% games.each do |game| %>
+        <div class="space-x-1">
+          <span class="text-gray-500"><%= game.id.to_s.rjust(4, "0") %></span>
+          <%= link_to(game_path(game), class: "space-x-1") do %>
+            <span><%= l(game.updated_at, format: :padded_time_meridian_zone) %></span>
+            <span><%= game.status_mojis %></span>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
   <% end %>
-</ul>
+</div>
