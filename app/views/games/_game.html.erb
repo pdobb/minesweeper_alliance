@@ -1,3 +1,5 @@
+<%# locals: (game:) %>
+
 <%= turbo_frame_tag(game.to_model) do %>
   <div class="grid gap-y-6 justify-center">
     <% if game.over? %>
