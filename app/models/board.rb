@@ -87,9 +87,7 @@ class Board < ApplicationRecord
   end
 
   def clamp_coordinates(coordinates_array)
-    # rubocop:todo Performance/MethodObjectAsBlock
-    coordinates_array.select(&method(:in_bounds?))
-    # rubocop:enable Performance/MethodObjectAsBlock
+    coordinates_array.select { |coordinates| in_bounds?(coordinates) }
   end
 
   def in_bounds?(coordinates)
