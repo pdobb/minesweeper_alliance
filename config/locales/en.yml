@@ -31,6 +31,7 @@ en:
   time:
     formats:
       default: "%m/%d/%Y %l:%M %p %Z"
+      default_with_seconds: "%m/%d/%Y %l:%M:%S %p %Z"
 
   flash:
     not_found: "%{type} not found."
