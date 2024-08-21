@@ -5,22 +5,27 @@
 module Boards::Cells::ActionBehaviors
   extend ActiveSupport::Concern
 
-  included do
-    before_action :require_board
-    before_action :require_cell
-  end
-
   private
 
-  def require_board
-    @board = Board.find(params[:board_id])
+  def render_updated_game_board
+    render(
+      partial: "games/game",
+      locals: { game: GamesController::GameView.new(game) })
   end
 
-  def require_cell
-    @cell = @board.cells.find(params[:cell_id])
+  def game
+    Game.find(game_id)
+  end
+
+  def board
+    Board.find(params[:board_id])
+  end
+
+  def cell
+    board.cells.find(params[:cell_id])
   end
 
   def game_id
-    @board.game_id
+    board.game_id
   end
 end

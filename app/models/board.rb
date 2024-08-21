@@ -47,11 +47,11 @@ class Board < ApplicationRecord
   end
 
   def reveal_random_cell
-    cells.by_random.is_not_revealed.take.reveal
+    cells.for_id(random_cell_id_for_reveal).take.reveal
   end
 
-  def toggle_flag_on_random_cell
-    cells.by_random.is_not_revealed.take.toggle_flag
+  def random_cell_id_for_reveal
+    cells.is_not_revealed.is_not_flagged.by_random.pick(:id)
   end
 
   def check_for_victory

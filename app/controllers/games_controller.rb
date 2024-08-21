@@ -42,12 +42,12 @@ class GamesController < ApplicationController
 
     def board = to_model.board
     def board_id = board.id
+    def in_progress? = to_model.status_in_progress?
+    def over? = to_model.over?
 
     def board_rows
       in_progress? ? build_active_cell_views : build_inactive_cell_views
     end
-
-    def in_progress? = to_model.status_in_progress?
 
     private
 

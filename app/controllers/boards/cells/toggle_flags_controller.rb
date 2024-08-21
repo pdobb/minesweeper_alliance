@@ -4,8 +4,8 @@ class Boards::Cells::ToggleFlagsController < ApplicationController
   include Boards::Cells::ActionBehaviors
 
   def create
-    @cell.toggle_flag
+    cell.toggle_flag
 
-    redirect_to(game_path(game_id))
+    render_updated_game_board
   end
 end

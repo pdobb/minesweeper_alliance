@@ -9,49 +9,33 @@ import { Controller } from "@hotwired/stimulus"
 // For Revealed Cells
 //  - Double Click - Reveal Neighbors
 export default class extends Controller {
-  static values = { id: Number }
-
   reveal(event) {
     let $el = event.target
     if ($el.dataset.revealed === "true") return
 
-    this.#post(`/boards/${this.idValue}/cells/${$el.dataset.id}/reveal`)
+    this.#submitVia("reveal", $el.dataset.id)
   }
 
   toggleFlag(event) {
     let $el = event.target
     if ($el.dataset.revealed === "true") return
 
-    this.#post(`/boards/${this.idValue}/cells/${$el.dataset.id}/toggle_flag`)
+    this.#submitVia("toggleFlag", $el.dataset.id)
   }
 
   revealNeighbors(event) {
     let $el = event.target
     if ($el.dataset.revealed === "false") return
 
-    this.#post(
-      `/boards/${this.idValue}/cells/${$el.dataset.id}/reveal_neighbors`,
-    )
+    this.#submitVia("revealNeighbors", $el.dataset.id)
   }
 
-  #post(url) {
-    fetch(url, {
-      method: "POST",
-      headers: {
-        "X-CSRF-Token": this.#csrfToken(),
-        "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
-        Accept: "text/vnd.turbo-stream.html, text/html, application/xhtml+xml",
-      },
-    })
-      .then((response) => response.text())
-      .then((html) => {
-        document.documentElement.innerHTML = html
-      })
-  }
+  #submitVia(linkId, cellId) {
+    let $link = document.getElementById(linkId)
 
-  #csrfToken() {
-    return document
-      .querySelector("meta[name='csrf-token']")
-      .getAttribute("content")
+    // /boards/<boardId>/cells/<cellId>/reveal
+    $link.href = $link.href.replace(/cells\/(\d+)\//, `cells/${cellId}/`)
+
+    $link.click()
   }
 }

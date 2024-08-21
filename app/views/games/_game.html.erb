@@ -1,0 +1,66 @@
+<%= turbo_frame_tag(game.to_model) do %>
+  <div class="grid gap-y-6 justify-center">
+    <table class="mx-auto table-fixed select-none">
+      <tbody
+        <% if game.in_progress? %>
+          data-controller="board"
+          data-action="
+            click->board#reveal
+            contextmenu->board#toggleFlag:prevent
+            dblclick->board#revealNeighbors
+          "
+        <% end %>
+        class="
+          <%# Cells %>
+          *:*:size-8 *:*:min-w-8 *:*:min-h-8
+          *:*:border *:*:border-slate-600
+          *:*:text-center
+          <% if game.in_progress? %>
+            data-[revealed=false]:*:*:cursor-cell
+            data-[revealed=true]:*:*:cursor-default
+          <% else %>
+            *:*:cursor-default
+          <% end %>
+        "
+      >
+        <% game.board_rows.each do |row| %>
+          <tr>
+            <% row.each do |cell| %>
+              <td
+                data-id="<%= cell.id %>"
+                data-revealed="<%= cell.revealed? %>"
+                class="<%= class_names(cell.css_class) %>"
+              >
+                <%= cell.render %>
+              </td>
+            <% end %>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+
+    <% if game.in_progress? %>
+      <% board = game.board %>
+
+      <div class="text-center">
+        <%= link_to(
+              "Reveal a Random Cell",
+              board_cell_reveal_path(board, board.random_cell_id_for_reveal.to_i),
+              id: "reveal",
+              data: { turbo_method: :post }) %>
+        <%= link_to(
+              "",
+              board_cell_toggle_flag_path(board, 0),
+              id: "toggleFlag",
+              class: "hidden",
+              data: { turbo_method: :post }) %>
+        <%= link_to(
+              "",
+              board_cell_reveal_neighbors_path(board, 0),
+              id: "revealNeighbors",
+              class: "hidden",
+              data: { turbo_method: :post }) %>
+      </div>
+    <% end %>
+  </div>
+<% end %>

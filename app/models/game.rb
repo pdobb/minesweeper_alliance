@@ -47,6 +47,10 @@ class Game < ApplicationRecord
     set_status_mines_win!
   end
 
+  def over?
+    not_status_in_progress?
+  end
+
   private
 
   def inspect_identification

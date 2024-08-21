@@ -7,8 +7,6 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
-    <%= yield :head %>
-
     <link rel="manifest" href="/manifest.json">
     <link rel="icon" href="/icon.png" type="image/png">
     <link rel="icon" href="/icon.svg" type="image/svg+xml">
@@ -16,11 +14,14 @@
     <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
+
+    <%= turbo_refreshes_with(method: :morph, scroll: :preserve) %>
+    <%= content_for(:head) %>
   </head>
 
   <body>
-    <header class="m-12">
-      <nav class="container mx-auto">
+    <header class="container mx-auto my-12">
+      <nav class="">
         <ul class="flex items-center gap-x-6">
           <li><%= link_to("Current Game", root_path) %></li>
           <li><%= link_to("Past Games", games_path) %></li>
@@ -28,7 +29,7 @@
       </nav>
     </header>
 
-    <main class="container mx-auto my-24">
+    <main class="container mx-auto my-12">
       <%= yield %>
     </main>
   </body>

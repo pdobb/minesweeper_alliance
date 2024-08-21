@@ -4,8 +4,8 @@ class Boards::Cells::RevealNeighborsController < ApplicationController
   include Boards::Cells::ActionBehaviors
 
   def create
-    @cell.reveal_neighbors
+    cell.reveal_neighbors
 
-    redirect_to(game_path(game_id))
+    render_updated_game_board
   end
 end
