@@ -14,7 +14,7 @@ class Board < ApplicationRecord
     beginner: { columns: 9, rows: 9, mines: 10 },
     intermediate: { columns: 16, rows: 16, mines: 40 },
     expert: { columns: 30, rows: 16, mines: 99 },
-  }.freeze
+  }.tap { |hash| hash.except!(:test) if Rails.env.production? }.freeze
 
   after_update_commit -> { broadcast_refresh }
 
