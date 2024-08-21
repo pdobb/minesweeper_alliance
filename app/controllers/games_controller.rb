@@ -45,6 +45,18 @@ class GamesController < ApplicationController
     def in_progress? = to_model.status_in_progress?
     def over? = to_model.over?
 
+    def result
+      status = to_model.status
+
+      if to_model.status_mines_win?
+        "#{status} #{Cell::MINE_ICON}"
+      elsif to_model.status_alliance_wins?
+        "#{status} ⛴️⚓️🎉"
+      else
+        status
+      end
+    end
+
     def board_rows
       in_progress? ? build_active_cell_views : build_inactive_cell_views
     end

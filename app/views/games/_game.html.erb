@@ -1,5 +1,9 @@
 <%= turbo_frame_tag(game.to_model) do %>
   <div class="grid gap-y-6 justify-center">
+    <% if game.over? %>
+      <p class="text-center"><%= game.result %></p>
+    <% end %>
+
     <table class="mx-auto table-fixed select-none">
       <tbody
         <% if game.in_progress? %>
