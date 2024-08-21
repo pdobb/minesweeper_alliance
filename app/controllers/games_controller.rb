@@ -104,11 +104,7 @@ class GamesController < ApplicationController
     include CellViewBehaviors
 
     def css_class
-      if revealed?
-        BG_ERROR_COLOR if mine?
-      else # not revealed?
-        BG_UNREVEALED_COLOR
-      end
+      BG_UNREVEALED_COLOR unless revealed?
     end
   end
 
