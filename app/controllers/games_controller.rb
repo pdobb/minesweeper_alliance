@@ -44,6 +44,7 @@ class GamesController < ApplicationController
 
     def board = to_model.board
     def board_id = board.id
+    def ended_in_victory? = to_model.ended_in_victory?
     def in_progress? = to_model.status_in_progress?
     def over? = to_model.over?
     def status = to_model.status
@@ -62,7 +63,7 @@ class GamesController < ApplicationController
     private
 
     def build_cell_views(klass)
-      cells_grid.map { |row| klass.wrap(row) }
+      cells_grid.map { |row| klass.wrap(row, self) }
     end
 
     def cells_grid
@@ -80,10 +81,17 @@ class GamesController < ApplicationController
     include ViewBehaviors
     include WrapBehaviors
 
+    attr_reader :game
+
     def id = to_model.id
     def mine? = to_model.mine?
     def revealed? = to_model.revealed?
     def value = to_model.value
+
+    def initialize(object, game)
+      super(object)
+      @game = game
+    end
 
     def render
       value&.delete(Cell::BLANK_VALUE)
@@ -121,6 +129,7 @@ class GamesController < ApplicationController
 
     def flagged? = to_model.flagged?
     def incorrectly_flagged? = to_model.incorrectly_flagged?
+    def game_ended_in_victory? = game.ended_in_victory?
 
     def render
       if revealed?
@@ -128,7 +137,7 @@ class GamesController < ApplicationController
       elsif flagged?
         Cell::FLAG_ICON
       elsif mine?
-        Cell::MINE_ICON
+        game_ended_in_victory? ? Cell::FLAG_ICON : Cell::MINE_ICON
       end
     end
 

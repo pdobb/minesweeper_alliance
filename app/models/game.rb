@@ -51,6 +51,10 @@ class Game < ApplicationRecord
     set_status_alliance_wins!
   end
 
+  def ended_in_victory?
+    status_alliance_wins?
+  end
+
   def end_in_defeat
     set_status_mines_win!
   end
