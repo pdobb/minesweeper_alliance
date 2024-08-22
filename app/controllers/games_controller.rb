@@ -81,6 +81,7 @@ class GamesController < ApplicationController
 
     BG_ERROR_COLOR = "bg-red-600"
     BG_UNREVEALED_COLOR = "bg-slate-400"
+    BG_UNREVEALED_MINE_COLOR = "bg-slate-500"
 
     include ViewBehaviors
     include WrapBehaviors
@@ -104,7 +105,13 @@ class GamesController < ApplicationController
     include CellViewBehaviors
 
     def css_class
-      BG_UNREVEALED_COLOR unless revealed?
+      return if revealed?
+
+      if mine? && Rails.configuration.debug
+        BG_UNREVEALED_MINE_COLOR
+      else
+        BG_UNREVEALED_COLOR
+      end
     end
   end
 

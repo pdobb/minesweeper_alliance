@@ -13,25 +13,28 @@ export default class extends Controller {
     let $el = event.target
     if ($el.dataset.revealed === "true") return
 
-    this.#submitVia("reveal", $el.dataset.id)
+    this.#submit($el, "reveal")
   }
 
   toggleFlag(event) {
     let $el = event.target
     if ($el.dataset.revealed === "true") return
 
-    this.#submitVia("toggleFlag", $el.dataset.id)
+    this.#submit($el, "toggleFlag")
   }
 
   revealNeighbors(event) {
     let $el = event.target
     if ($el.dataset.revealed === "false") return
 
-    this.#submitVia("revealNeighbors", $el.dataset.id)
+    this.#submit($el, "revealNeighbors")
   }
 
-  #submitVia(linkId, cellId) {
+  #submit($el, linkId) {
+    $el.classList.add("animate-pulse")
+
     let $link = document.getElementById(linkId)
+    let cellId = $el.dataset.id
 
     // /boards/<boardId>/cells/<cellId>/reveal
     $link.href = $link.href.replace(/cells\/(\d+)\//, `cells/${cellId}/`)

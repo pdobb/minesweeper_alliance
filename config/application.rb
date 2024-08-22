@@ -40,5 +40,9 @@ module MinesweeperAlliance # rubocop:disable Style/ClassAndModuleChildren
     # config.eager_load_paths << Rails.root.join("extras")
 
     config.active_record.schema_format = :sql
+
+    # Custom Configuration
+
+    config.debug = ENV["DEBUG"] == "1"
   end
 end
