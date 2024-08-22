@@ -3,17 +3,66 @@
 @tailwind utilities;
 
 @layer base {
-  body {
+  html {
     @apply font-mono;
   }
-}
 
-/*
+  body {
+    & > header,
+    & > main,
+    & > footer {
+      @apply px-6 lg:px-12;
+    }
+  }
+
+  a,
+  .a {
+    &:hover {
+      @apply underline underline-offset-4;
+    }
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-bold;
+  }
+
+  h1,
+  .h1 {
+    @apply text-3xl;
+  }
+  h2,
+  .h2 {
+    @apply text-2xl;
+  }
+  h3,
+  .h3 {
+    @apply text-xl;
+  }
+  h4,
+  .h4 {
+    @apply text-lg;
+  }
+  h5,
+  .h5 {
+    @apply text-base;
+  }
+  h6,
+  .h6 {
+    @apply text-base;
+  }
+}
 
 @layer components {
   .btn-primary {
-    @apply py-2 px-4 bg-blue-200;
+    @apply select-none whitespace-nowrap border border-2 border-slate-400 px-3 py-1 hover:border-slate-800;
+
+    &:hover {
+      @apply no-underline;
+    }
   }
 }
-
-*/

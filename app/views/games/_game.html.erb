@@ -2,7 +2,31 @@
 
 <%= turbo_frame_tag(game.to_model) do %>
   <div class="grid gap-y-6 justify-center">
-    <% if game.over? %>
+    <% if game.in_progress? %>
+      <% board = game.board %>
+
+      <div class="text-center">
+        <%= link_to(
+              "Reveal a Random Cell",
+              game_board_cell_reveal_path(
+                game, board, board.random_cell_id_for_reveal.to_i),
+              id: "reveal",
+              class: "btn-primary",
+              data: { turbo_method: :post }) %>
+        <%= link_to(
+              "",
+              game_board_cell_toggle_flag_path(game, board, 0),
+              id: "toggleFlag",
+              class: "hidden",
+              data: { turbo_method: :post }) %>
+        <%= link_to(
+              "",
+              game_board_cell_reveal_neighbors_path(game, board, 0),
+              id: "revealNeighbors",
+              class: "hidden",
+              data: { turbo_method: :post }) %>
+      </div>
+    <% else # game.over? %>
       <p class="text-center"><%= game.result %></p>
     <% end %>
 
@@ -44,30 +68,5 @@
         <% end %>
       </tbody>
     </table>
-
-    <% if game.in_progress? %>
-      <% board = game.board %>
-
-      <div class="text-center">
-        <%= link_to(
-              "Reveal a Random Cell",
-              game_board_cell_reveal_path(
-                game, board, board.random_cell_id_for_reveal.to_i),
-              id: "reveal",
-              data: { turbo_method: :post }) %>
-        <%= link_to(
-              "",
-              game_board_cell_toggle_flag_path(game, board, 0),
-              id: "toggleFlag",
-              class: "hidden",
-              data: { turbo_method: :post }) %>
-        <%= link_to(
-              "",
-              game_board_cell_reveal_neighbors_path(game, board, 0),
-              id: "revealNeighbors",
-              class: "hidden",
-              data: { turbo_method: :post }) %>
-      </div>
-    <% end %>
   </div>
 <% end %>

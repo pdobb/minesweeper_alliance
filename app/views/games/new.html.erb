@@ -1,11 +1,16 @@
-<h1>Do you have what it takes?</h1>
+<h1 class="mb-12">New Game</h1>
 
-<ul class="flex items-center gap-x-6">
-  <% Board.difficulty_levels.each do |symbol| %>
-    <li>
-      <%= button_to(
-            symbol.to_s.capitalize,
-            games_path(difficulty_level: symbol)) %>
-    </li>
-  <% end %>
-</ul>
+<div class="space-y-6">
+  <h2 class="h3">Do you have what it takes?</h2>
+
+  <ul class="flex items-center gap-x-6">
+    <% Board.difficulty_levels.each do |symbol| %>
+      <li>
+        <%= button_to(
+              symbol.to_s.capitalize,
+              games_path(difficulty_level: symbol),
+              class: "btn-primary") %>
+      </li>
+    <% end %>
+  </ul>
+</div>

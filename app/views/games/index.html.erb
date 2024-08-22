@@ -1,6 +1,8 @@
+<h1 class="mb-12">Historical Battles</h1>
+
 <div class="space-y-3">
   <% @games.each do |date, games| %>
-    <h2><%= l(date, format: :weekday_month_day_abbreviated) %></h2>
+    <h2 class="h3"><%= l(date, format: :weekday_month_day_abbreviated) %></h2>
     <div
       class="
         grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4
