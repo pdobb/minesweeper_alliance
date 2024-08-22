@@ -56,17 +56,13 @@ class GamesController < ApplicationController
     end
 
     def board_rows
-      in_progress? ? build_active_cell_views : build_inactive_cell_views
+      build_cell_views(in_progress? ? ActiveCellView : InactiveCellView)
     end
 
     private
 
-    def build_active_cell_views
-      cells_grid.map { |row| ActiveCellView.wrap(row) }
-    end
-
-    def build_inactive_cell_views
-      cells_grid.map { |row| InactiveCellView.wrap(row) }
+    def build_cell_views(klass)
+      cells_grid.map { |row| klass.wrap(row) }
     end
 
     def cells_grid
