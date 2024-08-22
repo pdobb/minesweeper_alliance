@@ -30,14 +30,17 @@
 en:
   date:
     formats:
-      default: "%m/%d/%Y"
-      weekday_month_day_abbreviated: "%a, %b %d"
+      default: "%d %^b %y" # 22 AUG 24
+      debug: "%m/%d/%Y" # 08/22/2024
+      weekday_comma_date: "%^a, %d %^b %y" # THU, 22 AUG 24
 
   time:
     formats:
-      default: "%m/%d/%Y %l:%M %p %Z"
-      default_with_seconds: "%m/%d/%Y %l:%M:%S %p %Z"
-      padded_time_meridian_zone: "%I:%M %p %Z"
+      default: "%d %^b %y %H%M %Z" # 22 AUG 24 1516 -05:00
+      debug: "%m/%d/%Y %l:%M:%S %p %Z" # 08/22/2024  3:16:46 PM -05:00
+      date: "%d %^b %y" # 22 AUG 24
+      time: "%H:%M" # 01:23
+      zone: "%Z" # CDT
 
   flash:
     not_found: "%{type} not found."
