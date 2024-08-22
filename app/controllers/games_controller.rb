@@ -75,9 +75,7 @@ class GamesController < ApplicationController
   module CellViewBehaviors
     extend ActiveSupport::Concern
 
-    BG_ERROR_COLOR = "bg-red-600"
-    BG_UNREVEALED_COLOR = "bg-slate-400"
-    BG_UNREVEALED_MINE_COLOR = "bg-slate-500"
+    BG_UNREVEALED_CELL_COLOR = "bg-slate-400"
 
     include ViewBehaviors
     include WrapBehaviors
@@ -85,9 +83,10 @@ class GamesController < ApplicationController
     def id = to_model.id
     def mine? = to_model.mine?
     def revealed? = to_model.revealed?
+    def value = to_model.value
 
     def render
-      to_model.value&.delete(Cell::BLANK_VALUE).to_s
+      value&.delete(Cell::BLANK_VALUE)
     end
 
     def css_class
@@ -98,6 +97,8 @@ class GamesController < ApplicationController
   # GamesController::ActiveCellView is a view model for displaying Active
   # {Cell}s (i.e. for an In-Progress {Game}).
   class ActiveCellView
+    BG_UNREVEALED_MINE_COLOR = "bg-slate-500"
+
     include CellViewBehaviors
 
     def css_class
@@ -106,7 +107,7 @@ class GamesController < ApplicationController
       if mine? && Rails.configuration.debug
         BG_UNREVEALED_MINE_COLOR
       else
-        BG_UNREVEALED_COLOR
+        BG_UNREVEALED_CELL_COLOR
       end
     end
   end
@@ -114,6 +115,8 @@ class GamesController < ApplicationController
   # GamesController::InactiveCellView is a view model for displaying Inactive
   # {Cell}s (i.e. for a non-In-Progress {Game}).
   class InactiveCellView
+    BG_ERROR_COLOR = "bg-red-600"
+
     include CellViewBehaviors
 
     def flagged? = to_model.flagged?
@@ -135,7 +138,7 @@ class GamesController < ApplicationController
       elsif incorrectly_flagged?
         BG_ERROR_COLOR
       else
-        BG_UNREVEALED_COLOR
+        BG_UNREVEALED_CELL_COLOR
       end
     end
   end
