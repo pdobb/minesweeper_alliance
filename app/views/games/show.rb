@@ -55,6 +55,8 @@ class Games::Show
     board.cells_grid.to_a
   end
 
+  # :reek:ModuleInitialize
+
   # Games::Show::CellBehaviors is a view model mix-in for displaying
   # {ActiveCell}s / {InactiveCell}s.
   module CellBehaviors

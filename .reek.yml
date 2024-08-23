@@ -18,6 +18,9 @@ directories:
   app/mailers:
     IrresponsibleModule:
       enabled: false
+  app/views:
+    IrresponsibleModule:
+      enabled: false
   test:
     IrresponsibleModule:
       enabled: false

@@ -32,6 +32,8 @@ class Board < ApplicationRecord
     build_for_custom(game, **defaults_for_given_difficulty_level)
   end
 
+  # :reek:LongParameterList
+
   def self.build_for_custom(game, columns:, rows:, mines:)
     game.build_board(columns:, rows:, mines:).tap { |new_board|
       new_board.__send__(:generate)
