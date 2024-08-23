@@ -1,8 +1,8 @@
 require:
-  - rubocop-performance
   - rubocop-minitest
-  - rubocop-rails
+  - rubocop-performance
   - rubocop-rake
+  - rubocop-rails
 
 inherit_gem:
   gemwork: lib/rubocop/.rubocop-rails.yml
