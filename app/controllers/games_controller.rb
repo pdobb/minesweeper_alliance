@@ -10,9 +10,7 @@ class GamesController < ApplicationController
   end
 
   def index
-    @games =
-      Game.not_for_status_in_progress.by_most_recent.
-        group_by { |game| game.updated_at.to_date }
+    @view = Index.new
   end
 
   def show
@@ -38,17 +36,97 @@ class GamesController < ApplicationController
     end
   end
 
+  # GamesController::GameViewBehaviors
+  module GameViewBehaviors
+    def ended_in_victory? = to_model.ended_in_victory?
+
+    def status_mojis
+      if ended_in_victory?
+        "⛴️⚓️🎉"
+      else # ended_in_defeat?
+        Cell::MINE_ICON
+      end
+    end
+  end
+
+  # GamesController::Index is a view model for displaying the Games Index page.
+  class Index
+    def current_time_zone_description
+      Rails.configuration.time_zone
+    end
+
+    def listings_grouped_by_date
+      GroupListings.(games_grouped_by_date)
+    end
+
+    private
+
+    def games_grouped_by_date
+      games_arel.group_by { |game| game.updated_at.to_date }
+    end
+
+    def games_arel
+      Game.not_for_status_in_progress.by_most_recent
+    end
+
+    # GamesController::Index::GroupListings
+    class GroupListings
+      include CallMethodBehaviors
+
+      attr_reader :hash
+
+      def initialize(hash)
+        @hash = hash
+      end
+
+      def on_call
+        hash.
+          transform_keys! { |date| ListingsDate.new(date) }.
+          transform_values! { |games| Listing.wrap(games) }
+      end
+    end
+
+    # GamesController::Index::ListingsDate
+    class ListingsDate
+      attr_reader :date
+
+      def initialize(date)
+        @date = date
+      end
+
+      def to_s
+        I18n.l(date, format: :weekday_comma_date)
+      end
+    end
+
+    # GamesController::Index::Listing
+    class Listing
+      include WrapBehaviors
+      include ActiveModelWrapperBehaviors
+      include GameViewBehaviors
+
+      def id = to_model.id
+
+      def game_number
+        id.to_s.rjust(4, "0")
+      end
+
+      def game_timestamp
+        I18n.l(to_model.updated_at, format: :time)
+      end
+    end
+  end
+
   # GamesController::GameView is a view model for displaying {Game}s.
   class GameView
     include ViewBehaviors
+    include GameViewBehaviors
 
     def board = to_model.board
     def board_id = board.id
-    def ended_in_victory? = to_model.ended_in_victory?
     def in_progress? = to_model.status_in_progress?
     def over? = to_model.over?
     def status = to_model.status
-    def status_mojis = to_model.status_mojis
 
     def result
       return status if in_progress?

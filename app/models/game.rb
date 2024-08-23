@@ -39,14 +39,6 @@ class Game < ApplicationRecord
     }
   end
 
-  def status_mojis
-    if status_alliance_wins?
-      "⛴️⚓️🎉"
-    elsif status_mines_win?
-      Cell::MINE_ICON
-    end
-  end
-
   def end_in_victory
     set_status_alliance_wins!
   end

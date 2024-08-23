@@ -2,28 +2,23 @@
 
 require "active_support/concern"
 
-# WrapBehaviors is a mix-in for wrapping all objects within a collection.
+# WrapBehaviors is a mix-in of `wrap` methods, for wrapping all objects within
+# the given collection.
 module WrapBehaviors
   extend ActiveSupport::Concern
 
   class_methods do
     # @example
-    #   class Hello
+    #   class Dog
     #     include WrapBehaviors
     #
     #     def initialize(name)
     #       @name = name
     #     end
-    #
-    #     def call
-    #       "Hi, my name is #{@name}!"
-    #     end
     #   end
     #
-    #   Hello.wrap(["Joe", "Bob"]) # =>
-    #     [#<Hello:xxx @name="Joe">, #<Hello:xxx @name="Bob">]
-    #   Hello.wrap(["Joe", "Bob"]).map(&:call) # =>
-    #     ["Hi, my name is Joe!", "Hi, my name is Bob!"]
+    #   Dog.wrap(["Spot", "Max"]) # =>
+    #     [#<Dog @name="Spot">, #<Dog @name="Max">]
     def wrap(objects, *args)
       Array.wrap(objects).map { |object|
         new(object, *args)

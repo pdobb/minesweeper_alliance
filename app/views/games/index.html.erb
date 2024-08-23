@@ -2,28 +2,28 @@
   <h1>Sweep Ops Archives</h1>
   <p>
     NOTE: Mission reports have been transcribed into
-    <strong><%= Rails.configuration.time_zone %></strong>.
+    <strong><%= @view.current_time_zone_description %></strong>.
   </p>
 </div>
 
 <div class="space-y-6">
-  <% @games.each do |date, games| %>
+  <% @view.listings_grouped_by_date.each do |listings_date, listings| %>
     <div class="space-y-3">
-      <h2 class="h3"><%= l(date, format: :weekday_comma_date) %></h2>
+      <h2 class="h3"><%= listings_date %></h2>
       <div
         class="
           grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6
           gap-y-1
         "
       >
-        <% games.each do |game| %>
-          <%= link_to(game_path(game), class: "space-x-1") do %>
+        <% listings.each do |listing| %>
+          <%= link_to(game_path(listing), class: "space-x-1") do %>
             <span class="text-gray-500">
-              #<%= game.id.to_s.rjust(4, "0") %>
+              #<%= listing.game_number %>
             </span>
 
-            <span><%= l(game.updated_at, format: :time) %></span>
-            <span><%= game.status_mojis %></span>
+            <span><%= listing.game_timestamp %></span>
+            <span><%= listing.status_mojis %></span>
           <% end %>
         <% end %>
       </div>

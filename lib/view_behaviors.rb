@@ -5,6 +5,7 @@ require "active_support/concern"
 # :reek:ModuleInitialize
 
 # ViewBehaviors simplifies instantiation of View Models.
+# DEPRECATED in favor of the new {ActiveModelWrapperBehaviors} mix-in.
 module ViewBehaviors
   extend ActiveSupport::Concern
 
