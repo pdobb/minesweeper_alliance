@@ -10,11 +10,17 @@ class GamesController < ApplicationController
   end
 
   def index
-    @view = Index.new
+    @view =
+      Games::Index.new(
+        base_arel: Game.not_for_status_in_progress.by_most_recent)
   end
 
   def show
-    setup_game
+    if (game = Game.find_by(id: params[:id]))
+      @game = GameView.new(game)
+    else
+      redirect_to(action: :index, alert: t("flash.not_found", type: "Game"))
+    end
   end
 
   def new
@@ -26,16 +32,6 @@ class GamesController < ApplicationController
     redirect_to(action: :show, id: current_game)
   end
 
-  private
-
-  def setup_game
-    if (game = Game.find_by(id: params[:id]))
-      @game = GameView.new(game)
-    else
-      redirect_to(action: :index, alert: t("flash.not_found", type: "Game"))
-    end
-  end
-
   # GamesController::GameViewBehaviors
   module GameViewBehaviors
     def ended_in_victory? = to_model.ended_in_victory?
@@ -45,74 +41,6 @@ class GamesController < ApplicationController
         "⛴️⚓️🎉"
       else # ended_in_defeat?
         Cell::MINE_ICON
-      end
-    end
-  end
-
-  # GamesController::Index is a view model for displaying the Games Index page.
-  class Index
-    def current_time_zone_description
-      Rails.configuration.time_zone
-    end
-
-    def listings_grouped_by_date
-      GroupListings.(games_grouped_by_date)
-    end
-
-    private
-
-    def games_grouped_by_date
-      games_arel.group_by { |game| game.updated_at.to_date }
-    end
-
-    def games_arel
-      Game.not_for_status_in_progress.by_most_recent
-    end
-
-    # GamesController::Index::GroupListings
-    class GroupListings
-      include CallMethodBehaviors
-
-      attr_reader :hash
-
-      def initialize(hash)
-        @hash = hash
-      end
-
-      def on_call
-        hash.
-          transform_keys! { |date| ListingsDate.new(date) }.
-          transform_values! { |games| Listing.wrap(games) }
-      end
-    end
-
-    # GamesController::Index::ListingsDate
-    class ListingsDate
-      attr_reader :date
-
-      def initialize(date)
-        @date = date
-      end
-
-      def to_s
-        I18n.l(date, format: :weekday_comma_date)
-      end
-    end
-
-    # GamesController::Index::Listing
-    class Listing
-      include WrapBehaviors
-      include ActiveModelWrapperBehaviors
-      include GameViewBehaviors
-
-      def id = to_model.id
-
-      def game_number
-        id.to_s.rjust(4, "0")
-      end
-
-      def game_timestamp
-        I18n.l(to_model.updated_at, format: :time)
       end
     end
   end
