@@ -6,6 +6,8 @@ class ApplicationRecord < ActiveRecord::Base
 
   include ObjectInspector::InspectorsHelper
 
+  scope :for_id, ->(id) { where(id:) }
+
   # rubocop:disable Rails/OrderById
   scope :by_least_recent, -> { order(:id) }
   scope :by_most_recent, -> { order(id: :desc) }
