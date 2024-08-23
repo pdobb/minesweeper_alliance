@@ -2,7 +2,7 @@
 
 # :reek:ModuleInitialize
 
-# ActiveModelWrapperBehaviors is a mix-in for making View Models quack like the
+# ActiveModelWrapperBehaviors is a mix-in for making View models quack like the
 # ActiveModel objects they wrap.
 #
 # Usage: Including models must either:

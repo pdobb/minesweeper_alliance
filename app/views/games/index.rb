@@ -15,31 +15,15 @@ class Games::Index
   def current_time_zone_description = self.class.current_time_zone_description
 
   def listings_grouped_by_date
-    GroupListings.(games_grouped_by_date)
+    games_grouped_by_date.
+      transform_keys! { |date| ListingsDate.new(date) }.
+      transform_values! { |games| Listing.wrap(games) }
   end
 
   private
 
   def games_grouped_by_date
     base_arel.group_by { |game| game.updated_at.to_date }
-  end
-
-  # Games::Index::GroupListings is a Service Object for combining
-  # {Games::Index::ListingsDate}s with {Games::Index::Listing}s.
-  class GroupListings
-    include CallMethodBehaviors
-
-    attr_reader :hash
-
-    def initialize(hash)
-      @hash = hash
-    end
-
-    def on_call
-      hash.
-        transform_keys! { |date| ListingsDate.new(date) }.
-        transform_values! { |games| Listing.wrap(games) }
-    end
   end
 
   # Games::Index::ListingsDate
@@ -59,16 +43,20 @@ class Games::Index
   class Listing
     include WrapBehaviors
     include ActiveModelWrapperBehaviors
-    include GamesController::GameViewBehaviors
+    include Games::StatusBehaviors
 
-    def id = to_model.id
+    def game_ended_in_victory? = to_model.ended_in_victory?
 
     def game_number
-      id.to_s.rjust(4, "0")
+      game_id.to_s.rjust(4, "0")
     end
 
-    def game_timestamp
+    def game_completed_at
       I18n.l(to_model.updated_at, format: :time)
     end
+
+    private
+
+    def game_id = to_model.id
   end
 end

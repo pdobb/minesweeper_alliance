@@ -1,15 +1,19 @@
-<%# locals: (game:) %>
+<%# locals: (view:) %>
 
-<%= turbo_frame_tag(game.to_model) do %>
+<%= turbo_frame_tag(view.turbo_frame_identifer) do %>
   <div class="grid gap-y-6 justify-center">
-    <% if game.in_progress? %>
-      <% board = game.board %>
+    <% if view.game_in_progress? %>
+      <%
+        # FIXME: Don't expose ActiveRecord objects to view template.
+        game = view.game
+        board = view.board
+      %>
 
       <div class="text-center">
         <%= link_to(
               "Reveal a Random Cell",
               game_board_cell_reveal_path(
-                game, board, board.random_cell_id_for_reveal.to_i),
+                game, board, view.random_cell_id_for_reveal),
               id: "reveal",
               class: "btn-primary",
               data: { turbo_method: :post }) %>
@@ -26,13 +30,13 @@
               class: "hidden",
               data: { turbo_method: :post }) %>
       </div>
-    <% else # game.over? %>
-      <p class="text-center"><%= game.result %></p>
+    <% else # view.game_over? %>
+      <p class="text-center"><%= view.game_result %></p>
     <% end %>
 
     <table class="mx-auto table-fixed select-none">
       <tbody
-        <% if game.in_progress? %>
+        <% if view.game_in_progress? %>
           data-controller="board"
           data-action="
             click->board#reveal
@@ -45,7 +49,7 @@
           *:*:size-8 *:*:min-w-8 *:*:min-h-8
           *:*:border *:*:border-slate-600
           *:*:text-center
-          <% if game.in_progress? %>
+          <% if view.game_in_progress? %>
             data-[revealed=false]:*:*:cursor-cell
             data-[revealed=true]:*:*:cursor-default
           <% else %>
@@ -53,7 +57,7 @@
           <% end %>
         "
       >
-        <% game.board_rows.each do |row| %>
+        <% view.board_rows.each do |row| %>
           <tr>
             <% row.each do |cell| %>
               <td
