@@ -1,16 +1,14 @@
 # frozen_string_literal: true
 
-require "active_support/concern"
-
-# WrapBehaviors is a mix-in of `wrap` methods, for wrapping all objects within
-# the given collection.
-module WrapBehaviors
+# WrapMethodBehaviors is a mix-in of `wrap` methods, for wrapping all objects
+# within the given collection.
+module WrapMethodBehaviors
   extend ActiveSupport::Concern
 
   class_methods do
     # @example
     #   class Dog
-    #     include WrapBehaviors
+    #     include WrapMethodBehaviors
     #
     #     def initialize(name)
     #       @name = name
@@ -19,9 +17,9 @@ module WrapBehaviors
     #
     #   Dog.wrap(["Spot", "Max"]) # =>
     #     [#<Dog @name="Spot">, #<Dog @name="Max">]
-    def wrap(objects, *args)
+    def wrap(objects, *)
       Array.wrap(objects).map { |object|
-        new(object, *args)
+        new(object, *)
       }
     end
   end

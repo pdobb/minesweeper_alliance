@@ -5,12 +5,6 @@
 class Games::Show
   include Games::StatusBehaviors
 
-  # FIXME: Make private.
-  attr_reader :game
-
-  # FIXME: Make private.
-  def board = game.board
-
   def initialize(game:)
     @game = game
   end
@@ -27,8 +21,16 @@ class Games::Show
     "#{game_status} #{game_status_mojis}"
   end
 
-  def random_cell_id_for_reveal
-    board.random_cell_id_for_reveal.to_i
+  def reveal_a_random_cell_url(router = RailsRouter.instance)
+    router.game_board_cell_reveal_path(game, board, random_cell_id_for_reveal)
+  end
+
+  def toggle_flag_url(router = RailsRouter.instance)
+    router.game_board_cell_toggle_flag_path(game, board, 0)
+  end
+
+  def reveal_neighbors_url(router = RailsRouter.instance)
+    router.game_board_cell_reveal_neighbors_path(game, board, 0)
   end
 
   def board_rows
@@ -36,6 +38,14 @@ class Games::Show
   end
 
   private
+
+  attr_reader :game
+
+  def board = game.board
+
+  def random_cell_id_for_reveal
+    board.random_cell_id_for_reveal.to_i
+  end
 
   def build_cell_views(klass)
     cells_grid.map { |row| klass.wrap(row, self) }
@@ -53,27 +63,31 @@ class Games::Show
     BG_UNREVEALED_CELL_COLOR = "bg-slate-400"
 
     include ActiveModelWrapperBehaviors
-    include WrapBehaviors
+    include WrapMethodBehaviors
 
-    attr_reader :view
+    def initialize(model, view)
+      @model = model
+      @view = view
+    end
 
     def id = to_model.id
     def mine? = to_model.mine?
     def revealed? = to_model.revealed?
     def value = to_model.value
 
-    def initialize(object, view)
-      super(object)
-      @view = view
-    end
-
-    def render
-      value&.delete(Cell::BLANK_VALUE)
+    def to_s
+      value&.delete(Cell::BLANK_VALUE).to_s
     end
 
     def css_class
       raise NotImplementedError
     end
+
+    private
+
+    attr_reader :view
+
+    def to_model = @model
   end
 
   # Games::Show::ActiveCell is a view model for displaying Active {Cell}s. i.e.
@@ -105,13 +119,15 @@ class Games::Show
     def incorrectly_flagged? = to_model.incorrectly_flagged?
     def game_ended_in_victory? = view.game_ended_in_victory?
 
-    def render
+    def to_s
       if revealed?
         super
       elsif flagged?
         Cell::FLAG_ICON
       elsif mine?
         game_ended_in_victory? ? Cell::FLAG_ICON : Cell::MINE_ICON
+      else
+        ""
       end
     end
 

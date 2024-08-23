@@ -41,14 +41,22 @@ class Games::Index
 
   # Games::Index::Listing
   class Listing
-    include WrapBehaviors
     include ActiveModelWrapperBehaviors
     include Games::StatusBehaviors
+    include WrapMethodBehaviors
+
+    def initialize(model)
+      @model = model
+    end
 
     def game_ended_in_victory? = to_model.ended_in_victory?
 
     def game_number
       game_id.to_s.rjust(4, "0")
+    end
+
+    def game_url(router = RailsRouter.instance)
+      router.game_path(to_model)
     end
 
     def game_completed_at
@@ -57,6 +65,7 @@ class Games::Index
 
     private
 
+    def to_model = @model
     def game_id = to_model.id
   end
 end

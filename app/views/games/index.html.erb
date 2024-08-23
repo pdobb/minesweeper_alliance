@@ -17,7 +17,7 @@
         "
       >
         <% listings.each do |listing| %>
-          <%= link_to(game_path(listing), class: "space-x-1") do %>
+          <%= link_to(listing.game_url, class: "space-x-1") do %>
             <span class="text-gray-500">
               #<%= listing.game_number %>
             </span>

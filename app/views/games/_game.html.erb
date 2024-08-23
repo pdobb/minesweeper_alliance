@@ -3,32 +3,17 @@
 <%= turbo_frame_tag(view.turbo_frame_identifer) do %>
   <div class="grid gap-y-6 justify-center">
     <% if view.game_in_progress? %>
-      <%
-        # FIXME: Don't expose ActiveRecord objects to view template.
-        game = view.game
-        board = view.board
-      %>
-
       <div class="text-center">
         <%= link_to(
               "Reveal a Random Cell",
-              game_board_cell_reveal_path(
-                game, board, view.random_cell_id_for_reveal),
+              view.reveal_a_random_cell_url,
               id: "reveal",
               class: "btn-primary",
               data: { turbo_method: :post }) %>
-        <%= link_to(
-              "",
-              game_board_cell_toggle_flag_path(game, board, 0),
-              id: "toggleFlag",
-              class: "hidden",
-              data: { turbo_method: :post }) %>
-        <%= link_to(
-              "",
-              game_board_cell_reveal_neighbors_path(game, board, 0),
-              id: "revealNeighbors",
-              class: "hidden",
-              data: { turbo_method: :post }) %>
+        <% with_options(class: "hidden", data: { turbo_method: :post }) do |o| %>
+          <%= o.link_to("", view.toggle_flag_url, id: "toggleFlag") %>
+          <%= o.link_to("", view.reveal_neighbors_url, id: "revealNeighbors") %>
+        <% end %>
       </div>
     <% else # view.game_over? %>
       <p class="text-center"><%= view.game_result %></p>
@@ -65,7 +50,7 @@
                 data-revealed="<%= cell.revealed? %>"
                 class="<%= class_names(cell.css_class) %>"
               >
-                <%= cell.render %>
+                <%= cell %>
               </td>
             <% end %>
           </tr>

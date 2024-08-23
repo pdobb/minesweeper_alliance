@@ -5,15 +5,29 @@
 # ActiveModelWrapperBehaviors is a mix-in for making View models quack like the
 # ActiveModel objects they wrap.
 #
-# Usage: Including models must either:
-# - Set the wrapped object to `@obect` in their initializer, or
-# - Define #to_model
+# Usage: Including models must define #to_model.
+#
+# @example
+#   class Games::Cell
+#     include ActiveModelWrapperBehaviors
+#
+#     def initialize(model)
+#       @model = model
+#     end
+#
+#     private
+#
+#     def to_model = @model
+#   end
+#
+#   Greet.("World") # => "Hello, World!"
 module ActiveModelWrapperBehaviors
-  def initialize(object)
-    @object = object
+  private
+
+  def to_model
+    raise NotImplementedError
   end
 
-  def to_model = @object
   def to_param = to_model.to_param
   def to_partial_path = to_model.to_partial_path
 end
