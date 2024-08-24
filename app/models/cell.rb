@@ -58,6 +58,7 @@ class Cell < ApplicationRecord
 
     update(
       revealed: true,
+      flagged: false,
       value: determine_revealed_value)
 
     if mine?

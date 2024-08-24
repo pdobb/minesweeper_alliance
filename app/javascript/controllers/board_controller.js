@@ -19,7 +19,8 @@ export default class extends Controller {
 
   reveal(event) {
     const $cell = event.target
-    if ($cell.dataset.revealed === "true") return
+    if ($cell.dataset.revealed === "true" || $cell.dataset.flagged === "true")
+      return
 
     this.#submit($cell, this.revealUrlValue)
   }
