@@ -4,31 +4,31 @@
   <div class="grid gap-y-6 justify-center">
     <% if view.game_in_progress? %>
       <div
-        data-controller="board"
+        data-controller="board-actions"
+        data-board-actions-board-id-value="gameBoard"
         class="text-center"
       >
         <%= link_to(
-              "Reveal a Random Cell",
-              view.reveal_random_url,
-              id: "reveal",
+              "Reveal Random",
+              "",
               class: "btn-primary",
               data: {
                 turbo_method: :post,
-                action: "board#revealRandom"
+                action: "board-actions#revealRandom:prevent"
               }) %>
-        <% with_options(class: "hidden", data: { turbo_method: :post }) do |o| %>
-          <%= o.link_to("", view.toggle_flag_url, id: "toggleFlag") %>
-          <%= o.link_to("", view.reveal_neighbors_url, id: "revealNeighbors") %>
-        <% end %>
       </div>
     <% else # view.game_over? %>
       <p class="text-center"><%= view.game_result %></p>
     <% end %>
 
-    <table class="mx-auto table-fixed select-none">
+    <table id="gameBoard" class="mx-auto table-fixed select-none">
       <tbody
         <% if view.game_in_progress? %>
           data-controller="board"
+          data-board-action-proxy-id-value="boardActionProxy"
+          data-board-reveal-url-value="<%= view.reveal_url %>"
+          data-board-toggle-flag-url-value="<%= view.toggle_flag_url %>"
+          data-board-reveal-neighbors-url-value="<%= view.reveal_neighbors_url %>"
           data-action="
             click->board#reveal
             contextmenu->board#toggleFlag:prevent
@@ -54,6 +54,7 @@
               <td
                 data-id="<%= cell.id %>"
                 data-revealed="<%= cell.revealed? %>"
+                data-flagged="<%= cell.flagged? %>"
                 class="<%= class_names(cell.css_class) %>"
               >
                 <%= cell %>
@@ -64,4 +65,11 @@
       </tbody>
     </table>
   </div>
+
+  <%= link_to(
+        nil,
+        "",
+        id: "boardActionProxy",
+        class: "hidden",
+        data: { turbo_method: :post }) %>
 <% end %>

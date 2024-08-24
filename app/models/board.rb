@@ -52,10 +52,6 @@ class Board < ApplicationRecord
     cells.for_id(random_cell_id_for_reveal).take.reveal
   end
 
-  def random_cell_id_for_reveal
-    cells.is_not_revealed.is_not_flagged.by_random.pick(:id)
-  end
-
   def check_for_victory
     game.end_in_victory if all_safe_cells_have_been_revealed?
     self
@@ -134,5 +130,9 @@ class Board < ApplicationRecord
 
   def rows_range
     0..rows
+  end
+
+  def random_cell_id_for_reveal
+    cells.is_not_revealed.is_not_flagged.by_random.pick(:id)
   end
 end

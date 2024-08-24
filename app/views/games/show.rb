@@ -13,8 +13,8 @@ class Games::Show
 
   def turbo_stream_identifier = board
   def turbo_frame_identifer = game
-  def game_in_progress? = game.status_in_progress?
   def game_status = game.status
+  def game_in_progress? = game.status_in_progress?
   def game_ended_in_victory? = game.ended_in_victory?
 
   def game_result
@@ -23,8 +23,8 @@ class Games::Show
     "#{game_status} #{game_status_mojis}"
   end
 
-  def reveal_random_url(router = RailsRouter.instance)
-    router.game_board_cell_reveal_path(game, board, random_cell_id_for_reveal)
+  def reveal_url(router = RailsRouter.instance)
+    router.game_board_cell_reveal_path(game, board, NULL_CELL_ID)
   end
 
   def toggle_flag_url(router = RailsRouter.instance)
@@ -44,7 +44,6 @@ class Games::Show
   attr_reader :game
 
   def board = game.board
-  def random_cell_id_for_reveal = board.random_cell_id_for_reveal.to_i
 
   def build_cell_views(klass)
     cells_grid.map { |row| klass.wrap(row, self) }
@@ -74,6 +73,7 @@ class Games::Show
     def id = to_model.id
     def mine? = to_model.mine?
     def revealed? = to_model.revealed?
+    def flagged? = to_model.flagged?
     def value = to_model.value
 
     def to_s
@@ -116,7 +116,6 @@ class Games::Show
 
     include CellBehaviors
 
-    def flagged? = to_model.flagged?
     def incorrectly_flagged? = to_model.incorrectly_flagged?
     def game_ended_in_victory? = view.game_ended_in_victory?
 
