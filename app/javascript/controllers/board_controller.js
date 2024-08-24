@@ -9,36 +9,55 @@ import { Controller } from "@hotwired/stimulus"
 // For Revealed Cells
 //  - Double Click - Reveal Neighbors
 export default class extends Controller {
-  reveal(event) {
-    let $el = event.target
-    if ($el.dataset.revealed === "true") return
+  static cellIdRegex = /cells\/(\d+)\//
 
-    this.#submit($el, "reveal")
+  reveal(event) {
+    const $cell = event.target
+    if ($cell.dataset.revealed === "true") return
+
+    this.#submit($cell, "reveal")
   }
 
   toggleFlag(event) {
-    let $el = event.target
-    if ($el.dataset.revealed === "true") return
+    const $cell = event.target
+    if ($cell.dataset.revealed === "true") return
 
-    this.#submit($el, "toggleFlag")
+    this.#submit($cell, "toggleFlag")
   }
 
   revealNeighbors(event) {
-    let $el = event.target
-    if ($el.dataset.revealed === "false") return
+    const $cell = event.target
+    if ($cell.dataset.revealed === "false") return
 
-    this.#submit($el, "revealNeighbors")
+    this.#submit($cell, "revealNeighbors")
   }
 
-  #submit($el, linkId) {
-    $el.classList.add("animate-pulse")
+  // This event comes from clicking the "Reveal a Random Cell" button, and not
+  // from clicking on a Cell itself. But we still want to show the same "Cell
+  // loading" indicator, in case of a pop.
+  revealRandom(event) {
+    const $button = event.target
+    const cellId = $button.href.match(this.constructor.cellIdRegex)?.[1]
+    const $cell = document.querySelector(`td[data-id="${cellId}"]`)
+    this.#showLoadingIndicator($cell)
+  }
 
-    let $link = document.getElementById(linkId)
-    let cellId = $el.dataset.id
+  #submit($cell, linkId) {
+    this.#showLoadingIndicator($cell)
+
+    const $link = document.getElementById(linkId)
+    const cellId = $cell.dataset.id
 
     // /boards/<boardId>/cells/<cellId>/reveal
-    $link.href = $link.href.replace(/cells\/(\d+)\//, `cells/${cellId}/`)
+    $link.href = $link.href.replace(
+      this.constructor.cellIdRegex,
+      `cells/${cellId}/`,
+    )
 
     $link.click()
+  }
+
+  #showLoadingIndicator($cell) {
+    $cell.classList.add("animate-pulse")
   }
 }

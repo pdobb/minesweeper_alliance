@@ -3,6 +3,8 @@
 # Games::Show is a view model for displaying the Games Show page (which is
 # largely rendered by the app/views/games/_game.html.erb partial).
 class Games::Show
+  NULL_CELL_ID = 0
+
   include Games::StatusBehaviors
 
   def initialize(game:)
@@ -21,16 +23,16 @@ class Games::Show
     "#{game_status} #{game_status_mojis}"
   end
 
-  def reveal_a_random_cell_url(router = RailsRouter.instance)
+  def reveal_random_url(router = RailsRouter.instance)
     router.game_board_cell_reveal_path(game, board, random_cell_id_for_reveal)
   end
 
   def toggle_flag_url(router = RailsRouter.instance)
-    router.game_board_cell_toggle_flag_path(game, board, 0)
+    router.game_board_cell_toggle_flag_path(game, board, NULL_CELL_ID)
   end
 
   def reveal_neighbors_url(router = RailsRouter.instance)
-    router.game_board_cell_reveal_neighbors_path(game, board, 0)
+    router.game_board_cell_reveal_neighbors_path(game, board, NULL_CELL_ID)
   end
 
   def board_rows
@@ -42,10 +44,7 @@ class Games::Show
   attr_reader :game
 
   def board = game.board
-
-  def random_cell_id_for_reveal
-    board.random_cell_id_for_reveal.to_i
-  end
+  def random_cell_id_for_reveal = board.random_cell_id_for_reveal.to_i
 
   def build_cell_views(klass)
     cells_grid.map { |row| klass.wrap(row, self) }

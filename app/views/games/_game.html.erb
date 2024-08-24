@@ -3,13 +3,19 @@
 <%= turbo_frame_tag(view.turbo_frame_identifer) do %>
   <div class="grid gap-y-6 justify-center">
     <% if view.game_in_progress? %>
-      <div class="text-center">
+      <div
+        data-controller="board"
+        class="text-center"
+      >
         <%= link_to(
               "Reveal a Random Cell",
-              view.reveal_a_random_cell_url,
+              view.reveal_random_url,
               id: "reveal",
               class: "btn-primary",
-              data: { turbo_method: :post }) %>
+              data: {
+                turbo_method: :post,
+                action: "board#revealRandom"
+              }) %>
         <% with_options(class: "hidden", data: { turbo_method: :post }) do |o| %>
           <%= o.link_to("", view.toggle_flag_url, id: "toggleFlag") %>
           <%= o.link_to("", view.reveal_neighbors_url, id: "revealNeighbors") %>
