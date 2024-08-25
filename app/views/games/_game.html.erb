@@ -1,26 +1,44 @@
 <%# locals: (view:) %>
 
 <%= turbo_frame_tag(view.turbo_frame_identifer) do %>
-  <div class="grid gap-y-6 justify-center">
+  <div
+    class="
+      mb-6 min-h-12
+      grid grid-cols-3 items-center
+    "
+  >
+    <div class="text-lg text-left sm:text-center lg:text-right">
+      <%# TODO: Timer %>
+    </div>
+
     <% if view.game_in_progress? %>
       <div
         data-controller="board-actions"
         data-board-actions-board-id-value="gameBoard"
         class="text-center"
       >
-        <%= link_to(
+        <%= button_to(
               "Reveal Random",
-              "",
+              nil,
               class: "btn-primary",
-              data: {
-                turbo_method: :post,
-                action: "board-actions#revealRandom:prevent"
-              }) %>
+              data: { action: "board-actions#revealRandom:prevent" }) %>
       </div>
     <% else # view.game_over? %>
-      <p class="text-center"><%= view.game_result %></p>
+      <h2 class="text-center whitespace-nowrap">
+        <%= view.game_result %>
+      </h2>
     <% end %>
 
+    <div
+      class="text-lg text-right sm:text-center lg:text-left"
+      title="Unmarked Mines Remaining"
+    >
+      <%= view.unmarked_mines_remaining %>
+      <%= view.flag_icon %>
+    </div>
+  </div>
+
+  <div class="grid gap-y-3 justify-center">
     <table
       id="gameBoard"
       class="mx-auto table-fixed select-none"
@@ -70,8 +88,8 @@
 
     <ul class="flex justify-end items-center gap-x-6 text-gray-500">
       <li><%= view.difficulty_level_name %></li>
-      <li><%= Cell::CELL_ICON %> <%= view.board_dimensions %></li>
-      <li><%= Cell::MINE_ICON %> x<%= view.mines_count %></li>
+      <li><%= view.cell_icon %> <%= view.board_dimensions %></li>
+      <li><%= view.mine_icon %> x<%= view.mines_count %></li>
     </ul>
   </div>
 

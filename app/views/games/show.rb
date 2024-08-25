@@ -39,6 +39,10 @@ class Games::Show
     build_cell_views(game_in_progress? ? ActiveCell : InactiveCell)
   end
 
+  def unmarked_mines_remaining
+    @unmarked_mines_remaining ||= mines_count - flags_count
+  end
+
   def difficulty_level_name
     difficulty_level.name
   end
@@ -51,12 +55,17 @@ class Games::Show
     difficulty_level.mines
   end
 
+  def flag_icon = Cell::FLAG_ICON
+  def mine_icon = Cell::MINE_ICON
+  def cell_icon = Cell::CELL_ICON
+
   private
 
   attr_reader :game
 
   def board = game.board
   def difficulty_level = game.difficulty_level
+  def flags_count = board.flags_count
 
   def build_cell_views(klass)
     cells_grid.map { |row| klass.wrap(row, self) }
