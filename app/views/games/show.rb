@@ -55,9 +55,9 @@ class Games::Show
     difficulty_level.mines
   end
 
-  def flag_icon = Cell::FLAG_ICON
-  def mine_icon = Cell::MINE_ICON
-  def cell_icon = Cell::CELL_ICON
+  def flag_icon = Icon.flag
+  def mine_icon = Icon.mine
+  def cell_icon = Icon.cell
 
   private
 
@@ -145,9 +145,9 @@ class Games::Show
       if revealed?
         super
       elsif flagged?
-        Cell::FLAG_ICON
+        Icon.flag
       elsif mine?
-        game_ended_in_victory? ? Cell::FLAG_ICON : Cell::MINE_ICON
+        game_ended_in_victory? ? Icon.flag : Icon.mine
       else
         ""
       end

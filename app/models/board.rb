@@ -62,8 +62,6 @@ class Board < ApplicationRecord
   def revealed_cells_count = cells.is_revealed.size
   def flags_count = cells.is_flagged.size
 
-  def display_grid_size = "#{columns} x #{rows}"
-
   def cells_grid
     Grid.new(cells.by_least_recent)
   end
@@ -89,13 +87,14 @@ class Board < ApplicationRecord
 
   def inspect_info(scope:)
     scope.join_info([
-      "#{display_grid_size} Grid",
-      "#{Cell::CELL_ICON} #{cells_count}",
-      "#{Cell::MINE_ICON} #{mines_count}",
-      "#{Cell::REVEALED_CELL_ICON} #{revealed_cells_count}",
-      "#{Cell::FLAG_ICON} #{flags_count}",
+      "#{Icon.cell} #{cells_count} (#{display_grid_size})",
+      "#{Icon.revealed_cell} #{revealed_cells_count}",
+      "#{Icon.mine} #{mines_count}",
+      "#{Icon.flag} #{flags_count}",
     ])
   end
+
+  def display_grid_size = "#{columns}x#{rows}"
 
   # :reek:UncommunicativeVariableName
   def generate

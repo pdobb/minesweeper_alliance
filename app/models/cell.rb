@@ -12,11 +12,6 @@
 # - If a mine is revealed, the {Game} ends in victory for the mines!
 # - If all safe Cells are revealed, the {Game} ends in victory for the alliance!
 class Cell < ApplicationRecord
-  CELL_ICON = "◻️"
-  REVEALED_CELL_ICON = "☑️"
-  MINE_ICON = "💣"
-  FLAG_ICON = "🚩"
-
   BLANK_VALUE = "0"
 
   belongs_to :board, touch: true
@@ -44,7 +39,7 @@ class Cell < ApplicationRecord
   end
 
   def value
-    super || (FLAG_ICON if flagged?)
+    super || (Icon.flag if flagged?)
   end
 
   def toggle_flag
@@ -121,9 +116,9 @@ class Cell < ApplicationRecord
 
   def inspect_flags(scope:)
     scope.join_flags([
-      (revealed? ? REVEALED_CELL_ICON : CELL_ICON),
-      (FLAG_ICON if flagged?),
-      (MINE_ICON if mine?),
+      (revealed? ? Icon.revealed_cell : Icon.cell),
+      (Icon.flag if flagged?),
+      (Icon.mine if mine?),
     ])
   end
 
@@ -139,9 +134,9 @@ class Cell < ApplicationRecord
     if revealed?
       "#{value} "
     elsif flagged?
-      FLAG_ICON
+      Icon.flag
     else
-      CELL_ICON
+      Icon.cell
     end
   end
 
@@ -150,6 +145,6 @@ class Cell < ApplicationRecord
   end
 
   def determine_revealed_value
-    mine? ? MINE_ICON : neighboring_mines_count
+    mine? ? Icon.mine : neighboring_mines_count
   end
 end
