@@ -13,7 +13,6 @@ class Games::Show
 
   def turbo_stream_identifier = board
   def turbo_frame_identifer = game
-  def difficulty_level = game.difficulty_level
   def game_status = game.status
   def game_in_progress? = game.status_in_progress?
   def game_ended_in_victory? = game.ended_in_victory?
@@ -40,11 +39,24 @@ class Games::Show
     build_cell_views(game_in_progress? ? ActiveCell : InactiveCell)
   end
 
+  def difficulty_level_name
+    difficulty_level.name
+  end
+
+  def board_dimensions
+    difficulty_level.dimensions
+  end
+
+  def mines_count
+    difficulty_level.mines
+  end
+
   private
 
   attr_reader :game
 
   def board = game.board
+  def difficulty_level = game.difficulty_level
 
   def build_cell_views(klass)
     cells_grid.map { |row| klass.wrap(row, self) }

@@ -21,7 +21,10 @@
       <p class="text-center"><%= view.game_result %></p>
     <% end %>
 
-    <table id="gameBoard" class="mx-auto table-fixed select-none">
+    <table
+      id="gameBoard"
+      class="mx-auto table-fixed select-none"
+    >
       <tbody
         <% if view.game_in_progress? %>
           data-controller="board"
@@ -63,14 +66,13 @@
           </tr>
         <% end %>
       </tbody>
-      <tfoot>
-        <tr>
-          <td colspan="100%" class="text-right py-3">
-            <%= view.difficulty_level %> Difficulty
-          </td>
-        </tr>
-      </tfoot>
     </table>
+
+    <ul class="flex justify-end items-center gap-x-6 text-gray-500">
+      <li><%= view.difficulty_level_name %></li>
+      <li><%= Cell::CELL_ICON %> <%= view.board_dimensions %></li>
+      <li><%= Cell::MINE_ICON %> x<%= view.mines_count %></li>
+    </ul>
   </div>
 
   <%= link_to(

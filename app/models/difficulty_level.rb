@@ -54,6 +54,14 @@ class DifficultyLevel
     name[0]
   end
 
+  def dimensions
+    "#{columns}x#{rows}"
+  end
+
+  def columns = settings.fetch(:columns)
+  def rows = settings.fetch(:rows)
+  def mines = settings.fetch(:mines)
+
   def settings
     SETTINGS_MAP.fetch(name)
   end
