@@ -21,6 +21,10 @@ directories:
   app/views:
     IrresponsibleModule:
       enabled: false
+    TooManyMethods:
+      enabled: false
+    UtilityFunction:
+      enabled: false
   test:
     IrresponsibleModule:
       enabled: false
