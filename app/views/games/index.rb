@@ -14,6 +14,10 @@ class Games::Index
 
   def current_time_zone_description = self.class.current_time_zone_description
 
+  def difficulty_levels
+    DifficultyLevel.wrap(::DifficultyLevel.all)
+  end
+
   def listings_grouped_by_date
     games_grouped_by_date.
       transform_keys! { |date| ListingsDate.new(date) }.
@@ -24,6 +28,14 @@ class Games::Index
 
   def games_grouped_by_date
     base_arel.group_by { |game| game.updated_at.to_date }
+  end
+
+  # Games::Index::DifficultyLevel wraps {::DifficultyLevel#name}s, for display
+  # of an "Initials" = "Name" map/legend.
+  class DifficultyLevel
+    include Games::DifficultyLevelBehaviors
+
+    def initials = to_model.initials
   end
 
   # Games::Index::ListingsDate

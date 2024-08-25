@@ -19,6 +19,10 @@ class DifficultyLevel
 
   attr_reader :name
 
+  def self.all
+    names.map { |name| new(name) }
+  end
+
   def self.names
     SETTINGS_MAP.keys
   end
