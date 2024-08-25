@@ -17,10 +17,12 @@ class Games::Show
   def game_in_progress? = game.status_in_progress?
   def game_ended_in_victory? = game.ended_in_victory?
 
-  def game_result
-    return game_status if game_in_progress?
-
-    "#{game_status} #{game_status_mojis}"
+  def status
+    if game_in_progress?
+      "#{game_status} #{Icon.ship}"
+    else
+      "#{game_status} #{game_status_mojis}"
+    end
   end
 
   def reveal_url(router = RailsRouter.instance)
