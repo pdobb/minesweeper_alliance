@@ -33,9 +33,12 @@ class Game < ApplicationRecord
     new_game
   end
 
-  def self.build_for(difficulty_level)
+  # @attr difficulty_level [DifficultyLevel, String, #to_difficulty_level]
+  def self.build_for(difficulty_level:)
+    difficulty_level = Conversions.DifficultyLevel(difficulty_level)
+
     new(difficulty_level:).tap { |new_game|
-      Board.build_for(new_game, difficulty_level:)
+      Board.build_for(game: new_game, difficulty_level:)
     }
   end
 
