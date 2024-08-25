@@ -20,6 +20,9 @@
           <%= link_to(listing.game_url, class: "space-x-1") do %>
             <span class="text-gray-500">
               #<%= listing.game_number %>
+              <abbr
+                title="<%= listing.difficulty_level_name %>"
+              ><%= listing.difficulty_level_indicator %></abbr>
             </span>
 
             <span><%= listing.game_completed_at %></span>

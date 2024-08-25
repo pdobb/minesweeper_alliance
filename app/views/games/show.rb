@@ -13,6 +13,7 @@ class Games::Show
 
   def turbo_stream_identifier = board
   def turbo_frame_identifer = game
+  def difficulty_level = game.difficulty_level
   def game_status = game.status
   def game_in_progress? = game.status_in_progress?
   def game_ended_in_victory? = game.ended_in_victory?

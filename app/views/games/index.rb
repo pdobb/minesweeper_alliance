@@ -55,6 +55,14 @@ class Games::Index
       game_id.to_s.rjust(4, "0")
     end
 
+    def difficulty_level_name
+      difficulty_level.name
+    end
+
+    def difficulty_level_indicator
+      difficulty_level.initials
+    end
+
     def game_url(router = RailsRouter.instance)
       router.game_path(to_model)
     end
@@ -67,5 +75,6 @@ class Games::Index
 
     def to_model = @model
     def game_id = to_model.id
+    def difficulty_level = to_model.difficulty_level
   end
 end

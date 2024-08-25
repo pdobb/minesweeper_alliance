@@ -9,27 +9,15 @@ class Board < ApplicationRecord
   # Board::Error represents any StandardError related to Board processing.
   Error = Class.new(StandardError)
 
-  DIFFICULTY_LEVELS_MAP = {
-    test: { columns: 3, rows: 3, mines: 1 },
-    beginner: { columns: 9, rows: 9, mines: 10 },
-    intermediate: { columns: 16, rows: 16, mines: 40 },
-    expert: { columns: 30, rows: 16, mines: 99 },
-  }.tap { |hash| hash.except!(:test) if Rails.env.production? }.freeze
-
   after_update_commit -> { broadcast_refresh }
 
   belongs_to :game
   has_many :cells, dependent: :delete_all
 
-  def self.difficulty_levels
-    DIFFICULTY_LEVELS_MAP.keys
-  end
-
   def self.build_for(game, difficulty_level:)
-    defaults_for_given_difficulty_level =
-      DIFFICULTY_LEVELS_MAP.fetch(difficulty_level.to_sym)
+    settings = DifficultyLevel.new(difficulty_level).settings
 
-    build_for_custom(game, **defaults_for_given_difficulty_level)
+    build_for_custom(game, **settings)
   end
 
   # :reek:LongParameterList

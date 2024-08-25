@@ -9,6 +9,8 @@ class CreateGames < ActiveRecord::Migration[7.1]
         unique: true,
         where: "status = '#{Game.status_in_progress}'")
 
+      t.string(:difficulty_level, null: false)
+
       t.timestamps
     end
   end

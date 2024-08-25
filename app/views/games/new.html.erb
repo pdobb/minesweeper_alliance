@@ -4,11 +4,11 @@
   <h2 class="h3">Do you have what it takes?</h2>
 
   <ul class="flex items-center gap-x-6">
-    <% Board.difficulty_levels.each do |symbol| %>
+    <% @view.difficulty_levels.each do |difficulty_level| %>
       <li>
         <%= button_to(
-              symbol.to_s.capitalize,
-              games_path(difficulty_level: symbol),
+              difficulty_level.name,
+              difficulty_level.new_game_url,
               class: "btn-primary") %>
       </li>
     <% end %>

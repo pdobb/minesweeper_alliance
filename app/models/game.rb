@@ -34,9 +34,13 @@ class Game < ApplicationRecord
   end
 
   def self.build_for(difficulty_level)
-    new.tap { |new_game|
+    new(difficulty_level:).tap { |new_game|
       Board.build_for(new_game, difficulty_level:)
     }
+  end
+
+  def difficulty_level
+    DifficultyLevel.new(super)
   end
 
   def end_in_victory

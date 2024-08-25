@@ -24,6 +24,7 @@ class GamesController < ApplicationController
   end
 
   def new
+    @view = Games::New.new
   end
 
   def create
