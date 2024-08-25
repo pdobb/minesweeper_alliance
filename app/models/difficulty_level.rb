@@ -27,6 +27,10 @@ class DifficultyLevel
     SETTINGS_MAP.keys
   end
 
+  def self.build_random
+    new(names.sample)
+  end
+
   def self.valid_name?(value)
     names.include?(value)
   end

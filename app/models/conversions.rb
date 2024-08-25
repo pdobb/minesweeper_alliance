@@ -12,6 +12,8 @@ module Conversions
       value
     when ->(val) { val.respond_to?(:to_difficulty_level) }
       value.to_difficulty_level
+    when RandomDifficultyLevel::NAME
+      DifficultyLevel.build_random
     else
       DifficultyLevel.new(value)
     end

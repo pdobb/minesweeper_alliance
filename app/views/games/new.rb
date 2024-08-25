@@ -3,7 +3,8 @@
 # Games::New is a view model for displaying the Games New page.
 class Games::New
   def difficulty_levels
-    DifficultyLevel.wrap(::DifficultyLevel.all)
+    DifficultyLevel.wrap(
+      ::DifficultyLevel.all.including(::RandomDifficultyLevel.new))
   end
 
   # Games::New::DifficultyLevel wraps {::DifficultyLevel#name}s, for display

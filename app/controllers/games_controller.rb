@@ -30,7 +30,8 @@ class GamesController < ApplicationController
   def create
     current_game =
       Game.find_or_create_current(
-        difficulty_level: params[:difficulty_level])
+        difficulty_level:
+          Conversions.DifficultyLevel(params[:difficulty_level]))
 
     redirect_to(action: :show, id: current_game)
   end
