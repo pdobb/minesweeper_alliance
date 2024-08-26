@@ -37,9 +37,12 @@ en:
   time:
     formats:
       default: "%d %^b %y %H%M %Z" # 22 AUG 24 1516 -05:00
-      debug: "%m/%d/%Y %l:%M:%S %p %Z" # 08/22/2024  3:16:46 PM -05:00
+      debug: "%m/%d/%Y %l:%M:%S %p %Z" # 08/22/2024 3:16:46 PM -05:00
       date: "%d %^b %y" # 22 AUG 24
-      time: "%H:%M" # 01:23
+      time: "%H:%M" # 01:02
+      hours_minutes_seconds: "%H:%M:%S" # 01:02:03
+      minutes_seconds: "%M:%S" # 02:03
+      seconds: "%S" # 03
       zone: "%Z" # CDT
 
   flash:
