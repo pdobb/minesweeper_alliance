@@ -62,6 +62,11 @@ class Game < ApplicationRecord
     not_status_in_progress?
   end
 
+  def activity_interval
+    # TODO: Use Start/Stop Transactions for this instead, if/when available.
+    created_at..(updated_at unless status_in_progress?)
+  end
+
   private
 
   def inspect_identification

@@ -4,7 +4,7 @@
 # a given value to a desired (custom) type. Much the same as Ruby's Array,
 # String, Integer, etc classes all have like-named Conversion Functions.
 module Conversions
-  # :reek:UncommunicateMethodName
+  # :reek:UncommunicativeMethodName
 
   def self.DifficultyLevel(value) # rubocop:disable Naming/MethodName
     case value

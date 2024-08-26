@@ -41,6 +41,10 @@ class Games::Show
     build_cell_views(game_in_progress? ? ActiveCell : InactiveCell)
   end
 
+  def elapsed_time
+    @elapsed_time ||= ElapsedTime.new(game_activity_interval)
+  end
+
   def unmarked_mines_remaining
     @unmarked_mines_remaining ||= mines_count - flags_count
   end
@@ -68,6 +72,7 @@ class Games::Show
   def board = game.board
   def difficulty_level = game.difficulty_level
   def flags_count = board.flags_count
+  def game_activity_interval = game.activity_interval
 
   def build_cell_views(klass)
     cells_grid.map { |row| klass.wrap(row, self) }
@@ -75,6 +80,49 @@ class Games::Show
 
   def cells_grid
     board.cells_grid.to_a
+  end
+
+  # Games::Show::ElapsedTime is a View Model wrapper around {::ElapsedTime},
+  # for displaying elapsed time details in the view template.
+  class ElapsedTime
+    MAX_TIME_STRING = "23:59:59+"
+
+    attr_reader :elapsed_time
+
+    def initialize(time_range)
+      @elapsed_time = ::ElapsedTime.new(time_range)
+    end
+
+    # "Total Seconds"
+    def to_i
+      @to_i ||= elapsed_time.to_i
+    end
+
+    def to_s
+      if over_one_day?
+        MAX_TIME_STRING
+      else
+        I18n.l(time, format: determine_format)
+      end
+    end
+
+    private
+
+    def time
+      @time ||= elapsed_time.to_time
+    end
+
+    def over_one_day? = elapsed_time.over_one_day?
+
+    def determine_format
+      if time.hour.positive?
+        :hours_minutes_seconds
+      elsif time.min.positive?
+        :minutes_seconds
+      else
+        :seconds
+      end
+    end
   end
 
   # :reek:ModuleInitialize

@@ -9,9 +9,17 @@
         <tr>
           <td colspan="100%" class="pb-3">
             <div class="text-lg flex justify-between">
-              <div>
-                <%# TODO: Timer %>
+              <div
+                <% if view.game_in_progress? %>
+                  data-controller="elapsed-time"
+                  data-elapsed-time-start-value="<%= view.elapsed_time.to_i %>"
+                <% end %>
+              >
+                <span data-elapsed-time-target="elapsedTime">
+                  <%= view.elapsed_time %>
+                </span>
               </div>
+
               <div title="Unmarked Mines Remaining">
                 <%= view.unmarked_mines_remaining %>
                 <%= view.flag_icon %>
