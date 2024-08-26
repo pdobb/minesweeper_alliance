@@ -15,7 +15,9 @@ class DifficultyLevel
     "Beginner" => { columns: 9, rows: 9, mines: 10 },
     "Intermediate" => { columns: 16, rows: 16, mines: 40 },
     "Expert" => { columns: 30, rows: 16, mines: 99 },
-  }.tap { |hash| hash.except!(:test) if Rails.env.production? }.freeze
+  }.tap { |hash|
+    hash.except!("Test") if Rails.env.production?
+  }.freeze
 
   attr_reader :name
 
