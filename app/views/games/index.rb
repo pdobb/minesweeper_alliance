@@ -18,6 +18,10 @@ class Games::Index
     DifficultyLevel.wrap(::DifficultyLevel.all)
   end
 
+  def any_listings?
+    base_arel.any?
+  end
+
   def listings_grouped_by_date
     games_grouped_by_ended_at.
       transform_keys! { |date| ListingsDate.new(date) }.

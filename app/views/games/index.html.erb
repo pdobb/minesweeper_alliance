@@ -15,41 +15,42 @@
 </ul>
 
 <div class="mt-6 space-y-6">
-  <% @view.listings_grouped_by_date.each do |listings_date, listings| %>
-    <div class="space-y-3">
-      <h2 class="h3"><%= listings_date %></h2>
-      <div
-        class="
-          grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 3xl:grid-cols-6
-          gap-y-1
-        "
-        data-turbo-prefetch="false"
-      >
-        <% listings.each do |listing| %>
-          <%= link_to(listing.game_url, class: "space-x-1") do %>
-            <span class="text-gray-500">
-              #<%= listing.game_number %>
-              <abbr
-                title="<%= listing.difficulty_level_name %>"
-              ><%= listing.difficulty_level_indicator %></abbr>
-            </span>
+  <% if @view.any_listings? %>
+    <% @view.listings_grouped_by_date.each do |listings_date, listings| %>
+      <div class="space-y-3">
+        <h2 class="h3"><%= listings_date %></h2>
+        <div
+          class="
+            grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 3xl:grid-cols-6
+            gap-y-1
+          "
+          data-turbo-prefetch="false"
+        >
+          <% listings.each do |listing| %>
+            <%= link_to(listing.game_url, class: "space-x-1") do %>
+              <span class="text-gray-500">
+                #<%= listing.game_number %>
+                <abbr
+                  title="<%= listing.difficulty_level_name %>"
+                ><%= listing.difficulty_level_indicator %></abbr>
+              </span>
 
-            <span><%= listing.game_engagement_time_range(self) %></span>
-            <span><%= listing.game_status_mojis %></span>
+              <span><%= listing.game_engagement_time_range(self) %></span>
+              <span><%= listing.game_status_mojis %></span>
+            <% end %>
           <% end %>
-        <% end %>
+        </div>
       </div>
+    <% end %>
+  <% else %>
+    <div
+      class="
+        mt-12 p-12
+        text-center italic text-slate-800
+        border border-dashed border-slate-500
+      "
+    >
+      No engagements have yet been recorded.
     </div>
   <% end %>
-
-  <div
-    class="
-      hidden only-of-type:block
-      mt-12 p-12
-      text-center italic text-slate-800
-      border border-dashed border-slate-500
-    "
-  >
-    No engagements have yet been recorded.
-  </div>
 </div>
