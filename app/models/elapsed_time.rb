@@ -13,9 +13,9 @@ class ElapsedTime
   attr_reader :start_time,
               :end_time
 
-  def initialize(time_range)
-    @start_time = time_range.begin
-    @end_time = time_range.end || Time.current
+  def initialize(time_range, now: Time.current)
+    @start_time = time_range.begin || now
+    @end_time = time_range.end || now
   end
 
   # @return [ElapsedTime::Timestamp]

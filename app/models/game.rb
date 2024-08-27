@@ -51,11 +51,20 @@ class Game < ApplicationRecord
     return self unless status_standing_by?
 
     transaction do
+      touch(:started_at)
       board.place_mines(seed_cell:)
       set_status_sweep_in_progress!
     end
 
     self
+  end
+
+  def end_in_victory
+    end_game { set_status_alliance_wins! }
+  end
+
+  def end_in_defeat
+    end_game { set_status_mines_win! }
   end
 
   def on?
@@ -66,20 +75,12 @@ class Game < ApplicationRecord
     !on?
   end
 
-  def end_in_victory
-    set_status_alliance_wins!
-  end
-
-  def end_in_defeat
-    set_status_mines_win!
-  end
-
   def ended_in_victory? = status_alliance_wins?
   def ended_in_defeat? = status_mines_win?
 
   def engagement_time_range
     # TODO: Use Start/Stop Transactions for this instead, if/when available.
-    created_at..(updated_at if over?)
+    started_at..(ended_at if over?)
   end
 
   private
@@ -90,5 +91,16 @@ class Game < ApplicationRecord
 
   def inspect_flags
     status
+  end
+
+  def inspect_info
+    engagement_time_range
+  end
+
+  def end_game
+    transaction do
+      touch(:ended_at)
+      yield
+    end
   end
 end

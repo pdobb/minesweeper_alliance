@@ -10,7 +10,7 @@
           <td colspan="100%" class="pb-3">
             <div class="text-lg flex justify-between">
               <div
-                <% if view.game_on? %>
+                <% if view.game_in_progress? %>
                   data-controller="elapsed-time"
                   data-elapsed-time-start-value="<%= view.elapsed_time.to_i %>"
                 <% end %>
