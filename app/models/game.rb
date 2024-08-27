@@ -31,11 +31,7 @@ class Game < ApplicationRecord
   end
 
   def self.create_for(...)
-    new_game = build_for(...).tap(&:save!)
-
-    # FIXME: Move elsewhere.
-    new_game.start
-    new_game
+    build_for(...).tap(&:save!)
   end
 
   # @attr difficulty_level [DifficultyLevel, String, #to_difficulty_level]
@@ -51,12 +47,12 @@ class Game < ApplicationRecord
     DifficultyLevel.new(super)
   end
 
-  def start
+  def start(seed_cell:)
     return self unless status_standing_by?
 
     transaction do
+      board.place_mines(seed_cell:)
       set_status_sweep_in_progress!
-      board.place_mines
     end
 
     self

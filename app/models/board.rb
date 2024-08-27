@@ -29,10 +29,10 @@ class Board < ApplicationRecord
       tap { |new_board| new_board.__send__(:generate) }
   end
 
-  def place_mines
+  def place_mines(seed_cell:)
     raise(Error, "mines have already been placed") if any_mines?
 
-    cells.limit(mines).by_random.update_all(mine: true)
+    cells.not_for_id(seed_cell).by_random.limit(mines).update_all(mine: true)
 
     self
   end

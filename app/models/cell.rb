@@ -48,8 +48,10 @@ class Cell < ApplicationRecord
     self
   end
 
-  def reveal
+  def reveal(game: nil)
     return self if revealed?
+
+    game.start(seed_cell: self) if game&.status_standing_by?
 
     update(
       revealed: true,
