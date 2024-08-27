@@ -14,15 +14,13 @@ class Games::Show
   def turbo_stream_identifier = board
   def turbo_frame_identifer = game
   def game_status = game.status
-  def game_in_progress? = game.status_in_progress?
+  def game_on? = game.on?
+  def game_in_progress? = game.status_sweep_in_progress?
   def game_ended_in_victory? = game.ended_in_victory?
+  def game_ended_in_defeat? = game.ended_in_defeat?
 
   def status
-    if game_in_progress?
-      "#{game_status} #{Icon.ship}"
-    else
-      "#{game_status} #{game_status_mojis}"
-    end
+    "#{game_status} #{game_status_mojis}"
   end
 
   def reveal_url(router = RailsRouter.instance)
@@ -38,7 +36,7 @@ class Games::Show
   end
 
   def board_rows
-    build_cell_views(game_in_progress? ? ActiveCell : InactiveCell)
+    build_cell_views(game_on? ? ActiveCell : InactiveCell)
   end
 
   def elapsed_time

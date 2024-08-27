@@ -12,7 +12,7 @@ class GamesController < ApplicationController
   def index
     @view =
       Games::Index.new(
-        base_arel: Game.not_for_status_in_progress.by_most_recent)
+        base_arel: Game.for_game_over_statuses.by_most_recent)
   end
 
   def show

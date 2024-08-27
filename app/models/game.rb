@@ -9,10 +9,15 @@ class Game < ApplicationRecord
   has_one :board, dependent: :delete
 
   has_statuses([
-    "In-Progress",
+    "Standing By",
+    "Sweep in Progress",
     "Alliance Wins",
     "Mines Win",
   ])
+
+  scope :for_game_over_statuses, -> {
+    for_status([status_alliance_wins, status_mines_win])
+  }
 
   def self.find_or_create_current(...)
     current || create_for(...)
@@ -22,14 +27,14 @@ class Game < ApplicationRecord
   end
 
   def self.current
-    for_status_in_progress.take
+    for_status([status_standing_by, status_sweep_in_progress]).take
   end
 
   def self.create_for(...)
     new_game = build_for(...).tap(&:save!)
 
     # FIXME: Move elsewhere.
-    new_game.board.place_mines
+    new_game.start
     new_game
   end
 
@@ -46,21 +51,35 @@ class Game < ApplicationRecord
     DifficultyLevel.new(super)
   end
 
-  def end_in_victory
-    set_status_alliance_wins!
+  def start
+    return self unless status_standing_by?
+
+    transaction do
+      set_status_sweep_in_progress!
+      board.place_mines
+    end
+
+    self
   end
 
-  def ended_in_victory?
-    status_alliance_wins?
+  def on?
+    status?([status_standing_by, status_sweep_in_progress])
+  end
+
+  def over?
+    !on?
+  end
+
+  def end_in_victory
+    set_status_alliance_wins!
   end
 
   def end_in_defeat
     set_status_mines_win!
   end
 
-  def over?
-    not_status_in_progress?
-  end
+  def ended_in_victory? = status_alliance_wins?
+  def ended_in_defeat? = status_mines_win?
 
   def engagement_time_range
     # TODO: Use Start/Stop Transactions for this instead, if/when available.

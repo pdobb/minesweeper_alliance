@@ -10,7 +10,7 @@
           <td colspan="100%" class="pb-3">
             <div class="text-lg flex justify-between">
               <div
-                <% if view.game_in_progress? %>
+                <% if view.game_on? %>
                   data-controller="elapsed-time"
                   data-elapsed-time-start-value="<%= view.elapsed_time.to_i %>"
                 <% end %>
@@ -29,7 +29,7 @@
         </tr>
       </thead>
       <tbody
-        <% if view.game_in_progress? %>
+        <% if view.game_on? %>
           data-controller="board"
           data-board-action-proxy-id-value="boardActionProxy"
           data-board-reveal-url-value="<%= view.reveal_url %>"
@@ -47,7 +47,7 @@
           <%# Cells %>
           *:*:size-8 *:*:min-w-8 *:*:min-h-8
           *:*:border *:*:border-slate-600
-          <% if view.game_in_progress? %>
+          <% if view.game_on? %>
             data-[revealed=false]:*:*:cursor-cell
             data-[revealed=true]:*:*:cursor-default
           <% else %>
@@ -72,7 +72,7 @@
       </tbody>
     </table>
 
-    <% if view.game_in_progress? %>
+    <% if view.game_on? %>
       <div
         data-controller="board-actions"
         data-board-actions-board-id-value="gameBoard"

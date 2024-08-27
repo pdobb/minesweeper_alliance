@@ -21,6 +21,7 @@ Layout/LineLength:
 Metrics/BlockLength:
   Exclude:
     - config/environments/*.rb
+    - db/migrate/*.rb
 
 Style/Documentation:
   Exclude:

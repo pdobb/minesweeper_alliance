@@ -61,7 +61,9 @@ class Games::Index
       @model = model
     end
 
+    def game_in_progress? = to_model.status_sweep_in_progress?
     def game_ended_in_victory? = to_model.ended_in_victory?
+    def game_ended_in_defeat? = to_model.ended_in_defeat?
 
     def game_number
       game_id.to_s.rjust(4, "0")

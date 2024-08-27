@@ -9,6 +9,15 @@ SET xmloption = content;
 SET client_min_messages = warning;
 SET row_security = off;
 
+--
+-- Name: check_game_status(); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION public.check_game_status() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$ BEGIN IF ( NEW.status IN ('Standing By', 'Sweep in Progress') ) THEN IF EXISTS ( SELECT 1 FROM games WHERE status = CASE WHEN NEW.status = 'Sweep in Progress' THEN 'Standing By' ELSE 'Sweep in Progress' END AND id != NEW.id ) THEN RAISE EXCEPTION 'Key (status) IN (Standing By, Sweep in Progress) already exists'; END IF; END IF; RETURN NEW; END; $$;
+
+
 SET default_tablespace = '';
 
 SET default_table_access_method = heap;
@@ -101,7 +110,8 @@ ALTER SEQUENCE public.cells_id_seq OWNED BY public.cells.id;
 
 CREATE TABLE public.games (
     id bigint NOT NULL,
-    status character varying DEFAULT 'In-Progress'::character varying NOT NULL,
+    status character varying DEFAULT 'Standing By'::character varying NOT NULL,
+    difficulty_level character varying NOT NULL,
     created_at timestamp(6) without time zone NOT NULL,
     updated_at timestamp(6) without time zone NOT NULL
 );
@@ -242,7 +252,14 @@ CREATE INDEX index_cells_on_revealed ON public.cells USING btree (revealed);
 -- Name: index_games_on_status; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE UNIQUE INDEX index_games_on_status ON public.games USING btree (status) WHERE ((status)::text = 'In-Progress'::text);
+CREATE UNIQUE INDEX index_games_on_status ON public.games USING btree (status) WHERE ((status)::text = ANY ((ARRAY['Standing By'::character varying, 'Sweep in Progress'::character varying])::text[]));
+
+
+--
+-- Name: games game_status_check; Type: TRIGGER; Schema: public; Owner: -
+--
+
+CREATE TRIGGER game_status_check BEFORE INSERT OR UPDATE ON public.games FOR EACH ROW EXECUTE FUNCTION public.check_game_status();
 
 
 --

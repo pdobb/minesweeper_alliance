@@ -2,7 +2,7 @@
 
 <%= render("games/game", view: @view) %>
 
-<% if @view.game_in_progress? %>
+<% if @view.game_on? %>
   <hr class="my-12">
 
   <div class="space-y-6">

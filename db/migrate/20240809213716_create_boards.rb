@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# 20240809213716
 class CreateBoards < ActiveRecord::Migration[7.1]
   def change
     create_table :boards do |t|
