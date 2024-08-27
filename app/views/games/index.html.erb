@@ -20,7 +20,7 @@
       <h2 class="h3"><%= listings_date %></h2>
       <div
         class="
-          grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6
+          grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 3xl:grid-cols-6
           gap-y-1
         "
         data-turbo-prefetch="false"
@@ -34,7 +34,7 @@
               ><%= listing.difficulty_level_indicator %></abbr>
             </span>
 
-            <span><%= listing.game_completed_at %></span>
+            <span><%= listing.game_engagement_time_range(self) %></span>
             <span><%= listing.game_status_mojis %></span>
           <% end %>
         <% end %>

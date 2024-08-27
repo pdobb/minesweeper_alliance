@@ -19,19 +19,19 @@ class Games::Index
   end
 
   def listings_grouped_by_date
-    games_grouped_by_date.
+    games_grouped_by_ended_at.
       transform_keys! { |date| ListingsDate.new(date) }.
       transform_values! { |games| Listing.wrap(games) }
   end
 
   private
 
-  def games_grouped_by_date
-    base_arel.group_by { |game| game.updated_at.to_date }
+  def games_grouped_by_ended_at
+    base_arel.group_by { |game| game.ended_at.to_date }
   end
 
   # Games::Index::DifficultyLevel wraps {::DifficultyLevel#name}s, for display
-  # of an "Initials" = "Name" map/legend.
+  # of the "Initials" = "Name" map/legend.
   class DifficultyLevel
     include Games::DifficultyLevelBehaviors
 
@@ -81,8 +81,13 @@ class Games::Index
       router.game_path(to_model)
     end
 
-    def game_completed_at
-      I18n.l(to_model.updated_at, format: :time)
+    def game_engagement_time_range(template)
+      template.safe_join(
+        [
+          I18n.l(to_model.started_at, format: :time),
+          I18n.l(to_model.ended_at, format: :time),
+        ],
+        "&ndash;".html_safe)
     end
 
     private
