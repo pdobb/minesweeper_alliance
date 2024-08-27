@@ -61,8 +61,11 @@ export default class extends Controller {
   #buildTimestamp(hours, minutes, seconds) {
     const parts = []
 
-    if (hours > 0) parts.push(this.#pad(hours))
-    if (minutes > 0) parts.push(this.#pad(minutes))
+    if (hours > 0) {
+      parts.push(this.#pad(hours), this.#pad(minutes))
+    } else if (minutes > 0) {
+      parts.push(this.#pad(minutes))
+    }
     parts.push(this.#pad(seconds))
 
     return parts.join(":")
