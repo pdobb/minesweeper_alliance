@@ -24,7 +24,11 @@ class GamesController < ApplicationController
   end
 
   def new
-    @view = Games::New.new
+    if (current_game = Game.current)
+      redirect_to(action: :show, id: current_game)
+    else
+      @view = Games::New.new
+    end
   end
 
   def create
