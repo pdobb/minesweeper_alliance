@@ -19,24 +19,39 @@ export default class extends Controller {
 
   reveal(event) {
     const $cell = event.target
-    if ($cell.dataset.revealed === "true" || $cell.dataset.flagged === "true")
-      return
+    if (this.#isRevealed($cell) || this.#isFlagged($cell)) return
 
     this.#submit($cell, this.revealUrlValue)
   }
 
   toggleFlag(event) {
     const $cell = event.target
-    if ($cell.dataset.revealed === "true") return
+    if (this.#isRevealed($cell)) return
 
     this.#submit($cell, this.toggleFlagUrlValue)
   }
 
   revealNeighbors(event) {
     const $cell = event.target
-    if ($cell.dataset.revealed === "false") return
+    if (this.#isNotRevealed($cell) || this.#isBlank($cell)) return
 
     this.#submit($cell, this.revealNeighborsUrlValue)
+  }
+
+  #isRevealed($cell) {
+    return $cell.dataset.revealed === "true"
+  }
+
+  #isNotRevealed($cell) {
+    return !this.#isRevealed($cell)
+  }
+
+  #isFlagged($cell) {
+    return $cell.dataset.flagged === "true"
+  }
+
+  #isBlank($cell) {
+    return $cell.innerHTML.trim() === ""
   }
 
   #submit($cell, baseUrl) {
