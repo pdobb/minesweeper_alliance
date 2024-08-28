@@ -72,6 +72,20 @@
           </tr>
         <% end %>
       </tbody>
+      <tfoot>
+        <tr>
+          <td colspan="100%" class="whitespace-nowrap">
+            <ul class="mt-2 flex justify-end gap-x-3 text-gray-400">
+              <li><%= view.difficulty_level_name %></li>
+              <li>(<%= view.board_dimensions %>)</li>
+              <li>
+                <span class="opacity-50"><%= Icon.mine %></span>
+                x<%= view.mines_count %>
+              </li>
+            </ul>
+          </td>
+        </tr>
+      </tfoot>
     </table>
 
     <% if view.game_on? %>
