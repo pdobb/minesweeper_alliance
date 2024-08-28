@@ -19,6 +19,10 @@ module Icon
     "💣"
   end
 
+  def self.eyes
+    "👀"
+  end
+
   def self.ship
     "⛴️"
   end

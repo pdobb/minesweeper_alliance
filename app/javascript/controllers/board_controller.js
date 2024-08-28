@@ -13,6 +13,7 @@ export default class extends Controller {
     actionProxyId: String,
     revealUrl: String,
     toggleFlagUrl: String,
+    highlightNeighborsUrl: String,
     revealNeighborsUrl: String,
   }
   static cellIdRegex = /cells\/(\d+)\//
@@ -31,6 +32,13 @@ export default class extends Controller {
     this.#submit($cell, this.toggleFlagUrlValue)
   }
 
+  highlightNeighbors(event) {
+    const $cell = event.target
+    if (this.#isNotRevealed($cell) || this.#isBlank($cell)) return
+
+    this.#submit($cell, this.highlightNeighborsUrlValue)
+  }
+
   revealNeighbors(event) {
     const $cell = event.target
     if (this.#isNotRevealed($cell) || this.#isBlank($cell)) return
@@ -43,7 +51,7 @@ export default class extends Controller {
   }
 
   #isNotRevealed($cell) {
-    return !this.#isRevealed($cell)
+    return $cell.dataset.revealed === "false"
   }
 
   #isFlagged($cell) {

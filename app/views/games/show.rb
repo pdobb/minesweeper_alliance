@@ -31,6 +31,10 @@ class Games::Show
     router.game_board_cell_toggle_flag_path(game, board, NULL_CELL_ID)
   end
 
+  def highlight_neighbors_url(router = RailsRouter.instance)
+    router.game_board_cell_highlight_neighbors_path(game, board, NULL_CELL_ID)
+  end
+
   def reveal_neighbors_url(router = RailsRouter.instance)
     router.game_board_cell_reveal_neighbors_path(game, board, NULL_CELL_ID)
   end
@@ -164,16 +168,20 @@ class Games::Show
   # Games::Show::ActiveCell is a view model for displaying Active {Cell}s. i.e.
   # for an In-Progress {Game}.
   class ActiveCell
+    BG_HIGHLIGHTED_COLOR = "bg-slate-300"
     BG_UNREVEALED_MINE_COLOR = "bg-slate-500"
 
     include CellBehaviors
 
-    def css_class
-      return if revealed?
+    def unrevealed? = !to_model.revealed?
+    def highlighted? = to_model.highlighted?
 
-      if mine? && Rails.configuration.debug
+    def css_class
+      if highlighted?
+        BG_HIGHLIGHTED_COLOR
+      elsif mine? && Rails.configuration.debug
         BG_UNREVEALED_MINE_COLOR
-      else
+      elsif unrevealed?
         BG_UNREVEALED_CELL_COLOR
       end
     end

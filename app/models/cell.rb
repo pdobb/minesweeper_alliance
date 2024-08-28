@@ -27,6 +27,8 @@ class Cell < ApplicationRecord
   scope :is_not_a_mine, -> { where(mine: false) }
   scope :is_flagged, -> { where(flagged: true) }
   scope :is_not_flagged, -> { where(flagged: false) }
+  scope :is_highlighted, -> { where(highlighted: true) }
+  scope :is_not_highlighted, -> { where(highlighted: false) }
   scope :is_revealed, -> { where(revealed: true) }
   scope :is_not_revealed, -> { where(revealed: false) }
 
@@ -55,6 +57,7 @@ class Cell < ApplicationRecord
 
     update(
       revealed: true,
+      highlighted: false,
       flagged: false,
       value: determine_revealed_value)
 
@@ -70,18 +73,43 @@ class Cell < ApplicationRecord
     self
   end
 
+  # "Highlighting" marks the neighboring, non-flagged, and non-revealed Cells
+  # for highlight in the view. This makes it easy to visualize the surrounding
+  # Cells of a given, previously-revealed Cell.
+  def highlight_neighbors
+    neighbors.is_not_flagged.is_not_revealed.is_not_highlighted.
+      update_all(highlighted: true)
+
+    self
+  end
+
+  # "Dehighligting" removes the highlight added by {#highlight_neighbors}
+  # from the neighboring, highlighted Cells.
+  def dehighlight_neighbors
+    return self if unrevealed?
+
+    neighbors.is_highlighted.update_all(highlighted: false)
+
+    self
+  end
+
   # If a Cell has been revealed and the appropriate number of flags has been
   # placed in the neighboring cells, then we can save the user time by just
   # going ahead and revealing all of the non-flagged (and non-revealed)
   # neighboring cells.
   #
-  # Note: This doesn't guarantee success. If any of the flag are wrongly placed
-  # then a mine could still go off!
+  # Either way, we always need to dehighlight any highlighted, neighboring
+  # Cells as per our game play rules. (Which {#reveal} also does.)
+  #
+  # Note: Revealing neighbors doesn't guarantee success. If any of the flag are
+  # incorrectly placed then a mine could still go off!
   def reveal_neighbors
-    return self unless revealed?
+    return self if unrevealed?
 
     if neighboring_flags_count_matches_value?
       neighbors.is_not_flagged.is_not_revealed.each(&:reveal)
+    else
+      dehighlight_neighbors
     end
 
     self
@@ -106,6 +134,7 @@ class Cell < ApplicationRecord
     "#{current_state} #{coordinates.render}"
   end
 
+  def unrevealed? = !revealed?
   def blank? = value == BLANK_VALUE
   def correctly_flagged? = flagged? && mine?
   def incorrectly_flagged? = flagged? && !mine?
@@ -121,6 +150,7 @@ class Cell < ApplicationRecord
       (revealed? ? Icon.revealed_cell : Icon.cell),
       (Icon.flag if flagged?),
       (Icon.mine if mine?),
+      (Icon.eyes if highlighted?),
     ])
   end
 

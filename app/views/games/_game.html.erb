@@ -30,17 +30,17 @@
       </thead>
       <tbody
         <% if view.game_on? %>
-          data-controller="board cell"
+          data-controller="board"
           data-board-action-proxy-id-value="boardActionProxy"
           data-board-reveal-url-value="<%= view.reveal_url %>"
           data-board-toggle-flag-url-value="<%= view.toggle_flag_url %>"
+          data-board-highlight-neighbors-url-value="<%= view.highlight_neighbors_url %>"
           data-board-reveal-neighbors-url-value="<%= view.reveal_neighbors_url %>"
-          data-cell-indicator-class="bg-slate-300"
           data-action="
             click->board#reveal
             contextmenu->board#toggleFlag:prevent
-            click->board#revealNeighbors
-            mousedown->cell#indicateNeighbors
+            mousedown->board#highlightNeighbors
+            mouseup->board#revealNeighbors
           "
         <% end %>
         class="
