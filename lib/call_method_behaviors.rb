@@ -20,8 +20,8 @@ module CallMethodBehaviors
     #   end
     #
     #   Greet.("World") # => "Hello, World!"
-    def call(*args, &block)
-      new(*args, &block).call
+    def call(...)
+      new(...).call
     end
   end
 

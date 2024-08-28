@@ -37,17 +37,22 @@ class Board < ApplicationRecord
     self
   end
 
+  def reset
+    cells.update_all(
+      revealed: false,
+      flagged: false,
+      highlighted: false,
+      value: nil)
+  end
+
   def reveal_random_cell
     cells.for_id(random_cell_id_for_reveal).take.reveal
   end
 
   def check_for_victory
-    game.end_in_victory if all_safe_cells_have_been_revealed?
-    self
-  end
+    return if game.over?
 
-  def end_game_in_defeat
-    game.end_in_defeat
+    game.end_in_victory if all_safe_cells_have_been_revealed?
     self
   end
 

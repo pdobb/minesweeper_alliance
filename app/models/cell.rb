@@ -9,7 +9,8 @@
 #
 # Which of these values a Cell is, is discovered when the Cell is revealed (when
 # a player clicks on the Cell).
-# - If a mine is revealed, the {Game} ends in victory for the mines!
+# - If a mine is revealed, the {Game} ends in defeat (a.k.a. victory for the
+#   mines).
 # - If all safe Cells are revealed, the {Game} ends in victory for the alliance!
 class Cell < ApplicationRecord
   BLANK_VALUE = "0"
@@ -50,25 +51,14 @@ class Cell < ApplicationRecord
     self
   end
 
-  def reveal(game: nil)
+  def reveal
     return self if revealed?
-
-    game.start(seed_cell: self) if game&.status_standing_by?
 
     update(
       revealed: true,
       highlighted: false,
       flagged: false,
       value: determine_revealed_value)
-
-    if mine?
-      board.end_game_in_defeat
-      return self
-    end
-
-    neighbors.each(&:reveal) if blank?
-
-    board.check_for_victory
 
     self
   end
@@ -93,41 +83,16 @@ class Cell < ApplicationRecord
     self
   end
 
-  # If a Cell has been revealed and the appropriate number of flags has been
-  # placed in the neighboring cells, then we can save the user time by just
-  # going ahead and revealing all of the non-flagged (and non-revealed)
-  # neighboring cells.
-  #
-  # Either way, we always need to dehighlight any highlighted, neighboring
-  # Cells as per our game play rules. (Which {#reveal} also does.)
-  #
-  # Note: Revealing neighbors doesn't guarantee success. If any of the flag are
-  # incorrectly placed then a mine could still go off!
-  def reveal_neighbors
-    return self if unrevealed?
-
-    if neighboring_flags_count_matches_value?
-      neighbors.is_not_flagged.is_not_revealed.each(&:reveal)
-    else
-      dehighlight_neighbors
-    end
-
-    self
+  def neighboring_flags_count_matches_value?
+    neighboring_flags_count == value.to_i
   end
 
   def neighboring_flags_count = neighbors.is_flagged.size
-  def neighboring_mines_count = neighbors.is_a_mine.size
 
   def neighbors
     return Cell.none unless board
 
     board.cells.for_coordinates(neighboring_coordinates)
-  end
-
-  def neighboring_coordinates
-    return [] unless board
-
-    board.clamp_coordinates(coordinates.neighbors)
   end
 
   def render
@@ -172,11 +137,15 @@ class Cell < ApplicationRecord
     end
   end
 
-  def neighboring_flags_count_matches_value?
-    neighboring_flags_count == value.to_i
-  end
-
   def determine_revealed_value
     mine? ? Icon.mine : neighboring_mines_count
+  end
+
+  def neighboring_mines_count = neighbors.is_a_mine.size
+
+  def neighboring_coordinates
+    return [] unless board
+
+    board.clamp_coordinates(coordinates.neighbors)
   end
 end
