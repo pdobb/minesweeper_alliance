@@ -8,22 +8,29 @@
       <thead>
         <tr>
           <td colspan="100%" class="pb-3">
-            <div class="text-lg flex justify-between">
+            <div class="text-lg flex justify-between gap-x-12">
               <div
                 <% if view.game_in_progress? %>
                   data-controller="elapsed-time"
                   data-elapsed-time-start-value="<%= view.elapsed_time.to_i %>"
                 <% end %>
+                title="Game Timer"
               >
                 <span data-elapsed-time-target="elapsedTime">
                   <%= view.elapsed_time %>
                 </span>
               </div>
 
-              <div title="Unmarked Mines Remaining">
-                <%= view.unmarked_mines_remaining %>
-                <%= view.flag_icon %>
-              </div>
+              <ul
+                title="Placed Flags vs Total Mines"
+                class="flex gap-x-1.5 whitespace-nowrap"
+              >
+                <li><%= view.flags_count %></li>
+                <li><%= view.flag_icon %></li>
+                <li class="text-gray-500">/</li>
+                <li><%= view.mines_count %></li>
+                <li><%= view.mine_icon %></li>
+              </ul>
             </div>
           </td>
         </tr>
@@ -78,10 +85,6 @@
             <ul class="mt-2 flex justify-end gap-x-3 text-gray-400">
               <li><%= view.difficulty_level_name %></li>
               <li>(<%= view.board_dimensions %>)</li>
-              <li>
-                <span class="opacity-50"><%= Icon.mine %></span>
-                x<%= view.mines_count %>
-              </li>
             </ul>
           </td>
         </tr>

@@ -47,10 +47,6 @@ class Games::Show
     @elapsed_time ||= ElapsedTime.new(game_engagement_time_range)
   end
 
-  def unmarked_mines_remaining
-    @unmarked_mines_remaining ||= mines_count - flags_count
-  end
-
   def difficulty_level_name
     difficulty_level.name
   end
@@ -59,9 +55,8 @@ class Games::Show
     difficulty_level.dimensions
   end
 
-  def mines_count
-    difficulty_level.mines
-  end
+  def flags_count = board.flags_count
+  def mines_count = difficulty_level.mines
 
   def flag_icon = Icon.flag
   def mine_icon = Icon.mine
@@ -73,7 +68,6 @@ class Games::Show
 
   def board = game.board
   def difficulty_level = game.difficulty_level
-  def flags_count = board.flags_count
   def game_engagement_time_range = game.engagement_time_range
 
   def build_cell_views(klass)
