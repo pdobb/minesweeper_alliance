@@ -57,13 +57,13 @@ class Board < ApplicationRecord
   end
 
   def all_safe_cells_have_been_revealed?
-    cells.is_not_a_mine.is_not_revealed.none?
+    cells.is_not_mine.is_not_revealed.none?
   end
 
-  def any_mines? = cells.is_a_mine.any?
+  def any_mines? = cells.is_mine.any?
 
   def cells_count = cells.size
-  def mines_count = cells.is_a_mine.size
+  def mines_count = cells.is_mine.size
   def revealed_cells_count = cells.is_revealed.size
   def flags_count = cells.is_flagged.size
 

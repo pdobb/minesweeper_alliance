@@ -24,8 +24,8 @@ class Cell < ApplicationRecord
   # :reek:UncommunicativeMethodName
   def y = coordinates.y
 
-  scope :is_a_mine, -> { where(mine: true) }
-  scope :is_not_a_mine, -> { where(mine: false) }
+  scope :is_mine, -> { where(mine: true) }
+  scope :is_not_mine, -> { where(mine: false) }
   scope :is_flagged, -> { where(flagged: true) }
   scope :is_not_flagged, -> { where(flagged: false) }
   scope :is_highlighted, -> { where(highlighted: true) }
@@ -144,7 +144,7 @@ class Cell < ApplicationRecord
     mine? ? Icon.mine : neighboring_mines_count
   end
 
-  def neighboring_mines_count = neighbors.is_a_mine.size
+  def neighboring_mines_count = neighbors.is_mine.size
 
   def neighboring_coordinates
     return [] unless board
