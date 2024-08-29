@@ -86,9 +86,7 @@ class Board < ApplicationRecord
 
   private
 
-  def inspect_identification
-    identify
-  end
+  def inspect_identification = identify
 
   def inspect_info(scope:)
     scope.join_info([

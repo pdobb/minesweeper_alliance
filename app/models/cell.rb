@@ -37,10 +37,6 @@ class Cell < ApplicationRecord
 
   scope :by_random, -> { order("RANDOM()") }
 
-  def display_name
-    value.inspect
-  end
-
   def value
     super || (Icon.flag if flagged?)
   end
@@ -109,9 +105,7 @@ class Cell < ApplicationRecord
 
   private
 
-  def inspect_identification
-    identify
-  end
+  def inspect_identification = identify
 
   def inspect_flags(scope:)
     scope.join_flags([
@@ -122,13 +116,12 @@ class Cell < ApplicationRecord
     ])
   end
 
-  def inspect_info
-    coordinates.inspect
-  end
-
   def inspect_issues
     "INCORRECTLY_FLAGGED" if incorrectly_flagged?
   end
+
+  def inspect_info = coordinates.inspect
+  def inspect_name = value.inspect
 
   def current_state
     if revealed?

@@ -85,17 +85,9 @@ class Game < ApplicationRecord
 
   private
 
-  def inspect_identification
-    identify
-  end
-
-  def inspect_flags
-    status
-  end
-
-  def inspect_info
-    engagement_time_range
-  end
+  def inspect_identification = identify
+  def inspect_flags = status
+  def inspect_info = engagement_time_range
 
   def end_game
     transaction do
