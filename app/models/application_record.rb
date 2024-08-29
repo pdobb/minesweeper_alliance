@@ -4,8 +4,6 @@
 class ApplicationRecord < ActiveRecord::Base
   primary_abstract_class
 
-  include ObjectInspector::InspectorsHelper
-
   scope :for_id, ->(id) { where(id:) }
   scope :not_for_id, ->(id) { where.not(id:) }
 

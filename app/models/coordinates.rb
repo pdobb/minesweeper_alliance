@@ -2,29 +2,52 @@
 
 # Coordinates represents an X/Y pair. e.g. {Cell}s can locate themselves within
 # the {Board} by their Coordinates.
-Coordinates =
-  Data.define(:x, :y) {
-    def inspect
-      "(#{x}, #{y})"
+class Coordinates < Data.define(:x, :y) # rubocop:disable Style/DataInheritance
+  include ConsoleBehaviors
+
+  # :reek:DuplicateMethodCall
+
+  # rubocop:disable all
+  def neighbors
+    [
+      with(x: x.pred, y: y.pred), with(y: y.pred), with(x: x.next, y: y.pred),
+      with(x: x.pred           ),                  with(x: x.next           ),
+      with(x: x.pred, y: y.next), with(y: y.next), with(x: x.next, y: y.next),
+    ]
+  end
+  # rubocop:enable all
+
+  # Coordinates::Console acts like a {Coordinates} but otherwise handles IRB
+  # Console-specific methods/logic.
+  class Console
+    BEGINNER_DIFFICULTY_LEVEL_CELLS_COUNT = 81
+
+    include ConsoleObjectBehaviors
+
+    # :reek:UncommunicativeMethodName
+    def x = __to_model__.x
+    # :reek:UncommunicativeMethodName
+    def y = __to_model__.y
+
+    def render(cells_count:)
+      "(#{pad(x, cells_count:)}, #{pad(y, cells_count:)})"
     end
 
     def to_s
       inspect
     end
 
-    # :reek:DuplicateMethodCall
+    private
 
-    # rubocop:disable all
-    def neighbors
-      [
-        with(x: x.pred, y: y.pred), with(y: y.pred), with(x: x.next, y: y.pred),
-        with(x: x.pred           ),                  with(x: x.next           ),
-        with(x: x.pred, y: y.next), with(y: y.next), with(x: x.next, y: y.next),
-      ]
-    end
-    # rubocop:enable all
-
-    def render
+    def inspect
       "(#{x}, #{y})"
     end
-  }
+
+    # :reek:UtilityFunction
+    def pad(value, cells_count:)
+      return value if cells_count <= BEGINNER_DIFFICULTY_LEVEL_CELLS_COUNT
+
+      value.to_s.rjust(2, " ")
+    end
+  end
+end

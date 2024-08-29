@@ -4,6 +4,7 @@
 # Games and keeps track of the #status} of each Game in the database, win or
 # lose.
 class Game < ApplicationRecord
+  include ConsoleBehaviors
   include Statusable::HasStatuses
 
   has_one :board, dependent: :delete
@@ -85,14 +86,21 @@ class Game < ApplicationRecord
 
   private
 
-  def inspect_identification = identify
-  def inspect_flags = status
-  def inspect_info = engagement_time_range
-
   def end_game
     transaction do
       touch(:ended_at)
       yield
     end
+  end
+
+  # Game::Console acts like a {Game} but otherwise handles IRB Console-specific
+  # methods/logic.
+  class Console
+    include ConsoleObjectBehaviors
+
+    private
+
+    def inspect_flags = status
+    def inspect_info = engagement_time_range
   end
 end

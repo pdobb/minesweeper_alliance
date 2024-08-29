@@ -9,6 +9,8 @@ class Board < ApplicationRecord
   # Board::Error represents any StandardError related to Board processing.
   Error = Class.new(StandardError)
 
+  include ConsoleBehaviors
+
   after_update_commit -> { broadcast_refresh }
 
   belongs_to :game
@@ -37,18 +39,6 @@ class Board < ApplicationRecord
     self
   end
 
-  def reset
-    cells.update_all(
-      revealed: false,
-      flagged: false,
-      highlighted: false,
-      value: nil)
-  end
-
-  def reveal_random_cell
-    cells.for_id(random_cell_id_for_reveal).take.reveal
-  end
-
   def check_for_victory
     return if game.over?
 
@@ -56,48 +46,18 @@ class Board < ApplicationRecord
     self
   end
 
-  def all_safe_cells_have_been_revealed?
-    cells.is_not_mine.is_not_revealed.none?
-  end
-
-  def any_mines? = cells.is_mine.any?
-
-  def cells_count = cells.size
   def mines_count = cells.is_mine.size
-  def revealed_cells_count = cells.is_revealed.size
   def flags_count = cells.is_flagged.size
 
   def cells_grid
     Grid.new(cells.by_least_recent)
   end
 
-  def render
-    puts inspect # rubocop:disable Rails/Output
-    cells_grid.render
-  end
-
   def clamp_coordinates(coordinates_array)
     coordinates_array.select { |coordinates| in_bounds?(coordinates) }
   end
 
-  def in_bounds?(coordinates)
-    columns_range.include?(coordinates.x) && rows_range.include?(coordinates.y)
-  end
-
   private
-
-  def inspect_identification = identify
-
-  def inspect_info(scope:)
-    scope.join_info([
-      "#{Icon.cell} #{cells_count} (#{display_grid_size})",
-      "#{Icon.revealed_cell} #{revealed_cells_count}",
-      "#{Icon.mine} #{mines_count}",
-      "#{Icon.flag} #{flags_count}",
-    ])
-  end
-
-  def display_grid_size = "#{columns}x#{rows}"
 
   # :reek:UncommunicativeVariableName
   def generate
@@ -115,15 +75,59 @@ class Board < ApplicationRecord
     cells.build(coordinates: Coordinates[x, y])
   end
 
-  def columns_range
-    0..columns
+  def all_safe_cells_have_been_revealed?
+    cells.is_not_mine.is_not_revealed.none?
   end
 
-  def rows_range
-    0..rows
+  def any_mines? = cells.is_mine.any?
+
+  def in_bounds?(coordinates)
+    columns_range.include?(coordinates.x) && rows_range.include?(coordinates.y)
   end
 
-  def random_cell_id_for_reveal
-    cells.is_not_revealed.is_not_flagged.by_random.pick(:id)
+  def columns_range = 0..columns
+  def rows_range = 0..rows
+
+  # Board::Console acts like a {Board} but otherwise handles IRB
+  # Console-specific methods/logic.
+  class Console
+    include ConsoleObjectBehaviors
+
+    def reveal_random_cell
+      cells.for_id(random_cell_id_for_reveal).take.reveal
+    end
+
+    def render
+      puts inspect # rubocop:disable Rails/Output
+      cells_grid.console.render
+    end
+
+    def reset
+      cells.update_all(
+        revealed: false,
+        flagged: false,
+        highlighted: false,
+        value: nil)
+    end
+
+    private
+
+    def inspect_info(scope:)
+      scope.join_info([
+        "#{Icon.cell} #{cells_count} (#{display_grid_size})",
+        "#{Icon.revealed_cell} #{revealed_cells_count}",
+        "#{Icon.mine} #{mines_count}",
+        "#{Icon.flag} #{flags_count}",
+      ])
+    end
+
+    def display_grid_size = "#{columns}x#{rows}"
+
+    def random_cell_id_for_reveal
+      cells.is_not_revealed.is_not_flagged.by_random.pick(:id)
+    end
+
+    def cells_count = cells.size
+    def revealed_cells_count = cells.is_revealed.size
   end
 end

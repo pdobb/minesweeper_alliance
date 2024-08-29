@@ -15,6 +15,8 @@
 class Cell < ApplicationRecord
   BLANK_VALUE = "0"
 
+  include ConsoleBehaviors
+
   belongs_to :board, touch: true
 
   attribute :coordinates, CoordinatesType.new
@@ -86,16 +88,10 @@ class Cell < ApplicationRecord
     neighboring_flags_count == value.to_i
   end
 
-  def neighboring_flags_count = neighbors.is_flagged.size
-
   def neighbors
     return Cell.none unless board
 
     board.cells.for_coordinates(neighboring_coordinates)
-  end
-
-  def render
-    "#{current_state} #{coordinates.render}"
   end
 
   def unrevealed? = !revealed?
@@ -105,43 +101,54 @@ class Cell < ApplicationRecord
 
   private
 
-  def inspect_identification = identify
-
-  def inspect_flags(scope:)
-    scope.join_flags([
-      (revealed? ? Icon.revealed_cell : Icon.cell),
-      (Icon.flag if flagged?),
-      (Icon.mine if mine?),
-      (Icon.eyes if highlighted?),
-    ])
-  end
-
-  def inspect_issues
-    "INCORRECTLY_FLAGGED" if incorrectly_flagged?
-  end
-
-  def inspect_info = coordinates.inspect
-  def inspect_name = value.inspect
-
-  def current_state
-    if revealed?
-      "#{value} "
-    elsif flagged?
-      Icon.flag
-    else
-      Icon.cell
-    end
-  end
-
   def determine_revealed_value
     mine? ? Icon.mine : neighboring_mines_count
   end
 
   def neighboring_mines_count = neighbors.is_mine.size
+  def neighboring_flags_count = neighbors.is_flagged.size
 
   def neighboring_coordinates
     return [] unless board
 
     board.clamp_coordinates(coordinates.neighbors)
+  end
+
+  # Cell::Console acts like a {Cell} but otherwise handles IRB Console-specific
+  # methods/logic.
+  class Console
+    include ConsoleObjectBehaviors
+
+    def render(cells_count: nil)
+      "#{current_state} #{coordinates.console.render(cells_count:)}"
+    end
+
+    private
+
+    def inspect_flags(scope:)
+      scope.join_flags([
+        (revealed? ? Icon.revealed_cell : Icon.cell),
+        (Icon.flag if flagged?),
+        (Icon.mine if mine?),
+        (Icon.eyes if highlighted?),
+      ])
+    end
+
+    def inspect_issues
+      "INCORRECTLY_FLAGGED" if incorrectly_flagged?
+    end
+
+    def inspect_info = coordinates.console
+    def inspect_name = value.inspect
+
+    def current_state
+      if revealed?
+        "#{value} "
+      elsif flagged?
+        Icon.flag
+      else
+        Icon.cell
+      end
+    end
   end
 end
