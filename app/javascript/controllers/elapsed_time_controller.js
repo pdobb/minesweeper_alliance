@@ -50,12 +50,12 @@ export default class extends Controller {
   }
 
   #determineTimestamp() {
-    return this.#buildTimestamp(...this.#parse())
+    return this.#buildTimestamp(...this.#parseTotalSeconds())
   }
 
-  #parse() {
-    const parser = new TimeParser(this.totalSeconds)
-    return parser.parse()
+  // Returns: [[[hours, ][minutes, ]]<seconds>]
+  #parseTotalSeconds() {
+    return new TimeParser().parse(this.totalSeconds)
   }
 
   #buildTimestamp(hours, minutes, seconds) {
@@ -80,12 +80,8 @@ class TimeParser {
   static SECONDS_PER_HOUR = 3_600
   static SECONDS_PER_MINUTE = 60
 
-  constructor(totalSeconds) {
-    this.totalSeconds = totalSeconds
-  }
-
-  parse() {
-    const [hours, remainingSeconds] = this.#parseHours(this.totalSeconds)
+  parse(totalSeconds) {
+    const [hours, remainingSeconds] = this.#parseHours(totalSeconds)
 
     return [
       hours,
