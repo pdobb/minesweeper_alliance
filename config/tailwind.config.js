@@ -9,6 +9,9 @@ module.exports = {
   ],
   theme: {
     extend: {
+      animation: {
+        "pulse-fast": "pulse 1.5s cubic-bezier(0.6, 0, 0.4, 1) infinite",
+      },
       fontFamily: {
         // sans: ["Inter var", ...defaultTheme.fontFamily.sans],
       },

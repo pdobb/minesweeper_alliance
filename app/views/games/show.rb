@@ -169,6 +169,7 @@ class Games::Show
   # for an In-Progress {Game}.
   class ActiveCell
     BG_HIGHLIGHTED_COLOR = "bg-slate-300"
+    HIGHLIGHTED_ANIMATION = "animate-pulse-fast"
     BG_UNREVEALED_MINE_COLOR = "bg-slate-500"
 
     include CellBehaviors
@@ -178,7 +179,7 @@ class Games::Show
 
     def css_class
       if highlighted?
-        BG_HIGHLIGHTED_COLOR
+        [BG_HIGHLIGHTED_COLOR, HIGHLIGHTED_ANIMATION]
       elsif mine? && Rails.configuration.debug
         BG_UNREVEALED_MINE_COLOR
       elsif unrevealed?

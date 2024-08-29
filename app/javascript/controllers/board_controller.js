@@ -84,6 +84,6 @@ export default class extends Controller {
   }
 
   #showLoadingIndicator($cell) {
-    $cell.classList.add("animate-pulse")
+    $cell.classList.add("animate-pulse-fast")
   }
 }
