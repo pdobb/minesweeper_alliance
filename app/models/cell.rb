@@ -67,8 +67,10 @@ class Cell < ApplicationRecord
   # for highlight in the view. This makes it easy to visualize the surrounding
   # Cells of a given, previously-revealed Cell.
   def highlight_neighbors
-    neighbors.is_not_flagged.is_not_revealed.is_not_highlighted.
-      update_all(highlighted: true)
+    rows_updated_count =
+      neighbors.is_not_flagged.is_not_revealed.is_not_highlighted.update_all(
+        highlighted: true)
+    board.touch if rows_updated_count.positive?
 
     self
   end
@@ -78,7 +80,8 @@ class Cell < ApplicationRecord
   def dehighlight_neighbors
     return self if unrevealed?
 
-    neighbors.is_highlighted.update_all(highlighted: false)
+    rows_updated_count = neighbors.is_highlighted.update_all(highlighted: false)
+    board.touch if rows_updated_count.positive?
 
     self
   end
