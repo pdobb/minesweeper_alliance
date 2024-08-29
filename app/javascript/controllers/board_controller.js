@@ -9,6 +9,8 @@ import { Controller } from "@hotwired/stimulus"
 // For Revealed Cells
 //  - Double Click - Reveal Neighbors
 export default class extends Controller {
+  static LEFT_MOUSE_BUTTON = 0
+
   static values = {
     actionProxyId: String,
     revealUrl: String,
@@ -33,6 +35,8 @@ export default class extends Controller {
   }
 
   highlightNeighbors(event) {
+    if (event.button !== this.constructor.LEFT_MOUSE_BUTTON) return
+
     const $cell = event.target
     if (this.#isNotRevealed($cell) || this.#isBlank($cell)) return
 
@@ -40,6 +44,8 @@ export default class extends Controller {
   }
 
   revealNeighbors(event) {
+    if (event.button !== this.constructor.LEFT_MOUSE_BUTTON) return
+
     const $cell = event.target
     if (this.#isNotRevealed($cell) || this.#isBlank($cell)) return
 
