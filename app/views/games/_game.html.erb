@@ -4,7 +4,7 @@
   <div class="flex flex-col gap-y-6 items-center">
     <h2><%= view.status %></h2>
 
-    <table id="gameBoard" class="mx-auto table-fixed select-none">
+    <table id="gameBoard" class="mx-auto table-fixed">
       <thead>
         <tr>
           <td colspan="100%" class="pb-3">
@@ -44,7 +44,7 @@
           "
         <% end %>
         class="
-          text-center
+          text-center select-none
 
           <%# Cells %>
           *:*:size-8 *:*:min-w-8 *:*:min-h-8
