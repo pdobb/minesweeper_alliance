@@ -2,11 +2,6 @@
 
 class HomeController < ApplicationController
   def show
-    @view =
-      if (current_game = Game.current)
-        Games::Show.new(game: current_game)
-      else
-        Games::New.new
-      end
+    @view = Home::Show.new(current_game: Game.current)
   end
 end

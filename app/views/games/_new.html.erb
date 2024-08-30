@@ -1,0 +1,18 @@
+<%# locals: (view:) %>
+
+<h1 class="mb-12">New Mission</h1>
+
+<div class="space-y-6">
+  <h2 class="h3">Do you have what it takes?</h2>
+
+  <ul class="flex items-center gap-x-6">
+    <% view.difficulty_levels.each do |difficulty_level| %>
+      <li>
+        <%= button_to(
+              difficulty_level.name,
+              difficulty_level.new_game_url,
+              class: "btn-primary") %>
+      </li>
+    <% end %>
+  </ul>
+</div>
