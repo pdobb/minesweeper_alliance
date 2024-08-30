@@ -8,6 +8,10 @@ module ConsoleObjectBehaviors
 
   include ObjectInspector::InspectorsHelper
 
+  included do
+    self::Error = Class.new(StandardError)
+  end
+
   def initialize(model)
     @model = model
   end

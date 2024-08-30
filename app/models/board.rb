@@ -108,6 +108,8 @@ class Board < ApplicationRecord
         flagged: false,
         highlighted: false,
         value: nil)
+
+      self
     end
 
     private

@@ -8,6 +8,7 @@ class Game < ApplicationRecord
   include Statusable::HasStatuses
 
   after_create_commit -> { broadcast_refresh_to(:current_game) }
+  after_update_commit -> { broadcast_refresh_to(:current_game) }
 
   has_one :board, dependent: :delete
 
@@ -107,6 +108,28 @@ class Game < ApplicationRecord
   # methods/logic.
   class Console
     include ConsoleObjectBehaviors
+
+    # :reek:TooManyStatements
+
+    def reset(time: Time.current)
+      current_game = Game.current
+      if current_game && current_game != __to_model__
+        raise(Error, "Can't reset a past Game while a current Game exists.")
+      end
+
+      transaction do
+        update(
+          started_at: time,
+          ended_at: nil,
+          updated_at: time)
+
+        set_status_sweep_in_progress! if over?
+
+        board.console.reset
+      end
+
+      self
+    end
 
     private
 
