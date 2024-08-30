@@ -35,6 +35,10 @@ module Icon
     "🎉"
   end
 
+  def self.clover
+    "🍀"
+  end
+
   def self.celebratory_victory
     "#{ship}#{anchor}#{victory}"
   end
