@@ -16,19 +16,14 @@ class GamesController < ApplicationController
   end
 
   def new
-    if (current_game = Game.current)
-      redirect_to(action: :show, id: current_game)
-    else
-      @view = Games::New.new
-    end
+    @view = Games::New.new
   end
 
   def create
-    current_game =
-      Game.find_or_create_current(
-        difficulty_level:
-          Conversions.DifficultyLevel(params[:difficulty_level]))
+    Game.find_or_create_current(
+      difficulty_level:
+        Conversions.DifficultyLevel(params[:difficulty_level]))
 
-    redirect_to(action: :show, id: current_game)
+    redirect_to(root_path)
   end
 end

@@ -1,9 +1,1 @@
-<%= turbo_stream_from(:current_game) if @view.game_on? %>
-
 <%= render("game", view: @view) %>
-
-<% if @view.game_on? %>
-  <hr class="my-12">
-
-  <%= render("rules")  %>
-<% end %>

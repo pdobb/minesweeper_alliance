@@ -7,6 +7,8 @@ class Game < ApplicationRecord
   include ConsoleBehaviors
   include Statusable::HasStatuses
 
+  after_create_commit -> { broadcast_refresh_to(:current_game) }
+
   has_one :board, dependent: :delete
 
   has_statuses([
@@ -22,6 +24,7 @@ class Game < ApplicationRecord
   scope :for_game_over_statuses, -> {
     for_status([status_alliance_wins, status_mines_win])
   }
+  scope :for_ended_at, ->(time_range) { where(ended_at: time_range) }
 
   scope :by_most_recently_ended, -> { order(ended_at: :desc) }
 
@@ -32,8 +35,10 @@ class Game < ApplicationRecord
     retry
   end
 
-  def self.current
-    for_game_on_statuses.take
+  def self.current(within: 1.second)
+    for_game_on_statuses.or(
+      for_game_over_statuses.for_ended_at(within.ago..)).
+      take
   end
 
   def self.create_for(...)

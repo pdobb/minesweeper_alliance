@@ -7,8 +7,11 @@ module Games::Boards::Cells::ActionBehaviors
 
   def render_updated_game_board
     render(
-      partial: "games/game",
-      locals: { view: Games::Show.new(game:) })
+      turbo_stream:
+        turbo_stream.replace(
+          :current_game,
+          partial: "games/game",
+          locals: { view: Games::Show.new(game:) }))
   end
 
   def game

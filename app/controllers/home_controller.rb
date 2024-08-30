@@ -2,10 +2,11 @@
 
 class HomeController < ApplicationController
   def show
-    if (current_game = Game.current)
-      redirect_to(game_path(current_game))
-    else
-      redirect_to(new_game_path)
-    end
+    @view =
+      if (current_game = Game.current)
+        Games::Show.new(game: current_game)
+      else
+        Games::New.new
+      end
   end
 end

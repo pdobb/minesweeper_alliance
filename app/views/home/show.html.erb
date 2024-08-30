@@ -1,0 +1,12 @@
+<%= turbo_stream_from(:current_game) %>
+
+<% case @view %>
+<% when Games::New %>
+  <%= render(template: "games/new", locals: { view: @view }) %>
+<% when Games::Show %>
+  <%= render("games/game", view: @view) %>
+
+  <hr class="my-12">
+
+  <%= render("games/rules")  %>
+<% end %>
