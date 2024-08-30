@@ -16,6 +16,9 @@ class Game < ApplicationRecord
     "Mines Win",
   ])
 
+  scope :for_game_on_statuses, -> {
+    for_status([status_standing_by, status_sweep_in_progress])
+  }
   scope :for_game_over_statuses, -> {
     for_status([status_alliance_wins, status_mines_win])
   }
@@ -28,7 +31,7 @@ class Game < ApplicationRecord
   end
 
   def self.current
-    for_status([status_standing_by, status_sweep_in_progress]).take
+    for_game_on_statuses.take
   end
 
   def self.create_for(...)
