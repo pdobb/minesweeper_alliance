@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  root "games#current"
+  root "home#show"
 
   resources :games, only: %i[index show new create] do
     scope module: :games do

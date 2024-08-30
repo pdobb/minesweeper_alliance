@@ -1,14 +1,6 @@
 # frozen_string_literal: true
 
 class GamesController < ApplicationController
-  def current
-    if (current_game = Game.current)
-      redirect_to(action: :show, id: current_game)
-    else
-      redirect_to(action: :new)
-    end
-  end
-
   def index
     @view =
       Games::Index.new(
