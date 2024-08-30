@@ -1,4 +1,4 @@
-<%= turbo_stream_from(@view.turbo_stream_identifier) %>
+<%= turbo_stream_from(:current_game) if @view.game_on? %>
 
 <%= render("game", view: @view) %>
 

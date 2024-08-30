@@ -11,7 +11,7 @@ class Board < ApplicationRecord
 
   include ConsoleBehaviors
 
-  after_update_commit -> { broadcast_refresh }
+  after_update_commit -> { broadcast_refresh_to(:current_game) }
 
   belongs_to :game
   has_many :cells, dependent: :delete_all

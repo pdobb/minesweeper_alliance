@@ -1,6 +1,6 @@
 <%# locals: (view:) %>
 
-<%= turbo_frame_tag(view.turbo_frame_identifer) do %>
+<%= turbo_frame_tag(:current_game) do %>
   <div class="flex flex-col gap-y-6 items-center">
     <h2><%= view.status %></h2>
 

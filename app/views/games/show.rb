@@ -11,8 +11,6 @@ class Games::Show
     @game = game
   end
 
-  def turbo_stream_identifier = board
-  def turbo_frame_identifer = game
   def game_status = game.status
   def game_on? = game.on?
   def game_in_progress? = game.status_sweep_in_progress?
