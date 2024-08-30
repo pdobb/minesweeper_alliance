@@ -23,6 +23,8 @@ class Game < ApplicationRecord
     for_status([status_alliance_wins, status_mines_win])
   }
 
+  scope :by_most_recently_ended, -> { order(ended_at: :desc) }
+
   def self.find_or_create_current(...)
     current || create_for(...)
   rescue ActiveRecord::RecordNotUnique
