@@ -5,6 +5,7 @@
 # String, Integer, etc classes all have like-named Conversion Functions.
 module Conversions
   # :reek:UncommunicativeMethodName
+  # :reek:ManualDispatch
 
   def self.DifficultyLevel(value) # rubocop:disable Naming/MethodName
     case value

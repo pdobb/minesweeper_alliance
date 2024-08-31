@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# :reek:ModuleInitialize
+
 # ConsoleObjectBehaviors is a mix-in that allows *::Console classes to act
 # virtually indistinguishably like the object that they're wrapping, but to
 # otherwise handle IRB Console-specific methods/logic in as a separate concern.
@@ -9,6 +11,8 @@ module ConsoleObjectBehaviors
   include ObjectInspector::InspectorsHelper
 
   included do
+    # *::Console::Error represents any StandardError related to Console
+    # processing on the including object.
     self::Error = Class.new(StandardError)
   end
 
@@ -33,7 +37,8 @@ module ConsoleObjectBehaviors
     @model.__send__(method, ...)
   end
 
-  # :reek:BooleanPrameter
+  # :reek:BooleanParameter
+  # :reek:ManualDispatch
 
   def respond_to_missing?(method, include_private = true)
     @model.respond_to?(method, include_private) || super

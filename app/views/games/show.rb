@@ -56,10 +56,6 @@ class Games::Show
   def flags_count = board.flags_count
   def mines_count = difficulty_level.mines
 
-  def flag_icon = Icon.flag
-  def mine_icon = Icon.mine
-  def cell_icon = Icon.cell
-
   private
 
   attr_reader :game
@@ -119,8 +115,6 @@ class Games::Show
     end
   end
 
-  # :reek:ModuleInitialize
-
   # Games::Show::CellBehaviors is a view model mix-in for displaying
   # {ActiveCell}s / {InactiveCell}s.
   module CellBehaviors
@@ -130,11 +124,6 @@ class Games::Show
 
     include ActiveModelWrapperBehaviors
     include WrapMethodBehaviors
-
-    def initialize(model, view)
-      @model = model
-      @view = view
-    end
 
     def id = to_model.id
     def mine? = to_model.mine?
@@ -166,6 +155,11 @@ class Games::Show
 
     include CellBehaviors
 
+    def initialize(model, view)
+      @model = model
+      @view = view
+    end
+
     def unrevealed? = !to_model.revealed?
     def highlighted? = to_model.highlighted?
 
@@ -187,8 +181,15 @@ class Games::Show
 
     include CellBehaviors
 
+    def initialize(model, view)
+      @model = model
+      @view = view
+    end
+
     def incorrectly_flagged? = to_model.incorrectly_flagged?
     def game_ended_in_victory? = view.game_ended_in_victory?
+
+    # :reek:DuplicateMethodCall
 
     def to_s
       if revealed?

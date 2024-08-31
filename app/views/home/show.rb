@@ -26,7 +26,6 @@ class Home::Show
     Games::Show.new(game: current_game)
   end
 
-  # :reek:UtilityFunction
   def new_view
     Games::New.new
   end

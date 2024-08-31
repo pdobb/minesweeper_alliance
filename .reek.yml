@@ -1,3 +1,20 @@
+detectors:
+  DuplicateMethodCall:
+    allow_calls:
+      - self.class
+  UncommunicativeMethodName:
+    accept:
+      - x
+      - y
+  UncommunicativeParameterName:
+    accept:
+      - x
+      - y
+  UncommunicativeVariableName:
+    accept:
+      - x
+      - y
+
 directories:
   app/channels/application_cable:
     IrresponsibleModule:

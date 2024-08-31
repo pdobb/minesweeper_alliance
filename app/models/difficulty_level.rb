@@ -37,8 +37,6 @@ class DifficultyLevel
     names.include?(value)
   end
 
-  # :reek:DuplicateMethodCall
-
   def initialize(name)
     name = name.to_s.capitalize
     unless self.class.valid_name?(name)

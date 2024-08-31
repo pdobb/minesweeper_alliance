@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# :reek:ModuleInitialize
-
 # ActiveModelWrapperBehaviors is a mix-in for making View models quack like the
 # ActiveModel objects they wrap.
 #

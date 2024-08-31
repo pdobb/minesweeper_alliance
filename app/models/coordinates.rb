@@ -24,9 +24,7 @@ class Coordinates < Data.define(:x, :y) # rubocop:disable Style/DataInheritance
 
     include ConsoleObjectBehaviors
 
-    # :reek:UncommunicativeMethodName
     def x = __to_model__.x
-    # :reek:UncommunicativeMethodName
     def y = __to_model__.y
 
     def render(cells_count:)

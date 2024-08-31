@@ -12,6 +12,10 @@ class Games::New
   class DifficultyLevel
     include Games::DifficultyLevelBehaviors
 
+    def initialize(difficulty_level)
+      @difficulty_level = difficulty_level
+    end
+
     def new_game_url(router = RailsRouter.instance)
       router.games_path(difficulty_level: name)
     end

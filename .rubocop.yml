@@ -31,6 +31,11 @@ Metrics/BlockLength:
     - config/environments/*.rb
     - db/migrate/*.rb
 
+Naming/MethodParameterName:
+  AllowedNames:
+    - x
+    - y
+
 Style/Documentation:
   Exclude:
     - app/controllers/**/*

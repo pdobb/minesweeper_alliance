@@ -57,19 +57,15 @@ class Board < ApplicationRecord
 
   private
 
-  # :reek:UncommunicativeVariableName
   def generate
     Array.new(rows) { |y| generate_row(y) }
   end
 
-  # :reek:UncommunicativeParameterName
-  # :reek:UncommunicativeVariableName
-  def generate_row(y) # rubocop:disable Naming/MethodParameterName
+  def generate_row(y)
     Array.new(columns) { |x| build_cell(x:, y:) }
   end
 
-  # :reek:UncommunicativeParameterName
-  def build_cell(x:, y:) # rubocop:disable Naming/MethodParameterName
+  def build_cell(x:, y:)
     cells.build(coordinates: Coordinates[x, y])
   end
 

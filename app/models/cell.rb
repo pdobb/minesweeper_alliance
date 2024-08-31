@@ -21,9 +21,7 @@ class Cell < ApplicationRecord
 
   attribute :coordinates, CoordinatesType.new
 
-  # :reek:UncommunicativeMethodName
   def x = coordinates.x
-  # :reek:UncommunicativeMethodName
   def y = coordinates.y
 
   scope :is_mine, -> { where(mine: true) }

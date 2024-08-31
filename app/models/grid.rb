@@ -72,6 +72,7 @@ class Grid
     def inspect_info = "#{Icon.cell} x #{cells_count}"
 
     # :reek:TooManyStatements
+    # :reek:DuplicateMethodCall
     # rubocop:disable Rails/Output
     def render_row(column_number:, row:)
       print "#{pad(column_number)} => "

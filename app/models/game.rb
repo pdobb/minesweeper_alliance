@@ -60,6 +60,8 @@ class Game < ApplicationRecord
     DifficultyLevel.new(super)
   end
 
+  # :reek:TooManyStatements
+
   def start(seed_cell:)
     return self unless status_standing_by?
 

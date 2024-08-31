@@ -39,6 +39,10 @@ class Games::Index
   class DifficultyLevel
     include Games::DifficultyLevelBehaviors
 
+    def initialize(difficulty_level)
+      @difficulty_level = difficulty_level
+    end
+
     def initials = to_model.initials
   end
 
