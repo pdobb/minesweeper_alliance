@@ -7,9 +7,6 @@ class Game < ApplicationRecord
   include ConsoleBehaviors
   include Statusable::HasStatuses
 
-  after_create_commit -> { broadcast_refresh_to(:current_game) }
-  after_update_commit -> { broadcast_refresh_to(:current_game) }
-
   has_one :board, dependent: :delete
 
   has_statuses([
@@ -43,7 +40,11 @@ class Game < ApplicationRecord
   end
 
   def self.create_for(...)
-    build_for(...).tap(&:save!)
+    build_for(...).tap { |new_game|
+      new_game.save!
+
+      new_game.broadcast_refresh_to(:current_game)
+    }
   end
 
   # @attr difficulty_level [DifficultyLevel, String, #to_difficulty_level]
@@ -111,7 +112,7 @@ class Game < ApplicationRecord
 
     # :reek:TooManyStatements
 
-    def reset(time: Time.current)
+    def reset(time: Time.current) # rubocop:disable Metrics/MethodLength
       current_game = Game.current
       if current_game && current_game != __to_model__
         raise(Error, "Can't reset a past Game while a current Game exists.")
@@ -127,6 +128,8 @@ class Game < ApplicationRecord
 
         board.console.reset
       end
+
+      broadcast_refresh_to(:current_game)
 
       self
     end

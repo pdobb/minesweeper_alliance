@@ -6,6 +6,7 @@ class Games::Boards::Cells::RevealsController < ApplicationController
   def create
     Reveal.(game:, board:, cell:)
 
+    broadcast_changes
     render_updated_game_board
   end
 

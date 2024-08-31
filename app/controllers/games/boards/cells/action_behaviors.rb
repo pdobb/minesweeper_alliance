@@ -5,6 +5,11 @@
 module Games::Boards::Cells::ActionBehaviors
   private
 
+  # :reek:UtilityFunction
+  def broadcast_changes(stream: :current_game)
+    Turbo::StreamsChannel.broadcast_refresh_to(stream)
+  end
+
   def render_updated_game_board
     render(
       turbo_stream:

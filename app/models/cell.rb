@@ -17,7 +17,7 @@ class Cell < ApplicationRecord
 
   include ConsoleBehaviors
 
-  belongs_to :board, touch: true
+  belongs_to :board
 
   attribute :coordinates, CoordinatesType.new
 
@@ -65,10 +65,8 @@ class Cell < ApplicationRecord
   # for highlight in the view. This makes it easy to visualize the surrounding
   # Cells of a given, previously-revealed Cell.
   def highlight_neighbors
-    rows_updated_count =
-      neighbors.is_not_flagged.is_not_revealed.is_not_highlighted.update_all(
-        highlighted: true)
-    board.touch if rows_updated_count.positive?
+    neighbors.is_not_flagged.is_not_revealed.is_not_highlighted.update_all(
+      highlighted: true)
 
     self
   end
@@ -78,8 +76,7 @@ class Cell < ApplicationRecord
   def dehighlight_neighbors
     return self if unrevealed?
 
-    rows_updated_count = neighbors.is_highlighted.update_all(highlighted: false)
-    board.touch if rows_updated_count.positive?
+    neighbors.is_highlighted.update_all(highlighted: false)
 
     self
   end

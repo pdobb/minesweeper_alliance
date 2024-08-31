@@ -6,6 +6,7 @@ class Games::Boards::Cells::ToggleFlagsController < ApplicationController
   def create
     cell.toggle_flag
 
+    broadcast_changes
     render_updated_game_board
   end
 end
