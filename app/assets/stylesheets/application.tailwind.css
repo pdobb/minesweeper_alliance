@@ -17,8 +17,15 @@
 
   a,
   .a {
+    @apply hover:underline hover:underline-offset-4;
+  }
+
+  nav a {
+    @apply border-2 border-transparent py-2 hover:no-underline;
+
+    &.active,
     &:hover {
-      @apply underline underline-offset-4;
+      @apply border-b-red-700 no-underline;
     }
   }
 

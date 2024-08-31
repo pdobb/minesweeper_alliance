@@ -20,11 +20,14 @@
   </head>
 
   <body>
-    <header class="container mx-auto my-12">
-      <nav class="">
+    <header class="container mx-auto py-6 border-b">
+      <nav>
         <ul class="flex gap-x-12">
-          <li><%= link_to("Home", root_path) %></li>
-          <li><%= link_to("Sweep Ops Archives", games_path) %></li>
+          <li><%= active_link_to("War Room", root_path) %></li>
+          <li>
+            <%= active_link_to(
+                  "Sweep Ops Archives", games_path, includes: "games") %>
+          </li>
         </ul>
       </nav>
     </header>
