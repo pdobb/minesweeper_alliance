@@ -24,6 +24,8 @@ class GamesController < ApplicationController
       difficulty_level:
         Conversions.DifficultyLevel(params[:difficulty_level]))
 
+    DutyRoster.clear
+
     redirect_to(root_path)
   end
 end

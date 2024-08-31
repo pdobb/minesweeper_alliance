@@ -3,13 +3,13 @@
 # Games::StatusBehaviors defines common code needed by the Games::* View models
 # for showing Game completion status.
 module Games::StatusBehaviors
-  def game_status_mojis
+  def game_status_mojis(count: 1)
     if game_ended_in_victory?
       Icon.celebratory_victory
     elsif game_ended_in_defeat?
       Icon.humiliating_defeat
     elsif game_in_progress?
-      Icon.ship
+      Icon.ship * count
     end
   end
 end

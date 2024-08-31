@@ -18,7 +18,7 @@ class Games::Show
   def game_ended_in_defeat? = game.ended_in_defeat?
 
   def status
-    "#{game_status} #{game_status_mojis}"
+    "#{game_status} #{game_status_mojis(count: players_count)}"
   end
 
   def reveal_url(router = RailsRouter.instance)
@@ -55,6 +55,11 @@ class Games::Show
 
   def flags_count = board.flags_count
   def mines_count = difficulty_level.mines
+
+  # :reek:UtilityFunction
+  def players_count
+    [DutyRoster.count, 1].max
+  end
 
   private
 
