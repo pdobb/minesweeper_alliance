@@ -1,7 +1,27 @@
 # frozen_string_literal: true
 
+# EngagementTallyBehaviors is a View Model wrapper around {EngagementTally},
+# for displaying engagement tally details in the view template.
+module EngagementTallyBehaviors
+  def wins_count = engagement_tally.wins_count
+  def losses_count = engagement_tally.losses_count
+  def alliance_leads? = engagement_tally.alliance_leads?
+
+  def alliance_ranking_css_color
+    alliance_leads? ? "text-green-700" : "text-red-700"
+  end
+
+  private
+
+  def engagement_tally
+    raise(NotImplementedError)
+  end
+end
+
 # Games::Index is a view model for displaying the Games Index page.
 class Games::Index
+  include EngagementTallyBehaviors
+
   attr_reader :base_arel
 
   def self.current_time_zone_description
@@ -34,6 +54,10 @@ class Games::Index
     base_arel.group_by { |game| game.ended_at.to_date }
   end
 
+  def engagement_tally
+    @engagement_tally ||= EngagementTally.new(Game.first.ended_at..)
+  end
+
   # Games::Index::DifficultyLevel wraps {::DifficultyLevel#name}s, for display
   # of the "Initials" = "Name" map/legend.
   class DifficultyLevel
@@ -48,6 +72,8 @@ class Games::Index
 
   # Games::Index::ListingsDate
   class ListingsDate
+    include EngagementTallyBehaviors
+
     attr_reader :date
 
     def initialize(date)
@@ -58,14 +84,18 @@ class Games::Index
       I18n.l(date, format: :weekday_comma_date)
     end
 
-    def engagement_tally
-      EngagementTally.new(to_time..)
-    end
-
     private
 
-    def to_time
+    def engagement_tally
+      @engagement_tally ||= EngagementTally.new(start_time..end_time)
+    end
+
+    def start_time
       date.in_time_zone.at_beginning_of_day
+    end
+
+    def end_time
+      date.in_time_zone.at_end_of_day
     end
   end
 

@@ -32,6 +32,10 @@ class EngagementTally
     @losses_count ||= arel.for_status_mines_win.count
   end
 
+  def alliance_leads?
+    wins_count >= losses_count
+  end
+
   private
 
   attr_reader :base_arel

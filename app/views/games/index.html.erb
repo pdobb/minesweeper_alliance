@@ -6,13 +6,27 @@
   </p>
 </div>
 
-<hr class="my-12" />
+<div class="my-8 space-y-3">
+  <h2 class="h5">Official Engagement Tally:</h2>
+  <h3 class="text-center">
+    <%= render("engagement_tally", view: @view) %>
+  </h3>
+</div>
 
-<ul class="flex justify-center items-center gap-x-12 text-gray-500">
-  <% @view.difficulty_levels.each do |difficulty_level| %>
-    <li><%= difficulty_level.initials %> = <%= difficulty_level.name %></li>
-  <% end %>
-</ul>
+<div class="my-6 border-t border-b p-6">
+  <ul
+    class="
+      flex flex-wrap justify-center items-center
+      gap-x-12 gap-y-3
+      text-gray-500
+      whitespace-nowrap
+    "
+  >
+    <% @view.difficulty_levels.each do |difficulty_level| %>
+      <li><%= difficulty_level.initials %> = <%= difficulty_level.name %></li>
+    <% end %>
+  </ul>
+</div>
 
 <div class="mt-6 space-y-6">
   <% if @view.any_listings? %>
@@ -20,7 +34,7 @@
       <div class="space-y-3">
         <h2 class="h3"><%= listings_date %></h2>
         <h3 class="h5 text-gray-600">
-          Tally: <%= listings_date.engagement_tally %>
+          Tally: <%= render("engagement_tally", view: listings_date) %>
         </h3>
         <div
           class="

@@ -30,6 +30,12 @@ class EngagementTallyTest < ActiveSupport::TestCase
           value(subject.losses_count).must_equal(1)
         end
       end
+
+      describe "#alliance_leads?" do
+        it "returns the expected Boolean" do
+          value(subject.alliance_leads?).must_equal(true)
+        end
+      end
     end
 
     context "GIVEN a narrow `between` Time range argument" do
@@ -56,6 +62,12 @@ class EngagementTallyTest < ActiveSupport::TestCase
       describe "#losses_count" do
         it "returns the expected Integer" do
           value(subject.losses_count).must_equal(1)
+        end
+      end
+
+      describe "#alliance_leads?" do
+        it "returns the expected Boolean" do
+          value(subject.alliance_leads?).must_equal(false)
         end
       end
     end
