@@ -32,7 +32,7 @@ class Board < ApplicationRecord
   def place_mines(seed_cell:)
     raise(Error, "mines have already been placed") if any_mines?
 
-    cells.not_for_id(seed_cell).by_random.limit(mines).update_all(mine: true)
+    cells.excluding(seed_cell).by_random.limit(mines).update_all(mine: true)
 
     self
   end

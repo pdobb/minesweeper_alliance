@@ -5,7 +5,7 @@ class ApplicationRecord < ActiveRecord::Base
   primary_abstract_class
 
   scope :for_id, ->(id) { where(id:) }
-  scope :not_for_id, ->(id) { where.not(id:) }
+  # Prefer `excluding(...)` over `not_for_id(...)`.
 
   # rubocop:disable Rails/OrderById
   scope :by_least_recent, -> { order(:id) }
