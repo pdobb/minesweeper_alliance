@@ -13,10 +13,10 @@ class ElapsedTime
   attr_reader :start_time,
               :end_time
 
-  # :reek:ControlParameter
-  def initialize(time_range = nil, now: Time.current)
-    @start_time = time_range&.begin || now
-    @end_time = time_range&.end || now
+  def initialize(between = nil..)
+    now = Time.current
+    @start_time = between.begin || now
+    @end_time = between.end || now
   end
 
   # @return [ElapsedTime::Timestamp]

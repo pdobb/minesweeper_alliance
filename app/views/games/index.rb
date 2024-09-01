@@ -57,6 +57,16 @@ class Games::Index
     def to_s
       I18n.l(date, format: :weekday_comma_date)
     end
+
+    def engagement_tally
+      EngagementTally.new(to_time..)
+    end
+
+    private
+
+    def to_time
+      date.in_time_zone.at_beginning_of_day
+    end
   end
 
   # Games::Index::Listing

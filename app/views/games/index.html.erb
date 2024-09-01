@@ -19,6 +19,9 @@
     <% @view.listings_grouped_by_date.each do |listings_date, listings| %>
       <div class="space-y-3">
         <h2 class="h3"><%= listings_date %></h2>
+        <h3 class="h5 text-gray-600">
+          Tally: <%= listings_date.engagement_tally %>
+        </h3>
         <div
           class="
             grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 3xl:grid-cols-6
