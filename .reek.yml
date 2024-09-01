@@ -51,3 +51,4 @@ directories:
 exclude_paths:
   - db/migrate
   - test/**/*
+  - lib/templates/**/*

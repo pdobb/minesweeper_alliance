@@ -12,6 +12,7 @@ AllCops:
   Exclude:
     - bin/bundle
     - db/schema.rb
+    - lib/templates/**/*
 
 Layout/LineLength:
   Exclude:
