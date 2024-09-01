@@ -7,7 +7,10 @@ class Coordinates < Data.define(:x, :y) # rubocop:disable Style/DataInheritance
 
   # :reek:DuplicateMethodCall
 
-  # rubocop:disable all
+  # rubocop:disable Layout/MultilineArrayLineBreaks
+  # rubocop:disable Layout/SpaceInsideParens
+  # rubocop:disable Metrics/AbcSize
+  # rubocop:disable Style/TrailingCommaInArrayLiteral
   def neighbors
     [
       with(x: x.pred, y: y.pred), with(y: y.pred), with(x: x.next, y: y.pred),
@@ -15,7 +18,10 @@ class Coordinates < Data.define(:x, :y) # rubocop:disable Style/DataInheritance
       with(x: x.pred, y: y.next), with(y: y.next), with(x: x.next, y: y.next),
     ]
   end
-  # rubocop:enable all
+  # rubocop:enable Style/TrailingCommaInArrayLiteral
+  # rubocop:enable Metrics/AbcSize
+  # rubocop:enable Layout/SpaceInsideParens
+  # rubocop:enable Layout/MultilineArrayLineBreaks
 
   # Coordinates::Console acts like a {Coordinates} but otherwise handles IRB
   # Console-specific methods/logic.

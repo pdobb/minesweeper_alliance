@@ -38,14 +38,14 @@ class DifficultyLevel
   end
 
   def initialize(name)
-    name = name.to_s.capitalize
+    name = name.to_s
     unless self.class.valid_name?(name)
       raise(
         Error,
         "got #{name.inspect}, expected one of: #{self.class.names.inspect}")
     end
 
-    @name = name
+    @name = name.titleize
 
     freeze
   end

@@ -12,13 +12,15 @@ module DutyRoster
   end
 
   def self.increment
-    Rails.cache.increment(:allies)
-    Turbo::StreamsChannel.broadcast_refresh_to(:current_game)
+    Rails.cache.increment(:allies).tap {
+      Turbo::StreamsChannel.broadcast_refresh_to(:current_game)
+    }
   end
 
   def self.decrement
-    Rails.cache.write(:allies, [count.pred, 0].max)
-    Turbo::StreamsChannel.broadcast_refresh_to(:current_game)
+    Rails.cache.write(:allies, [count.pred, 0].max).tap {
+      Turbo::StreamsChannel.broadcast_refresh_to(:current_game)
+    }
   end
 
   def self.clear

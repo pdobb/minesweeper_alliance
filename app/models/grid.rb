@@ -8,7 +8,7 @@ class Grid
   attr_reader :cells
 
   def initialize(cells)
-    @cells = cells
+    @cells = Array.wrap(cells)
   end
 
   # rubocop:disable Layout/LineLength
@@ -35,7 +35,7 @@ class Grid
     to_h.values
   end
 
-  def cells_count = cells.size
+  def count = cells.size
 
   # Grid::Console acts like a {Grid} but otherwise handles IRB Console-specific
   # methods/logic.

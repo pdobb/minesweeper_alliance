@@ -50,3 +50,4 @@ directories:
 
 exclude_paths:
   - db/migrate
+  - test/**/*
