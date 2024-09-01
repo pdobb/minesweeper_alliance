@@ -10,6 +10,7 @@ class CreateBoards < ActiveRecord::Migration[7.1]
       t.integer :mines
 
       t.timestamps
+      t.index(:created_at)
     end
   end
 end

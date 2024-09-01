@@ -210,6 +210,13 @@ ALTER TABLE ONLY public.schema_migrations
 
 
 --
+-- Name: index_boards_on_created_at; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_boards_on_created_at ON public.boards USING btree (created_at);
+
+
+--
 -- Name: index_boards_on_game_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -228,6 +235,13 @@ CREATE INDEX index_cells_on_board_id ON public.cells USING btree (board_id);
 --
 
 CREATE INDEX index_cells_on_coordinates ON public.cells USING gin (coordinates);
+
+
+--
+-- Name: index_cells_on_created_at; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_cells_on_created_at ON public.cells USING btree (created_at);
 
 
 --
@@ -256,6 +270,13 @@ CREATE INDEX index_cells_on_mine ON public.cells USING btree (mine);
 --
 
 CREATE INDEX index_cells_on_revealed ON public.cells USING btree (revealed);
+
+
+--
+-- Name: index_games_on_created_at; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_games_on_created_at ON public.games USING btree (created_at);
 
 
 --

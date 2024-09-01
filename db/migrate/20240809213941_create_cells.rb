@@ -13,6 +13,7 @@ class CreateCells < ActiveRecord::Migration[7.1]
       t.boolean :revealed, null: false, default: false, index: true
 
       t.timestamps
+      t.index(:created_at)
     end
 
     add_index :cells, :coordinates, using: :gin

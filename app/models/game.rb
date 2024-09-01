@@ -4,6 +4,8 @@
 # Games and keeps track of the #status} of each Game in the database, win or
 # lose.
 class Game < ApplicationRecord
+  self.implicit_order_column = "created_at"
+
   include ConsoleBehaviors
   include Statusable::HasStatuses
 

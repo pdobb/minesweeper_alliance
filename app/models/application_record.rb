@@ -7,8 +7,6 @@ class ApplicationRecord < ActiveRecord::Base
   scope :for_id, ->(id) { where(id:) }
   # Prefer `excluding(...)` over `not_for_id(...)`.
 
-  # rubocop:disable Rails/OrderById
-  scope :by_least_recent, -> { order(:id) }
-  scope :by_most_recent, -> { order(id: :desc) }
-  # rubocop:enable Rails/OrderById
+  scope :by_least_recent, -> { order(:created_at) }
+  scope :by_most_recent, -> { order(created_at: :desc) }
 end

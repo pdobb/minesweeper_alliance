@@ -6,6 +6,8 @@
 #
 # @see Grid
 class Board < ApplicationRecord
+  self.implicit_order_column = "created_at"
+
   # Board::Error represents any StandardError related to Board processing.
   Error = Class.new(StandardError)
 

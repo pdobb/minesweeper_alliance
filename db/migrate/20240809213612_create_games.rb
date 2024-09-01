@@ -20,6 +20,7 @@ class CreateGames < ActiveRecord::Migration[7.1]
       t.datetime(:ended_at, index: true)
 
       t.timestamps
+      t.index(:created_at)
     end
 
     connection.execute(<<~SQL.squish)

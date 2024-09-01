@@ -13,6 +13,8 @@
 #   mines).
 # - If all safe Cells are revealed, the {Game} ends in victory for the alliance!
 class Cell < ApplicationRecord
+  self.implicit_order_column = "created_at"
+
   BLANK_VALUE = "0"
 
   include ConsoleBehaviors
