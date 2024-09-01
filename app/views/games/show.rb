@@ -70,11 +70,11 @@ class Games::Show
   def game_engagement_time_range = game.engagement_time_range
 
   def build_cell_views(klass)
-    cells_grid.map { |row| klass.wrap(row, self) }
+    grid.map { |row| klass.wrap(row, self) }
   end
 
-  def cells_grid
-    board.cells_grid.to_a
+  def grid
+    board.grid.to_a
   end
 
   # Games::Show::ElapsedTime is a View Model wrapper around {::ElapsedTime},

@@ -47,8 +47,8 @@ class Board < ApplicationRecord
   def mines_count = cells.is_mine.size
   def flags_count = cells.is_flagged.size
 
-  def cells_grid
-    Grid.new(cells.by_least_recent)
+  def grid
+    Grid.new(persisted? ? cells.by_least_recent : cells)
   end
 
   def clamp_coordinates(coordinates_array)
@@ -93,7 +93,7 @@ class Board < ApplicationRecord
 
     def render
       puts inspect # rubocop:disable Rails/Output
-      cells_grid.console.render
+      grid.console.render
     end
 
     def reset
