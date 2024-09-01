@@ -1,13 +1,33 @@
-# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+# 0 => 💣 (0, 0) ◻️ (1, 0) ◻️ (2, 0)
+# 1 => ◻️ (0, 1) ◻️ (1, 1) ◻️ (2, 1)
+# 2 => ◻️ (0, 2) ◻️ (1, 2) ◻️ (2, 2)
+win1_board_cell1:
+  id: 10
+  board: win1_board
+  coordinates: <%= ActiveSupport::JSON.encode(Coordinates[0, 0]) %>
+  mine: true
+  flagged: true
+<% (2..9).each do |index| %>
+win1_board_cell<%= index %>:
+  id: <%= index + 10 %>
+  board: win1_board
+  coordinates: <%= ActiveSupport::JSON.encode(Coordinates[index.pred % 3, index.pred / 3]) %>
+  value: <%= index.in?([1, 3, 4]) ? 1 : 0 %>
+<% end %>
 
-one:
-  board: one
-  x: 1
-  "y": 1
-  value: MyString
-
-two:
-  board: two
-  x: 1
-  "y": 1
-  value: MyString
+# 0 => ◻️ (0, 0) ◻️ (1, 0) ◻️ (2, 0)
+# 1 => ◻️ (0, 1) ◻️ (1, 1) ◻️ (2, 1)
+# 2 => ◻️ (0, 2) ◻️ (1, 2) ❌ (2, 2)
+<% (1..8).each do |index| %>
+loss1_board_cell<%= index %>:
+  id: <%= index + 20 %>
+  board: loss1_board
+  coordinates: <%= ActiveSupport::JSON.encode(Coordinates[index.pred % 3, index.pred / 3]) %>
+  value: <%= index.in?([5, 6, 8]) ? 1 : 0 %>
+<% end %>
+loss1_board_cell9:
+  id: 29
+  board: loss1_board
+  coordinates: <%= ActiveSupport::JSON.encode(Coordinates[2, 2]) %>
+  mine: true
+  value: <%= Icon.mine %>

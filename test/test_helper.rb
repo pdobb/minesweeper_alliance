@@ -1,8 +1,15 @@
 # frozen_string_literal: true
 
 ENV["RAILS_ENV"] ||= "test"
+ENV["MT_NO_EXPECTATIONS"] = "true"
+
 require_relative "../config/environment"
 require "rails/test_help"
+require "minitest/rails"
+
+require "gemwork/test/support/much_stub"
+require "gemwork/test/support/reporters"
+require "gemwork/test/support/spec_dsl"
 
 module ActiveSupport
   class TestCase

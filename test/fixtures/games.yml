@@ -1,7 +1,14 @@
-# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+DEFAULTS: &DEFAULTS
+  difficulty_level: Test
 
-one:
-  status: MyString
+win1:
+  <<: *DEFAULTS
+  status: <%= Game.status_alliance_wins %>
+  started_at: <%= 1.hour.ago %>
+  ended_at: <%= 59.minutes.ago %>
 
-two:
-  status: MyString
+loss1:
+  <<: *DEFAULTS
+  status: <%= Game.status_mines_win %>
+  started_at: <%= 1.minute.ago %>
+  ended_at: <%= Time.current %>

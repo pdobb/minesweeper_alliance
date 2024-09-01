@@ -1,13 +1,12 @@
-# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
-
-one:
-  game: one
-  columns: 1
-  rows: 1
+DEFAULTS: &DEFAULTS
+  columns: 3
+  rows: 3
   mines: 1
 
-two:
-  game: two
-  columns: 1
-  rows: 1
-  mines: 1
+win1_board:
+  <<: *DEFAULTS
+  game: win1
+
+loss1_board:
+  <<: *DEFAULTS
+  game: loss1
