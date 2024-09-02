@@ -11,7 +11,7 @@ class GamesController < ApplicationController
     if (game = Game.find_by(id: params[:id]))
       @view = Games::Show.new(game:)
     else
-      redirect_to(action: :index, alert: t("flash.not_found", type: "Game"))
+      redirect_to({ action: :index }, alert: t("flash.not_found", type: "Game"))
     end
   end
 
