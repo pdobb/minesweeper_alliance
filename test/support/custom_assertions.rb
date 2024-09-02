@@ -1,0 +1,250 @@
+# frozen_string_literal: true
+
+# :reek:all
+
+# ActiveSupport::Testing::Assertions overrides.
+#
+# @see https://github.com/rails/rails/blob/main/activesupport/lib/active_support/testing/assertions.rb
+module ActiveSupport::Testing::Assertions # rubocop:disable Metrics/ModuleLength
+  # Run multiple `assert_changes` assertions at once.
+  #
+  # Notes:
+  # - This code is highly borrowed from Rails 7.2's `assert_changes` method.
+  # - The block will only be called once regardless of how many change sets
+  #   are passed in. So this is also an optimization technique over using
+  #   multiple `must_change` calls.
+  # - Rubocop is disabled to keep the implementation as close to the original
+  #   Rails version as possible.
+  #
+  # @example
+  #   value(-> {
+  #     subject.validate
+  #   }).must_change_all([
+  #     ["subject.attribute1", from: nil, to: 9],
+  #     ["subject.attribute2",  "My custom message.", from: 9, to: nil]
+  #   ])
+  #
+  # @param change_sets [Array] the `expression`, `message` (Optional), and
+  #   options hash that the core `assert_changes` method would normally receive.
+  #
+  # @see https://github.com/rails/rails/blob/df4386a5d1e591e059116561b41fb2f59eb05f7e/activesupport/lib/active_support/testing/assertions.rb#L195
+  #
+  # rubocop:disable all
+  def assert_changes_to_all(change_sets, &block)
+    unless change_sets.is_a?(Array)
+      raise(TypeError, "change_sets must be an Array")
+    end
+
+    before_values = []
+
+    change_sets.each do |change_set|
+      expression = change_set.first
+
+      exp = to_expression(expression, &block)
+
+      before_values << exp.call
+    end
+
+    retval = _assert_nothing_raised_or_warn("assert_no_changes", &block)
+
+    change_sets.each.with_index do |change_set, index|
+      expression = change_set.first
+      message = change_set.second unless change_set.second.is_a?(Hash)
+
+      options = change_set.last
+      options = {} unless options.is_a?(Hash)
+      from = options.fetch(:from, UNTRACKED)
+      to = options.fetch(:to, UNTRACKED)
+
+      before = before_values[index]
+
+      unless from == UNTRACKED
+        rich_message = -> {
+          code_string = _ma_callable_to_source_string(expression)
+          error = "Expected #{code_string.inspect} to change "\
+                  "from #{from.inspect}, got #{before.inspect}"
+          error = "#{message}.\n#{error}" if message
+          error
+        }
+        assert from === before, rich_message
+      end
+
+      exp = to_expression(expression, &block)
+      after = exp.call
+
+      rich_message = -> {
+        code_string = _ma_callable_to_source_string(expression)
+        error = "#{code_string.inspect} didn't change"
+        error = "#{error}. It was already #{to.inspect}" if before == to
+        error = "#{message}.\n#{error}" if message
+        error
+      }
+      refute_equal before, after, rich_message
+
+      unless to == UNTRACKED
+        rich_message = -> {
+          code_string = _ma_callable_to_source_string(expression)
+          error = "Expected #{code_string.inspect} to change "\
+                  "to #{to.inspect}, got #{after.inspect}"
+          error = "#{message}.\n#{error}" if message
+          error
+        }
+        assert to === after, rich_message
+      end
+    end
+
+    retval
+  end
+  # rubocop:enable all
+
+  # Run multiple `assert_no_changes` assertions at once.
+  #
+  # Notes:
+  # - This code is highly borrowed from Rails 7.2's `assert_no_changes` method.
+  # - The block will only be called once regardless of how many change sets
+  #   are passed in. So this is also an optimization technique over using
+  #   multiple `wont_change` calls.
+  # - Rubocop is disabled to keep the implementation as close to the original
+  #   Rails version as possible.
+  #
+  # @example
+  #   value(-> {
+  #     subject.validate
+  #   }).wont_change_all([
+  #     ["subject.attribute1"],
+  #     ["subject.attribute2", "My custom message."]
+  #   ])
+  #
+  # @param change_sets [Array<Array>] the `expression` and `message` (Optional)
+  #   that the core `assert_no_changes` method would normally receive.
+  #
+  # @see https://github.com/rails/rails/blob/df4386a5d1e591e059116561b41fb2f59eb05f7e/activesupport/lib/active_support/testing/assertions.rb#L252
+  #
+  # rubocop:disable all
+  def assert_no_changes_to_all(change_sets, &block)
+    unless change_sets.is_a?(Array)
+      raise(TypeError, "change_sets must be an Array")
+    end
+
+    before_values = []
+
+    change_sets.each do |change_set|
+      expression = change_set.first
+
+      exp = to_expression(expression, &block)
+
+      before_values << exp.call
+    end
+
+    retval = _assert_nothing_raised_or_warn("assert_no_changes", &block)
+
+    change_sets.each.with_index do |change_set, index|
+      expression = change_set.first
+      message = change_set.second
+
+      options = change_set.last
+      options = {} unless options.is_a?(Hash)
+      from = options.fetch(:from, UNTRACKED)
+
+      before = before_values[index]
+
+      unless from == UNTRACKED
+        rich_message = -> {
+          code_string = _ma_callable_to_source_string(expression)
+          error = "Expected #{code_string.inspect} to have an initial value "\
+                  "of #{from.inspect}, got #{before.inspect}"
+          error = "#{message}.\n#{error}" if message
+          error
+        }
+        assert from === before, rich_message
+      end
+
+      exp = to_expression(expression, &block)
+
+      after = exp.call
+      before = before_values[index]
+
+      rich_message = -> {
+        code_string = _ma_callable_to_source_string(expression)
+        error = "#{code_string.inspect} changed to #{after.inspect}"
+        error = "#{message}.\n#{error}" if message
+        error
+      }
+      if before.nil?
+        assert_nil after, rich_message
+      else
+        assert_equal before, after, rich_message
+      end
+    end
+
+    retval
+  end
+  # rubocop:enable all
+
+  private
+
+  # Extracted (and cleaned up) from Rails 7.2's `assert_changes` and
+  # `assert_no_changes` methods.
+  def to_expression(value, &block)
+    if value.respond_to?(:call)
+      value
+    else
+      -> { eval(value.to_s, block.binding) } # rubocop:disable Security/Eval
+    end
+  end
+
+  # This is an improvement on calling Rails Edge's new
+  # `_callable_to_source_string` method.
+  # `ma` = Minesweeper Alliance.
+  def _ma_callable_to_source_string(expression)
+    if expression.respond_to?(:call)
+      _callable_to_source_string(expression)
+    else
+      expression
+    end
+  end
+
+  # Extracted from Rails Edge (> 7.2). Can safely remove
+  # _callable_to_source_string after it is officially released.
+  #
+  # rubocop:disable all
+  def _callable_to_source_string(callable)
+    if defined?(RubyVM::AbstractSyntaxTree) && callable.is_a?(Proc)
+      ast = begin
+        RubyVM::AbstractSyntaxTree.of(callable, keep_script_lines: true)
+      rescue SystemCallError
+        # Failed to get the source somehow
+        return callable
+      end
+      return callable unless ast
+
+      source = ast.source
+      source.strip!
+
+      # We ignore procs defined with do/end as they are likely multi-line anyway.
+      if source.start_with?("{")
+        source.delete_suffix!("}")
+        source.delete_prefix!("{")
+        source.strip!
+        # It won't read nice if the callable contains multiple
+        # lines, and it should be a rare occurence anyway.
+        # Same if it takes arguments.
+        if !source.include?("\n") && !source.start_with?("|")
+          return source
+        end
+      end
+    end
+
+    callable
+  end
+  # rubocop:enable all
+end
+
+# Minitest::Expectations
+module Minitest::Expectations
+  infect_an_assertion(:assert_changes, :must_change, :block)
+  infect_an_assertion(:assert_changes_to_all, :must_change_all, :block)
+
+  infect_an_assertion(:assert_no_changes, :wont_change, :block)
+  infect_an_assertion(:assert_no_changes_to_all, :wont_change_all, :block)
+end

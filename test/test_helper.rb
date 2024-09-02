@@ -11,6 +11,8 @@ require "gemwork/test/support/much_stub"
 require "gemwork/test/support/reporters"
 require "gemwork/test/support/spec_dsl"
 
+require "support/custom_assertions"
+
 module ActiveSupport
   class TestCase
     # Run tests in parallel with specified workers
