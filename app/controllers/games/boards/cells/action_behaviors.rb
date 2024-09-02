@@ -11,12 +11,17 @@ module Games::Boards::Cells::ActionBehaviors
   end
 
   def render_updated_game_board
-    render(
-      turbo_stream:
-        turbo_stream.replace(
-          :current_game,
-          partial: "games/game",
-          locals: { view: Games::Show.new(game:) }))
+    respond_to do |format|
+      format.html { redirect_to(root_path) }
+      format.turbo_stream {
+        render(
+          turbo_stream:
+            turbo_stream.replace(
+              :current_game,
+              partial: "games/game",
+              locals: { view: Games::Show.new(game:) }))
+      }
+    end
   end
 
   def game

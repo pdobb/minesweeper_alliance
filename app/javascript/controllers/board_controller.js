@@ -71,16 +71,29 @@ export default class extends Controller {
   #submit($cell, baseUrl) {
     this.#showLoadingIndicator($cell)
 
-    const $boardActionProxy = document.getElementById(this.actionProxyIdValue)
     const cellId = $cell.dataset.id
-
     // /boards/<boardId>/cells/<cellId>/<action>
-    $boardActionProxy.href = baseUrl.replace(
+    const targetUrl = baseUrl.replace(
       this.constructor.cellIdRegex,
       `cells/${cellId}/`,
     )
 
-    $boardActionProxy.click()
+    this.#updateBoardActionPorxyTarget(targetUrl).requestSubmit()
+  }
+
+  #updateBoardActionPorxyTarget(targetUrl) {
+    const $boardActionProxy = document.getElementById(this.actionProxyIdValue)
+    $boardActionProxy.action = targetUrl
+
+    const $authenticityToken = $boardActionProxy.querySelector(
+      'input[type="hidden"][name="authenticity_token"]',
+    )
+    const csrfToken = document.head.querySelector(
+      "meta[name=csrf-token]",
+    ).content
+    $authenticityToken.value = csrfToken
+
+    return $boardActionProxy
   }
 
   #showLoadingIndicator($cell) {

@@ -106,11 +106,7 @@
   </div>
 
   <% if view.game_on? %>
-    <%= link_to(
-          nil,
-          "",
-          id: "boardActionProxy",
-          class: "hidden",
-          data: { turbo_method: :post }) %>
+    <%= button_to(
+          nil, nil, class: "hidden", form: { id: "boardActionProxy" }) %>
   <% end %>
 <% end %>
