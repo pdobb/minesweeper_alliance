@@ -16,12 +16,12 @@ class Board < ApplicationRecord
   belongs_to :game
   has_many :cells, dependent: :delete_all
 
-  # @@attr difficulty_level [DifficultyLevel]
+  # @attr difficulty_level [DifficultyLevel]
   def self.build_for(game:, difficulty_level:)
     build_for_custom(game:, difficulty_level:)
   end
 
-  # @@attr difficulty_level [DifficultyLevel]
+  # @attr difficulty_level [DifficultyLevel]
   def self.build_for_custom(game:, difficulty_level:)
     game.
       build_board(

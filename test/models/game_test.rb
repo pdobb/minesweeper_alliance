@@ -42,6 +42,28 @@ class GameTest < ActiveSupport::TestCase
         end
       end
 
+      describe ".create_for" do
+        context "GIVEN a Game.current already exists" do
+          it "raises ActiveRecord::RecordNotUnique" do
+            _(-> { subject.create_for(difficulty_level: "Test") }).must_raise(
+              ActiveRecord::RecordNotUnique)
+          end
+        end
+
+        context "GIVEN no Game.current already exists" do
+          before { standing_by1.delete }
+
+          it "returns a persisted Game with the expected attributes" do
+            result = subject.create_for(difficulty_level: "Test")
+            _(result).must_be_instance_of(unit_class)
+            _(result.persisted?).must_equal(true)
+            _(result.status_standing_by?).must_equal(true)
+            _(result.board).must_be_instance_of(Board)
+            _(result.board.cells.sample).must_be_instance_of(Cell)
+          end
+        end
+      end
+
       describe ".build_for" do
         before do
           MuchStub.tap_on_call(Conversions, :DifficultyLevel) { |_value, call|

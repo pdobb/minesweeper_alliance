@@ -20,11 +20,15 @@ class GamesController < ApplicationController
   end
 
   def create
-    Game.find_or_create_current(
-      difficulty_level:
-        Conversions.DifficultyLevel(params[:difficulty_level]))
+    current_game =
+      Game.find_or_create_current(
+        difficulty_level:
+          Conversions.DifficultyLevel(params[:difficulty_level]))
 
-    DutyRoster.clear
+    if current_game.just_created?
+      DutyRoster.clear
+      current_game.broadcast_refresh_to(:current_game)
+    end
 
     redirect_to(root_path)
   end

@@ -42,11 +42,7 @@ class Game < ApplicationRecord
   end
 
   def self.create_for(...)
-    build_for(...).tap { |new_game|
-      new_game.save!
-
-      new_game.broadcast_refresh_to(:current_game)
-    }
+    build_for(...).tap(&:save!)
   end
 
   # @attr difficulty_level [DifficultyLevel, String, #to_difficulty_level]
