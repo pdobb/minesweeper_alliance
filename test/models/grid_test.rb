@@ -11,7 +11,7 @@ class GridTest < ActiveSupport::TestCase
         subject { unit_class.new([1, 2, 3]) }
 
         it "returns the expected Array" do
-          value(subject.cells).must_equal([1, 2, 3])
+          _(subject.cells).must_equal([1, 2, 3])
         end
       end
 
@@ -19,7 +19,7 @@ class GridTest < ActiveSupport::TestCase
         subject { unit_class.new(1) }
 
         it "returns the expected Array" do
-          value(subject.cells).must_equal([1])
+          _(subject.cells).must_equal([1])
         end
       end
     end
@@ -29,7 +29,7 @@ class GridTest < ActiveSupport::TestCase
         subject { unit_class.new([Coordinates[9, 9]]) }
 
         it "returns the expected Hash" do
-          value(subject.to_h).must_equal({ 9 => [Coordinates[9, 9]] })
+          _(subject.to_h).must_equal({ 9 => [Coordinates[9, 9]] })
         end
       end
 
@@ -37,7 +37,7 @@ class GridTest < ActiveSupport::TestCase
         subject { unit_class.new([Coordinates[nil, nil]]) }
 
         it "returns the expected Hash" do
-          value(subject.to_h).must_equal({ "nil" => [Coordinates[nil, nil]] })
+          _(subject.to_h).must_equal({ "nil" => [Coordinates[nil, nil]] })
         end
       end
     end
@@ -46,7 +46,7 @@ class GridTest < ActiveSupport::TestCase
       subject { unit_class.new([Coordinates[9, 9]]) }
 
       it "returns the expected Array" do
-        value(subject.to_a).must_equal([[Coordinates[9, 9]]])
+        _(subject.to_a).must_equal([[Coordinates[9, 9]]])
       end
     end
 
@@ -54,7 +54,7 @@ class GridTest < ActiveSupport::TestCase
       subject { unit_class.new([Coordinates[9, 9]]) }
 
       it "returns the expected Integer" do
-        value(subject.count).must_equal(1)
+        _(subject.count).must_equal(1)
       end
     end
   end

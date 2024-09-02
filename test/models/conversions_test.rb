@@ -14,7 +14,7 @@ class ConversionsTest < ActiveSupport::TestCase
 
         it "returns the instance" do
           result = subject.DifficultyLevel(instance)
-          value(result).must_be_same_as(instance)
+          _(result).must_be_same_as(instance)
         end
       end
 
@@ -25,7 +25,7 @@ class ConversionsTest < ActiveSupport::TestCase
 
         it "returns the object" do
           result = subject.DifficultyLevel(object)
-          value(result).must_be_same_as(object)
+          _(result).must_be_same_as(object)
         end
       end
 
@@ -34,8 +34,8 @@ class ConversionsTest < ActiveSupport::TestCase
 
         it "returns the expected DifficultyLevel" do
           result = subject.DifficultyLevel("Random")
-          value(result).must_be_instance_of(DifficultyLevel)
-          value(result.name).must_be(
+          _(result).must_be_instance_of(DifficultyLevel)
+          _(result.name).must_be(
             :in?, %w[Test Beginner Intermediate Expert])
         end
       end
@@ -45,8 +45,8 @@ class ConversionsTest < ActiveSupport::TestCase
 
         it "returns the expected DifficultyLevel" do
           result = subject.DifficultyLevel("Test")
-          value(result).must_be_instance_of(DifficultyLevel)
-          value(result.name).must_equal("Test")
+          _(result).must_be_instance_of(DifficultyLevel)
+          _(result.name).must_equal("Test")
         end
       end
 
@@ -54,7 +54,7 @@ class ConversionsTest < ActiveSupport::TestCase
         subject { unit_class }
 
         it "raises DifficultyLevel::Error" do
-          value(-> {
+          _(-> {
             subject.DifficultyLevel("Invalid Name")
           }).must_raise(DifficultyLevel::Error)
         end

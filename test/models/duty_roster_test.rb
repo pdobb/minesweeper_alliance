@@ -13,7 +13,7 @@ class DutyRosterTest < ActiveSupport::TestCase
         before { MuchStub.(Rails, :cache) { CacheDouble.new } }
 
         it "returns 0" do
-          value(subject.count).must_equal(0)
+          _(subject.count).must_equal(0)
         end
       end
 
@@ -21,7 +21,7 @@ class DutyRosterTest < ActiveSupport::TestCase
         before { MuchStub.(Rails, :cache) { CacheDouble.new(9) } }
 
         it "returns the expected Integer" do
-          value(subject.count).must_equal(9)
+          _(subject.count).must_equal(9)
         end
       end
     end
@@ -39,15 +39,15 @@ class DutyRosterTest < ActiveSupport::TestCase
 
       it "calls Turbo::StreamsChannel.broadcasts_refresh_to" do
         subject.increment
-        value(@broadcast_refresh_to_called_count).must_equal(1)
-        value(@broadcast_refresh_to_call.pargs).must_equal([:current_game])
+        _(@broadcast_refresh_to_called_count).must_equal(1)
+        _(@broadcast_refresh_to_call.pargs).must_equal([:current_game])
       end
 
       context "GIVEN a cache miss" do
         before { MuchStub.(Rails, :cache) { CacheDouble.new } }
 
         it "returns 0" do
-          value(subject.increment).must_equal(1)
+          _(subject.increment).must_equal(1)
         end
       end
 
@@ -55,7 +55,7 @@ class DutyRosterTest < ActiveSupport::TestCase
         before { MuchStub.(Rails, :cache) { CacheDouble.new(9) } }
 
         it "returns the expected Integer" do
-          value(subject.increment).must_equal(10)
+          _(subject.increment).must_equal(10)
         end
       end
     end
@@ -73,15 +73,15 @@ class DutyRosterTest < ActiveSupport::TestCase
 
       it "calls Turbo::StreamsChannel.broadcasts_refresh_to" do
         subject.increment
-        value(@broadcast_refresh_to_called_count).must_equal(1)
-        value(@broadcast_refresh_to_call.pargs).must_equal([:current_game])
+        _(@broadcast_refresh_to_called_count).must_equal(1)
+        _(@broadcast_refresh_to_call.pargs).must_equal([:current_game])
       end
 
       context "GIVEN a cache miss" do
         before { MuchStub.(Rails, :cache) { CacheDouble.new } }
 
         it "returns 0" do
-          value(subject.decrement).must_equal(0)
+          _(subject.decrement).must_equal(0)
         end
       end
 
@@ -89,7 +89,7 @@ class DutyRosterTest < ActiveSupport::TestCase
         before { MuchStub.(Rails, :cache) { CacheDouble.new(9) } }
 
         it "returns the expected Integer" do
-          value(subject.decrement).must_equal(8)
+          _(subject.decrement).must_equal(8)
         end
       end
     end
@@ -100,7 +100,7 @@ class DutyRosterTest < ActiveSupport::TestCase
       subject { unit_class }
 
       it "returns true" do
-        value(subject.clear).must_equal(true)
+        _(subject.clear).must_equal(true)
       end
     end
   end

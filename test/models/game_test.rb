@@ -134,8 +134,8 @@ class GameTest < ActiveSupport::TestCase
 
         it "returns the Game without orchestrating any changes" do
           result = subject.end_in_victory
-          value(result).must_be_same_as(subject)
-          value(@touch_call).must_be_nil
+          _(result).must_be_same_as(subject)
+          _(@touch_call).must_be_nil
         end
       end
     end
@@ -168,8 +168,8 @@ class GameTest < ActiveSupport::TestCase
 
         it "returns the Game without orchestrating any changes" do
           result = subject.end_in_defeat
-          value(result).must_be_same_as(subject)
-          value(@touch_call).must_be_nil
+          _(result).must_be_same_as(subject)
+          _(@touch_call).must_be_nil
         end
       end
     end

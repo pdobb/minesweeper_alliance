@@ -12,7 +12,7 @@ class RandomDifficultyLevelTest < ActiveSupport::TestCase
       describe "#initialize" do
         it "returns the expected instance" do
           result = subject.new
-          value(result).must_be_instance_of(unit_class)
+          _(result).must_be_instance_of(unit_class)
         end
       end
     end
@@ -22,7 +22,7 @@ class RandomDifficultyLevelTest < ActiveSupport::TestCase
 
       describe "#name" do
         it "returns the expected String" do
-          value(subject.name).must_equal("Random")
+          _(subject.name).must_equal("Random")
         end
       end
     end

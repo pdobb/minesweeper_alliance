@@ -14,7 +14,7 @@ class CoordinatesTest < ActiveSupport::TestCase
 
       describe "#neighbors" do
         it "returns the expected Array" do
-          value(subject.neighbors).must_equal([
+          _(subject.neighbors).must_equal([
             unit_class[-1, -1], unit_class[0, -1], unit_class[1, -1],
             unit_class[-1,  0],                    unit_class[1,  0],
             unit_class[-1,  1], unit_class[0,  1], unit_class[1,  1],
@@ -28,7 +28,7 @@ class CoordinatesTest < ActiveSupport::TestCase
 
       describe "#neighbors" do
         it "returns the expected Array" do
-          value(subject.neighbors).must_equal([
+          _(subject.neighbors).must_equal([
             unit_class[0, 0], unit_class[1, 0], unit_class[2, 0],
             unit_class[0, 1],                   unit_class[2, 1],
             unit_class[0, 2], unit_class[1, 2], unit_class[2, 2],
@@ -42,7 +42,7 @@ class CoordinatesTest < ActiveSupport::TestCase
 
       describe "#neighbors" do
         it "returns the expected Array" do
-          value(subject.neighbors).must_equal([
+          _(subject.neighbors).must_equal([
             unit_class[1, 1], unit_class[2, 1], unit_class[3, 1],
             unit_class[1, 2],                   unit_class[3, 2],
             unit_class[1, 3], unit_class[2, 3], unit_class[3, 3],
