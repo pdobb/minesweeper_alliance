@@ -66,7 +66,7 @@
 
 @layer components {
   .btn-primary {
-    @apply select-none whitespace-nowrap border border-2 border-slate-400 px-3 py-1 hover:border-slate-800;
+    @apply select-none whitespace-nowrap border border-2 border-gray-800 px-4 py-1 hover:border-red-700 hover:ring hover:ring-1 hover:ring-red-700;
 
     &:hover {
       @apply no-underline;
