@@ -31,3 +31,13 @@ loss1_board_cell9:
   coordinates: <%= ActiveSupport::JSON.encode(Coordinates[2, 2]) %>
   mine: true
   value: <%= Icon.mine %>
+
+# 0 => ◻️ (0, 0) ◻️ (1, 0) ◻️ (2, 0)
+# 1 => ◻️ (0, 1) ◻️ (1, 1) ◻️ (2, 1)
+# 2 => ◻️ (0, 2) ◻️ (1, 2) ◻️ (2, 2)
+<% (1..9).each do |index| %>
+standing_by1_board_cell<%= index %>:
+  id: <%= index + 30 %>
+  board: standing_by1_board
+  coordinates: <%= ActiveSupport::JSON.encode(Coordinates[index.pred % 3, index.pred / 3]) %>
+<% end %>

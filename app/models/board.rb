@@ -89,6 +89,10 @@ class Board < ApplicationRecord
   class Console
     include ConsoleObjectBehaviors
 
+    def cells
+      super.map(&:console)
+    end
+
     def reveal_random_cell
       cells.for_id(random_cell_id_for_reveal).take.reveal
     end

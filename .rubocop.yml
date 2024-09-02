@@ -50,3 +50,7 @@ Style/FrozenStringLiteralComment:
   Exclude:
     - config.ru
     - bin/*
+
+Style/HashAsLastArrayItem:
+  Exclude:
+    - test/**/*

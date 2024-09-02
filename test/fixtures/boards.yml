@@ -10,3 +10,7 @@ win1_board:
 loss1_board:
   <<: *DEFAULTS
   game: loss1
+
+standing_by1_board:
+  <<: *DEFAULTS
+  game: standing_by1

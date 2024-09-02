@@ -10,5 +10,10 @@ win1:
 loss1:
   <<: *DEFAULTS
   status: <%= Game.status_mines_win %>
+  started_at: <%= 10.minutes.ago %>
+  ended_at: <%= 9.minutes.ago %>
+
+standing_by1:
+  <<: *DEFAULTS
+  status: <%= Game.status_standing_by %>
   started_at: <%= 1.minute.ago %>
-  ended_at: <%= Time.current %>

@@ -91,7 +91,7 @@ class EngagementTallyTest < ActiveSupport::TestCase
     end
 
     context "GIVEN a narrow `between` Time range argument" do
-      subject { EngagementTally.new(2.minutes.ago..) }
+      subject { EngagementTally.new(10.minutes.ago..) }
 
       describe "#to_h" do
         it "returns the expected Hash" do

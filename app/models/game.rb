@@ -103,10 +103,14 @@ class Game < ApplicationRecord
   private
 
   def end_game
+    return self if over?
+
     transaction do
       touch(:ended_at)
       yield
     end
+
+    self
   end
 
   # Game::Console acts like a {Game} but otherwise handles IRB Console-specific
