@@ -91,7 +91,6 @@ class Grid
     end
     # rubocop:enable Rails/Output
 
-    # :reek:UtilityFunction
     def pad(value)
       value.to_s.rjust(2, " ")
     end

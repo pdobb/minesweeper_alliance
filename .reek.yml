@@ -14,6 +14,10 @@ detectors:
     accept:
       - x
       - y
+  UnusedPrivateMethod:
+    enabled: false # Disabled by default.
+  UtilityFunction:
+    public_methods_only: true # Disabled by default.
 
 directories:
   app/channels/application_cable:

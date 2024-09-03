@@ -5,7 +5,6 @@
 module Games::Boards::Cells::ActionBehaviors
   private
 
-  # :reek:UtilityFunction
   def broadcast_changes(stream: :current_game)
     Turbo::StreamsChannel.broadcast_refresh_to(stream)
   end

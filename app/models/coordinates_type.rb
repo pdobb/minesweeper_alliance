@@ -40,8 +40,6 @@ class CoordinatesType < ActiveModel::Type::Value
 
   private
 
-  # :reek:UtilityFunction
-
   def cast_string_value(value)
     hash = ActiveSupport::JSON.decode(value)
     Coordinates.new(**hash.symbolize_keys)

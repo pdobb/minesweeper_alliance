@@ -26,7 +26,6 @@ class Turbo::StreamsChannel < ActionCable::Channel::Base
 
   # CUSTOM CODE:
 
-  # :reek:UtilityFunction
   def unsubscribed
     on_unsubscribe
   end

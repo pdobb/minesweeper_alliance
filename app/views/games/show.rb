@@ -56,7 +56,6 @@ class Games::Show
   def flags_count = board.flags_count
   def mines_count = difficulty_level.mines
 
-  # :reek:UtilityFunction
   def players_count
     [DutyRoster.count, 1].max
   end

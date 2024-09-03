@@ -71,19 +71,16 @@ class ElapsedTime
 
     private
 
-    # :reek:UtilityFunction
     def parse_hours(remaining_seconds)
       hours = (remaining_seconds / SECONDS_PER_HOUR).floor
       remaining_seconds %= SECONDS_PER_HOUR
       [hours, remaining_seconds]
     end
 
-    # :reek:UtilityFunction
     def parse_minutes(remaining_seconds)
       (remaining_seconds / SECONDS_PER_MINUTE).floor
     end
 
-    # :reek:UtilityFunction
     def parse_seconds(remaining_seconds)
       remaining_seconds % SECONDS_PER_MINUTE
     end

@@ -47,7 +47,6 @@ class Coordinates < Data.define(:x, :y) # rubocop:disable Style/DataInheritance
       "(#{x}, #{y})"
     end
 
-    # :reek:UtilityFunction
     def pad(value, cells_count:)
       return value if cells_count <= BEGINNER_DIFFICULTY_LEVEL_CELLS_COUNT
 

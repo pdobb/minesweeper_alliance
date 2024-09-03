@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# :reek:all
-
 # ActiveSupport::Testing::Assertions overrides.
 #
 # @see https://github.com/rails/rails/blob/main/activesupport/lib/active_support/testing/assertions.rb
