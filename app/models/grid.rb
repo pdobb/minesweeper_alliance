@@ -3,6 +3,7 @@
 # Grid allows for organizing an Array of {Cell}s. Outputs include: a Hash, an
 # Array of Arrays, or "rendering" the grid by appealing to {Cell#render}.
 class Grid
+  include Enumerable
   include ConsoleBehaviors
 
   attr_reader :cells
@@ -14,28 +15,37 @@ class Grid
   def cells_count = cells.size
 
   # rubocop:disable Layout/LineLength
+
+  # Group {#cells} into an Array Index-mapped Hash.
+  #
+  # @return [Hash]
+  #
   # @example
   #   {
   #     0=>[<Cell[1](◻️) (0, 0) :: nil>, <Cell[2](◻️) (1, 0) :: nil>, <Cell[3](◻️ / 💣) (2, 0) :: nil>],
   #     1=>[<Cell[4](◻️) (0, 1) :: nil>, <Cell[5](◻️) (1, 1) :: nil>, <Cell[6](◻️ / 💣) (2, 1) :: nil>],
   #     2=>[<Cell[7](◻️) (0, 2) :: nil>, <Cell[8](◻️) (1, 2) :: nil>, <Cell[9](◻️ / 💣) (2, 2) :: nil>]
   #   }
-  # rubocop:enable Layout/LineLength
   def to_h
     cells.group_by { |cell| cell.y || "nil" }
   end
 
-  # rubocop:disable Layout/LineLength
-  # @example
-  #   [
-  #     [<Cell[1](◻️) (0, 0) :: nil>, <Cell[2](◻️) (1, 0) :: nil>, <Cell[3](◻️ / 💣) (2, 0) :: nil>],
-  #     [<Cell[4](◻️) (0, 1) :: nil>, <Cell[5](◻️) (1, 1) :: nil>, <Cell[6](◻️ / 💣) (2, 1) :: nil>],
-  #     [<Cell[7](◻️) (0, 2) :: nil>, <Cell[8](◻️) (1, 2) :: nil>, <Cell[9](◻️ / 💣) (2, 2) :: nil>]
-  #   ]
-  # rubocop:enable Layout/LineLength
-  def to_a
-    to_h.values
+  # Allow rows enumeration. e.g. this provides Grid#to_a and Grid#map via the Enumerable mix-in.
+  #
+  # @return [Enumerable]
+  #
+  # @example #to_a
+  #   @example
+  #     [
+  #       [<Cell[1](◻️) (0, 0) :: nil>, <Cell[2](◻️) (1, 0) :: nil>, <Cell[3](◻️ / 💣) (2, 0) :: nil>],
+  #       [<Cell[4](◻️) (0, 1) :: nil>, <Cell[5](◻️) (1, 1) :: nil>, <Cell[6](◻️ / 💣) (2, 1) :: nil>],
+  #       [<Cell[7](◻️) (0, 2) :: nil>, <Cell[8](◻️) (1, 2) :: nil>, <Cell[9](◻️ / 💣) (2, 2) :: nil>]
+  #     ]
+  def each(&)
+    to_h.values.each(&)
   end
+
+  # rubocop:enable Layout/LineLength
 
   # Grid::Console acts like a {Grid} but otherwise handles IRB Console-specific
   # methods/logic.

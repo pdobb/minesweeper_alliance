@@ -72,9 +72,7 @@ class Games::Show
     grid.map { |row| klass.wrap(row, self) }
   end
 
-  def grid
-    board.grid.to_a
-  end
+  def grid = board.grid
 
   # Games::Show::ElapsedTime is a View Model wrapper around {::ElapsedTime},
   # for displaying elapsed time details in the view template.

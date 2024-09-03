@@ -24,6 +24,14 @@ class GridTest < ActiveSupport::TestCase
       end
     end
 
+    describe "#cells_count" do
+      subject { unit_class.new([Coordinates[9, 9]]) }
+
+      it "returns the expected Integer" do
+        _(subject.cells_count).must_equal(1)
+      end
+    end
+
     describe "#to_h" do
       context "GIVEN Cell#y is not nil" do
         subject { unit_class.new([Coordinates[9, 9]]) }
@@ -50,11 +58,16 @@ class GridTest < ActiveSupport::TestCase
       end
     end
 
-    describe "#cells_count" do
+    describe "#map" do
       subject { unit_class.new([Coordinates[9, 9]]) }
 
-      it "returns the expected Integer" do
-        _(subject.cells_count).must_equal(1)
+      it "returns an enumerator, GIVEN no block" do
+        _(subject.map).must_be_instance_of(Enumerator)
+      end
+
+      it "returns the expected mapping, GIVEN a block" do
+        result = subject.map { |array| array.map(&:y) }
+        _(result).must_equal([[9]])
       end
     end
   end
