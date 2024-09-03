@@ -116,6 +116,11 @@ class Game < ApplicationRecord
 
     def board = super.console
 
+    def render
+      puts inspect # rubocop:disable Rails/Output
+      board.render
+    end
+
     # :reek:TooManyStatements
     def reset(time: Time.current)
       check_for_current_game
@@ -161,7 +166,13 @@ class Game < ApplicationRecord
 
     private
 
-    def inspect_flags = status
+    def inspect_flags(scope:)
+      scope.join_flags([
+        difficulty_level,
+        status,
+      ])
+    end
+
     def inspect_info = engagement_time_range
 
     def check_for_current_game

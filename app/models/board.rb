@@ -102,7 +102,7 @@ class Board < ApplicationRecord
 
     def render
       puts inspect # rubocop:disable Rails/Output
-      grid.console.render
+      grid.render
     end
 
     def reset

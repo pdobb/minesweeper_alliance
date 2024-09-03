@@ -76,7 +76,7 @@ class Grid
 
     private
 
-    def inspect_identification = "Grid"
+    def inspect_identification = __to_model__.class.name
 
     def inspect_info
       "#{Icon.cell} x#{cells_count} (#{dimensions})"
@@ -86,20 +86,12 @@ class Grid
       "#{count}x#{to_a.first.size}"
     end
 
-    # :reek:TooManyStatements
-    # :reek:DuplicateMethodCall
     # rubocop:disable Rails/Output
     def render_row(column_number:, row:)
-      print "#{pad(column_number)} => "
+      print "#{pad(column_number)}: "
 
       row.each do |cell|
-        result = cell.console.render(cells_count:)
-        # Not sure why the results aren't consistent, but sometimes there isn't
-        # a space between the {Icon.cell} and the start of Coordinates
-        # rendering (See {Cell::Console#render}). It seems to just be how
-        # Emojis are handled in Strings sometimes...
-        result.gsub!("#{Icon.cell}(", "#{Icon.cell} (")
-        print result
+        print cell.console.render(cells_count:), " "
       end
 
       print "\n"

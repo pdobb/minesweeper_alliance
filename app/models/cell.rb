@@ -117,7 +117,7 @@ class Cell < ApplicationRecord
     def coordinates = super.console
 
     def render(cells_count: nil)
-      "#{current_state} #{coordinates.console.render(cells_count:)}"
+      "#{current_state}#{coordinates.console.render(cells_count:)}"
     end
 
     private
@@ -140,7 +140,7 @@ class Cell < ApplicationRecord
 
     def current_state
       if revealed?
-        "#{value} "
+        " #{value}"
       elsif flagged?
         Icon.flag
       else
