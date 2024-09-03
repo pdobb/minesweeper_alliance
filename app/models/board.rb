@@ -53,8 +53,8 @@ class Board < ApplicationRecord
   def mines_count = cells.is_mine.size
   def flags_count = cells.is_flagged.size
 
-  def grid
-    Grid.new(cells)
+  def grid(context: nil)
+    Grid.build_for(cells, context:)
   end
 
   def clamp_coordinates(coordinates_array)

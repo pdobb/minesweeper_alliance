@@ -3,13 +3,33 @@
 # Grid allows for organizing an Array of {Cell}s. Outputs include: a Hash, an
 # Array of Arrays, or "rendering" the grid by appealing to {Cell#render}.
 class Grid
+  STANDARD_ORGANIZER = ->(array) { array }
+  TRANSPOSE_ORGANIZER = ->(array) { array.transpose }
+
   include Enumerable
   include ConsoleBehaviors
 
-  attr_reader :cells
+  attr_reader :cells,
+              :organizer
 
-  def initialize(cells)
+  def self.build_for(cells, context:)
+    new(cells, organizer: organizer_for(context:))
+  end
+
+  # :reek:ControlParameter
+  def self.organizer_for(context:)
+    context&.mobile? ? TRANSPOSE_ORGANIZER : STANDARD_ORGANIZER
+  end
+  private_class_method :organizer_for
+
+  # :reek:ManualDispatch
+  def initialize(cells, organizer: STANDARD_ORGANIZER)
+    unless organizer.respond_to?(:call)
+      raise(TypeEror, "callable expected, got #{organizer.inspect}")
+    end
+
     @cells = Array.wrap(cells)
+    @organizer = organizer
   end
 
   def cells_count = cells.size
@@ -42,7 +62,7 @@ class Grid
   #       [<Cell[7](◻️) (0, 2) :: nil>, <Cell[8](◻️) (1, 2) :: nil>, <Cell[9](◻️ / 💣) (2, 2) :: nil>]
   #     ]
   def each(&)
-    to_h.values.each(&)
+    organizer.(to_h.values).each(&)
   end
 
   # rubocop:enable Layout/LineLength

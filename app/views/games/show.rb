@@ -11,14 +11,15 @@ class Games::Show
     @game = game
   end
 
-  def game_status = game.status
   def game_on? = game.on?
   def game_in_progress? = game.status_sweep_in_progress?
   def game_ended_in_victory? = game.ended_in_victory?
   def game_ended_in_defeat? = game.ended_in_defeat?
 
-  def status
-    "#{game_status} #{game_status_mojis(count: players_count)}"
+  def game_status = game.status
+
+  def game_status_mojis
+    super(count: players_count)
   end
 
   def reveal_url(router = RailsRouter.instance)
@@ -37,8 +38,10 @@ class Games::Show
     router.game_board_cell_reveal_neighbors_path(game, board, NULL_CELL_ID)
   end
 
-  def board_rows
-    build_cell_views(game_on? ? ActiveCell : InactiveCell)
+  def rows(context:)
+    klass = game_on? ? ActiveCell : InactiveCell
+    # TODO: Wrap `context` in a View Object for our protection/convenience.
+    grid(context:).map { |row| klass.wrap(row, self) }
   end
 
   def elapsed_time
@@ -56,23 +59,22 @@ class Games::Show
   def flags_count = board.flags_count
   def mines_count = difficulty_level.mines
 
-  def players_count
-    [DutyRoster.count, 1].max
-  end
-
   private
 
   attr_reader :game
 
   def board = game.board
-  def difficulty_level = game.difficulty_level
-  def game_engagement_time_range = game.engagement_time_range
 
-  def build_cell_views(klass)
-    grid.map { |row| klass.wrap(row, self) }
+  def grid(context:)
+    board.grid(context:)
   end
 
-  def grid = board.grid
+  def game_engagement_time_range = game.engagement_time_range
+  def difficulty_level = game.difficulty_level
+
+  def players_count
+    [DutyRoster.count, 1].max
+  end
 
   # Games::Show::ElapsedTime is a View Model wrapper around {::ElapsedTime},
   # for displaying elapsed time details in the view template.

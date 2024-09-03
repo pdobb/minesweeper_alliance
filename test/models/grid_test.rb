@@ -6,6 +6,46 @@ class GridTest < ActiveSupport::TestCase
   describe "Grid" do
     let(:unit_class) { Grid }
 
+    context "Class Methods" do
+      subject { unit_class }
+
+      describe ".build_for" do
+        context "GIVEN a Mobile context" do
+          let(:context) {
+            Class.new { def mobile? = true }.new
+          }
+
+          it "builds a Grid that uses the 'Transpose' organizer" do
+            result = subject.build_for([1, 2, 3], context:)
+            _(result).must_be_instance_of(unit_class)
+            _(result.organizer).must_equal(unit_class::TRANSPOSE_ORGANIZER)
+          end
+        end
+
+        context "GIVEN a non-Mobile context" do
+          let(:context) {
+            Class.new { def mobile? = false }.new
+          }
+
+          it "builds a Grid that uses the 'Transpose' organizer" do
+            result = subject.build_for([1, 2, 3], context:)
+            _(result).must_be_instance_of(unit_class)
+            _(result.organizer).must_equal(unit_class::STANDARD_ORGANIZER)
+          end
+        end
+
+        context "GIVEN a nil context" do
+          let(:context) { nil }
+
+          it "builds a Grid that uses the 'Transpose' organizer" do
+            result = subject.build_for([1, 2, 3], context:)
+            _(result).must_be_instance_of(unit_class)
+            _(result.organizer).must_equal(unit_class::STANDARD_ORGANIZER)
+          end
+        end
+      end
+    end
+
     describe "#cells" do
       context "GIVEN an Array of Cells" do
         subject { unit_class.new([1, 2, 3]) }
@@ -51,10 +91,35 @@ class GridTest < ActiveSupport::TestCase
     end
 
     describe "#to_a" do
-      subject { unit_class.new([Coordinates[9, 9]]) }
+      let(:cells1) {
+        # rubocop:disable Layout/MultilineArrayLineBreaks
+        [
+          Coordinates[0, 0], Coordinates[0, 1],
+          Coordinates[1, 0], Coordinates[1, 1]
+        ]
+        # rubocop:enable Layout/MultilineArrayLineBreaks
+      }
 
-      it "returns the expected Array" do
-        _(subject.to_a).must_equal([[Coordinates[9, 9]]])
+      context "GIVEN the Grid::STANDARD_ORGANIZER" do
+        subject { unit_class.new(cells1, organizer: Grid::STANDARD_ORGANIZER) }
+
+        it "returns the expected Array" do
+          _(subject.to_a).must_equal([
+            [Coordinates[0, 0], Coordinates[1, 0]],
+            [Coordinates[0, 1], Coordinates[1, 1]],
+          ])
+        end
+      end
+
+      context "GIVEN the Grid::TRANSPOSE_ORGANIZER" do
+        subject { unit_class.new(cells1, organizer: Grid::TRANSPOSE_ORGANIZER) }
+
+        it "returns the expected Array" do
+          _(subject.to_a).must_equal([
+            [Coordinates[0, 0], Coordinates[0, 1]],
+            [Coordinates[1, 0], Coordinates[1, 1]],
+          ])
+        end
       end
     end
 

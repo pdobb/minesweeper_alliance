@@ -1,111 +1,115 @@
 <%# locals: (view:) %>
 
-<%= turbo_frame_tag(:current_game) do %>
-  <div class="flex flex-col gap-y-6 items-center">
-    <h2><%= view.status %></h2>
+<%= turbo_frame_tag(:current_game, class: "space-y-6") do %>
+  <h2 class="text-center overflow-hidden">
+    <%= view.game_status %> <%= view.game_status_mojis %>
+  </h2>
 
-    <table id="gameBoard" class="mx-auto table-fixed">
-      <thead>
-        <tr>
-          <td colspan="100%" class="pb-3">
-            <div class="text-lg flex justify-between gap-x-12">
-              <div
-                <% if view.game_in_progress? %>
-                  data-controller="elapsed-time"
-                  data-elapsed-time-start-value="<%= view.elapsed_time.to_i %>"
-                <% end %>
-                title="Game Timer"
-              >
-                <span data-elapsed-time-target="elapsedTime">
-                  <%= view.elapsed_time %>
-                </span>
-              </div>
-
-              <ul
-                title="Placed Flags vs Total Mines"
-                class="flex gap-x-1.5 whitespace-nowrap"
-              >
-                <li><%= view.flags_count %></li>
-                <li><%= Icon.flag %></li>
-                <li class="text-gray-500">/</li>
-                <li><%= view.mines_count %></li>
-                <li><%= Icon.mine %></li>
-              </ul>
-            </div>
-          </td>
-        </tr>
-      </thead>
-      <tbody
-        <% if view.game_on? %>
-          data-controller="board"
-          data-board-action-proxy-id-value="boardActionProxy"
-          data-board-reveal-url-value="<%= view.reveal_url %>"
-          data-board-toggle-flag-url-value="<%= view.toggle_flag_url %>"
-          data-board-highlight-neighbors-url-value="<%= view.highlight_neighbors_url %>"
-          data-board-reveal-neighbors-url-value="<%= view.reveal_neighbors_url %>"
-          data-action="
-            click->board#reveal
-            contextmenu->board#toggleFlag:prevent
-            mousedown->board#highlightNeighbors
-            mouseup->board#revealNeighbors
-          "
-        <% end %>
-        class="
-          text-center select-none
-
-          <%# Cells %>
-          *:*:size-8 *:*:min-w-8 *:*:min-h-8
-          *:*:border *:*:border-slate-600
-          <% if view.game_on? %>
-            data-[revealed=false]:*:*:cursor-cell
-            data-[revealed=true]:*:*:cursor-default
-          <% else %>
-            *:*:cursor-default
-          <% end %>
-        "
-      >
-        <% view.board_rows.each do |row| %>
-          <tr>
-            <% row.each do |cell| %>
-              <td
-                data-id="<%= cell.id %>"
-                data-revealed="<%= cell.revealed? %>"
-                data-flagged="<%= cell.flagged? %>"
-                class="<%= class_names(cell.css_class) %>"
-              >
-                <%= cell %>
-              </td>
-            <% end %>
-          </tr>
-        <% end %>
-      </tbody>
-      <tfoot>
-        <tr>
-          <td colspan="100%" class="whitespace-nowrap">
-            <ul class="mt-2 flex justify-end gap-x-3 text-gray-400">
-              <li><%= view.difficulty_level_name %></li>
-              <li>(<%= view.board_dimensions %>)</li>
-            </ul>
-          </td>
-        </tr>
-      </tfoot>
-    </table>
-
-    <% if view.game_on? %>
+  <div class="mx-auto w-fit max-w-full space-y-2">
+    <div class="flex justify-between gap-x-12 text-lg">
       <div
-        data-controller="board-actions"
-        data-board-actions-board-id-value="gameBoard"
+        <% if view.game_in_progress? %>
+          data-controller="elapsed-time"
+          data-elapsed-time-start-value="<%= view.elapsed_time.to_i %>"
+        <% end %>
+        title="Game Timer"
       >
-        <%= button_to(
-              "Reveal Random",
-              nil,
-              class: "btn-primary",
-              data: { action: "board-actions#revealRandom:prevent" }) %>
+        <span data-elapsed-time-target="elapsedTime">
+          <%= view.elapsed_time %>
+        </span>
       </div>
-    <% end %>
+
+      <ul
+        title="Placed Flags vs Total Mines"
+        class="flex gap-x-1.5 whitespace-nowrap"
+      >
+        <li><%= view.flags_count %></li>
+        <li><%= Icon.flag %></li>
+        <li class="text-gray-500">/</li>
+        <li><%= view.mines_count %></li>
+        <li><%= Icon.mine %></li>
+      </ul>
+    </div>
+
+    <div
+      class="
+        <% if mobile? %>
+          overflow-x-auto
+        <% end %>
+      "
+    >
+      <table
+        id="gameBoard"
+        class="
+          mx-auto table-fixed
+          border-4 border-double border-slate-400
+        ">
+        <tbody
+          <% if view.game_on? %>
+            data-controller="board"
+            data-board-action-proxy-id-value="boardActionProxy"
+            data-board-reveal-url-value="<%= view.reveal_url %>"
+            data-board-toggle-flag-url-value="<%= view.toggle_flag_url %>"
+            data-board-highlight-neighbors-url-value="<%= view.highlight_neighbors_url %>"
+            data-board-reveal-neighbors-url-value="<%= view.reveal_neighbors_url %>"
+            data-action="
+              click->board#reveal
+              contextmenu->board#toggleFlag:prevent
+              mousedown->board#highlightNeighbors
+              mouseup->board#revealNeighbors
+            "
+          <% end %>
+          class="
+            text-center select-none
+
+            <%# Cells %>
+            *:*:size-8 *:*:min-w-8 *:*:min-h-8
+            *:*:border *:*:border-slate-600
+            <% if view.game_on? %>
+              data-[revealed=false]:*:*:cursor-cell
+              data-[revealed=true]:*:*:cursor-default
+            <% else %>
+              *:*:cursor-default
+            <% end %>
+          "
+        >
+          <% view.rows(context: self).each do |row| %>
+            <tr>
+              <% row.each do |cell| %>
+                <td
+                  data-id="<%= cell.id %>"
+                  data-revealed="<%= cell.revealed? %>"
+                  data-flagged="<%= cell.flagged? %>"
+                  class="<%= class_names(cell.css_class) %>"
+                >
+                  <%= cell %>
+                </td>
+              <% end %>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+
+    <ul class="flex justify-end gap-x-3 text-gray-400">
+      <li><%= view.difficulty_level_name %></li>
+      <li>(<%= view.board_dimensions %>)</li>
+    </ul>
   </div>
 
   <% if view.game_on? %>
+    <div
+      data-controller="board-actions"
+      data-board-actions-board-id-value="gameBoard"
+      class="text-center"
+    >
+      <%= button_to(
+            "Reveal Random",
+            nil,
+            class: "btn-primary",
+            data: { action: "board-actions#revealRandom:prevent" }) %>
+    </div>
+
     <%= button_to(
           nil, nil, class: "hidden", form: { id: "boardActionProxy" }) %>
   <% end %>
