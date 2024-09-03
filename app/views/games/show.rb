@@ -143,8 +143,6 @@ class Games::Show
 
     private
 
-    attr_reader :view
-
     def to_model = @model
   end
 
@@ -157,9 +155,8 @@ class Games::Show
 
     include CellBehaviors
 
-    def initialize(model, view)
+    def initialize(model, _show_view)
       @model = model
-      @view = view
     end
 
     def unrevealed? = !to_model.revealed?
@@ -183,13 +180,13 @@ class Games::Show
 
     include CellBehaviors
 
-    def initialize(model, view)
+    def initialize(model, show_view)
       @model = model
-      @view = view
+      @show_view = show_view
     end
 
     def incorrectly_flagged? = to_model.incorrectly_flagged?
-    def game_ended_in_victory? = view.game_ended_in_victory?
+    def game_ended_in_victory? = show_view.game_ended_in_victory?
 
     # :reek:DuplicateMethodCall
 
@@ -214,5 +211,9 @@ class Games::Show
         BG_UNREVEALED_CELL_COLOR
       end
     end
+
+    private
+
+    attr_reader :show_view
   end
 end
