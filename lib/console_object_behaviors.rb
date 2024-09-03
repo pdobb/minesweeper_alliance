@@ -33,16 +33,15 @@ module ConsoleObjectBehaviors
 
   private
 
-  def method_missing(method, ...)
-    @model.__send__(method, ...)
+  def method_missing(...)
+    __to_model__.__send__(...)
   end
 
   # :reek:BooleanParameter
   # :reek:ManualDispatch
-
   def respond_to_missing?(method, include_private = true)
-    @model.respond_to?(method, include_private) || super
+    __to_model__.respond_to?(method, include_private) || super
   end
 
-  def inspect_identification(...) = @model.identify(...)
+  def inspect_identification(...) = __to_model__.identify(...)
 end
