@@ -7,6 +7,7 @@ export default class extends Controller {
 
   // "Reveal Random" button.
   revealRandom(event) {
+    event.currentTarget.disabled = true
     this.#getCellForRandomReveal().click()
   }
 
