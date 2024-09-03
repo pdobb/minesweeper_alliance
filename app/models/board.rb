@@ -14,7 +14,11 @@ class Board < ApplicationRecord
   include ConsoleBehaviors
 
   belongs_to :game
-  has_many :cells, dependent: :delete_all
+
+  has_many :cells,
+           -> { by_least_recent },
+           inverse_of: :board,
+           dependent: :delete_all
 
   # @attr difficulty_level [DifficultyLevel]
   def self.build_for(game:, difficulty_level:)
@@ -50,7 +54,7 @@ class Board < ApplicationRecord
   def flags_count = cells.is_flagged.size
 
   def grid
-    Grid.new(persisted? ? cells.by_least_recent : cells)
+    Grid.new(cells)
   end
 
   def clamp_coordinates(coordinates_array)
@@ -89,9 +93,8 @@ class Board < ApplicationRecord
   class Console
     include ConsoleObjectBehaviors
 
-    def cells
-      super.map(&:console)
-    end
+    def cells = super.map(&:console)
+    def grid = super.console
 
     def reveal_random_cell
       cells.for_id(random_cell_id_for_reveal).take.reveal
@@ -103,8 +106,20 @@ class Board < ApplicationRecord
     end
 
     def reset
-      cells.update_all(
+      __to_model__.cells.update_all(
         revealed: false,
+        flagged: false,
+        highlighted: false,
+        value: nil)
+
+      self
+    end
+
+    # Like {#reset} but also resets mines.
+    def reset!
+      __to_model__.cells.update_all(
+        revealed: false,
+        mine: false,
         flagged: false,
         highlighted: false,
         value: nil)
@@ -116,20 +131,23 @@ class Board < ApplicationRecord
 
     def inspect_info(scope:)
       scope.join_info([
-        "#{Icon.cell} #{cells_count} (#{display_grid_size})",
+        "#{Icon.cell} x#{cells_count} (#{display_grid_dimensions})",
         "#{Icon.revealed_cell} #{revealed_cells_count}",
         "#{Icon.mine} #{mines_count}",
         "#{Icon.flag} #{flags_count}",
       ])
     end
 
-    def display_grid_size = "#{columns}x#{rows}"
+    def cells_count = cells.size
+
+    def display_grid_dimensions = "#{columns}x#{rows}"
 
     def random_cell_id_for_reveal
       cells.is_not_revealed.is_not_flagged.by_random.pick(:id)
     end
 
-    def cells_count = cells.size
-    def revealed_cells_count = cells.is_revealed.size
+    def revealed_cells_count
+      cells.try(:is_revealed)&.size || cells.size
+    end
   end
 end

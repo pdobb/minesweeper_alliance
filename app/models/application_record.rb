@@ -10,6 +10,8 @@ class ApplicationRecord < ActiveRecord::Base
   scope :by_least_recent, -> { order(:created_at) }
   scope :by_most_recent, -> { order(created_at: :desc) }
 
+  scope :by_random, -> { reorder("RANDOM()") }
+
   def just_created?
     id_previously_changed?
   end

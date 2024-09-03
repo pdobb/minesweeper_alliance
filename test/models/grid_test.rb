@@ -50,11 +50,11 @@ class GridTest < ActiveSupport::TestCase
       end
     end
 
-    describe "#count" do
+    describe "#cells_count" do
       subject { unit_class.new([Coordinates[9, 9]]) }
 
       it "returns the expected Integer" do
-        _(subject.count).must_equal(1)
+        _(subject.cells_count).must_equal(1)
       end
     end
   end

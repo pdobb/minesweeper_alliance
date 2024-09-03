@@ -11,6 +11,8 @@ class Grid
     @cells = Array.wrap(cells)
   end
 
+  def cells_count = cells.size
+
   # rubocop:disable Layout/LineLength
   # @example
   #   {
@@ -35,23 +37,19 @@ class Grid
     to_h.values
   end
 
-  def count = cells.size
-
   # Grid::Console acts like a {Grid} but otherwise handles IRB Console-specific
   # methods/logic.
   class Console
     include ConsoleObjectBehaviors
 
+    def cells = super.map(&:console)
+
     def to_h
-      __to_model__.to_h.transform_values { |row|
-        row.map(&:console)
-      }
+      super.transform_values { |row| row.map(&:console) }
     end
 
     def to_a
-      __to_model__.to_a.map { |row|
-        row.map(&:console)
-      }
+      super.map { |row| row.map(&:console) }
     end
 
     # @example
@@ -69,7 +67,14 @@ class Grid
     private
 
     def inspect_identification = "Grid"
-    def inspect_info = "#{Icon.cell} x #{cells_count}"
+
+    def inspect_info
+      "#{Icon.cell} x#{cells_count} (#{dimensions})"
+    end
+
+    def dimensions
+      "#{count}x#{to_a.first.size}"
+    end
 
     # :reek:TooManyStatements
     # :reek:DuplicateMethodCall

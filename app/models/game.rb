@@ -114,23 +114,44 @@ class Game < ApplicationRecord
   class Console
     include ConsoleObjectBehaviors
 
-    # :reek:TooManyStatements
+    def board = super.console
 
-    def reset(time: Time.current) # rubocop:disable Metrics/MethodLength
-      current_game = Game.current
-      if current_game && current_game != __to_model__
-        raise(Error, "Can't reset a past Game while a current Game exists.")
-      end
+    # :reek:TooManyStatements
+    def reset(time: Time.current)
+      check_for_current_game
 
       transaction do
-        update(
+        update!(
           started_at: time,
           ended_at: nil,
           updated_at: time)
 
         set_status_sweep_in_progress! if over?
 
-        board.console.reset
+        board.reset
+      end
+
+      broadcast_refresh_to(:current_game)
+
+      self
+    end
+
+    # Like {#reset} but also resets status to "Standing By" and reset mines on
+    # the {Board}.
+    #
+    # :reek:TooManyStatements
+    def reset!(time: Time.current)
+      check_for_current_game
+
+      transaction do
+        update!(
+          started_at: time,
+          ended_at: nil,
+          updated_at: time)
+
+        set_status_standing_by!
+
+        board.reset!
       end
 
       broadcast_refresh_to(:current_game)
@@ -142,5 +163,15 @@ class Game < ApplicationRecord
 
     def inspect_flags = status
     def inspect_info = engagement_time_range
+
+    def check_for_current_game
+      current_game = Game.current
+
+      # rubocop:disable Style/GuardClause
+      if current_game && current_game != __to_model__
+        raise(Error, "Can't reset a past Game while a current Game exists.")
+      end
+      # rubocop:enable Style/GuardClause
+    end
   end
 end

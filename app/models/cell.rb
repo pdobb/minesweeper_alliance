@@ -19,7 +19,7 @@ class Cell < ApplicationRecord
 
   include ConsoleBehaviors
 
-  belongs_to :board
+  belongs_to :board, inverse_of: :cells
 
   attribute :coordinates, CoordinatesType.new
 
@@ -36,8 +36,6 @@ class Cell < ApplicationRecord
   scope :is_not_revealed, -> { where(revealed: false) }
 
   scope :for_coordinates, ->(coordinates) { where(coordinates:) }
-
-  scope :by_random, -> { order("RANDOM()") }
 
   def value
     super || (Icon.flag if flagged?)
@@ -115,6 +113,8 @@ class Cell < ApplicationRecord
   # methods/logic.
   class Console
     include ConsoleObjectBehaviors
+
+    def coordinates = super.console
 
     def render(cells_count: nil)
       "#{current_state} #{coordinates.console.render(cells_count:)}"
