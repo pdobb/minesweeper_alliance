@@ -106,7 +106,7 @@ class Board < ApplicationRecord
     end
 
     def reset
-      __to_model__.cells.update_all(
+      __model__.cells.update_all(
         revealed: false,
         flagged: false,
         highlighted: false,
@@ -117,7 +117,7 @@ class Board < ApplicationRecord
 
     # Like {#reset} but also resets mines.
     def reset!
-      __to_model__.cells.update_all(
+      __model__.cells.update_all(
         revealed: false,
         mine: false,
         flagged: false,

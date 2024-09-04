@@ -165,7 +165,7 @@ class Games::Show
     def css_class
       if highlighted?
         [BG_HIGHLIGHTED_COLOR, HIGHLIGHTED_ANIMATION]
-      elsif mine? && Rails.configuration.debug
+      elsif mine? && App.debug?
         BG_UNREVEALED_MINE_COLOR
       elsif unrevealed?
         BG_UNREVEALED_CELL_COLOR

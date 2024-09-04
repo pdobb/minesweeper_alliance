@@ -14,6 +14,21 @@ module ConsoleObjectBehaviors
     # *::Console::Error represents any StandardError related to Console
     # processing on the including object.
     self::Error = Class.new(StandardError)
+
+    define_singleton_method(:__class__) { module_parent }
+    define_method(:__class__) { self.class.module_parent }
+  end
+
+  class_methods do
+    def method_missing(...)
+      __class__.__send__(...)
+    end
+
+    # :reek:BooleanParameter
+    # :reek:ManualDispatch
+    def respond_to_missing?(method, include_private = true)
+      __class__.respond_to?(method, include_private) || super
+    end
   end
 
   def initialize(model)
@@ -27,21 +42,21 @@ module ConsoleObjectBehaviors
     self
   end
 
-  def __to_model__
+  def __model__
     @model
   end
 
   private
 
   def method_missing(...)
-    __to_model__.__send__(...)
+    __model__.__send__(...)
   end
 
   # :reek:BooleanParameter
   # :reek:ManualDispatch
   def respond_to_missing?(method, include_private = true)
-    __to_model__.respond_to?(method, include_private) || super
+    __model__.respond_to?(method, include_private) || super
   end
 
-  def inspect_identification(...) = __to_model__.identify(...)
+  def inspect_identification(...) = __model__.identify(...)
 end

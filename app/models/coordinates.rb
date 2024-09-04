@@ -30,8 +30,8 @@ class Coordinates < Data.define(:x, :y) # rubocop:disable Style/DataInheritance
 
     include ConsoleObjectBehaviors
 
-    def x = __to_model__.x
-    def y = __to_model__.y
+    def x = __model__.x
+    def y = __model__.y
 
     def render(cells_count:)
       "(#{pad(x, cells_count:)}, #{pad(y, cells_count:)})"

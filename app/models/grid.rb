@@ -76,7 +76,7 @@ class Grid
 
     private
 
-    def inspect_identification = __to_model__.class.name
+    def inspect_identification = __model__.class.name
 
     def inspect_info
       "#{Icon.cell} x#{cells_count} (#{dimensions})"

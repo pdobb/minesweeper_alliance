@@ -25,6 +25,8 @@ class Game < ApplicationRecord
     for_status([status_alliance_wins, status_mines_win])
   }
   scope :for_ended_at, ->(time_range) { where(ended_at: time_range) }
+  scope :for_difficulty_level_test,
+        -> { where(difficulty_level: DifficultyLevel::TEST) }
 
   scope :by_most_recently_ended, -> { order(ended_at: :desc) }
 
@@ -114,6 +116,13 @@ class Game < ApplicationRecord
   class Console
     include ConsoleObjectBehaviors
 
+    def self.purge_difficulty_level_test
+      result_count = for_difficulty_level_test.delete_all
+      puts( # rubocop:disable Rails/Output
+        " -> Purged #{result_count} #{DifficultyLevel::TEST.inspect} Games. "\
+        "Restart the Rails server into DEBUG mode for changes to take effect.")
+    end
+
     def board = super.console
 
     def render
@@ -179,7 +188,7 @@ class Game < ApplicationRecord
       current_game = Game.current
 
       # rubocop:disable Style/GuardClause
-      if current_game && current_game != __to_model__
+      if current_game && current_game != __model__
         raise(Error, "Can't reset a past Game while a current Game exists.")
       end
       # rubocop:enable Style/GuardClause

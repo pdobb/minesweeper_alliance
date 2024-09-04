@@ -11,12 +11,12 @@ class DifficultyLevel
   Error = Class.new(StandardError)
 
   SETTINGS_MAP = {
-    "Test" => { columns: 3, rows: 3, mines: 1 },
+    TEST = "Test" => { columns: 3, rows: 3, mines: 1 },
     "Beginner" => { columns: 9, rows: 9, mines: 10 },
     "Intermediate" => { columns: 16, rows: 16, mines: 40 },
     "Expert" => { columns: 30, rows: 16, mines: 99 },
   }.tap { |hash|
-    hash.except!("Test") if Rails.env.production?
+    hash.except!(TEST) if App.exclude_test_difficulty_level?
   }.freeze
 
   attr_reader :name
