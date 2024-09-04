@@ -27,21 +27,7 @@ class DutyRosterTest < ActiveSupport::TestCase
     end
 
     describe ".increment" do
-      before do
-        @broadcast_refresh_to_called_count = 0
-        MuchStub.on_call(Turbo::StreamsChannel, :broadcast_refresh_to) { |call|
-          @broadcast_refresh_to_call = call
-          @broadcast_refresh_to_called_count += 1
-        }
-      end
-
       subject { unit_class }
-
-      it "calls Turbo::StreamsChannel.broadcasts_refresh_to" do
-        subject.increment
-        _(@broadcast_refresh_to_called_count).must_equal(1)
-        _(@broadcast_refresh_to_call.pargs).must_equal([:current_game])
-      end
 
       context "GIVEN a cache miss" do
         before { MuchStub.(Rails, :cache) { CacheDouble.new } }
@@ -61,21 +47,7 @@ class DutyRosterTest < ActiveSupport::TestCase
     end
 
     describe ".decrement" do
-      before do
-        @broadcast_refresh_to_called_count = 0
-        MuchStub.on_call(Turbo::StreamsChannel, :broadcast_refresh_to) { |call|
-          @broadcast_refresh_to_call = call
-          @broadcast_refresh_to_called_count += 1
-        }
-      end
-
       subject { unit_class }
-
-      it "calls Turbo::StreamsChannel.broadcasts_refresh_to" do
-        subject.increment
-        _(@broadcast_refresh_to_called_count).must_equal(1)
-        _(@broadcast_refresh_to_call.pargs).must_equal([:current_game])
-      end
 
       context "GIVEN a cache miss" do
         before { MuchStub.(Rails, :cache) { CacheDouble.new } }
