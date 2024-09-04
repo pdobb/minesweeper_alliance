@@ -22,6 +22,7 @@ export default class extends Controller {
 
   reveal(event) {
     const $cell = event.target
+    if (!($cell instanceof HTMLTableCellElement)) return
     if (this.#isRevealed($cell) || this.#isFlagged($cell)) return
 
     this.#submit($cell, this.revealUrlValue)
