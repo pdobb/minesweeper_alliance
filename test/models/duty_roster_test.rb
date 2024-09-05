@@ -84,7 +84,6 @@ class DutyRosterTest < ActiveSupport::TestCase
 
     def fetch(_, default = nil) = value || default || yield
     def increment(*) = value.to_i.next
-    def decrement(*) = value.to_i.pred
     def write(_, new_value) = self.value = new_value
     def delete(*) = true
 

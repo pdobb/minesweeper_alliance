@@ -140,18 +140,24 @@ class GameTest < ActiveSupport::TestCase
 
         it "touches Game#ended_at" do
           _(-> { subject.end_in_victory }).must_change(
-            -> { subject.ended_at },
+            "subject.ended_at",
             from: nil)
         end
 
         it "sets the expected Status" do
           _(-> { subject.end_in_victory }).must_change(
-            -> { subject.status },
+            "subject.status",
             to: Game.status_alliance_wins)
         end
       end
 
       context "GIVEN a Game that's already over" do
+        before do
+          MuchStub.on_call(subject, :touch) { |call|
+            @touch_call = call
+          }
+        end
+
         subject { win1 }
 
         it "returns the Game without orchestrating any changes" do
@@ -168,13 +174,13 @@ class GameTest < ActiveSupport::TestCase
 
         it "touches Game#ended_at" do
           _(-> { subject.end_in_defeat }).must_change(
-            -> { subject.ended_at },
+            "subject.ended_at",
             from: nil)
         end
 
         it "sets the expected Status" do
           _(-> { subject.end_in_defeat }).must_change(
-            -> { subject.status },
+            "subject.status",
             to: Game.status_mines_win)
         end
       end
