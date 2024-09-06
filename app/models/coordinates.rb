@@ -23,6 +23,15 @@ class Coordinates < Data.define(:x, :y) # rubocop:disable Style/DataInheritance
   # rubocop:enable Layout/SpaceInsideParens
   # rubocop:enable Layout/MultilineArrayLineBreaks
 
+  # Allow sorting with other Coordinates objects.
+  def <=>(other)
+    unless other.is_a?(self.class)
+      raise(TypeError, "can't compare with non-Coordinates objects")
+    end
+
+    [x, y] <=> [other.x, other.y]
+  end
+
   # Coordinates::Console acts like a {Coordinates} but otherwise handles IRB
   # Console-specific methods/logic.
   class Console

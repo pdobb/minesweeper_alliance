@@ -22,11 +22,6 @@ class Board < ApplicationRecord
 
   # @attr difficulty_level [DifficultyLevel]
   def self.build_for(game:, difficulty_level:)
-    build_for_custom(game:, difficulty_level:)
-  end
-
-  # @attr difficulty_level [DifficultyLevel]
-  def self.build_for_custom(game:, difficulty_level:)
     game.
       build_board(
         columns: difficulty_level.columns,
@@ -36,6 +31,7 @@ class Board < ApplicationRecord
   end
 
   def place_mines(seed_cell:)
+    raise(Error, "mines can't be placed on an unsaved Board") if new_record?
     raise(Error, "mines have already been placed") if any_mines?
 
     cells.excluding(seed_cell).by_random.limit(mines).update_all(mine: true)
@@ -44,9 +40,10 @@ class Board < ApplicationRecord
   end
 
   def check_for_victory
-    return if game.over?
+    return self unless game.status_sweep_in_progress?
 
     game.end_in_victory if all_safe_cells_have_been_revealed?
+
     self
   end
 
@@ -85,8 +82,8 @@ class Board < ApplicationRecord
     columns_range.include?(coordinates.x) && rows_range.include?(coordinates.y)
   end
 
-  def columns_range = 0..columns
-  def rows_range = 0..rows
+  def columns_range = 0...columns
+  def rows_range = 0...rows
 
   # Board::Console acts like a {Board} but otherwise handles IRB
   # Console-specific methods/logic.

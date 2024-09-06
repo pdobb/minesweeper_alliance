@@ -4,6 +4,20 @@
 #
 # @see https://github.com/rails/rails/blob/main/activesupport/lib/active_support/testing/assertions.rb
 module ActiveSupport::Testing::Assertions # rubocop:disable Metrics/ModuleLength
+  # Borrowed from RSpec's `match_array` method, as explained here:
+  # https://stackoverflow.com/a/20334260/171183
+  #
+  # @example
+  #   assert_matched_arrays(array1, array2)
+  #   value(array2).must_match_array(array1)
+  # TODO: this fails for arrays of arrays with the error:
+  # ArgumentError: comparison of Array with Array failed.
+  def assert_matched_arrays(array1, array2)
+    assert_kind_of(Array, (array1 = array1.to_ary.sort))
+    assert_kind_of(Array, (array2 = array2.to_ary.sort))
+    assert_equal(array1, array2)
+  end
+
   # Run multiple `assert_changes` assertions at once.
   #
   # Notes:
@@ -58,7 +72,7 @@ module ActiveSupport::Testing::Assertions # rubocop:disable Metrics/ModuleLength
 
       unless from == UNTRACKED
         rich_message = -> {
-          code_string = _ma_callable_to_source_string(expression)
+          code_string = __callable_to_source_string(expression)
           error = "Expected #{code_string.inspect} to change "\
                   "from #{from.inspect}, got #{before.inspect}"
           error = "#{message}.\n#{error}" if message
@@ -71,7 +85,7 @@ module ActiveSupport::Testing::Assertions # rubocop:disable Metrics/ModuleLength
       after = exp.call
 
       rich_message = -> {
-        code_string = _ma_callable_to_source_string(expression)
+        code_string = __callable_to_source_string(expression)
         error = "#{code_string.inspect} didn't change"
         error = "#{error}. It was already #{to.inspect}" if before == to
         error = "#{message}.\n#{error}" if message
@@ -81,7 +95,7 @@ module ActiveSupport::Testing::Assertions # rubocop:disable Metrics/ModuleLength
 
       unless to == UNTRACKED
         rich_message = -> {
-          code_string = _ma_callable_to_source_string(expression)
+          code_string = __callable_to_source_string(expression)
           error = "Expected #{code_string.inspect} to change "\
                   "to #{to.inspect}, got #{after.inspect}"
           error = "#{message}.\n#{error}" if message
@@ -148,7 +162,7 @@ module ActiveSupport::Testing::Assertions # rubocop:disable Metrics/ModuleLength
 
       unless from == UNTRACKED
         rich_message = -> {
-          code_string = _ma_callable_to_source_string(expression)
+          code_string = __callable_to_source_string(expression)
           error = "Expected #{code_string.inspect} to have an initial value "\
                   "of #{from.inspect}, got #{before.inspect}"
           error = "#{message}.\n#{error}" if message
@@ -163,7 +177,7 @@ module ActiveSupport::Testing::Assertions # rubocop:disable Metrics/ModuleLength
       before = before_values[index]
 
       rich_message = -> {
-        code_string = _ma_callable_to_source_string(expression)
+        code_string = __callable_to_source_string(expression)
         error = "#{code_string.inspect} changed to #{after.inspect}"
         error = "#{message}.\n#{error}" if message
         error
@@ -193,8 +207,7 @@ module ActiveSupport::Testing::Assertions # rubocop:disable Metrics/ModuleLength
 
   # This is an improvement on calling Rails Edge's new
   # `_callable_to_source_string` method.
-  # `ma` = Minesweeper Alliance.
-  def _ma_callable_to_source_string(expression)
+  def __callable_to_source_string(expression)
     if expression.respond_to?(:call)
       _callable_to_source_string(expression)
     else
@@ -240,6 +253,8 @@ end
 
 # Minitest::Expectations
 module Minitest::Expectations
+  infect_an_assertion(:assert_matched_arrays, :must_match_array)
+
   infect_an_assertion(:assert_changes, :must_change, :block)
   infect_an_assertion(:assert_changes_to_all, :must_change_all, :block)
 
