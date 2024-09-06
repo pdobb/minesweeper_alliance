@@ -30,7 +30,7 @@ class Board < ApplicationRecord
       tap { |new_board| new_board.__send__(:generate) }
   end
 
-  def place_mines(seed_cell:)
+  def place_mines(seed_cell: nil)
     raise(Error, "mines can't be placed on an unsaved Board") if new_record?
     raise(Error, "mines have already been placed") if any_mines?
 

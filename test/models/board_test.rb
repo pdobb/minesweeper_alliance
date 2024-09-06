@@ -52,7 +52,7 @@ class BoardTest < ActiveSupport::TestCase
         it "raises Board::Error" do
           exception =
             _(-> {
-              subject.place_mines(seed_cell: nil)
+              subject.place_mines
             }).must_raise(Board::Error)
           _(exception.message).must_equal(
             "mines can't be placed on an unsaved Board")
@@ -65,7 +65,7 @@ class BoardTest < ActiveSupport::TestCase
         it "raises Board::Error" do
           exception =
             _(-> {
-              subject.place_mines(seed_cell: nil)
+              subject.place_mines
             }).must_raise(Board::Error)
           _(exception.message).must_equal("mines have already been placed")
         end
