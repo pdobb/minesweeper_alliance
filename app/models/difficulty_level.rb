@@ -10,14 +10,18 @@ class DifficultyLevel
   # DifficultyLevel processing.
   Error = Class.new(StandardError)
 
-  SETTINGS_MAP = {
-    TEST = "Test" => { columns: 3, rows: 3, mines: 1 },
-    "Beginner" => { columns: 9, rows: 9, mines: 10 },
-    "Intermediate" => { columns: 16, rows: 16, mines: 40 },
-    "Expert" => { columns: 30, rows: 16, mines: 99 },
-  }.tap { |hash|
-    hash.except!(TEST) if App.exclude_test_difficulty_level?
-  }.freeze
+  TEST = "Test"
+
+  def self.settings_map
+    @settings_map ||= {
+      TEST => { columns: 3, rows: 3, mines: 1 },
+      "Beginner" => { columns: 9, rows: 9, mines: 10 },
+      "Intermediate" => { columns: 16, rows: 16, mines: 40 },
+      "Expert" => { columns: 30, rows: 16, mines: 99 },
+    }.tap { |hash|
+      hash.except!(TEST) unless App.include_test_difficulty_level?
+    }.freeze
+  end
 
   attr_reader :name
 
@@ -26,7 +30,7 @@ class DifficultyLevel
   end
 
   def self.names
-    SETTINGS_MAP.keys
+    settings_map.keys
   end
 
   def self.build_random
@@ -67,7 +71,7 @@ class DifficultyLevel
   def mines = settings.fetch(:mines)
 
   def settings
-    SETTINGS_MAP.fetch(name)
+    self.class.settings_map.fetch(name)
   end
 
   private

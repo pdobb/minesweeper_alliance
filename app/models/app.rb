@@ -2,9 +2,14 @@
 
 # App is utility module specific to this Rails Application and its environment.
 module App
-  def self.exclude_test_difficulty_level?
-    @exclude_test_difficulty_level ||=
-      !debug? && Game.for_difficulty_level_test.none?
+  # :reek:NilCheck
+  def self.include_test_difficulty_level?
+    if @include_test_difficulty_level.nil?
+      @include_test_difficulty_level =
+        debug? || Game.for_difficulty_level_test.any?
+    else
+      @include_test_difficulty_level
+    end
   end
 
   def self.debug? = Rails.configuration.debug

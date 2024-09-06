@@ -10,9 +10,10 @@ class RandomDifficultyLevelTest < ActiveSupport::TestCase
       subject { unit_class }
 
       describe "#initialize" do
-        it "returns the expected instance" do
+        it "returns a frozen RandomDifficultyLevel instance" do
           result = subject.new
           _(result).must_be_instance_of(unit_class)
+          _(result.frozen?).must_equal(true)
         end
       end
     end
