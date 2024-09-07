@@ -5,6 +5,9 @@ import { Controller } from "@hotwired/stimulus"
 export default class extends Controller {
   static values = { boardId: String }
 
+  static revealableCellsSelector =
+    'td:not([data-revealed="true"]):not([data-flagged="true"])'
+
   // "Reveal Random" button.
   revealRandom(event) {
     event.currentTarget.disabled = true
@@ -12,11 +15,18 @@ export default class extends Controller {
   }
 
   #getCellForRandomReveal() {
-    const $cellsContainer = document.getElementById(this.boardIdValue)
-    const cellsQuery = $cellsContainer.querySelectorAll(
-      'td:not([data-revealed="true"]):not([data-flagged="true"])',
-    )
-    const randomIndex = Math.floor(Math.random() * cellsQuery.length)
-    return cellsQuery[randomIndex]
+    const $cells = this.#getCells()
+    const randomIndex = Math.floor(Math.random() * $cells.length)
+
+    return $cells[randomIndex]
+  }
+
+  #getCells() {
+    const $board = this.#getBoard()
+    return $board.querySelectorAll(this.constructor.revealableCellsSelector)
+  }
+
+  #getBoard() {
+    return document.getElementById(this.boardIdValue)
   }
 }

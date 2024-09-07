@@ -29,14 +29,14 @@ class ElapsedTime
     @to_i ||= (end_time - start_time).to_i
   end
 
-  def over_one_day?
+  def over_a_day?
     to_i > SECONDS_PER_DAY
   end
 
   private
 
   def time_params
-    if over_one_day?
+    if over_a_day?
       [2024, 1, 1, 23, 59, 59]
     else
       [2024, 1, 1, *Parse.(to_i)]

@@ -93,7 +93,7 @@ class Games::Show
     end
 
     def to_s
-      if over_one_day?
+      if over_a_day?
         MAX_TIME_STRING
       else
         I18n.l(time, format: determine_format)
@@ -106,7 +106,7 @@ class Games::Show
       @time ||= elapsed_time.to_time
     end
 
-    def over_one_day? = elapsed_time.over_one_day?
+    def over_a_day? = elapsed_time.over_a_day?
 
     def determine_format
       if time.hour.positive?

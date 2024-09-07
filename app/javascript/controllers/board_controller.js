@@ -7,7 +7,8 @@ import { Controller } from "@hotwired/stimulus"
 //  - Left Click - Reveal Cell
 //  - Right Click - Toggle Flag
 // For Revealed Cells
-//  - Double Click - Reveal Neighbors
+//  - Left Click (onMouseDown) - Highlight Neighbors
+//  - Left Click (onMouseUp) - Reveal Neighbors
 export default class extends Controller {
   static LEFT_MOUSE_BUTTON = 0
 
@@ -18,6 +19,7 @@ export default class extends Controller {
     highlightNeighborsUrl: String,
     revealNeighborsUrl: String,
   }
+
   static cellIdRegex = /cells\/(\d+)\//
 
   reveal(event) {
@@ -79,10 +81,10 @@ export default class extends Controller {
       `cells/${cellId}/`,
     )
 
-    this.#updateBoardActionPorxyTarget(targetUrl).requestSubmit()
+    this.#updateBoardActionProxyTarget(targetUrl).requestSubmit()
   }
 
-  #updateBoardActionPorxyTarget(targetUrl) {
+  #updateBoardActionProxyTarget(targetUrl) {
     const $boardActionProxy = document.getElementById(this.actionProxyIdValue)
     $boardActionProxy.action = targetUrl
 

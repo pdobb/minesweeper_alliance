@@ -9,12 +9,14 @@ export default class extends Controller {
   }
   static targets = ["elapsedTime"]
 
-  static SECONDS_PER_DAY = 86_400
+  static secondsPerDay = 86_400
+  static maxTimeDisplayString = "23:59:59+"
+  static timeDigitLength = 2
 
   connect() {
     this.totalSeconds = this.startValue
 
-    if (!this.#isOverOneDay()) {
+    if (!this.#isOverADay()) {
       this.intervalId = setInterval(this.#update.bind(this), this.intervalValue)
     }
   }
@@ -33,16 +35,16 @@ export default class extends Controller {
   #update() {
     this.totalSeconds += 1
 
-    if (this.#isOverOneDay()) {
+    if (this.#isOverADay()) {
       this.#stop()
-      this.#updateUi("23:59:59+")
+      this.#updateUi(this.constructor.maxTimeDisplayString)
     } else {
       this.#updateUi(this.#determineTimestamp())
     }
   }
 
-  #isOverOneDay() {
-    return this.totalSeconds >= this.constructor.SECONDS_PER_DAY
+  #isOverADay() {
+    return this.totalSeconds >= this.constructor.secondsPerDay
   }
 
   #updateUi(value) {
@@ -72,13 +74,13 @@ export default class extends Controller {
   }
 
   #pad(value) {
-    return value.toString().padStart(2, "0")
+    return value.toString().padStart(this.constructor.timeDigitLength, "0")
   }
 }
 
 class TimeParser {
-  static SECONDS_PER_HOUR = 3_600
-  static SECONDS_PER_MINUTE = 60
+  static secondsPerHour = 3_600
+  static secondsPerMinute = 60
 
   parse(totalSeconds) {
     const [hours, remainingSeconds] = this.#parseHours(totalSeconds)
@@ -91,16 +93,16 @@ class TimeParser {
   }
 
   #parseHours(remainingSeconds) {
-    const hours = Math.floor(remainingSeconds / TimeParser.SECONDS_PER_HOUR)
-    remainingSeconds = remainingSeconds % TimeParser.SECONDS_PER_HOUR
+    const hours = Math.floor(remainingSeconds / TimeParser.secondsPerHour)
+    remainingSeconds = remainingSeconds % TimeParser.secondsPerHour
     return [hours, remainingSeconds]
   }
 
   #parseMinutes(remainingSeconds) {
-    return Math.floor(remainingSeconds / TimeParser.SECONDS_PER_MINUTE)
+    return Math.floor(remainingSeconds / TimeParser.secondsPerMinute)
   }
 
   #parseSeconds(remainingSeconds) {
-    return remainingSeconds % TimeParser.SECONDS_PER_MINUTE
+    return remainingSeconds % TimeParser.secondsPerMinute
   }
 }
