@@ -10,11 +10,13 @@ export default class extends Controller {
   static targets = ["elapsedTime"]
 
   static SECONDS_PER_DAY = 86_400
+  static MAX_TIME_DISPLAY_STRING = "23:59:59+"
+  static TIME_DIGIT_LENGTH = 2
 
   connect() {
     this.totalSeconds = this.startValue
 
-    if (!this.#isOverOneDay()) {
+    if (!this.#isOverADay()) {
       this.intervalId = setInterval(this.#update.bind(this), this.intervalValue)
     }
   }
@@ -33,15 +35,15 @@ export default class extends Controller {
   #update() {
     this.totalSeconds += 1
 
-    if (this.#isOverOneDay()) {
+    if (this.#isOverADay()) {
       this.#stop()
-      this.#updateUi("23:59:59+")
+      this.#updateUi(this.constructor.MAX_TIME_DISPLAY_STRING)
     } else {
       this.#updateUi(this.#determineTimestamp())
     }
   }
 
-  #isOverOneDay() {
+  #isOverADay() {
     return this.totalSeconds >= this.constructor.SECONDS_PER_DAY
   }
 
@@ -72,7 +74,7 @@ export default class extends Controller {
   }
 
   #pad(value) {
-    return value.toString().padStart(2, "0")
+    return value.toString().padStart(this.constructor.TIME_DIGIT_LENGTH, "0")
   }
 }
 

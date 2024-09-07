@@ -76,13 +76,15 @@ export default class extends Controller {
     // /boards/<boardId>/cells/<cellId>/<action>
     const targetUrl = baseUrl.replace(
       this.constructor.cellIdRegex,
-      `cells/${cellId}/`,
+      (match, capture_group) => {
+        return match.replace(capture_group, cellId)
+      },
     )
 
-    this.#updateBoardActionPorxyTarget(targetUrl).requestSubmit()
+    this.#updateBoardActionProxyTarget(targetUrl).requestSubmit()
   }
 
-  #updateBoardActionPorxyTarget(targetUrl) {
+  #updateBoardActionProxyTarget(targetUrl) {
     const $boardActionProxy = document.getElementById(this.actionProxyIdValue)
     $boardActionProxy.action = targetUrl
 
