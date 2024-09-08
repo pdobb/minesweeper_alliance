@@ -109,5 +109,31 @@ class AppTest < ActiveSupport::TestCase
         end
       end
     end
+
+    describe ".development?" do
+      context "GIVEN Rails.env.development? = true" do
+        before do
+          MuchStub.tap(Rails, :env) { |config|
+            MuchStub.(config, :development?) { true }
+          }
+        end
+
+        it "returns true" do
+          _(subject.development?).must_equal(true)
+        end
+      end
+
+      context "GIVEN Rails.env.development? = false" do
+        before do
+          MuchStub.tap(Rails, :env) { |config|
+            MuchStub.(config, :development?) { false }
+          }
+        end
+
+        it "returns false" do
+          _(subject.development?).must_equal(false)
+        end
+      end
+    end
   end
 end

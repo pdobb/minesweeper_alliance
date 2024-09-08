@@ -1,0 +1,15 @@
+<div class="space-y-6">
+  <h1>UI</h1>
+
+  <div>
+    <h2>Icons</h2>
+    <% (Icon.methods - Object.methods).sort.each do |method| %>
+      <ul class="whitespace-nowrap">
+        <li>
+          <code>Icon.<%= method %></code>:
+          <span class="max-h-6"><%= Icon.public_send(method) %></span>
+        </li>
+      </ul>
+    <% end %>
+  </div>
+</div>

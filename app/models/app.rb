@@ -13,4 +13,6 @@ module App
   end
 
   def self.debug? = Rails.configuration.debug
+
+  def self.development? = Rails.env.development?
 end
