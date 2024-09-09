@@ -14,9 +14,13 @@
         <% end %>
         title="Game Timer"
       >
-        <span data-elapsed-time-target="elapsedTime">
+        <time
+          data-elapsed-time-target="elapsedTime"
+          datetime="PT<%= view.elapsed_time.to_i %>S"
+          aria-label="Elapsed Time: <%= view.elapsed_time %>"
+        >
           <%= view.elapsed_time %>
-        </span>
+        </time>
       </div>
 
       <ul

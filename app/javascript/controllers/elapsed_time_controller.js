@@ -49,6 +49,8 @@ export default class extends Controller {
 
   #updateUi(value) {
     this.elapsedTimeTarget.textContent = value
+    this.elapsedTimeTarget.setAttribute("datetime", `PT${this.totalSeconds}S`)
+    this.elapsedTimeTarget.setAttribute("aria-label", `Elapsed time: ${value}`)
   }
 
   #determineTimestamp() {
