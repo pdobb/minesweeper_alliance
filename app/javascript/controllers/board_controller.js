@@ -1,4 +1,5 @@
 import { Controller } from "@hotwired/stimulus"
+import { post } from "@rails/request.js"
 
 // BoardController is responsible for managing clicks on Cells within the
 // Game Board.
@@ -13,7 +14,6 @@ export default class extends Controller {
   static LEFT_MOUSE_BUTTON = 0
 
   static values = {
-    actionProxyId: String,
     revealUrl: String,
     toggleFlagUrl: String,
     highlightNeighborsUrl: String,
@@ -81,22 +81,7 @@ export default class extends Controller {
       `cells/${cellId}/`,
     )
 
-    this.#updateBoardActionProxyTarget(targetUrl).requestSubmit()
-  }
-
-  #updateBoardActionProxyTarget(targetUrl) {
-    const $boardActionProxy = document.getElementById(this.actionProxyIdValue)
-    $boardActionProxy.action = targetUrl
-
-    const $authenticityToken = $boardActionProxy.querySelector(
-      'input[type="hidden"][name="authenticity_token"]',
-    )
-    const csrfToken = document.head.querySelector(
-      "meta[name=csrf-token]",
-    ).content
-    $authenticityToken.value = csrfToken
-
-    return $boardActionProxy
+    post(targetUrl, { responseKind: "turbo-stream" })
   }
 
   #showLoadingIndicator($cell) {

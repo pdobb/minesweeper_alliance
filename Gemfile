@@ -34,6 +34,7 @@ gem "tzinfo-data", platforms: %i[windows jruby]
 
 gem "object_identifier"
 gem "object_inspector"
+gem "requestjs-rails"
 gem "statusable"
 
 group :development, :test do

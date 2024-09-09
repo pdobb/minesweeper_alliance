@@ -47,7 +47,6 @@
         <tbody
           <% if view.game_on? %>
             data-controller="board"
-            data-board-action-proxy-id-value="boardActionProxy"
             data-board-reveal-url-value="<%= view.reveal_url %>"
             data-board-toggle-flag-url-value="<%= view.toggle_flag_url %>"
             data-board-highlight-neighbors-url-value="<%= view.highlight_neighbors_url %>"
@@ -109,8 +108,5 @@
             class: "btn-primary",
             data: { action: "board-actions#revealRandom:prevent" }) %>
     </div>
-
-    <%= button_to(
-          nil, nil, class: "hidden", form: { id: "boardActionProxy" }) %>
   <% end %>
 <% end %>
