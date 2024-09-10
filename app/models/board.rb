@@ -2,7 +2,13 @@
 
 # Board represents a collection of {Cell}s. Internally, these {Cell}s are
 # organized as just one big Array, but they can best be though of as an Array of
-# Arrays, forming an X/Y grid.
+# Arrays, forming an X/Y {Grid}.
+#
+# @attr columns [Integer] The number of columns in the {Grid} of associated
+#   {Cell}s.
+# @attr rows [Integer] The number of rows in the {Grid} of associated {Cell}s.
+# @attr mines [Integer] [description] The number of mines in the associated
+#   {Cell}s.
 #
 # @see Grid
 class Board < ApplicationRecord

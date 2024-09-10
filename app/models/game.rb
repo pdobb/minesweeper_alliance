@@ -1,8 +1,16 @@
 # frozen_string_literal: true
 
 # Game represents a game of Minesweeper Alliance. It handles creation of new
-# Games and keeps track of the #status} of each Game in the database, win or
+# Games and keeps track of the {#status} of each Game in the database, win or
 # lose.
+#
+# @attr status [String] The current Game status / lifecycle state.
+# @attr difficulty_level [String] The Difficulty Level name that was used to
+#   generate this Game's {Board} / {Grid} of {Cell}s.
+# @attr started_at [DateTime] When this Game started. i.e. transitioned from
+#   {#status} "Standing By" to "Sweep in Progress".
+# @attr ended_at [DateTime] When this Game ended. i.e. transitioned from
+#   {#status} "Sweep in Progress" to either "Alliance Wins" or "Mines Win".
 class Game < ApplicationRecord
   self.implicit_order_column = "created_at"
 

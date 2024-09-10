@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Grid allows for organizing an Array of {Cell}s. Outputs include: a Hash, an
-# Array of Arrays, or "rendering" the grid by appealing to {Cell#render}.
+# Array of Arrays, or any such Enumerable method result.
 class Grid
   STANDARD_ORGANIZER = ->(array) { array }
   TRANSPOSE_ORGANIZER = ->(array) { array.transpose }

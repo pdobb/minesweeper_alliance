@@ -40,3 +40,7 @@
 /node_modules/
 
 /dump.rdb
+
+# YARD Documentation.
+/.yardoc/
+/doc/

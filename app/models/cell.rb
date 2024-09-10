@@ -9,9 +9,18 @@
 #
 # Which of these values a Cell is, is discovered when the Cell is revealed (when
 # a player clicks on the Cell).
-# - If a mine is revealed, the {Game} ends in defeat (a.k.a. victory for the
-#   mines).
+# - If a mine is revealed, the {Game} ends in defeat.
 # - If all safe Cells are revealed, the {Game} ends in victory for the alliance!
+#
+# @attr coordinates [Coordinates] ({}) Storage of the X/Y Grid location.
+# @attr value [String] (nil) The revealed value; generally a number (0..8)
+#   representing the number of mines around this Cell. Else: "💣" if the Cell
+#   has been revealed to be a mine.
+# @attr mine [Boolean] Whether or not this Cell contains a mine.
+# @attr flagged [Boolean] Whether or not this Cell has been flagged.
+# @attr highlighted [Boolean] Whether or not this Cell is currently being
+#   highlighted. (This is highly temporary.)
+# @attr revealed [Boolean] Whether or not this Cell has been revealed.
 class Cell < ApplicationRecord
   self.implicit_order_column = "created_at"
 
@@ -22,7 +31,6 @@ class Cell < ApplicationRecord
   belongs_to :board, inverse_of: :cells
 
   attribute :coordinates, CoordinatesType.new
-
   def x = coordinates.x
   def y = coordinates.y
 
