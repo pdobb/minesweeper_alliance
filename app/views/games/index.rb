@@ -102,31 +102,15 @@ class Games::Index
   # Games::Index::Listing
   class Listing
     include ActiveModelWrapperBehaviors
-    include Games::StatusBehaviors
+    include Games::ShowBehaviors
     include WrapMethodBehaviors
 
     def initialize(model)
       @model = model
     end
 
-    def game_in_progress? = to_model.status_sweep_in_progress?
-    def game_ended_in_victory? = to_model.ended_in_victory?
-    def game_ended_in_defeat? = to_model.ended_in_defeat?
-
-    def game_number
-      game_id.to_s.rjust(4, "0")
-    end
-
-    def difficulty_level_name
-      difficulty_level.name
-    end
-
     def difficulty_level_indicator
       difficulty_level.initials
-    end
-
-    def game_url(router = RailsRouter.instance)
-      router.game_path(to_model)
     end
 
     def game_engagement_time_range(template)
@@ -138,10 +122,12 @@ class Games::Index
         "&ndash;".html_safe)
     end
 
+    def game_url(router = RailsRouter.instance)
+      router.game_path(to_model)
+    end
+
     private
 
     def to_model = @model
-    def game_id = to_model.id
-    def difficulty_level = to_model.difficulty_level
   end
 end

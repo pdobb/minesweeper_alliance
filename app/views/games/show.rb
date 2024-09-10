@@ -5,6 +5,7 @@
 class Games::Show
   NULL_CELL_ID = 0
 
+  include Games::ShowBehaviors
   include Games::StatusBehaviors
 
   def initialize(game:)
@@ -12,15 +13,15 @@ class Games::Show
   end
 
   def game_on? = game.on?
-  def game_in_progress? = game.status_sweep_in_progress?
-  def game_ended_in_victory? = game.ended_in_victory?
-  def game_ended_in_defeat? = game.ended_in_defeat?
 
   def game_status = game.status
 
   def game_status_mojis
     super(count: players_count)
   end
+
+  def flags_count = board.flags_count
+  def mines_count = difficulty_level.mines
 
   def reveal_url(router = RailsRouter.instance)
     router.game_board_cell_reveal_path(game, board, NULL_CELL_ID)
@@ -48,21 +49,15 @@ class Games::Show
     @elapsed_time ||= ElapsedTime.new(game_engagement_time_range)
   end
 
-  def difficulty_level_name
-    difficulty_level.name
-  end
-
   def board_dimensions
     difficulty_level.dimensions
   end
-
-  def flags_count = board.flags_count
-  def mines_count = difficulty_level.mines
 
   private
 
   attr_reader :game
 
+  def to_model = game
   def board = game.board
 
   def grid(context:)
@@ -70,7 +65,6 @@ class Games::Show
   end
 
   def game_engagement_time_range = game.engagement_time_range
-  def difficulty_level = game.difficulty_level
 
   def players_count
     [DutyRoster.count, 1].max

@@ -1,11 +1,22 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= content_for(:title) || "Minesweeper Alliance" %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
+    <%= display_meta_tags(
+          site: "Minesweeper Alliance",
+          description: t("site_description"),
+          keywords: ["minesweeper", "real-time", "multiplayer game"],
+          separator: "&mdash;".html_safe,
+          reverse: true,
+          og: {
+            title: :title,
+            site_name: :site,
+            type: "website",
+          },
+        ) %>
 
     <link rel="manifest" href="/manifest.json">
     <link rel="icon" href="/icon.png" type="image/png">

@@ -47,3 +47,6 @@ en:
 
   flash:
     not_found: "%{type} not found."
+
+  site_description: |
+    Welcome to Minesweeper Alliance, an open-multiplayer riff on the classic Minesweeper game. Join forces with your fellow allies to sweep mines in real-time!

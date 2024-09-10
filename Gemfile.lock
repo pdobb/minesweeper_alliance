@@ -153,6 +153,8 @@ GEM
       net-pop
       net-smtp
     marcel (1.0.4)
+    meta-tags (2.22.0)
+      actionpack (>= 6.0.0, < 8.1)
     mini_mime (1.1.5)
     minitest (5.25.1)
     minitest-rails (7.1.1)
@@ -342,6 +344,7 @@ DEPENDENCIES
   debug
   gemwork
   importmap-rails
+  meta-tags
   minitest-rails
   object_identifier
   object_inspector
