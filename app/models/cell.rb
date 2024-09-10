@@ -71,6 +71,8 @@ class Cell < ApplicationRecord
   # for highlight in the view. This makes it easy to visualize the surrounding
   # Cells of a given, previously-revealed Cell.
   def highlight_neighbors
+    return self if unrevealed?
+
     neighbors.is_not_flagged.is_not_revealed.is_not_highlighted.update_all(
       highlighted: true)
 
@@ -123,6 +125,7 @@ class Cell < ApplicationRecord
     include ConsoleObjectBehaviors
 
     def coordinates = super.console
+    def neighbors = super.map(&:console)
 
     def render(cells_count: nil)
       "#{current_state}#{coordinates.console.render(cells_count:)}"
