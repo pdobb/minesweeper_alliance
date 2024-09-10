@@ -13,6 +13,7 @@ class Games::Show
   end
 
   def game_on? = game.on?
+  def game_just_ended? = game.just_ended?
 
   def game_status = game.status
 

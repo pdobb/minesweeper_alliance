@@ -14,6 +14,8 @@
 class Game < ApplicationRecord
   self.implicit_order_column = "created_at"
 
+  DEFAULT_JUST_ENDED_DURATION = 1.second
+
   include ConsoleBehaviors
   include Statusable::HasStatuses
 
@@ -45,7 +47,7 @@ class Game < ApplicationRecord
     retry
   end
 
-  def self.current(within: 1.second)
+  def self.current(within: DEFAULT_JUST_ENDED_DURATION)
     for_game_on_statuses.or(
       for_game_over_statuses.for_ended_at(within.ago..)).
       take
@@ -96,6 +98,10 @@ class Game < ApplicationRecord
 
   def over?
     !on?
+  end
+
+  def just_ended?(within: DEFAULT_JUST_ENDED_DURATION)
+    (within.ago..).cover?(ended_at)
   end
 
   def ended_in_victory? = status_alliance_wins?

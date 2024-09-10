@@ -113,5 +113,14 @@
             class: "btn-primary",
             data: { action: "board-actions#revealRandom:prevent" }) %>
     </div>
+  <% elsif view.game_just_ended? %>
+    <div class="text-center">
+      <%= button_to(
+            "Restart",
+            root_path,
+            method: :get,
+            class: "btn-primary",
+            data: { turbo_frame: :_top }) %>
+    </div>
   <% end %>
 <% end %>
