@@ -31,8 +31,15 @@
   </head>
 
   <body>
+    <div
+      id="flash"
+      class="fixed top-6 right-6 flex flex-col gap-y-3 items-end"
+    >
+      <%= render("layouts/flash") %>
+    </div>
+
     <header class="container mx-auto py-6 border-b">
-      <nav>
+      <nav class="flex justify-between">
         <ul class="flex gap-x-12">
           <li><%= active_link_to("War Room", root_path) %></li>
           <li>
@@ -40,15 +47,9 @@
                   "Sweep Ops Archives", games_path, includes: "games") %>
           </li>
         </ul>
+        <span class="hidden md:inline">Minesweeper Alliance</span>
       </nav>
     </header>
-
-    <div
-      id="flash"
-      class="fixed top-6 right-6 flex flex-col gap-y-3 items-end"
-    >
-      <%= render("layouts/flash") %>
-    </div>
 
     <main class="container mx-auto my-12">
       <%= yield %>

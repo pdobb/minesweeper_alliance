@@ -17,15 +17,15 @@
 
   a,
   .a {
-    @apply hover:underline hover:underline-offset-4;
+    @apply underline underline-offset-4 hover:text-red-700;
   }
 
   nav a {
-    @apply border-2 border-transparent py-2 hover:no-underline;
+    @apply border-2 border-transparent py-2 font-normal no-underline;
 
     &.active,
     &:hover {
-      @apply border-b-red-700 no-underline;
+      @apply border-b-red-700 text-current no-underline;
     }
   }
 
@@ -66,10 +66,6 @@
 
 @layer components {
   .btn-primary {
-    @apply select-none whitespace-nowrap border border-2 border-gray-800 px-4 py-1 hover:border-red-700 hover:ring hover:ring-1 hover:ring-red-700 disabled:border-red-700 disabled:ring disabled:ring-1 disabled:ring-red-700;
-
-    &:hover {
-      @apply no-underline;
-    }
+    @apply select-none whitespace-nowrap border border-2 border-gray-800 px-4 py-1 no-underline hover:border-red-700 hover:ring hover:ring-1 hover:ring-red-700 disabled:border-red-700 disabled:ring disabled:ring-1 disabled:ring-red-700;
   }
 }

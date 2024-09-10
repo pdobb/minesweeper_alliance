@@ -46,8 +46,8 @@
           data-turbo-prefetch="false"
         >
           <% listings.each do |listing| %>
-            <%= link_to(listing.game_url, class: "space-x-1") do %>
-              <span class="text-gray-500">
+            <%= link_to(listing.game_url, class: "group space-x-1") do %>
+              <span class="text-gray-500 group-hover:text-inherit">
                 #<%= listing.game_number %>
                 <abbr
                   title="<%= listing.difficulty_level_name %>"
@@ -55,7 +55,7 @@
               </span>
 
               <span><%= listing.game_engagement_time_range(self) %></span>
-              <span><%= listing.game_status_mojis %></span>
+              <span class="tracking-widest"><%= listing.game_status_mojis %></span>
             <% end %>
           <% end %>
         </div>

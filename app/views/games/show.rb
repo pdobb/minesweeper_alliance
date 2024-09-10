@@ -39,10 +39,11 @@ class Games::Show
     router.game_board_cell_reveal_neighbors_path(game, board, NULL_CELL_ID)
   end
 
-  def rows(context:)
+  def grid(context:)
     klass = game_on? ? ActiveCell : InactiveCell
+
     # TODO: Wrap `context` in a View Object for our protection/convenience.
-    grid(context:).map { |row| klass.wrap(row, self) }
+    board.grid(context:).map { |row| klass.wrap(row, self) }
   end
 
   def elapsed_time
@@ -60,14 +61,10 @@ class Games::Show
   def to_model = game
   def board = game.board
 
-  def grid(context:)
-    board.grid(context:)
-  end
-
   def game_engagement_time_range = game.engagement_time_range
 
-  def players_count
-    [DutyRoster.count, 1].max
+  def players_count(roster = DutyRoster)
+    [roster.count, 1].max
   end
 
   # Games::Show::ElapsedTime is a View Model wrapper around {::ElapsedTime},
