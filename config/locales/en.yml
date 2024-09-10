@@ -50,3 +50,5 @@ en:
 
   site_description: |
     Welcome to Minesweeper Alliance, an open-multiplayer riff on the classic Minesweeper game. Join forces with your fellow allies to sweep mines in real-time!
+  site_description_html: |
+    Welcome to Minesweeper Alliance, an open-multiplayer riff on the classic <a href="https://en.wikipedia.org/wiki/Minesweeper_(video_game)" target="_blank">Minesweeper</a> game. Join forces with your fellow allies to sweep mines in real-time!

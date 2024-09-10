@@ -1,5 +1,9 @@
 <% title("War Room") %>
 
+<p class="-mt-6 md:-mt-3 mb-12 text-center">
+  <%= t("site_description_html") %>
+</p>
+
 <%= turbo_stream_from(:current_game) %>
 
 <%= render(@view.render_options) %>
