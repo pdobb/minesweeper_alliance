@@ -1,18 +1,35 @@
 # frozen_string_literal: true
 
-# CoordinatesType is a custom ActiveModel `attributes` API type. It allows for:
-# - casting {Coordinates}, Hash, and String objects to {Coordinates} objects
+# CoordinatesType is a custom ActiveModel "attributes API" type. It allows for:
 # - serializing {Coordinates} objects to JSON
+# - casting {Coordinates}, Hash, and String objects to a {Coordinates} object
+# - casting unknown types to a {NullCoordinates} object
 #
 # @example
 #   attribute :coordinates, CoordinatesType.new
 #
-# @see https://api.rubyonrails.org/classes/ActiveModel/Type/Value.html
+# @see
+#  - https://api.rubyonrails.org/classes/ActiveModel/Type/Value.html
+#  - https://michaeljherold.com/articles/extending-activerecord-with-custom-types
 class CoordinatesType < ActiveModel::Type::Value
+  # Can be used to register this type with the ActiveModel::Type registry.
   def type
-    :jsonb
+    :coordinates
   end
 
+  # :reek:ControlParameter
+  # :reek:UtilityFunction
+
+  # Casts the given value from a Ruby type to the type needed by the database.
+  def serialize(value)
+    ActiveSupport::JSON.encode(value || NullCoordinates.new)
+  end
+
+  private
+
+  # Casts a value from user input (e.g. from a setter) to our {Coordinates} (or
+  # {NullCoordinates}) type. Called by public method
+  # ActiveModel::Type::Value#cast, unless the given value is nil.
   def cast_value(value)
     case value
     when Coordinates
@@ -21,24 +38,10 @@ class CoordinatesType < ActiveModel::Type::Value
       Coordinates.new(**value.symbolize_keys)
     when String
       cast_string_value(value)
-    when NilClass
+    else
       NullCoordinates.new
     end
   end
-
-  def serialize(value)
-    case value
-    when Hash,
-         Coordinates
-      ActiveSupport::JSON.encode(value)
-    when NilClass
-      ActiveSupport::JSON.encode(NullCoordinates.new)
-    else
-      super
-    end
-  end
-
-  private
 
   def cast_string_value(value)
     hash = ActiveSupport::JSON.decode(value)
