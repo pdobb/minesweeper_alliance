@@ -58,3 +58,6 @@ Style/FrozenStringLiteralComment:
 Style/HashAsLastArrayItem:
   Exclude:
     - test/**/*
+
+Style/SymbolProc:
+  AllowMethodsWithArguments: true

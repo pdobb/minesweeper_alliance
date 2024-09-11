@@ -149,6 +149,18 @@ CREATE TABLE public.schema_migrations (
 
 
 --
+-- Name: users; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.users (
+    id uuid DEFAULT gen_random_uuid() NOT NULL,
+    username character varying,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
 -- Name: boards id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -207,6 +219,14 @@ ALTER TABLE ONLY public.games
 
 ALTER TABLE ONLY public.schema_migrations
     ADD CONSTRAINT schema_migrations_pkey PRIMARY KEY (version);
+
+
+--
+-- Name: users users_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.users
+    ADD CONSTRAINT users_pkey PRIMARY KEY (id);
 
 
 --
@@ -294,6 +314,13 @@ CREATE UNIQUE INDEX index_games_on_status ON public.games USING btree (status) W
 
 
 --
+-- Name: index_users_on_username; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_users_on_username ON public.users USING btree (username);
+
+
+--
 -- Name: games game_status_check; Type: TRIGGER; Schema: public; Owner: -
 --
 
@@ -323,6 +350,7 @@ ALTER TABLE ONLY public.cells
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20240911180310'),
 ('20240809213941'),
 ('20240809213716'),
 ('20240809213612');
