@@ -1,0 +1,12 @@
+<%= display_meta_tags(
+      site: "Minesweeper Alliance",
+      description: t("site_description"),
+      keywords: ["minesweeper", "real-time", "multiplayer game"],
+      separator: "&mdash;".html_safe,
+      reverse: true,
+      og: {
+        title: :title,
+        site_name: :site,
+        type: "website",
+      },
+    ) %>

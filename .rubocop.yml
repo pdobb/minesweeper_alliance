@@ -37,6 +37,10 @@ Naming/MethodParameterName:
     - x
     - y
 
+Rails/ApplicationController:
+  Exclude:
+    - app/controllers/ui_portal/**/*
+
 Style/Documentation:
   Exclude:
     - app/controllers/**/*
