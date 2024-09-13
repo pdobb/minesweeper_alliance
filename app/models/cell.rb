@@ -29,6 +29,7 @@ class Cell < ApplicationRecord
   include ConsoleBehaviors
 
   belongs_to :board, inverse_of: :cells
+  has_one :game, through: :board
 
   has_many :cell_transactions, dependent: :delete_all
   has_one :cell_reveal_transaction
