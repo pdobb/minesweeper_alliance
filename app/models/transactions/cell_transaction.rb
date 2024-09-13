@@ -10,7 +10,10 @@
 class CellTransaction < ApplicationRecord
   self.implicit_order_column = "created_at"
 
+  include AbstractBaseClassBehaviors
   include ConsoleBehaviors
+
+  as_abstract_class
 
   belongs_to :user
 
