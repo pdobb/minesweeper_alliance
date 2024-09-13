@@ -1,6 +1,6 @@
 <% title("War Room") %>
 
-<p class="-mt-6 md:-mt-3 mb-12 text-center">
+<p class="-mt-6 md:-mt-3 mb-12 text-center text-balance">
   <%= t("site_description_html") %>
 </p>
 
@@ -9,7 +9,9 @@
 <%= render(@view.render_options) %>
 
 <% if @view.current_game? %>
-  <hr class="my-12">
+  <div id="gameContext">
+    <hr class="my-12">
 
-  <%= render("games/rules")  %>
+    <%= render("games/rules")  %>
+  </div>
 <% end %>

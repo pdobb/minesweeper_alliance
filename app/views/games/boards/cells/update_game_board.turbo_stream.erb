@@ -1,0 +1,7 @@
+<%= turbo_stream.replace(:current_game) do %>
+  <%= render("games/game", view: Games::Show.new(game: @game)) %>
+<% end %>
+
+<% if @game.just_ended? %>
+  <%= turbo_stream.remove("gameContext") %>
+<% end %>

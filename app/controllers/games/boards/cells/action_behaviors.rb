@@ -12,14 +12,7 @@ module Games::Boards::Cells::ActionBehaviors
   def render_updated_game_board
     respond_to do |format|
       format.html { redirect_to(root_path) }
-      format.turbo_stream {
-        render(
-          turbo_stream:
-            turbo_stream.replace(
-              :current_game,
-              partial: "games/game",
-              locals: { view: Games::Show.new(game:) }))
-      }
+      format.turbo_stream { render("games/boards/cells/update_game_board") }
     end
   end
 
