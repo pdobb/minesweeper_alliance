@@ -137,8 +137,6 @@ class Game < ApplicationRecord
         "Restart the Rails server into DEBUG mode for changes to take effect.")
     end
 
-    def board = super.console
-
     def render
       puts inspect # rubocop:disable Rails/Output
       board.render
