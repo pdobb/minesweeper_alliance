@@ -69,6 +69,38 @@ ALTER SEQUENCE public.boards_id_seq OWNED BY public.boards.id;
 
 
 --
+-- Name: cell_transactions; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.cell_transactions (
+    id bigint NOT NULL,
+    type character varying NOT NULL,
+    user_id uuid,
+    cell_id bigint NOT NULL,
+    created_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: cell_transactions_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.cell_transactions_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: cell_transactions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.cell_transactions_id_seq OWNED BY public.cell_transactions.id;
+
+
+--
 -- Name: cells; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -168,6 +200,13 @@ ALTER TABLE ONLY public.boards ALTER COLUMN id SET DEFAULT nextval('public.board
 
 
 --
+-- Name: cell_transactions id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.cell_transactions ALTER COLUMN id SET DEFAULT nextval('public.cell_transactions_id_seq'::regclass);
+
+
+--
 -- Name: cells id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -195,6 +234,14 @@ ALTER TABLE ONLY public.ar_internal_metadata
 
 ALTER TABLE ONLY public.boards
     ADD CONSTRAINT boards_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: cell_transactions cell_transactions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.cell_transactions
+    ADD CONSTRAINT cell_transactions_pkey PRIMARY KEY (id);
 
 
 --
@@ -241,6 +288,34 @@ CREATE INDEX index_boards_on_created_at ON public.boards USING btree (created_at
 --
 
 CREATE INDEX index_boards_on_game_id ON public.boards USING btree (game_id);
+
+
+--
+-- Name: index_cell_transactions_on_cell_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_cell_transactions_on_cell_id ON public.cell_transactions USING btree (cell_id);
+
+
+--
+-- Name: index_cell_transactions_on_created_at; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_cell_transactions_on_created_at ON public.cell_transactions USING btree (created_at);
+
+
+--
+-- Name: index_cell_transactions_on_type; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_cell_transactions_on_type ON public.cell_transactions USING btree (type);
+
+
+--
+-- Name: index_cell_transactions_on_user_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_cell_transactions_on_user_id ON public.cell_transactions USING btree (user_id);
 
 
 --
@@ -336,6 +411,22 @@ ALTER TABLE ONLY public.boards
 
 
 --
+-- Name: cell_transactions fk_rails_8ae22ea0ff; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.cell_transactions
+    ADD CONSTRAINT fk_rails_8ae22ea0ff FOREIGN KEY (cell_id) REFERENCES public.cells(id) ON DELETE CASCADE;
+
+
+--
+-- Name: cell_transactions fk_rails_baaa458a22; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.cell_transactions
+    ADD CONSTRAINT fk_rails_baaa458a22 FOREIGN KEY (user_id) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
 -- Name: cells fk_rails_d04db06fd5; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -350,6 +441,7 @@ ALTER TABLE ONLY public.cells
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20240912030247'),
 ('20240911180310'),
 ('20240809213941'),
 ('20240809213716'),

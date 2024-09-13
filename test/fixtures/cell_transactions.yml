@@ -1,0 +1,29 @@
+win1_cell_transaction1:
+  type: CellRevealTransaction
+  user: user1
+  cell: win1_board_cell2
+win1_cell_transaction2:
+  type: CellRevealTransaction
+  user: user1
+  cell: win1_board_cell4
+win1_cell_transaction3:
+  type: CellRevealTransaction
+  user: user1
+  cell: win1_board_cell5
+win1_cell_transaction4:
+  type: CellFlagTransaction
+  user: user1
+  cell: win1_board_cell1
+win1_cell_transaction5:
+  type: CellRevealTransaction
+  user: user1
+  cell: win1_board_cell9
+
+loss1_cell_transaction1:
+  type: CellRevealTransaction
+  user: user1
+  cell: win1_board_cell8
+loss1_cell_transaction2:
+  type: CellRevealTransaction
+  user: user2
+  cell: win1_board_cell9
