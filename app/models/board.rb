@@ -96,7 +96,6 @@ class Board < ApplicationRecord
   class Console
     include ConsoleObjectBehaviors
 
-    def cells = super.map(&:console)
     def grid = super.console
 
     def reveal_random_cell
