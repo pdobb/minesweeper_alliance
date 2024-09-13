@@ -4,7 +4,7 @@ class Games::Boards::Cells::RevealNeighborsController < ApplicationController
   include Games::Boards::Cells::ActionBehaviors
 
   def create
-    RevealNeighbors.(game:, board:, cell:)
+    RevealNeighbors.(current_context)
 
     broadcast_changes
     render_updated_game_board
@@ -36,12 +36,14 @@ class Games::Boards::Cells::RevealNeighborsController < ApplicationController
 
     attr_reader :game,
                 :board,
-                :cell
+                :cell,
+                :user
 
-    def initialize(game:, board:, cell:)
-      @game = game
-      @board = board
-      @cell = cell
+    def initialize(context)
+      @game = context.game
+      @board = context.board
+      @cell = context.cell
+      @user = context.user
     end
 
     def on_call
@@ -61,7 +63,7 @@ class Games::Boards::Cells::RevealNeighborsController < ApplicationController
 
     def recursively_reveal_neighbors_if_neighboring_flags_count_matches_value
       if cell.neighboring_flags_count_matches_value?
-        Recurse.(game:, cell:)
+        Recurse.(game:, cell:, user:)
       else
         cell.dehighlight_neighbors
       end
@@ -91,11 +93,13 @@ class Games::Boards::Cells::RevealNeighborsController < ApplicationController
       include CallMethodBehaviors
 
       attr_reader :game,
-                  :cell
+                  :cell,
+                  :user
 
-      def initialize(game:, cell:)
+      def initialize(game:, cell:, user:)
         @game = game
         @cell = cell
+        @user = user
       end
 
       def on_call
@@ -116,7 +120,10 @@ class Games::Boards::Cells::RevealNeighborsController < ApplicationController
       end
 
       def reveal(neighboring_cell)
-        neighboring_cell.reveal
+        neighboring_cell.transaction do
+          neighboring_cell.reveal
+          CellRevealTransaction.create_between(user:, cell: neighboring_cell)
+        end
 
         if neighboring_cell.mine? # rubocop:disable Style/GuardClause
           game.end_in_defeat
@@ -127,7 +134,7 @@ class Games::Boards::Cells::RevealNeighborsController < ApplicationController
 
       def recurse(neighboring_cell)
         if neighboring_cell.blank? # rubocop:disable Style/GuardClause
-          self.class.(game:, cell: neighboring_cell)
+          self.class.(game:, cell: neighboring_cell, user:)
         end
       end
     end

@@ -4,7 +4,7 @@ class Games::Boards::Cells::RevealsController < ApplicationController
   include Games::Boards::Cells::ActionBehaviors
 
   def create
-    Reveal.(game:, board:, cell:)
+    Reveal.(current_context)
 
     broadcast_changes
     render_updated_game_board
@@ -25,12 +25,14 @@ class Games::Boards::Cells::RevealsController < ApplicationController
 
     attr_reader :game,
                 :board,
-                :cell
+                :cell,
+                :user
 
-    def initialize(game:, board:, cell:)
-      @game = game
-      @board = board
-      @cell = cell
+    def initialize(context)
+      @game = context.game
+      @board = context.board
+      @cell = context.cell
+      @user = context.user
     end
 
     # :reek:TooManyStatements
@@ -60,7 +62,10 @@ class Games::Boards::Cells::RevealsController < ApplicationController
     end
 
     def reveal_cell
-      cell.reveal
+      cell.transaction do
+        cell.reveal
+        CellRevealTransaction.create_between(user:, cell:)
+      end
     end
 
     def end_game_in_defeat_if_mine_revealed

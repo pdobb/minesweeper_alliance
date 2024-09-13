@@ -27,4 +27,23 @@ module Games::Boards::Cells::ActionBehaviors
   def cell
     @cell ||= board.cells.find(params[:cell_id])
   end
+
+  def current_context
+    CurrentContext.new(self)
+  end
+
+  class CurrentContext
+    def initialize(context)
+      @context = context
+    end
+
+    def game = context.__send__(:game)
+    def board = context.__send__(:board)
+    def cell = context.__send__(:cell)
+    def user = context.current_user
+
+    private
+
+    attr_reader :context
+  end
 end
