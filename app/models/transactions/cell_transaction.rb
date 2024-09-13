@@ -6,7 +6,9 @@ class CellTransaction < ApplicationRecord
   include ConsoleBehaviors
 
   belongs_to :user
+
   belongs_to :cell
+  has_one :game, through: :cell
 
   scope :for_user, ->(user) { where(user:) }
 

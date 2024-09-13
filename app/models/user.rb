@@ -14,6 +14,8 @@ class User < ApplicationRecord
   has_many :cell_flag_transactions
   has_many :cell_unflag_transactions
 
+  has_many :games, -> { distinct }, through: :cell_transactions
+
   # User::Console acts like a {User} but otherwise handles IRB Console-specific
   # methods/logic.
   class Console

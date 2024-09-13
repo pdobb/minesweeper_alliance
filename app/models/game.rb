@@ -20,11 +20,16 @@ class Game < ApplicationRecord
   include Statusable::HasStatuses
 
   has_one :board, dependent: :delete
+  has_many :cells, through: :board
 
-  has_many :cell_transactions, through: :board
-  has_many :cell_reveal_transactions, through: :board
-  has_many :cell_flag_transactions, through: :board
-  has_many :cell_unflag_transactions, through: :board
+  has_many :cell_transactions, through: :cells
+  has_many :cell_reveal_transactions, through: :cells
+  has_many :cell_flag_transactions, through: :cells
+  has_many :cell_unflag_transactions, through: :cells
+
+  has_many :users,
+           -> { select("DISTINCT ON(users.id) users.*").order("users.id") },
+           through: :cell_transactions
 
   has_statuses([
     "Standing By",
