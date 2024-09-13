@@ -1,0 +1,20 @@
+<div class="space-y-6">
+  <h3>Game Stats</h3>
+
+  <ul class="space-y-2">
+    <li><strong>Duration</strong>: <%= view.duration %></li>
+    <li><strong># Reveals</strong>: <%= view.reveals_count %></li>
+    <li><strong># Flags Placed</strong>: <%= view.flags_count %></li>
+    <li><strong># Flags Removed</strong>: <%= view.unflags_count %></li>
+    <li><strong># Active Players</strong>: <%= view.players_count %></li>
+    <li>
+      <strong>Duty Roster</strong>:
+
+      <ol class="mt-3 ml-7 list-decimal list-inside">
+        <% view.duty_roster.each do |user| %>
+          <li><%= user.display_name %></li>
+        <% end %>
+      </ol>
+    </li>
+  </ul>
+</div>

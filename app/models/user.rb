@@ -7,6 +7,8 @@
 class User < ApplicationRecord
   self.implicit_order_column = "created_at"
 
+  TRUNCATED_ID_RANGE = (-4..)
+
   include ConsoleBehaviors
 
   has_many :cell_transactions, dependent: :nullify
@@ -17,7 +19,14 @@ class User < ApplicationRecord
   has_many :games, -> { distinct }, through: :cell_transactions
 
   def display_name
-    username || "Unknown User"
+    [
+      "MMS-#{unique_id}",
+      username&.inspect,
+    ].tap(&:compact!).join(" ")
+  end
+
+  def unique_id
+    @unique_id ||= created_at.to_i.to_s[TRUNCATED_ID_RANGE]
   end
 
   # User::Console acts like a {User} but otherwise handles IRB Console-specific

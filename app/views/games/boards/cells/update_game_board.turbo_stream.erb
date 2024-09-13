@@ -1,7 +1,11 @@
-<%= turbo_stream.replace(:current_game) do %>
-  <%= render("games/game", view: Games::Show.new(game: @game)) %>
-<% end %>
+<%= turbo_stream.replace(
+      :current_game,
+      partial: "games/game",
+      locals: { view: Games::Show.new(game: @game) }) %>
 
 <% if @game.just_ended? %>
-  <%= turbo_stream.remove("gameContext") %>
+  <%= turbo_stream.update(
+        :gameContext,
+        partial: "games/stats",
+        locals: { view: Games::Stats.new(game: @game) }) %>
 <% end %>

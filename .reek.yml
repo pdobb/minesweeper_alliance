@@ -12,6 +12,7 @@ detectors:
       - y
   UncommunicativeVariableName:
     accept:
+      - _
       - x
       - y
   UnusedPrivateMethod:

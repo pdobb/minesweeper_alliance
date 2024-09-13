@@ -55,6 +55,10 @@ class Games::Show
     difficulty_level.dimensions
   end
 
+  def game_stats_view
+    Games::Stats.new(game:)
+  end
+
   private
 
   attr_reader :game

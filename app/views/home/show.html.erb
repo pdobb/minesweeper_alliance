@@ -9,9 +9,13 @@
 <%= render(@view.render_options) %>
 
 <% if @view.current_game? %>
-  <div id="gameContext">
-    <hr class="my-12">
+  <hr class="my-12">
 
-    <%= render("games/rules")  %>
+  <div id="gameContext">
+    <% if @view.game_just_ended? %>
+      <%= render("games/stats", view: @view.game_stats_view) %>
+    <% else %>
+      <%= render("games/rules")  %>
+    <% end %>
   </div>
 <% end %>

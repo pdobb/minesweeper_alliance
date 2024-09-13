@@ -18,6 +18,14 @@ class Home::Show
     end
   end
 
+  def game_just_ended?
+    current_game.just_ended?
+  end
+
+  def game_stats_view
+    Games::Stats.new(game: current_game)
+  end
+
   private
 
   attr_reader :current_game
