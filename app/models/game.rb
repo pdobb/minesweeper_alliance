@@ -21,6 +21,11 @@ class Game < ApplicationRecord
 
   has_one :board, dependent: :delete
 
+  has_many :cell_transactions, through: :board
+  has_many :cell_reveal_transactions, through: :board
+  has_many :cell_flag_transactions, through: :board
+  has_many :cell_unflag_transactions, through: :board
+
   has_statuses([
     "Standing By",
     "Sweep in Progress",

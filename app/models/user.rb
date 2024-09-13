@@ -9,6 +9,11 @@ class User < ApplicationRecord
 
   include ConsoleBehaviors
 
+  has_many :cell_transactions, dependent: :nullify
+  has_many :cell_reveal_transactions
+  has_many :cell_flag_transactions
+  has_many :cell_unflag_transactions
+
   # User::Console acts like a {User} but otherwise handles IRB Console-specific
   # methods/logic.
   class Console

@@ -26,6 +26,13 @@ class Board < ApplicationRecord
            inverse_of: :board,
            dependent: :delete_all
 
+  has_many :cell_transactions, through: :cells
+  has_many :cell_reveal_transactions, through: :cells
+  has_many :cell_flag_transactions, through: :cells
+  has_many :cell_unflag_transactions, through: :cells
+
+  scope :for_game, ->(game) { where(game:) }
+
   # @attr difficulty_level [DifficultyLevel]
   def self.build_for(game:, difficulty_level:)
     game.

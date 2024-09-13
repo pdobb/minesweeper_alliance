@@ -30,6 +30,11 @@ class Cell < ApplicationRecord
 
   belongs_to :board, inverse_of: :cells
 
+  has_many :cell_transactions, dependent: :delete_all
+  has_one :cell_reveal_transaction
+  has_many :cell_flag_transactions
+  has_many :cell_unflag_transactions
+
   attribute :coordinates, CoordinatesType.new
   def x = coordinates.x
   def y = coordinates.y
@@ -44,6 +49,8 @@ class Cell < ApplicationRecord
   scope :is_not_revealed, -> { where(revealed: false) }
 
   scope :for_coordinates, ->(coordinates) { where(coordinates:) }
+  scope :for_board, ->(board) { where(board:) }
+  scope :for_game, ->(game) { joins(:board).merge(Board.for_game(game)) }
 
   def value
     super || (Icon.flag if flagged?)

@@ -37,7 +37,10 @@ module MinesweeperAlliance # rubocop:disable Style/ClassAndModuleChildren
     # in config/environments, which are processed later.
 
     config.time_zone = "Central Time (US & Canada)"
-    config.eager_load_paths << Rails.root.join("app/views")
+    config.eager_load_paths += [
+      Rails.root.join("app/views"),
+      Rails.root.join("app/models/transactions"),
+    ]
 
     config.active_record.schema_format = :sql
 
