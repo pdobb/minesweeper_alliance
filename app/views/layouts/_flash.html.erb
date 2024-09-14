@@ -5,6 +5,9 @@
     role="alert"
     data-controller="flash"
     data-flash-hide-class="opacity-0"
+    <% if notification.timeout? %>
+      data-flash-timeout-value="<%= notification.timeout_in_milliseconds %>"
+    <% end %>
     data-action="transitionend->flash#remove"
     class="
       p-4 rounded-lg

@@ -3,21 +3,31 @@
 # Layouts::Flash is a View Model that represents the Rails `flash`
 # Notifications hash (ActionDispatch::Flash::FlashHash).
 class Layouts::Flash
+  TYPES = %i[alert notice info warning].freeze
+  DEFAULT_TIMEOUT_IN_SECONDS = 10.seconds
+
   def initialize(collection)
     @collection = collection
   end
 
   def notifications
-    to_collection.map { |type, message|
-      Notification.new(type:, message:)
+    collection.flat_map { |type, messages|
+      notifications_for(type:, messages:)
     }
   end
 
   private
 
-  def to_collection = @collection
+  attr_reader :collection
 
-  # Layouts::Flash::Notification
+  def notifications_for(type:, messages:)
+    Array(messages).map { |message|
+      Notification.new(type:, message:)
+    }
+  end
+
+  # Layouts::Flash::Notification wraps the actual Flash notification content.
+  # Note: Flash notifications can be simple (just a String) or complex (a Hash).
   class Notification
     # rubocop:disable Layout/MultilineArrayLineBreaks
     CSS_CLASSES_MAP = {
@@ -57,11 +67,27 @@ class Layouts::Flash
     # rubocop:enable Layout/MultilineArrayLineBreaks
 
     attr_reader :type,
-                :message
+                :message,
+                :timeout
 
+    # @param message [String, Hash]
+    #
+    # @example Message as a String
+    #   Notification.new(type: :alert, message: "...")
+    #
+    # @example Message as a Hash
+    #   Notification.new(type: :alert, message: { text: "..." })
+    #   Notification.new(type: :alert, message: { text: "...", timeout: 3 })
     def initialize(type:, message:)
       @type = type
-      @message = message
+
+      if message.is_a?(Hash)
+        @message = message.fetch(:text)
+        @timeout = message.fetch(:timeout) { DEFAULT_TIMEOUT_IN_SECONDS }
+      else
+        @message = message
+        @timeout = DEFAULT_TIMEOUT_IN_SECONDS
+      end
     end
 
     def container_css_class
@@ -70,6 +96,16 @@ class Layouts::Flash
 
     def button_css_class
       CSS_CLASSES_MAP.fetch(type).fetch(:button)
+    end
+
+    def timeout_in_milliseconds
+      return unless timeout?
+
+      timeout.to_i * 1_000
+    end
+
+    def timeout?
+      timeout.present?
     end
   end
 end

@@ -3,7 +3,7 @@ import { Controller } from "@hotwired/stimulus"
 // FlashController is responsible for managing Rails's Flash Notifications.
 export default class extends Controller {
   static values = {
-    timeout: { type: Number, default: 10_000 },
+    timeout: { type: Number },
   }
   static classes = ["hide"]
 
@@ -24,7 +24,9 @@ export default class extends Controller {
   }
 
   #setTimeout() {
-    this.timeoutId = setTimeout(() => this.close(), this.timeoutValue)
+    if (this.timeoutValue > 0) {
+      this.timeoutId = setTimeout(() => this.close(), this.timeoutValue)
+    }
   }
 
   #clearTimeout() {
