@@ -3,7 +3,7 @@
 <%= turbo_frame_tag(:current_game, class: "space-y-6") do %>
   <h2 class="text-center overflow-hidden">
     <%= view.game_status %>
-    <span class="tracking-widest"><%= view.game_status_mojis %></span>
+    <span class="tracking-[.5em]"><%= view.game_status_mojis %></span>
   </h2>
 
   <div class="mx-auto w-fit max-w-full space-y-2">
@@ -118,9 +118,9 @@
       <p class="text-center">
         <%=
           if view.game_ended_in_victory?
-            t("game.victory.restart_html")
+            t("game.victory.restart_html").sample
           else # view.game_ended_in_defeat?
-            t("game.defeat.restart_html")
+            t("game.defeat.restart_html").sample
           end
         %>
       </p>
