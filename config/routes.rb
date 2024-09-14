@@ -20,6 +20,8 @@ Rails.application.routes.draw do
     end
   end
 
+  resource :user, only: %i[edit update]
+
   if App.development?
     namespace :ui_portal, path: :ui do
       root "home#show"

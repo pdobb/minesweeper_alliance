@@ -1,10 +1,17 @@
 <nav class="flex justify-between">
-  <ul class="flex gap-x-12">
+  <ul class="flex gap-x-6 lg:gap-x-12">
     <li><%= active_link_to("War Room", root_path) %></li>
     <li>
       <%= active_link_to(
             "Sweep Ops Archives", games_path, includes: "games") %>
     </li>
   </ul>
-  <span class="hidden md:inline">Minesweeper Alliance</span>
+
+  <div class="hidden md:inline">
+    <% if current_user.username? %>
+      <%= current_user.display_name %>
+    <% else %>
+      Minesweeper Alliance
+    <% end %>
+  </div>
 </nav>

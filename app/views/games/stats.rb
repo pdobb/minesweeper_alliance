@@ -30,6 +30,10 @@ class Games::Stats
     game.cell_unflag_transactions.size
   end
 
+  def current_user?(user, context:)
+    context.current_user == user
+  end
+
   private
 
   attr_reader :game

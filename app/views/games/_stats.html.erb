@@ -12,7 +12,14 @@
 
       <ol class="mt-3 ml-7 list-decimal list-inside">
         <% view.duty_roster.each do |user| %>
-          <li><%= user.display_name %></li>
+          <li>
+            <%= link_to_if(
+                  view.current_user?(user, context: self),
+                  user.display_name,
+                  edit_user_path,
+                  class: "edit-link",
+                  title: "Edit username") %>
+          </li>
         <% end %>
       </ol>
     </li>

@@ -8,6 +8,7 @@ class User < ApplicationRecord
   self.implicit_order_column = "created_at"
 
   TRUNCATED_ID_RANGE = (-4..)
+  USERNAME_MAX_LEGNTH = 26
 
   include ConsoleBehaviors
 
@@ -18,10 +19,17 @@ class User < ApplicationRecord
 
   has_many :games, -> { distinct }, through: :cell_transactions
 
+  validates :username,
+            length: { maximum: USERNAME_MAX_LEGNTH }
+
+  def username=(value)
+    super(value.strip.presence)
+  end
+
   def display_name
     [
       "MMS-#{unique_id}",
-      username&.inspect,
+      username_in_database&.inspect,
     ].tap(&:compact!).join(" ")
   end
 

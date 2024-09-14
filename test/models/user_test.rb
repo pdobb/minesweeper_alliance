@@ -26,6 +26,24 @@ class UserTest < ActiveSupport::TestCase
       end
     end
 
+    describe "#username=" do
+      subject { user1 }
+
+      context "GIVEN just white-space" do
+        it "sets #username to nil" do
+          subject.username = " "
+          _(subject.username).must_be_nil
+        end
+      end
+
+      context "GIVEN white-space before or after the given value" do
+        it "sets the expected String" do
+          subject.username = " TEST "
+          _(subject.username).must_equal("TEST")
+        end
+      end
+    end
+
     describe "#display_name" do
       context "GIVEN #username.present? = true" do
         subject { user1 }
