@@ -17,15 +17,14 @@
     "
   >
     <span class="sr-only"><%= notification.type %></span>
-    <div class="flex gap-x-6">
+    <div class="flex gap-x-6 items-baseline">
       <p><%= notification.message %></p>
 
       <button
         type="button"
         data-action="flash#close"
         class="
-          -m-1.5 p-2 rounded-lg
-          dark:bg-gray-800 dark:hover:bg-gray-700
+          -m-2 p-3 rounded-lg
           focus:ring-2
           <%= class_names(notification.button_css_class) %>
         "
