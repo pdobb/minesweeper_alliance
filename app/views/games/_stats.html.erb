@@ -1,27 +1,35 @@
-<div class="space-y-6">
-  <h3>Game Stats</h3>
+<div
+  class="
+    flex flex-wrap md:flex-nowrap md:justify-center
+    gap-x-24 gap-y-12
+    whitespace-nowrap
+  "
+>
+  <div class="space-y-6">
+    <h3>Game Stats</h3>
 
-  <ul class="space-y-2">
-    <li><strong>Duration</strong>: <%= view.duration %></li>
-    <li><strong># Reveals</strong>: <%= view.reveals_count %></li>
-    <li><strong># Flags Placed</strong>: <%= view.flags_count %></li>
-    <li><strong># Flags Removed</strong>: <%= view.unflags_count %></li>
-    <li><strong># Active Players</strong>: <%= view.players_count %></li>
-    <li>
-      <strong>Duty Roster</strong>:
+    <ul class="space-y-2">
+      <li><strong>Duration</strong>: <%= view.duration %></li>
+      <li><strong># Reveals</strong>: <%= view.reveals_count %></li>
+      <li><strong># Flags Placed</strong>: <%= view.flags_count %></li>
+      <li><strong># Flags Removed</strong>: <%= view.unflags_count %></li>
+      <li><strong># Active Players</strong>: <%= view.players_count %></li>
+    </ul>
+  </div>
+  <div class="space-y-6">
+    <h3>Duty Roster</h3>
 
-      <ol class="mt-3 ml-7 list-decimal list-inside">
-        <% view.duty_roster.each do |user| %>
-          <li>
-            <%= link_to_if(
-                  view.current_user?(user, context: self),
-                  user.display_name,
-                  edit_user_path,
-                  class: "edit-link",
-                  title: "Edit username") %>
-          </li>
-        <% end %>
-      </ol>
-    </li>
-  </ul>
+    <ol class="list-decimal list-inside">
+      <% view.duty_roster.each do |user| %>
+        <li>
+          <%= link_to_if(
+                view.current_user?(user, context: self),
+                user.display_name,
+                edit_user_path,
+                class: "edit-link",
+                title: "Edit username") %>
+        </li>
+      <% end %>
+    </ol>
+  </div>
 </div>
