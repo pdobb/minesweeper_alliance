@@ -29,5 +29,7 @@
     <main class="container mx-auto my-12">
       <%= yield %>
     </main>
+
+    <%= render("layouts/breakpoint_indicator") if App.development? %>
   </body>
 </html>
