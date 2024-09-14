@@ -1,0 +1,50 @@
+<%# locals: (view:) %>
+
+<div
+  data-controller="menu"
+  data-action="
+    keydown.esc@window->menu#escape
+    click@window->menu#cancel
+  "
+  class="relative"
+>
+  <button
+    type="button"
+    data-menu-target="button"
+    data-action="menu#toggle"
+    aria-label="<%= view.title %>"
+    aria-haspopup="true"
+    aria-expanded="false"
+    <%= tag.attributes(view.button_attributes) %>
+    class="<%= class_names(view.button_css) %>"
+  >
+    <%= view.button_content %>
+  </button>
+
+  <div
+    role="menu"
+    data-menu-target="menu"
+    data-transition-enter="transition ease-out duration-100"
+    data-transition-enter-start="transform opacity-0 scale-95"
+    data-transition-enter-end="transform opacity-100 scale-100"
+    data-transition-leave="transition ease-in duration-75"
+    data-transition-leave-start="transform opacity-100 scale-100"
+    data-transition-leave-end="transform opacity-0 scale-95"
+    aria-hidden="true"
+    aria-orientation="vertical"
+    tabindex="0"
+    <%= tag.attributes(view.menu_attributes) %>
+    class="
+      hidden
+      overflow-hidden
+      min-w-fit
+      absolute z-10
+      rounded-lg shadow-xl
+      border border-gray-200 dark:border-neutral-700
+      bg-white dark:bg-neutral-900
+      <%= class_names(view.menu_css) %>
+    "
+  >
+    <%= yield %>
+  </div>
+</div>

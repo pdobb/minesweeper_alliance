@@ -8,8 +8,6 @@
   }
 
   body {
-    @apply dark:bg-neutral-800 dark:text-gray-300;
-
     & > header,
     & > main,
     & > footer {
@@ -67,6 +65,9 @@
 }
 
 @layer components {
+  .btn-basic {
+    @apply hover:opacity-80;
+  }
   .btn-primary {
     @apply cursor-pointer select-none whitespace-nowrap border border-2 border-gray-800 px-4 py-1 no-underline hover:border-red-700 hover:ring hover:ring-1 hover:ring-red-700 disabled:border-red-700 disabled:text-red-600 disabled:ring disabled:ring-1 disabled:ring-red-700 dark:border-gray-400 dark:hover:border-red-600 dark:hover:ring-red-600 dark:disabled:border-red-600 dark:disabled:text-red-600 dark:disabled:ring-red-600;
   }

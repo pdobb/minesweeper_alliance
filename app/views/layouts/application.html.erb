@@ -2,7 +2,9 @@
 <html>
   <head>
     <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="theme-color" content="#fff" />
     <meta name="apple-mobile-web-app-capable" content="yes">
+
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
     <%= render("meta_tags") %>
@@ -17,18 +19,72 @@
 
     <%= turbo_refreshes_with(method: :morph, scroll: :preserve) %>
     <%= content_for(:head) %>
+
+    <script>
+      function shouldBeDarkTheme() {
+        if (!("theme" in localStorage)) {
+          return window.matchMedia("(prefers-color-scheme: dark)").matches
+        } else {
+          return localStorage.theme === "dark"
+        }
+      }
+
+      function metaTag() {
+        return document.querySelector('meta[name="theme-color"]')
+      }
+
+      // Run this here to avoid a "Flash of Unstyled Content".
+      if (shouldBeDarkTheme()) {
+        document.documentElement.classList.add("dark")
+        this.metaTag().setAttribute("content", "#262626")
+      } else {
+        document.documentElement.classList.remove("dark")
+        this.metaTag().setAttribute("content", "#fff")
+      }
+    </script>
   </head>
 
-  <body>
+  <body
+    data-controller="theme"
+    data-theme-active-theme-button-class="text-red-700 dark:text-red-600"
+    class="
+      flex flex-col h-screen
+      dark:bg-neutral-800 dark:text-gray-300
+    "
+  >
     <%= render("layouts/flash_container") %>
 
-    <header class="container mx-auto py-6 border-b">
+    <header class="container mx-auto py-5 border-b dark:border-b-neutral-600">
       <%= render("nav") %>
     </header>
 
-    <main class="container mx-auto my-12">
+    <main class="container mx-auto mt-12 mb-32">
       <%= yield %>
     </main>
+
+    <footer
+      class="
+        container mx-auto mt-auto py-5
+        border-t dark:border-t-neutral-700
+        dark:bg-neutral-800 dark:text-gray-300
+      "
+    >
+      <div
+        class="
+          flex flex-col lg:flex-row
+          justify-center lg:justify-between items-center
+          gap-y-6
+        "
+      >
+        <small class="text-gray-400 dark:text-neutral-500">
+          <%= Date.today.year %>
+          Minesweeper Alliance &mdash; Made with
+          <span class="opacity-50"><%= Icon.heart %></span>
+          on Earth by the Allies.
+        </small>
+        <%= render("layouts/theme_selector") %>
+      </div>
+    </footer>
 
     <%= render("layouts/breakpoint_indicator") if App.development? %>
   </body>
