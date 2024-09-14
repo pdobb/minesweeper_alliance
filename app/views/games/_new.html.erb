@@ -1,16 +1,12 @@
 <%# locals: (view:) %>
 
-<div class="mt-12 md:mt-24 lg:mt-36 space-y-12 text-center">
-  <h1>Do you have what it takes?</h1>
-
-  <ul class="flex flex-col sm:flex-row justify-center gap-6">
-    <% view.difficulty_levels.each do |difficulty_level| %>
-      <li>
-        <%= button_to(
-              difficulty_level.name,
-              difficulty_level.new_game_url,
-              class: "btn-primary") %>
-      </li>
-    <% end %>
-  </ul>
-</div>
+<ul class="flex flex-col sm:flex-row justify-center items-center gap-6">
+  <% view.difficulty_levels.each do |difficulty_level| %>
+    <li>
+      <%= button_to(
+            difficulty_level.name,
+            difficulty_level.new_game_url,
+            class: "btn-primary") %>
+    </li>
+  <% end %>
+</ul>

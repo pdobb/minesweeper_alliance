@@ -14,7 +14,7 @@ class Home::Show
     if current_game?
       { partial: "games/game", locals: { view: current_game_show_view } }
     else # new_game?
-      { partial: "games/new", locals: { view: new_view } }
+      { partial: "games/new_container", locals: { view: new_view } }
     end
   end
 

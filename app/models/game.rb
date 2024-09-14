@@ -60,7 +60,7 @@ class Game < ApplicationRecord
   def self.current(within: DEFAULT_JUST_ENDED_DURATION)
     for_game_on_statuses.or(
       for_game_over_statuses.for_ended_at(within.ago..)).
-      take
+      last
   end
 
   def self.create_for(...)

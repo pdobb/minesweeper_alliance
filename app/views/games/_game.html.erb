@@ -114,13 +114,17 @@
             data: { action: "board-actions#revealRandom:prevent" }) %>
     </div>
   <% elsif view.game_just_ended? %>
-    <div class="text-center">
-      <%= button_to(
-            "Restart",
-            root_path,
-            method: :get,
-            class: "btn-primary",
-            data: { turbo_frame: :_top }) %>
+    <div class="mt-3 flex flex-col justify-center items-center gap-6">
+      <p class="text-center">
+        <%=
+          if view.game_ended_in_victory?
+            t("game.victory.restart_html")
+          else # view.game_ended_in_defeat?
+            t("game.defeat.restart_html")
+          end
+        %>
+      </p>
+      <%= render("games/new", view: Games::New.new) %>
     </div>
   <% end %>
 <% end %>
