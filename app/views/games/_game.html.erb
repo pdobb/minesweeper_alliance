@@ -30,7 +30,7 @@
       >
         <li><%= view.flags_count %></li>
         <li><%= Icon.flag %></li>
-        <li class="text-gray-500">/</li>
+        <li class="text-gray-500 dark:text-neutral-400">/</li>
         <li><%= view.mines_count %></li>
         <li><%= Icon.mine %></li>
       </ul>
@@ -47,7 +47,7 @@
         id="gameBoard"
         class="
           mx-auto table-fixed
-          border-4 border-double border-slate-400
+          border-4 border-double border-slate-400 dark:border-neutral-950
         ">
         <tbody
           <% if view.game_on? %>
@@ -68,7 +68,7 @@
 
             <%# Cells %>
             *:*:size-8 *:*:min-w-8 *:*:min-h-8
-            *:*:border *:*:border-slate-600
+            *:*:border *:*:border-slate-600 *:*:dark:border-neutral-950
             <% if view.game_on? %>
               data-[revealed=false]:*:*:cursor-cell
               data-[revealed=true]:*:*:cursor-default
@@ -95,7 +95,7 @@
       </table>
     </div>
 
-    <ul class="flex justify-end gap-x-3 text-gray-400">
+    <ul class="flex justify-end gap-x-3 text-gray-400 dark:text-neutral-500">
       <li><%= view.difficulty_level_name %></li>
       <li>(<%= view.board_dimensions %>)</li>
     </ul>

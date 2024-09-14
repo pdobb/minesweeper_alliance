@@ -8,7 +8,11 @@ module EngagementTallyBehaviors
   def alliance_leads? = engagement_tally.alliance_leads?
 
   def alliance_ranking_css_color
-    alliance_leads? ? "text-green-700" : "text-red-700"
+    if alliance_leads?
+      %w[text-green-700 dark:text-green-600]
+    else
+      %w[text-red-700 dark:text-red-600]
+    end
   end
 
   private

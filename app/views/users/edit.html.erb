@@ -7,7 +7,12 @@
             autofocus: true,
             placeholder: "Username",
             data: { "1p-ignore": true },
-            class: "w-72 border-transparent border-b-gray-800") %>
+            class: %w[
+              w-72 border-transparent
+              border-b-gray-800 dark:border-b-gray-400
+              focus:ring-0 focus:border-transparent focus:border-b-red-700
+              bg-transparent
+            ]) %>
       <%= f.submit("ACK", class: "btn-primary") %>
     </div>
     <p class="text-red-600"><%= f.object.errors[:username].join(", ") %></p>

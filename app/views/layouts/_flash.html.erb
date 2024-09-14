@@ -12,7 +12,7 @@
     class="
       p-4 rounded-lg
       transition-opacity ease-in
-      dark:bg-gray-800
+      dark:bg-neutral-900
       <%= class_names(notification.container_css_class) %>
     "
   >
@@ -25,6 +25,7 @@
         data-action="flash#close"
         class="
           -m-2 p-3 rounded-lg
+          dark:bg-neutral-900 dark:hover:bg-neutral-800
           focus:ring-2
           <%= class_names(notification.button_css_class) %>
         "

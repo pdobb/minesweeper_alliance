@@ -120,7 +120,7 @@ class Games::Show
   module CellBehaviors
     extend ActiveSupport::Concern
 
-    BG_UNREVEALED_CELL_COLOR = "bg-slate-400"
+    BG_UNREVEALED_CELL_COLOR = "bg-slate-400 dark:bg-neutral-700"
 
     include ActiveModelWrapperBehaviors
     include WrapMethodBehaviors
@@ -147,9 +147,9 @@ class Games::Show
   # Games::Show::ActiveCell is a view model for displaying Active {Cell}s. i.e.
   # for an In-Progress {Game}.
   class ActiveCell
-    BG_HIGHLIGHTED_COLOR = "bg-slate-300"
+    BG_HIGHLIGHTED_COLOR = %w[bg-slate-300 dark:bg-neutral-500].freeze
     HIGHLIGHTED_ANIMATION = "animate-pulse-fast"
-    BG_UNREVEALED_MINE_COLOR = "bg-slate-500"
+    BG_UNREVEALED_MINE_COLOR = %w[bg-slate-500 dark:bg-neutral-900].freeze
 
     include CellBehaviors
 
@@ -174,7 +174,7 @@ class Games::Show
   # Games::Show::InactiveCell is a view model for displaying Inactive {Cell}s.
   # i.e. for a {Game} that's no longer In-Progress.
   class InactiveCell
-    BG_ERROR_COLOR = "bg-red-600"
+    BG_ERROR_COLOR = %w[bg-red-600 dark:bg-red-800].freeze
 
     include CellBehaviors
 
@@ -205,7 +205,7 @@ class Games::Show
         BG_ERROR_COLOR if mine?
       elsif incorrectly_flagged?
         BG_ERROR_COLOR
-      else
+      elsif !flagged?
         BG_UNREVEALED_CELL_COLOR
       end
     end

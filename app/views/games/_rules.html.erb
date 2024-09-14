@@ -7,24 +7,24 @@
     <li><strong>Click</strong> a cell to reveal it.</li>
     <li>
       A revealed cell indicates the number of mines (<%= Icon.mine %>) in the cells surrounding it.
-      <p class="text-gray-500">
+      <p class="text-gray-500 dark:text-neutral-400">
         &ndash; Possible values include: Blank/0 (<%= Icon.cell %>), or 1&ndash;8.
       </p>
     </li>
     <li><strong>Right Click</strong> a cell to flag (<%= Icon.flag %>) it as a suspected mine (<%= Icon.mine %>).</li>
     <li>
       <strong>Click</strong> a revealed cell to reveal all possible surrounding cells.
-      <p class="text-gray-500">
+      <p class="text-gray-500 dark:text-neutral-400">
         &ndash; Possible only after the correct number of surrounding cells have been flagged.
       </p>
-      <p class="text-gray-500">
+      <p class="text-gray-500 dark:text-neutral-400">
         &ndash; Be careful! This does not protect against mistaken flag (<%= Icon.flag %>) placements.
       </p>
     </li>
     <li>The game is <strong>lost</strong> if a mine (<%= Icon.mine %>) is revealed.</li>
     <li>
       The game is <strong>won</strong> when all non-mine cells are revealed.
-      <p class="text-gray-500">
+      <p class="text-gray-500 dark:text-neutral-400">
         &ndash; Regardless of how many flags have been placed.
       </p>
     </li>

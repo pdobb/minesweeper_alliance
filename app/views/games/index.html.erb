@@ -15,12 +15,12 @@
   </h3>
 </div>
 
-<div class="my-6 border-t border-b p-6">
+<div class="my-6 border-y dark:border-y-neutral-600 p-6">
   <ul
     class="
       flex flex-wrap justify-center items-center
       gap-x-12 gap-y-3
-      text-gray-500
+      text-gray-500 dark:text-neutral-400
       whitespace-nowrap
     "
   >
@@ -35,7 +35,7 @@
     <% @view.listings_grouped_by_date.each do |listings_date, listings| %>
       <div class="space-y-3">
         <h2 class="h3"><%= listings_date %></h2>
-        <h3 class="h5 text-gray-600">
+        <h3 class="h5 text-gray-600 dark:text-neutral-400">
           Tally: <%= render("engagement_tally", view: listings_date) %>
         </h3>
         <div
@@ -47,7 +47,7 @@
         >
           <% listings.each do |listing| %>
             <%= link_to(listing.game_url, class: "group space-x-1") do %>
-              <span class="text-gray-500 group-hover:text-inherit">
+              <span class="text-gray-500 dark:text-neutral-400 group-hover:text-inherit">
                 #<%= listing.game_number %>
                 <abbr
                   title="<%= listing.difficulty_level_name %>"
@@ -65,8 +65,8 @@
     <div
       class="
         mt-12 p-12
-        text-center italic text-slate-800
-        border border-dashed border-slate-500
+        text-center italic
+        border border-dashed border border-gray-500 dark:border-neutral-400
       "
     >
       No engagements have yet been recorded.
