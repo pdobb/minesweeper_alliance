@@ -51,7 +51,7 @@ class CellTest < ActiveSupport::TestCase
         subject { unit_class.new(value: value1) }
 
         context "GIVEN a valid #value" do
-          let(:value1) { [Icon.mine, *("0".."8")].sample }
+          let(:value1) { Cell::VALUES_RANGE.to_a.sample }
 
           it "passes validation" do
             subject.validate
@@ -59,12 +59,22 @@ class CellTest < ActiveSupport::TestCase
           end
         end
 
-        context "GIVEN an invalid #value" do
+        context "GIVEN a non-numeric #value" do
           let(:value1) { "IVNALID" }
 
           it "fails validation" do
             subject.validate
-            _(subject.errors[:value]).must_include(ValidationError.inclusion)
+            _(subject.errors[:value]).must_include(ValidationError.numericality)
+          end
+        end
+
+        context "GIVEN an invalid Integer #value" do
+          let(:value1) { [-1, 9].sample }
+
+          it "fails validation" do
+            subject.validate
+            _(subject.errors[:value]).must_include(
+              ValidationError.in(Cell::VALUES_RANGE))
           end
         end
       end
@@ -106,8 +116,8 @@ class CellTest < ActiveSupport::TestCase
       context "GIVEN a revealed Cell" do
         subject { win1_board_cell2 }
 
-        it "returns the expected String" do
-          _(subject.value).must_equal("1")
+        it "returns the expected Integer" do
+          _(subject.value).must_equal(1)
         end
       end
 

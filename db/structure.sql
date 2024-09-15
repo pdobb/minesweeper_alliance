@@ -108,7 +108,7 @@ CREATE TABLE public.cells (
     id bigint NOT NULL,
     board_id bigint NOT NULL,
     coordinates jsonb DEFAULT '{}'::jsonb NOT NULL,
-    value character varying,
+    value integer,
     mine boolean DEFAULT false NOT NULL,
     flagged boolean DEFAULT false NOT NULL,
     highlighted boolean DEFAULT false NOT NULL,

@@ -129,13 +129,14 @@ class Games::Show
     def mine? = to_model.mine?
     def revealed? = to_model.revealed?
     def flagged? = to_model.flagged?
+    def blank? = to_model.blank?
     def value = to_model.value
 
     def to_s
-      if value == Cell::BLANK_VALUE
+      if blank?
         ""
       elsif value
-        value
+        value.to_s
       elsif flagged?
         Icon.flag
       else # rubocop:disable Lint/DuplicateBranch
@@ -197,14 +198,12 @@ class Games::Show
     # :reek:DuplicateMethodCall
 
     def to_s
+      return super unless mine?
+
       if revealed?
-        super
-      elsif flagged?
-        Icon.flag
-      elsif mine?
-        game_ended_in_victory? ? Icon.flag : Icon.mine
+        Icon.mine
       else
-        ""
+        game_ended_in_victory? ? Icon.flag : Icon.mine
       end
     end
 

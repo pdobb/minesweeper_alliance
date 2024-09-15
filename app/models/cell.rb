@@ -13,9 +13,8 @@
 # - If all safe Cells are revealed, the {Game} ends in victory for the alliance!
 #
 # @attr coordinates [Coordinates] ({}) Storage of the X/Y Grid location.
-# @attr value [String] (nil) The revealed value; generally a number (0..8)
-#   representing the number of mines around this Cell. Else: "💣" if the Cell
-#   has been revealed to be a mine.
+# @attr value [Integer] (nil) The revealed value; a number (0..8)
+#   representing the number of mines around this Cell.
 # @attr mine [Boolean] Whether or not this Cell contains a mine.
 # @attr flagged [Boolean] Whether or not this Cell has been flagged.
 # @attr highlighted [Boolean] Whether or not this Cell is currently being
@@ -24,7 +23,8 @@
 class Cell < ApplicationRecord
   self.implicit_order_column = "created_at"
 
-  BLANK_VALUE = "0"
+  VALUES_RANGE = 0..8
+  BLANK_VALUE = 0
 
   include ConsoleBehaviors
 
@@ -57,7 +57,7 @@ class Cell < ApplicationRecord
             presence: true,
             uniqueness: { scope: :board_id }
   validates :value,
-            inclusion: { in: [Icon.mine, *("0".."8")], allow_blank: true }
+            numericality: { integer: true, in: VALUES_RANGE, allow_blank: true }
 
   def toggle_flag
     toggle!(:flagged)
@@ -110,14 +110,14 @@ class Cell < ApplicationRecord
   end
 
   def unrevealed? = !revealed?
-  def blank? = value == BLANK_VALUE
   def correctly_flagged? = flagged? && mine?
   def incorrectly_flagged? = flagged? && !mine?
+  def blank? = value == BLANK_VALUE
 
   private
 
   def determine_revealed_value
-    mine? ? Icon.mine : neighboring_mines_count
+    neighboring_mines_count
   end
 
   def neighboring_mines_count = neighbors.is_mine.size
