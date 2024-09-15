@@ -3,6 +3,8 @@
 require "test_helper"
 
 class GameTest < ActiveSupport::TestCase
+  ErrorDouble = Class.new(StandardError)
+
   describe "Game" do
     let(:unit_class) { Game }
 
@@ -61,6 +63,25 @@ class GameTest < ActiveSupport::TestCase
             _(result.board).must_be_instance_of(Board)
             _(result.board.cells.sample).must_be_instance_of(Cell)
           end
+
+          context "GIVEN an unexpected failure between Game/Board Save and "\
+                  "Cells insertion" do
+            before do
+              MuchStub.(Board::Generate, :new) {
+                raise(ErrorDouble, "Simulated Error for Test Example")
+              }
+            end
+
+            it "doesn't persist the Game/Board/Cells" do
+              _(-> {
+                _(-> {
+                  subject.create_for(difficulty_level: "Test")
+                }).must_raise(ErrorDouble)
+              }).wont_change_all([
+                ["Game.count"], ["Board.count"], ["Cell.count"]
+              ])
+            end
+          end
         end
       end
 
@@ -79,7 +100,7 @@ class GameTest < ActiveSupport::TestCase
             ["Test"])
           _(result).must_be_instance_of(unit_class)
           _(result.board).must_be_instance_of(Board)
-          _(result.board.cells.sample).must_be_instance_of(Cell)
+          _(result.board.cells).must_be_empty
         end
       end
     end

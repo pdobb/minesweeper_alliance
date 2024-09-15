@@ -64,7 +64,12 @@ class Game < ApplicationRecord
   end
 
   def self.create_for(...)
-    build_for(...).tap(&:save!)
+    build_for(...).tap { |new_game|
+      transaction do
+        new_game.save!
+        Board::Generate.(new_game.board)
+      end
+    }
   end
 
   # @attr difficulty_level [DifficultyLevel, String, #to_difficulty_level]

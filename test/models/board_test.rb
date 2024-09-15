@@ -31,7 +31,7 @@ class BoardTest < ActiveSupport::TestCase
 
           _(result).must_be_instance_of(unit_class)
           _(result.game).must_be_same_as(new_game)
-          _(result.cells.sample).must_be_instance_of(Cell)
+          _(result.cells).must_be_empty
         end
       end
     end
@@ -197,6 +197,92 @@ class BoardTest < ActiveSupport::TestCase
          "while excluding Coordinates outside of the Board" do
         result = subject.clamp_coordinates(coordinates_array)
         _(result).must_match_array(valid_coordiantes)
+      end
+    end
+
+    describe "Generate" do
+      let(:unit_class) { Board::Generate }
+
+      describe "#call" do
+        before do
+          standing_by1_board.cells.delete_all
+
+          MuchStub.on_call(Cell, :insert_all!) { |call|
+            @insert_all_call = call
+          }
+        end
+
+        let(:board_id) { standing_by1_board.id }
+        let(:now) { Time.current.at_beginning_of_minute }
+        def build_timestamp_for(index)
+          now + (index * Rational("0.00001"))
+        end
+
+        subject { unit_class.new(standing_by1_board) }
+
+        it "builds/inserts the expected cell data Hashes" do
+          travel_to(now) do
+            subject.call
+
+            cell_data = @insert_all_call.pargs.first
+            _(cell_data).must_equal([
+              {
+                board_id: board_id,
+                coordinates: Coordinates[0, 0],
+                created_at: build_timestamp_for(0),
+                updated_at: build_timestamp_for(0),
+              },
+              {
+                board_id: board_id,
+                coordinates: Coordinates[1, 0],
+                created_at: build_timestamp_for(1),
+                updated_at: build_timestamp_for(1),
+              },
+              {
+                board_id: board_id,
+                coordinates: Coordinates[2, 0],
+                created_at: build_timestamp_for(2),
+                updated_at: build_timestamp_for(2),
+              },
+              {
+                board_id: board_id,
+                coordinates: Coordinates[0, 1],
+                created_at: build_timestamp_for(3),
+                updated_at: build_timestamp_for(3),
+              },
+              {
+                board_id: board_id,
+                coordinates: Coordinates[1, 1],
+                created_at: build_timestamp_for(4),
+                updated_at: build_timestamp_for(4),
+              },
+              {
+                board_id: board_id,
+                coordinates: Coordinates[2, 1],
+                created_at: build_timestamp_for(5),
+                updated_at: build_timestamp_for(5),
+              },
+              {
+                board_id: board_id,
+                coordinates: Coordinates[0, 2],
+                created_at: build_timestamp_for(6),
+                updated_at: build_timestamp_for(6),
+              },
+              {
+                board_id: board_id,
+                coordinates: Coordinates[1, 2],
+                created_at: build_timestamp_for(7),
+                updated_at: build_timestamp_for(7),
+              },
+              {
+                board_id: board_id,
+                coordinates: Coordinates[2, 2],
+                created_at: build_timestamp_for(8),
+                updated_at: build_timestamp_for(8),
+              },
+            ])
+          end
+        end
       end
     end
   end
