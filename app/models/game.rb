@@ -177,10 +177,10 @@ class Game < ApplicationRecord
       self
     end
 
+    # :reek:TooManyStatements
+
     # Like {#reset} but also resets status to "Standing By" and reset mines on
     # the {Board}.
-    #
-    # :reek:TooManyStatements
     def reset!(time: Time.current)
       check_for_current_game
 
