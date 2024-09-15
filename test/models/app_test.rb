@@ -8,6 +8,12 @@ class AppTest < ActiveSupport::TestCase
 
     subject { unit_class }
 
+    describe ".created_at" do
+      it "returns the expected Time" do
+        _(unit_class.created_at.year).must_equal(2024)
+      end
+    end
+
     describe ".include_test_difficulty_level?" do
       before do
         App.instance_variable_set(:@include_test_difficulty_level, nil)

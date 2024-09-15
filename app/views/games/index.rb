@@ -59,7 +59,8 @@ class Games::Index
   end
 
   def engagement_tally
-    @engagement_tally ||= EngagementTally.new(Game.first.ended_at..)
+    start_at = App.created_at
+    @engagement_tally ||= EngagementTally.new(start_at..)
   end
 
   # Games::Index::DifficultyLevel wraps {::DifficultyLevel#name}s, for display

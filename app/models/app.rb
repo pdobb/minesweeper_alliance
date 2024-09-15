@@ -2,6 +2,8 @@
 
 # App is utility module specific to this Rails Application and its environment.
 module App
+  def self.created_at = Time.zone.local(2024)
+
   # :reek:NilCheck
   def self.include_test_difficulty_level?
     if @include_test_difficulty_level.nil?
