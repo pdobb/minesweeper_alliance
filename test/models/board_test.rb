@@ -200,6 +200,22 @@ class BoardTest < ActiveSupport::TestCase
       end
     end
 
+    describe "Settings" do
+      let(:unit_class) { Board::Settings }
+
+      context "Class Methods" do
+        subject { unit_class }
+
+        describe ".build_for" do
+          it "returns the expected object" do
+            result =
+              subject.build_for(difficulty_level: DifficultyLevel.new("Test"))
+            _(result).must_equal(subject[3, 3, 1])
+          end
+        end
+      end
+    end
+
     describe "Generate" do
       let(:unit_class) { Board::Generate }
 

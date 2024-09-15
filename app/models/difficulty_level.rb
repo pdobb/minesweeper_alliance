@@ -14,10 +14,10 @@ class DifficultyLevel
 
   def self.settings_map
     @settings_map ||= {
-      TEST => { columns: 3, rows: 3, mines: 1 },
-      "Beginner" => { columns: 9, rows: 9, mines: 10 },
-      "Intermediate" => { columns: 16, rows: 16, mines: 40 },
-      "Expert" => { columns: 30, rows: 16, mines: 99 },
+      TEST => { width: 3, height: 3, mines: 1 },
+      "Beginner" => { width: 9, height: 9, mines: 10 },
+      "Intermediate" => { width: 16, height: 16, mines: 40 },
+      "Expert" => { width: 30, height: 16, mines: 99 },
     }.tap { |hash|
       hash.except!(TEST) unless App.include_test_difficulty_level?
     }.freeze
@@ -54,6 +54,10 @@ class DifficultyLevel
     freeze
   end
 
+  def to_h
+    { width:, height:, mines: }
+  end
+
   def to_s
     name
   end
@@ -63,11 +67,11 @@ class DifficultyLevel
   end
 
   def dimensions
-    "#{columns}x#{rows}"
+    "#{width}x#{height}"
   end
 
-  def columns = settings.fetch(:columns)
-  def rows = settings.fetch(:rows)
+  def width = settings.fetch(:width)
+  def height = settings.fetch(:height)
   def mines = settings.fetch(:mines)
 
   def settings

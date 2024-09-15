@@ -87,8 +87,8 @@ class Grid
     #   1 => ◻️ (0, 1) ◻️ (1, 1) ◻️ (2, 1)
     #   2 => ◻️ (0, 2) ◻️ (1, 2) ◻️ (2, 2)
     def render
-      to_h.each do |column_number, row|
-        render_row(column_number:, row:)
+      to_h.each do |y, row|
+        render_row(y:, row:)
       end
 
       nil
@@ -107,8 +107,8 @@ class Grid
     end
 
     # rubocop:disable Rails/Output
-    def render_row(column_number:, row:)
-      print "#{pad(column_number)}: "
+    def render_row(y:, row:)
+      print "#{pad(y)}: "
 
       row.each do |cell|
         print cell.console.render(cells_count:), " "

@@ -16,7 +16,12 @@ class Board < ApplicationRecord
 
   # Board::Settings stores the width, height, and number of mines (to be) in
   # the {Grid} of a {Board}'s associated {Cell}s.
-  Settings = Data.define(:width, :height, :mines)
+  Settings =
+    Data.define(:width, :height, :mines) {
+      def self.build_for(difficulty_level:)
+        new(**difficulty_level.to_h)
+      end
+    }
 
   # Board::NullSettings represents an empty {Board::Settings}. It is an
   # implementation of the Null Object pattern, which allows us to use it as a
@@ -55,12 +60,7 @@ class Board < ApplicationRecord
 
   # @attr difficulty_level [DifficultyLevel]
   def self.build_for(game:, difficulty_level:)
-    game.build_board(
-      settings:
-        Settings.new(
-          width: difficulty_level.columns,
-          height: difficulty_level.rows,
-          mines: difficulty_level.mines))
+    game.build_board(settings: Settings.build_for(difficulty_level:))
   end
 
   def place_mines(seed_cell: nil)
@@ -100,11 +100,11 @@ class Board < ApplicationRecord
   def any_mines? = cells.is_mine.any?
 
   def in_bounds?(coordinates)
-    columns_range.include?(coordinates.x) && rows_range.include?(coordinates.y)
+    x_range.include?(coordinates.x) && y_range.include?(coordinates.y)
   end
 
-  def columns_range = 0...width
-  def rows_range = 0...height
+  def x_range = 0...width
+  def y_range = 0...height
 
   # Board::Generate is a Service Object that handles insertion of {Cell} records
   # for this Board into the Database via bulk insert.

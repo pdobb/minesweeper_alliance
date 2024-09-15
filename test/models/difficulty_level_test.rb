@@ -80,6 +80,12 @@ class DifficultyLevelTest < ActiveSupport::TestCase
         end
       end
 
+      describe "#to_h" do
+        it "returns the expected Hash" do
+          _(subject.to_h).must_equal({ width: 3, height: 3, mines: 1 })
+        end
+      end
+
       describe "#to_s" do
         it "returns the expected String" do
           _(subject.to_s).must_equal("Test")
@@ -98,15 +104,15 @@ class DifficultyLevelTest < ActiveSupport::TestCase
         end
       end
 
-      describe "#columns" do
+      describe "#width" do
         it "returns the expected Integer" do
-          _(subject.columns).must_equal(3)
+          _(subject.width).must_equal(3)
         end
       end
 
-      describe "#rows" do
+      describe "#height" do
         it "returns the expected Integer" do
-          _(subject.rows).must_equal(3)
+          _(subject.height).must_equal(3)
         end
       end
 
@@ -118,7 +124,7 @@ class DifficultyLevelTest < ActiveSupport::TestCase
 
       describe "#settings" do
         it "returns the expected Hash" do
-          _(subject.settings).must_equal({ columns: 3, rows: 3, mines: 1 })
+          _(subject.settings).must_equal({ width: 3, height: 3, mines: 1 })
         end
       end
     end
