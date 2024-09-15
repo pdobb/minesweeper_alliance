@@ -36,7 +36,7 @@ class Cell < ApplicationRecord
   has_many :cell_flag_transactions
   has_many :cell_unflag_transactions
 
-  attribute :coordinates, CoordinatesType.new
+  attribute :coordinates, Type::Coordinates.new
   def x = coordinates.x
   def y = coordinates.y
 
