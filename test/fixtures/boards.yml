@@ -1,7 +1,5 @@
 DEFAULTS: &DEFAULTS
-  columns: 3
-  rows: 3
-  mines: 1
+  settings: <%= ActiveSupport::JSON.encode(Board::Settings[3, 3, 1]) %>
 
 win1_board:
   <<: *DEFAULTS

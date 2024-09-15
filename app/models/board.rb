@@ -4,11 +4,8 @@
 # organized as just one big Array, but they can best be though of as an Array of
 # Arrays, forming an X/Y {Grid}.
 #
-# @attr columns [Integer] The number of columns in the {Grid} of associated
-#   {Cell}s.
-# @attr rows [Integer] The number of rows in the {Grid} of associated {Cell}s.
-# @attr mines [Integer] [description] The number of mines in the associated
-#   {Cell}s.
+# @attr settings [Board::Settings] An object that stores the width, height, and
+#   number of mines (to be) in the {Grid} of associated {Cell}s.
 #
 # @see Grid
 class Board < ApplicationRecord
@@ -16,6 +13,24 @@ class Board < ApplicationRecord
 
   # Board::Error represents any StandardError related to Board processing.
   Error = Class.new(StandardError)
+
+  # Board::Settings stores the width, height, and number of mines (to be) in
+  # the {Grid} of a {Board}'s associated {Cell}s.
+  Settings = Data.define(:width, :height, :mines)
+
+  # Board::NullSettings represents an empty {Board::Settings}. It is an
+  # implementation of the Null Object pattern, which allows us to use it as a
+  # stand-in for any {Board} that doesn't yet have sensible
+  # width/height/mines values.
+  class NullSettings
+    def width = nil
+    def height = nil
+    def mines = nil
+    def to_h = {}
+    def to_json(*) = "{}"
+    def inspect = "<#{self.class.name}>"
+    def to_s = inspect
+  end
 
   include ConsoleBehaviors
 
@@ -33,12 +48,19 @@ class Board < ApplicationRecord
 
   scope :for_game, ->(game) { where(game:) }
 
+  attribute :settings, Type::BoardSettings.new
+  def width = settings.width
+  def height = settings.height
+  def mines = settings.mines
+
   # @attr difficulty_level [DifficultyLevel]
   def self.build_for(game:, difficulty_level:)
     game.build_board(
-      columns: difficulty_level.columns,
-      rows: difficulty_level.rows,
-      mines: difficulty_level.mines)
+      settings:
+        Settings.new(
+          width: difficulty_level.columns,
+          height: difficulty_level.rows,
+          mines: difficulty_level.mines))
   end
 
   def place_mines(seed_cell: nil)
@@ -81,8 +103,8 @@ class Board < ApplicationRecord
     columns_range.include?(coordinates.x) && rows_range.include?(coordinates.y)
   end
 
-  def columns_range = 0...columns
-  def rows_range = 0...rows
+  def columns_range = 0...width
+  def rows_range = 0...height
 
   # Board::Generate is a Service Object that handles insertion of {Cell} records
   # for this Board into the Database via bulk insert.
@@ -135,8 +157,8 @@ class Board < ApplicationRecord
 
     def now = @now ||= Time.current
     def total = width * height
-    def width = board.columns
-    def height = board.rows
+    def width = board.width
+    def height = board.height
   end
 
   # Board::Console acts like a {Board} but otherwise handles IRB
@@ -190,7 +212,7 @@ class Board < ApplicationRecord
 
     def cells_count = cells.size
 
-    def display_grid_dimensions = "#{columns}x#{rows}"
+    def display_grid_dimensions = "#{width}x#{height}"
 
     def random_cell_id_for_reveal
       cells.is_not_revealed.is_not_flagged.by_random.pick(:id)

@@ -41,9 +41,7 @@ CREATE TABLE public.ar_internal_metadata (
 CREATE TABLE public.boards (
     id bigint NOT NULL,
     game_id bigint NOT NULL,
-    columns integer,
-    rows integer,
-    mines integer,
+    settings jsonb DEFAULT '{}'::jsonb NOT NULL,
     created_at timestamp(6) without time zone NOT NULL,
     updated_at timestamp(6) without time zone NOT NULL
 );
