@@ -45,8 +45,17 @@ en:
       seconds: "%S" # 03
       zone: "%Z" # CDT
 
-  errors:
+  errors: &ERRORS
     messages:
+      blank: can't be blank
+      inclusion: invalid option
+      invariable: can't be changed
+      present: can't be present
+      required: can't be blank
+
+  activerecord:
+    errors:
+      <<: *ERRORS
       too_long: "can't be > %{count} characters"
 
   flash:

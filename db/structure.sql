@@ -396,6 +396,13 @@ CREATE INDEX index_users_on_username ON public.users USING btree (username);
 
 
 --
+-- Name: unique_coordinates_per_board_index; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX unique_coordinates_per_board_index ON public.cells USING btree (board_id, ((coordinates ->> 'x'::text)), ((coordinates ->> 'y'::text)));
+
+
+--
 -- Name: games game_status_check; Type: TRIGGER; Schema: public; Owner: -
 --
 

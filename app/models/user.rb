@@ -23,7 +23,7 @@ class User < ApplicationRecord
             length: { maximum: USERNAME_MAX_LEGNTH }
 
   def username=(value)
-    super(value.strip.presence)
+    super(value.to_s.strip.presence)
   end
 
   def display_name

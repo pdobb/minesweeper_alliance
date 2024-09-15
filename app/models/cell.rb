@@ -53,9 +53,11 @@ class Cell < ApplicationRecord
   scope :for_board, ->(board) { where(board:) }
   scope :for_game, ->(game) { joins(:board).merge(Board.for_game(game)) }
 
-  def value
-    super || (Icon.flag if flagged?)
-  end
+  validates :coordinates,
+            presence: true,
+            uniqueness: { scope: :board_id }
+  validates :value,
+            inclusion: { in: [Icon.mine, *("0".."8")], allow_blank: true }
 
   def toggle_flag
     toggle!(:flagged)

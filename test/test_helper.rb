@@ -12,6 +12,7 @@ require "gemwork/test/support/reporters"
 require "gemwork/test/support/spec_dsl"
 
 require "support/custom_assertions"
+require "support/validation_error"
 
 module ActiveSupport
   class TestCase

@@ -6,11 +6,69 @@ class CellTest < ActiveSupport::TestCase
   describe "Cell" do
     let(:unit_class) { Cell }
 
+    let(:win1_board) { boards(:win1_board) }
     let(:win1_board_cell1) { cells(:win1_board_cell1) }
     let(:win1_board_cell2) { cells(:win1_board_cell2) }
     let(:win1_board_cell3) { cells(:win1_board_cell3) }
     let(:standing_by1_board_cell1) { cells(:standing_by1_board_cell1) }
     let(:standing_by1_board_cell2) { cells(:standing_by1_board_cell2) }
+
+    describe "#validate" do
+      describe "#coordinates" do
+        subject { unit_class.new(board: win1_board, coordinates: coordinates1) }
+
+        context "GIVEN valid, unique #coordinates" do
+          let(:coordinates1) { Coordinates[9, 9] }
+
+          it "passes validation" do
+            subject.validate
+            _(subject.errors[:coordinates]).must_be_empty
+          end
+        end
+
+        context "GIVEN no #coordinates" do
+          let(:coordinates1) { nil }
+
+          it "fails validation" do
+            subject.validate
+            _(subject.errors[:coordinates]).must_include(
+              ValidationError.presence)
+          end
+        end
+
+        context "GIVEN non-unique #coordinates" do
+          let(:coordinates1) { win1_board_cell1.coordinates }
+
+          it "fails validation" do
+            subject.validate
+            _(subject.errors[:coordinates]).must_include(
+              ValidationError.taken)
+          end
+        end
+      end
+
+      describe "#value" do
+        subject { unit_class.new(value: value1) }
+
+        context "GIVEN a valid #value" do
+          let(:value1) { [Icon.mine, *("0".."8")].sample }
+
+          it "passes validation" do
+            subject.validate
+            _(subject.errors[:value]).must_be_empty
+          end
+        end
+
+        context "GIVEN an invalid #value" do
+          let(:value1) { "IVNALID" }
+
+          it "fails validation" do
+            subject.validate
+            _(subject.errors[:value]).must_include(ValidationError.inclusion)
+          end
+        end
+      end
+    end
 
     describe "#coordinates" do
       subject { win1_board_cell1 }
@@ -56,8 +114,8 @@ class CellTest < ActiveSupport::TestCase
       context "GIVEN a flagged Cell" do
         subject { win1_board_cell1 }
 
-        it "returns the expected String" do
-          _(subject.value).must_equal(Icon.flag)
+        it "returns nil" do
+          _(subject.value).must_be_nil
         end
       end
     end
@@ -74,7 +132,7 @@ class CellTest < ActiveSupport::TestCase
 
       context "GIVEN #flagged was previously truthy" do
         before do
-          subject.update(flagged: true)
+          subject.update!(flagged: true)
         end
 
         subject { standing_by1_board_cell1 }
@@ -120,7 +178,7 @@ class CellTest < ActiveSupport::TestCase
 
       context "GIVEN an unrevealed, highlighted, and flagged Cell" do
         before do
-          subject.update(highlighted: true, flagged: true)
+          subject.update!(highlighted: true, flagged: true)
         end
 
         subject { standing_by1_board_cell1 }
@@ -210,7 +268,7 @@ class CellTest < ActiveSupport::TestCase
 
         context "GIVEN #value != nil" do
           before do
-            subject.update(value: 0)
+            subject.update!(value: 0)
           end
 
           it "returns true" do
@@ -221,7 +279,7 @@ class CellTest < ActiveSupport::TestCase
 
       context "GIVEN neighboring_flags_count != value" do
         before do
-          standing_by1_board_cell2.update(flagged: true)
+          standing_by1_board_cell2.update!(flagged: true)
         end
 
         subject { standing_by1_board_cell1 }
@@ -313,7 +371,7 @@ class CellTest < ActiveSupport::TestCase
 
         context "GIVEN #mine? = false" do
           before do
-            subject.update(mine: false)
+            subject.update!(mine: false)
           end
 
           it "returns false" do
@@ -343,7 +401,7 @@ class CellTest < ActiveSupport::TestCase
 
         context "GIVEN #mine? = false" do
           before do
-            subject.update(mine: false)
+            subject.update!(mine: false)
           end
 
           it "returns true" do

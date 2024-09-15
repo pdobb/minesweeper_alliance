@@ -132,7 +132,15 @@ class Games::Show
     def value = to_model.value
 
     def to_s
-      value&.delete(Cell::BLANK_VALUE).to_s
+      if value == Cell::BLANK_VALUE
+        ""
+      elsif value
+        value
+      elsif flagged?
+        Icon.flag
+      else # rubocop:disable Lint/DuplicateBranch
+        ""
+      end
     end
 
     def css_class

@@ -17,6 +17,41 @@ class UserTest < ActiveSupport::TestCase
       end
     end
 
+    describe "#validate" do
+      describe "#username" do
+        subject { unit_class.new(username: username1) }
+
+        context "GIVEN no #username" do
+          let(:username1) { nil }
+
+          it "passes validation" do
+            subject.validate
+            _(subject.errors[:username]).must_be_empty
+          end
+        end
+
+        context "GIVEN #username < max length" do
+          let(:username1) { "TEST" }
+
+          it "passes validation" do
+            subject.validate
+            _(subject.errors[:username]).must_be_empty
+          end
+        end
+
+        context "GIVEN #username > max length" do
+          let(:username1) { "T" * max_length.next }
+          let(:max_length) { unit_class::USERNAME_MAX_LEGNTH }
+
+          it "fails validation" do
+            subject.validate
+            _(subject.errors[:username]).must_include(
+              ValidationError.too_long(max_length))
+          end
+        end
+      end
+    end
+
     describe "#id" do
       subject { user1 }
 
