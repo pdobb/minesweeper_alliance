@@ -6,7 +6,7 @@ module App
   def self.include_test_difficulty_level?
     if @include_test_difficulty_level.nil?
       @include_test_difficulty_level =
-        debug? || Game.for_difficulty_level_test.any?
+        test? || debug? || Game.for_difficulty_level_test.any?
     else
       @include_test_difficulty_level
     end
@@ -14,6 +14,7 @@ module App
 
   def self.debug? = Rails.configuration.debug
 
+  def self.test? = Rails.env.test?
   def self.development? = Rails.env.development?
   def self.production? = Rails.env.production?
 end

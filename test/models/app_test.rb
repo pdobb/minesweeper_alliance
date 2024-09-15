@@ -17,6 +17,24 @@ class AppTest < ActiveSupport::TestCase
         App.instance_variable_set(:@include_test_difficulty_level, nil)
       end
 
+      context "GIVEN App.test? = true" do
+        before do
+          MuchStub.(unit_class, :test?) { true }
+        end
+
+        context "WHETHER OR NOT any 'Test' Games exist" do
+          before do
+            MuchStub.tap(Game, :for_difficulty_level_test) { |arel|
+              MuchStub.(arel, :any?) { [true, false].sample }
+            }
+          end
+
+          it "returns true" do
+            _(subject.include_test_difficulty_level?).must_equal(true)
+          end
+        end
+      end
+
       context "GIVEN App.debug? = true" do
         before do
           MuchStub.(unit_class, :debug?) { true }
@@ -35,8 +53,9 @@ class AppTest < ActiveSupport::TestCase
         end
       end
 
-      context "GIVEN App.debug? = false" do
+      context "GIVEN App.test? = false and App.debug? = false" do
         before do
+          MuchStub.(unit_class, :test?) { false }
           MuchStub.(unit_class, :debug?) { false }
         end
 
