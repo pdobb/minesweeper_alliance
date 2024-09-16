@@ -6,7 +6,7 @@ class Application::Flash
   DEFAULT_TIMEOUT_IN_SECONDS = 10.seconds
 
   def self.types
-    @types ||= %i[alert notice info warning].freeze
+    @types ||= %i[alert notice info warning text].freeze
   end
 
   def initialize(collection)
@@ -82,6 +82,14 @@ class Application::Flash
           hover:bg-yellow-200 dark:hover:bg-neutral-800
           text-yellow-500 dark:text-yellow-400
           focus:ring-yellow-400 focus:bg-yellow-200
+        ],
+      },
+      text: {
+        container: nil,
+        button: %w[
+          hover:bg-gray-200 dark:hover:bg-neutral-700
+          text-gray-500 dark:text-gray-400
+          focus:ring-gray-400 focus:bg-gray-200
         ],
       },
     }.with_indifferent_access.freeze

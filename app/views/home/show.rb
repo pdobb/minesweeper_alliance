@@ -6,6 +6,15 @@ class Home::Show
     @current_game = current_game
   end
 
+  def notifications
+    Application::Flash::Notification.new(
+      type: :text,
+      message: {
+        text: I18n.t("site.description_html").html_safe,
+        timeout: false,
+      })
+  end
+
   def current_game?
     !!current_game
   end

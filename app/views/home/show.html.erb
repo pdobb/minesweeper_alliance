@@ -1,8 +1,14 @@
 <% title("War Room") %>
 
-<p class="-mt-6 md:-mt-3 mb-12 text-center text-balance">
-  <%= t("site.description_html") %>
-</p>
+<div
+  class="
+    [&:not(:has(>div))]:hidden
+    -mt-6 md:-mt-3 mb-12
+    text-center text-balance
+  "
+>
+  <%= render("layouts/flash", notifications: @view.notifications) %>
+</div>
 
 <%= turbo_stream_from(:current_game) %>
 

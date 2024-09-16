@@ -1,6 +1,6 @@
-<%# locals: () %>
+<%# locals: (notifications:) %>
 
-<% Application::Flash.new(flash).notifications.each do |notification| %>
+<% Array.wrap(notifications).each do |notification| %>
   <div
     role="alert"
     data-controller="flash"
@@ -12,7 +12,6 @@
     class="
       p-4 rounded-lg
       transition-opacity ease-in
-      dark:bg-neutral-900
       <%= class_names(notification.container_css_class) %>
     "
   >
@@ -24,9 +23,8 @@
         type="button"
         data-action="flash#close"
         class="
-          -m-2 p-3 rounded-lg
-          dark:bg-neutral-900 dark:hover:bg-neutral-800
-          focus:ring-2
+          -m-2.5 p-2.5 rounded-lg
+          focus:ring-2 focus:animate-pulse-fast
           <%= class_names(notification.button_css_class) %>
         "
         aria-label="Close"
