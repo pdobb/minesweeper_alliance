@@ -37,7 +37,7 @@ en:
   time:
     formats:
       default: "%d %^b %y %H%M %Z" # 22 AUG 24 1516 -05:00
-      debug: "%m/%d/%Y %l:%M:%S %p %Z" # 08/22/2024 3:16:46 PM -05:00
+      debug: "%m/%d/%Y %-l:%M:%S %p %Z" # 08/22/2024 3:16:46 PM -05:00
       date: "%d %^b %y" # 22 AUG 24
       time: "%H:%M" # 01:02
       hours_minutes_seconds: "%H:%M:%S" # 01:02:03
@@ -64,10 +64,19 @@ en:
     successful_update_to: "Updated %{type} to %{to}"
 
   site:
+    title: Minesweeper Alliance
     description: |
-      Welcome to Minesweeper Alliance, an open-multiplayer riff on the classic Minesweeper game. Join forces with your fellow allies to sweep mines in real-time!
+      Welcome to Minesweeper Alliance, an open-multiplayer riff on the classic Minesweeper game.
+      Join forces with your fellow minesweepers and take on the mines in real-time!
+      But be warned...
+      We've got our work cut out for us!
+      The mines are randomly placed, and the game is won not without clear strategy and a dash of luck 🍀.
     description_html: |
-      Welcome to Minesweeper Alliance, an open-multiplayer riff on the classic <a href="https://en.wikipedia.org/wiki/Minesweeper_(video_game)" target="_blank" rel="noreferrer noopener">Minesweeper</a> game. Join forces with your fellow allies to sweep mines in real-time!
+      Welcome to Minesweeper Alliance, an open-multiplayer riff on the classic <a href="https://en.wikipedia.org/wiki/Minesweeper_(video_game)" target="_blank" rel="noreferrer noopener">Minesweeper</a> game.
+      Join forces with your fellow minesweepers and take on the mines in real-time!
+      But be warned<span class="font-sans">&hellip;</span>
+      We've got our work cut out for us!
+      The mines are randomly placed, and the game is won not without clear strategy and a dash of luck 🍀.
 
   game:
     new_html:
@@ -77,12 +86,12 @@ en:
       restart_html:
         - Aces! Start another tour?
         - Huzzah! Keep it up! <span class="tracking-[.5em]">👍🙏🏻</span>
-        - <span class="tracking-[.5em]">⛴️⚓️🎉</span>
+        - Sweep on! <span class="tracking-[.5em]">⛴️⚓️🎉</span>
     defeat:
       restart_html:
-        - Ups! Wellp<span class="font-sans">...</span>
-        - Oh noes! Uhm<span class="font-sans">...</span> Ok. Back at it! 😅
-        - <span class="tracking-[.5em]">😳😳😳</span>
+        - Ups! Wellp<span class="font-sans">&hellip;</span>
+        - Oh noes! Uhm<span class="font-sans">&hellip;</span> Ok. Back at it! 😅
+        - <span class="tracking-[.5em]">😳😳😳</span> Again!
 
   footer:
     maker:

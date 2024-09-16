@@ -97,6 +97,20 @@ class UserTest < ActiveSupport::TestCase
       end
     end
 
+    describe "#mms_id" do
+      before do
+        MuchStub.(subject, :created_at) {
+          Time.zone.local(2024, 1, 1, 12, 34, 56)
+        }
+      end
+
+      subject { user1 }
+
+      it "returns the expected String" do
+        _(subject.mms_id).must_equal("MMS-4096")
+      end
+    end
+
     describe "#unique_id" do
       before do
         MuchStub.(subject, :created_at) {

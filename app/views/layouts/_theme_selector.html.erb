@@ -1,7 +1,7 @@
 <div class="lg:hidden print:hidden flex items-center gap-x-3">
   <label
     for="mobile-theme_dropdown"
-    class="text-gray-500 font-normal dark:text-neutral-500">
+    class="sr-only font-normal text-gray-500 dark:text-neutral-500">
     Theme:
   </label>
   <div
@@ -45,7 +45,7 @@
 </div>
 
 <div class="hidden lg:flex items-center gap-x-3">
-  Theme:
+  <span class="sr-only">Theme:</span>
 
   <% content_for(:button) do %>
     <%= inline_svg_tag(

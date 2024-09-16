@@ -8,10 +8,10 @@
   </ul>
 
   <div class="hidden md:inline">
-    <% if layout.current_user_signer? %>
+    <% if layout.current_user_has_signed_their_name? %>
       <%= layout.current_user_display_name %>
     <% else %>
-      Minesweeper Alliance
+      <%= t("site.title") %>
     <% end %>
   </div>
 </nav>
