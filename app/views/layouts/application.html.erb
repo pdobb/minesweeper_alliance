@@ -62,29 +62,7 @@
       <%= yield %>
     </main>
 
-    <footer
-      class="
-        container mx-auto mt-auto py-5
-        border-t dark:border-t-neutral-700
-        dark:bg-neutral-800 dark:text-gray-300
-      "
-    >
-      <div
-        class="
-          flex flex-col lg:flex-row
-          justify-center lg:justify-between items-center
-          gap-y-6
-        "
-      >
-        <small class="text-gray-400 dark:text-neutral-500">
-          <%= Date.today.year %>
-          Minesweeper Alliance &mdash; Made with
-          <span class="opacity-50"><%= Icon.heart %></span>
-          on Earth by the Allies.
-        </small>
-        <%= render("layouts/theme_selector") %>
-      </div>
-    </footer>
+    <%= render("layouts/footer") %>
 
     <%= render("layouts/breakpoint_indicator") if App.development? %>
   </body>

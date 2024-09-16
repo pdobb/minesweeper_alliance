@@ -3,6 +3,8 @@
 Rails.application.routes.draw do
   root "home#show"
 
+  get "about" => "home#about"
+
   resources :games, only: %i[index show new create] do
     scope module: :games do
       resources :boards, only: :none do

@@ -1,0 +1,31 @@
+<footer
+  class="
+    container mx-auto mt-auto py-6
+    border-t dark:border-t-neutral-700
+    dark:bg-neutral-800 dark:text-gray-300
+  "
+>
+  <div
+    class="
+      w-full
+      flex flex-col gap-y-6 lg:flex-row
+      justify-between items-center
+    "
+  >
+    <nav class="lg:order-2">
+      <ul class="flex justify-between items-center gap-x-24 lg:gap-x-12">
+        <li><%= active_link_to("About", about_path) %></li>
+        <li>
+          <%= render("layouts/theme_selector") %>
+        </li>
+      </ul>
+    </nav>
+
+    <small class="text-center text-gray-500 dark:text-neutral-400 lg:order-1">
+      &copy; <%= Date.today.year %>
+      Minesweeper Alliance &mdash; Made with
+      <span class="opacity-80"><%= Icon.heart %></span>
+      on Earth. By the <%= t("footer.maker").sample %>
+    </small>
+  </div>
+</footer>

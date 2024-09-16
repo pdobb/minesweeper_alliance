@@ -37,6 +37,8 @@ class User < ApplicationRecord
     @unique_id ||= created_at.to_i.to_s[TRUNCATED_ID_RANGE]
   end
 
+  def signer? = username?
+
   # User::Console acts like a {User} but otherwise handles IRB Console-specific
   # methods/logic.
   class Console

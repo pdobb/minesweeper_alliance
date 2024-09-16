@@ -1,0 +1,66 @@
+<div class="space-y-12">
+  <h1>About</h1>
+
+  <p><%= t("site.description_html") %></p>
+
+  <div class="space-y-6">
+    <h2 class="h5">This web app is:</h2>
+    <ul class="space-y-3 list-[circle] ml-7">
+      <li>
+        <%= external_link_to(
+              "Open source software",
+              "https://github.com/pdobb/minesweeper_alliance") %>,
+        under the terms of the
+        <%= external_link_to(
+              "MIT License",
+              "https://opensource.org/licenses/MIT") %>.
+      </li>
+      <li>
+        Written in Ruby on Rails, featuring
+        <%= external_link_to("Hotwire", "https://hotwired.dev/") %>
+        for real-time interaction.
+      </li>
+      <li>
+        Styled with
+        <%= external_link_to("TailwindCSS", "https://tailwindcss.com") %>.
+      </li>
+      <li>
+        Heavily inspired by
+        <%= external_link_to(
+              "Radan Skorić's excellent blog post",
+              "https://radanskoric.com/experiments/multiplayer-minesweeper-with-rails-and-hotwire") %>.
+      </li>
+    </ul>
+  </div>
+
+  <div class="space-y-6">
+    <h2 class="h5">What is a Minesweeper?</h2>
+    <ul class="space-y-3 list-[circle] ml-7">
+      <li>
+        <%= external_link_to(
+              "Minesweeper (wiki)",
+              "https://en.wikipedia.org/wiki/Minesweeper") %>.
+      </li>
+      <li>
+        Here, players are uniquely identified by a Motor Mine Sweeper
+        (<abbr title="Moter Mine Sweeper">MMS</abbr>)
+        designation.
+
+        <p class="leading-10">
+          See:
+          <%= external_link_to(
+                "MMS-class Minesweeper (wiki)",
+                "https://en.wikipedia.org/wiki/MMS-class_minesweeper") %>.
+        </p>
+      </li>
+    </ul>
+  </div>
+
+  <% if layout.current_user_signer? %>
+    <p>
+      Thank you for playing our game,
+      <%= layout.current_user_display_name %>.
+      <span class="opacity-80"><%= Icon.heart %></span>
+    </p>
+  <% end %>
+</div>

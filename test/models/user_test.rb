@@ -110,5 +110,23 @@ class UserTest < ActiveSupport::TestCase
         _(subject.unique_id).must_equal("4096")
       end
     end
+
+    describe "#signer?" do
+      context "GIVEN a User that has signed their name" do
+        subject { user1 }
+
+        it "returns true" do
+          _(subject.signer?).must_equal(true)
+        end
+      end
+
+      context "GIVEN a User that has not signed their name" do
+        subject { user2 }
+
+        it "returns false" do
+          _(subject.signer?).must_equal(false)
+        end
+      end
+    end
   end
 end

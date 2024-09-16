@@ -53,7 +53,7 @@
         class: "hidden dark:inline mb-px max-w-5 max-h-5") %>
 <% end %>
 
-<div class="hidden lg:flex items-center gap-x-3 dark:text-neutral-500">
+<div class="hidden lg:flex items-center gap-x-3">
   Theme:
   <% theme_menu = ThemeMenu.new(button_content: content_for(:button)) %>
   <%= render(theme_menu.render_options) do %>
