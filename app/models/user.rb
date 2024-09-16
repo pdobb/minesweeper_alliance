@@ -28,9 +28,13 @@ class User < ApplicationRecord
 
   def display_name
     [
-      "MMS-#{unique_id}",
+      mms_id,
       username_in_database&.inspect,
     ].tap(&:compact!).join(" ")
+  end
+
+  def mms_id
+    "MMS-#{unique_id}"
   end
 
   def unique_id

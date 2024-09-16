@@ -183,7 +183,12 @@ class Games::Show
   # Games::Show::InactiveCell is a view model for displaying Inactive {Cell}s.
   # i.e. for a {Game} that's no longer In-Progress.
   class InactiveCell
-    BG_ERROR_COLOR = %w[bg-red-600 dark:bg-red-800].freeze
+    # rubocop:disable Layout/MultilineArrayLineBreaks
+    BG_ERROR_COLOR = %w[
+      bg-red-600 dark:bg-red-800
+      shadow-inner shadow-slate-600 dark:shadow-neutral-800
+    ].freeze
+    # rubocop:enable Layout/MultilineArrayLineBreaks
 
     include CellBehaviors
 

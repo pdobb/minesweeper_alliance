@@ -21,7 +21,7 @@
     <%= content_for(:head) %>
 
     <script>
-      function shouldBeDarkTheme() {
+      function _shouldBeDarkTheme() {
         if (!("theme" in localStorage)) {
           return window.matchMedia("(prefers-color-scheme: dark)").matches
         } else {
@@ -29,17 +29,15 @@
         }
       }
 
-      function metaTag() {
-        return document.querySelector('meta[name="theme-color"]')
-      }
+      const $metaTag = document.querySelector('meta[name="theme-color"]')
 
       // Run this here to avoid a "Flash of Unstyled Content".
-      if (shouldBeDarkTheme()) {
+      if (_shouldBeDarkTheme()) {
         document.documentElement.classList.add("dark")
-        this.metaTag().setAttribute("content", "#262626")
+        $metaTag.setAttribute("content", "#262626")
       } else {
         document.documentElement.classList.remove("dark")
-        this.metaTag().setAttribute("content", "#fff")
+        $metaTag.setAttribute("content", "#fff")
       }
     </script>
   </head>
@@ -55,15 +53,34 @@
   >
     <%= render("layouts/flash_container") %>
 
-    <header class="container mx-auto py-5 border-b dark:border-b-neutral-600">
+    <header
+      class="
+        container mx-auto
+        px-6 lg:px-12 py-5
+        border-b border-b-300 dark:border-b-neutral-600
+      "
+    >
       <%= render("nav") %>
     </header>
 
-    <main class="container mx-auto mt-12 mb-32">
+    <main
+      class="
+        container mx-auto my-12
+        px-6 lg:px-12
+      "
+    >
       <%= yield %>
     </main>
 
-    <%= render("layouts/footer") %>
+    <footer
+      class="
+        container mx-auto mt-auto
+        px-6 lg:px-12 py-6
+        border-t border-t-300 dark:border-t-neutral-700
+      "
+    >
+      <%= render("footer") %>
+    </footer>
 
     <%= render("layouts/breakpoint_indicator") if App.development? %>
   </body>
