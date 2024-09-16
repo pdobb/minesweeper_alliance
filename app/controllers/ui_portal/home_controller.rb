@@ -2,7 +2,7 @@
 
 class UIPortal::HomeController < UIPortal::BaseController
   def show
-    Layouts::Flash::TYPES.each do |type|
+    Application::Flash.types.each do |type|
       flash.now[type] = [
         "Test #{type}",
         {

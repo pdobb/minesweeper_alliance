@@ -44,19 +44,22 @@
   </div>
 </div>
 
-<% content_for(:button) do %>
-  <%= inline_svg_tag(
-        "heroicons/sun.svg",
-        class: "inline dark:hidden mb-px max-w-5 max-h-5 fill-current") %>
-  <%= inline_svg_tag(
-        "heroicons/moon.svg",
-        class: "hidden dark:inline mb-px max-w-5 max-h-5") %>
-<% end %>
-
 <div class="hidden lg:flex items-center gap-x-3">
   Theme:
-  <% theme_menu = ThemeMenu.new(button_content: content_for(:button)) %>
-  <%= render(theme_menu.render_options) do %>
+
+  <% content_for(:button) do %>
+    <%= inline_svg_tag(
+          "heroicons/sun.svg",
+          class: "inline dark:hidden mb-px max-w-5 max-h-5 fill-current") %>
+    <%= inline_svg_tag(
+          "heroicons/moon.svg",
+          class: "hidden dark:inline mb-px max-w-5 max-h-5") %>
+  <% end %>
+  <%= render(
+        layout: "application/menu",
+        locals: {
+          view: layout.theme_menu(button_content: content_for(:button))
+        }) do %>
     <ul
       role="listbox"
       data-theme-target="themeSelectorMenu"

@@ -23,7 +23,7 @@
       <% view.duty_roster.each do |user| %>
         <li>
           <%= link_to_if(
-                view.current_user?(user, context: self),
+                layout.current_user?(user),
                 user.display_name,
                 edit_user_path,
                 class: "edit-link",

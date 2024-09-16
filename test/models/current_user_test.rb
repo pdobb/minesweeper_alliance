@@ -50,8 +50,6 @@ class CurrentUserTest < ActiveSupport::TestCase
       @cookies = CookieJar.new(cookies)
     end
 
-    private
-
     attr_reader :cookies
 
     class CookieJar

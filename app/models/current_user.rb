@@ -25,7 +25,7 @@ class CurrentUser
 
   attr_reader :context
 
-  def cookies = context.__send__(:cookies)
+  def cookies = context.cookies
 
   def find
     User.for_id(stored_user_token).take

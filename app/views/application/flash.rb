@@ -1,10 +1,13 @@
 # frozen_string_literal: true
 
-# Layouts::Flash is a View Model that represents the Rails `flash`
+# Application::Flash is a View Model that represents the Rails `flash`
 # Notifications hash (ActionDispatch::Flash::FlashHash).
-class Layouts::Flash
-  TYPES = %i[alert notice info warning].freeze
+class Application::Flash
   DEFAULT_TIMEOUT_IN_SECONDS = 10.seconds
+
+  def self.types
+    @types ||= %i[alert notice info warning].freeze
+  end
 
   def initialize(collection)
     @collection = collection
@@ -26,41 +29,59 @@ class Layouts::Flash
     }
   end
 
-  # Layouts::Flash::Notification wraps the actual Flash notification content.
+  # Application::Flash::Notification wraps the actual Flash notification
+  # content.
+  #
   # Note: Flash notifications can be simple (just a String) or complex (a Hash).
   class Notification
     # rubocop:disable Layout/MultilineArrayLineBreaks
     CSS_CLASSES_MAP = {
       notice: {
-        container: %w[bg-green-50 text-green-800 dark:text-green-400],
+        container: %w[
+          bg-green-50 dark:bg-neutral-900
+          text-green-800 dark:text-green-400
+        ],
         button: %w[
-          bg-green-50 hover:bg-green-200
+          bg-green-50 dark:bg-neutral-900
+          hover:bg-green-200 dark:hover:bg-neutral-800
           text-green-500 dark:text-green-400
-          focus:ring-green-400
+          focus:ring-green-400 focus:bg-green-200
         ],
       },
       alert: {
-        container: %w[bg-red-50 text-red-800 dark:text-red-400],
+        container: %w[
+          bg-red-50 dark:bg-neutral-900
+          text-red-800 dark:text-red-400
+        ],
         button: %w[
-          bg-red-50 hover:bg-red-200
+          bg-red-50 dark:bg-neutral-900
+          hover:bg-red-200 dark:hover:bg-neutral-800
           text-red-500 dark:text-red-400
-          focus:ring-red-400
+          focus:ring-red-400 focus:bg-red-200
         ],
       },
       info: {
-        container: %w[bg-blue-50 text-blue-800 dark:text-blue-400],
+        container: %w[
+          bg-blue-50 dark:bg-neutral-900
+          text-blue-800 dark:text-blue-400
+        ],
         button: %w[
-          bg-blue-50 hover:bg-blue-200
+          bg-blue-50 dark:bg-neutral-900
+          hover:bg-blue-200 dark:hover:bg-neutral-800
           text-blue-500 dark:text-blue-400
-          focus:ring-blue-400
+          focus:ring-blue-400 focus:bg-blue-200
         ],
       },
       warning: {
-        container: %w[bg-yellow-50 text-yellow-800 dark:text-yellow-400],
+        container: %w[
+          bg-yellow-50 dark:bg-neutral-900
+          text-yellow-800 dark:text-yellow-400
+        ],
         button: %w[
-          bg-yellow-50 hover:bg-yellow-200
+          bg-yellow-50 dark:bg-neutral-900
+          hover:bg-yellow-200 dark:hover:bg-neutral-800
           text-yellow-500 dark:text-yellow-400
-          focus:ring-yellow-400
+          focus:ring-yellow-400 focus:bg-yellow-200
         ],
       },
     }.with_indifferent_access.freeze

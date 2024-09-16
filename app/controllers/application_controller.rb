@@ -5,20 +5,9 @@ class ApplicationController < ActionController::Base
   # maps, CSS nesting, and CSS :has.
   allow_browser versions: :modern
 
-  before_action :set_current_user
+  helper_method :layout
 
-  helper_method :current_user,
-                :mobile?
-
-  attr_reader :current_user
-
-  def mobile?
-    @mobile ||= UserAgent.parse(request.user_agent).mobile?
-  end
-
-  private
-
-  def set_current_user
-    @current_user = CurrentUser.(context: self)
+  def layout
+    @layout ||= Application::Layout.new(context: self)
   end
 end

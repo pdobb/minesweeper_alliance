@@ -8,8 +8,8 @@
   </ul>
 
   <div class="hidden md:inline">
-    <% if current_user.username? %>
-      <%= current_user.display_name %>
+    <% if layout.current_user_signer? %>
+      <%= layout.current_user_display_name %>
     <% else %>
       Minesweeper Alliance
     <% end %>

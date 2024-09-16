@@ -5,6 +5,7 @@ class UsersController < ApplicationController
   end
 
   def update
+    current_user = layout.current_user
     current_user.attributes = update_params
 
     if current_user.save

@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-# ThemeMenu is a View Model for rendering the "Theme" menu for choosing the
-# Light/Dark/System themes. This abstraction exists just to service the
-# application/_menu.html.erb partial with the unique values that it needs.
-class ThemeMenu
+# Application::ThemeMenu is a View Model for rendering the "Theme" menu for
+# choosing the Light/Dark/System themes. This abstraction exists just to service
+# the application/_menu.html.erb partial with the unique values that it needs.
+class Application::ThemeMenu
   attr_reader :button_content
 
   def initialize(button_content:)

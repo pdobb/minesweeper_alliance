@@ -2,9 +2,9 @@
 
 require "test_helper"
 
-class Layouts::FlashTest < ActiveSupport::TestCase
-  describe "Layouts::Flash" do
-    let(:unit_class) { Layouts::Flash }
+class Application::FlashTest < ActiveSupport::TestCase
+  describe "Application::Flash" do
+    let(:unit_class) { Application::Flash }
 
     let(:flash_hash) { ActionDispatch::Flash::FlashHash.new }
 
@@ -15,11 +15,11 @@ class Layouts::FlashTest < ActiveSupport::TestCase
           unit_class.new(flash_hash)
         }
 
-        it "returns an Array of Layouts::Flash::Notifications" do
+        it "returns an Array of Notifications" do
           result = subject.notifications
           _(result).must_be_instance_of(Array)
           _(result.size).must_equal(1)
-          _(result.sample).must_be_instance_of(Layouts::Flash::Notification)
+          _(result.sample).must_be_instance_of(unit_class::Notification)
         end
       end
 
@@ -29,11 +29,11 @@ class Layouts::FlashTest < ActiveSupport::TestCase
           unit_class.new(flash_hash)
         }
 
-        it "returns an Array of Layouts::Flash::Notifications" do
+        it "returns an Array of Notifications" do
           result = subject.notifications
           _(result).must_be_instance_of(Array)
           _(result.size).must_equal(2)
-          _(result.sample).must_be_instance_of(Layouts::Flash::Notification)
+          _(result.sample).must_be_instance_of(unit_class::Notification)
         end
       end
 
@@ -46,17 +46,17 @@ class Layouts::FlashTest < ActiveSupport::TestCase
           unit_class.new(flash_hash)
         }
 
-        it "returns an Array of Layouts::Flash::Notifications" do
+        it "returns an Array of Notifications" do
           result = subject.notifications
           _(result).must_be_instance_of(Array)
           _(result.size).must_equal(2)
-          _(result.sample).must_be_instance_of(Layouts::Flash::Notification)
+          _(result.sample).must_be_instance_of(unit_class::Notification)
         end
       end
     end
 
     describe "Notification" do
-      let(:unit_class) { Layouts::Flash::Notification }
+      let(:unit_class) { Application::Flash::Notification }
 
       let(:notice_notification1) {
         unit_class.new(type: :notice, message: "Test notice.")

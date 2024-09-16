@@ -1,6 +1,6 @@
 <%# locals: () %>
 
-<% ::Layouts::Flash.new(flash).notifications.each do |notification| %>
+<% Application::Flash.new(flash).notifications.each do |notification| %>
   <div
     role="alert"
     data-controller="flash"

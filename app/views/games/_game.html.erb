@@ -38,7 +38,7 @@
 
     <div
       class="
-        <% if mobile? %>
+        <% if layout.mobile? %>
           overflow-x-auto
         <% end %>
       "
@@ -77,7 +77,7 @@
             <% end %>
           "
         >
-          <% view.grid(context: self).each do |row| %>
+          <% view.grid(context: layout).each do |row| %>
             <tr>
               <% row.each do |cell| %>
                 <td
