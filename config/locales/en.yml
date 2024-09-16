@@ -63,10 +63,11 @@ en:
     successful_update: "Updated %{type}"
     successful_update_to: "Updated %{type} to %{to}"
 
-  site_description: |
-    Welcome to Minesweeper Alliance, an open-multiplayer riff on the classic Minesweeper game. Join forces with your fellow allies to sweep mines in real-time!
-  site_description_html: |
-    Welcome to Minesweeper Alliance, an open-multiplayer riff on the classic <a href="https://en.wikipedia.org/wiki/Minesweeper_(video_game)" target="_blank">Minesweeper</a> game. Join forces with your fellow allies to sweep mines in real-time!
+  site:
+    description: |
+      Welcome to Minesweeper Alliance, an open-multiplayer riff on the classic Minesweeper game. Join forces with your fellow allies to sweep mines in real-time!
+    description_html: |
+      Welcome to Minesweeper Alliance, an open-multiplayer riff on the classic <a href="https://en.wikipedia.org/wiki/Minesweeper_(video_game)" target="_blank" rel="noreferrer noopener">Minesweeper</a> game. Join forces with your fellow allies to sweep mines in real-time!
 
   game:
     new_html:

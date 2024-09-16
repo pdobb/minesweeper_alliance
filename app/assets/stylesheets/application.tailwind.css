@@ -65,6 +65,14 @@
 }
 
 @layer components {
+  a[href^="http"] {
+    @apply relative pr-6;
+
+    &::after {
+      @apply bg-external-link-light dark:bg-external-link-dark absolute top-px ml-1.5 inline-block size-[1em] bg-contain content-[''] hover:opacity-70;
+    }
+  }
+
   .btn-basic {
     @apply hover:opacity-80;
   }

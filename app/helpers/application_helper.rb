@@ -28,6 +28,11 @@ module ApplicationHelper
     end
   end
 
+  def external_link_to(name = nil, url = nil, *, **options)
+    options.with_defaults!({ rel: "noreferrer noopener", target: :_blank })
+    link_to(name, url, *, **options)
+  end
+
   private
 
   def active_link?(url, includes:)

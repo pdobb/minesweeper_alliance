@@ -13,6 +13,11 @@ module.exports = {
       animation: {
         "pulse-fast": "pulse 1.5s cubic-bezier(0.6, 0, 0.4, 1) infinite",
       },
+      backgroundImage: {
+        "external-link-light": "url('heroicons/arrow-top-right-on-square.svg')",
+        "external-link-dark":
+          "url('heroicons/arrow-top-right-on-square-dark.svg')",
+      },
       fontFamily: {
         // sans: ["Inter var", ...defaultTheme.fontFamily.sans],
       },
