@@ -47,5 +47,6 @@ module MinesweeperAlliance # rubocop:disable Style/ClassAndModuleChildren
     # Custom Configuration
 
     config.debug = ENV["DEBUG"] == "1"
+    config.disable_turbo = ENV["DISABLE_TURBO"] == "1"
   end
 end

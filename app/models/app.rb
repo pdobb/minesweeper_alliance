@@ -15,6 +15,7 @@ module App
   end
 
   def self.debug? = Rails.configuration.debug
+  def self.disable_turbo? = Rails.configuration.disable_turbo
 
   def self.test? = Rails.env.test?
   def self.development? = Rails.env.development?
