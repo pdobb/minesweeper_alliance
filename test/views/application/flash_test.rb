@@ -9,6 +9,18 @@ class Application::FlashTest < ActiveSupport::TestCase
     let(:flash_hash) { ActionDispatch::Flash::FlashHash.new }
 
     describe "#notifications" do
+      context "GIVEN an unknown type" do
+        subject {
+          flash_hash.now[:unknown] = "Unknown Type Test notice."
+          unit_class.new(flash_hash)
+        }
+
+        it "returns an empty Array" do
+          result = subject.notifications
+          _(result).must_be_empty
+        end
+      end
+
       context "GIVEN a single, simple flash notification" do
         subject {
           flash_hash.now[:notice] = "Test notice."
@@ -59,16 +71,16 @@ class Application::FlashTest < ActiveSupport::TestCase
       let(:unit_class) { Application::Flash::Notification }
 
       let(:notice_notification1) {
-        unit_class.new(type: :notice, message: "Test notice.")
+        unit_class.new(type: :notice, content: "Test notice.")
       }
       let(:alert_notification1) {
-        unit_class.new(type: :alert, message: "Test alert.")
+        unit_class.new(type: :alert, content: "Test alert.")
       }
       let(:info_notification1) {
-        unit_class.new(type: :info, message: "Test info.")
+        unit_class.new(type: :info, content: "Test info.")
       }
       let(:warning_notification1) {
-        unit_class.new(type: :warning, message: "Test warning.")
+        unit_class.new(type: :warning, content: "Test warning.")
       }
 
       describe "#container_css_class" do
@@ -152,7 +164,7 @@ class Application::FlashTest < ActiveSupport::TestCase
           subject {
             unit_class.new(
               type: :notice,
-              message: { text: "Test notice.", timeout: 9 })
+              content: { text: "Test notice.", timeout: 9 })
           }
 
           it "returns the expected Integer" do
@@ -164,7 +176,9 @@ class Application::FlashTest < ActiveSupport::TestCase
           subject {
             unit_class.new(
               type: :notice,
-              message: { text: "Test notice.", timeout: [nil, false].sample })
+              content: {
+                text: "Test notice.", timeout: [nil, false].sample
+              })
           }
 
           it "returns the expected Integer" do
@@ -186,7 +200,9 @@ class Application::FlashTest < ActiveSupport::TestCase
           subject {
             unit_class.new(
               type: :notice,
-              message: { text: "Test notice.", timeout: [0, 9].sample })
+              content: {
+                text: "Test notice.", timeout: [0, 9].sample
+              })
           }
 
           it "returns true" do
@@ -198,7 +214,9 @@ class Application::FlashTest < ActiveSupport::TestCase
           subject {
             unit_class.new(
               type: :notice,
-              message: { text: "Test notice.", timeout: [nil, false].sample })
+              content: {
+                text: "Test notice.", timeout: [nil, false].sample
+              })
           }
 
           it "returns false" do
