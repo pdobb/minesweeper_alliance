@@ -10,6 +10,7 @@
     <% end %>
     data-action="transitionend->flash#remove"
     class="
+      pointer-events-auto
       p-4 rounded-lg
       transition-opacity ease-in
       <%= class_names(notification.container_css_class) %>
@@ -17,7 +18,7 @@
   >
     <span class="sr-only"><%= notification.type %></span>
     <div class="flex gap-x-6 items-baseline">
-      <p><%= notification.message %></p>
+      <p><%= notification.content %></p>
 
       <button
         type="button"
@@ -30,9 +31,7 @@
         aria-label="Close"
       >
         <span class="sr-only">Close</span>
-        <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
-          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
-        </svg>
+        <%= inline_svg_tag("icons/x.svg", class: "size-3 max-w-3 max-h-3") %>
       </button>
     </div>
   </div>

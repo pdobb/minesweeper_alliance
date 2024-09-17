@@ -1,0 +1,40 @@
+<%# locals: (banner:) %>
+
+<div
+  id="banner"
+  class="
+    [&:not(:has(>div))]:hidden
+    -mt-6 md:-mt-3 mb-12
+    text-center text-balance
+  "
+>
+  <div
+    role="alert"
+    data-controller="banner"
+    data-banner-hide-class="opacity-0"
+    data-action="transitionend->banner#remove"
+    class="
+      transition-opacity ease-in
+      <%= class_names(banner.container_css_class) %>
+    "
+  >
+    <span class="sr-only">Banner</span>
+    <div class="flex gap-x-6 items-baseline">
+      <p><%= banner.content %></p>
+
+      <button
+        type="button"
+        data-action="banner#close"
+        class="
+          -m-2.5 p-2.5 rounded-lg
+          focus:ring-2 focus:animate-pulse-fast
+          <%= class_names(banner.button_css_class) %>
+        "
+        aria-label="Close"
+      >
+        <span class="sr-only">Close</span>
+        <%= inline_svg_tag("icons/x.svg", class: "size-3 max-w-3 max-h-3") %>
+      </button>
+    </div>
+  </div>
+</div>

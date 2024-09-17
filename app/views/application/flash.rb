@@ -2,11 +2,14 @@
 
 # Application::Flash is a View Model that represents the Rails `flash`
 # Notifications hash (ActionDispatch::Flash::FlashHash).
+#
+# Note: We only pay attention to known {.notification_types}. This allows the
+# ActionDispatch::Flash::FlashHash to be used for other purposes as well.
 class Application::Flash
   DEFAULT_TIMEOUT_IN_SECONDS = 10.seconds
 
-  def self.types
-    @types ||= %i[alert notice info warning text].freeze
+  def self.notification_types
+    @notification_types ||= %w[alert notice info warning].freeze
   end
 
   def initialize(collection)
@@ -14,117 +17,114 @@ class Application::Flash
   end
 
   def notifications
-    collection.flat_map { |type, messages|
-      notifications_for(type:, messages:)
-    }
+    collection.flat_map { |type, content|
+      next if self.class.notification_types.exclude?(type)
+
+      notifications_for(type:, content:)
+    }.tap(&:compact!)
   end
 
   private
 
   attr_reader :collection
 
-  def notifications_for(type:, messages:)
-    Array(messages).map { |message|
-      Notification.new(type:, message:)
+  def notifications_for(type:, content:)
+    Array(content).map { |the_content|
+      Notification.new(type:, content: the_content)
     }
   end
 
   # Application::Flash::Notification wraps the actual Flash notification
   # content.
   #
-  # Note: Flash notifications can be simple (just a String) or complex (a Hash).
+  # Flash notifications can be simple (just a String) or complex (a Hash).
   class Notification
-    # rubocop:disable Layout/MultilineArrayLineBreaks
-    CSS_CLASSES_MAP = {
-      notice: {
-        container: %w[
-          bg-green-50 dark:bg-neutral-900
-          text-green-800 dark:text-green-400
-        ],
-        button: %w[
-          bg-green-50 dark:bg-neutral-900
-          hover:bg-green-200 dark:hover:bg-neutral-800
-          text-green-500 dark:text-green-400
-          focus:ring-green-400 focus:bg-green-200
-        ],
-      },
-      alert: {
-        container: %w[
-          bg-red-50 dark:bg-neutral-900
-          text-red-800 dark:text-red-400
-        ],
-        button: %w[
-          bg-red-50 dark:bg-neutral-900
-          hover:bg-red-200 dark:hover:bg-neutral-800
-          text-red-500 dark:text-red-400
-          focus:ring-red-400 focus:bg-red-200
-        ],
-      },
-      info: {
-        container: %w[
-          bg-blue-50 dark:bg-neutral-900
-          text-blue-800 dark:text-blue-400
-        ],
-        button: %w[
-          bg-blue-50 dark:bg-neutral-900
-          hover:bg-blue-200 dark:hover:bg-neutral-800
-          text-blue-500 dark:text-blue-400
-          focus:ring-blue-400 focus:bg-blue-200
-        ],
-      },
-      warning: {
-        container: %w[
-          bg-yellow-50 dark:bg-neutral-900
-          text-yellow-800 dark:text-yellow-400
-        ],
-        button: %w[
-          bg-yellow-50 dark:bg-neutral-900
-          hover:bg-yellow-200 dark:hover:bg-neutral-800
-          text-yellow-500 dark:text-yellow-400
-          focus:ring-yellow-400 focus:bg-yellow-200
-        ],
-      },
-      text: {
-        container: nil,
-        button: %w[
-          hover:bg-gray-200 dark:hover:bg-neutral-700
-          text-gray-500 dark:text-gray-400
-          focus:ring-gray-400 focus:bg-gray-200
-        ],
-      },
-    }.with_indifferent_access.freeze
-    # rubocop:enable Layout/MultilineArrayLineBreaks
-
     attr_reader :type,
-                :message,
+                :content,
                 :timeout
 
-    # @param message [String, Hash]
+    def self.css_classes_map
+      # rubocop:disable Layout/MultilineArrayLineBreaks
+      @css_classes_map ||= {
+        notice: {
+          container: %w[
+            bg-green-50 dark:bg-neutral-900
+            text-green-800 dark:text-green-400
+          ],
+          button: %w[
+            bg-green-50 dark:bg-neutral-900
+            hover:bg-green-200 dark:hover:bg-neutral-800
+            text-green-500 dark:text-green-400
+            focus:ring-green-400 hover:focus:bg-green-200
+          ],
+        },
+        alert: {
+          container: %w[
+            bg-red-50 dark:bg-neutral-900
+            text-red-800 dark:text-red-400
+          ],
+          button: %w[
+            bg-red-50 dark:bg-neutral-900
+            hover:bg-red-200 dark:hover:bg-neutral-800
+            text-red-500 dark:text-red-400
+            focus:ring-red-400 hover:focus:bg-red-200
+          ],
+        },
+        info: {
+          container: %w[
+            bg-blue-50 dark:bg-neutral-900
+            text-blue-800 dark:text-blue-400
+          ],
+          button: %w[
+            bg-blue-50 dark:bg-neutral-900
+            hover:bg-blue-200 dark:hover:bg-neutral-800
+            text-blue-500 dark:text-blue-400
+            focus:ring-blue-400 hover:focus:bg-blue-200
+          ],
+        },
+        warning: {
+          container: %w[
+            bg-yellow-50 dark:bg-neutral-900
+            text-yellow-800 dark:text-yellow-400
+          ],
+          button: %w[
+            bg-yellow-50 dark:bg-neutral-900
+            hover:bg-yellow-200 dark:hover:bg-neutral-800
+            text-yellow-500 dark:text-yellow-400
+            focus:ring-yellow-400 hover:focus:bg-yellow-200
+          ],
+        },
+      }.with_indifferent_access.freeze
+      # rubocop:enable Layout/MultilineArrayLineBreaks
+    end
+
+    # @param type [Symbol]
+    # @param content [String, Hash]
     #
-    # @example Message as a String
-    #   Notification.new(type: :alert, message: "...")
+    # @example Notification as a String
+    #   Notification.new(type: :alert, content: "...")
     #
-    # @example Message as a Hash
-    #   Notification.new(type: :alert, message: { text: "..." })
-    #   Notification.new(type: :alert, message: { text: "...", timeout: 3 })
-    def initialize(type:, message:)
+    # @example Notification as a Hash
+    #   Notification.new(type: :info, content: { text: "..." })
+    #   Notification.new(type: :info, content: { text: "...", timeout: 3 })
+    def initialize(type:, content:)
       @type = type
 
-      if message.is_a?(Hash)
-        @message = message.fetch(:text)
-        @timeout = message.fetch(:timeout) { DEFAULT_TIMEOUT_IN_SECONDS }
+      if content.is_a?(Hash)
+        @content = content.fetch(:text)
+        @timeout = content.fetch(:timeout) { DEFAULT_TIMEOUT_IN_SECONDS }
       else
-        @message = message
+        @content = content
         @timeout = DEFAULT_TIMEOUT_IN_SECONDS
       end
     end
 
     def container_css_class
-      CSS_CLASSES_MAP.fetch(type).fetch(:container)
+      Array.wrap(css_classes.fetch(:container))
     end
 
     def button_css_class
-      CSS_CLASSES_MAP.fetch(type).fetch(:button)
+      Array.wrap(css_classes.fetch(:button))
     end
 
     def timeout_in_milliseconds
@@ -135,6 +135,12 @@ class Application::Flash
 
     def timeout?
       timeout.present?
+    end
+
+    private
+
+    def css_classes
+      self.class.css_classes_map.fetch(type)
     end
   end
 end

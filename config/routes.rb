@@ -27,6 +27,8 @@ Rails.application.routes.draw do
   if App.development?
     namespace :ui_portal, path: :ui do
       root "home#show"
+
+      get "flash_notifications" => "home#flash_notifications"
     end
   end
 
