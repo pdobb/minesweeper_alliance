@@ -19,5 +19,6 @@ task :default do
     rubocop
     reek
     eslint
+    prettier
   ])
 end
