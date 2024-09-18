@@ -1,75 +1,77 @@
 <% title("Sweep Ops Archive") %>
 
-<div class="mb-6 space-y-6">
-  <h1>Sweep Ops Archives</h1>
-  <p>
-    Mission reports have been transcribed into
-    <strong><%= @view.current_time_zone_description %></strong>.
-  </p>
-</div>
+<div class="container mx-auto">
+  <div class="mb-6 space-y-6">
+    <h1>Sweep Ops Archives</h1>
+    <p>
+      Mission reports have been transcribed into
+      <strong><%= @view.current_time_zone_description %></strong>.
+    </p>
+  </div>
 
-<div class="my-8 space-y-3">
-  <h2 class="h5">Official Engagement Tally:</h2>
-  <h3 class="text-center">
-    <%= render("engagement_tally", view: @view) %>
-  </h3>
-</div>
+  <div class="my-8 space-y-3">
+    <h2 class="h5">Official Engagement Tally:</h2>
+    <h3 class="text-center">
+      <%= render("engagement_tally", view: @view) %>
+    </h3>
+  </div>
 
-<div class="my-6 border-y dark:border-y-neutral-600 p-6">
-  <ul
-    class="
-      flex flex-wrap justify-center items-center
-      gap-x-12 gap-y-3
-      text-gray-500 dark:text-neutral-400
-      whitespace-nowrap
-    "
-  >
-    <% @view.difficulty_levels.each do |difficulty_level| %>
-      <li><%= difficulty_level.initials %> = <%= difficulty_level.name %></li>
-    <% end %>
-  </ul>
-</div>
-
-<div class="mt-6 space-y-6">
-  <% if @view.any_listings? %>
-    <% @view.listings_grouped_by_date.each do |listings_date, listings| %>
-      <div class="space-y-3">
-        <h2 class="h3"><%= listings_date %></h2>
-        <h3 class="h5 text-gray-600 dark:text-neutral-400">
-          Tally: <%= render("engagement_tally", view: listings_date) %>
-        </h3>
-        <div
-          data-turbo-prefetch="false"
-          class="
-            grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 3xl:grid-cols-6
-            gap-y-1
-          "
-        >
-          <% listings.each do |listing| %>
-            <%= link_to(listing.game_url, class: "group space-x-1") do %>
-              <span class="text-gray-500 dark:text-neutral-400 group-hover:text-inherit">
-                #<%= listing.game_number %>
-                <abbr
-                  title="<%= listing.difficulty_level_name %>"
-                ><%= listing.difficulty_level_indicator %></abbr>
-              </span>
-
-              <span><%= listing.game_engagement_time_range(self) %></span>
-              <span class="tracking-widest"><%= listing.game_status_mojis %></span>
-            <% end %>
-          <% end %>
-        </div>
-      </div>
-    <% end %>
-  <% else %>
-    <div
+  <div class="my-6 border-y dark:border-y-neutral-600 p-6">
+    <ul
       class="
-        mt-12 p-12
-        text-center italic
-        border border-dashed border border-gray-500 dark:border-neutral-400
+        flex flex-wrap justify-center items-center
+        gap-x-12 gap-y-3
+        text-gray-500 dark:text-neutral-400
+        whitespace-nowrap
       "
     >
-      No engagements have yet been recorded.
-    </div>
-  <% end %>
+      <% @view.difficulty_levels.each do |difficulty_level| %>
+        <li><%= difficulty_level.initials %> = <%= difficulty_level.name %></li>
+      <% end %>
+    </ul>
+  </div>
+
+  <div class="mt-6 space-y-6">
+    <% if @view.any_listings? %>
+      <% @view.listings_grouped_by_date.each do |listings_date, listings| %>
+        <div class="space-y-3">
+          <h2 class="h3"><%= listings_date %></h2>
+          <h3 class="h5 text-gray-600 dark:text-neutral-400">
+            Tally: <%= render("engagement_tally", view: listings_date) %>
+          </h3>
+          <div
+            data-turbo-prefetch="false"
+            class="
+              grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 3xl:grid-cols-6
+              gap-y-1
+            "
+          >
+            <% listings.each do |listing| %>
+              <%= link_to(listing.game_url, class: "group space-x-1") do %>
+                <span class="text-gray-500 dark:text-neutral-400 group-hover:text-inherit">
+                  #<%= listing.game_number %>
+                  <abbr
+                    title="<%= listing.difficulty_level_name %>"
+                  ><%= listing.difficulty_level_indicator %></abbr>
+                </span>
+
+                <span><%= listing.game_engagement_time_range(self) %></span>
+                <span class="tracking-widest"><%= listing.game_status_mojis %></span>
+              <% end %>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+    <% else %>
+      <div
+        class="
+          mt-12 p-12
+          text-center italic
+          border border-dashed border border-gray-500 dark:border-neutral-400
+        "
+      >
+        No engagements have yet been recorded.
+      </div>
+    <% end %>
+  </div>
 </div>

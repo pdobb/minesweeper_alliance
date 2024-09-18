@@ -1,7 +1,9 @@
 <% title("Game ##{@view.game_number}") %>
 
-<%= render("game", view: @view) %>
+<div class="container mx-auto">
+  <%= render("game", view: @view) %>
 
-<hr class="my-12 border-dotted dark:border-neutral-600">
+  <hr class="my-12 border-dotted dark:border-neutral-600">
 
-<%= render("games/stats", view: @view.game_stats_view) %>
+  <%= render("games/stats", view: @view.game_stats_view) %>
+</div>
