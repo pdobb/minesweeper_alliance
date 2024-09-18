@@ -73,7 +73,7 @@
   }
 
   .btn-basic {
-    @apply hover:opacity-80;
+    @apply cursor-pointer hover:opacity-80;
   }
   .btn-primary {
     @apply cursor-pointer select-none no-underline whitespace-nowrap

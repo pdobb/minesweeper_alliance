@@ -1,0 +1,18 @@
+<% user = layout.current_user %>
+
+<%= turbo_stream.update(user) do %>
+  <div
+    data-controller="inline-edit"
+    data-action="keydown.esc@window->inline-edit#cancel"
+  >
+    <div
+      data-inline-edit-target="beforeEdit"
+      class="hidden"
+    >
+      <%= render("users/editable_username", user:) %>
+    </div>
+    <div data-inline-edit-target="editing">
+      <%= render("users/form") %>
+    </div>
+  </div>
+<% end %>

@@ -1,24 +1,5 @@
 <div class="container mx-auto">
   <%= turbo_frame_tag(layout.current_user) do %>
-    <%= form_with(model: layout.current_user, url: user_path) do |f| %>
-      <div class="flex flex-col gap-y-2">
-        <div class="inline-flex items-center gap-x-3">
-          <%= f.text_field(
-                :username,
-                autocomplete: :off,
-                autofocus: true,
-                placeholder: "Username",
-                data: { "1p-ignore": true },
-                class: %w[
-                  w-72
-                  border-transparent border-b-gray-800 dark:border-b-gray-400
-                  focus:ring-0 focus:border-transparent focus:border-b-red-700
-                  bg-transparent
-                ]) %>
-          <%= f.submit("ACK", class: "btn-primary") %>
-        </div>
-        <p class="text-red-600"><%= f.object.errors[:username].join(", ") %></p>
-      </div>
-    <% end %>
+    <%= render("form") %>
   <% end %>
 </div>

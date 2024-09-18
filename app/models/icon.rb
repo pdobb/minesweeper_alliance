@@ -43,6 +43,10 @@ module Icon
     "❤️"
   end
 
+  def self.check
+    "✅"
+  end
+
   def self.celebratory_victory
     "#{ship}#{anchor}#{victory}"
   end

@@ -1,3 +1,5 @@
-<%= turbo_stream.update(layout.current_user) do %>
-  <%= render("users/editable_username", user: layout.current_user) %>
+<% user = layout.current_user %>
+
+<%= turbo_stream.update(user) do %>
+  <%= render("users/editable_username", user:) %>
 <% end %>
