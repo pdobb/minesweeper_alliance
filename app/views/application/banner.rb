@@ -1,9 +1,11 @@
 # frozen_string_literal: true
 
 # Application::Banner represents Site-level banner text. i.e. informational text
-# that, once dismissed, doesn't reappear in the future.
+# that, once dismissed, doesn't reappear in the future. Or, if permanent
+# dismissal isn't desired, then we just won't be given a `name` parameter.
 class Application::Banner
-  attr_reader :content
+  attr_reader :content,
+              :name
 
   def self.css_classes
     # rubocop:disable Layout/MultilineArrayLineBreaks
@@ -20,10 +22,14 @@ class Application::Banner
 
   # @param content [Hash]
   #
-  # @example
+  # @example Non-"Permanently"-Dismissable Banner
   #   Application::Banner.new(content: { text: "..." })
-  def initialize(content:)
+  #
+  # @example "Permanently"-Dismissable Banner
+  #   Application::Banner.new(content: { text: "..." }, name: "welcome_banner"))
+  def initialize(content:, name: nil)
     @content = content.fetch(:text)
+    @name = name
   end
 
   def container_css_class
@@ -32,6 +38,10 @@ class Application::Banner
 
   def button_css_class
     Array.wrap(css_classes.fetch(:button))
+  end
+
+  def dismissable?
+    name.present?
   end
 
   private

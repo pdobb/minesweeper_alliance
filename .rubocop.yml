@@ -41,6 +41,9 @@ Naming/MethodParameterName:
 Rails/ApplicationController:
   Exclude:
     - app/controllers/ui_portal/**/*
+Rails/WhereExists:
+  Exclude:
+    - test/**/*
 
 Style/Documentation:
   Exclude:
