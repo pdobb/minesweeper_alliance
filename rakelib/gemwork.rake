@@ -18,5 +18,6 @@ task :default do
     test
     rubocop
     reek
+    eslint
   ])
 end

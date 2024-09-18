@@ -7,5 +7,16 @@
   "parserOptions": {
     "ecmaVersion": "latest",
     "sourceType": "module"
-  }
+  },
+  "overrides": [
+    {
+      "files": ["config/tailwind.config.js"],
+      "env": {
+        "node": true
+      },
+      "rules": {
+        "no-unused-vars": ["error", { "varsIgnorePattern": "defaultTheme" }]
+      }
+    }
+  ]
 }

@@ -10,7 +10,7 @@ export default class extends Controller {
     this.#updateAriaAttributes()
   }
 
-  escape(event) {
+  escape() {
     this.#hide()
   }
 

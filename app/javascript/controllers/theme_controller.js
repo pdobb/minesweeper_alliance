@@ -51,7 +51,7 @@ class ThemeController extends Controller {
   }
 
   switchToTheme(event) {
-    name = event.target.value
+    const name = event.target.value
     const methodName = `switchTo${name}Theme`
     this[methodName]()
   }
