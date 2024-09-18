@@ -1,21 +1,23 @@
 <% title("War Room") %>
 
-<% if @view.show_welcome_banner?(context: layout) %>
-  <%= render("layouts/banner", banner: @view.welcome_banner) %>
-<% end %>
-
 <%= turbo_stream_from(:current_game) %>
 
-<%= render(@view.render_options) %>
+<div class="container mx-auto">
+  <% if @view.show_welcome_banner?(context: layout) %>
+    <%= render("layouts/banner", banner: @view.welcome_banner) %>
+  <% end %>
 
-<% if @view.current_game? %>
-  <hr class="my-12 border-dotted dark:border-neutral-600">
+  <%= render(@view.render_options) %>
 
-  <div id="gameContext">
-    <% if @view.game_just_ended? %>
-      <%= render("games/stats", view: @view.game_stats_view) %>
-    <% else %>
-      <%= render("games/rules")  %>
-    <% end %>
-  </div>
-<% end %>
+  <% if @view.current_game? %>
+    <hr class="my-12 border-dotted dark:border-neutral-600">
+
+    <div id="gameContext">
+      <% if @view.game_just_ended? %>
+        <%= render("games/stats", view: @view.game_stats_view) %>
+      <% else %>
+        <%= render("games/rules")  %>
+      <% end %>
+    </div>
+  <% end %>
+</div>

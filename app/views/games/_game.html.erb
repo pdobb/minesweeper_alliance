@@ -39,15 +39,16 @@
     <div
       class="
         <% if layout.mobile? %>
-          overflow-x-auto
+          -mx-5 overflow-x-auto
         <% end %>
       "
     >
       <table
         id="gameBoard"
         class="
-          mx-auto table-fixed
-          border-4 border-double border-slate-400 dark:border-neutral-950
+          table-fixed
+          border-double border-4
+          border-slate-400 dark:border-neutral-950
         ">
         <tbody
           <% if view.game_on? %>
