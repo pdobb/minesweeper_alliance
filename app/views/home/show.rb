@@ -2,15 +2,21 @@
 
 # Home::Show is a view model for displaying the Home Page.
 class Home::Show
+  WELCOME_BANNER_NAME = "welcome_banner"
+  BANNER_DISMISSAL_VALUE = "dismissed"
+
   def initialize(current_game:)
     @current_game = current_game
   end
 
-  def banner
+  def show_welcome_banner?(context:)
+    context.cookies[WELCOME_BANNER_NAME] != BANNER_DISMISSAL_VALUE
+  end
+
+  def welcome_banner
     Application::Banner.new(
-      content: {
-        text: I18n.t("site.description_html").html_safe,
-      })
+      content: { text: I18n.t("site.description_html").html_safe },
+      name: WELCOME_BANNER_NAME)
   end
 
   def current_game?

@@ -1,6 +1,8 @@
 <% title("War Room") %>
 
-<%= render("layouts/banner", banner: @view.banner) %>
+<% if @view.show_welcome_banner?(context: layout) %>
+  <%= render("layouts/banner", banner: @view.welcome_banner) %>
+<% end %>
 
 <%= turbo_stream_from(:current_game) %>
 
