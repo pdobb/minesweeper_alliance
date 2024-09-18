@@ -4,18 +4,22 @@ class UsersController < ApplicationController
   def edit
   end
 
-  def update
-    current_user = layout.current_user
-    current_user.attributes = update_params
+  # :reek:TooManyStatements
 
+  def update # rubocop:disable Metrics/MethodLength
+    current_user = layout.current_user
+
+    current_user.attributes = update_params
     if current_user.save
-      redirect_to(
-        root_path,
-        notice:
-          t(
-            "flash.successful_update_to",
-            type: "username",
-            to: current_user.display_name))
+      notice =
+        t("flash.successful_update_to", # rubocop:disable Layout/FirstMethodArgumentLineBreak
+          type: "username",
+          to: current_user.display_name)
+
+      respond_to do |format|
+        format.html { redirect_to(root_path, notice:) }
+        format.turbo_stream
+      end
     else
       render(:edit, status: :unprocessable_entity)
     end

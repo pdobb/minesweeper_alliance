@@ -1,0 +1,9 @@
+<%# locals: (user:) %>
+
+<%= turbo_frame_tag(user) do %>
+  <%= link_to(
+        user.display_name,
+        edit_user_path,
+        class: "edit-link",
+        title: "Edit username") %>
+<% end %>
