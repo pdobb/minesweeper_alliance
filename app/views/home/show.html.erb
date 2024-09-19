@@ -4,7 +4,9 @@
 
 <div class="container mx-auto">
   <% if @view.show_welcome_banner?(context: layout) %>
-    <%= render("layouts/banner", banner: @view.welcome_banner) %>
+    <%= render(
+          "layouts/banner",
+          banner: @view.welcome_banner(context: layout)) %>
   <% end %>
 
   <%= render(@view.render_options) %>

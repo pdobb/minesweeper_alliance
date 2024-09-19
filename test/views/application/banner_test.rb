@@ -9,17 +9,6 @@ class Application::BannerTest < ActiveSupport::TestCase
     let(:banner1) {
       unit_class.new(content: { text: "Test 1." })
     }
-    let(:banner2) {
-      unit_class.new(content: { text: "Test 2." }, name: "test")
-    }
-
-    describe "#container_css_class" do
-      subject { banner1 }
-
-      it "returns an empty Array" do
-        _(subject.container_css_class).must_be_empty
-      end
-    end
 
     describe "#button_css_class" do
       subject { banner1 }
@@ -29,21 +18,47 @@ class Application::BannerTest < ActiveSupport::TestCase
       end
     end
 
-    describe "#dismissable?" do
-      context "GIVEN a name" do
-        subject { banner2 }
+    describe "#show_dismissal_button?" do
+      context "GIVEN a #context" do
+        subject {
+          unit_class.new(content: { text: "Test 1." }, context:)
+        }
 
-        it "returns true" do
-          _(subject.dismissable?).must_equal(true)
+        context "GIVEN #context.show_banner_dismissal_button? = true" do
+          let(:context) {
+            Class.new { def show_banner_dismissal_button? = true }.new
+          }
+
+          it "returns true" do
+            _(subject.show_dismissal_button?).must_equal(true)
+          end
+        end
+
+        context "GIVEN #context.show_banner_dismissal_button? = false" do
+          let(:context) {
+            Class.new { def show_banner_dismissal_button? = false }.new
+          }
+
+          it "returns false" do
+            _(subject.show_dismissal_button?).must_equal(false)
+          end
         end
       end
 
-      context "GIVEN no name" do
+      context "GIVEN no #context" do
         subject { banner1 }
 
-        it "returns false" do
-          _(subject.dismissable?).must_equal(false)
+        it "returns true" do
+          _(subject.show_dismissal_button?).must_equal(true)
         end
+      end
+    end
+
+    describe "#permanently_dismissable?" do
+      subject { banner1 }
+
+      it "returns false" do
+        _(subject.permanently_dismissable?).must_equal(false)
       end
     end
   end

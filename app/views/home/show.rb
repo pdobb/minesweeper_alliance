@@ -13,10 +13,11 @@ class Home::Show
     context.cookies[WELCOME_BANNER_NAME] != BANNER_DISMISSAL_VALUE
   end
 
-  def welcome_banner
-    Application::Banner.new(
+  def welcome_banner(context:)
+    Application::PermanentlyDismissableBanner.new(
       content: { text: I18n.t("site.description_html").html_safe },
-      name: WELCOME_BANNER_NAME)
+      name: WELCOME_BANNER_NAME,
+      context: BannerContext.new(context:))
   end
 
   def current_game?
@@ -49,5 +50,16 @@ class Home::Show
 
   def new_view
     Games::New.new
+  end
+
+  # Home::Show::BannerContext
+  class BannerContext
+    def initialize(context:)
+      @base_context = context
+    end
+
+    def show_banner_dismissal_button?
+      @base_context.current_user_has_signed_their_name?
+    end
   end
 end

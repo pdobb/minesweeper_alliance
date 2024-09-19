@@ -8,6 +8,7 @@ import { cookies } from "../lib/cookies"
 export default class extends Controller {
   static values = {
     name: String,
+    permanentlyDismissable: Boolean,
     dismissal: { type: String, default: "dismissed" },
   }
   static classes = ["hide"]
@@ -23,6 +24,7 @@ export default class extends Controller {
   }
 
   #saveDismissal() {
+    if (!this.permanentlyDismissableValue) return
     if (!this.hasNameValue) return
 
     cookies.permanent.set(this.nameValue, this.dismissalValue, { secure: true })

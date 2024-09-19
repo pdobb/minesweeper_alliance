@@ -1,16 +1,16 @@
 # frozen_string_literal: true
 
-# Application::Banner represents Site-level banner text. i.e. informational text
-# that, once dismissed, doesn't reappear in the future. Or, if permanent
-# dismissal isn't desired, then we just won't be given a `name` parameter.
+# Application::Banner represents an Application-level banner / informational
+# text. While this may banner *is* still dismissable, this dismissal is meant to
+# last only until the next request.
+#
+# @see Application::PermanentlyDismissableBanner
 class Application::Banner
-  attr_reader :content,
-              :name
+  attr_reader :content
 
   def self.css_classes
     # rubocop:disable Layout/MultilineArrayLineBreaks
     @css_classes ||= {
-      container: nil,
       button: %w[
         hover:bg-gray-200 dark:hover:bg-neutral-700
         text-gray-500 dark:text-gray-400
@@ -21,30 +21,32 @@ class Application::Banner
   end
 
   # @param content [Hash]
+  # @param context [#show_dismissal_button?] (Optional)
   #
   # @example Non-"Permanently"-Dismissable Banner
   #   Application::Banner.new(content: { text: "..." })
-  #
-  # @example "Permanently"-Dismissable Banner
-  #   Application::Banner.new(content: { text: "..." }, name: "welcome_banner"))
-  def initialize(content:, name: nil)
+  def initialize(content:, context: nil)
     @content = content.fetch(:text)
-    @name = name
+    @context = context
   end
 
-  def container_css_class
-    Array.wrap(css_classes.fetch(:container))
+  def button_css_class = css_classes.fetch(:button)
+
+  # Whether or not the context (generally the object that instantiate this
+  # object) wants the dismissal button to be shown.
+  def show_dismissal_button?
+    return true unless context
+
+    context.show_banner_dismissal_button?
   end
 
-  def button_css_class
-    Array.wrap(css_classes.fetch(:button))
-  end
-
-  def dismissable?
-    name.present?
-  end
+  # UI Flag. Distinguishes this type of banner vs an
+  # {Application::PermanentlyDismissableBanner}.
+  def permanently_dismissable? = false
 
   private
+
+  attr_reader :context
 
   def css_classes = self.class.css_classes
 end
