@@ -1,0 +1,12 @@
+<%# locals: (user:) %>
+
+<%= turbo_frame_tag(user, "duty_roster", class: "flex gap-x-3") do %>
+  <% if layout.current_user?(user) %>
+    <span title="Me"><%= Icon.eyes %></span>
+  <% end %>
+
+  <%= link_to(
+        user.display_name,
+        user_path(user),
+        data: { turbo_frame: :_top }) %>
+<% end %>

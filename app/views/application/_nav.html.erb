@@ -8,12 +8,6 @@
   </ul>
 
   <div class="hidden md:inline">
-    <% if layout.current_user_has_signed_their_name? %>
-      <%= active_link_to(
-            layout.current_user_display_name,
-            user_path(layout.current_user)) %>
-    <% else %>
-      <%= t("site.title") %>
-    <% end %>
+    <%= render("application/username") %>
   </div>
 </nav>

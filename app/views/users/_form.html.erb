@@ -9,12 +9,14 @@
             placeholder: "Username",
             data: { "1p-ignore": true },
             class: %w[
-              w-64 p-0
-              border-transparent border-b-red-800 dark:border-b-red-600
-              focus:ring-0 focus:border-transparent focus:border-b-red-700
+              w-80
+              border-transparent focus:border-transparent
+              border-b-red-800 dark:border-b-red-600
+              focus:ring-0
               bg-transparent
+              text-lg
             ]) %>
-      <%= f.submit(Icon.check, class: "btn-basic text-lg") %>
+      <%= f.submit(Icon.check, class: "btn-basic text-xl") %>
     </div>
     <p class="text-red-600"><%= f.object.errors[:username].join(", ") %></p>
   </div>

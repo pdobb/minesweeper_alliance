@@ -1,5 +1,19 @@
 <% user = layout.current_user %>
 
-<%= turbo_stream.update(user) do %>
-  <%= render("users/editable_username", user:) %>
+<%= turbo_stream.update([user, "sign_game"]) do %>
+  <%= render("users/sign_game", user:) %>
+<% end %>
+
+<%= turbo_stream.update([user, "duty_roster"]) do %>
+  <%= render("games/duty_roster", user:) %>
+<% end %>
+
+<%= turbo_stream.update([user, "nav"]) do %>
+  <%= render("application/username") %>
+<% end %>
+
+<%= turbo_stream.update(:welcome_banner) do %>
+  <%= render(
+        "home/welcome_banner",
+        view: Home::Show::WelcomeBanner.new) %>
 <% end %>

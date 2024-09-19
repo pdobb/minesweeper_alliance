@@ -10,14 +10,11 @@ class Home::Show
   end
 
   def show_welcome_banner?(context:)
-    context.cookies[WELCOME_BANNER_NAME] != BANNER_DISMISSAL_VALUE
+    build_welcome_banner.show_welcome_banner?(context:)
   end
 
   def welcome_banner(context:)
-    Application::PermanentlyDismissableBanner.new(
-      content: { text: I18n.t("site.description_html").html_safe },
-      name: WELCOME_BANNER_NAME,
-      context: BannerContext.new(context:))
+    build_welcome_banner.welcome_banner(context:)
   end
 
   def current_game?
@@ -44,12 +41,30 @@ class Home::Show
 
   attr_reader :current_game
 
+  def build_welcome_banner
+    @build_welcome_banner ||= WelcomeBanner.new
+  end
+
   def current_game_show_view
     Games::Show.new(game: current_game)
   end
 
   def new_view
     Games::New.new
+  end
+
+  # Home::Show::WelcomeBanner
+  class WelcomeBanner
+    def show_welcome_banner?(context:)
+      context.cookies[WELCOME_BANNER_NAME] != BANNER_DISMISSAL_VALUE
+    end
+
+    def welcome_banner(context:)
+      Application::PermanentlyDismissableBanner.new(
+        content: { text: I18n.t("site.description_html").html_safe },
+        name: WELCOME_BANNER_NAME,
+        context: BannerContext.new(context:))
+    end
   end
 
   # Home::Show::BannerContext

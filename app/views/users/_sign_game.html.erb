@@ -1,0 +1,14 @@
+<%# locals: (user:) %>
+
+<%= turbo_frame_tag(user, "sign_game", class: "flex items-center gap-x-3") do %>
+  <% if user.signer? %>
+    Signed,
+  <% end %>
+  <%= link_to(edit_user_path(user), data: { turbo_stream: true }) do %>
+    <% if user.signer? %>
+      <%= user.display_name %> <%= Icon.pencil %>
+    <% else %>
+      Sign your name? <%= Icon.pencil %>
+    <% end %>
+  <% end %>
+<% end %>

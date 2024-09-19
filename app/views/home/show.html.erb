@@ -3,11 +3,7 @@
 <%= turbo_stream_from(:current_game) %>
 
 <div class="container mx-auto">
-  <% if @view.show_welcome_banner?(context: layout) %>
-    <%= render(
-          "layouts/banner",
-          banner: @view.welcome_banner(context: layout)) %>
-  <% end %>
+  <%= render("welcome_banner", view: @view) %>
 
   <%= render(@view.render_options) %>
 

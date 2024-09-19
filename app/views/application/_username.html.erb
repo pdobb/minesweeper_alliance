@@ -1,0 +1,14 @@
+<%# locals: () %>
+
+<% user = layout.current_user %>
+
+<%= turbo_frame_tag(user, "nav") do %>
+  <% if layout.current_user_has_signed_their_name? %>
+    <%= active_link_to(
+          layout.current_user_display_name,
+          user_path(user),
+          data: { turbo_frame: :_top }) %>
+  <% else %>
+    <%= t("site.title") %>
+  <% end %>
+<% end %>
