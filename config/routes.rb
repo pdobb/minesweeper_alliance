@@ -22,7 +22,7 @@ Rails.application.routes.draw do
     end
   end
 
-  resource :user, only: %i[edit update]
+  resources :users, only: %i[show edit update]
 
   if App.development?
     namespace :ui_portal, path: :ui do

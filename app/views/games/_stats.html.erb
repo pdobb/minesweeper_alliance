@@ -5,15 +5,32 @@
   "
 >
   <div class="md:justify-self-end space-y-6">
-    <h3>Game Stats</h3>
+    <h3>Performance Metrics</h3>
 
-    <ul class="space-y-2">
-      <li><strong>Duration</strong>: <%= view.duration %></li>
-      <li><strong># Reveals</strong>: <%= view.reveals_count %></li>
-      <li><strong># Flags Placed</strong>: <%= view.flags_count %></li>
-      <li><strong># Flags Removed</strong>: <%= view.unflags_count %></li>
-      <li><strong># Active Players</strong>: <%= view.players_count %></li>
-    </ul>
+    <table class="-m-3">
+      <tbody class="*:*:px-3 *:*:py-1">
+        <tr>
+          <th class="text-left">Duration</th>
+          <td><%= view.duration %></td>
+        </tr>
+        <tr>
+          <th class="text-left"># Active Players</th>
+          <td><%= view.players_count %></td>
+        </tr>
+        <tr>
+          <th class="text-left"># Cells Revealed</th>
+          <td><%= view.reveals_count %></td>
+        </tr>
+        <tr>
+          <th class="text-left"># Flags Placed</th>
+          <td><%= view.flags_count %></td>
+        </tr>
+        <tr>
+          <th class="text-left"># Flags Removed</th>
+          <td><%= view.unflags_count %></td>
+        </tr>
+      </tbody>
+    </table>
   </div>
   <div class="space-y-6">
     <h3>Duty Roster</h3>

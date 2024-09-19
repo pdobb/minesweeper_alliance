@@ -1,0 +1,46 @@
+<% title(@view.user_display_name) %>
+
+<div class="container mx-auto space-y-12">
+  <div class="space-y-6">
+    <h1 class="border-b">Service Record</h1>
+    <h2><%= @view.user_display_name %></h2>
+  </div>
+
+  <div class="space-y-6">
+    <h3>Performance Metrics</h3>
+
+    <table class="-m-3">
+      <tbody class="*:*:px-3 *:*:py-1">
+        <tr>
+          <th class="text-left">Engagements</th>
+          <td><%= @view.display_games_count %></td>
+        </tr>
+        <tr>
+          <th class="text-left">Victories</th>
+          <td><%= @view.display_winning_games_count %></td>
+        </tr>
+        <tr>
+          <th class="text-left">Defeats</th>
+          <td><%= @view.display_losing_games_count %></td>
+        </tr>
+        <tr><td colspan="100%" class="select-none">&nbsp;</td></tr>
+        <tr>
+          <th class="text-left"># Cells Revealed</th>
+          <td><%= @view.display_reveals_count %></td>
+        </tr>
+        <tr>
+          <th class="text-left"># Flags Placed</th>
+          <td><%= @view.display_flags_count %></td>
+        </tr>
+        <tr>
+          <th class="text-left"># Flags Removed</th>
+          <td><%= @view.display_unflags_count %></td>
+        </tr>
+        <tr>
+          <th class="text-left"># Mines Tripped</th>
+          <td><%= @view.display_tripped_mines_count %></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

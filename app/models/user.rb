@@ -18,6 +18,10 @@ class User < ApplicationRecord
   has_many :cell_unflag_transactions
 
   has_many :games, -> { distinct }, through: :cell_transactions
+  has_many :revealed_cells,
+           -> { distinct },
+           through: :cell_reveal_transactions,
+           source: :cell
 
   validates :username,
             length: { maximum: USERNAME_MAX_LEGNTH }

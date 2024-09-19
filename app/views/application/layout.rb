@@ -37,6 +37,10 @@ class Application::Layout
     @mobile ||= UserAgent.parse(user_agent).mobile?
   end
 
+  def helpers
+    @helpers ||= ActionController::Base.helpers
+  end
+
   private
 
   attr_reader :context
