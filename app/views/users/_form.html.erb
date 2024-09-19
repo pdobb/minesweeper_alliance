@@ -5,6 +5,7 @@
             :username,
             autocomplete: :off,
             autofocus: true,
+            onfocus: "this.select()",
             placeholder: "Username",
             data: { "1p-ignore": true },
             class: %w[
@@ -13,7 +14,7 @@
               focus:ring-0 focus:border-transparent focus:border-b-red-700
               bg-transparent
             ]) %>
-      <%= f.submit(Icon.check, class: "btn-basic") %>
+      <%= f.submit(Icon.check, class: "btn-basic text-lg") %>
     </div>
     <p class="text-red-600"><%= f.object.errors[:username].join(", ") %></p>
   </div>

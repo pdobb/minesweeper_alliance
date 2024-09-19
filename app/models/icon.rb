@@ -47,6 +47,10 @@ module Icon
     "✅"
   end
 
+  def self.pencil
+    "✏️"
+  end
+
   def self.celebratory_victory
     "#{ship}#{anchor}#{victory}"
   end

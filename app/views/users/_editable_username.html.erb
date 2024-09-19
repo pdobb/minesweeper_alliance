@@ -1,10 +1,17 @@
 <%# locals: (user:) %>
 
-<%= turbo_frame_tag(user) do %>
+<%= turbo_frame_tag(user, class: "flex gap-x-3") do %>
+  <span title="Me"><%= Icon.eyes %></span>
+
   <%= link_to(
         user.display_name,
-        edit_user_path,
-        class: "edit-link",
-        title: "Edit username",
+        user_path(user),
+        data: { turbo_frame: :_top }) %>
+
+  <%= link_to(
+        Icon.pencil,
+        edit_user_path(user),
+        class: "no-underline",
+        title: "Edit Username",
         data: { turbo_stream: true }) %>
 <% end %>

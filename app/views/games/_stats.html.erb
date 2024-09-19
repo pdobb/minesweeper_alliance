@@ -43,7 +43,7 @@
           <% if layout.current_user?(user) %>
             <%= render("users/editable_username", user:) %>
           <% else %>
-            <%= user.display_name %>
+            <%= link_to(user.display_name, user_path(user)) %>
           <% end %>
         </div>
       <% end %>

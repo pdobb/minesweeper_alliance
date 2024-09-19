@@ -68,10 +68,6 @@
     }
   }
 
-  .edit-link {
-    @apply after:content-['✏️'] after:ml-2;
-  }
-
   .btn-basic {
     @apply cursor-pointer hover:opacity-80;
   }
