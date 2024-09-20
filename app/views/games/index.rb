@@ -66,13 +66,14 @@ class Games::Index
   # Games::Index::DifficultyLevel wraps {::DifficultyLevel#name}s, for display
   # of the "Initials" = "Name" map/legend.
   class DifficultyLevel
-    include Games::DifficultyLevelBehaviors
+    include WrapMethodBehaviors
 
     def initialize(difficulty_level)
       @difficulty_level = difficulty_level
     end
 
-    def initials = to_model.initials
+    def name = @difficulty_level.name
+    def initials = @difficulty_level.initials
   end
 
   # Games::Index::ListingsDate

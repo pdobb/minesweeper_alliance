@@ -10,11 +10,13 @@ class Games::New
   # Games::New::DifficultyLevel wraps {::DifficultyLevel#name}s, for display
   # of New-Game creation Buttons.
   class DifficultyLevel
-    include Games::DifficultyLevelBehaviors
+    include WrapMethodBehaviors
 
     def initialize(difficulty_level)
       @difficulty_level = difficulty_level
     end
+
+    def name = @difficulty_level.name
 
     def new_game_url(router = RailsRouter.instance)
       router.games_path(difficulty_level: name)
