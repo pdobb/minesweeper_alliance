@@ -87,4 +87,16 @@
       @apply text-red-600 dark:text-red-600;
     }
   }
+
+  .form-field {
+    @apply form-input
+      text-lg
+      bg-transparent
+      border-transparent focus:border-transparent
+      border-b-red-800 dark:border-b-red-600
+      focus:ring-0;
+  }
+  .form-error {
+    @apply text-red-600 dark:selection:bg-neutral-950;
+  }
 }

@@ -8,16 +8,9 @@
             onfocus: "this.select()",
             placeholder: "Username",
             data: { "1p-ignore": true },
-            class: %w[
-              w-80
-              border-transparent focus:border-transparent
-              border-b-red-800 dark:border-b-red-600
-              focus:ring-0
-              bg-transparent
-              text-lg
-            ]) %>
+            class: "w-80 form-field") %>
       <%= f.submit(Icon.check, class: "btn-basic text-xl") %>
     </div>
-    <p class="text-red-600"><%= f.object.errors[:username].join(", ") %></p>
+    <p class="form-error"><%= f.object.errors[:username].join(", ") %></p>
   </div>
 <% end %>
