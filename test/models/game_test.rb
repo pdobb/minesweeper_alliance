@@ -12,6 +12,9 @@ class GameTest < ActiveSupport::TestCase
     let(:loss1) { games(:loss1) }
     let(:standing_by1) { games(:standing_by1) }
     let(:new_game) { Game.new }
+    let(:custom_difficulty_level1) {
+      CustomDifficultyLevel.new(width: 3, height: 3, mines: 1)
+    }
 
     context "Class Methods" do
       subject { unit_class }
@@ -47,8 +50,9 @@ class GameTest < ActiveSupport::TestCase
       describe ".create_for" do
         context "GIVEN a Game.current already exists" do
           it "raises ActiveRecord::RecordNotUnique" do
-            _(-> { subject.create_for(difficulty_level: "Test") }).must_raise(
-              ActiveRecord::RecordNotUnique)
+            _(-> {
+              subject.create_for(difficulty_level: custom_difficulty_level1)
+            }).must_raise(ActiveRecord::RecordNotUnique)
           end
         end
 
@@ -56,7 +60,8 @@ class GameTest < ActiveSupport::TestCase
           before { standing_by1.delete }
 
           it "returns a persisted Game with the expected attributes" do
-            result = subject.create_for(difficulty_level: "Test")
+            result =
+              subject.create_for(difficulty_level: custom_difficulty_level1)
             _(result).must_be_instance_of(unit_class)
             _(result.persisted?).must_equal(true)
             _(result.status_standing_by?).must_equal(true)
@@ -75,7 +80,7 @@ class GameTest < ActiveSupport::TestCase
             it "doesn't persist the Game/Board/Cells" do
               _(-> {
                 _(-> {
-                  subject.create_for(difficulty_level: "Test")
+                  subject.create_for(difficulty_level: custom_difficulty_level1)
                 }).must_raise(ErrorDouble)
               }).wont_change_all([
                 ["Game.count"], ["Board.count"], ["Cell.count"]
@@ -94,10 +99,10 @@ class GameTest < ActiveSupport::TestCase
 
         it "orchestrates building of the expected object graph and returns "\
            "the new Game" do
-          result = subject.build_for(difficulty_level: "Test")
+          result = subject.build_for(difficulty_level: custom_difficulty_level1)
 
           _(@difficulty_level_conversion_function_call.pargs).must_equal(
-            ["Test"])
+            [custom_difficulty_level1])
           _(result).must_be_instance_of(unit_class)
           _(result.board).must_be_instance_of(Board)
           _(result.board.cells).must_be_empty
@@ -110,15 +115,11 @@ class GameTest < ActiveSupport::TestCase
         subject { win1 }
 
         it "returns the expected String" do
-          _(subject.difficulty_level).must_equal("Test")
+          _(subject.difficulty_level).must_equal("Custom")
         end
       end
 
       context "GIVEN a custom Difficulty Level" do
-        let(:custom_difficulty_level1) {
-          CustomDifficultyLevel.new(width: 9, height: 9, mines: 9)
-        }
-
         subject {
           unit_class.build_for(difficulty_level: custom_difficulty_level1)
         }

@@ -4,16 +4,6 @@
 module App
   def self.created_at = Time.zone.local(2024)
 
-  # :reek:NilCheck
-  def self.include_test_difficulty_level?
-    if @include_test_difficulty_level.nil?
-      @include_test_difficulty_level =
-        test? || debug? || Game.for_difficulty_level_test.any?
-    else
-      @include_test_difficulty_level
-    end
-  end
-
   def self.debug? = Rails.configuration.debug
   def self.disable_turbo? = Rails.configuration.disable_turbo
 

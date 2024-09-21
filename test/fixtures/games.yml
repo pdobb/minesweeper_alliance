@@ -1,5 +1,5 @@
 DEFAULTS: &DEFAULTS
-  difficulty_level: Test
+  difficulty_level: Custom
 
 win1:
   <<: *DEFAULTS

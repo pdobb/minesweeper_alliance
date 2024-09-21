@@ -10,7 +10,7 @@ class ConversionsTest < ActiveSupport::TestCase
       context "GIVEN a DifficultyLevel instance" do
         subject { unit_class }
 
-        let(:instance) { DifficultyLevel.new("Test") }
+        let(:instance) { DifficultyLevel.new("Beginner") }
 
         it "returns the instance" do
           result = subject.DifficultyLevel(instance)
@@ -22,7 +22,7 @@ class ConversionsTest < ActiveSupport::TestCase
         subject { unit_class }
 
         let(:instance) {
-          CustomDifficultyLevel.new(width: 9, height: 9, mines: 9)
+          CustomDifficultyLevel.new(width: 3, height: 3, mines: 1)
         }
 
         it "returns the instance" do
@@ -48,9 +48,9 @@ class ConversionsTest < ActiveSupport::TestCase
         subject { unit_class }
 
         it "returns the expected DifficultyLevel" do
-          result = subject.DifficultyLevel("Test")
+          result = subject.DifficultyLevel("Beginner")
           _(result).must_be_instance_of(DifficultyLevel)
-          _(result.name).must_equal("Test")
+          _(result.name).must_equal("Beginner")
         end
       end
 

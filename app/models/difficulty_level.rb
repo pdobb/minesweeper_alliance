@@ -10,16 +10,11 @@ class DifficultyLevel
   # DifficultyLevel processing.
   Error = Class.new(StandardError)
 
-  TEST = "Test"
-
   def self.settings_map
     @settings_map ||= {
-      TEST => { width: 3, height: 3, mines: 1 },
       "Beginner" => { width: 9, height: 9, mines: 10 },
       "Intermediate" => { width: 16, height: 16, mines: 40 },
       "Expert" => { width: 30, height: 16, mines: 99 },
-    }.tap { |hash|
-      hash.except!(TEST) unless App.include_test_difficulty_level?
     }.freeze
   end
 

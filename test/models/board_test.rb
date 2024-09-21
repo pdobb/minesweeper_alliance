@@ -12,11 +12,13 @@ class BoardTest < ActiveSupport::TestCase
     let(:new_board) {
       unit_class.build_for(
         game: new_game,
-        difficulty_level: difficulty_level_test)
+        difficulty_level: custom_difficulty_level1)
     }
 
     let(:new_game) { Game.new }
-    let(:difficulty_level_test) { DifficultyLevel.new("Test") }
+    let(:custom_difficulty_level1) {
+      CustomDifficultyLevel.new(width: 3, height: 3, mines: 1)
+    }
 
     context "Class Methods" do
       subject { unit_class }
@@ -27,7 +29,7 @@ class BoardTest < ActiveSupport::TestCase
           result =
             subject.build_for(
               game: new_game,
-              difficulty_level: difficulty_level_test)
+              difficulty_level: custom_difficulty_level1)
 
           _(result).must_be_instance_of(unit_class)
           _(result.game).must_be_same_as(new_game)
@@ -325,39 +327,43 @@ class BoardTest < ActiveSupport::TestCase
         describe ".build_for" do
           it "returns the expected object" do
             result =
-              subject.build_for(difficulty_level: DifficultyLevel.new("Test"))
-            _(result).must_equal(subject[3, 3, 1])
+              subject.build_for(
+                difficulty_level: DifficultyLevel.new("Beginner"))
+            _(result).must_equal(subject[9, 9, 10])
           end
         end
       end
 
       describe "#to_a" do
         subject {
-          unit_class.build_for(difficulty_level: DifficultyLevel.new("Test"))
+          unit_class.build_for(
+            difficulty_level: DifficultyLevel.new("Beginner"))
         }
 
         it "returns the expected Array" do
-          _(subject.to_a).must_equal([3, 3, 1])
+          _(subject.to_a).must_equal([9, 9, 10])
         end
       end
 
       describe "#area" do
         subject {
-          unit_class.build_for(difficulty_level: DifficultyLevel.new("Test"))
+          unit_class.build_for(
+            difficulty_level: DifficultyLevel.new("Beginner"))
         }
 
         it "returns the expected Integer" do
-          _(subject.area).must_equal(9)
+          _(subject.area).must_equal(81)
         end
       end
 
       describe "#dimensions" do
         subject {
-          unit_class.build_for(difficulty_level: DifficultyLevel.new("Test"))
+          unit_class.build_for(
+            difficulty_level: DifficultyLevel.new("Beginner"))
         }
 
         it "returns the expected Integer" do
-          _(subject.dimensions).must_equal("3x3")
+          _(subject.dimensions).must_equal("9x9")
         end
       end
     end
