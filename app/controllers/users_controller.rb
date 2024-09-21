@@ -13,8 +13,9 @@ class UsersController < ApplicationController
   end
 
   # :reek:TooManyStatements
+  # :reek:NilCheck
 
-  def update # rubocop:disable Metrics/MethodLength
+  def update # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
     current_user = layout.current_user
 
     current_user.attributes = update_params
@@ -26,7 +27,11 @@ class UsersController < ApplicationController
 
       respond_to do |format|
         format.html { redirect_to(root_path, notice:) }
-        format.turbo_stream
+        format.turbo_stream {
+          @signer_status_has_changed =
+            current_user.username_previously_was.nil? ||
+              current_user.username.nil?
+        }
       end
     else
       render(:edit, status: :unprocessable_entity)

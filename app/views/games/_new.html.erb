@@ -23,11 +23,13 @@
           class: "btn-primary",
           data: { turbo_frame: :_top }) %>
 
-    <%= button_to(
-          "Custom",
-          view.new_custom_game_url,
-          method: :get,
-          class: "btn-primary",
-          data: { turbo_stream: true }) %>
+    <% if layout.current_user_has_signed_their_name? %>
+      <%= button_to(
+            "Custom",
+            view.new_custom_game_url,
+            method: :get,
+            class: "btn-primary",
+            data: { turbo_stream: true }) %>
+    <% end %>
   </div>
 <% end %>

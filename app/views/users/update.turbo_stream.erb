@@ -12,8 +12,14 @@
   <%= render("application/username") %>
 <% end %>
 
-<%= turbo_stream.update(:welcome_banner) do %>
-  <%= render(
-        "home/welcome_banner",
-        view: Home::Show::WelcomeBanner.new) %>
+<% if @signer_status_has_changed %>
+  <%= turbo_stream.update(:new_game) do %>
+    <%= render("games/new", view: Games::New.new) %>
+  <% end %>
+
+  <%= turbo_stream.update(:welcome_banner) do %>
+    <%= render(
+          "home/welcome_banner",
+          view: Home::Show::WelcomeBanner.new) %>
+  <% end %>
 <% end %>
