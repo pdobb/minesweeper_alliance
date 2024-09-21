@@ -1,10 +1,12 @@
 <%# locals: (view:) %>
 
 <%= turbo_frame_tag(:current_game, class: "space-y-6") do %>
-  <h2 class="text-center overflow-hidden">
-    <%= view.game_status %>
-    <span class="tracking-[.5em]"><%= view.game_status_mojis %></span>
-  </h2>
+  <div class="container mx-auto">
+    <h2 class="text-center overflow-hidden">
+      <%= view.game_status %>
+      <span class="tracking-[.5em]"><%= view.game_status_mojis %></span>
+    </h2>
+  </div>
 
   <div class="mx-auto w-fit max-w-full space-y-2">
     <div class="flex justify-between gap-x-12 text-lg">
@@ -103,30 +105,32 @@
     </ul>
   </div>
 
-  <% if view.game_on? %>
-    <div
-      data-controller="board-actions"
-      data-board-actions-board-id-value="gameBoard"
-      class="text-center"
-    >
-      <%= button_to(
-            "Reveal Random",
-            nil,
-            class: "btn-primary",
-            data: { action: "board-actions#revealRandom:prevent" }) %>
-    </div>
-  <% elsif view.game_just_ended? %>
-    <div class="mt-3 flex flex-col justify-center items-center gap-6">
-      <p class="text-center">
-        <%=
-          if view.game_ended_in_victory?
-            t("game.victory.restart_html").sample
-          else # view.game_ended_in_defeat?
-            t("game.defeat.restart_html").sample
-          end
-        %>
-      </p>
-      <%= render("games/new", view: Games::New.new) %>
-    </div>
-  <% end %>
+  <div class="container mx-auto">
+    <% if view.game_on? %>
+      <div
+        data-controller="board-actions"
+        data-board-actions-board-id-value="gameBoard"
+        class="text-center"
+      >
+        <%= button_to(
+              "Reveal Random",
+              nil,
+              class: "btn-primary",
+              data: { action: "board-actions#revealRandom:prevent" }) %>
+      </div>
+    <% elsif view.game_just_ended? %>
+      <div class="mt-3 flex flex-col justify-center items-center gap-6">
+        <p class="text-center">
+          <%=
+            if view.game_ended_in_victory?
+              t("game.victory.restart_html").sample
+            else # view.game_ended_in_defeat?
+              t("game.defeat.restart_html").sample
+            end
+          %>
+        </p>
+        <%= render("games/new", view: Games::New.new) %>
+      </div>
+    <% end %>
+  </div>
 <% end %>

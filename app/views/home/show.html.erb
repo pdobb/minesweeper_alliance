@@ -4,18 +4,18 @@
 
 <div class="container mx-auto">
   <%= render("welcome_banner", view: @view) %>
-
-  <%= render(@view.render_options) %>
-
-  <% if @view.current_game? %>
-    <hr class="my-12 border-dotted dark:border-neutral-600">
-
-    <div id="gameContext">
-      <% if @view.game_just_ended? %>
-        <%= render("games/stats", view: @view.game_stats_view) %>
-      <% else %>
-        <%= render("games/rules")  %>
-      <% end %>
-    </div>
-  <% end %>
 </div>
+
+<%= render(@view.render_options) %>
+
+<% if @view.current_game? %>
+  <hr class="my-12 border-dotted dark:border-neutral-600">
+
+  <div id="gameContext">
+    <% if @view.game_just_ended? %>
+      <%= render("games/stats", view: @view.game_stats_view) %>
+    <% else %>
+      <%= render("games/rules")  %>
+    <% end %>
+  </div>
+<% end %>
