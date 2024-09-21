@@ -27,6 +27,6 @@ export default class extends Controller {
     if (!this.permanentlyDismissableValue) return
     if (!this.hasNameValue) return
 
-    cookies.permanent.set(this.nameValue, this.dismissalValue, { secure: true })
+    cookies.permanent.set(this.nameValue, this.dismissalValue)
   }
 }

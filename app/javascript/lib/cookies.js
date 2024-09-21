@@ -16,7 +16,8 @@
 // Delete a cookie:
 //   cookies.delete("theme")
 
-const PERMANENT_COOKIE_DAYS = 365 * 20
+const DEFAULT_COOKIE_DURATION_IN_DAYS = 7
+const PERMANENT_COOKIE_DURATION_IN_DAYS = 365
 
 class Cookies {
   constructor() {
@@ -31,7 +32,7 @@ class Cookies {
   // @param {string} value - The value of the cookie.
   // @param {Object} options - Options for the cookie.
   set(name, value, options = {}) {
-    let days = options.expires || 7
+    let days = options.expires || DEFAULT_COOKIE_DURATION_IN_DAYS
     this.#setCookie(name, value, days, options)
   }
 
@@ -57,7 +58,7 @@ class Cookies {
   }
 
   #setPermanent(name, value, options = {}) {
-    this.#setCookie(name, value, PERMANENT_COOKIE_DAYS, options)
+    this.#setCookie(name, value, PERMANENT_COOKIE_DURATION_IN_DAYS, options)
   }
 
   #setCookie(name, value, days, options) {
@@ -65,12 +66,16 @@ class Cookies {
     let cookieString = `${name}=${encodeURIComponent(value)}; expires=${expires}; path=${options.path || "/"};`
 
     if (options.domain) cookieString += `; domain=${options.domain}`
-    if (options.secure) cookieString += "; secure"
     if (options.httpOnly) cookieString += "; httpOnly"
+    if (this.#isSslEnabled()) cookieString += "; Secure"
     if (options.sameSite) cookieString += `; SameSite=${options.sameSite}`
     else cookieString += "; SameSite=Lax"
 
     document.cookie = cookieString
+  }
+
+  #isSslEnabled() {
+    window.location.protocol === "https:"
   }
 }
 
