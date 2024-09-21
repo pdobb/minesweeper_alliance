@@ -4,7 +4,7 @@
 # their associated {Board} settings. e.g. At the "Beginner" difficulty level,
 # we create a Board of size 9x9 with 10 mines.
 class DifficultyLevel
-  include ObjectInspector::InspectorsHelper
+  include DifficultyLevelBehaviors
 
   # DifficultyLevel::Error represents any StandardError related to
   # DifficultyLevel processing.
@@ -50,37 +50,15 @@ class DifficultyLevel
     end
 
     @name = name.titleize
-
-    freeze
-  end
-
-  def to_h
-    { width:, height:, mines: }
-  end
-
-  def to_s
-    name
-  end
-
-  def initials
-    name[0]
-  end
-
-  def dimensions
-    "#{width}x#{height}"
   end
 
   def width = settings.fetch(:width)
   def height = settings.fetch(:height)
   def mines = settings.fetch(:mines)
 
-  def settings
-    self.class.settings_map.fetch(name)
-  end
+  def settings = @settings ||= settings_map.fetch(name)
 
   private
 
-  def inspect_identification = self.class.name
-  def inspect_info = settings
-  def inspect_name = name
+  def settings_map = self.class.settings_map
 end

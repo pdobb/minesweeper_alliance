@@ -21,6 +21,8 @@ Rails.application.routes.draw do
       end
     end
   end
+  resources :random_games, only: :create
+  resources :custom_games, only: %i[new create]
 
   resources :users, only: %i[show edit update]
 

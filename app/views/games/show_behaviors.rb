@@ -13,9 +13,7 @@ module Games::ShowBehaviors
     game_id.to_s.rjust(4, "0")
   end
 
-  def difficulty_level_name
-    difficulty_level.name
-  end
+  def difficulty_level = to_model.difficulty_level
 
   private
 
@@ -24,5 +22,4 @@ module Games::ShowBehaviors
   end
 
   def game_id = to_model.id
-  def difficulty_level = to_model.difficulty_level
 end

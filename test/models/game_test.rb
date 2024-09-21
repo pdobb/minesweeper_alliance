@@ -106,12 +106,26 @@ class GameTest < ActiveSupport::TestCase
     end
 
     describe "#difficulty_level" do
-      subject { win1 }
+      context "GIVEN a standard Difficulty Level" do
+        subject { win1 }
 
-      it "returns the expected DifficultyLevel wrapper object" do
-        result = subject.difficulty_level
-        _(result).must_be_instance_of(DifficultyLevel)
-        _(result.name).must_equal(subject.difficulty_level_before_type_cast)
+        it "returns the expected String" do
+          _(subject.difficulty_level).must_equal("Test")
+        end
+      end
+
+      context "GIVEN a custom Difficulty Level" do
+        let(:custom_difficulty_level1) {
+          CustomDifficultyLevel.new(width: 9, height: 9, mines: 9)
+        }
+
+        subject {
+          unit_class.build_for(difficulty_level: custom_difficulty_level1)
+        }
+
+        it "returns the expected String" do
+          _(subject.difficulty_level).must_equal("Custom")
+        end
       end
     end
 

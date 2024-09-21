@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# :reek:TooManyMethods
+
 # Board represents a collection of {Cell}s. Internally, these {Cell}s are
 # organized as just one big Array, but they can best be though of as an Array of
 # Arrays, forming an X/Y {Grid}.
@@ -11,6 +13,12 @@
 class Board < ApplicationRecord
   self.implicit_order_column = "created_at"
 
+  VALID_SETTINGS_VALUES_RANGES = {
+    width: VALID_WIDTH_VALUES_RANGE = 3..30,
+    height: VALID_HEIGHT_VALUES_RANGE = 3..30,
+    mines: VALID_MINES_VALUES_RANGE = 1..225,
+  }.freeze
+
   # Board::Error represents any StandardError related to Board processing.
   Error = Class.new(StandardError)
 
@@ -21,6 +29,10 @@ class Board < ApplicationRecord
       def self.build_for(difficulty_level:)
         new(**difficulty_level.to_h)
       end
+
+      def to_a = to_h.values
+      def area = width * height
+      def dimensions = "#{width}x#{height}"
     }
 
   # Board::NullSettings represents an empty {Board::Settings}. It is an
@@ -53,10 +65,13 @@ class Board < ApplicationRecord
 
   scope :for_game, ->(game) { where(game:) }
 
+  validate :validate_settings
+
   attribute :settings, Type::BoardSettings.new
   def width = settings.width
   def height = settings.height
   def mines = settings.mines
+  def dimensions = settings.dimensions
 
   # @attr difficulty_level [DifficultyLevel]
   def self.build_for(game:, difficulty_level:)
@@ -105,6 +120,22 @@ class Board < ApplicationRecord
 
   def x_range = 0...width
   def y_range = 0...height
+
+  def validate_settings # rubocop:disable Metrics/MethodLength
+    width, height, mines = settings.to_a
+
+    if VALID_WIDTH_VALUES_RANGE.exclude?(width)
+      errors.add(:settings, "width must be in #{VALID_WIDTH_VALUES_RANGE}")
+    end
+    if VALID_HEIGHT_VALUES_RANGE.exclude?(height)
+      errors.add(:settings, "height must be in #{VALID_HEIGHT_VALUES_RANGE}")
+    end
+    if VALID_MINES_VALUES_RANGE.exclude?(mines)
+      errors.add(:settings, "mines must be in #{VALID_MINES_VALUES_RANGE}")
+    end
+
+    errors.add(:settings, "can't be > total cells") if mines >= settings.area
+  end
 
   # Board::Generate is a Service Object that handles insertion of {Cell} records
   # for this Board into the Database via bulk insert.
@@ -203,7 +234,7 @@ class Board < ApplicationRecord
 
     def inspect_info(scope:)
       scope.join_info([
-        "#{Icon.cell} x#{cells_count} (#{display_grid_dimensions})",
+        "#{Icon.cell} x#{cells_count} (#{dimensions})",
         "#{Icon.revealed_cell} #{revealed_cells_count}",
         "#{Icon.mine} #{mines_count}",
         "#{Icon.flag} #{flags_count}",
@@ -211,8 +242,6 @@ class Board < ApplicationRecord
     end
 
     def cells_count = cells.size
-
-    def display_grid_dimensions = "#{width}x#{height}"
 
     def random_cell_id_for_reveal
       cells.is_not_revealed.is_not_flagged.by_random.pick(:id)

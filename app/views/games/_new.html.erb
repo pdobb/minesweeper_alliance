@@ -1,12 +1,33 @@
 <%# locals: (view:) %>
 
-<ul class="flex flex-col sm:flex-row justify-center items-center gap-6">
-  <% view.difficulty_levels.each do |difficulty_level| %>
-    <li>
+<%= turbo_frame_tag(:new_game, class: "block ") do %>
+  <div
+    class="
+      flex
+      flex-col md:flex-row
+      justify-center items-center
+      gap-6
+    "
+  >
+    <% view.difficulty_levels.each do |difficulty_level| %>
       <%= button_to(
             difficulty_level.name,
             difficulty_level.new_game_url,
-            class: "btn-primary") %>
-    </li>
-  <% end %>
-</ul>
+            class: "btn-primary",
+            data: { turbo_frame: :_top }) %>
+    <% end %>
+
+    <%= button_to(
+          "Random",
+          view.new_random_game_url,
+          class: "btn-primary",
+          data: { turbo_frame: :_top }) %>
+
+    <%= button_to(
+          "Custom",
+          view.new_custom_game_url,
+          method: :get,
+          class: "btn-primary",
+          data: { turbo_stream: true }) %>
+  </div>
+<% end %>

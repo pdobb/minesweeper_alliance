@@ -39,7 +39,8 @@ class Games::Index
   def current_time_zone_description = self.class.current_time_zone_description
 
   def difficulty_levels
-    DifficultyLevel.wrap(::DifficultyLevel.all)
+    DifficultyLevel.wrap(
+      ::DifficultyLevel.all.including(CustomDifficultyLevel.new))
   end
 
   def any_listings?
@@ -116,7 +117,7 @@ class Games::Index
     end
 
     def difficulty_level_indicator
-      difficulty_level.initials
+      difficulty_level[0]
     end
 
     def game_engagement_time_range(template)

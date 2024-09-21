@@ -18,25 +18,29 @@ class ConversionsTest < ActiveSupport::TestCase
         end
       end
 
+      context "GIVEN a CustomDifficultyLevel instance" do
+        subject { unit_class }
+
+        let(:instance) {
+          CustomDifficultyLevel.new(width: 9, height: 9, mines: 9)
+        }
+
+        it "returns the instance" do
+          result = subject.DifficultyLevel(instance)
+          _(result).must_be_same_as(instance)
+        end
+      end
+
       context "GIVEN an object that responds to :to_difficulty_level" do
         subject { unit_class }
 
-        let(:object) { DifficultyLevelable.new }
+        let(:object) {
+          Class.new { def to_difficulty_level = self }.new
+        }
 
         it "returns the object" do
           result = subject.DifficultyLevel(object)
           _(result).must_be_same_as(object)
-        end
-      end
-
-      context "GIVEN 'Random'" do
-        subject { unit_class }
-
-        it "returns the expected DifficultyLevel" do
-          result = subject.DifficultyLevel("Random")
-          _(result).must_be_instance_of(DifficultyLevel)
-          _(result.name).must_be(
-            :in?, %w[Test Beginner Intermediate Expert])
         end
       end
 
@@ -60,9 +64,5 @@ class ConversionsTest < ActiveSupport::TestCase
         end
       end
     end
-  end
-
-  class DifficultyLevelable
-    def to_difficulty_level = self
   end
 end

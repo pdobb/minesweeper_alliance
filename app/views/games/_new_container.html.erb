@@ -1,7 +1,9 @@
 <%# locals: (view:) %>
 
-<div class="mt-12 md:mt-24 lg:mt-36 space-y-12 text-center">
-  <h1><%= t("game.new_html").sample %></h1>
+<div class="md:mt-24 space-y-16">
+  <h1 class="text-center"><%= t("game.new_html").sample %></h1>
 
-  <%= render("games/new", view:) %>
+  <div class="flex justify-center items-center min-h-24">
+    <%= render("games/new", view:) %>
+  </div>
 </div>

@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class GamesController < ApplicationController
+  include Games::CreateBehaviors
+
   def index
     @view =
       Games::Index.new(
@@ -20,16 +22,9 @@ class GamesController < ApplicationController
   end
 
   def create
-    current_game =
-      Game.find_or_create_current(
-        difficulty_level:
-          Conversions.DifficultyLevel(params[:difficulty_level]))
+    difficulty_level = DifficultyLevel.new(params[:difficulty_level])
 
-    if current_game.just_created?
-      DutyRoster.clear
-      current_game.broadcast_refresh_to(:current_game)
-    end
-
+    find_or_create_game(difficulty_level:)
     redirect_to(root_path)
   end
 end

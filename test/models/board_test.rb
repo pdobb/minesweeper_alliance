@@ -36,6 +36,90 @@ class BoardTest < ActiveSupport::TestCase
       end
     end
 
+    describe "#validate" do
+      describe "#settings" do
+        subject {
+          unit_class.build_for(
+            game: new_game,
+            difficulty_level:
+              CustomDifficultyLevel.new(
+                width: width1, height: height1, mines: mines1))
+        }
+        let(:width1) { 3 }
+        let(:height1) { 3 }
+        let(:mines1) { 1 }
+
+        context "GIVEN a valid #width value" do
+          it "passes validation" do
+            subject.validate
+            _(subject.errors[:settings]).must_be_empty
+          end
+        end
+
+        context "GIVEN an out-of-range #width value" do
+          let(:width1) { [2, 31].sample }
+
+          it "passes validation" do
+            subject.validate
+            _(subject.errors[:settings]).must_include(
+              "width #{ValidationError.in(3..30)}")
+          end
+        end
+
+        context "GIVEN a valid #height value" do
+          it "passes validation" do
+            subject.validate
+            _(subject.errors[:settings]).must_be_empty
+          end
+        end
+
+        context "GIVEN an out-of-range #height value" do
+          let(:height1) { [2, 31].sample }
+
+          it "passes validation" do
+            subject.validate
+            _(subject.errors[:settings]).must_include(
+              "height #{ValidationError.in(3..30)}")
+          end
+        end
+
+        context "GIVEN a valid #mines value" do
+          it "passes validation" do
+            subject.validate
+            _(subject.errors[:settings]).must_be_empty
+          end
+        end
+
+        context "GIVEN an out-of-range #mines value" do
+          let(:mines1) { [0, 226].sample }
+
+          it "passes validation" do
+            subject.validate
+            _(subject.errors[:settings]).must_include(
+              "mines #{ValidationError.in(1..225)}")
+          end
+        end
+
+        context "GIVEN a valid #mines value" do
+          let(:mines1) { [1, 8].sample }
+
+          it "passes validation" do
+            subject.validate
+            _(subject.errors[:settings]).must_be_empty
+          end
+        end
+
+        context "GIVEN too many #mines" do
+          let(:mines1) { 10 }
+
+          it "passes validation" do
+            subject.validate
+            _(subject.errors[:settings]).must_include("can't be > total cells")
+          end
+        end
+      end
+    end
+
     describe "#cells" do
       subject { [new_board, win1_board].sample }
 
@@ -200,6 +284,38 @@ class BoardTest < ActiveSupport::TestCase
       end
     end
 
+    describe "#width" do
+      subject { standing_by1_board }
+
+      it "returns the expected Array" do
+        _(subject.width).must_equal(3)
+      end
+    end
+
+    describe "#height" do
+      subject { standing_by1_board }
+
+      it "returns the expected Array" do
+        _(subject.height).must_equal(3)
+      end
+    end
+
+    describe "#mines" do
+      subject { standing_by1_board }
+
+      it "returns the expected Array" do
+        _(subject.mines).must_equal(1)
+      end
+    end
+
+    describe "#dimensions" do
+      subject { standing_by1_board }
+
+      it "returns the expected Array" do
+        _(subject.dimensions).must_equal("3x3")
+      end
+    end
+
     describe "Settings" do
       let(:unit_class) { Board::Settings }
 
@@ -212,6 +328,36 @@ class BoardTest < ActiveSupport::TestCase
               subject.build_for(difficulty_level: DifficultyLevel.new("Test"))
             _(result).must_equal(subject[3, 3, 1])
           end
+        end
+      end
+
+      describe "#to_a" do
+        subject {
+          unit_class.build_for(difficulty_level: DifficultyLevel.new("Test"))
+        }
+
+        it "returns the expected Array" do
+          _(subject.to_a).must_equal([3, 3, 1])
+        end
+      end
+
+      describe "#area" do
+        subject {
+          unit_class.build_for(difficulty_level: DifficultyLevel.new("Test"))
+        }
+
+        it "returns the expected Integer" do
+          _(subject.area).must_equal(9)
+        end
+      end
+
+      describe "#dimensions" do
+        subject {
+          unit_class.build_for(difficulty_level: DifficultyLevel.new("Test"))
+        }
+
+        it "returns the expected Integer" do
+          _(subject.dimensions).must_equal("3x3")
         end
       end
     end

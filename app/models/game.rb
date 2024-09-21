@@ -20,6 +20,8 @@ class Game < ApplicationRecord
   include Statusable::HasStatuses
 
   has_one :board, dependent: :delete
+  validates_associated :board, on: :create
+
   has_many :cells, through: :board
 
   has_many :cell_transactions, through: :cells
@@ -79,10 +81,6 @@ class Game < ApplicationRecord
     new(difficulty_level:).tap { |new_game|
       Board.build_for(game: new_game, difficulty_level:)
     }
-  end
-
-  def difficulty_level
-    DifficultyLevel.new(super)
   end
 
   # :reek:TooManyStatements

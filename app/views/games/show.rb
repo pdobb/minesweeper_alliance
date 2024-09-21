@@ -22,7 +22,7 @@ class Games::Show
   end
 
   def flags_count = board.flags_count
-  def mines_count = difficulty_level.mines
+  def mines_count = board.mines
 
   def reveal_url(router = RailsRouter.instance)
     router.game_board_cell_reveal_path(game, board, NULL_CELL_ID)
@@ -51,9 +51,7 @@ class Games::Show
     @elapsed_time ||= ElapsedTime.new(game_engagement_time_range)
   end
 
-  def board_dimensions
-    difficulty_level.dimensions
-  end
+  def board_dimensions = board.dimensions
 
   def game_stats_view
     Games::Stats.new(game:)
