@@ -6,45 +6,38 @@ class GridTest < ActiveSupport::TestCase
   describe "Grid" do
     let(:unit_class) { Grid }
 
-    context "Class Methods" do
-      subject { unit_class }
+    let(:mobile_context1) {
+      Class.new { def mobile? = true }.new
+    }
+    let(:non_mobile_context1) {
+      Class.new { def mobile? = false }.new
+    }
 
-      describe ".build_for" do
-        context "GIVEN a Mobile context" do
-          let(:context) {
-            Class.new { def mobile? = true }.new
-          }
-
-          it "builds a Grid that uses the 'Transpose' organizer" do
-            result = subject.build_for([1, 2, 3], context:)
-            _(result).must_be_instance_of(unit_class)
-            _(result.organizer).must_equal(unit_class::TRANSPOSE_ORGANIZER)
-          end
-        end
-
-        context "GIVEN a non-Mobile context" do
-          let(:context) {
-            Class.new { def mobile? = false }.new
-          }
-
-          it "builds a Grid that uses the 'Transpose' organizer" do
-            result = subject.build_for([1, 2, 3], context:)
-            _(result).must_be_instance_of(unit_class)
-            _(result.organizer).must_equal(unit_class::STANDARD_ORGANIZER)
-          end
-        end
-
-        context "GIVEN a nil context" do
-          let(:context) { nil }
-
-          it "builds a Grid that uses the 'Transpose' organizer" do
-            result = subject.build_for([1, 2, 3], context:)
-            _(result).must_be_instance_of(unit_class)
-            _(result.organizer).must_equal(unit_class::STANDARD_ORGANIZER)
-          end
-        end
-      end
-    end
+    let(:tall_grid1) {
+      [
+        Coordinates[0, 0],
+        Coordinates[0, 1],
+      ]
+    }
+    let(:square_grid1) {
+      # rubocop:disable Layout/MultilineArrayLineBreaks
+      [
+        Coordinates[0, 0], Coordinates[1, 0],
+        Coordinates[0, 1], Coordinates[1, 1]
+      ]
+      # rubocop:enable Layout/MultilineArrayLineBreaks
+    }
+    let(:wide_grid1) {
+      [
+        Coordinates[0, 0], Coordinates[1, 0]
+      ]
+    }
+    let(:wide_grid2) {
+      (1..10).map { |index| Coordinates[index, 0] }
+    }
+    let(:wide_grid3) {
+      (1..11).map { |index| Coordinates[index, 0] }
+    }
 
     describe "#cells" do
       context "GIVEN an Array of Cells" do
@@ -91,34 +84,69 @@ class GridTest < ActiveSupport::TestCase
     end
 
     describe "#to_a" do
-      let(:cells1) {
-        # rubocop:disable Layout/MultilineArrayLineBreaks
-        [
-          Coordinates[0, 0], Coordinates[0, 1],
-          Coordinates[1, 0], Coordinates[1, 1]
-        ]
-        # rubocop:enable Layout/MultilineArrayLineBreaks
-      }
+      context "GIVEN a mobile context" do
+        let(:context) { mobile_context1 }
 
-      context "GIVEN the Grid::STANDARD_ORGANIZER" do
-        subject { unit_class.new(cells1, organizer: Grid::STANDARD_ORGANIZER) }
+        context "GIVEN a tall Grid" do
+          subject { unit_class.new(tall_grid1, context:) }
 
-        it "returns the expected Array" do
-          _(subject.to_a).must_equal([
-            [Coordinates[0, 0], Coordinates[1, 0]],
-            [Coordinates[0, 1], Coordinates[1, 1]],
-          ])
+          it "returns the expected, non-transposed Array" do
+            _(subject.to_a).must_equal([
+              [Coordinates[0, 0]],
+              [Coordinates[0, 1]],
+            ])
+          end
+        end
+
+        context "GIVEN a square Grid" do
+          subject { unit_class.new(square_grid1, context:) }
+
+          it "returns the expected, non-transposed Array" do
+            _(subject.to_a).must_equal([
+              [Coordinates[0, 0], Coordinates[1, 0]],
+              [Coordinates[0, 1], Coordinates[1, 1]],
+            ])
+          end
+        end
+
+        context "GIVEN a wide Grid" do
+          context "GIVEN #width <= 11" do
+            let(:target) {
+              [(1..10).map { |index| Coordinates[index, 0] }]
+            }
+
+            subject { unit_class.new(wide_grid2, context:) }
+
+            it "returns the expected, non-transposed Array" do
+              _(subject.to_a).must_equal(target)
+            end
+          end
+
+          context "GIVEN #width > 11" do
+            let(:target) {
+              (1..11).map { |index| [Coordinates[index, 0]] }
+            }
+
+            subject { unit_class.new(wide_grid3, context:) }
+
+            it "returns the expected, transposed Array" do
+              _(subject.to_a).must_equal(target)
+            end
+          end
         end
       end
 
-      context "GIVEN the Grid::TRANSPOSE_ORGANIZER" do
-        subject { unit_class.new(cells1, organizer: Grid::TRANSPOSE_ORGANIZER) }
+      context "GIVEN a non-mobile context" do
+        let(:context) { non_mobile_context1 }
 
-        it "returns the expected Array" do
-          _(subject.to_a).must_equal([
-            [Coordinates[0, 0], Coordinates[0, 1]],
-            [Coordinates[1, 0], Coordinates[1, 1]],
-          ])
+        context "GIVEN a wide Grid" do
+          subject { unit_class.new(wide_grid1, context:) }
+
+          it "returns the expected, non-transposed Array" do
+            _(subject.to_a).must_equal([
+              [Coordinates[0, 0], Coordinates[1, 0]],
+            ])
+          end
         end
       end
     end

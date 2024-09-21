@@ -99,7 +99,7 @@ class Board < ApplicationRecord
   def flags_count = cells.is_flagged.size
 
   def grid(context: nil)
-    Grid.build_for(cells, context:)
+    Grid.new(cells, context:)
   end
 
   def clamp_coordinates(coordinates_array)

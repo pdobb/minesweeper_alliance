@@ -40,11 +40,15 @@ class Games::Show
     router.game_board_cell_reveal_neighbors_path(game, board, NULL_CELL_ID)
   end
 
-  def grid(context:)
+  def allow_scrolling?(
+        context:, min_width: Grid::MOBILE_VIEW_DISPLAY_WIDTH_IN_COLUMNS)
+    context.mobile? && board.width > min_width
+  end
+
+  def rows(context:)
     klass = game_on? ? ActiveCell : InactiveCell
 
-    # TODO: Wrap `context` in a View Object for our protection/convenience.
-    board.grid(context:).map { |row| klass.wrap(row, self) }
+    grid(context:).map { |row| klass.wrap(row, self) }
   end
 
   def elapsed_time
@@ -63,6 +67,10 @@ class Games::Show
 
   def to_model = game
   def board = game.board
+
+  def grid(context:)
+    @grid ||= board.grid(context:)
+  end
 
   def game_engagement_time_range = game.engagement_time_range
 

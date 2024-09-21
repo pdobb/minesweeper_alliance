@@ -250,16 +250,16 @@ class BoardTest < ActiveSupport::TestCase
 
     describe "#grid" do
       before do
-        MuchStub.on_call(Grid, :build_for) { |call| @build_for_call = call }
+        MuchStub.on_call(Grid, :new) { |call| @grid_new_call = call }
       end
 
       subject { standing_by1_board }
 
-      it "forwards to Grid.build_for" do
+      it "forwards to Grid.new" do
         subject.grid
-        _(@build_for_call).wont_be_nil
-        _(@build_for_call.pargs).wont_be_empty
-        _(@build_for_call.kargs).must_equal({ context: nil })
+        _(@grid_new_call).wont_be_nil
+        _(@grid_new_call.pargs).wont_be_empty
+        _(@grid_new_call.kargs).must_equal({ context: nil })
       end
     end
 

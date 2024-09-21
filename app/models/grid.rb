@@ -6,30 +6,18 @@ class Grid
   STANDARD_ORGANIZER = ->(array) { array }
   TRANSPOSE_ORGANIZER = ->(array) { array.transpose }
 
+  MOBILE_VIEW_DISPLAY_WIDTH_IN_COLUMNS = 10
+
   include Enumerable
   include ConsoleBehaviors
 
   attr_reader :cells,
-              :organizer
-
-  def self.build_for(cells, context:)
-    new(cells, organizer: organizer_for(context:))
-  end
-
-  # :reek:ControlParameter
-  def self.organizer_for(context:)
-    context&.mobile? ? TRANSPOSE_ORGANIZER : STANDARD_ORGANIZER
-  end
-  private_class_method :organizer_for
+              :context
 
   # :reek:ManualDispatch
-  def initialize(cells, organizer: STANDARD_ORGANIZER)
-    unless organizer.respond_to?(:call)
-      raise(TypeEror, "callable expected, got #{organizer.inspect}")
-    end
-
+  def initialize(cells, context: nil)
     @cells = Array.wrap(cells)
-    @organizer = organizer
+    @context = context
   end
 
   def cells_count = cells.size
@@ -47,7 +35,7 @@ class Grid
   #     2=>[<Cell[7](◻️) (0, 2) :: nil>, <Cell[8](◻️) (1, 2) :: nil>, <Cell[9](◻️ / 💣) (2, 2) :: nil>]
   #   }
   def to_h
-    cells.group_by { |cell| cell.y || "nil" }
+    @to_h ||= cells.group_by { |cell| cell.y || "nil" }
   end
 
   # Allow rows enumeration. e.g. this provides Grid#to_a and Grid#map via the Enumerable mix-in.
@@ -63,6 +51,34 @@ class Grid
   #     ]
   def each(&)
     organizer.(to_h.values).each(&)
+  end
+
+  private
+
+  def organizer
+    return STANDARD_ORGANIZER unless context&.mobile?
+
+    if landscape? && wider_than?(MOBILE_VIEW_DISPLAY_WIDTH_IN_COLUMNS)
+      TRANSPOSE_ORGANIZER
+    else
+      STANDARD_ORGANIZER
+    end
+  end
+
+  def landscape?
+    width >= height
+  end
+
+  def wider_than?(value)
+    width > value
+  end
+
+  def width
+    @width ||= to_h.values.first.size
+  end
+
+  def height
+    @height ||= to_h.keys.size
   end
 
   # rubocop:enable Layout/LineLength
