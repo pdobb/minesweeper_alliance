@@ -1,8 +1,10 @@
 <%# locals: (view:) %>
 
-<div class="-mt-12 min-h-24 flex justify-center items-center">
-  <%= render("users/sign_game", user: layout.current_user) %>
-</div>
+<% if view.show_sign_link?(user: layout.current_user) %>
+  <div class="-mt-12 min-h-24 flex justify-center items-center">
+    <%= render("users/sign_game", user: layout.current_user) %>
+  </div>
+<% end %>
 
 <div
   class="

@@ -22,8 +22,8 @@ win1_cell_transaction5:
 loss1_cell_transaction1:
   type: CellRevealTransaction
   user: user1
-  cell: win1_board_cell8
+  cell: loss1_board_cell8
 loss1_cell_transaction2:
   type: CellRevealTransaction
   user: user2
-  cell: win1_board_cell9
+  cell: loss1_board_cell9

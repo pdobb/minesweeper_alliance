@@ -6,6 +6,10 @@ class Games::Stats
     @game = game
   end
 
+  def show_sign_link?(user:)
+    user.participated_in?(game)
+  end
+
   def duration
     Duration.new(game.started_at..game.ended_at)
   end

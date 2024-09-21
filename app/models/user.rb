@@ -47,6 +47,10 @@ class User < ApplicationRecord
 
   def signer? = username?
 
+  def participated_in?(game)
+    game.users.for_id(self).exists?
+  end
+
   # User::Console acts like a {User} but otherwise handles IRB Console-specific
   # methods/logic.
   class Console

@@ -5,7 +5,7 @@ import { Controller } from "@hotwired/stimulus"
 //
 // Example:
 //  The original content (in a partial that we can re-render later):
-//    <%= turbo_frame_tag(user) do %>
+//    <%= turbo_frame_tag(...) do %>
 //      <%= link_to(
 //            <name>, edit_<type>_path, title: "...",
 //            data: { turbo_stream: true }   <-- Allow `turbo_stream`` response.

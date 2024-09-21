@@ -142,5 +142,26 @@ class UserTest < ActiveSupport::TestCase
         end
       end
     end
+
+    describe "#participated_in?" do
+      let(:win1) { games(:win1) }
+      let(:loss1) { games(:loss1) }
+
+      subject { user2 }
+
+      context "GIVEN a Game that the User has participated in" do
+        it "returns true" do
+          _(subject.participated_in?(loss1)).must_equal(true)
+        end
+      end
+
+      context "GIVEN a Game that the User has not participated in" do
+        subject { user2 }
+
+        it "returns false" do
+          _(subject.participated_in?(win1)).must_equal(false)
+        end
+      end
+    end
   end
 end
