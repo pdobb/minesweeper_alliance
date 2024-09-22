@@ -1,19 +1,17 @@
 # frozen_string_literal: true
 
-# This is a monkey patch of Turbo::StreamsChannel from the turbo-rails gem.
-# Code from v2.0.6: https://github.com/hotwired/turbo-rails/tree/v2.0.6
-# We're attempting to keep a count of the number of current subscribers to the
-# Turbo stream.
+# CurrentGameChannel extends Turbo::StreamsChannel (from the turbo-rails gem;
+# See: https://github.com/hotwired/turbo-rails/tree/v2.0.6)
+#
+# This is an attempt at keeping a count of the number of current subscribers to
+# the :current_game stream, which shall be the only stream on this channel.
 #
 # NOTE:
 #  - This is buggy... at least in the development environment. I'm guessing that
 #    code changes and reloading are affecting the counts here. Reconsider once
 #    we get to production. Either way, it may be better than nothing.
-class Turbo::StreamsChannel < ActionCable::Channel::Base
-  extend Turbo::Streams::Broadcasts
-  extend Turbo::Streams::StreamName
-  include Turbo::Streams::StreamName::ClassMethods
-
+class CurrentGameChannel < Turbo::StreamsChannel
+  # Override Turbo::StreamsChannel#subscribed to add #on_subscribe logic.
   def subscribed
     if (stream_name = verified_stream_name_from_params)
       stream_from(stream_name)
@@ -24,8 +22,6 @@ class Turbo::StreamsChannel < ActionCable::Channel::Base
     end
   end
 
-  # CUSTOM CODE:
-
   def unsubscribed
     on_unsubscribe
   end
@@ -33,8 +29,6 @@ class Turbo::StreamsChannel < ActionCable::Channel::Base
   private
 
   def on_subscribe
-    return if verified_stream_name_from_params != "current_game"
-
     DutyRoster.increment
     Rails.logger.info {
       " -> Incrementing DutyRoster. New count: #{DutyRoster.count.inspect}"
@@ -42,8 +36,6 @@ class Turbo::StreamsChannel < ActionCable::Channel::Base
   end
 
   def on_unsubscribe
-    return if verified_stream_name_from_params != "current_game"
-
     DutyRoster.decrement
     Rails.logger.info {
       " -> Decrementing DutyRoster. New count: #{DutyRoster.count.inspect}"

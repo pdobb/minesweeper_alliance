@@ -5,7 +5,7 @@
 
 <% if @game.just_ended? %>
   <%= turbo_stream.update(
-        :gameContext,
+        :game_details,
         partial: "games/stats",
         locals: { view: Games::Stats.new(game: @game) }) %>
 <% end %>

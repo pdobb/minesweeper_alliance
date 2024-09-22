@@ -1,6 +1,6 @@
 <% title("War Room") %>
 
-<%= turbo_stream_from(:current_game) %>
+<%= turbo_stream_from(:current_game, channel: CurrentGameChannel) %>
 
 <div class="container mx-auto">
   <%= render("welcome_banner", view: @view) %>
@@ -11,7 +11,7 @@
 <% if @view.current_game? %>
   <hr class="my-12 border-dotted dark:border-neutral-600">
 
-  <div id="gameContext">
+  <div id="game_details">
     <% if @view.game_just_ended? %>
       <%= render("games/stats", view: @view.game_stats_view) %>
     <% else %>
