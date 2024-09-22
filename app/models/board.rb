@@ -6,8 +6,9 @@
 # organized as just one big Array, but they can best be though of as an Array of
 # Arrays, forming an X/Y {Grid}.
 #
-# @attr settings [Board::Settings] An object that stores the width, height, and
-#   number of mines (to be) in the {Grid} of associated {Cell}s.
+# @attr settings [Hash] An object that stores the width, height,
+#   and number of mines (to be) in the {Grid} of associated {Cell}s.
+#   Converted to {Board::Settings} via {#settings} getter override.
 #
 # @see Grid
 class Board < ApplicationRecord
@@ -35,20 +36,6 @@ class Board < ApplicationRecord
       def dimensions = "#{width}x#{height}"
     }
 
-  # Board::NullSettings represents an empty {Board::Settings}. It is an
-  # implementation of the Null Object pattern, which allows us to use it as a
-  # stand-in for any {Board} that doesn't yet have sensible
-  # width/height/mines values.
-  class NullSettings
-    def width = nil
-    def height = nil
-    def mines = nil
-    def to_h = {}
-    def to_json(*) = "{}"
-    def inspect = "<#{self.class.name}>"
-    def to_s = inspect
-  end
-
   include ConsoleBehaviors
 
   belongs_to :game
@@ -67,7 +54,7 @@ class Board < ApplicationRecord
 
   validate :validate_settings
 
-  attribute :settings, Type::BoardSettings.new
+  def settings = @settings ||= Settings.new(**super)
   def width = settings.width
   def height = settings.height
   def mines = settings.mines
