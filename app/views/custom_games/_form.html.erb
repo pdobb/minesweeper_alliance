@@ -22,6 +22,7 @@
         <%= f.number_field(
               :width,
               autofocus: true,
+              onfocus: "this.select()",
               in: CustomDifficultyLevel.valid_values_for(:width),
               class: "w-[72px] form-field p-1",
               inputmode: "numeric",
