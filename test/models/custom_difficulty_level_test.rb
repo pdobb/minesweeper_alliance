@@ -31,7 +31,7 @@ class CustomDifficultyLevelTest < ActiveSupport::TestCase
         context "GIVEN #width is nil" do
           let(:width1) { nil }
 
-          it "passes validation" do
+          it "fails validation" do
             subject.validate
             _(subject.errors[:width]).must_include(ValidationError.presence)
           end
@@ -62,7 +62,7 @@ class CustomDifficultyLevelTest < ActiveSupport::TestCase
         context "GIVEN #height is nil" do
           let(:height1) { nil }
 
-          it "passes validation" do
+          it "fails validation" do
             subject.validate
             _(subject.errors[:height]).must_include(ValidationError.presence)
           end
@@ -73,7 +73,7 @@ class CustomDifficultyLevelTest < ActiveSupport::TestCase
         subject { unit_class.new(mines: mines1) }
 
         context "GIVEN a valid #mines" do
-          let(:mines1) { 9 }
+          let(:mines1) { 3 }
 
           it "passes validation" do
             subject.validate
@@ -93,9 +93,29 @@ class CustomDifficultyLevelTest < ActiveSupport::TestCase
         context "GIVEN #mines is nil" do
           let(:mines1) { nil }
 
-          it "passes validation" do
+          it "fails validation" do
             subject.validate
             _(subject.errors[:mines]).must_include(ValidationError.presence)
+          end
+        end
+
+        context "GIVEN too many #mines" do
+          let(:mines1) { 9 }
+
+          it "fails validation" do
+            subject.validate
+            _(subject.errors[:mines]).must_include(
+              "must be <= 8 (90% of total area)")
+          end
+        end
+
+        context "GIVEN too few #mines" do
+          subject { unit_class.new(width: 9, height: 9, mines: 1) }
+
+          it "fails validation" do
+            subject.validate
+            _(subject.errors[:mines]).must_include(
+              "must be >= 9 (10% of total area)")
           end
         end
       end

@@ -19,6 +19,7 @@ class Board < ApplicationRecord
     height: VALID_HEIGHT_VALUES_RANGE = 3..30,
     mines: VALID_MINES_VALUES_RANGE = 1..225,
   }.freeze
+  VALID_MINES_DENSITY_RANGE_AS_PERCENT = 10..90
 
   # Board::Error represents any StandardError related to Board processing.
   Error = Class.new(StandardError)
@@ -98,20 +99,11 @@ class Board < ApplicationRecord
     cells.is_not_mine.is_not_revealed.none?
   end
 
-  def validate_settings # rubocop:disable Metrics/MethodLength
-    width, height, mines = settings.to_a
+  def validate_settings
+    custom_difficulty_level = CustomDifficultyLevel.new(**settings.to_h)
+    return if custom_difficulty_level.valid?
 
-    if VALID_WIDTH_VALUES_RANGE.exclude?(width)
-      errors.add(:settings, "width must be in #{VALID_WIDTH_VALUES_RANGE}")
-    end
-    if VALID_HEIGHT_VALUES_RANGE.exclude?(height)
-      errors.add(:settings, "height must be in #{VALID_HEIGHT_VALUES_RANGE}")
-    end
-    if VALID_MINES_VALUES_RANGE.exclude?(mines)
-      errors.add(:settings, "mines must be in #{VALID_MINES_VALUES_RANGE}")
-    end
-
-    errors.add(:settings, "can't be > total cells") if mines >= settings.area
+    errors.merge!(custom_difficulty_level.errors)
   end
 
   # Board::Generate is a Service Object that handles insertion of {Cell} records

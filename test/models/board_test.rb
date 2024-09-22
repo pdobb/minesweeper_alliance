@@ -54,51 +54,51 @@ class BoardTest < ActiveSupport::TestCase
         context "GIVEN a valid #width value" do
           it "passes validation" do
             subject.validate
-            _(subject.errors[:settings]).must_be_empty
+            _(subject.errors[:mines]).must_be_empty
           end
         end
 
         context "GIVEN an out-of-range #width value" do
           let(:width1) { [2, 31].sample }
 
-          it "passes validation" do
+          it "fails validation" do
             subject.validate
-            _(subject.errors[:settings]).must_include(
-              "width #{ValidationError.in(3..30)}")
+            _(subject.errors[:width]).must_include(
+              ValidationError.in(3..30))
           end
         end
 
         context "GIVEN a valid #height value" do
           it "passes validation" do
             subject.validate
-            _(subject.errors[:settings]).must_be_empty
+            _(subject.errors[:mines]).must_be_empty
           end
         end
 
         context "GIVEN an out-of-range #height value" do
           let(:height1) { [2, 31].sample }
 
-          it "passes validation" do
+          it "fails validation" do
             subject.validate
-            _(subject.errors[:settings]).must_include(
-              "height #{ValidationError.in(3..30)}")
+            _(subject.errors[:height]).must_include(
+              ValidationError.in(3..30))
           end
         end
 
         context "GIVEN a valid #mines value" do
           it "passes validation" do
             subject.validate
-            _(subject.errors[:settings]).must_be_empty
+            _(subject.errors[:mines]).must_be_empty
           end
         end
 
         context "GIVEN an out-of-range #mines value" do
           let(:mines1) { [0, 226].sample }
 
-          it "passes validation" do
+          it "fails validation" do
             subject.validate
-            _(subject.errors[:settings]).must_include(
-              "mines #{ValidationError.in(1..225)}")
+            _(subject.errors[:mines]).must_include(
+              ValidationError.in(1..225))
           end
         end
 
@@ -107,16 +107,28 @@ class BoardTest < ActiveSupport::TestCase
 
           it "passes validation" do
             subject.validate
-            _(subject.errors[:settings]).must_be_empty
+            _(subject.errors[:mines]).must_be_empty
           end
         end
 
         context "GIVEN too many #mines" do
-          let(:mines1) { 10 }
+          let(:mines1) { 9 }
 
-          it "passes validation" do
+          it "fails validation" do
             subject.validate
-            _(subject.errors[:settings]).must_include("can't be > total cells")
+            _(subject.errors[:mines]).must_include(
+              "must be <= 8 (90% of total area)")
+          end
+        end
+
+        context "GIVEN too few #mines" do
+          let(:width1) { 9 }
+          let(:height1) { 9 }
+
+          it "fails validation" do
+            subject.validate
+            _(subject.errors[:mines]).must_include(
+              "must be >= 9 (10% of total area)")
           end
         end
       end
