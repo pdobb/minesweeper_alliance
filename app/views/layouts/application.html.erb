@@ -21,6 +21,18 @@
     <%= content_for(:head) %>
 
     <script>
+      function setTheme() {
+        const $metaTag = document.querySelector('meta[name="theme-color"]')
+
+        if (_shouldBeDarkTheme()) {
+          document.documentElement.classList.add("dark")
+          $metaTag.setAttribute("content", "#262626")
+        } else {
+          document.documentElement.classList.remove("dark")
+          $metaTag.setAttribute("content", "#fff")
+        }
+      }
+
       function _shouldBeDarkTheme() {
         if (!("theme" in localStorage)) {
           return window.matchMedia("(prefers-color-scheme: dark)").matches
@@ -29,16 +41,10 @@
         }
       }
 
-      const $metaTag = document.querySelector('meta[name="theme-color"]')
-
-      // Run this here to avoid a "Flash of Unstyled Content".
-      if (_shouldBeDarkTheme()) {
-        document.documentElement.classList.add("dark")
-        $metaTag.setAttribute("content", "#262626")
-      } else {
-        document.documentElement.classList.remove("dark")
-        $metaTag.setAttribute("content", "#fff")
-      }
+      // Run this now to avoid a "Flash of Unstyled Content".
+      setTheme()
+      // And again on any turbo_stream.refresh events.
+      document.addEventListener("turbo:load", setTheme)
     </script>
   </head>
 
