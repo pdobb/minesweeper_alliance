@@ -30,8 +30,9 @@ Metrics/MethodLength:
 Metrics/BlockLength:
   Exclude:
     - config/environments/*.rb
-    - db/migrate/*.rb
     - config/routes.rb
+    - db/migrate/*.rb
+    - test/**/*
 
 Naming/MethodParameterName:
   AllowedNames:

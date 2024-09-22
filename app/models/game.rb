@@ -146,47 +146,20 @@ class Game < ApplicationRecord
       board.render
     end
 
-    # :reek:TooManyStatements
     def reset(time: Time.current)
-      check_for_current_game
-
-      transaction do
-        update!(
-          started_at: time,
-          ended_at: nil,
-          updated_at: time)
-
+      do_reset(time) {
         set_status_sweep_in_progress! if over?
-
         board.reset
-      end
-
-      broadcast_refresh_to(:current_game)
-
-      self
+      }
     end
-
-    # :reek:TooManyStatements
 
     # Like {#reset} but also resets status to "Standing By" and reset mines on
     # the {Board}.
     def reset!(time: Time.current)
-      check_for_current_game
-
-      transaction do
-        update!(
-          started_at: time,
-          ended_at: nil,
-          updated_at: time)
-
+      do_reset(time) {
         set_status_standing_by!
-
         board.reset!
-      end
-
-      broadcast_refresh_to(:current_game)
-
-      self
+      }
     end
 
     private
@@ -199,6 +172,26 @@ class Game < ApplicationRecord
     end
 
     def inspect_info = engagement_time_range
+
+    # :reek:TooManyStatements
+    def do_reset(time)
+      check_for_current_game
+
+      transaction do
+        update!(
+          started_at: time,
+          ended_at: nil,
+          updated_at: time)
+
+        CellTransaction.for_id(cell_transaction_ids).delete_all
+
+        yield
+      end
+
+      broadcast_refresh_to(:current_game)
+
+      self
+    end
 
     def check_for_current_game
       current_game = Game.current

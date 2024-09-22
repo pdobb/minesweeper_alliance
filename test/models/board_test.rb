@@ -166,17 +166,17 @@ class BoardTest < ActiveSupport::TestCase
           result =
             _(-> {
               subject.place_mines(seed_cell: standing_by1_board_cell1)
-            }).must_change("subject.mines_count", from: 0, to: 1)
+            }).must_change("subject.cells.is_mine.count", from: 0, to: 1)
           _(result).must_be_same_as(subject)
         end
 
-        it "doesn't place the a mine in the seed Cell" do
+        it "doesn't place a mine in the seed Cell" do
           subject.cells.excluding(standing_by1_board_cell1).delete_all
           _(subject.cells.size).must_equal(1)
 
           _(-> {
             subject.place_mines(seed_cell: standing_by1_board_cell1)
-          }).wont_change("subject.mines_count")
+          }).wont_change("subject.cells.is_mine.count")
         end
 
         # TODO: I'm not sure how to test for random placement...
@@ -232,6 +232,46 @@ class BoardTest < ActiveSupport::TestCase
       end
     end
 
+    describe "#cells_at" do
+      let(:standing_by1_board_cell1) { cells(:standing_by1_board_cell1) }
+      let(:standing_by1_board_cell2) { cells(:standing_by1_board_cell2) }
+
+      subject { standing_by1_board }
+
+      context "GIVEN a Coordinates" do
+        it "returns the expected Array" do
+          _(subject.cells_at(Coordinates[0, 0])).must_equal([
+            standing_by1_board_cell1,
+          ])
+        end
+      end
+
+      context "GIVEN an Array of Coordinates" do
+        it "returns the expected Array" do
+          _(subject.cells_at([Coordinates[0, 0], Coordinates[1, 0]])).
+            must_equal([standing_by1_board_cell1, standing_by1_board_cell2])
+        end
+      end
+    end
+
+    describe "#any_mines?" do
+      context "GIVEN mines present" do
+        subject { win1_board }
+
+        it "returns true" do
+          _(subject.any_mines?).must_equal(true)
+        end
+      end
+
+      context "GIVEN no mines present" do
+        subject { standing_by1_board }
+
+        it "returns false" do
+          _(subject.any_mines?).must_equal(false)
+        end
+      end
+    end
+
     describe "#mines_count" do
       subject { win1_board }
 
@@ -260,29 +300,6 @@ class BoardTest < ActiveSupport::TestCase
         _(@grid_new_call).wont_be_nil
         _(@grid_new_call.pargs).wont_be_empty
         _(@grid_new_call.kargs).must_equal({ context: nil })
-      end
-    end
-
-    describe "#clamp_coordinates" do
-      let(:coordinates_array) {
-        # rubocop:disable all
-        [
-          Coordinates[-1, -1], Coordinates[-1,  0], Coordinates[0, -1],
-          *valid_coordiantes,
-          Coordinates[ 0,  3], Coordinates[ 3,  0], Coordinates[3,  3],
-        ]
-        # rubocop:disable all
-      }
-      let(:valid_coordiantes) {
-        [Coordinates[0, 0], Coordinates[1, 1], Coordinates[2, 2]]
-      }
-
-      subject { new_board }
-
-      it "returns an Array that includes Coordinates inside of the Board, "\
-         "while excluding Coordinates outside of the Board" do
-        result = subject.clamp_coordinates(coordinates_array)
-        _(result).must_match_array(valid_coordiantes)
       end
     end
 
@@ -395,55 +412,55 @@ class BoardTest < ActiveSupport::TestCase
             cell_data = @insert_all_call.pargs.first
             _(cell_data).must_equal([
               {
-                board_id: board_id,
+                board_id:,
                 coordinates: Coordinates[0, 0],
                 created_at: build_timestamp_for(0),
                 updated_at: build_timestamp_for(0),
               },
               {
-                board_id: board_id,
+                board_id:,
                 coordinates: Coordinates[1, 0],
                 created_at: build_timestamp_for(1),
                 updated_at: build_timestamp_for(1),
               },
               {
-                board_id: board_id,
+                board_id:,
                 coordinates: Coordinates[2, 0],
                 created_at: build_timestamp_for(2),
                 updated_at: build_timestamp_for(2),
               },
               {
-                board_id: board_id,
+                board_id:,
                 coordinates: Coordinates[0, 1],
                 created_at: build_timestamp_for(3),
                 updated_at: build_timestamp_for(3),
               },
               {
-                board_id: board_id,
+                board_id:,
                 coordinates: Coordinates[1, 1],
                 created_at: build_timestamp_for(4),
                 updated_at: build_timestamp_for(4),
               },
               {
-                board_id: board_id,
+                board_id:,
                 coordinates: Coordinates[2, 1],
                 created_at: build_timestamp_for(5),
                 updated_at: build_timestamp_for(5),
               },
               {
-                board_id: board_id,
+                board_id:,
                 coordinates: Coordinates[0, 2],
                 created_at: build_timestamp_for(6),
                 updated_at: build_timestamp_for(6),
               },
               {
-                board_id: board_id,
+                board_id:,
                 coordinates: Coordinates[1, 2],
                 created_at: build_timestamp_for(7),
                 updated_at: build_timestamp_for(7),
               },
               {
-                board_id: board_id,
+                board_id:,
                 coordinates: Coordinates[2, 2],
                 created_at: build_timestamp_for(8),
                 updated_at: build_timestamp_for(8),

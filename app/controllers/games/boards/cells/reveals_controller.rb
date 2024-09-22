@@ -6,6 +6,11 @@ class Games::Boards::Cells::RevealsController < ApplicationController
   def create
     Reveal.(current_context)
 
+    # FIXME: I'm unclear why this is needed. It started being needed when we
+    # started doing upserts, but `game.reload` fixes an issue with "the opposite
+    # of that": single-cell reveals aren't showing up without this?!
+    game.reload
+
     broadcast_changes
     render_updated_game_board
   end
@@ -44,7 +49,7 @@ class Games::Boards::Cells::RevealsController < ApplicationController
         start_game_if_standing_by
         reveal_cell
         end_game_in_defeat_if_mine_revealed
-        recursively_reveal_neighbors_if_blank_revealed
+        recursively_reveal_neighbors_if_revealed_cell_was_blank
         end_game_in_victory_if_all_safe_cells_revealed
 
         self
@@ -75,54 +80,16 @@ class Games::Boards::Cells::RevealsController < ApplicationController
       throw(:return, self)
     end
 
-    def recursively_reveal_neighbors_if_blank_revealed
+    def recursively_reveal_neighbors_if_revealed_cell_was_blank
       return unless cell.blank? # rubocop:disable all
 
-      Recurse.(cell:)
+      upsertable_attributes_array =
+        Games::Boards::Cells::RecursiveReveal.new(cell:).call
+      Cell.upsert_all(upsertable_attributes_array)
     end
 
     def end_game_in_victory_if_all_safe_cells_revealed
       board.check_for_victory
-    end
-
-    # Games::Boards::Cells::RevealsController::Reveal::Recurse is a
-    # Service Object for revealing the given {Cell} and then recursively
-    # revealing neighboring {Cell}s--if the {Cell} we just revealed was
-    # {Cell#blank?}.
-    #
-    # NOTE: We don't just use {Games::Boards::Cells::RevealsController::Reveal}
-    # for this because we don't want or need to spend time checking on {Game}
-    # status or {Board} state while recursing. We only get to here by revealing
-    # a blank {Cell} in the first place, which is always safe to reveal
-    # neighbors on.
-    class Recurse
-      include CallMethodBehaviors
-
-      attr_reader :cell
-
-      def initialize(cell:)
-        @cell = cell
-      end
-
-      def on_call
-        arel.each do |neighboring_cell|
-          neighboring_cell.reveal
-          next unless neighboring_cell.blank? # rubocop:disable all
-
-          # Recurse:
-          self.class.(cell: neighboring_cell)
-        end
-
-        self
-      end
-
-      private
-
-      def arel
-        # We just go ahead and reveal any incorrectly flagged {Cell}s, as there
-        # is no good reason not to.
-        cell.neighbors.is_not_revealed
-      end
     end
   end
 end

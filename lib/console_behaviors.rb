@@ -70,8 +70,8 @@ module ConsoleBehaviors
   #   # => <Cell[2](◻️) (1, 0) :: nil>
   #
   # @example Given: A private method.
-  #   Cell.first.cons("determine_revealed_value")
-  #   # => "💣"
+  #   Cell.first.cons("neighboring_mines_count")
+  #   # => 0
   def console(method_chain = nil)
     if method_chain
       self.class.console(method_chain, context: self)

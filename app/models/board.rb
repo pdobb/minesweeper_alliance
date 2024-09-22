@@ -79,10 +79,7 @@ class Board < ApplicationRecord
   end
 
   def place_mines(seed_cell: nil)
-    raise(Error, "mines can't be placed on an unsaved Board") if new_record?
-    raise(Error, "mines have already been placed") if any_mines?
-
-    cells.excluding(seed_cell).by_random.limit(mines).update_all(mine: true)
+    RandomlyPlaceMines.(board: self, seed_cell:)
 
     self
   end
@@ -95,15 +92,17 @@ class Board < ApplicationRecord
     self
   end
 
-  def mines_count = cells.is_mine.size
-  def flags_count = cells.is_flagged.size
+  def cells_at(coordinates)
+    coordinates = Array.wrap(coordinates)
+    cells.select { |cell| cell.coordinates.in?(coordinates) }
+  end
+
+  def any_mines? = mines_count.positive?
+  def mines_count = cells.count(&:mine?)
+  def flags_count = cells.count(&:flagged?)
 
   def grid(context: nil)
     Grid.new(cells, context:)
-  end
-
-  def clamp_coordinates(coordinates_array)
-    coordinates_array.select { |coordinates| in_bounds?(coordinates) }
   end
 
   private
@@ -111,15 +110,6 @@ class Board < ApplicationRecord
   def all_safe_cells_have_been_revealed?
     cells.is_not_mine.is_not_revealed.none?
   end
-
-  def any_mines? = cells.is_mine.any?
-
-  def in_bounds?(coordinates)
-    x_range.include?(coordinates.x) && y_range.include?(coordinates.y)
-  end
-
-  def x_range = 0...width
-  def y_range = 0...height
 
   def validate_settings # rubocop:disable Metrics/MethodLength
     width, height, mines = settings.to_a
@@ -190,6 +180,47 @@ class Board < ApplicationRecord
     def total = width * height
     def width = board.width
     def height = board.height
+  end
+
+  # RandomlyPlaceMines is a Service Object that handles placing mines in
+  # {Cell}s at random.
+  class RandomlyPlaceMines
+    include CallMethodBehaviors
+
+    attr_reader :board,
+                :seed_cell
+
+    def initialize(board:, seed_cell:)
+      @board = board
+      @seed_cell = seed_cell
+    end
+
+    def on_call
+      raise(Error, "mines can't be placed on an unsaved Board") if new_record?
+      raise(Error, "mines have already been placed") if any_mines?
+
+      updated_cells = place_mines_in_random_cells
+      save_mines_placement(updated_cells)
+    end
+
+    private
+
+    def new_record? = board.new_record?
+    def cells = @cells ||= board.cells
+    def any_mines? = board.any_mines?
+    def mines = board.mines
+
+    def place_mines_in_random_cells
+      eligible_cells.shuffle!.take(mines).each(&:place_mine)
+    end
+
+    def eligible_cells
+      cells.to_a.excluding(seed_cell)
+    end
+
+    def save_mines_placement(mine_cells)
+      Cell.for_id(mine_cells).update_all(mine: true)
+    end
   end
 
   # Board::Console acts like a {Board} but otherwise handles IRB

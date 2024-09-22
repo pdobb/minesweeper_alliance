@@ -20,12 +20,16 @@ class Games::Boards::Cells::RevealNeighborsController < ApplicationController
   #
   # This service is a convenience. We're saving the player time by just going
   # ahead and revealing all of the non-flagged (and non-revealed) neighboring
-  # cells to the given, originating {Cell}. Also, if doing so reveals a Blank
-  # {Cell}, then we'll recursively reveal its neighboring {Cell}s, and so on.
+  # cells of the given, originating {Cell}. Also, if doing so reveals a Blank
+  # {Cell}, then we'll recursively reveal its neighboring {Cell}s, as per usual.
   #
-  # Whether we end up revealing any neighboring {Cell}s or not, we also will
+  # Whether we end up revealing any neighboring {Cell}s or not, we will also
   # always need to dehighlight any highlighted, neighboring {Cell}s as per our
-  # game play rules. (Which {Cell#reveal} also does.)
+  # game play rules.
+  # - We take care of this here, in case we don't end up revealing any
+  #   neighbors.
+  # - If neighbors are revealed, however, {Cell#reveal} takes care of the
+  #   dehighlighting of those {Cell}s for us.
   #
   # Notes:
   # - If this operation results in a win or loss, we need to react to that.
@@ -47,104 +51,66 @@ class Games::Boards::Cells::RevealNeighborsController < ApplicationController
     end
 
     def on_call
-      return self if unrevealed?
+      return self if cell.unrevealed?
 
-      recursively_reveal_neighbors_if_neighboring_flags_count_matches_value
-      end_game_in_victory_if_all_safe_cells_revealed
+      catch(:return) {
+        reveal_or_dehighlight_neighbors
+        end_game_in_victory_if_all_safe_cells_revealed
 
-      self
+        self
+      }
     end
 
     private
 
-    def unrevealed?
-      cell.unrevealed?
-    end
-
-    def recursively_reveal_neighbors_if_neighboring_flags_count_matches_value
+    def reveal_or_dehighlight_neighbors
       if cell.neighboring_flags_count_matches_value?
-        Recurse.(game:, cell:, user:)
+        reveal_neighbors
       else
         cell.dehighlight_neighbors
       end
     end
 
-    def end_game_in_victory_if_all_safe_cells_revealed
-      board.check_for_victory
+    def reveal_neighbors
+      revealable_neighboring_cells.each do |neighboring_cell|
+        reveal_neighbor(neighboring_cell)
+      end
     end
 
-    # Games::Boards::Cells::RevealNeighborsController::RevealNeighbors::Recurse
-    # is a Service Object for collaborating with the given {Game} to reveal the
-    # given {Cell}. If the {Cell} we just revealed was {Cell#blank?}, then we
-    # will also recursively reveal its neighboring {Cell}s, as per usual.
-    #
-    # Notes:
-    # - We don't just recurse with
-    #   {Games::Boards::Cells::RevealNeighborsController::RevealNeighbors}
-    #   because at this point {Cell#neighboring_flags_count_matches_value?}
-    #   doesn't matter. We're just revealing neighbors if the current {Cell} was
-    #   {Cell#blank?}, as per usual.
-    # - We don't just use {Games::Boards::Cells::RevealsController::Reveal} for
-    #   this because we don't want or need to spend time checking on {Board}
-    #   state while recursing. Plus, we do, in this case, need to check for
-    #   mines on neighboring {Cell}s and end the {Game} early if one was
-    #   revealed (due to incorrect flag placement).
-    class Recurse
-      include CallMethodBehaviors
+    def revealable_neighboring_cells
+      cell.neighbors.select(&:revealable?)
+    end
 
-      attr_reader :game,
-                  :cell,
-                  :user
+    def reveal_neighbor(neighboring_cell)
+      reveal(neighboring_cell)
+      recursively_reveal_neighbors(neighboring_cell) if neighboring_cell.blank?
+    end
 
-      def initialize(game:, cell:, user: nil)
-        @game = game
-        @cell = cell
-        @user = user
-      end
+    # :reek:FeatureEnvy
+    def reveal(neighboring_cell)
+      return unless neighboring_cell.revealable?
 
-      def on_call
-        catch(:return) {
-          arel.each do |neighboring_cell|
-            reveal(neighboring_cell)
-            recurse(neighboring_cell)
-          end
-
-          self
-        }
-      end
-
-      private
-
-      def arel
-        cell.neighbors.is_not_flagged.is_not_revealed
-      end
-
-      def reveal(neighboring_cell)
-        neighboring_cell.transaction do
-          neighboring_cell.reveal
-          create_cell_reveal_transaction(neighboring_cell) if direct_reveal?
-        end
-
-        if neighboring_cell.mine? # rubocop:disable Style/GuardClause
-          game.end_in_defeat
-
-          throw(:return, self)
-        end
-      end
-
-      def recurse(neighboring_cell)
-        if neighboring_cell.blank? # rubocop:disable Style/GuardClause
-          self.class.(game:, cell: neighboring_cell)
-        end
-      end
-
-      def create_cell_reveal_transaction(neighboring_cell)
+      neighboring_cell.transaction do
+        neighboring_cell.reveal
         CellRevealTransaction.create_between(user:, cell: neighboring_cell)
       end
 
-      def direct_reveal?
-        !!user
-      end
+      end_in_defeat if neighboring_cell.mine?
+    end
+
+    def end_in_defeat
+      game.end_in_defeat
+      throw(:return, self)
+    end
+
+    def recursively_reveal_neighbors(neighboring_cell)
+      upsertable_attributes_array =
+        Games::Boards::Cells::RecursiveReveal.new(cell: neighboring_cell).call
+      Cell.upsert_all(upsertable_attributes_array)
+    end
+
+    def end_game_in_victory_if_all_safe_cells_revealed
+      board.check_for_victory
     end
   end
 end

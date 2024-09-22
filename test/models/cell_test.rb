@@ -173,19 +173,6 @@ class CellTest < ActiveSupport::TestCase
         end
       end
 
-      context "GIVEN an unrevealed Cell" do
-        subject { standing_by1_board_cell1 }
-
-        it "updates itself as expected, and returns self" do
-          result =
-            _(-> { subject.reveal }).must_change_all([
-              ["subject.revealed", to: true],
-              ["subject.value"],
-            ])
-          _(result).must_be_same_as(subject)
-        end
-      end
-
       context "GIVEN an unrevealed, highlighted, and flagged Cell" do
         before do
           subject.update!(highlighted: true, flagged: true)
@@ -213,7 +200,7 @@ class CellTest < ActiveSupport::TestCase
         it "returns self without having updated it" do
           result =
             _(-> { subject.dehighlight_neighbors }).wont_change(
-              "subject.neighbors.is_highlighted.count")
+              "subject.neighbors.count(&:highlighted?)")
           _(result).must_be_same_as(subject)
         end
       end
@@ -228,8 +215,7 @@ class CellTest < ActiveSupport::TestCase
         it "highlights the expected Cells, and returns self" do
           result =
             _(-> { subject.highlight_neighbors }).must_change(
-              "subject.neighbors."\
-              "is_not_flagged.is_not_revealed.is_not_highlighted.count",
+              "subject.neighbors.count(&:highlightable?)",
               to: 0)
           _(result).must_be_same_as(subject)
         end
@@ -245,7 +231,7 @@ class CellTest < ActiveSupport::TestCase
         it "returns self without having updated it" do
           result =
             _(-> { subject.dehighlight_neighbors }).wont_change(
-              "subject.neighbors.is_highlighted.count")
+              "subject.neighbors.count(&:highlighted?)")
           _(result).must_be_same_as(subject)
         end
       end
@@ -260,7 +246,7 @@ class CellTest < ActiveSupport::TestCase
         it "dehighlights the expected Cells, and returns self" do
           result =
             _(-> { subject.dehighlight_neighbors }).must_change(
-              "subject.neighbors.is_highlighted.count", to: 0)
+              "subject.neighbors.count(&:highlighted?)", to: 0)
           _(result).must_be_same_as(subject)
         end
       end
@@ -304,7 +290,7 @@ class CellTest < ActiveSupport::TestCase
       context "GIVEN no associated Board" do
         subject { unit_class.new }
 
-        it "returns a Null Arel" do
+        it "returns an empty Array" do
           result = subject.neighbors
           _(result).must_be_empty
         end
@@ -313,7 +299,7 @@ class CellTest < ActiveSupport::TestCase
       context "GIVEN an associated Board" do
         subject { standing_by1_board_cell1 }
 
-        it "returns an Arel of the expected Cells" do
+        it "returns the expected Array of Cells" do
           result = subject.neighbors
 
           _(result).must_equal([

@@ -68,11 +68,20 @@ class Cell < ApplicationRecord
   def reveal
     return self if revealed?
 
-    update(
-      revealed: true,
-      highlighted: false,
-      flagged: false,
-      value: determine_revealed_value)
+    soft_reveal.save!
+
+    self
+  end
+
+  # :reek:TooManyStatements
+
+  def soft_reveal
+    return self if revealed?
+
+    self.revealed = true
+    self.highlighted = false
+    self.flagged = false
+    self.value = neighboring_mines_count
 
     self
   end
@@ -83,8 +92,11 @@ class Cell < ApplicationRecord
   def highlight_neighbors
     return self if unrevealed?
 
-    neighbors.is_not_flagged.is_not_revealed.is_not_highlighted.update_all(
-      highlighted: true)
+    neighbors.each do |cell|
+      next unless cell.highlightable?
+
+      cell.update!(highlighted: true)
+    end
 
     self
   end
@@ -94,7 +106,11 @@ class Cell < ApplicationRecord
   def dehighlight_neighbors
     return self if unrevealed?
 
-    neighbors.is_highlighted.update_all(highlighted: false)
+    neighbors.each do |cell|
+      next unless cell.highlighted?
+
+      cell.update!(highlighted: false)
+    end
 
     self
   end
@@ -104,10 +120,19 @@ class Cell < ApplicationRecord
   end
 
   def neighbors
-    return Cell.none unless board
-
-    board.cells.for_coordinates(neighboring_coordinates)
+    @neighbors ||= board&.cells_at(neighboring_coordinates).to_a
   end
+
+  def upsertable_attributes
+    attributes.except(%w[created_at updated_at])
+  end
+
+  def place_mine
+    self.mine = true
+  end
+
+  def revealable? = !(revealed? || flagged?)
+  def highlightable? = !(revealed? || flagged? || highlighted?)
 
   def unrevealed? = !revealed?
   def correctly_flagged? = flagged? && mine?
@@ -116,17 +141,14 @@ class Cell < ApplicationRecord
 
   private
 
-  def determine_revealed_value
-    neighboring_mines_count
+  def neighboring_coordinates = coordinates.neighbors
+
+  def neighboring_mines_count
+    @neighboring_mines_count ||= neighbors.count(&:mine?)
   end
 
-  def neighboring_mines_count = neighbors.is_mine.size
-  def neighboring_flags_count = neighbors.is_flagged.size
-
-  def neighboring_coordinates
-    return [] unless board
-
-    board.clamp_coordinates(coordinates.neighbors)
+  def neighboring_flags_count
+    @neighboring_flags_count ||= neighbors.count(&:flagged?)
   end
 
   # Cell::Console acts like a {Cell} but otherwise handles IRB Console-specific
