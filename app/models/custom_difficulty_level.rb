@@ -59,13 +59,13 @@ class CustomDifficultyLevel
     if too_sparse?
       errors.add(
         :mines,
-        "must be >= #{minimum_mines_count} (#{minimum_percent}% of total area)")
+        "must be >= #{minimum_mines} (#{minimum_percent}% of total area)")
     end
 
     if too_dense? # rubocop:disable Style/GuardClause
       errors.add(
         :mines,
-        "must be <= #{maximum_mines_count} (#{maximum_percent}% of total area)")
+        "must be <= #{maximum_mines} (#{maximum_percent}% of total area)")
     end
   end
 
@@ -81,11 +81,11 @@ class CustomDifficultyLevel
     self.class.valid_densities_range_as_percents
   end
 
-  def minimum_mines_count
+  def minimum_mines
     (area * (minimum_percent / 100.0)).ceil
   end
 
-  def maximum_mines_count
+  def maximum_mines
     (area * (maximum_percent / 100.0)).floor
   end
 end

@@ -83,8 +83,7 @@ class Board < ApplicationRecord
     cells.select { |cell| cell.coordinates.in?(coordinates) }
   end
 
-  def any_mines? = mines_count.positive?
-  def mines_count = cells.count(&:mine?)
+  def mines_placed? = cells.any?(&:mine?)
   def flags_count = cells.count(&:flagged?)
 
   def grid(context: nil)
@@ -174,7 +173,7 @@ class Board < ApplicationRecord
 
     def on_call
       raise(Error, "mines can't be placed on an unsaved Board") if new_record?
-      raise(Error, "mines have already been placed") if any_mines?
+      raise(Error, "mines have already been placed") if mines_placed?
 
       updated_cells = place_mines_in_random_cells
       save_mines_placement(updated_cells)
@@ -184,7 +183,7 @@ class Board < ApplicationRecord
 
     def new_record? = board.new_record?
     def cells = @cells ||= board.cells
-    def any_mines? = board.any_mines?
+    def mines_placed? = board.mines_placed?
     def mines = board.mines
 
     def place_mines_in_random_cells
@@ -240,7 +239,7 @@ class Board < ApplicationRecord
       scope.join_info([
         "#{Icon.cell} x#{cells_count} (#{dimensions})",
         "#{Icon.revealed_cell} #{revealed_cells_count}",
-        "#{Icon.mine} #{mines_count}",
+        "#{Icon.mine} #{mines}",
         "#{Icon.flag} #{flags_count}",
       ])
     end

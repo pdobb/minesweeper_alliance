@@ -23,7 +23,7 @@ class Games::Show
   end
 
   def flags_count = board.flags_count
-  def mines_count = board.mines_count
+  def mines = board.mines
 
   def reveal_url(router = RailsRouter.instance)
     router.game_board_cell_reveal_path(game, board, NULL_CELL_ID)

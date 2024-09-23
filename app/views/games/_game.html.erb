@@ -9,7 +9,7 @@
   </div>
 
   <div class="mx-auto w-fit max-w-full space-y-2">
-    <div class="flex justify-between gap-x-12 text-lg">
+    <div class="-mx-3 flex justify-between gap-x-12 text-lg">
       <div
         <% if view.game_in_progress? %>
           data-controller="elapsed-time"
@@ -32,7 +32,7 @@
         <li><%= view.flags_count %></li>
         <li><%= Icon.flag %></li>
         <li class="text-gray-500 dark:text-neutral-400">/</li>
-        <li><%= view.mines_count %></li>
+        <li><%= view.mines %></li>
         <li><%= Icon.mine %></li>
       </ul>
     </div>
@@ -98,7 +98,12 @@
       </table>
     </div>
 
-    <ul class="flex justify-end gap-x-3 text-gray-400 dark:text-neutral-500">
+    <ul
+      class="
+        -mx-5 flex justify-end gap-x-3
+        text-gray-400 dark:text-neutral-500
+      "
+    >
       <li><%= view.difficulty_level %></li>
       <li>(<%= view.board_dimensions %>)</li>
     </ul>

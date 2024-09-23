@@ -267,12 +267,12 @@ class BoardTest < ActiveSupport::TestCase
       end
     end
 
-    describe "#any_mines?" do
+    describe "#mines_placed?" do
       context "GIVEN mines present" do
         subject { win1_board }
 
         it "returns true" do
-          _(subject.any_mines?).must_equal(true)
+          _(subject.mines_placed?).must_equal(true)
         end
       end
 
@@ -280,7 +280,7 @@ class BoardTest < ActiveSupport::TestCase
         subject { standing_by1_board }
 
         it "returns false" do
-          _(subject.any_mines?).must_equal(false)
+          _(subject.mines_placed?).must_equal(false)
         end
       end
     end
