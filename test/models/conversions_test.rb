@@ -22,7 +22,7 @@ class ConversionsTest < ActiveSupport::TestCase
         subject { unit_class }
 
         let(:instance) {
-          CustomDifficultyLevel.new(width: 3, height: 3, mines: 1)
+          CustomDifficultyLevel.new(width: 6, height: 6, mines: 4)
         }
 
         it "returns the instance" do

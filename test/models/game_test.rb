@@ -13,7 +13,7 @@ class GameTest < ActiveSupport::TestCase
     let(:standing_by1) { games(:standing_by1) }
     let(:new_game) { Game.new }
     let(:custom_difficulty_level1) {
-      CustomDifficultyLevel.new(width: 3, height: 3, mines: 1)
+      CustomDifficultyLevel.new(width: 6, height: 6, mines: 4)
     }
 
     context "Class Methods" do

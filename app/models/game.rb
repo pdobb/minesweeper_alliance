@@ -146,8 +146,8 @@ class Game < ApplicationRecord
       board.render
     end
 
-    def reset(time: Time.current)
-      do_reset(time) {
+    def reset
+      do_reset {
         set_status_sweep_in_progress! if over?
         board.reset
       }
@@ -155,8 +155,8 @@ class Game < ApplicationRecord
 
     # Like {#reset} but also resets status to "Standing By" and reset mines on
     # the {Board}.
-    def reset!(time: Time.current)
-      do_reset(time) {
+    def reset!
+      do_reset {
         set_status_standing_by!
         board.reset!
       }
@@ -174,14 +174,11 @@ class Game < ApplicationRecord
     def inspect_info = engagement_time_range
 
     # :reek:TooManyStatements
-    def do_reset(time)
+    def do_reset
       check_for_current_game
 
       transaction do
-        update!(
-          started_at: time,
-          ended_at: nil,
-          updated_at: time)
+        update!(started_at: nil, ended_at: nil)
 
         CellTransaction.for_id(cell_transaction_ids).delete_all
 

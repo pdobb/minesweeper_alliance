@@ -24,7 +24,7 @@ class CustomDifficultyLevelTest < ActiveSupport::TestCase
 
           it "fails validation" do
             subject.validate
-            _(subject.errors[:width]).must_include(ValidationError.in(3..30))
+            _(subject.errors[:width]).must_include(ValidationError.in(6..30))
           end
         end
 
@@ -55,7 +55,7 @@ class CustomDifficultyLevelTest < ActiveSupport::TestCase
 
           it "fails validation" do
             subject.validate
-            _(subject.errors[:height]).must_include(ValidationError.in(3..30))
+            _(subject.errors[:height]).must_include(ValidationError.in(6..30))
           end
         end
 
@@ -73,7 +73,7 @@ class CustomDifficultyLevelTest < ActiveSupport::TestCase
         subject { unit_class.new(mines: mines1) }
 
         context "GIVEN a valid #mines" do
-          let(:mines1) { 3 }
+          let(:mines1) { 4 }
 
           it "passes validation" do
             subject.validate
@@ -82,11 +82,11 @@ class CustomDifficultyLevelTest < ActiveSupport::TestCase
         end
 
         context "GIVEN #mines is not in expected range" do
-          let(:mines1) { [0, 226].sample }
+          let(:mines1) { [3, 300].sample }
 
           it "fails validation" do
             subject.validate
-            _(subject.errors[:mines]).must_include(ValidationError.in(1..225))
+            _(subject.errors[:mines]).must_include(ValidationError.in(4..299))
           end
         end
 
@@ -100,22 +100,22 @@ class CustomDifficultyLevelTest < ActiveSupport::TestCase
         end
 
         context "GIVEN too many #mines" do
-          let(:mines1) { 9 }
+          let(:mines1) { 13 }
 
           it "fails validation" do
             subject.validate
             _(subject.errors[:mines]).must_include(
-              "must be <= 8 (90% of total area)")
+              "must be <= 12 (1/3 of total area)")
           end
         end
 
         context "GIVEN too few #mines" do
-          subject { unit_class.new(width: 9, height: 9, mines: 1) }
+          let(:mines1) { 3 }
 
           it "fails validation" do
             subject.validate
             _(subject.errors[:mines]).must_include(
-              "must be >= 9 (10% of total area)")
+              "must be >= 4 (10% of total area)")
           end
         end
       end
@@ -126,31 +126,31 @@ class CustomDifficultyLevelTest < ActiveSupport::TestCase
 
       describe "#to_h" do
         it "returns the expected Hash" do
-          _(subject.to_h).must_equal({ width: 3, height: 3, mines: 1 })
+          _(subject.to_h).must_equal({ width: 6, height: 6, mines: 4 })
         end
       end
 
       describe "#dimensions" do
         it "returns the expected String" do
-          _(subject.dimensions).must_equal("3x3")
+          _(subject.dimensions).must_equal("6x6")
         end
       end
 
       describe "#width" do
         it "returns the expected Integer" do
-          _(subject.width).must_equal(3)
+          _(subject.width).must_equal(6)
         end
       end
 
       describe "#height" do
         it "returns the expected Integer" do
-          _(subject.height).must_equal(3)
+          _(subject.height).must_equal(6)
         end
       end
 
       describe "#mines" do
         it "returns the expected Integer" do
-          _(subject.mines).must_equal(1)
+          _(subject.mines).must_equal(4)
         end
       end
     end

@@ -15,11 +15,11 @@ class Board < ApplicationRecord
   self.implicit_order_column = "created_at"
 
   VALID_SETTINGS_VALUES_RANGES = {
-    width: VALID_WIDTH_VALUES_RANGE = 3..30,
-    height: VALID_HEIGHT_VALUES_RANGE = 3..30,
-    mines: VALID_MINES_VALUES_RANGE = 1..225,
+    width: VALID_WIDTH_VALUES_RANGE = 6..30,
+    height: VALID_HEIGHT_VALUES_RANGE = 6..30,
+    mines: VALID_MINES_VALUES_RANGE = 4..299,
   }.freeze
-  VALID_MINES_DENSITY_RANGE_AS_PERCENT = 10..90
+  VALID_MINE_DENSITY_RANGE = Rational("1/10")..Rational("1/3")
 
   # Board::Error represents any StandardError related to Board processing.
   Error = Class.new(StandardError)

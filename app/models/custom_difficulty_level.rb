@@ -12,11 +12,11 @@ class CustomDifficultyLevel
   include DifficultyLevelBehaviors
 
   def self.valid_values_for(setting)
-    Board::VALID_SETTINGS_VALUES_RANGES.fetch(setting)
+    Board::VALID_SETTINGS_RANGES.fetch(setting)
   end
 
-  def self.valid_densities_range_as_percents
-    Board::VALID_MINES_DENSITY_RANGE_AS_PERCENT
+  def self.valid_mine_density_range
+    Board::VALID_MINE_DENSITY_RANGE
   end
 
   attribute :width, :integer, default: -> { valid_values_for(:width).begin }
@@ -46,46 +46,43 @@ class CustomDifficultyLevel
             }
 
   unless App.dev_mode? # rubocop:disable Style/IfUnlessModifier
-    validate :validate_mines_density
+    validate :validate_mine_density
   end
 
   def name = NAME
 
   private
 
-  def validate_mines_density
+  def validate_mine_density
     return if width.blank? || height.blank? || mines.blank?
 
     if too_sparse?
       errors.add(
         :mines,
-        "must be >= #{minimum_mines} (#{minimum_percent}% of total area)")
+        "must be >= #{minimum_mines} (10% of total area)")
     end
 
     if too_dense? # rubocop:disable Style/GuardClause
       errors.add(
         :mines,
-        "must be <= #{maximum_mines} (#{maximum_percent}% of total area)")
+        "must be <= #{maximum_mines} (#{maximum_ratio} of total area)")
     end
   end
 
-  def too_sparse? = density_percent < minimum_percent
-  def too_dense? = density_percent > maximum_percent
-  def density_percent = (mines / area.to_f) * 100.0
-  def area = width.to_i * height.to_i
+  def too_sparse? = density_percent < minimum_ratio
+  def too_dense? = density_percent > maximum_ratio
+  def density_percent = mines / area.to_f
+  def area = width * height
 
-  def minimum_percent = valid_densities_range_as_percents.begin
-  def maximum_percent = valid_densities_range_as_percents.end
-
-  def valid_densities_range_as_percents
-    self.class.valid_densities_range_as_percents
-  end
+  def minimum_ratio = valid_mine_density_range.begin
+  def maximum_ratio = valid_mine_density_range.end
+  def valid_mine_density_range = self.class.valid_mine_density_range
 
   def minimum_mines
-    (area * (minimum_percent / 100.0)).ceil
+    (area * minimum_ratio).ceil
   end
 
   def maximum_mines
-    (area * (maximum_percent / 100.0)).floor
+    (area * maximum_ratio).floor
   end
 end

@@ -17,7 +17,7 @@ class BoardTest < ActiveSupport::TestCase
 
     let(:new_game) { Game.new }
     let(:custom_difficulty_level1) {
-      CustomDifficultyLevel.new(width: 3, height: 3, mines: 1)
+      CustomDifficultyLevel.new(width: 6, height: 6, mines: 4)
     }
 
     context "Class Methods" do
@@ -47,9 +47,9 @@ class BoardTest < ActiveSupport::TestCase
               CustomDifficultyLevel.new(
                 width: width1, height: height1, mines: mines1))
         }
-        let(:width1) { 3 }
-        let(:height1) { 3 }
-        let(:mines1) { 1 }
+        let(:width1) { 6 }
+        let(:height1) { 6 }
+        let(:mines1) { 4 }
 
         context "GIVEN a valid #width value" do
           it "passes validation" do
@@ -59,12 +59,12 @@ class BoardTest < ActiveSupport::TestCase
         end
 
         context "GIVEN an out-of-range #width value" do
-          let(:width1) { [2, 31].sample }
+          let(:width1) { [5, 31].sample }
 
           it "fails validation" do
             subject.validate
             _(subject.errors[:width]).must_include(
-              ValidationError.in(3..30))
+              ValidationError.in(6..30))
           end
         end
 
@@ -76,12 +76,12 @@ class BoardTest < ActiveSupport::TestCase
         end
 
         context "GIVEN an out-of-range #height value" do
-          let(:height1) { [2, 31].sample }
+          let(:height1) { [5, 31].sample }
 
           it "fails validation" do
             subject.validate
             _(subject.errors[:height]).must_include(
-              ValidationError.in(3..30))
+              ValidationError.in(6..30))
           end
         end
 
@@ -93,17 +93,17 @@ class BoardTest < ActiveSupport::TestCase
         end
 
         context "GIVEN an out-of-range #mines value" do
-          let(:mines1) { [0, 226].sample }
+          let(:mines1) { [3, 300].sample }
 
           it "fails validation" do
             subject.validate
             _(subject.errors[:mines]).must_include(
-              ValidationError.in(1..225))
+              ValidationError.in(4..299))
           end
         end
 
         context "GIVEN a valid #mines value" do
-          let(:mines1) { [1, 8].sample }
+          let(:mines1) { [4, 12].sample }
 
           it "passes validation" do
             subject.validate
@@ -112,12 +112,12 @@ class BoardTest < ActiveSupport::TestCase
         end
 
         context "GIVEN too many #mines" do
-          let(:mines1) { 9 }
+          let(:mines1) { 13 }
 
           it "fails validation" do
             subject.validate
             _(subject.errors[:mines]).must_include(
-              "must be <= 8 (90% of total area)")
+              "must be <= 12 (1/3 of total area)")
           end
         end
 
@@ -285,11 +285,11 @@ class BoardTest < ActiveSupport::TestCase
       end
     end
 
-    describe "#mines_count" do
+    describe "#mines" do
       subject { win1_board }
 
       it "returns the expected Integer" do
-        _(subject.mines_count).must_equal(1)
+        _(subject.mines).must_equal(1)
       end
     end
 
@@ -351,6 +351,11 @@ class BoardTest < ActiveSupport::TestCase
     describe "Settings" do
       let(:unit_class) { Board::Settings }
 
+      subject {
+        unit_class.build_for(
+          difficulty_level: DifficultyLevel.new("Beginner"))
+      }
+
       context "Class Methods" do
         subject { unit_class }
 
@@ -365,33 +370,18 @@ class BoardTest < ActiveSupport::TestCase
       end
 
       describe "#to_a" do
-        subject {
-          unit_class.build_for(
-            difficulty_level: DifficultyLevel.new("Beginner"))
-        }
-
         it "returns the expected Array" do
           _(subject.to_a).must_equal([9, 9, 10])
         end
       end
 
       describe "#area" do
-        subject {
-          unit_class.build_for(
-            difficulty_level: DifficultyLevel.new("Beginner"))
-        }
-
         it "returns the expected Integer" do
           _(subject.area).must_equal(81)
         end
       end
 
       describe "#dimensions" do
-        subject {
-          unit_class.build_for(
-            difficulty_level: DifficultyLevel.new("Beginner"))
-        }
-
         it "returns the expected Integer" do
           _(subject.dimensions).must_equal("9x9")
         end
