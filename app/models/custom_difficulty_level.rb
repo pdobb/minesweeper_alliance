@@ -45,7 +45,9 @@ class CustomDifficultyLevel
               allow_blank: true,
             }
 
-  validate :validate_mines_density
+  unless App.dev_mode? # rubocop:disable Style/IfUnlessModifier
+    validate :validate_mines_density
+  end
 
   def name = NAME
 
