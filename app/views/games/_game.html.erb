@@ -15,15 +15,14 @@
           data-controller="elapsed-time"
           data-elapsed-time-start-value="<%= view.elapsed_time.to_i %>"
         <% end %>
+        data-turbo-temporary
         title="Game Timer"
       >
         <time
           data-elapsed-time-target="elapsedTime"
           datetime="PT<%= view.elapsed_time.to_i %>S"
           aria-label="Elapsed Time: <%= view.elapsed_time %>"
-        >
-          <%= view.elapsed_time %>
-        </time>
+        ><%= view.elapsed_time %></time>
       </div>
 
       <ul
