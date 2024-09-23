@@ -1,0 +1,19 @@
+<%# locals: (view:) %>
+
+<% if view.current_game? %>
+  <div class="relative container mx-auto">
+    <%= link_to(
+          game_path(Game.second_to_last),
+          class: %w[
+            absolute -top-8
+            text-gray-500 dark:text-neutral-400
+            no-underline
+          ],
+          title: "Back to Last Op",
+          data: { turbo_frame: :_top }) do %>
+      <%= inline_svg_tag(
+            "heroicons/arrow-long-left.svg",
+            class: "size-6 min-w-6 min-h-6") %>
+    <% end %>
+  </div>
+<% end %>

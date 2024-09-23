@@ -1,0 +1,18 @@
+<%# locals: (view:) %>
+
+<div class="relative container mx-auto">
+  <%= link_to(
+        games_path,
+        class: %w[
+          absolute -top-[26px]
+          ml-1
+          text-gray-500 dark:text-neutral-400
+          no-underline
+        ],
+        title: "Close Op",
+        data: { turbo_frame: :_top }) do %>
+    <%= inline_svg_tag(
+          "icons/x.svg",
+          class: "size-3 min-w-3 min-h-3") %>
+  <% end %>
+</div>

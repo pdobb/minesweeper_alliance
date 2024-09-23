@@ -1,5 +1,7 @@
 <% title("Game ##{@view.game_number}") %>
 
+<%= render("sub_nav", view: @view) %>
+
 <%= render("game", view: @view) %>
 
 <div class="container mx-auto">
