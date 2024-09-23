@@ -25,7 +25,8 @@ module Games::Boards::Cells::ActionBehaviors
   end
 
   def cell
-    @cell ||= board.cells.find(params[:cell_id])
+    @cell ||=
+      board.cells.to_a.detect { |cell| cell.to_param == params[:cell_id] }
   end
 
   def current_context

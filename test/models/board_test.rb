@@ -197,22 +197,22 @@ class BoardTest < ActiveSupport::TestCase
 
     describe "#check_for_victory" do
       before do
-        MuchStub.on_call(subject.game, :end_in_victory) { |call|
+        MuchStub.tap_on_call(subject.game, :end_in_victory) { |call|
           @end_in_victory_call = call
         }
       end
 
-      context "GIVEN the associated Game#status_in_progress? = false" do
+      context "GIVEN the associated Game#status_sweep_in_progress? = false" do
         subject { [standing_by1_board, win1_board, loss1_board].sample }
 
-        it "returns the Game without orchestrating any changes" do
+        it "doesn't orchestrate any changes, and returns nil" do
           result = subject.check_for_victory
-          _(result).must_be_same_as(subject)
+          _(result).must_be_nil
           _(@end_in_victory_call).must_be_nil
         end
       end
 
-      context "GIVEN the associated Game#status_in_progress? = true" do
+      context "GIVEN the associated Game#status_sweep_in_progress? = true" do
         context "GIVEN the Board is not yet in a victorious state" do
           before do
             subject.game.start(seed_cell: nil)
@@ -220,10 +220,10 @@ class BoardTest < ActiveSupport::TestCase
 
           subject { standing_by1_board }
 
-          it "doesn't call Game#end_in_vicotry, and returns the Board" do
+          it "doesn't call Game#end_in_vicotry, and returns false" do
             result = subject.check_for_victory
+            _(result).must_equal(false)
             _(@end_in_victory_call).must_be_nil
-            _(result).must_be_same_as(subject)
           end
         end
 
@@ -231,14 +231,15 @@ class BoardTest < ActiveSupport::TestCase
           before do
             subject.game.start(seed_cell: nil)
             subject.cells.is_not_mine.update_all(revealed: true)
+            subject.cells.reload
           end
 
           subject { standing_by1_board }
 
-          it "calls Game#end_in_vicotry, and returns the Board" do
+          it "calls Game#end_in_vicotry, and returns the Game" do
             result = subject.check_for_victory
+            _(result).must_be_same_as(subject.game)
             _(@end_in_victory_call).wont_be_nil
-            _(result).must_be_same_as(subject)
           end
         end
       end

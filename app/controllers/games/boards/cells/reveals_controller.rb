@@ -6,11 +6,6 @@ class Games::Boards::Cells::RevealsController < ApplicationController
   def create
     Reveal.(current_context)
 
-    # FIXME: I'm unclear why this is needed. It started being needed when we
-    # started doing upserts, but `game.reload` fixes an issue with "the opposite
-    # of that": single-cell reveals aren't showing up without this?!
-    game.reload
-
     broadcast_changes
     render_updated_game_board
   end

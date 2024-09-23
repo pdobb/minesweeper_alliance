@@ -73,11 +73,9 @@ class Board < ApplicationRecord
   end
 
   def check_for_victory
-    return self unless game.status_sweep_in_progress?
+    return unless game.status_sweep_in_progress?
 
-    game.end_in_victory if all_safe_cells_have_been_revealed?
-
-    self
+    all_safe_cells_have_been_revealed? and game.end_in_victory
   end
 
   def cells_at(coordinates)
@@ -96,7 +94,7 @@ class Board < ApplicationRecord
   private
 
   def all_safe_cells_have_been_revealed?
-    cells.is_not_mine.is_not_revealed.none?
+    cells.none?(&:safely_revealable?)
   end
 
   def validate_settings
@@ -190,7 +188,7 @@ class Board < ApplicationRecord
     def mines = board.mines
 
     def place_mines_in_random_cells
-      eligible_cells.shuffle!.take(mines).each(&:place_mine)
+      eligible_cells.sample(mines).each(&:place_mine)
     end
 
     def eligible_cells
@@ -208,10 +206,6 @@ class Board < ApplicationRecord
     include ConsoleObjectBehaviors
 
     def grid = super.console
-
-    def reveal_random_cell
-      cells.for_id(random_cell_id_for_reveal).take.reveal
-    end
 
     def render
       puts inspect # rubocop:disable Rails/Output
@@ -253,12 +247,8 @@ class Board < ApplicationRecord
 
     def cells_count = cells.size
 
-    def random_cell_id_for_reveal
-      cells.is_not_revealed.is_not_flagged.by_random.pick(:id)
-    end
-
     def revealed_cells_count
-      cells.try(:is_revealed)&.size || cells.size
+      cells.count(&:revealed?)
     end
   end
 end

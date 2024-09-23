@@ -78,7 +78,7 @@ class Games::Boards::Cells::RevealNeighborsController < ApplicationController
     end
 
     def revealable_neighboring_cells
-      cell.neighbors.select(&:revealable?)
+      cell.neighbors.select(&:can_be_revealed?)
     end
 
     def reveal_neighbor(neighboring_cell)
@@ -88,7 +88,7 @@ class Games::Boards::Cells::RevealNeighborsController < ApplicationController
 
     # :reek:FeatureEnvy
     def reveal(neighboring_cell)
-      return unless neighboring_cell.revealable?
+      return unless neighboring_cell.can_be_revealed?
 
       neighboring_cell.transaction do
         neighboring_cell.reveal

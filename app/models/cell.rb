@@ -42,16 +42,6 @@ class Cell < ApplicationRecord
 
   scope :is_mine, -> { where(mine: true) }
   scope :is_not_mine, -> { where(mine: false) }
-  scope :is_flagged, -> { where(flagged: true) }
-  scope :is_not_flagged, -> { where(flagged: false) }
-  scope :is_highlighted, -> { where(highlighted: true) }
-  scope :is_not_highlighted, -> { where(highlighted: false) }
-  scope :is_revealed, -> { where(revealed: true) }
-  scope :is_not_revealed, -> { where(revealed: false) }
-
-  scope :for_coordinates, ->(coordinates) { where(coordinates:) }
-  scope :for_board, ->(board) { where(board:) }
-  scope :for_game, ->(game) { joins(:board).merge(Board.for_game(game)) }
 
   validates :coordinates,
             presence: true,
@@ -68,9 +58,7 @@ class Cell < ApplicationRecord
   def reveal
     return self if revealed?
 
-    soft_reveal.save!
-
-    self
+    soft_reveal.tap(&:save!)
   end
 
   # :reek:TooManyStatements
@@ -131,13 +119,13 @@ class Cell < ApplicationRecord
     self.mine = true
   end
 
-  def revealable? = !(revealed? || flagged?)
-  def highlightable? = !(revealed? || flagged? || highlighted?)
-
   def unrevealed? = !revealed?
   def correctly_flagged? = flagged? && mine?
   def incorrectly_flagged? = flagged? && !mine?
   def blank? = value == BLANK_VALUE
+  def safely_revealable? = !(mine? || revealed?)
+  def can_be_revealed? = !(revealed? || flagged?)
+  def highlightable? = !(revealed? || flagged? || highlighted?)
 
   private
 
