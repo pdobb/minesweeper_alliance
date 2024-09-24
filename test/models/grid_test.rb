@@ -28,15 +28,13 @@ class GridTest < ActiveSupport::TestCase
       # rubocop:enable Layout/MultilineArrayLineBreaks
     }
     let(:wide_grid1) {
-      [
-        Coordinates[0, 0], Coordinates[1, 0]
-      ]
+      (Coordinates[0, 0]..Coordinates[1, 0]).to_a
     }
     let(:wide_grid2) {
-      (1..10).map { |index| Coordinates[index, 0] }
+      (Coordinates[1, 0]..Coordinates[10, 0]).to_a
     }
     let(:wide_grid3) {
-      (1..11).map { |index| Coordinates[index, 0] }
+      (Coordinates[1, 0]..Coordinates[11, 0]).to_a
     }
 
     describe "#cells" do
@@ -112,7 +110,9 @@ class GridTest < ActiveSupport::TestCase
         context "GIVEN a wide Grid" do
           context "GIVEN #width <= 11" do
             let(:target) {
-              [(1..10).map { |index| Coordinates[index, 0] }]
+              [
+                (Coordinates[1, 0]..Coordinates[10, 0]).to_a,
+              ]
             }
 
             subject { unit_class.new(wide_grid2, context:) }
@@ -124,7 +124,9 @@ class GridTest < ActiveSupport::TestCase
 
           context "GIVEN #width > 11" do
             let(:target) {
-              (1..11).map { |index| [Coordinates[index, 0]] }
+              [
+                (Coordinates[1, 0]..Coordinates[11, 0]).to_a,
+              ].transpose
             }
 
             subject { unit_class.new(wide_grid3, context:) }

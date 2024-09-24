@@ -2,15 +2,19 @@
 
 # Coordinates represents an X/Y pair. e.g. {Cell}s can locate themselves within
 # the {Board} by their Coordinates.
+#
+# Coordinates can be used in Ranges along a row.
+#   Coordinates[0, 0]..Coordinates[30, 0] # => (0, 0), (1, 0), ... (30, 0)
+#
+# Coordinates are Comparable (sortable, etc.)
+#   (Coordinates[0, 0]..Coordinates[30, 0]).shuffle
 class Coordinates < Data.define(:x, :y) # rubocop:disable Style/DataInheritance
+  include Comparable
   include ConsoleBehaviors
 
   # :reek:DuplicateMethodCall
+  # rubocop:disable all
 
-  # rubocop:disable Layout/MultilineArrayLineBreaks
-  # rubocop:disable Layout/SpaceInsideParens
-  # rubocop:disable Metrics/AbcSize
-  # rubocop:disable Style/TrailingCommaInArrayLiteral
   def neighbors
     [
       with(x: x.pred, y: y.pred), with(y: y.pred), with(x: x.next, y: y.pred),
@@ -18,10 +22,8 @@ class Coordinates < Data.define(:x, :y) # rubocop:disable Style/DataInheritance
       with(x: x.pred, y: y.next), with(y: y.next), with(x: x.next, y: y.next),
     ]
   end
-  # rubocop:enable Style/TrailingCommaInArrayLiteral
-  # rubocop:enable Metrics/AbcSize
-  # rubocop:enable Layout/SpaceInsideParens
-  # rubocop:enable Layout/MultilineArrayLineBreaks
+
+  # rubocop:enable all
 
   # Allow sorting with other Coordinates objects.
   def <=>(other)
@@ -30,6 +32,11 @@ class Coordinates < Data.define(:x, :y) # rubocop:disable Style/DataInheritance
     end
 
     [x, y] <=> [other.x, other.y]
+  end
+
+  # Allow ranges of Coordinates along a row.
+  def succ
+    with(x: x.next)
   end
 
   # Coordinates::Console acts like a {Coordinates} but otherwise handles IRB
