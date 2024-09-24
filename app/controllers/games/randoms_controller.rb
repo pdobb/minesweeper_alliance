@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class RandomGamesController < ApplicationController
+class Games::RandomsController < ApplicationController
   include Games::CreateBehaviors
 
   def create

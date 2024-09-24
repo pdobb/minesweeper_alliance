@@ -21,8 +21,11 @@ Rails.application.routes.draw do
       end
     end
   end
-  resources :random_games, only: :create
-  resources :custom_games, only: %i[new create]
+  scope "/games", module: :games do
+    resource :random, only: :create, as: :random_game
+    resources :customs, only: :new, as: :custom_game
+    resources :customs, only: :create, as: :custom_games
+  end
 
   resources :users, only: %i[show edit update]
 

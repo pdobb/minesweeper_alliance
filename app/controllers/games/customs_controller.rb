@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class CustomGamesController < ApplicationController
+class Games::CustomsController < ApplicationController
   include Games::CreateBehaviors
 
   def new

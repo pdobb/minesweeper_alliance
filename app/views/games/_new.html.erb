@@ -12,14 +12,14 @@
     <% view.presets.each do |preset| %>
       <%= button_to(
             preset,
-            view.new_preset_game_url(preset),
+            view.game_url(preset),
             class: "btn-primary",
             data: { turbo_frame: :_top }) %>
     <% end %>
 
     <%= button_to(
           "Random",
-          view.new_random_game_url,
+          view.random_game_url,
           class: "btn-primary",
           data: { turbo_frame: :_top }) %>
 
