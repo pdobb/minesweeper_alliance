@@ -69,7 +69,7 @@ class Game < ApplicationRecord
     build_for(...).tap { |new_game|
       transaction do
         new_game.save!
-        Board::Generate.(new_game.board)
+        Board::Generate.(board: new_game.board)
       end
     }
   end
@@ -88,7 +88,7 @@ class Game < ApplicationRecord
 
     transaction do
       touch(:started_at)
-      board.place_mines(seed_cell:)
+      Board::RandomlyPlaceMines.(board:, seed_cell:)
       set_status_sweep_in_progress!
     end
 

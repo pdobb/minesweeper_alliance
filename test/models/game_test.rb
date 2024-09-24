@@ -124,8 +124,8 @@ class GameTest < ActiveSupport::TestCase
 
     describe "#start" do
       before do
-        MuchStub.on_call(subject.board, :place_mines) { |call|
-          @place_mines_call = call
+        MuchStub.on_call(Board::RandomlyPlaceMines, :call) { |call|
+          @randomly_place_mines_call = call
         }
       end
 
@@ -143,7 +143,7 @@ class GameTest < ActiveSupport::TestCase
               ],
             ])
           _(result).must_be_same_as(subject)
-          _(@place_mines_call.kargs).must_equal(seed_cell: nil)
+          _(@randomly_place_mines_call.kargs.fetch(:seed_cell)).must_be_nil
         end
       end
 
@@ -157,7 +157,7 @@ class GameTest < ActiveSupport::TestCase
               ["subject.status"],
             ])
           _(result).must_be_same_as(subject)
-          _(@place_mines_call).must_be_nil
+          _(@randomly_place_mines_call).must_be_nil
         end
       end
     end
