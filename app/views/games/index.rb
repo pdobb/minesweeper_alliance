@@ -113,8 +113,8 @@ class Games::Index
       @model = model
     end
 
-    def difficulty_level_indicator
-      difficulty_level[0]
+    def type_indicator
+      type[0]
     end
 
     def game_engagement_time_range(template)

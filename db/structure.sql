@@ -142,7 +142,7 @@ ALTER SEQUENCE public.cells_id_seq OWNED BY public.cells.id;
 CREATE TABLE public.games (
     id bigint NOT NULL,
     status character varying DEFAULT 'Standing By'::character varying NOT NULL,
-    difficulty_level character varying NOT NULL,
+    type character varying NOT NULL,
     started_at timestamp(6) without time zone,
     ended_at timestamp(6) without time zone,
     created_at timestamp(6) without time zone NOT NULL,

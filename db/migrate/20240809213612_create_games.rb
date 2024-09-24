@@ -15,7 +15,7 @@ class CreateGames < ActiveRecord::Migration[7.1]
           SQL
       )
 
-      t.string(:difficulty_level, null: false)
+      t.string(:type, null: false)
       t.datetime(:started_at)
       t.datetime(:ended_at, index: true)
 

@@ -100,14 +100,14 @@ class GameTest < ActiveSupport::TestCase
       end
     end
 
-    describe "#difficulty_level" do
+    describe "#type" do
       context "GIVEN a standard Difficulty Level" do
         subject {
           unit_class.build_for(settings: preset_settings1)
         }
 
         it "returns the expected String" do
-          _(subject.difficulty_level).must_equal("Beginner")
+          _(subject.type).must_equal("Beginner")
         end
       end
 
@@ -117,7 +117,7 @@ class GameTest < ActiveSupport::TestCase
         }
 
         it "returns the expected String" do
-          _(subject.difficulty_level).must_equal("Custom")
+          _(subject.type).must_equal("Custom")
         end
       end
     end

@@ -13,7 +13,7 @@ module Games::ShowBehaviors
     game_id.to_s.rjust(4, "0")
   end
 
-  def difficulty_level = to_model.difficulty_level
+  def type = to_model.type
 
   private
 
