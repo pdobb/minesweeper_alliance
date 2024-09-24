@@ -14,28 +14,8 @@
 class Board < ApplicationRecord
   self.implicit_order_column = "created_at"
 
-  VALID_SETTINGS_VALUES_RANGES = {
-    width: VALID_WIDTH_VALUES_RANGE = 6..30,
-    height: VALID_HEIGHT_VALUES_RANGE = 6..30,
-    mines: VALID_MINES_VALUES_RANGE = 4..299,
-  }.freeze
-  VALID_MINE_DENSITY_RANGE = Rational("1/10")..Rational("1/3")
-
   # Board::Error represents any StandardError related to Board processing.
   Error = Class.new(StandardError)
-
-  # Board::Settings stores the width, height, and number of mines (to be) in
-  # the {Grid} of a {Board}'s associated {Cell}s.
-  Settings =
-    Data.define(:width, :height, :mines) {
-      def self.build_for(difficulty_level:)
-        new(**difficulty_level.to_h)
-      end
-
-      def to_a = to_h.values
-      def area = width * height
-      def dimensions = "#{width}x#{height}"
-    }
 
   include ConsoleBehaviors
 
@@ -53,18 +33,20 @@ class Board < ApplicationRecord
 
   scope :for_game, ->(game) { where(game:) }
 
-  validate :validate_settings
+  validate :validate_settings, on: :create
 
-  def settings = @settings ||= Settings.new(**super)
+  def settings
+    @settings ||= Settings.new(**super)
+  end
+
+  def settings=(value)
+    super(value.to_h)
+  end
+
   def width = settings.width
   def height = settings.height
   def mines = settings.mines
-  def dimensions = settings.dimensions
-
-  # @attr difficulty_level [DifficultyLevel]
-  def self.build_for(game:, difficulty_level:)
-    game.build_board(settings: Settings.build_for(difficulty_level:))
-  end
+  def dimensions = "#{settings.width}x#{settings.height}"
 
   def place_mines(seed_cell: nil)
     RandomlyPlaceMines.(board: self, seed_cell:)
@@ -97,10 +79,9 @@ class Board < ApplicationRecord
   end
 
   def validate_settings
-    custom_difficulty_level = CustomDifficultyLevel.new(**settings.to_h)
-    return if custom_difficulty_level.valid?
+    return if settings.valid?
 
-    errors.merge!(custom_difficulty_level.errors)
+    errors.merge!(settings.errors)
   end
 
   # Board::Generate is a Service Object that handles insertion of {Cell} records

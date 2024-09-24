@@ -25,8 +25,8 @@
         whitespace-nowrap
       "
     >
-      <% @view.difficulty_levels.each do |difficulty_level| %>
-        <li><%= difficulty_level.initials %> = <%= difficulty_level.name %></li>
+      <% @view.presets.each do |preset| %>
+        <li><%= preset.initials %> = <%= preset.name %></li>
       <% end %>
     </ul>
   </div>

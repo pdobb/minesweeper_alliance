@@ -9,43 +9,24 @@ class BoardTest < ActiveSupport::TestCase
     let(:win1_board) { boards(:win1_board) }
     let(:loss1_board) { boards(:loss1_board) }
     let(:standing_by1_board) { boards(:standing_by1_board) }
-    let(:new_board) {
-      unit_class.build_for(
-        game: new_game,
-        difficulty_level: custom_difficulty_level1)
-    }
+    let(:new_board1) { new_game1.build_board(settings: custom_settings1) }
 
-    let(:new_game) { Game.new }
-    let(:custom_difficulty_level1) {
-      CustomDifficultyLevel.new(width: 6, height: 6, mines: 4)
-    }
+    let(:new_game1) { Game.new }
+    let(:preset_settings1) { unit_class::Settings.beginner }
+    let(:custom_settings1) { unit_class::Settings[4, 4, 1] }
 
-    context "Class Methods" do
-      subject { unit_class }
-
-      describe ".build_for" do
-        it "orchestrates building of the expected object graph and returns "\
-           "the new Board" do
-          result =
-            subject.build_for(
-              game: new_game,
-              difficulty_level: custom_difficulty_level1)
-
-          _(result).must_be_instance_of(unit_class)
-          _(result.game).must_be_same_as(new_game)
-          _(result.cells).must_be_empty
-        end
+    describe ".new" do
+      it "returns the expected Board" do
+        result = unit_class.new(settings: preset_settings1)
+        _(result).must_be_instance_of(unit_class)
       end
     end
 
     describe "#validate" do
       describe "#settings" do
         subject {
-          unit_class.build_for(
-            game: new_game,
-            difficulty_level:
-              CustomDifficultyLevel.new(
-                width: width1, height: height1, mines: mines1))
+          new_game1.build_board(
+            settings: unit_class::Settings[width1, height1, mines1])
         }
         let(:width1) { 6 }
         let(:height1) { 6 }
@@ -135,7 +116,7 @@ class BoardTest < ActiveSupport::TestCase
     end
 
     describe "#cells" do
-      subject { [new_board, win1_board].sample }
+      subject { [new_board1, win1_board].sample }
 
       it "sorts the association by least recent" do
         result = subject.cells.to_sql
@@ -145,7 +126,7 @@ class BoardTest < ActiveSupport::TestCase
 
     describe "#place_mines" do
       context "GIVEN a new Board" do
-        subject { new_board }
+        subject { new_board1 }
 
         it "raises Board::Error" do
           exception =
@@ -348,43 +329,12 @@ class BoardTest < ActiveSupport::TestCase
       end
     end
 
-    describe "Settings" do
-      let(:unit_class) { Board::Settings }
+    describe "#settings" do
+      subject { win1_board }
 
-      subject {
-        unit_class.build_for(
-          difficulty_level: DifficultyLevel.new("Beginner"))
-      }
-
-      context "Class Methods" do
-        subject { unit_class }
-
-        describe ".build_for" do
-          it "returns the expected object" do
-            result =
-              subject.build_for(
-                difficulty_level: DifficultyLevel.new("Beginner"))
-            _(result).must_equal(subject[9, 9, 10])
-          end
-        end
-      end
-
-      describe "#to_a" do
-        it "returns the expected Array" do
-          _(subject.to_a).must_equal([9, 9, 10])
-        end
-      end
-
-      describe "#area" do
-        it "returns the expected Integer" do
-          _(subject.area).must_equal(81)
-        end
-      end
-
-      describe "#dimensions" do
-        it "returns the expected Integer" do
-          _(subject.dimensions).must_equal("9x9")
-        end
+      it "returns the expected object" do
+        _(subject.settings.to_h).must_equal(
+          unit_class::Settings[3, 3, 1].to_h)
       end
     end
 

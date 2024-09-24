@@ -22,9 +22,7 @@ class GamesController < ApplicationController
   end
 
   def create
-    difficulty_level = DifficultyLevel.new(params[:difficulty_level])
-
-    find_or_create_game(difficulty_level:)
+    find_or_create_game(settings: Board::Settings.preset(params[:preset]))
     redirect_to(root_path)
   end
 end

@@ -72,12 +72,10 @@ class Game < ApplicationRecord
     }
   end
 
-  # @attr difficulty_level [DifficultyLevel, String, #to_difficulty_level]
-  def self.build_for(difficulty_level:)
-    difficulty_level = Conversions.DifficultyLevel(difficulty_level)
-
-    new(difficulty_level:).tap { |new_game|
-      Board.build_for(game: new_game, difficulty_level:)
+  # @attr settings [Board::Settings]
+  def self.build_for(settings:)
+    new(difficulty_level: settings.name).tap { |new_game|
+      new_game.build_board(settings:)
     }
   end
 
@@ -193,11 +191,11 @@ class Game < ApplicationRecord
     def check_for_current_game
       current_game = Game.current
 
-      # rubocop:disable Style/GuardClause
       if current_game && current_game != __model__
         raise(Error, "Can't reset a past Game while a current Game exists.")
       end
-      # rubocop:enable Style/GuardClause
+
+      current_game
     end
   end
 end

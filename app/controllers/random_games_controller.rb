@@ -4,9 +4,7 @@ class RandomGamesController < ApplicationController
   include Games::CreateBehaviors
 
   def create
-    difficulty_level = DifficultyLevel.build_random
-
-    find_or_create_game(difficulty_level:)
+    find_or_create_game(settings: Board::Settings.random)
     redirect_to(root_path)
   end
 end

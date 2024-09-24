@@ -38,9 +38,9 @@ class Games::Index
 
   def current_time_zone_description = self.class.current_time_zone_description
 
-  def difficulty_levels
-    DifficultyLevel.wrap(
-      ::DifficultyLevel.all.including(CustomDifficultyLevel.new))
+  def presets
+    Preset.wrap(
+      Board::Settings::PRESETS.keys.including(Board::Settings::CUSTOM))
   end
 
   def any_listings?
@@ -64,17 +64,14 @@ class Games::Index
     @engagement_tally ||= EngagementTally.new(start_at..)
   end
 
-  # Games::Index::DifficultyLevel wraps {::DifficultyLevel#name}s, for display
-  # of the "Initials" = "Name" map/legend.
-  class DifficultyLevel
+  # Games::Index::Preset wraps {Board::Settings} presets (names), for display
+  # of the "Initials = Name" map/legend.
+  class Preset
     include WrapMethodBehaviors
 
-    def initialize(difficulty_level)
-      @difficulty_level = difficulty_level
-    end
-
-    def name = @difficulty_level.name
-    def initials = @difficulty_level.initials
+    def initialize(preset) = @preset = preset
+    def initials = name[0]
+    def name = @preset
   end
 
   # Games::Index::ListingsDate

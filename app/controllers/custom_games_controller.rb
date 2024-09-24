@@ -4,26 +4,25 @@ class CustomGamesController < ApplicationController
   include Games::CreateBehaviors
 
   def new
-    @custom_difficulty_level = CustomDifficultyLevel.new
+    @settings = Board::Settings.new
   end
 
   def create
-    custom_difficulty_level =
-      CustomDifficultyLevel.new(custom_difficulty_level_params)
+    settings = Board::Settings.custom(**settings_params.to_h.symbolize_keys)
 
-    if custom_difficulty_level.valid?
-      find_or_create_game(difficulty_level: custom_difficulty_level)
+    if settings.valid?
+      find_or_create_game(settings:)
       redirect_to(root_path)
     else
-      @custom_difficulty_level = custom_difficulty_level
-      render(:new)
+      @settings = settings
+      render(:new, status: :unprocessable_entity)
     end
   end
 
   private
 
-  def custom_difficulty_level_params
-    params.require(:custom_difficulty_level).permit(
+  def settings_params
+    params.require(:board_settings).permit(
       :width,
       :height,
       :mines)

@@ -1,5 +1,9 @@
 <% title("New Game") %>
 
-<div class="container mx-auto">
-  <%= render("new", view: @view) %>
+<div class="container mx-auto space-y-24">
+  <h1>New Game</h1>
+
+  <div class="flex justify-center items-center gap-6">
+    <%= render("new", view: @view) %>
+  </div>
 </div>

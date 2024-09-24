@@ -5,11 +5,14 @@
 module Games::CreateBehaviors
   # :reek:UtilityFunction
 
-  def find_or_create_game(difficulty_level:)
-    current_game = Game.find_or_create_current(difficulty_level:)
-    return unless current_game.just_created?
+  def find_or_create_game(settings:)
+    current_game = Game.find_or_create_current(settings:)
 
-    DutyRoster.clear
-    current_game.broadcast_refresh_to(:current_game)
+    if current_game.just_created?
+      DutyRoster.clear
+      current_game.broadcast_refresh_to(:current_game)
+    end
+
+    current_game
   end
 end

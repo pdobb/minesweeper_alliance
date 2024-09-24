@@ -1,6 +1,6 @@
 <%# locals: (view:) %>
 
-<%= turbo_frame_tag(:new_game, class: "block ") do %>
+<%= turbo_frame_tag(:new_game, class: "block") do %>
   <div
     class="
       flex
@@ -9,10 +9,10 @@
       gap-6
     "
   >
-    <% view.difficulty_levels.each do |difficulty_level| %>
+    <% view.presets.each do |preset| %>
       <%= button_to(
-            difficulty_level.name,
-            difficulty_level.new_game_url,
+            preset,
+            view.new_preset_game_url(preset),
             class: "btn-primary",
             data: { turbo_frame: :_top }) %>
     <% end %>
