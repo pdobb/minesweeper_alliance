@@ -1,20 +1,22 @@
 # frozen_string_literal: true
 
-# Games::Boards::Cells::RecursiveReveal is a Service Object for revealing the
-# given {Cell} and then recursively revealing neighboring {Cell}s--if the {Cell}
-# we just revealed was {Cell#blank?}.
+# Cell::RecursiveReveal is a Service Object for revealing the given {Cell} and
+# then recursively revealing neighboring {Cell}s--if the {Cell} we just revealed
+# was {Cell#blank?}.
 #
 # Notes:
 # - We don't want or need to spend time checking on {Game#status} or {Board}
 #   state while recursing. We only get to here by revealing a blank {Cell} in
 #   the first place, which is always safe to reveal neighbors on.
 # - We purposefully don't `include CallMethodBehaviors` here, because this is
-#   recursion an it's actually worth reducing the call stack size.
-#     So instead of:
-#       RecursiveReveal.call -> RecursiveReveal.new(..).call -> #on_call
-#     We optimize to just:
-#       RecursiveReveal.new(...).call -> #call
-class Games::Boards::Cells::RecursiveReveal
+#   recursion and it's actually worth reducing the call stack size.
+#   So instead of:
+#     RecursiveReveal.call -> RecursiveReveal.new(..).call -> #on_call
+#   We optimize to just:
+#     RecursiveReveal.new(...).call -> #call
+#
+# @see Cell::Reveal
+class Cell::RecursiveReveal
   attr_reader :cell
 
   def initialize(cell:)

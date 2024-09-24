@@ -33,6 +33,7 @@ module Games::Boards::Cells::ActionBehaviors
     CurrentContext.new(self)
   end
 
+  # Games::Boards::Cells::ActionBehaviors::CurrentContext
   class CurrentContext
     def initialize(context)
       @context = context

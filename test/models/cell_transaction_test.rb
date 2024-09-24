@@ -22,6 +22,27 @@ class CellTransactionTest < ActiveSupport::TestCase
         _(result.cell).must_be_same_as(standing_by1_board_cell1)
       end
     end
+
+    describe ".exists_between?" do
+      subject { unit_class }
+
+      context "GIVEN an existing CellTransaction" do
+        let(:win1_board_cell2) { cells(:win1_board_cell2) }
+
+        it "returns true" do
+          result = subject.exists_between?(user: user1, cell: win1_board_cell2)
+          _(result).must_equal(true)
+        end
+      end
+
+      context "GIVEN no existing CellTransaction" do
+        it "returns false" do
+          result =
+            subject.exists_between?(user: user1, cell: standing_by1_board_cell1)
+          _(result).must_equal(false)
+        end
+      end
+    end
   end
 
   CellTransactionDouble = Class.new(CellTransaction)

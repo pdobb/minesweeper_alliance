@@ -30,6 +30,10 @@ class CellTransaction < ApplicationRecord
     new(user:, cell:).tap(&:save!)
   end
 
+  def self.exists_between?(user:, cell:)
+    for_user(user).for_cell(cell).exists?
+  end
+
   # CellTransaction::Console acts like a {CellTransaction} but otherwise handles
   # IRB Console-specific methods/logic.
   class Console

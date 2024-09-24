@@ -112,7 +112,7 @@ class Cell < ApplicationRecord
   end
 
   def upsertable_attributes
-    attributes.except(%w[created_at updated_at])
+    attributes.except("updated_at")
   end
 
   def place_mine

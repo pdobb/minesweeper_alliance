@@ -311,6 +311,25 @@ class CellTest < ActiveSupport::TestCase
       end
     end
 
+    describe "#upsertable_attributes" do
+      subject { unit_class.new }
+
+      it "returns the expected Hash" do
+        _(subject.upsertable_attributes.keys).wont_include("updated_at")
+      end
+    end
+
+    describe "#place_mine" do
+      context "GIVEN #mine = false" do
+        subject { unit_class.new }
+
+        it "sets #mine = true" do
+          _(-> { subject.place_mine }).must_change(
+            "subject.mine", from: false, to: true)
+        end
+      end
+    end
+
     describe "#unrevealed?" do
       context "GIVEN #revealed? == false" do
         subject { win1_board_cell1 }
