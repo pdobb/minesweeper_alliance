@@ -42,10 +42,6 @@ class CurrentUser
   end
 
   def store_user_token(user_token:)
-    cookies.permanent[:user_token] = {
-      value: user_token,
-      secure: App.production?,
-      httponly: true,
-    }
+    context.store_cookie(:user_token, value: user_token)
   end
 end

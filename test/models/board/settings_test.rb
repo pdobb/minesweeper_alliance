@@ -209,66 +209,115 @@ class Board::SettingsTest < ActiveSupport::TestCase
       end
     end
 
-    context "GIVEN a preset" do
-      subject { unit_class.beginner }
+    describe "#name" do
+      context "GIVEN a preset" do
+        subject { unit_class.beginner }
 
-      describe "#name" do
         it "returns the expected String" do
           _(subject.name).must_equal("Beginner")
         end
       end
+
+      context "GIVEN custom attributes" do
+        subject { unit_class[6, 6, 9] }
+
+        describe "#name" do
+          it "returns the expected String" do
+            _(subject.name).must_equal("Custom")
+          end
+        end
+      end
+    end
+
+    describe "#width" do
+      subject { unit_class.beginner }
 
       describe "#width" do
         it "returns the expected Integer" do
           _(subject.width).must_equal(9)
         end
       end
+    end
 
-      describe "#height" do
-        it "returns the expected Integer" do
-          _(subject.height).must_equal(9)
-        end
+    describe "#height" do
+      subject { unit_class.beginner }
+
+      it "returns the expected Integer" do
+        _(subject.height).must_equal(9)
       end
+    end
 
-      describe "#mines" do
-        it "returns the expected Integer" do
-          _(subject.mines).must_equal(10)
-        end
+    describe "#mines" do
+      subject { unit_class.beginner }
+
+      it "returns the expected Integer" do
+        _(subject.mines).must_equal(10)
       end
+    end
 
-      describe "#to_h" do
+    describe "#to_h" do
+      context "GIVEN a preset" do
+        subject { unit_class.beginner }
+
         it "returns the expected Hash" do
           _(subject.to_h).must_equal(
             { name: "Beginner", width: 9, height: 9, mines: 10 })
         end
       end
 
-      describe "#to_s" do
-        it "returns the expected String" do
-          _(subject.to_s).must_equal("Beginner")
+      context "GIVEN custom attributes" do
+        subject { unit_class[6, 6, 9] }
+
+        describe "#to_h" do
+          it "returns the expected Hash" do
+            _(subject.to_h).must_equal(
+              { name: "Custom", width: 6, height: 6, mines: 9 })
+          end
         end
       end
     end
 
-    context "GIVEN custom attributes" do
-      subject { unit_class[6, 6, 9] }
+    describe "#as_json" do
+      subject { unit_class.beginner }
 
-      describe "#name" do
+      it "returns the expected Hash" do
+        _(subject.as_json).must_equal(
+          { name: "Beginner", width: 9, height: 9, mines: 10 })
+      end
+    end
+
+    describe "#to_s" do
+      context "GIVEN a preset" do
+        subject { unit_class.beginner }
+
         it "returns the expected String" do
-          _(subject.name).must_equal("Custom")
+          _(subject.to_s).must_equal("Beginner")
         end
       end
 
-      describe "#to_h" do
-        it "returns the expected Hash" do
-          _(subject.to_h).must_equal(
-            { name: "Custom", width: 6, height: 6, mines: 9 })
-        end
-      end
+      context "GIVEN custom attributes" do
+        subject { unit_class[6, 6, 9] }
 
-      describe "#to_s" do
         it "returns the expected String" do
           _(subject.to_s).must_equal("Custom")
+        end
+      end
+    end
+
+    describe "#custom?" do
+      context "GIVEN a preset" do
+        subject { unit_class.beginner }
+
+        it "returns false" do
+          _(subject.custom?).must_equal(false)
+        end
+      end
+
+      context "GIVEN custom attributes" do
+        subject { unit_class[6, 6, 9] }
+
+        it "returns true" do
+          _(subject.custom?).must_equal(true)
         end
       end
     end

@@ -23,8 +23,6 @@ class Application::Layout
   def current_user_display_name = current_user.display_name
   def current_user_mms_id = current_user.mms_id
 
-  def cookies = context.__send__(:cookies)
-
   def flash_notifications
     Application::Flash.new(flash).notifications
   end
@@ -40,6 +38,16 @@ class Application::Layout
   def helpers
     @helpers ||= ActionController::Base.helpers
   end
+
+  def store_cookie(name, value:)
+    cookies.permanent[name] = {
+      value:,
+      secure: App.production?,
+      httponly: true,
+    }
+  end
+
+  def cookies = context.__send__(:cookies)
 
   private
 

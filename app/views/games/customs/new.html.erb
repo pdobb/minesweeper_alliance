@@ -5,7 +5,9 @@
 
   <div class="flex justify-center items-center gap-6">
     <%= turbo_frame_tag(:new_game) do %>
-      <%= render("form", settings: @settings) %>
+      <%= render(
+            "form",
+            form: Games::Customs::New::Form.new(@settings, context: layout)) %>
     <% end %>
   </div>
 </div>

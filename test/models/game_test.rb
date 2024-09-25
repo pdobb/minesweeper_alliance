@@ -353,5 +353,23 @@ class GameTest < ActiveSupport::TestCase
         end
       end
     end
+
+    describe "#board_settings" do
+      context "GIVEN #board = nil" do
+        subject { new_game }
+
+        it "returns the expected Time Range" do
+          _(subject.board_settings).must_be_nil
+        end
+      end
+
+      context "GIVEN #board != nil" do
+        subject { win1 }
+
+        it "returns the expected Time Range" do
+          _(subject.board_settings).must_be_instance_of(Board::Settings)
+        end
+      end
+    end
   end
 end

@@ -90,6 +90,9 @@ class Board::Settings
   def to_s = name
   def to_h = { name:, width:, height:, mines: }
   def to_a = to_h.values
+  def as_json = to_h
+
+  def custom? = name == CUSTOM
 
   private
 
@@ -112,8 +115,6 @@ class Board::Settings
         "must be <= #{maximum_mines} (#{maximum_density} of total area)")
     end
   end
-
-  def custom? = name == CUSTOM
 
   def area = width * height
   def density = mines / area.to_f

@@ -123,6 +123,8 @@ class Game < ApplicationRecord
     started_at..(ended_at if over?)
   end
 
+  def board_settings = board&.settings
+
   private
 
   def end_game

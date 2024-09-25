@@ -10,7 +10,9 @@
       <%= render("games/new", view: Games::New.new) %>
     </div>
     <div data-inline-edit-target="editing">
-      <%= render("games/customs/form", settings: @settings) %>
+      <%= render(
+            "games/customs/form",
+            form: Games::Customs::New::Form.new(@settings, context: layout)) %>
     </div>
   </div>
 <% end %>

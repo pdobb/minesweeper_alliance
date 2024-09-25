@@ -1,7 +1,7 @@
-<%# locals: (settings:) %>
+<%# locals: (form:) %>
 
 <%= form_with(
-      model: settings,
+      model: form.to_model,
       url: custom_games_path,
       data: { turbo_frame: :_top },
       html: { novalidate: true }) do |f| %>
@@ -17,9 +17,10 @@
       <div class="flex flex-col gap-y-2">
         <%= f.number_field(
               :width,
+              value: form.value(:width),
               autofocus: true,
               onfocus: "this.select()",
-              in: f.object.class::RANGES.fetch(:width),
+              in: form.ranges(:width),
               class: "w-[72px] form-field p-1",
               inputmode: "numeric",
               pattern: "[0-9]{1,2}") %>
@@ -30,7 +31,8 @@
       <div class="flex flex-col gap-y-2">
         <%= f.number_field(
               :height,
-              in: f.object.class::RANGES.fetch(:height),
+              value: form.value(:height),
+              in: form.ranges(:height),
               class: "w-[72px] form-field p-1",
               inputmode: "numeric",
               pattern: "[0-9]{1,2}") %>
@@ -41,7 +43,8 @@
       <div class="flex flex-col gap-y-2">
         <%= f.number_field(
               :mines,
-              in: f.object.class::RANGES.fetch(:mines),
+              value: form.value(:mines),
+              in: form.ranges(:mines),
               class: "w-[72px] form-field p-1",
               inputmode: "numeric",
               pattern: "[0-9]{1,3}") %>
@@ -50,9 +53,9 @@
     <%= f.submit("Engage!", class: "btn-primary") %>
   </div>
 
-  <% if f.object.errors.any? %>
+  <% if form.any_errors? %>
     <div class="mt-6 form-error text-left">
-      <%= f.object.errors.full_messages.join(", ") %>
+      <%= form.display_errors %>
     </div>
   <% end %>
 <% end %>
