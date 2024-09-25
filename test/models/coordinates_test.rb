@@ -72,5 +72,21 @@ class CoordinatesTest < ActiveSupport::TestCase
         end
       end
     end
+
+    describe "#succ" do
+      subject { unit_class[0, 0] }
+
+      it "returns the expected Coordinates" do
+        _(subject.succ).must_equal(Coordinates[1, 0])
+      end
+    end
+
+    describe "#to_a" do
+      subject { unit_class[0, 0] }
+
+      it "returns the expected Array" do
+        _(subject.to_a).must_equal([0, 0])
+      end
+    end
   end
 end

@@ -16,7 +16,9 @@ class Games::Show
   def game_on? = game.on?
   def game_just_ended? = game.just_ended?
 
-  def game_status = game.status
+  def game_status
+    App.draw_mode? ? "Draw Mode" : game.status
+  end
 
   def game_status_mojis
     super(count: players_count)
@@ -39,6 +41,16 @@ class Games::Show
 
   def reveal_neighbors_url(router = RailsRouter.instance)
     router.game_board_cell_reveal_neighbors_path(game, board, NULL_CELL_ID)
+  end
+
+  if App.draw_mode?
+    def game_board_reset_url(router = RailsRouter.instance)
+      router.game_board_resets_path(game, board)
+    end
+
+    def game_board_export_url(router = RailsRouter.instance)
+      router.game_board_exports_path(game, board)
+    end
   end
 
   def allow_scrolling?(

@@ -32,6 +32,7 @@ export default class extends Controller {
 
   toggleFlag(event) {
     const $cell = event.target
+    if (!($cell instanceof HTMLTableCellElement)) return
     if (this.#isRevealed($cell)) return
 
     this.#submit($cell, this.toggleFlagUrlValue)

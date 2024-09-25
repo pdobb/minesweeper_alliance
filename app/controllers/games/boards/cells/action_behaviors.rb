@@ -3,30 +3,25 @@
 # Games::Boards::Cells::ActionBehaviors is a Controller mix-in for Controllers
 # that need to operate on {Board}s and their associated {Cell}s.
 module Games::Boards::Cells::ActionBehaviors
+  extend ActiveSupport::Concern
+
+  include Games::Boards::ActionBehaviors
+
+  # Games::Boards::Cells::ActionBehaviors::Error represents any StandardError
+  # related to Game / Board / Cell Actions processing.
+  Error = Class.new(StandardError)
+
   private
 
-  def broadcast_changes(stream: :current_game)
-    Turbo::StreamsChannel.broadcast_refresh_to(stream)
-  end
-
-  def render_updated_game_board
-    respond_to do |format|
-      format.html { redirect_to(root_path) }
-      format.turbo_stream { render("games/boards/cells/update_game_board") }
-    end
-  end
-
-  def game
-    @game ||= Game.find(params[:game_id])
-  end
-
-  def board
-    game.board
-  end
-
   def cell
-    @cell ||=
-      board.cells.to_a.detect { |cell| cell.to_param == params[:cell_id] }
+    @cell ||= begin
+      cell_id = params[:cell_id]
+      board.cells.to_a.detect { |cell| cell.to_param == cell_id }.tap { |cell|
+        unless cell
+          raise(Error, "couldn't find Cell with id #{cell_id.inspect}")
+        end
+      }
+    end
   end
 
   def current_context

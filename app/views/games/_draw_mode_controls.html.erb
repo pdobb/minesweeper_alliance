@@ -1,0 +1,13 @@
+<%# locals: (view:) %>
+
+<div class="flex justify-center items-center gap-6">
+  <%= button_to(
+        "Reset",
+        view.game_board_reset_url,
+        class: "btn-primary") %>
+  <%= button_to(
+        "Export",
+        view.game_board_export_url,
+        class: "btn-primary",
+        data: { turbo_frame: :_top }) %>
+</div>

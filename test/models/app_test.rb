@@ -66,6 +66,32 @@ class AppTest < ActiveSupport::TestCase
       end
     end
 
+    describe ".draw_mode?" do
+      context "GIVEN Rails.configuration.draw_mode = true" do
+        before do
+          MuchStub.tap(Rails, :configuration) { |config|
+            MuchStub.(config, :draw_mode) { true }
+          }
+        end
+
+        it "returns true" do
+          _(subject.draw_mode?).must_equal(true)
+        end
+      end
+
+      context "GIVEN Rails.configuration.draw_mode = false" do
+        before do
+          MuchStub.tap(Rails, :configuration) { |config|
+            MuchStub.(config, :draw_mode) { false }
+          }
+        end
+
+        it "returns false" do
+          _(subject.draw_mode?).must_equal(false)
+        end
+      end
+    end
+
     describe ".disable_turbo?" do
       context "GIVEN Rails.configuration.disable_turbo = true" do
         before do

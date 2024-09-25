@@ -39,6 +39,10 @@ class Coordinates < Data.define(:x, :y) # rubocop:disable Style/DataInheritance
     with(x: x.next)
   end
 
+  def to_a
+    [x, y]
+  end
+
   # Coordinates::Console acts like a {Coordinates} but otherwise handles IRB
   # Console-specific methods/logic.
   class Console
