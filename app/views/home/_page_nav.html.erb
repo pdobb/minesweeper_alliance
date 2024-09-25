@@ -3,7 +3,7 @@
 <% if view.current_game? %>
   <div class="relative container mx-auto">
     <%= link_to(
-          game_path(Game.second_to_last),
+          view.previous_game_url,
           class: %w[
             absolute -top-8
             text-gray-500 dark:text-neutral-400

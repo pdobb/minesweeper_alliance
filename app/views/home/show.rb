@@ -17,6 +17,10 @@ class Home::Show
     build_welcome_banner.welcome_banner(context:)
   end
 
+  def previous_game_url(router = RailsRouter.instance)
+    router.game_path(previous_game)
+  end
+
   def current_game?
     !!current_game
   end
@@ -51,6 +55,10 @@ class Home::Show
 
   def new_view
     Games::New.new
+  end
+
+  def previous_game
+    Game.second_to_last
   end
 
   # Home::Show::WelcomeBanner
