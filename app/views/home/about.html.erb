@@ -4,6 +4,40 @@
   <p><%= t("site.description_html") %></p>
 
   <div class="space-y-6">
+    <h2 class="h4">This game is:</h2>
+    <ul class="space-y-3 list-[circle] ml-7">
+      <li>
+        Open source software
+        (on <%= external_link_to(
+              "GitHub",
+              "https://github.com/pdobb/minesweeper_alliance") %>),
+        under the terms of the
+        <%= external_link_to(
+              "MIT License",
+              "https://opensource.org/licenses/MIT") %>.
+      </li>
+      <li>
+        Written in Ruby on Rails, featuring
+        <%= external_link_to("Hotwire", "https://hotwired.dev/") %>
+        for real-time interaction.
+      </li>
+      <li>
+        Styled with
+        <%= external_link_to("Tailwind CSS", "https://tailwindcss.com") %>.
+      </li>
+      <li>
+        Heavily inspired by
+        <%= external_link_to(
+              "Radan Skorić",
+              "https://radanskoric.com/experiments/multiplayer-minesweeper-with-rails-and-hotwire") %>
+        and his
+        <%= external_link_to("Mines vs Humanity", "https://minesvshumanity.com/") %>
+        game.
+      </li>
+    </ul>
+  </div>
+
+  <div class="space-y-6">
     <h2 class="h4">What is a Minesweeper?</h2>
     <ul class="space-y-3 list-[circle] ml-7">
       <li>
@@ -34,35 +68,13 @@
   </div>
 
   <div class="space-y-6">
-    <h2 class="h4">This game is:</h2>
+    <h2 class="h4">Mobile support seems... lacking?</h2>
     <ul class="space-y-3 list-[circle] ml-7">
       <li>
-        Open source software
-        (on <%= external_link_to(
-              "GitHub",
-              "https://github.com/pdobb/minesweeper_alliance") %>),
-        under the terms of the
-        <%= external_link_to(
-              "MIT License",
-              "https://opensource.org/licenses/MIT") %>.
+        Unfortunately, browser support for right-clicking on mobile web apps is poor. A future "flag toggle" mode could help. However, the mobile experience is still short-changed due to the inability to highlight and reveal neighbors with mouse-down/up events.
       </li>
       <li>
-        Written in Ruby on Rails, featuring
-        <%= external_link_to("Hotwire", "https://hotwired.dev/") %>
-        for real-time interaction.
-      </li>
-      <li>
-        Styled with
-        <%= external_link_to("Tailwind CSS", "https://tailwindcss.com") %>.
-      </li>
-      <li>
-        Heavily inspired by
-        <%= external_link_to(
-              "Radan Skorić",
-              "https://radanskoric.com/experiments/multiplayer-minesweeper-with-rails-and-hotwire") %>
-        and his
-        <%= external_link_to("Mines vs Humanity", "https://minesvshumanity.com/") %>
-        game.
+        When a board is wider than it is tall, we do transpose the board to help fit it onto the mobile screen. So it's at least a bit easier to follow along.
       </li>
     </ul>
   </div>
