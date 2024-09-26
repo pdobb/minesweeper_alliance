@@ -21,6 +21,10 @@ class Home::Show
     router.game_path(previous_game)
   end
 
+  def previous_game?
+    !!previous_game
+  end
+
   def current_game?
     !!current_game
   end
@@ -58,7 +62,7 @@ class Home::Show
   end
 
   def previous_game
-    Game.second_to_last
+    @previous_game ||= Game.second_to_last
   end
 
   # Home::Show::WelcomeBanner

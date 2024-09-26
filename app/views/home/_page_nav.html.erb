@@ -1,6 +1,6 @@
 <%# locals: (view:) %>
 
-<% if view.current_game? %>
+<% if view.current_game? && view.previous_game? %>
   <div class="relative container mx-auto">
     <%= link_to(
           view.previous_game_url,
