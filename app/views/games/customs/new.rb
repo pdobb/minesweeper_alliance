@@ -37,7 +37,7 @@ class Games::Customs::New # rubocop:disable Style/ClassAndModuleChildren
 
     def previous_settings
       @previous_settings ||=
-        JSON.parse(cookies[STORAGE_KEY]).with_indifferent_access
+        JSON.parse(cookies[STORAGE_KEY] || "{}").with_indifferent_access
     end
 
     def cookies = context.cookies
