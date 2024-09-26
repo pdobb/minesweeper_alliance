@@ -208,6 +208,7 @@ class Games::Show
       shadow-inner shadow-slate-600 dark:shadow-neutral-800
     ].freeze
     # rubocop:enable Layout/MultilineArrayLineBreaks
+    DIMMED_TEXT_COLOR = %w[text-gray-400 dark:text-neutral-600].freeze
 
     include CellBehaviors
 
@@ -224,8 +225,11 @@ class Games::Show
     def to_s
       return super unless mine?
 
+      # if mine? && ...
       if revealed?
         Icon.mine
+      elsif flagged?
+        Icon.flag
       else
         game_ended_in_victory? ? Icon.flag : Icon.mine
       end
@@ -233,7 +237,7 @@ class Games::Show
 
     def css_class
       if revealed?
-        BG_ERROR_COLOR if mine?
+        mine? ? BG_ERROR_COLOR : DIMMED_TEXT_COLOR
       elsif incorrectly_flagged?
         BG_ERROR_COLOR
       elsif !flagged?
