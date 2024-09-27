@@ -12,6 +12,7 @@ Rails.application.routes.draw do
           if App.draw_mode?
             resources :resets, only: :create
             resources :exports, only: :create
+            resources :imports, only: %i[new create]
           end
 
           resources :cells, only: :none do

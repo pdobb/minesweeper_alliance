@@ -1,0 +1,17 @@
+<% title("Import Pattern") %>
+
+<div class="container mx-auto space-y-24">
+  <h1><%= title %></h1>
+
+  <div class="flex justify-center items-center gap-6">
+    <%= form_with(url: game_board_imports_path) do |f| %>
+      <div class="inline-flex items-center gap-x-3">
+        <%= f.file_field(
+              :file,
+              accept: ".csv,text/csv",
+              class: "w-96") %>
+        <%= f.submit("Import", class: "btn-primary") %>
+      </div>
+    <% end %>
+  </div>
+</div>

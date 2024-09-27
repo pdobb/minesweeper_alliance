@@ -51,6 +51,10 @@ class Games::Show
     def game_board_export_url(router = RailsRouter.instance)
       router.game_board_exports_path(game, board)
     end
+
+    def new_game_board_import_url(router = RailsRouter.instance)
+      router.new_game_board_import_path(game, board)
+    end
   end
 
   def allow_scrolling?(

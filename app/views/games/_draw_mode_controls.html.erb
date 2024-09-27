@@ -10,4 +10,10 @@
         view.game_board_export_url,
         class: "btn-primary",
         data: { turbo_frame: :_top }) %>
+  <%= button_to(
+        "Import",
+        view.new_game_board_import_url,
+        method: :get,
+        class: "btn-primary",
+        data: { turbo_frame: :_top }) %>
 </div>
