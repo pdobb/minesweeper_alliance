@@ -52,12 +52,12 @@ class CoordinatesTest < ActiveSupport::TestCase
 
     describe "#<=>" do
       let(:coordinates_array) {
-        [unit_class[1, 1], unit_class[0, 0], unit_class[0, 1]]
+        [unit_class[1, 1], unit_class[0, 2], unit_class[0, 1]]
       }
 
       it "allows for sorting of Coordinates" do
         _(coordinates_array.sort).must_equal(
-          [unit_class[0, 0], unit_class[0, 1], unit_class[1, 1]])
+          [unit_class[0, 1], unit_class[1, 1], unit_class[0, 2]])
       end
 
       context "GIVEN a non-Coordinates comparison object" do

@@ -31,7 +31,7 @@ class Coordinates < Data.define(:x, :y) # rubocop:disable Style/DataInheritance
       raise(TypeError, "can't compare with non-Coordinates objects")
     end
 
-    [x, y] <=> [other.x, other.y]
+    [y, x] <=> [other.y, other.x]
   end
 
   # Allow ranges of Coordinates along a row.
