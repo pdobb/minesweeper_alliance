@@ -11,53 +11,57 @@ class Board::RandomlyPlaceMinesTest < ActiveSupport::TestCase
     let(:new_board1) { new_game1.build_board(settings: custom_settings1) }
     let(:new_game1) { Game.new }
     let(:custom_settings1) { Board::Settings[4, 4, 1] }
+    let(:standing_by1_board_cell1) { cells(:standing_by1_board_cell1) }
 
     describe "#call" do
-      context "GIVEN a new Board" do
+      context "GIVEN Board#new_record? = true" do
         subject { unit_class.new(board: new_board1, seed_cell: nil) }
 
-        it "raises Board::Error" do
-          exception = _(-> { subject.call }).must_raise(Board::Error)
+        it "raises Board::RandomlyPlaceMines::Error" do
+          exception =
+            _(-> { subject.call }).must_raise(Board::RandomlyPlaceMines::Error)
           _(exception.message).must_equal(
             "can't place mines in an unsaved Board")
         end
       end
 
-      context "GIVEN mines have already been placed" do
-        subject { unit_class.new(board: win1_board, seed_cell: nil) }
+      context "GIVEN Board#new_record? = false" do
+        context "GIVEN mines have already been placed" do
+          subject { unit_class.new(board: win1_board, seed_cell: nil) }
 
-        it "raises Board::Error" do
-          exception = _(-> { subject.call }).must_raise(Board::Error)
-          _(exception.message).must_equal("mines have already been placed")
-        end
-      end
-
-      context "GIVEN mines have not yet been placed" do
-        subject {
-          unit_class.new(
-            board: standing_by1_board,
-            seed_cell: standing_by1_board_cell1)
-        }
-
-        let(:standing_by1_board_cell1) { cells(:standing_by1_board_cell1) }
-
-        it "places the expected number of mines and returns the Board" do
-          result =
-            _(-> { subject.call }).must_change(
-              "standing_by1_board.cells.is_mine.count", from: 0, to: 1)
-          _(result).must_be_same_as(subject)
+          it "raises Board::RandomlyPlaceMines::Error" do
+            exception =
+              _(-> { subject.call }).must_raise(
+                Board::RandomlyPlaceMines::Error)
+            _(exception.message).must_equal("mines have already been placed")
+          end
         end
 
-        it "doesn't place a mine in the seed Cell" do
-          standing_by1_board.cells.excluding(standing_by1_board_cell1).
-            delete_all
-          _(standing_by1_board.cells.size).must_equal(1)
+        context "GIVEN mines have not yet been placed" do
+          subject {
+            unit_class.new(
+              board: standing_by1_board,
+              seed_cell: standing_by1_board_cell1)
+          }
 
-          _(-> { subject.call }).wont_change(
-            "standing_by1_board.cells.is_mine.count")
+          it "places the expected number of mines and returns the Board" do
+            result =
+              _(-> { subject.call }).must_change(
+                "standing_by1_board.cells.is_mine.count", from: 0, to: 1)
+            _(result).must_be_same_as(subject)
+          end
+
+          it "doesn't place a mine in the seed Cell" do
+            standing_by1_board.cells.excluding(standing_by1_board_cell1).
+              delete_all
+            _(standing_by1_board.cells.size).must_equal(1)
+
+            _(-> { subject.call }).wont_change(
+              "standing_by1_board.cells.is_mine.count")
+          end
+
+          # TODO: I'm not sure how to test for random placement...
         end
-
-        # TODO: I'm not sure how to test for random placement...
       end
     end
   end
