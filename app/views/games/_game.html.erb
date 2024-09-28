@@ -9,35 +9,33 @@
   </div>
 
   <div class="mx-auto w-fit max-w-full space-y-2">
-    <% unless App.draw_mode? %>
-      <div class="-mx-3 flex justify-between gap-x-12 text-lg">
-        <div
-          <% if view.game_in_progress? %>
-            data-controller="elapsed-time"
-            data-elapsed-time-start-value="<%= view.elapsed_time.to_i %>"
-          <% end %>
-          data-turbo-temporary
-          title="Game Timer"
-        >
-          <time
-            data-elapsed-time-target="elapsedTime"
-            datetime="PT<%= view.elapsed_time.to_i %>S"
-            aria-label="Elapsed Time: <%= view.elapsed_time %>"
-          ><%= view.elapsed_time %></time>
-        </div>
-
-        <ul
-          title="Placed Flags vs Total Mines"
-          class="flex gap-x-1.5 whitespace-nowrap"
-        >
-          <li><%= view.flags_count %></li>
-          <li><%= Icon.flag %></li>
-          <li class="text-gray-500 dark:text-neutral-400">/</li>
-          <li><%= view.mines %></li>
-          <li><%= Icon.mine %></li>
-        </ul>
+    <div class="-mx-3 flex justify-between gap-x-12 text-lg">
+      <div
+        <% if view.game_in_progress? %>
+          data-controller="elapsed-time"
+          data-elapsed-time-start-value="<%= view.elapsed_time.to_i %>"
+        <% end %>
+        data-turbo-temporary
+        title="Game Timer"
+      >
+        <time
+          data-elapsed-time-target="elapsedTime"
+          datetime="PT<%= view.elapsed_time.to_i %>S"
+          aria-label="Elapsed Time: <%= view.elapsed_time %>"
+        ><%= view.elapsed_time %></time>
       </div>
-    <% end %>
+
+      <ul
+        title="Placed Flags vs Total Mines"
+        class="flex gap-x-1.5 whitespace-nowrap"
+      >
+        <li><%= view.flags_count %></li>
+        <li><%= Icon.flag %></li>
+        <li class="text-gray-500 dark:text-neutral-400">/</li>
+        <li><%= view.mines %></li>
+        <li><%= Icon.mine %></li>
+      </ul>
+    </div>
 
     <div
       class="
@@ -62,14 +60,10 @@
             data-board-highlight-neighbors-url-value="<%= view.highlight_neighbors_url %>"
             data-board-reveal-neighbors-url-value="<%= view.reveal_neighbors_url %>"
             data-action="
-              <% if App.draw_mode? %>
-                mousedown->board#toggleFlag:prevent
-              <% else %>
-                click->board#reveal
-                contextmenu->board#toggleFlag:prevent
-                mousedown->board#highlightNeighbors
-                mouseup->board#revealNeighbors
-              <% end %>
+              click->board#reveal
+              contextmenu->board#toggleFlag:prevent
+              mousedown->board#highlightNeighbors
+              mouseup->board#revealNeighbors
             "
           <% end %>
           class="
@@ -116,34 +110,30 @@
   </div>
 
   <div class="container mx-auto text-center">
-    <% if App.draw_mode? %>
-      <%= render("games/draw_mode_controls", view: view) %>
-    <% else %>
-      <% if view.game_on? %>
-        <div
-          data-controller="board-actions"
-          data-board-actions-board-id-value="game_board"
-        >
-          <%= button_to(
-                "Reveal Random",
-                nil,
-                class: "btn-primary",
-                data: { action: "board-actions#revealRandom:prevent" }) %>
-        </div>
-      <% elsif view.game_just_ended? %>
-        <div class="mt-3 flex flex-col justify-center items-center gap-6">
-          <p>
-            <%=
-              if view.game_ended_in_victory?
-                t("game.victory.restart_html").sample
-              else # view.game_ended_in_defeat?
-                t("game.defeat.restart_html").sample
-              end
-            %>
-          </p>
-          <%= render("games/new", view: Games::New.new) %>
-        </div>
-      <% end %>
+    <% if view.game_on? %>
+      <div
+        data-controller="board-actions"
+        data-board-actions-board-id-value="game_board"
+      >
+        <%= button_to(
+              "Reveal Random",
+              nil,
+              class: "btn-primary",
+              data: { action: "board-actions#revealRandom:prevent" }) %>
+      </div>
+    <% elsif view.game_just_ended? %>
+      <div class="mt-3 flex flex-col justify-center items-center gap-6">
+        <p>
+          <%=
+            if view.game_ended_in_victory?
+              t("game.victory.restart_html").sample
+            else # view.game_ended_in_defeat?
+              t("game.defeat.restart_html").sample
+            end
+          %>
+        </p>
+        <%= render("games/new", view: Games::New.new) %>
+      </div>
     <% end %>
   </div>
 <% end %>

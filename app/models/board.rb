@@ -66,19 +66,6 @@ class Board < ApplicationRecord
     Grid.new(cells, context:)
   end
 
-  if App.draw_mode?
-    def reset
-      cells.update_all(
-        revealed: false,
-        mine: false,
-        flagged: false,
-        highlighted: false,
-        value: nil)
-
-      self
-    end
-  end
-
   private
 
   def all_safe_cells_have_been_revealed?

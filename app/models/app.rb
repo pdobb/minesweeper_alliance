@@ -6,7 +6,6 @@ module App
 
   def self.debug? = Rails.configuration.debug
   def self.dev_mode? = Rails.configuration.dev_mode
-  def self.draw_mode? = Rails.configuration.draw_mode
   def self.disable_turbo? = Rails.configuration.disable_turbo
 
   def self.test? = Rails.env.test?
