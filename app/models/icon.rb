@@ -51,6 +51,10 @@ module Icon
     "✏️"
   end
 
+  def self.trash
+    "🗑️"
+  end
+
   def self.celebratory_victory
     "#{ship}#{anchor}#{victory}"
   end

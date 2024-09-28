@@ -14,9 +14,6 @@
 class Board < ApplicationRecord
   self.implicit_order_column = "created_at"
 
-  # Board::Error represents any StandardError related to Board processing.
-  Error = Class.new(StandardError)
-
   include ConsoleBehaviors
 
   belongs_to :game
@@ -46,7 +43,7 @@ class Board < ApplicationRecord
   def width = settings.width
   def height = settings.height
   def mines = settings.mines
-  def dimensions = "#{settings.width}x#{settings.height}"
+  def dimensions = "#{width}x#{height}"
 
   def check_for_victory
     return unless game.status_sweep_in_progress?

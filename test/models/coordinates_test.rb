@@ -51,24 +51,22 @@ class CoordinatesTest < ActiveSupport::TestCase
     end
 
     describe "#<=>" do
-      let(:coordinates_array) {
+      let(:coordinates_array1) {
         [unit_class[1, 1], unit_class[0, 2], unit_class[0, 1]]
       }
 
       it "allows for sorting of Coordinates" do
-        _(coordinates_array.sort).must_equal(
+        _(coordinates_array1.sort).must_equal(
           [unit_class[0, 1], unit_class[1, 1], unit_class[0, 2]])
       end
 
       context "GIVEN a non-Coordinates comparison object" do
-        let(:other) { Object.new }
-
         subject { unit_class[0, 0] }
 
         it "raises TypeError" do
-          exception = _(-> { subject <=> other }).must_raise(TypeError)
+          exception = _(-> { subject <=> Object.new }).must_raise(TypeError)
           _(exception.message).must_equal(
-            "can't compare with non-Coordinates objects")
+            "can't compare with non-Coordinates objects, got Object")
         end
       end
     end

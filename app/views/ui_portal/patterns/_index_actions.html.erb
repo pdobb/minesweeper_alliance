@@ -1,0 +1,16 @@
+<%# locals: (view:) %>
+
+<%= turbo_frame_tag(:index_actions, class: "block") do %>
+  <div class="flex items-center gap-x-3">
+    <%= link_to(
+          "New",
+          view.new_pattern_url,
+          data: { turbo_stream: true },
+          class: "btn-primary") %>
+    <%= link_to(
+          "Import",
+          view.new_import_pattern_url,
+          data: { turbo_stream: true },
+          class: "btn-primary") %>
+  </div>
+<% end %>

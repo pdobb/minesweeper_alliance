@@ -1,0 +1,24 @@
+<%# locals: (view:) %>
+
+<%= turbo_frame_tag(:edit_pattern, class: "block") do %>
+  <div class="flex items-center gap-x-6">
+    <h2><%= view.name %></h2>
+
+    <div class="flex gap-x-3">
+      <%= link_to(
+            Icon.pencil,
+            view.edit_pattern_url,
+            data: { turbo_stream: true },
+            class: "btn-basic") %>
+      <%= button_to(
+            Icon.trash,
+            view.destroy_pattern_url,
+            method: :delete,
+            data: {
+              turbo_frame: :_top,
+              turbo_confirm: "Really delete #{view.name.inspect}?",
+            },
+            class: "btn-basic") %>
+    </div>
+  </div>
+<% end %>

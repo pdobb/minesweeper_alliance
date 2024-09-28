@@ -1,0 +1,60 @@
+<% title("Patterns") %>
+
+<div class="container mx-auto space-y-8">
+  <div class="space-y-6">
+    <h1><%= title %></h1>
+
+    <%= render("ui_portal/patterns/index_actions", view: @view) %>
+  </div>
+
+  <div class="space-y-6">
+    <% if @view.any_listings? %>
+      <% @view.listings.each do |listing| %>
+        <div
+          id="<%= listing.dom_id(self) %>"
+          class="
+            flex-col space-y-3
+            p-3 w-1/3
+            border border-gray-300 dark:border-neutral-600
+          "
+        >
+          <div class="flex gap-x-3">
+            <span class="text-gray-500 dark:text-neutral-400">
+              #<%= listing.id %>
+            </span>
+
+            <div class="flex justify-between w-full">
+              <%= link_to(listing.name, listing.show_pattern_url) %>
+
+              <%= button_to(
+                    Icon.trash,
+                    listing.destroy_pattern_url,
+                    method: :delete,
+                    data: {
+                      turbo_confirm: "Really delete #{listing.name.inspect}?",
+                      turbo_stream: true,
+                    },
+                    class: "btn-basic") %>
+            </div>
+          </div>
+
+          <p class="text-gray-500 dark:text-neutral-400">
+            <%= listing.timestamp %>
+          </p>
+        </div>
+      <% end %>
+    <% end %>
+
+    <div
+      class="
+        hidden only:block
+        mt-12 p-12
+        text-center italic
+        border border-dashed border border-gray-500 dark:border-neutral-400
+      "
+    >
+      No Patterns exist yet.
+    </div>
+  </div>
+</div>
+

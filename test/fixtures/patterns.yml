@@ -1,0 +1,9 @@
+pattern1:
+  name: Test Pattern 1
+  settings: <%= { width: 6, height: 6 }.to_json %>
+  coordinates_array: <%=
+    ActiveSupport::JSON.encode(
+      CoordinatesArray.new([
+        Coordinates[0, 0], Coordinates[2, 0],
+        Coordinates[2, 0], Coordinates[2, 2],
+      ])) %>

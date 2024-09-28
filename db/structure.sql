@@ -170,6 +170,39 @@ ALTER SEQUENCE public.games_id_seq OWNED BY public.games.id;
 
 
 --
+-- Name: patterns; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.patterns (
+    id bigint NOT NULL,
+    name character varying NOT NULL,
+    settings jsonb DEFAULT '{}'::jsonb NOT NULL,
+    coordinates_array jsonb DEFAULT '[]'::jsonb NOT NULL,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: patterns_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.patterns_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: patterns_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.patterns_id_seq OWNED BY public.patterns.id;
+
+
+--
 -- Name: schema_migrations; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -219,6 +252,13 @@ ALTER TABLE ONLY public.games ALTER COLUMN id SET DEFAULT nextval('public.games_
 
 
 --
+-- Name: patterns id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.patterns ALTER COLUMN id SET DEFAULT nextval('public.patterns_id_seq'::regclass);
+
+
+--
 -- Name: ar_internal_metadata ar_internal_metadata_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -256,6 +296,14 @@ ALTER TABLE ONLY public.cells
 
 ALTER TABLE ONLY public.games
     ADD CONSTRAINT games_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: patterns patterns_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.patterns
+    ADD CONSTRAINT patterns_pkey PRIMARY KEY (id);
 
 
 --
@@ -387,6 +435,20 @@ CREATE UNIQUE INDEX index_games_on_status ON public.games USING btree (status) W
 
 
 --
+-- Name: index_patterns_on_created_at; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_patterns_on_created_at ON public.patterns USING btree (created_at);
+
+
+--
+-- Name: index_patterns_on_name; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_patterns_on_name ON public.patterns USING btree (name);
+
+
+--
 -- Name: index_users_on_username; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -446,6 +508,7 @@ ALTER TABLE ONLY public.cells
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20240927195322'),
 ('20240912030247'),
 ('20240911180310'),
 ('20240809213941'),

@@ -33,7 +33,7 @@ module ActiveSupport::Testing::Assertions # rubocop:disable Metrics/ModuleLength
   #     subject.validate
   #   }).must_change_all([
   #     ["subject.attribute1", from: nil, to: 9],
-  #     ["subject.attribute2",  "My custom message.", from: 9, to: nil]
+  #     ["subject.attribute2", "My custom message.", from: 9, to: nil]
   #   ])
   #
   # @param change_sets [Array] the `expression`, `message` (Optional), and

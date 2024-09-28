@@ -39,9 +39,13 @@ Naming/MethodParameterName:
     - x
     - y
 
+Rails/ActionOrder:
+  ExpectedOrder: [index, show, new, create, edit, update, destroy]
+
 Rails/ApplicationController:
   Exclude:
     - app/controllers/ui_portal/**/*
+
 Rails/WhereExists:
   Exclude:
     - test/**/*

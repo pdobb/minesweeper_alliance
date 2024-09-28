@@ -34,6 +34,18 @@ Rails.application.routes.draw do
       root "home#show"
 
       get "flash_notifications" => "home#flash_notifications"
+
+      resources :patterns do
+        scope module: :patterns do
+          resource :toggle_flag, only: :create
+
+          resources :resets, only: :create
+          resources :exports, only: :create
+        end
+      end
+      namespace :patterns do
+        resources :imports, only: %i[new create]
+      end
     end
   end
 

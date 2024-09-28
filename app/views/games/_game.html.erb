@@ -51,7 +51,8 @@
           mx-auto table-fixed
           border-double border-4
           border-slate-400 dark:border-neutral-950
-        ">
+        "
+      >
         <tbody
           <% if view.game_on? %>
             data-controller="board"
@@ -75,8 +76,6 @@
             <% if view.game_on? %>
               data-[revealed=false]:*:*:cursor-cell
               data-[revealed=true]:*:*:cursor-default
-            <% else %>
-              *:*:cursor-default
             <% end %>
           "
         >

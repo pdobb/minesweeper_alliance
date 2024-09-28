@@ -21,8 +21,8 @@ class Games::Customs::New # rubocop:disable Style/ClassAndModuleChildren
       previous_settings[name] || current_value
     end
 
-    def ranges(name)
-      Board::Settings::RANGES.fetch(name)
+    def ranges(key)
+      Board::Settings::RANGES.fetch(key)
     end
 
     def any_errors? = to_model.errors.any?

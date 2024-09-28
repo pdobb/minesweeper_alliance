@@ -1,0 +1,54 @@
+<%# locals: (view:) %>
+
+<div id="pattern_container" class="mx-auto w-fit max-w-full space-y-2">
+  <div class="-mx-5">
+    <table
+      class="
+        mx-auto table-fixed
+        border-double border-4
+        border-slate-400 dark:border-neutral-950
+      "
+    >
+      <tbody
+        data-controller="pattern"
+        data-pattern-toggle-flag-url-value="<%= view.toggle_flag_url %>"
+        data-action="mousedown->pattern#toggleFlag:prevent"
+        class="
+          text-center select-none
+
+          <%# Cells %>
+          *:*:size-8 *:*:min-w-8 *:*:min-h-8
+          *:*:border *:*:border-slate-600 *:*:dark:border-neutral-950
+          *:*:bg-slate-400 *:*:dark:bg-neutral-700
+        "
+      >
+        <% view.rows.each do |row| %>
+          <tr>
+            <% row.each do |cell| %>
+              <td
+                data-coordinates="<%= cell.coordinates.to_json %>"
+                data-flagged="<%= cell.flagged? %>"
+              ><%= cell %></td>
+            <% end %>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+
+  <ul
+    class="
+      -mx-5 flex justify-center gap-x-6
+      text-gray-400 dark:text-neutral-500
+    "
+  >
+    <li>Dimensions: <%= view.dimensions %></li>
+    <li>|</li>
+    <li>
+      Mine Density:
+      <span class="<%= class_names(view.flag_density_css_class) %>">
+        <%= number_to_percentage(view.flag_density_percent, precision: 0) %>
+      </span>
+    </li>
+  </ul>
+</div>

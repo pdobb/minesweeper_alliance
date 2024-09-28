@@ -1,0 +1,23 @@
+<%# locals: (pattern:) %>
+
+<%= turbo_frame_tag(:edit_pattern) do %>
+  <%= form_with(
+        model: pattern,
+        url: ui_portal_pattern_path(pattern),
+        html: { novalidate: true }) do |f| %>
+    <div class="flex items-baseline gap-x-3">
+      <%= f.label(:name, "Name:", class: "min-w-20 md:min-w-fit") %>
+      <div class="flex flex-col gap-y-2">
+        <%= f.text_field(
+              :name,
+              autocomplete: :off,
+              autofocus: true,
+              onfocus: "this.select()",
+              data: { "1p-ignore": true },
+              class: "w-32 form-field p-1") %>
+      </div>
+
+      <%= f.submit("Update", class: "btn-primary") %>
+    </div>
+  <% end %>
+<% end %>

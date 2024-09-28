@@ -1,0 +1,65 @@
+<%# locals: (view:) %>
+
+<%= turbo_frame_tag(:index_actions, class: "block") do %>
+  <%= form_with(
+        model: view.to_model,
+        url: ui_portal_patterns_path,
+        data: { turbo_frame: :_top },
+        html: { novalidate: true }) do |f| %>
+    <div
+      class="
+        flex flex-col md:flex-row
+        items-center md:items-baseline
+        gap-y-6 gap-x-12
+      "
+    >
+      <div class="flex items-baseline gap-x-3">
+        <%= f.label(:name, "Name:", class: "min-w-20 md:min-w-fit") %>
+        <div class="flex flex-col gap-y-2">
+          <%= f.text_field(
+                :name,
+                autocomplete: :off,
+                autofocus: true,
+                onfocus: "this.select()",
+                data: { "1p-ignore": true },
+                class: "w-32 form-field p-1") %>
+        </div>
+      </div>
+
+      <%= f.fields_for(:settings, view.settings_form) do |sf| %>
+        <div class="flex items-baseline gap-x-3">
+          <%= sf.label(:width, "Width:", class: "min-w-20 md:min-w-fit") %>
+          <div class="flex flex-col gap-y-2">
+            <%= sf.number_field(
+                  :width,
+                  value: sf.object.value(:width),
+                  in: sf.object.ranges(:width),
+                  class: "w-[72px] form-field p-1",
+                  inputmode: "numeric",
+                  pattern: "[0-9]{1,2}") %>
+          </div>
+        </div>
+        <div class="flex items-baseline gap-x-3">
+          <%= sf.label(:height, "Height:", class: "min-w-20 md:min-w-fit") %>
+          <div class="flex flex-col gap-y-2">
+            <%= sf.number_field(
+                  :height,
+                  value: sf.object.value(:height),
+                  in: sf.object.ranges(:height),
+                  class: "w-[72px] form-field p-1",
+                  inputmode: "numeric",
+                  pattern: "[0-9]{1,2}") %>
+          </div>
+        </div>
+      <% end %>
+
+      <%= f.submit("Create", class: "btn-primary") %>
+    </div>
+
+    <% if view.any_errors? %>
+      <div class="mt-6 form-error text-left">
+        <%= view.display_errors %>
+      </div>
+    <% end %>
+  <% end %>
+<% end %>
