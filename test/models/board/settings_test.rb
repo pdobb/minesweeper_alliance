@@ -10,27 +10,27 @@ class Board::SettingsTest < ActiveSupport::TestCase
       subject { unit_class }
 
       describe ".preset" do
-        context "GIVEN a valid name" do
-          let(:name1) { ["Beginner", "intermediate", :expert].sample }
+        context "GIVEN a valid type" do
+          let(:type1) { ["Beginner", "intermediate", :expert].sample }
 
           it "returns the expected instance" do
-            result = subject.preset(name1)
+            result = subject.preset(type1)
             _(result).must_be_instance_of(unit_class)
-            _(unit_class::PRESETS.keys).must_include(result.name)
+            _(unit_class::PRESETS.keys).must_include(result.type)
           end
         end
 
-        context "GIVEN an unknown name" do
+        context "GIVEN an unknown type" do
           it "raises KeyError" do
             exception = _(-> { subject.preset("UNKNOWN") }).must_raise(KeyError)
             _(exception.message).must_equal('key not found: "Unknown"')
           end
         end
 
-        context "GIVEN name = nil" do
+        context "GIVEN type = nil" do
           it "raises TypeError" do
             exception = _(-> { subject.preset(nil) }).must_raise(TypeError)
-            _(exception.message).must_equal("name can't be blank")
+            _(exception.message).must_equal("type can't be blank")
           end
         end
       end
@@ -39,21 +39,21 @@ class Board::SettingsTest < ActiveSupport::TestCase
         it "returns the expected instance" do
           result = subject.beginner
           _(result).must_be_instance_of(unit_class)
-          _(result.name).must_equal("Beginner")
+          _(result.type).must_equal("Beginner")
         end
       end
       describe ".intermediate" do
         it "returns the expected instance" do
           result = subject.intermediate
           _(result).must_be_instance_of(unit_class)
-          _(result.name).must_equal("Intermediate")
+          _(result.type).must_equal("Intermediate")
         end
       end
       describe ".expert" do
         it "returns the expected instance" do
           result = subject.expert
           _(result).must_be_instance_of(unit_class)
-          _(result.name).must_equal("Expert")
+          _(result.type).must_equal("Expert")
         end
       end
 
@@ -61,7 +61,7 @@ class Board::SettingsTest < ActiveSupport::TestCase
         it "returns a random preset" do
           result = subject.random
           _(result).must_be_instance_of(unit_class)
-          _(unit_class::PRESETS.keys).must_include(result.name)
+          _(unit_class::PRESETS.keys).must_include(result.type)
         end
       end
     end
@@ -209,21 +209,21 @@ class Board::SettingsTest < ActiveSupport::TestCase
       end
     end
 
-    describe "#name" do
+    describe "#type" do
       context "GIVEN a preset" do
         subject { unit_class.beginner }
 
         it "returns the expected String" do
-          _(subject.name).must_equal("Beginner")
+          _(subject.type).must_equal("Beginner")
         end
       end
 
       context "GIVEN custom attributes" do
         subject { unit_class[6, 6, 9] }
 
-        describe "#name" do
+        describe "#type" do
           it "returns the expected String" do
-            _(subject.name).must_equal("Custom")
+            _(subject.type).must_equal("Custom")
           end
         end
       end
@@ -261,7 +261,7 @@ class Board::SettingsTest < ActiveSupport::TestCase
 
         it "returns the expected Hash" do
           _(subject.to_h).must_equal(
-            { name: "Beginner", width: 9, height: 9, mines: 10 })
+            { type: "Beginner", width: 9, height: 9, mines: 10 })
         end
       end
 
@@ -271,7 +271,7 @@ class Board::SettingsTest < ActiveSupport::TestCase
         describe "#to_h" do
           it "returns the expected Hash" do
             _(subject.to_h).must_equal(
-              { name: "Custom", width: 6, height: 6, mines: 9 })
+              { type: "Custom", width: 6, height: 6, mines: 9 })
           end
         end
       end
@@ -282,7 +282,7 @@ class Board::SettingsTest < ActiveSupport::TestCase
 
       it "returns the expected Hash" do
         _(subject.as_json).must_equal(
-          { name: "Beginner", width: 9, height: 9, mines: 10 })
+          { type: "Beginner", width: 9, height: 9, mines: 10 })
       end
     end
 

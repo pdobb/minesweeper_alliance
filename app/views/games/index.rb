@@ -64,14 +64,14 @@ class Games::Index
     @engagement_tally ||= EngagementTally.new(start_at..)
   end
 
-  # Games::Index::Preset wraps {Board::Settings} presets (names), for display
+  # Games::Index::Preset wraps {Board::Settings} presets (types), for display
   # of the "Initials = Name" map/legend.
   class Preset
     include WrapMethodBehaviors
 
     def initialize(preset) = @preset = preset
-    def initials = name[0]
-    def name = @preset
+    def initials = type[0]
+    def type = @preset
   end
 
   # Games::Index::ListingsDate

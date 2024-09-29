@@ -1,17 +1,18 @@
 # frozen_string_literal: true
 
-# Board::Settings stores the {#name}, {#width}, {#height}, and number of
+# Board::Settings stores the {#type}, {#width}, {#height}, and number of
 # {#mines} (to be) in the {Grid} of a {Board}'s associated {Cell}s.
 class Board::Settings
   # rubocop:disable Layout/HashAlignment
   PRESETS = {
     "Beginner" =>     { width: 9,  height: 9,  mines: 10 }, # 12.3% mine density
     "Intermediate" => { width: 16, height: 16, mines: 40 }, # 15.6% mine density
-    "Expert" =>       { width: 30, height: 16, mines: 99 }, # 47.6% mine density
+    "Expert" =>       { width: 30, height: 16, mines: 99 }, # 20.6% mine density
   }.freeze
   # rubocop:enable Layout/HashAlignment
 
   CUSTOM = "Custom"
+  PATTERN = "Pattern"
 
   RANGES = {
     width: 6..30,
@@ -25,12 +26,12 @@ class Board::Settings
 
   include ObjectInspector::InspectorsHelper
 
-  attribute :name, :string
+  attribute :type, :string
   attribute :width, :integer, default: -> { RANGES.fetch(:width).begin }
   attribute :height, :integer, default: -> { RANGES.fetch(:height).begin }
   attribute :mines, :integer, default: -> { RANGES.fetch(:mines).begin }
 
-  validates :name,
+  validates :type,
             presence: true
 
   validates :width,
@@ -59,10 +60,10 @@ class Board::Settings
     validate :validate_mine_density, if: :custom?
   end
 
-  def self.preset(name)
-    raise(TypeError, "name can't be blank") if name.blank?
+  def self.preset(type)
+    raise(TypeError, "type can't be blank") if type.blank?
 
-    new(name:, **settings_for(name))
+    new(type:, **settings_for(type))
   end
 
   def self.beginner = new(**settings_for("Beginner"))
@@ -70,14 +71,14 @@ class Board::Settings
   def self.expert = new(**settings_for("Expert"))
   def self.random = preset(PRESETS.keys.sample)
 
-  def self.settings_for(name)
-    name = name.to_s.titleize
-    { name:, **PRESETS.fetch(name) }
+  def self.settings_for(type)
+    type = type.to_s.titleize
+    { type:, **PRESETS.fetch(type) }
   end
   private_class_method :settings_for
 
   # Custom Settings: See {RANGES}.
-  def self.custom(**) = new(name: CUSTOM, **)
+  def self.custom(**) = new(type: CUSTOM, **)
 
   # Shortcut for Custom Settings: See {RANGES}.
   #
@@ -87,17 +88,17 @@ class Board::Settings
     custom(width: args[0], height: args[1], mines: args[2])
   end
 
-  def to_s = name
-  def to_h = { name:, width:, height:, mines: }
+  def to_s = type
+  def to_h = { type:, width:, height:, mines: }
   def to_a = to_h.values
   def as_json = to_h
 
-  def custom? = name == CUSTOM
+  def custom? = type == CUSTOM
 
   private
 
   def inspect_identification = identify(:width, :height, :mines)
-  def inspect_name = name
+  def inspect_name = type
 
   def validate_mine_density
     return if errors.any?

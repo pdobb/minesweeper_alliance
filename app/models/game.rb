@@ -5,8 +5,8 @@
 # lose.
 #
 # @attr status [String] The current Game status / life-cycle state.
-# @attr type [String] The name of the {Board::Settings} preset/name that was
-#   used to generate this Game's {Board} / {Grid} of {Cell}s.
+# @attr type [String] The {Board::Settings#type} (preset/name) that was used to
+#   generate this Game's {Board} / {Grid} of {Cell}s.
 #   Note: This attribute/column is *not* used for STI.
 # @attr started_at [DateTime] When this Game started. i.e. transitioned from
 #   {#status} "Standing By" to "Sweep in Progress".
@@ -76,7 +76,7 @@ class Game < ApplicationRecord
 
   # @attr settings [Board::Settings]
   def self.build_for(settings:)
-    new(type: settings.name).tap { |new_game|
+    new(type: settings.type).tap { |new_game|
       new_game.build_board(settings:)
     }
   end
