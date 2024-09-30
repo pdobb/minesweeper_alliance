@@ -81,4 +81,5 @@ Rails.application.configure do
   # config.generators.apply_rubocop_autocorrect_after_generate!
 
   config.hosts << "pdobb.ngrok.io"
+  config.web_console.permissions = "192.168.1.0/16"
 end
