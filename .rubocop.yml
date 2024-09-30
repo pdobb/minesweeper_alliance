@@ -46,6 +46,10 @@ Rails/ApplicationController:
   Exclude:
     - app/controllers/ui_portal/**/*
 
+Rails/Output:
+  Exclude:
+    - db/seeds.rb
+
 Rails/WhereExists:
   Exclude:
     - test/**/*
