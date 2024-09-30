@@ -40,7 +40,7 @@
     <div
       class="
         -mx-5
-        <% if view.allow_scrolling?(context: layout) %>
+        <% if view.grid_context(layout).allow_scrolling? %>
           overflow-x-auto
         <% end %>
       "
@@ -79,7 +79,7 @@
             <% end %>
           "
         >
-          <% view.rows(context: layout).each do |row| %>
+          <% view.rows(context: view.grid_context(layout)).each do |row| %>
             <tr>
               <% row.each do |cell| %>
                 <td

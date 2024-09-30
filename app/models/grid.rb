@@ -6,8 +6,6 @@ class Grid
   STANDARD_ORGANIZER = ->(array) { array }
   TRANSPOSE_ORGANIZER = ->(array) { array.transpose }
 
-  MOBILE_VIEW_DISPLAY_WIDTH_IN_COLUMNS = 10
-
   include Enumerable
   include ConsoleBehaviors
 
@@ -56,29 +54,7 @@ class Grid
   private
 
   def organizer
-    return STANDARD_ORGANIZER unless context&.mobile?
-
-    if landscape? && wider_than?(MOBILE_VIEW_DISPLAY_WIDTH_IN_COLUMNS)
-      TRANSPOSE_ORGANIZER
-    else
-      STANDARD_ORGANIZER
-    end
-  end
-
-  def landscape?
-    width >= height
-  end
-
-  def wider_than?(value)
-    width > value
-  end
-
-  def width
-    @width ||= to_h.values.first.size
-  end
-
-  def height
-    @height ||= to_h.keys.size
+    context&.transpose? ? TRANSPOSE_ORGANIZER : STANDARD_ORGANIZER
   end
 
   # rubocop:enable Layout/LineLength

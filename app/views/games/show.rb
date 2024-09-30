@@ -43,15 +43,14 @@ class Games::Show
     router.game_board_cell_reveal_neighbors_path(game, board, NULL_CELL_ID)
   end
 
-  def allow_scrolling?(
-        context:, min_width: Grid::MOBILE_VIEW_DISPLAY_WIDTH_IN_COLUMNS)
-    context.mobile? && board.width > min_width
-  end
-
   def rows(context:)
     klass = game_on? ? ActiveCell : InactiveCell
 
     grid(context:).map { |row| klass.wrap(row, self) }
+  end
+
+  def grid_context(context)
+    @grid_context ||= Games::GridContext.new(context:, board:)
   end
 
   def elapsed_time
