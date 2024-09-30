@@ -1,6 +1,6 @@
 <% title("War Room") %>
 
-<%= render("page_nav", view: @view) %>
+<%= render("page_nav", nav: @view.nav) %>
 
 <%= turbo_stream_from(:current_game, channel: CurrentGameChannel) %>
 

@@ -9,6 +9,8 @@ class Home::Show
     @current_game = current_game
   end
 
+  def nav = Nav.new(current_game:)
+
   def show_welcome_banner?(context:)
     build_welcome_banner.show_welcome_banner?(context:)
   end
@@ -17,17 +19,7 @@ class Home::Show
     build_welcome_banner.welcome_banner(context:)
   end
 
-  def previous_game_url(router = RailsRouter.instance)
-    router.game_path(previous_game)
-  end
-
-  def previous_game?
-    !!previous_game
-  end
-
-  def current_game?
-    !!current_game
-  end
+  def current_game? = !!current_game
 
   def render_options
     if current_game?
@@ -63,6 +55,29 @@ class Home::Show
 
   def previous_game
     @previous_game ||= Game.second_to_last
+  end
+
+  # Home::Show::Nav is a View Model for handling navigation between Game - Show
+  # pages.
+  class Nav
+    def initialize(current_game:)
+      @current_game = current_game
+    end
+
+    def current_game? = !!current_game
+    def previous_game? = !!previous_game
+
+    def previous_game_url(router = RailsRouter.instance)
+      router.game_path(previous_game)
+    end
+
+    def previous_game
+      @previous_game ||= Game.second_to_last
+    end
+
+    private
+
+    attr_reader :current_game
   end
 
   # Home::Show::WelcomeBanner

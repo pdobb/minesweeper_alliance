@@ -1,19 +1,19 @@
-<%# locals: (view:) %>
+<%# locals: (nav:) %>
 
-<% if view.current_game? && view.previous_game? %>
+<% if nav.current_game? && nav.previous_game? %>
   <div class="relative container mx-auto">
-    <%= link_to(
-          view.previous_game_url,
-          class: %w[
-            absolute -top-8
-            text-gray-500 dark:text-neutral-400
-            no-underline
-          ],
-          title: "Back to Last Op",
-          data: { turbo_frame: :_top }) do %>
-      <%= inline_svg_tag(
-            "heroicons/arrow-long-left.svg",
-            class: "size-6 min-w-6 min-h-6") %>
-    <% end %>
+    <div
+      class="
+        absolute -top-8 flex items-center gap-x-3
+        *:text-gray-500 *:dark:text-neutral-400
+        *:no-underline
+      "
+    >
+      <%= link_to(nav.previous_game_url, title: "Previous Op") do %>
+        <%= inline_svg_tag(
+              "heroicons/arrow-long-left.svg",
+              class: "size-6 min-w-6 min-h-6") %>
+      <% end %>
+    </div>
   </div>
 <% end %>

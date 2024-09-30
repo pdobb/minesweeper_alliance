@@ -7,6 +7,8 @@ class ApplicationRecord < ActiveRecord::Base
   scope :for_id, ->(id) { where(id:) }
   # Prefer `excluding(...)` over `not_for_id(...)`.
 
+  scope :for_created_at, ->(time_range) { where(created_at: time_range) }
+
   scope :by_least_recent, -> { order(:created_at) }
   scope :by_most_recent, -> { order(created_at: :desc) }
 

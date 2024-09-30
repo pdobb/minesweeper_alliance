@@ -12,6 +12,8 @@ class Games::Show
     @game = game
   end
 
+  def nav = Nav.new(current_game: game)
+
   def current_game? = game_on? || game_just_ended?
   def game_on? = game.on?
   def game_just_ended? = game.just_ended?
@@ -78,6 +80,54 @@ class Games::Show
 
   def players_count(roster = DutyRoster)
     [roster.count, 1].max
+  end
+
+  # Games::Show::Nav is a View Model for handling navigation between Game - Show
+  # pages.
+  class Nav
+    def initialize(current_game:)
+      @current_game = current_game
+    end
+
+    def previous_game? = !!previous_game
+
+    def previous_game_url(router = RailsRouter.instance)
+      router.game_path(previous_game)
+    end
+
+    def previous_game
+      @previous_game ||=
+        Game.
+          for_created_at(..current_game.created_at).
+          excluding(current_game).
+          limit(1).
+          by_most_recent.
+          take
+    end
+
+    def next_game? = !!next_game
+
+    def next_game_url(router = RailsRouter.instance)
+      router.game_path(next_game)
+    end
+
+    def next_game
+      @next_game ||=
+        Game.
+          for_created_at(current_game.created_at..).
+          excluding(current_game).
+          limit(1).
+          by_least_recent.
+          take
+    end
+
+    def close_game_url(router = RailsRouter.instance)
+      router.games_path
+    end
+
+    private
+
+    attr_reader :current_game
   end
 
   # Games::Show::ElapsedTime is a View Model wrapper around {::ElapsedTime},
