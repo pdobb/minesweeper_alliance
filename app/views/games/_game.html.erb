@@ -8,8 +8,8 @@
     </h2>
   </div>
 
-  <div class="mx-auto w-fit max-w-full space-y-2">
-    <div class="-mx-3 flex justify-between gap-x-12 text-lg">
+  <div class="mx-auto md:w-fit md:max-w-full space-y-2">
+    <div class="md:-mx-3 flex justify-between gap-x-12 text-lg">
       <div
         <% if view.game_in_progress? %>
           data-controller="elapsed-time"
@@ -99,7 +99,7 @@
 
     <ul
       class="
-        -mx-5 flex justify-end gap-x-3
+        md:-mx-5 flex justify-end gap-x-3
         text-gray-400 dark:text-neutral-500
       "
     >
@@ -131,7 +131,10 @@
             end
           %>
         </p>
-        <%= render("games/new", view: Games::New.new) %>
+
+        <div class="flex justify-center items-center min-h-12">
+          <%= render("games/new", view: Games::New.new) %>
+        </div>
       </div>
     <% end %>
   </div>

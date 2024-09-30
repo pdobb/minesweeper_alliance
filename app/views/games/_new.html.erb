@@ -1,12 +1,13 @@
 <%# locals: (view:) %>
 
-<%= turbo_frame_tag(:new_game, class: "block") do %>
+<%= turbo_frame_tag(:new_game) do %>
   <div
     class="
       flex
       flex-col md:flex-row
       justify-center items-center
       gap-6
+      min-h-12
     "
   >
     <% view.presets.each do |preset| %>
