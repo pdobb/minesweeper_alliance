@@ -33,7 +33,11 @@ class EngagementTally
   end
 
   def alliance_leads?
-    wins_count >= losses_count
+    wins_count > losses_count
+  end
+
+  def mines_lead?
+    losses_count > wins_count
   end
 
   private

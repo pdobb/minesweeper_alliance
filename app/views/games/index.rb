@@ -6,11 +6,12 @@ module EngagementTallyBehaviors
   def wins_count = engagement_tally.wins_count
   def losses_count = engagement_tally.losses_count
   def alliance_leads? = engagement_tally.alliance_leads?
+  def mines_lead? = engagement_tally.mines_lead?
 
   def alliance_ranking_css_color
     if alliance_leads?
       %w[text-green-700 dark:text-green-600]
-    else
+    elsif mines_lead?
       %w[text-red-700 dark:text-red-600]
     end
   end

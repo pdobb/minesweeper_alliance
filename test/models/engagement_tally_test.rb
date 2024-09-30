@@ -85,7 +85,13 @@ class EngagementTallyTest < ActiveSupport::TestCase
 
       describe "#alliance_leads?" do
         it "returns the expected Boolean" do
-          _(subject.alliance_leads?).must_equal(true)
+          _(subject.alliance_leads?).must_equal(false)
+        end
+      end
+
+      describe "#mines_lead?" do
+        it "returns the expected Boolean" do
+          _(subject.mines_lead?).must_equal(false)
         end
       end
     end
