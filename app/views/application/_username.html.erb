@@ -5,10 +5,16 @@
 <%= turbo_frame_tag(user, "nav") do %>
   <% if layout.current_user_has_signed_their_name? %>
     <%= active_link_to(
-          layout.current_user_display_name,
           user_path(user),
-          data: { turbo_frame: :_top }) %>
+          data: { turbo_frame: :_top }) do %>
+      <span class="hidden md:inline">
+        <%= layout.current_user_display_name %>
+      </span>
+      <%= Icon.profile %>
+    <% end %>
   <% else %>
-    <%= t("site.title") %>
+    <span class="hidden md:inline">
+      <%= t("site.title") %>
+    </span>
   <% end %>
 <% end %>

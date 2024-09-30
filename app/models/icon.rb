@@ -55,6 +55,10 @@ module Icon
     "🗑️"
   end
 
+  def self.profile
+    "🎖️"
+  end
+
   def self.celebratory_victory
     "#{ship}#{anchor}#{victory}"
   end
