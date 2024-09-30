@@ -32,6 +32,19 @@ class Board < ApplicationRecord
 
   validate :validate_settings, on: :create
 
+  def on_create
+    Generate.(board: self)
+    return unless pattern?
+
+    PlaceMines.(board: self, coordinates_array: pattern.coordinates_array)
+  end
+
+  def on_game_start(seed_cell:)
+    return if pattern?
+
+    RandomlyPlaceMines.(board: self, seed_cell:)
+  end
+
   def settings
     @settings ||= Settings.new(**super)
   end
@@ -44,6 +57,8 @@ class Board < ApplicationRecord
   def height = settings.height
   def mines = settings.mines
   def dimensions = "#{width}x#{height}"
+  def pattern? = settings.pattern?
+  def pattern = Pattern.find_by(name: settings.name)
 
   def check_for_victory
     return unless game.status_sweep_in_progress?
@@ -51,9 +66,9 @@ class Board < ApplicationRecord
     all_safe_cells_have_been_revealed? and game.end_in_victory
   end
 
-  def cells_at(coordinates)
-    coordinates = Array.wrap(coordinates)
-    cells.select { |cell| cell.coordinates.in?(coordinates) }
+  def cells_at(coordinates_array)
+    coordinates_array = Array.wrap(coordinates_array)
+    cells.select { |cell| coordinates_array.include?(cell.coordinates) }
   end
 
   def mines_placed? = cells.any?(&:mine?)

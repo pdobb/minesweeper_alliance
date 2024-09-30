@@ -14,6 +14,8 @@ class Board::Settings
   CUSTOM = "Custom"
   PATTERN = "Pattern"
 
+  PERCENT_CHANCE_FOR_RANDOM_PRESET = 90
+
   RANGES = {
     width: 6..30,
     height: 6..30,
@@ -27,12 +29,15 @@ class Board::Settings
   include ObjectInspector::InspectorsHelper
 
   attribute :type, :string
+  attribute :name, :string
   attribute :width, :integer, default: -> { RANGES.fetch(:width).begin }
   attribute :height, :integer, default: -> { RANGES.fetch(:height).begin }
   attribute :mines, :integer, default: -> { RANGES.fetch(:mines).begin }
 
   validates :type,
             presence: true
+  validates :name,
+            presence: { if: :pattern? }
 
   validates :width,
             presence: true,
@@ -66,10 +71,17 @@ class Board::Settings
     new(type:, **settings_for(type))
   end
 
+  def self.random
+    if Pattern.none? || PercentChance.(PERCENT_CHANCE_FOR_RANDOM_PRESET)
+      preset(PRESETS.keys.sample)
+    else # 10% of the time:
+      random_pattern
+    end
+  end
+
   def self.beginner = new(**settings_for("Beginner"))
   def self.intermediate = new(**settings_for("Intermediate"))
   def self.expert = new(**settings_for("Expert"))
-  def self.random = preset(PRESETS.keys.sample)
 
   def self.settings_for(type)
     type = type.to_s.titleize
@@ -88,17 +100,36 @@ class Board::Settings
     custom(width: args[0], height: args[1], mines: args[2])
   end
 
+  def self.random_pattern
+    name = Pattern.by_random.limit(1).pick(:name)
+    pattern(name)
+  end
+
+  def self.pattern(name)
+    pattern = Pattern.find_by!(name:)
+    new(
+      type: PATTERN,
+      name: pattern.name,
+      width: pattern.width,
+      height: pattern.height,
+      mines: pattern.mines)
+  end
+
   def to_s = type
-  def to_h = { type:, width:, height:, mines: }
+  def to_h = { type:, name:, width:, height:, mines: }.tap(&:compact!)
   def to_a = to_h.values
   def as_json = to_h
 
   def custom? = type == CUSTOM
+  def pattern? = type == PATTERN
 
   private
 
   def inspect_identification = identify(:width, :height, :mines)
-  def inspect_name = type
+
+  def inspect_name
+    pattern? ? "#{type} (#{name.inspect})" : type
+  end
 
   def validate_mine_density
     return if errors.any?

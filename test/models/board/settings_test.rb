@@ -58,15 +58,87 @@ class Board::SettingsTest < ActiveSupport::TestCase
       end
 
       describe ".random" do
-        it "returns a random preset" do
-          result = subject.random
-          _(result).must_be_instance_of(unit_class)
-          _(unit_class::PRESETS.keys).must_include(result.type)
+        context "GIVEN no Patterns" do
+          before do
+            Pattern.delete_all
+          end
+
+          it "returns a random preset" do
+            result = subject.random
+            _(result).must_be_instance_of(unit_class)
+            _(unit_class::PRESETS.keys).must_include(result.type)
+          end
+        end
+
+        context "GIVEN Patterns exist" do
+          before do
+            MuchStub.(PercentChance, :call) { false }
+          end
+
+          it "sometimes returns a Pattern" do
+            result = subject.random
+            _(result).must_be_instance_of(unit_class)
+            _(result.type).must_equal("Pattern")
+            _(result.name).wont_be_nil
+          end
         end
       end
     end
 
     describe "#validate" do
+      describe "#type" do
+        context "GIVEN a #type" do
+          subject { unit_class.new(type: "Custom") }
+
+          it "passes validation" do
+            subject.validate
+            _(subject.errors[:type]).must_be_empty
+          end
+        end
+
+        context "GIVEN no #type" do
+          subject { unit_class.new }
+
+          it "fails validation" do
+            subject.validate
+            _(subject.errors[:type]).must_include(ValidationError.presence)
+          end
+        end
+      end
+
+      describe "#name" do
+        subject { unit_class.new(type: "Pattern", name: name1) }
+
+        context "GIVEN #type = Pattern" do
+          context "GIVEN a #name" do
+            let(:name1) { "Test" }
+
+            it "passes validation" do
+              subject.validate
+              _(subject.errors[:name]).must_be_empty
+            end
+          end
+
+          context "GIVEN no #name" do
+            let(:name1) { nil }
+
+            it "fails validation" do
+              subject.validate
+              _(subject.errors[:name]).must_include(ValidationError.presence)
+            end
+          end
+        end
+
+        context "GIVEN #type != Pattern" do
+          subject { unit_class.new }
+
+          it "passes validation, GIVEN no #name" do
+            subject.validate
+            _(subject.errors[:name]).must_be_empty
+          end
+        end
+      end
+
       describe "#width" do
         subject { unit_class[width1, 9, 4] }
 
