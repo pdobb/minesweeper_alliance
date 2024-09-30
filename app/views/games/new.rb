@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# Games::New is a view model for displaying the Games New page.
+# Games::New is a View Model for displaying the Games New page.
 class Games::New
   def presets
     Board::Settings::PRESETS.keys

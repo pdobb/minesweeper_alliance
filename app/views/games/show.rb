@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# Games::Show is a view model for displaying the Games Show page (which is
+# Games::Show is a View Model for displaying the Games Show page (which is
 # largely rendered by the app/views/games/_game.html.erb partial).
 class Games::Show
   NULL_CELL_ID = 0
@@ -173,7 +173,7 @@ class Games::Show
     end
   end
 
-  # Games::Show::CellBehaviors is a view model mix-in for displaying
+  # Games::Show::CellBehaviors is a View Model mix-in for displaying
   # {ActiveCell}s / {InactiveCell}s.
   module CellBehaviors
     extend ActiveSupport::Concern
@@ -211,7 +211,7 @@ class Games::Show
     def to_model = @model
   end
 
-  # Games::Show::ActiveCell is a view model for displaying Active {Cell}s. i.e.
+  # Games::Show::ActiveCell is a View Model for displaying Active {Cell}s. i.e.
   # for an In-Progress {Game}.
   class ActiveCell
     BG_HIGHLIGHTED_COLOR = %w[bg-slate-300 dark:bg-neutral-500].freeze
@@ -238,7 +238,7 @@ class Games::Show
     end
   end
 
-  # Games::Show::InactiveCell is a view model for displaying Inactive {Cell}s.
+  # Games::Show::InactiveCell is a View Model for displaying Inactive {Cell}s.
   # i.e. for a {Game} that's no longer In-Progress.
   class InactiveCell
     # rubocop:disable Layout/MultilineArrayLineBreaks

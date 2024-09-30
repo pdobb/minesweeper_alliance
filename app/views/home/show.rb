@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# Home::Show is a view model for displaying the Home Page.
+# Home::Show is a View Model for displaying the Home Page.
 class Home::Show
   WELCOME_BANNER_NAME = "welcome_banner"
   BANNER_DISMISSAL_VALUE = "dismissed"

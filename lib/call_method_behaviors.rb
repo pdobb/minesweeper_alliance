@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # CallMethodBehaviors is a mix-in to implement the `call` class/instance method
-# pattern used in service objects.
+# pattern used in Service Objects.
 module CallMethodBehaviors
   extend ActiveSupport::Concern
 

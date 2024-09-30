@@ -72,13 +72,13 @@ en:
       Join forces with your fellow minesweepers and take on the mines in real-time!
       But be warned...
       We've got our work cut out for us!
-      The mines are randomly placed, and the game is won not without clear strategy and a dash of luck 🍀.
+      The mines are randomly placed, and the game is not won without clear strategy and a dash of luck 🍀.
     description_html: |
       Welcome to Minesweeper Alliance, an open-multiplayer riff on the classic <a href="https://en.wikipedia.org/wiki/Minesweeper_(video_game)" target="_blank" rel="noreferrer noopener">Minesweeper</a> game.
       Join forces with your fellow minesweepers and take on the mines in real-time!
       But be warned<span class="font-sans">&hellip;</span>
       We've got our work cut out for us!
-      The mines are randomly placed, and the game is won not without clear strategy and a dash of luck 🍀.
+      The mines are randomly placed, and the game is not won without clear strategy and a dash of luck 🍀.
 
   game:
     new_html:
@@ -86,7 +86,7 @@ en:
       - For The Alliance!
     victory:
       restart_html:
-        - Aces! Start another tour?
+        - ♠️ Aces! ♠️ Sign up for another tour?
         - Huzzah! Keep it up! <span class="tracking-[.5em]">👍🙏🏻</span>
         - Sweep on! <span class="tracking-[.5em]">⛴️⚓️🎉</span>
     defeat:

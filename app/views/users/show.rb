@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# Users::Show is a view model for displaying the Users Show page.
+# Users::Show is a View Model for displaying the Users Show page.
 class Users::Show
   DEFAULT_PRECISION = 1
 

@@ -56,7 +56,7 @@ class UIPortal::Patterns::Show
 
   def flag_density = pattern.flag_density
 
-  # UIPortal::Patterns::Show::Cell is a view model for displaying virtual
+  # UIPortal::Patterns::Show::Cell is a View Model for displaying virtual
   # {Pattern} "Cells".
   class Cell
     include WrapMethodBehaviors

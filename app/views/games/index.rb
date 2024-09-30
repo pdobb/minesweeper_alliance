@@ -23,7 +23,7 @@ module EngagementTallyBehaviors
   end
 end
 
-# Games::Index is a view model for displaying the Games Index page.
+# Games::Index is a View Model for displaying the Games Index page.
 class Games::Index
   include EngagementTallyBehaviors
 

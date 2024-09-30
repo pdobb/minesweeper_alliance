@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# Games::Stats is a view model for displaying statistics about a {Game}.
+# Games::Stats is a View Model for displaying statistics about a {Game}.
 class Games::Stats
   def initialize(game:)
     @game = game
