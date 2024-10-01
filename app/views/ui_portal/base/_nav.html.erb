@@ -1,8 +1,7 @@
 <%# locals: () %>
 
-<nav class="container mx-auto flex justify-between">
-  <ul class="flex gap-x-12">
-    <li><%= link_to("< Back", root_path) %></li>
+<nav class="container mx-auto flex items-center justify-between">
+  <ul class="flex gap-x-8">
     <li><%= active_link_to("Home", ui_portal_root_path) %></li>
     <li><%= active_link_to("Flash", ui_portal_flash_notifications_path) %></li>
     <li>
@@ -12,4 +11,10 @@
             includes: %w[patterns]) %>
     </li>
   </ul>
+
+  <%= link_to(root_path, title: "Close Portal", class: "-my-3") do %>
+    <%= inline_svg_tag(
+          "heroicons/x-mark.svg",
+          class: "inline-block size-5 min-w-5 min-h-5") %>
+  <% end %>
 </nav>
