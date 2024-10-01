@@ -1,9 +1,7 @@
 <%# locals: (view:) %>
 
 <%= turbo_frame_tag(:welcome_banner) do %>
-  <% if view.show_welcome_banner?(context: layout) %>
-    <%= render(
-          "layouts/banner",
-          banner: view.welcome_banner(context: layout)) %>
+  <% if view.show? %>
+    <%= render("layouts/banner", banner: view.build_banner) %>
   <% end %>
 <% end %>

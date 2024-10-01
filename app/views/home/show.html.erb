@@ -5,7 +5,7 @@
 <%= turbo_stream_from(:current_game, channel: CurrentGameChannel) %>
 
 <div class="container mx-auto">
-  <%= render("welcome_banner", view: @view) %>
+  <%= render("welcome_banner", view: @view.welcome_banner(context: layout)) %>
 </div>
 
 <%= render(@view.render_options) %>

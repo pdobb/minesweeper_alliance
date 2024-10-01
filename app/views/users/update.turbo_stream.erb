@@ -20,6 +20,6 @@
   <%= turbo_stream.update(:welcome_banner) do %>
     <%= render(
           "home/welcome_banner",
-          view: Home::Show::WelcomeBanner.new) %>
+          view: Home::Show::WelcomeBanner.new(context: layout)) %>
   <% end %>
 <% end %>
