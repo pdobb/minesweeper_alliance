@@ -21,17 +21,19 @@
       class="
         flex flex-wrap justify-center items-center
         gap-x-12 gap-y-3
-        text-gray-500 dark:text-neutral-400
-        whitespace-nowrap
       "
     >
       <% @view.types.each do |type| %>
         <li>
           <%= link_to(
+                "#{type.initials} = #{type.name}",
                 type.games_filter_url,
-                class: type.css_classes) do %>
-            <%= type.initials %> = <%= type.name %>
-          <% end %>
+                class: type.css_classes,
+                data: { turbo_prefetch: "false" }) %>
+          <span class="text-gray-500 dark:text-neurtal-400">
+            (<%= type.games_count %> /
+            <%= number_to_percentage(type.games_percent, precision: 0) %>)
+          </span>
         </li>
       <% end %>
     </ul>

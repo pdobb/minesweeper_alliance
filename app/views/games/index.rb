@@ -77,6 +77,9 @@ class Games::Index
   class Type
     include WrapMethodBehaviors
 
+    def self.total_games_count = @total_games_count ||= base_arel.count
+    def self.base_arel = Game.for_game_over_statuses
+
     def initialize(preset, type_filter:)
       @preset = preset
       @type_filter = type_filter
@@ -97,10 +100,19 @@ class Games::Index
       "active" if filter_active?
     end
 
+    def games_percent
+      (games_count / total_games_count.to_f) * 100.0
+    end
+
+    def games_count = @games_count ||= base_arel.for_type(name).count
+
     private
 
     attr_reader :preset,
                 :type_filter
+
+    def base_arel = self.class.base_arel
+    def total_games_count = self.class.total_games_count
 
     def filter_active?
       type_filter&.include?(name)

@@ -13,12 +13,18 @@
       hover:text-red-700 dark:hover:text-red-600;
   }
 
+  header,
+  footer {
+    nav a {
+      @apply py-2;
+    }
+  }
   nav a {
-    @apply border-2 border-transparent py-2 font-normal no-underline;
+    @apply border-2 border-transparent no-underline;
 
     &.active,
     &:hover {
-      @apply border-b-red-700 text-current no-underline dark:border-b-red-600;
+      @apply border-b-red-700 no-underline dark:border-b-red-600;
     }
   }
 
