@@ -17,9 +17,9 @@ module WrapMethodBehaviors
     #
     #   Dog.wrap(["Spot", "Max"]) # =>
     #     [#<Dog @name="Spot">, #<Dog @name="Max">]
-    def wrap(objects, *)
+    def wrap(objects, ...)
       Array.wrap(objects).map { |object|
-        new(object, *)
+        new(object, ...)
       }
     end
   end

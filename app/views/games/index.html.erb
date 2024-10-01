@@ -16,7 +16,7 @@
     </h3>
   </div>
 
-  <div class="my-6 border-y dark:border-y-neutral-600 p-6">
+  <nav class="my-6 border-y dark:border-y-neutral-600 p-6">
     <ul
       class="
         flex flex-wrap justify-center items-center
@@ -25,11 +25,17 @@
         whitespace-nowrap
       "
     >
-      <% @view.presets.each do |preset| %>
-        <li><%= preset.initials %> = <%= preset.type %></li>
+      <% @view.types.each do |type| %>
+        <li>
+          <%= link_to(
+                type.games_filter_url,
+                class: type.css_classes) do %>
+            <%= type.initials %> = <%= type.name %>
+          <% end %>
+        </li>
       <% end %>
     </ul>
-  </div>
+  </nav>
 
   <div class="mt-6 space-y-6">
     <% if @view.any_listings? %>

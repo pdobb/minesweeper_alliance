@@ -202,7 +202,7 @@ class Games::Show
       end
     end
 
-    def css_class
+    def css_classes
       raise NotImplementedError
     end
 
@@ -227,7 +227,7 @@ class Games::Show
     def unrevealed? = !to_model.revealed?
     def highlighted? = to_model.highlighted?
 
-    def css_class
+    def css_classes
       if highlighted?
         [BG_HIGHLIGHTED_COLOR, HIGHLIGHTED_ANIMATION]
       elsif mine? && App.debug?
@@ -274,7 +274,7 @@ class Games::Show
       end
     end
 
-    def css_class
+    def css_classes
       if revealed?
         mine? ? BG_ERROR_COLOR : DIMMED_TEXT_COLOR
       elsif incorrectly_flagged?

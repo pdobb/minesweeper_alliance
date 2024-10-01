@@ -25,11 +25,11 @@ class EngagementTally
   end
 
   def wins_count
-    @wins_count ||= arel.for_status_alliance_wins.count
+    @wins_count ||= arel.rewhere(status: Game.status_alliance_wins).count
   end
 
   def losses_count
-    @losses_count ||= arel.for_status_mines_win.count
+    @losses_count ||= arel.rewhere(status: Game.status_mines_win).count
   end
 
   def alliance_leads?

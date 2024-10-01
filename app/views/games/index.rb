@@ -27,52 +27,84 @@ end
 class Games::Index
   include EngagementTallyBehaviors
 
-  attr_reader :base_arel
-
   def self.current_time_zone_description
     Rails.configuration.time_zone
   end
 
-  def initialize(base_arel:)
+  def initialize(base_arel:, type_filter:)
     @base_arel = base_arel
+    @type_filter = type_filter
   end
 
   def current_time_zone_description = self.class.current_time_zone_description
 
-  def presets
-    Preset.wrap(
-      Board::Settings::PRESETS.keys.including(Board::Settings::CUSTOM))
+  def types
+    Type.wrap(Board::Settings::ALL_TYPES, type_filter:)
   end
 
   def any_listings?
-    base_arel.any?
+    arel.any?
   end
 
   def listings_grouped_by_date
     games_grouped_by_ended_at.
-      transform_keys! { |date| ListingsDate.new(date) }.
+      transform_keys! { |date| ListingsDate.new(date, base_arel: arel) }.
       transform_values! { |games| Listing.wrap(games) }
   end
 
   private
 
+  attr_reader :base_arel,
+              :type_filter
+
+  def arel
+    arel = base_arel
+    arel = arel.for_type(type_filter) if type_filter
+    arel
+  end
+
   def games_grouped_by_ended_at
-    base_arel.group_by { |game| game.ended_at.to_date }
+    arel.group_by { |game| game.ended_at.to_date }
   end
 
   def engagement_tally
     start_at = App.created_at
-    @engagement_tally ||= EngagementTally.new(start_at..)
+    @engagement_tally ||= EngagementTally.new(start_at.., base_arel: arel)
   end
 
-  # Games::Index::Preset wraps {Board::Settings} presets (types), for display
-  # of the "Initials = Name" map/legend.
-  class Preset
+  # Games::Index::Type wraps {Board::Settings} types, for display of the
+  # "Initials = Name" map/legend.
+  class Type
     include WrapMethodBehaviors
 
-    def initialize(preset) = @preset = preset
-    def initials = type[0]
-    def type = @preset
+    def initialize(preset, type_filter:)
+      @preset = preset
+      @type_filter = type_filter
+    end
+
+    def initials = name[0]
+    def name = preset
+
+    def games_filter_url(router = RailsRouter.instance)
+      if filter_active?
+        router.games_path
+      else
+        router.games_path(type: name)
+      end
+    end
+
+    def css_classes
+      "active" if filter_active?
+    end
+
+    private
+
+    attr_reader :preset,
+                :type_filter
+
+    def filter_active?
+      type_filter&.include?(name)
+    end
   end
 
   # Games::Index::ListingsDate
@@ -81,8 +113,9 @@ class Games::Index
 
     attr_reader :date
 
-    def initialize(date)
+    def initialize(date, base_arel:)
       @date = date
+      @base_arel = base_arel
     end
 
     def to_s
@@ -91,8 +124,11 @@ class Games::Index
 
     private
 
+    attr_reader :base_arel
+
     def engagement_tally
-      @engagement_tally ||= EngagementTally.new(start_time..end_time)
+      @engagement_tally ||=
+        EngagementTally.new(start_time..end_time, base_arel:)
     end
 
     def start_time

@@ -11,8 +11,11 @@ class Board::Settings
   }.freeze
   # rubocop:enable Layout/HashAlignment
 
-  CUSTOM = "Custom"
-  PATTERN = "Pattern"
+  ALL_TYPES = [
+    *PRESETS.keys,
+    CUSTOM = "Custom",
+    PATTERN = "Pattern",
+  ].freeze
 
   PERCENT_CHANCE_FOR_RANDOM_PRESET = 90
 
