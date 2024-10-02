@@ -61,8 +61,8 @@ class Games::Show
 
   def board_dimensions = board.dimensions
 
-  def game_stats_view
-    Games::Stats.new(game:)
+  def results(user:)
+    Games::Results.new(game:, user:)
   end
 
   private

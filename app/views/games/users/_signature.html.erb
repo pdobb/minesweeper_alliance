@@ -1,0 +1,12 @@
+<%# locals: (view:) %>
+
+<%= turbo_frame_tag(
+      *view.turbo_frame_name,
+      class: "flex items-center gap-x-3") do %>
+  <%= view.attribution_prefix %>
+
+  <%= link_to(
+        view.attribution_link_content,
+        view.attribution_link_url,
+        data: { turbo_stream: true }) %>
+<% end %>

@@ -47,6 +47,12 @@ class User < ApplicationRecord
 
   def signer? = username?
 
+  # :reek:NilCheck
+
+  def signer_status_just_changed?
+    username_previously_was.nil? || username.nil?
+  end
+
   def participated_in?(game)
     game.users.for_id(self).exists?
   end

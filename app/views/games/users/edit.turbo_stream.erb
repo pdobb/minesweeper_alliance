@@ -1,6 +1,6 @@
-<% user = layout.current_user %>
+<% signature = @view.signature %>
 
-<%= turbo_stream.update([user, "sign_game"]) do %>
+<%= turbo_stream.update(signature.turbo_frame_name) do %>
   <div
     data-controller="inline-edit"
     data-action="keydown.esc@window->inline-edit#cancel"
@@ -9,10 +9,10 @@
       data-inline-edit-target="beforeEdit"
       class="hidden"
     >
-      <%= render("users/sign_game", user:) %>
+      <%= render("games/users/signature", view: signature) %>
     </div>
     <div data-inline-edit-target="editing">
-      <%= render("users/form") %>
+      <%= render("games/users/form", view: @view) %>
     </div>
   </div>
 <% end %>

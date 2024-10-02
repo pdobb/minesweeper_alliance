@@ -7,6 +7,8 @@ Rails.application.routes.draw do
 
   resources :games, only: %i[index show new create] do
     scope module: :games do
+      resource :user, only: %i[edit update]
+
       resources :boards, only: :none do
         scope module: :boards do
           resources :cells, only: :none do
@@ -27,7 +29,7 @@ Rails.application.routes.draw do
     resources :customs, only: :create, as: :custom_games
   end
 
-  resources :users, only: %i[show edit update]
+  resources :users, only: :show
 
   if App.development?
     namespace :ui_portal, path: :ui do

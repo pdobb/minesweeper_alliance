@@ -1,13 +1,11 @@
 # frozen_string_literal: true
 
-# Games::Stats is a View Model for displaying statistics about a {Game}.
+# Games::Stats is a View Model for displaying end-of-{Game} stats.
+#
+# @see Games::Results
 class Games::Stats
   def initialize(game:)
     @game = game
-  end
-
-  def show_sign_link?(user:)
-    user.participated_in?(game)
   end
 
   def duration
@@ -15,11 +13,7 @@ class Games::Stats
   end
 
   def players_count
-    duty_roster.size
-  end
-
-  def duty_roster
-    @duty_roster ||= game.users
+    game.users.size
   end
 
   def reveals_count

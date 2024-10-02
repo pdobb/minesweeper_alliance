@@ -1,0 +1,76 @@
+<%# locals: (view:) %>
+
+<% view.signature.tap do |signature| %>
+  <% if signature.show? %>
+    <div class="-mt-12 min-h-24 flex justify-center items-center">
+      <%= render("games/users/signature", view: signature) %>
+    </div>
+  <% end %>
+<% end %>
+
+<div
+  class="
+    grid md:grid-cols-2
+    gap-x-28 gap-y-12
+  "
+>
+  <% view.stats.tap do |stats| %>
+    <div class="md:justify-self-end space-y-6">
+      <h3>Metrics</h3>
+
+      <table class="-m-3">
+        <tbody class="*:*:px-3 *:*:py-1">
+          <tr>
+            <th class="text-left">Duration</th>
+            <td><%= stats.duration %></td>
+          </tr>
+          <tr>
+            <th class="text-left"># Active Players</th>
+            <td><%= stats.players_count %></td>
+          </tr>
+          <tr>
+            <th class="text-left"># Cells Revealed</th>
+            <td><%= stats.reveals_count %></td>
+          </tr>
+          <tr>
+            <th class="text-left"># Flags Placed</th>
+            <td><%= stats.flags_count %></td>
+          </tr>
+          <tr>
+            <th class="text-left"># Flags Removed</th>
+            <td><%= stats.unflags_count %></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  <% end %>
+
+  <% view.duty_roster.tap do |duty_roster| %>
+    <div>
+      <%= turbo_stream_from(*duty_roster.turbo_stream_name) %>
+
+      <div class="space-y-6">
+        <h3>Duty Roster</h3>
+
+        <div
+          data-turbo-prefetch="false"
+          class="flex flex-col gap-y-2"
+        >
+          <% duty_roster.listings.each_with_index do |listing, index| %>
+            <div class="flex items-baseline gap-x-3">
+              <span><%= index.next %>.</span>
+
+              <% if listing.current_user?(context: layout) %>
+                <span title="Me"><%= Icon.eyes %></span>
+              <% end %>
+
+              <%= turbo_frame_tag(*listing.turbo_frame_name) do %>
+                <%= render("games/users/duty_roster_listing", listing:) %>
+              <% end %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>

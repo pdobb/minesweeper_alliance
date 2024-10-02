@@ -1,0 +1,29 @@
+<% @view.signature.tap do |signature| %>
+  <%= turbo_stream.update(signature.turbo_frame_name) do %>
+    <%= render("games/users/signature", view: signature) %>
+  <% end %>
+<% end %>
+
+<% @view.duty_roster_listing.tap do |duty_roster_listing| %>
+  <%= turbo_stream.update(duty_roster_listing.turbo_frame_name) do %>
+    <%= render(
+          "games/users/duty_roster_listing",
+          listing: duty_roster_listing) %>
+  <% end %>
+<% end %>
+
+<%= turbo_stream.update(@view.user_nav_turbo_frame_name) do %>
+  <%= render("application/username") %>
+<% end %>
+
+<% if @view.signer_status_just_changed? %>
+  <%= turbo_stream.update(:new_game) do %>
+    <%= render("games/new", view: @view.new_game_view) %>
+  <% end %>
+
+  <%= turbo_stream.update(:welcome_banner) do %>
+    <%= render(
+          "home/welcome_banner",
+          view: @view.welcome_banner(context: layout)) %>
+  <% end %>
+<% end %>

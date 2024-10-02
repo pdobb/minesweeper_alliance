@@ -1,0 +1,6 @@
+<%# locals: (listing:) %>
+
+<%= link_to(
+      listing.name,
+      listing.show_user_url,
+      data: { turbo_frame: :_top }) %>

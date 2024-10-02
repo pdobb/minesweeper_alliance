@@ -16,7 +16,7 @@ class Home::Show
 
   def render_options
     if current_game?
-      { partial: "games/game", locals: { view: current_game_show_view } }
+      { partial: "games/game", locals: { view: show_view } }
     else # new_game?
       { partial: "games/new_container", locals: { view: new_view } }
     end
@@ -26,15 +26,15 @@ class Home::Show
     current_game.just_ended?
   end
 
-  def game_stats_view
-    Games::Stats.new(game: current_game)
+  def results(user:)
+    Games::Results.new(game: current_game, user:)
   end
 
   private
 
   attr_reader :current_game
 
-  def current_game_show_view
+  def show_view
     Games::Show.new(game: current_game)
   end
 
