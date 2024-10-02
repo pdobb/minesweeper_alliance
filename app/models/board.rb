@@ -58,7 +58,10 @@ class Board < ApplicationRecord
   def mines = settings.mines
   def dimensions = "#{width}x#{height}"
   def pattern? = settings.pattern?
-  def pattern = Pattern.find_by(name: settings.name)
+
+  def pattern
+    @pattern ||= Pattern.find(name: settings.name)
+  end
 
   def check_for_victory
     return unless game.status_sweep_in_progress?
