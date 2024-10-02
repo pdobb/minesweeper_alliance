@@ -13,6 +13,8 @@ class Games::UsersController < ApplicationController
     current_user.attributes = update_params
 
     if current_user.save
+      broadcast_update(game: @game)
+
       respond_to do |format|
         format.html do
           redirect_to(
@@ -44,4 +46,15 @@ class Games::UsersController < ApplicationController
   end
 
   def current_user = @current_user ||= layout.current_user
+
+  def broadcast_update(game:)
+    Turbo::StreamsChannel.broadcast_update_to(
+      game,
+      :duty_roster,
+      target: helpers.dom_id(current_user),
+      partial: "games/users/duty_roster_listing",
+      locals: {
+        listing: Games::Users::DutyRoster::Listing.new(current_user, game:),
+      })
+  end
 end
