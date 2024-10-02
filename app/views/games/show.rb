@@ -12,7 +12,7 @@ class Games::Show
     @game = game
   end
 
-  def nav = Nav.new(current_game: game)
+  def nav = Nav.new(game:)
 
   def current_game? = game_on? || game_just_ended?
   def game_on? = game.on?
@@ -85,8 +85,12 @@ class Games::Show
   # Games::Show::Nav is a View Model for handling navigation between Game - Show
   # pages.
   class Nav
-    def initialize(current_game:)
-      @current_game = current_game
+    def initialize(game:)
+      @game = game
+    end
+
+    def close_game_url(router = RailsRouter.instance)
+      router.games_path
     end
 
     def previous_game? = !!previous_game
@@ -95,39 +99,29 @@ class Games::Show
       router.game_path(previous_game)
     end
 
-    def previous_game
-      @previous_game ||=
-        Game.
-          for_created_at(..current_game.created_at).
-          excluding(current_game).
-          limit(1).
-          by_most_recent.
-          take
-    end
-
-    def next_game? = !!next_game
+    def next_game? = next_game&.over?
 
     def next_game_url(router = RailsRouter.instance)
       router.game_path(next_game)
     end
 
-    def next_game
-      @next_game ||=
-        Game.
-          for_created_at(current_game.created_at..).
-          excluding(current_game).
-          limit(1).
-          by_least_recent.
-          take
-    end
-
-    def close_game_url(router = RailsRouter.instance)
-      router.games_path
-    end
-
     private
 
-    attr_reader :current_game
+    attr_reader :game
+
+    def previous_game
+      @previous_game ||=
+        base_arel.for_created_at(..game.created_at).by_most_recent.take
+    end
+
+    def next_game
+      @next_game ||=
+        base_arel.for_created_at(game.created_at..).by_least_recent.take
+    end
+
+    def base_arel
+      Game.excluding(game).limit(1)
+    end
   end
 
   # Games::Show::ElapsedTime is a View Model wrapper around {::ElapsedTime},
