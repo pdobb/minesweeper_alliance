@@ -3,7 +3,7 @@
 # DutyRoster represents the number of Minesweepers (players) currently
 # reporting for duty.
 #
-# @see Turbo::StreamsChannel config/initializers/monkey_patches.rb
+# @see CurrentGameChannel
 # @see https://api.rubyonrails.org/classes/ActiveSupport/Cache/MemoryStore.html
 # @see https://api.rubyonrails.org/classes/ActiveSupport/Cache/Store.html
 module DutyRoster

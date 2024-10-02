@@ -7,8 +7,7 @@
 # the :current_game stream, which shall be the only stream on this channel.
 #
 # NOTE:
-#  - This is buggy... at least in the development environment. I'm guessing that
-#    code changes and reloading are affecting the counts here. Reconsider once
+#  - This is buggy... at least in the development environment. Reconsider once
 #    we get to production. Either way, it may be better than nothing.
 class CurrentGameChannel < Turbo::StreamsChannel
   # Override Turbo::StreamsChannel#subscribed to add #on_subscribe logic.
