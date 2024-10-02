@@ -28,8 +28,11 @@ module Games::Boards::Cells::ActionBehaviors
     end
   end
 
-  def broadcast_changes(stream: :current_game)
-    Turbo::StreamsChannel.broadcast_refresh_to(stream)
+  def broadcast_changes
+    Turbo::StreamsChannel.broadcast_refresh_to(:current_game)
+    return unless game.just_ended?
+
+    Turbo::StreamsChannel.broadcast_refresh_to(:sweep_ops_archive)
   end
 
   def render_updated_game_board
