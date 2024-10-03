@@ -10,9 +10,7 @@ class Games::Show
 
   def self.broadcast_players_count_update(stream_name:, count:)
     WarRoomChannel.broadcast_update_to(
-      stream_name,
-      target: "status_mojis",
-      html: Icon.ship * count)
+      stream_name, target: "fleet_count", html: [count, 1].max)
   end
 
   def initialize(game:)
@@ -35,8 +33,8 @@ class Games::Show
 
   def game_status = game.status
 
-  def game_status_mojis
-    super(count: players_count)
+  def players_count(roster = DutyRoster)
+    [roster.count, 1].max
   end
 
   def flags_count = board.flags_count
@@ -90,10 +88,6 @@ class Games::Show
   end
 
   def game_engagement_time_range = game.engagement_time_range
-
-  def players_count(roster = DutyRoster)
-    [roster.count, 1].max
-  end
 
   # Games::Show::Nav is a View Model for handling navigation between Game - Show
   # pages.

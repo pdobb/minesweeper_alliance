@@ -38,21 +38,19 @@ class WarRoomChannel < Turbo::StreamsChannel
   end
 
   def on_subscribe
-    count =
-      log_subscription_event(__method__) {
-        DutyRoster.add(current_user_token)
-      }.size
+    log_subscription_event(__method__) do
+      DutyRoster.add(current_user_token)
+    end
 
-    broadcast_subscription_count_update(count:)
+    broadcast_subscription_update
   end
 
   def on_unsubscribe
-    count =
-      log_subscription_event(__method__) {
-        DutyRoster.remove(current_user_token)
-      }.size
+    log_subscription_event(__method__) do
+      DutyRoster.remove(current_user_token)
+    end
 
-    broadcast_subscription_count_update(count:)
+    broadcast_subscription_update
   end
 
   # :reek:DuplicateMethodCall
@@ -71,7 +69,8 @@ class WarRoomChannel < Turbo::StreamsChannel
     result
   end
 
-  def broadcast_subscription_count_update(count:)
-    Games::Show.broadcast_players_count_update(stream_name:, count:)
+  def broadcast_subscription_update
+    Games::Show.broadcast_players_count_update(
+      stream_name:, count: DutyRoster.count)
   end
 end

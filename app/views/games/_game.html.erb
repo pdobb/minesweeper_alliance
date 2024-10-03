@@ -2,14 +2,25 @@
 
 <%= turbo_frame_tag(:current_game, class: "space-y-6") do %>
   <div class="container mx-auto">
-    <h2 class="text-center overflow-hidden">
+    <h2 class="text-center">
       <span class="<%= class_names(view.game_status_css_class) %>">
         <%= view.game_status %>
       </span>
-      <span
-        id="status_mojis"
-        class="tracking-emojis"
-      ><%= view.game_status_mojis %></span>
+
+      <% if view.game_in_progress? %>
+        <span class="inline-flex gap-x-2">
+          <%= view.game_status_mojis %>
+          <small
+            id="fleet_count"
+            class="
+              before:content-['x'] before:mr-1.5
+              font-normal text-gray-500 dark:text-neutral-400
+            "
+          ><%= view.players_count %></small>
+        </span>
+      <% else %>
+        <span class="tracking-emojis"><%= view.game_status_mojis %></span>
+      <% end %>
     </h2>
   </div>
 
