@@ -8,7 +8,7 @@ Welcome to Minesweeper Alliance, an open-multiplayer riff on the classic Mineswe
 
 ## Development
 
-Ruby version: 3.3.4+
+Ruby version: 3.3.5+
 
 To get started:
 
@@ -22,6 +22,9 @@ To easily allow for breakpoints, run the Rails server in its own process:
 
 ```bash
 bin/rails server --port=3000
+
+# Or, to allow for testing via other browsers on local network:
+bin/rails server --binding 0.0.0.0 --port=3000
 ```
 
 Then, run the tailwindcss server in a separate tab/process:
@@ -33,7 +36,6 @@ bin/dev web=0,all=1
 ### Services
 
 - PostgreSQL
-  - Services ActionCable as well as the usual data store.
 
 ### Test Suite
 
