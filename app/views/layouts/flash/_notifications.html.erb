@@ -17,21 +17,23 @@
     "
   >
     <span class="sr-only"><%= notification.type %></span>
-    <div class="flex gap-x-6 items-baseline">
+    <div class="flex gap-x-6 items-start">
       <p><%= notification.content %></p>
 
       <button
         type="button"
         data-action="flash#close"
         class="
-          -m-2.5 p-2.5 rounded-lg
+          -m-1.5 p-2 rounded-lg
           focus:ring-2 focus:animate-pulse-fast
           <%= class_names(notification.button_css_class) %>
         "
         aria-label="Close"
       >
         <span class="sr-only">Close</span>
-        <%= inline_svg_tag("icons/x.svg", class: "size-3 max-w-3 max-h-3") %>
+        <%= inline_svg_tag(
+              "heroicons/x-mark.svg",
+              class: "stroke-2 size-[20px] max-w-[20px] max-h-[20px]") %>
       </button>
     </div>
   </div>

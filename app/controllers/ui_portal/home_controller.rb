@@ -12,7 +12,10 @@ class UIPortal::HomeController < UIPortal::BaseController
   def flash_notifications
     now = l(Time.current, format: :debug)
 
-    Application::Flash.notification_types.each do |type|
+    types = Application::Flash.notification_types
+    types = types.sample(params[:count].to_i) if params.key?(:count)
+
+    types.each do |type|
       flash.now[type] = [
         "Test #{type} #{now}",
         {
