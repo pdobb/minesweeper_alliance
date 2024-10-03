@@ -21,6 +21,9 @@ module.exports = {
       fontFamily: {
         // sans: ["Inter var", ...defaultTheme.fontFamily.sans],
       },
+      letterSpacing: {
+        emojis: ".5em",
+      },
     },
   },
   plugins: [

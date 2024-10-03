@@ -87,13 +87,13 @@ en:
     victory:
       restart_html:
         - ♠️ Aces! ♠️ Sign up for another tour?
-        - Huzzah! Keep it up! <span class="tracking-[.5em]">👍🙏🏻</span>
-        - Sweep on! <span class="tracking-[.5em]">⛴️⚓️🎉</span>
+        - Huzzah! Keep it up! <span class="tracking-emojis">👍🙏🏻</span>
+        - Sweep on! <span class="tracking-emojis">⛴️⚓️🎉</span>
     defeat:
       restart_html:
         - Ups! Wellp<span class="font-sans">&hellip;</span>
         - Oh noes! Uhm<span class="font-sans">&hellip;</span> Ok. Back at it! 😅
-        - <span class="tracking-[.5em]">😳😳😳</span> Again!
+        - <span class="tracking-emojis">😳😳😳</span> Again!
 
   footer:
     maker:
