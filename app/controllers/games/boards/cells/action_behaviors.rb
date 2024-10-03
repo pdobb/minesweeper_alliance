@@ -29,7 +29,7 @@ module Games::Boards::Cells::ActionBehaviors
   end
 
   def broadcast_changes
-    CurrentGameChannel.broadcast_refresh_to(:current_game)
+    WarRoomChannel.broadcast_refresh_to(:current_game)
     return unless game.just_ended?
 
     Turbo::StreamsChannel.broadcast_refresh_to(:sweep_ops_archive)

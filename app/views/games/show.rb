@@ -8,6 +8,13 @@ class Games::Show
   include Games::ShowBehaviors
   include Games::StatusBehaviors
 
+  def self.broadcast_players_count_update(stream_name:, count:)
+    WarRoomChannel.broadcast_update_to(
+      stream_name,
+      target: "status_mojis",
+      html: Icon.ship * count)
+  end
+
   def initialize(game:)
     @game = game
   end

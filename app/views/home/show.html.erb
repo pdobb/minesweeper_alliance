@@ -2,7 +2,7 @@
 
 <%= render("page_nav", nav: @view.nav) %>
 
-<%= turbo_stream_from(:current_game, channel: CurrentGameChannel) %>
+<%= turbo_stream_from(:current_game, channel: WarRoomChannel) %>
 
 <div class="container mx-auto">
   <%= render("welcome_banner", view: @view.welcome_banner(context: layout)) %>

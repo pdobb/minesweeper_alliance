@@ -1,25 +1,38 @@
 # frozen_string_literal: true
 
-# DutyRoster represents the number of Minesweepers (players) currently
-# reporting for duty.
+# DutyRoster represents the number of Minesweepers (players / allies) currently
+# reporting for duty--or at least *viewing* the Game Board.
 #
-# @see CurrentGameChannel
+# @see ApplicationCable::Connection
+# @see WarRoomChannel
 # @see https://api.rubyonrails.org/classes/ActiveSupport/Cache/MemoryStore.html
 # @see https://api.rubyonrails.org/classes/ActiveSupport/Cache/Store.html
 module DutyRoster
+  def self.participants
+    cache.fetch(:participants) { [] }
+  end
+
   def self.count
-    Rails.cache.fetch(:allies) { 0 }
+    participants.size
   end
 
-  def self.increment
-    Rails.cache.increment(:allies)
+  def self.add(user_token)
+    new_participants = participants | Array.wrap(user_token)
+    cache.write(:participants, new_participants)
+    new_participants
   end
 
-  def self.decrement
-    Rails.cache.write(:allies, [count.pred, 0].max)
+  def self.remove(user_token)
+    new_participants = participants - Array.wrap(user_token)
+    cache.write(:participants, new_participants)
+    new_participants
   end
 
   def self.clear
-    Rails.cache.delete(:allies)
+    Rails.logger.info { " -> DutyRoster#clear" }
+    cache.delete(:participants)
   end
+
+  def self.cache = Rails.cache
+  private_class_method :cache
 end
