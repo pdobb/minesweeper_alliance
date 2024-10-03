@@ -1,5 +1,5 @@
 import { Controller } from "@hotwired/stimulus"
-import { cookies } from "../lib/cookies"
+import { cookies } from "cookies"
 
 // BannerController is responsible for managing Application-level banner text.
 // i.e. informational text that, once dismissed, doesn't reappear in the future.
