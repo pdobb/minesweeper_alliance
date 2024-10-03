@@ -1,8 +1,14 @@
 <%# locals: (view:) %>
 
+<h3 class="mb-12 h4 text-center">
+  <span class="sr-only">Engagement Date:</span>
+  <%= view.game_engagement_date %>
+  <%= view.game_engagement_time_range(self) %>
+</h3>
+
 <% view.signature.tap do |signature| %>
   <% if signature.show? %>
-    <div class="-mt-12 min-h-24 flex justify-center items-center">
+    <div class="-mt-12 mb-3 min-h-24 flex justify-center items-center">
       <%= render("games/users/signature", view: signature) %>
     </div>
   <% end %>
@@ -15,8 +21,8 @@
   "
 >
   <% view.stats.tap do |stats| %>
-    <div class="md:justify-self-end space-y-6">
-      <h3>Metrics</h3>
+    <div class="md:justify-self-end space-y-3">
+      <h4 class="h3">Metrics</h4>
 
       <table class="-m-3">
         <tbody class="*:*:px-3 *:*:py-1">
@@ -49,8 +55,8 @@
     <div>
       <%= turbo_stream_from(*duty_roster.turbo_stream_name) %>
 
-      <div class="space-y-6">
-        <h3>Duty Roster</h3>
+      <div class="space-y-3">
+        <h4 class="h3">Duty Roster</h4>
 
         <div
           data-turbo-prefetch="false"

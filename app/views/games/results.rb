@@ -12,6 +12,19 @@ class Games::Results
     Games::Users::Signature.new(game:, user:)
   end
 
+  def game_engagement_date
+    I18n.l(game.ended_at.to_date, format: :weekday_comma_date)
+  end
+
+  def game_engagement_time_range(template)
+    template.safe_join(
+      [
+        I18n.l(game.started_at, format: :hours_minutes_seconds),
+        I18n.l(game.ended_at, format: :hours_minutes_seconds),
+      ],
+      "&ndash;".html_safe)
+  end
+
   def stats
     Games::Stats.new(game:)
   end
