@@ -9,7 +9,8 @@ class Users::Show
     @context = context
   end
 
-  def user_display_name = user.display_name
+  def display_name = user.display_name
+  def enlistment_date = I18n.l(user.created_at.to_date)
 
   def display_games_count = delimit(games_count)
 
