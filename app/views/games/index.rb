@@ -8,7 +8,7 @@ module EngagementTallyBehaviors
   def alliance_leads? = engagement_tally.alliance_leads?
   def mines_lead? = engagement_tally.mines_lead?
 
-  def alliance_ranking_css_color
+  def alliance_ranking_css_class
     if alliance_leads?
       %w[text-green-700 dark:text-green-600]
     elsif mines_lead?

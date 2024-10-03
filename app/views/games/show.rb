@@ -25,9 +25,15 @@ class Games::Show
   def game_on? = game.on?
   def game_just_ended? = game.just_ended?
 
-  def game_status
-    game.status
+  def game_status_css_class
+    if game.status_alliance_wins?
+      %w[text-green-700 dark:text-green-600]
+    elsif game.status_mines_win?
+      %w[text-red-700 dark:text-red-600]
+    end
   end
+
+  def game_status = game.status
 
   def game_status_mojis
     super(count: players_count)
