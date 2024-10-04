@@ -1,0 +1,19 @@
+{
+  "name": "Minesweeper Alliance",
+  "short_name": "MA",
+  "icons": [
+    {
+      "src": "/android-chrome-192x192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "/android-chrome-512x512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "theme_color": "#b91c1c",
+  "background_color": "#262626",
+  "display": "standalone"
+}
