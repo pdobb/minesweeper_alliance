@@ -16,8 +16,7 @@ class WarRoomChannel < Turbo::StreamsChannel
       stream_from(stream_name)
       on_subscribe
     else
-      log_rejection_event(stream_name)
-      reject
+      reject and log_rejection_event(stream_name)
     end
   end
 
@@ -32,7 +31,8 @@ class WarRoomChannel < Turbo::StreamsChannel
 
   def log_rejection_event(stream_name)
     Rails.logger.info do
-      " !¡ WarRoomChannel#reject(#{stream_name}) :: "\
+      " !¡ WarRoomChannel#reject "\
+        "stream_name=#{stream_name.inspect}), "\
         "current_user_token=#{current_user_token.inspect}"
     end
   end
@@ -56,13 +56,15 @@ class WarRoomChannel < Turbo::StreamsChannel
   # :reek:DuplicateMethodCall
   # :reek:TooManyStatements
   def log_subscription_event(method_name)
-    before = DutyRoster.participants
+    event = method_name.to_s[3..].capitalize
+
+    before = DutyRoster.participants.to_a
     result = yield
-    after = DutyRoster.participants
+    after = DutyRoster.participants.to_a
 
     Rails.logger.info do
-      " -> WarRoomChannel##{method_name} "\
-        "(current_user_token=#{current_user_token.inspect}) :: "\
+      " -> WarRoomChannel/#{event} "\
+        "current_user_token=#{current_user_token.inspect}) :: "\
         "DutyRoster: #{before.inspect} -> #{after.inspect}"
     end
 

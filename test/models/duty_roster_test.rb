@@ -6,34 +6,49 @@ class DutyRosterTest < ActiveSupport::TestCase
   describe "DutyRoster" do
     let(:unit_class) { DutyRoster }
 
-    let(:participants1) { %w[user1] }
-    let(:participants2) { %w[user1 user2] }
+    before do
+      @old_rails_cache = Rails.cache
+      Rails.cache = ActiveSupport::Cache::MemoryStore.new
+    end
+
+    after do
+      Rails.cache = @old_rails_cache
+    end
+
+    let(:empty1) { unit_class }
+    let(:single_player_duty_roster1) {
+      unit_class.add("user1")
+      unit_class
+    }
+    let(:two_player_duty_roster1) {
+      unit_class.add("user1")
+      unit_class.add("user2")
+      unit_class
+    }
 
     describe ".participants" do
-      subject { unit_class }
-
       context "GIVEN a cache miss" do
-        before { MuchStub.(Rails, :cache) { CacheDouble.new } }
+        subject { empty1 }
 
-        it "returns []" do
-          _(subject.participants).must_equal([])
+        it "returns an empty collection" do
+          _(subject.participants.to_a).must_equal([])
         end
       end
 
       context "GIVEN a cache hit" do
-        before { MuchStub.(Rails, :cache) { CacheDouble.new(participants1) } }
+        subject { single_player_duty_roster1 }
 
-        it "returns the expected Integer" do
-          _(subject.participants).must_equal(participants1)
+        it "returns the expected collection" do
+          _(subject.participants.to_a).must_equal([
+            { user_token: "user1", expires_at: nil },
+          ])
         end
       end
     end
 
     describe ".count" do
-      subject { unit_class }
-
       context "GIVEN a cache miss" do
-        before { MuchStub.(Rails, :cache) { CacheDouble.new } }
+        subject { empty1 }
 
         it "returns 0" do
           _(subject.count).must_equal(0)
@@ -42,7 +57,7 @@ class DutyRosterTest < ActiveSupport::TestCase
 
       context "GIVEN a cache hit" do
         context "GIVEN a single participant" do
-          before { MuchStub.(Rails, :cache) { CacheDouble.new(participants1) } }
+          subject { single_player_duty_roster1 }
 
           it "returns the expected Integer" do
             _(subject.count).must_equal(1)
@@ -50,7 +65,7 @@ class DutyRosterTest < ActiveSupport::TestCase
         end
 
         context "GIVEN multiple participants" do
-          before { MuchStub.(Rails, :cache) { CacheDouble.new(participants2) } }
+          subject { two_player_duty_roster1 }
 
           it "returns the expected Integer" do
             _(subject.count).must_equal(2)
@@ -60,87 +75,90 @@ class DutyRosterTest < ActiveSupport::TestCase
     end
 
     describe ".add" do
-      subject { unit_class }
-
       context "GIVEN a cache miss" do
-        before { MuchStub.(Rails, :cache) { CacheDouble.new } }
+        subject { empty1 }
 
-        it "returns the expected Array" do
-          _(subject.add("new_user1")).must_equal(["new_user1"])
+        it "returns the expected collection" do
+          result = subject.add("user1")
+          _(result.to_a).must_equal([
+            { user_token: "user1", expires_at: nil },
+          ])
         end
       end
 
       context "GIVEN a cache hit" do
-        context "GIVEN a single participant" do
-          before { MuchStub.(Rails, :cache) { CacheDouble.new(participants1) } }
+        context "GIVEN a the same participant" do
+          subject { single_player_duty_roster1 }
 
-          it "returns the expected Array" do
-            _(subject.add(participants1.first)).must_equal(participants1)
+          it "returns the expected collection" do
+            result = subject.add("user1")
+            _(result.to_a).must_equal([
+              { user_token: "user1", expires_at: nil },
+            ])
           end
         end
 
-        context "GIVEN multiple participants" do
-          before { MuchStub.(Rails, :cache) { CacheDouble.new(participants2) } }
+        context "GIVEN a new participant" do
+          subject { single_player_duty_roster1 }
 
-          it "returns the expected Array" do
-            _(subject.add(participants2.last)).must_equal(participants2)
+          it "returns the expected collection" do
+            result = subject.add("user2")
+            _(result.to_a).must_equal([
+              { user_token: "user1", expires_at: nil },
+              { user_token: "user2", expires_at: nil },
+            ])
           end
         end
       end
     end
 
     describe ".remove" do
-      subject { unit_class }
-
       context "GIVEN a cache miss" do
-        before { MuchStub.(Rails, :cache) { CacheDouble.new } }
+        subject { empty1 }
 
-        it "returns the expected Array" do
-          _(subject.remove("new_user1")).must_equal([])
+        it "returns the expected collection" do
+          result = subject.remove("user1")
+          _(result.to_a).must_equal([])
         end
       end
 
       context "GIVEN a cache hit" do
         context "GIVEN a single participant" do
-          before { MuchStub.(Rails, :cache) { CacheDouble.new(participants1) } }
+          subject { single_player_duty_roster1 }
 
-          it "returns the expected Array" do
-            _(subject.remove(participants1.first)).must_equal([])
+          it "returns the expected collection" do
+            freeze_time do
+              result = subject.remove("user1")
+              _(result.to_a).must_equal([
+                { user_token: "user1", expires_at: 2.seconds.from_now },
+              ])
+            end
           end
         end
 
         context "GIVEN multiple participants" do
-          before { MuchStub.(Rails, :cache) { CacheDouble.new(participants2) } }
+          subject { two_player_duty_roster1 }
 
-          it "returns the expected Array" do
-            _(subject.remove(participants2.last)).must_equal(participants1)
+          it "returns the expected collection" do
+            freeze_time do
+              result = subject.remove("user2")
+              _(result.to_a).must_equal([
+                { user_token: "user1", expires_at: nil },
+                { user_token: "user2", expires_at: 2.seconds.from_now },
+              ])
+            end
           end
         end
       end
     end
 
     describe ".clear" do
-      before { MuchStub.(Rails, :cache) { CacheDouble.new(participants1) } }
+      subject { single_player_duty_roster1 }
 
-      subject { unit_class }
-
-      it "calls :delete on Rails.cache" do
-        _(subject.clear).must_equal("CACHE_DELETE_CALLED")
+      it "clears the collection" do
+        subject.clear
+        _(subject.participants.to_a).must_equal([])
       end
     end
-  end
-
-  class CacheDouble
-    def initialize(value = nil)
-      @value = value
-    end
-
-    def fetch(_, default = nil) = value || default || yield
-    def write(_, new_value) = self.value = new_value
-    def delete(*) = "CACHE_DELETE_CALLED"
-
-    private
-
-    attr_accessor :value
   end
 end

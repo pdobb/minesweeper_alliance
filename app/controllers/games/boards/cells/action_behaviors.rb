@@ -29,10 +29,12 @@ module Games::Boards::Cells::ActionBehaviors
   end
 
   def broadcast_changes
+    DutyRoster.cleanup
     WarRoomChannel.broadcast_refresh_to(:current_game)
-    return unless game.just_ended?
 
-    Turbo::StreamsChannel.broadcast_refresh_to(:sweep_ops_archive)
+    if game.just_ended? # rubocop:disable Style/GuardClause
+      Turbo::StreamsChannel.broadcast_refresh_to(:sweep_ops_archive)
+    end
   end
 
   def render_updated_game_board
