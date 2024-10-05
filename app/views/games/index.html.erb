@@ -80,7 +80,9 @@
           border border-dashed border border-gray-500 dark:border-neutral-400
         "
       >
-        No engagements have yet been recorded.
+        No engagements
+        <%= "of type #{params[:type]}" if params.key?(:type) %>
+        have yet been recorded.
       </div>
     <% end %>
   </div>
