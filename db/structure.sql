@@ -30,8 +30,8 @@ SET default_table_access_method = heap;
 CREATE TABLE public.ar_internal_metadata (
     key character varying NOT NULL,
     value character varying,
-    created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL
+    created_at timestamp(6) with time zone NOT NULL,
+    updated_at timestamp(6) with time zone NOT NULL
 );
 
 
@@ -43,8 +43,8 @@ CREATE TABLE public.boards (
     id bigint NOT NULL,
     game_id bigint NOT NULL,
     settings jsonb DEFAULT '{}'::jsonb NOT NULL,
-    created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL
+    created_at timestamp(6) with time zone NOT NULL,
+    updated_at timestamp(6) with time zone NOT NULL
 );
 
 
@@ -76,7 +76,7 @@ CREATE TABLE public.cell_transactions (
     type character varying NOT NULL,
     user_id uuid,
     cell_id bigint NOT NULL,
-    created_at timestamp(6) without time zone NOT NULL
+    created_at timestamp(6) with time zone NOT NULL
 );
 
 
@@ -112,8 +112,8 @@ CREATE TABLE public.cells (
     flagged boolean DEFAULT false NOT NULL,
     highlighted boolean DEFAULT false NOT NULL,
     revealed boolean DEFAULT false NOT NULL,
-    created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL
+    created_at timestamp(6) with time zone NOT NULL,
+    updated_at timestamp(6) with time zone NOT NULL
 );
 
 
@@ -144,10 +144,10 @@ CREATE TABLE public.games (
     id bigint NOT NULL,
     status character varying DEFAULT 'Standing By'::character varying NOT NULL,
     type character varying NOT NULL,
-    started_at timestamp(6) without time zone,
-    ended_at timestamp(6) without time zone,
-    created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL
+    started_at timestamp(6) with time zone,
+    ended_at timestamp(6) with time zone,
+    created_at timestamp(6) with time zone NOT NULL,
+    updated_at timestamp(6) with time zone NOT NULL
 );
 
 
@@ -179,8 +179,8 @@ CREATE TABLE public.patterns (
     name character varying NOT NULL,
     settings jsonb DEFAULT '{}'::jsonb NOT NULL,
     coordinates_array jsonb DEFAULT '[]'::jsonb NOT NULL,
-    created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL
+    created_at timestamp(6) with time zone NOT NULL,
+    updated_at timestamp(6) with time zone NOT NULL
 );
 
 
@@ -219,8 +219,8 @@ CREATE TABLE public.schema_migrations (
 CREATE TABLE public.users (
     id uuid DEFAULT gen_random_uuid() NOT NULL,
     username character varying,
-    created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL
+    created_at timestamp(6) with time zone NOT NULL,
+    updated_at timestamp(6) with time zone NOT NULL
 );
 
 
