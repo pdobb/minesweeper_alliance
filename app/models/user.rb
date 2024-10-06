@@ -4,6 +4,7 @@
 #
 # @attr id [GUID] a.k.a. "User Token"
 # @attr username [String]
+# @attr time_zone [String]
 class User < ApplicationRecord
   self.implicit_order_column = "created_at"
 
@@ -68,6 +69,10 @@ class User < ApplicationRecord
 
     def inspect_identification
       identify(:truncated_id, klass: __class__)
+    end
+
+    def inspect_info
+      time_zone
     end
 
     def truncated_id = id[TRUNCATED_ID_RANGE]

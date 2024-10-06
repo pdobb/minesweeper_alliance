@@ -20,6 +20,7 @@ class Application::Layout
   end
 
   def current_user_has_signed_their_name? = current_user.signer?
+  def current_user_time_zone = current_user.time_zone
   def current_user_display_name = current_user.display_name
   def current_user_mms_id = current_user.mms_id
 

@@ -30,6 +30,11 @@ Rails.application.routes.draw do
   end
 
   resources :users, only: :show
+  resource :current_user, only: :none do
+    scope module: :current_user do
+      resource :time_zone_update, only: :create
+    end
+  end
 
   if App.development?
     namespace :ui_portal, path: :ui do

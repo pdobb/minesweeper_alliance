@@ -28,7 +28,7 @@ class Games::Index
   include EngagementTallyBehaviors
 
   def self.current_time_zone_description
-    Rails.configuration.time_zone
+    Time.zone.to_s
   end
 
   def initialize(base_arel:, type_filter:)

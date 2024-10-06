@@ -219,6 +219,7 @@ CREATE TABLE public.schema_migrations (
 CREATE TABLE public.users (
     id uuid DEFAULT gen_random_uuid() NOT NULL,
     username character varying,
+    time_zone character varying,
     created_at timestamp(6) with time zone NOT NULL,
     updated_at timestamp(6) with time zone NOT NULL
 );
@@ -432,7 +433,7 @@ CREATE INDEX index_games_on_ended_at ON public.games USING btree (ended_at);
 -- Name: index_games_on_status; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE UNIQUE INDEX index_games_on_status ON public.games USING btree (status) WHERE ((status)::text = ANY (ARRAY[('Standing By'::character varying)::text, ('Sweep in Progress'::character varying)::text]));
+CREATE UNIQUE INDEX index_games_on_status ON public.games USING btree (status) WHERE ((status)::text = ANY ((ARRAY['Standing By'::character varying, 'Sweep in Progress'::character varying])::text[]));
 
 
 --
