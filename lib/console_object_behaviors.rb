@@ -11,6 +11,8 @@ module ConsoleObjectBehaviors
   include ObjectInspector::InspectorsHelper
 
   included do
+    delegate_missing_to(:@model)
+
     # *::Console::Error represents any StandardError related to Console
     # processing on the including object.
     self::Error = Class.new(StandardError)
@@ -34,15 +36,7 @@ module ConsoleObjectBehaviors
   end
 
   class_methods do
-    def method_missing(...)
-      __class__.__send__(...)
-    end
-
-    # :reek:BooleanParameter
-    # :reek:ManualDispatch
-    def respond_to_missing?(method, include_private = true)
-      __class__.respond_to?(method, include_private) || super
-    end
+    delegate_missing_to(:__class__)
   end
 
   def initialize(model)
@@ -61,16 +55,6 @@ module ConsoleObjectBehaviors
   end
 
   private
-
-  def method_missing(...)
-    __model__.__send__(...)
-  end
-
-  # :reek:BooleanParameter
-  # :reek:ManualDispatch
-  def respond_to_missing?(method, include_private = true)
-    __model__.respond_to?(method, include_private) || super
-  end
 
   def inspect_identification(...) = __model__.identify(...)
 end
