@@ -101,7 +101,8 @@ class Games::Index
     end
 
     def games_percent
-      (games_count / total_games_count.to_f) * 100.0
+      result = (games_count / total_games_count.to_f) * 100.0
+      result.nan? ? 0.0 : result
     end
 
     def games_count = @games_count ||= base_arel.for_type(name).count
