@@ -22,7 +22,7 @@
                 autofocus: true,
                 onfocus: "this.select()",
                 data: { "1p-ignore": true },
-                class: "w-32 form-field p-1") %>
+                class: "form-input w-32 p-1") %>
         </div>
       </div>
 
@@ -34,7 +34,7 @@
                   :width,
                   value: sf.object.value(:width),
                   in: sf.object.ranges(:width),
-                  class: "w-[72px] form-field p-1",
+                  class: "form-input w-[72px] p-1",
                   inputmode: "numeric",
                   pattern: "[0-9]{1,2}") %>
           </div>
@@ -46,7 +46,7 @@
                   :height,
                   value: sf.object.value(:height),
                   in: sf.object.ranges(:height),
-                  class: "w-[72px] form-field p-1",
+                  class: "form-input w-[72px] p-1",
                   inputmode: "numeric",
                   pattern: "[0-9]{1,2}") %>
           </div>

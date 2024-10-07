@@ -12,7 +12,7 @@
             onfocus: "this.select()",
             placeholder: "Username",
             data: { "1p-ignore": true },
-            class: "w-80 form-field") %>
+            class: "form-input w-80") %>
       <%= f.submit(Icon.check, class: "btn-basic text-xl") %>
     </div>
     <p class="form-error"><%= f.object.errors[:username].join(", ") %></p>
