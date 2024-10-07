@@ -13,15 +13,21 @@ export default class extends Controller {
       this.#setCurrentUserTimeZone()
   }
 
+  select(event) {
+    this.#submit(event.currentTarget.value)
+  }
+
   #setCurrentUserTimeZone() {
-    post(this.updateUrlValue, {
-      body: {
-        time_zone: this.#getlocalTimeZone(),
-      },
-    })
+    this.#submit(this.#getlocalTimeZone())
   }
 
   #getlocalTimeZone() {
     return Intl.DateTimeFormat().resolvedOptions().timeZone
+  }
+
+  #submit(value) {
+    post(this.updateUrlValue, {
+      body: { time_zone: value },
+    })
   }
 }

@@ -5,14 +5,26 @@
 <div class="container mx-auto">
   <div class="mb-6 space-y-6">
     <h1>Sweep Ops Archives</h1>
-    <p>
-      Mission reports have been transcribed into Time Zone:
-      <strong><%= @view.current_time_zone_description %></strong>.
-    </p>
+
+    <div class="flex items-center flex-wrap gap-x-2.5 gap-y-0">
+      <p>Convert Mission Reports to</p>
+
+      <% @view.time_zone_form(user: layout.current_user).tap do |form| %>
+        <%= form_with(model: form, url: form.post_url) do |f| %>
+            <%= f.label(:time_zone, "Time Zone:", class: "sr-only") %>
+            <%= f.time_zone_select(
+                  :time_zone,
+                  form.priority_zones,
+                  {},
+                  data: { action: "time-zone#select" },
+                  class: "form-select w-full pl-0 md:pl-1 py-1 pr-0") %>
+        <% end %>
+      <% end %>
+    </div>
   </div>
 
-  <div class="my-8 space-y-3">
-    <h2 class="h5">Official Engagement Tally:</h2>
+  <div class="my-8 space-y-6">
+    <h2 class="h4">Official Engagement Tally:</h2>
     <h3 class="text-center">
       <%= render("engagement_tally", view: @view) %>
     </h3>

@@ -36,6 +36,10 @@ class Games::Index
     @type_filter = type_filter
   end
 
+  def time_zone_form(user:)
+    TimeZoneForm.new(user:)
+  end
+
   def current_time_zone_description = self.class.current_time_zone_description
 
   def types
@@ -70,6 +74,36 @@ class Games::Index
   def engagement_tally
     start_at = App.created_at
     @engagement_tally ||= EngagementTally.new(start_at.., base_arel: arel)
+  end
+
+  # Games::Index::TimeZoneForm wraps the drop-down/select form that updates
+  # {User#time_zone}.
+  class TimeZoneForm
+    def initialize(user:)
+      @user = user
+    end
+
+    def to_model = User.new(@user)
+
+    def post_url(router = RailsRouter.instance)
+      router.current_user_time_zone_update_path
+    end
+
+    def priority_zones = ActiveSupport::TimeZone.us_zones
+
+    # Games::Index::TimeZoneForm::User is a Form View Model for representing
+    # {User}s.
+    class User
+      def initialize(user)
+        @user = user
+      end
+
+      def model_name = @user.model_name
+
+      def time_zone
+        @user.time_zone || Time.zone.name
+      end
+    end
   end
 
   # Games::Index::Type wraps {Board::Settings} types, for display of the

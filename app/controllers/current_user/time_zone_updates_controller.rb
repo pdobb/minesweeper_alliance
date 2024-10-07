@@ -2,17 +2,26 @@
 
 class CurrentUser::TimeZoneUpdatesController < ApplicationController
   def create
-    time_zone_params[:time_zone].tap do |time_zone|
-      layout.current_user.update!(time_zone:)
-      layout.store_cookie(:time_zone, value: time_zone)
-    end
+    layout.current_user.update!(time_zone: new_time_zone)
 
-    head(:ok)
+    cookies.permanent[:time_zone] = {
+      value: new_time_zone,
+      secure: App.production?,
+    }
+
+    render(turbo_stream: turbo_stream.refresh)
   end
 
   private
 
   def time_zone_params
     params.require(:time_zone_update).permit(:time_zone)
+  end
+
+  def new_time_zone
+    @new_time_zone ||= begin
+      name = time_zone_params[:time_zone]
+      ActiveSupport::TimeZone::MAPPING.key(name) || name
+    end
   end
 end
