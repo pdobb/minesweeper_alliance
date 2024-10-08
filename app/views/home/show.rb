@@ -6,7 +6,9 @@ class Home::Show
     @current_game = current_game
   end
 
-  def nav = Nav.new(current_game:)
+  def nav
+    Nav.new
+  end
 
   def welcome_banner(context:)
     WelcomeBanner.new(context:)
@@ -49,10 +51,6 @@ class Home::Show
   # Home::Show::Nav is a View Model for handling navigation between Game - Show
   # pages.
   class Nav
-    def initialize(current_game:)
-      @current_game = current_game
-    end
-
     def previous_game? = !!previous_game
 
     def previous_game_url(router = RailsRouter.instance)
@@ -62,13 +60,9 @@ class Home::Show
     def previous_game
       @previous_game ||= Game.second_to_last
     end
-
-    private
-
-    attr_reader :current_game
   end
 
-  # Home::Show::WelcomeBanner is a View Model that aids in building a
+  # Home::Show::WelcomeBanner aids in building an
   # {Application::PermanentlyDismissableBanner} based on the given context.
   class WelcomeBanner
     WELCOME_BANNER_NAME = "welcome_banner"
@@ -78,11 +72,13 @@ class Home::Show
       @context = BannerContext.new(context:)
     end
 
+    def turbo_frame_name = :welcome_banner
+
     def show?
       context.cookies[WELCOME_BANNER_NAME] != BANNER_DISMISSAL_VALUE
     end
 
-    def build_banner
+    def banner
       Application::PermanentlyDismissableBanner.new(
         name: WELCOME_BANNER_NAME,
         content: { text: },

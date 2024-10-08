@@ -1,19 +1,18 @@
 <%# locals: (nav:) %>
 
 <% if nav.previous_game? %>
-  <div class="relative container mx-auto">
-    <div
-      class="
-        absolute -top-8 flex items-center gap-x-3
-        *:text-gray-500 *:dark:text-neutral-400
-        *:no-underline
-      "
-    >
-      <%= link_to(nav.previous_game_url, title: "Previous Op") do %>
-        <%= inline_svg_tag(
-              "heroicons/arrow-left-circle.svg",
-              class: "size-6 min-w-6 min-h-6") %>
-      <% end %>
-    </div>
+  <div
+    class="
+      group-has-[banner]:hidden
+      absolute -top-8 flex items-center gap-x-3
+      *:text-gray-500 *:dark:text-neutral-400
+      *:no-underline
+    "
+  >
+    <%= link_to(nav.previous_game_url, title: "Previous Op") do %>
+      <%= inline_svg_tag(
+            "heroicons/arrow-left-circle.svg",
+            class: "size-6 min-w-6 min-h-6") %>
+    <% end %>
   </div>
 <% end %>

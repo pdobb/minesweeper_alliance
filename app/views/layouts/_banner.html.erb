@@ -1,44 +1,39 @@
 <%# locals: (banner:) %>
 
-<div
-  id="banner"
+<banner
+  role="alert"
+  data-controller="banner"
+  <% if banner.permanently_dismissable? %>
+    data-banner-permanently-dismissable-value="<%= banner.permanently_dismissable? %>"
+    data-banner-name-value="<%= banner.name %>"
+  <% end %>
+  data-banner-hide-class="opacity-0"
+  data-action="transitionend->banner#remove"
   class="
-    [&:not(:has(>div))]:hidden
-    -mt-6 md:-mt-3 mb-12 text-center text-balance
+    block -mt-6 md:-mt-3 mb-12 text-center text-balance
+    transition-opacity ease-in
   "
 >
-  <div
-    role="alert"
-    data-controller="banner"
-    <% if banner.permanently_dismissable? %>
-      data-banner-permanently-dismissable-value="<%= banner.permanently_dismissable? %>"
-      data-banner-name-value="<%= banner.name %>"
-    <% end %>
-    data-banner-hide-class="opacity-0"
-    data-action="transitionend->banner#remove"
-    class="transition-opacity ease-in"
-  >
-    <span class="sr-only">Banner</span>
-    <div class="flex gap-x-6 items-baseline">
-      <p><%= banner.content %></p>
+  <span class="sr-only">Banner</span>
+  <div class="flex gap-x-6 items-baseline">
+    <p><%= banner.content %></p>
 
-      <% if banner.show_dismissal_button? %>
-        <button
-          type="button"
-          data-action="banner#dismiss"
-          class="
-            -m-1.5 p-2 rounded-lg
-            focus:ring-2 focus:animate-pulse-fast
-            <%= class_names(banner.button_css_class) %>
-          "
-          aria-label="Dismiss"
-        >
-          <span class="sr-only">Dismiss</span>
-          <%= inline_svg_tag(
-                "heroicons/x-mark.svg",
-                class: "stroke-2 size-[20px] max-w-[20px] max-h-[20px]") %>
-        </button>
-      <% end %>
-    </div>
+    <% if banner.show_dismissal_button? %>
+      <button
+        type="button"
+        data-action="banner#dismiss"
+        class="
+          -m-1.5 p-2 rounded-lg
+          focus:ring-2 focus:animate-pulse-fast
+          <%= class_names(banner.button_css_class) %>
+        "
+        aria-label="Dismiss"
+      >
+        <span class="sr-only">Dismiss</span>
+        <%= inline_svg_tag(
+              "heroicons/x-mark.svg",
+              class: "stroke-2 size-[20px] max-w-[20px] max-h-[20px]") %>
+      </button>
+    <% end %>
   </div>
-</div>
+</banner>

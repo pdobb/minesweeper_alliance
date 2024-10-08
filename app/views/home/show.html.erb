@@ -1,10 +1,9 @@
 <% title("War Room") %>
 
-<%= render("page_nav", nav: @view.nav) %>
-
 <%= turbo_stream_from(:current_game, channel: WarRoomChannel) %>
 
-<div class="container mx-auto">
+<div class="relative container mx-auto group">
+  <%= render("home/page_nav", nav: @view.nav) %>
   <%= render("welcome_banner", view: @view.welcome_banner(context: layout)) %>
 </div>
 
