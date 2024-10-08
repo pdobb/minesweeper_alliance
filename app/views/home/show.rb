@@ -53,7 +53,6 @@ class Home::Show
       @current_game = current_game
     end
 
-    def current_game? = !!current_game
     def previous_game? = !!previous_game
 
     def previous_game_url(router = RailsRouter.instance)
