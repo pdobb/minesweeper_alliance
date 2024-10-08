@@ -30,6 +30,8 @@ class WarRoomChannel < Turbo::StreamsChannel
   def current_user_token? = !!current_user_token
 
   def log_rejection_event(stream_name)
+    return unless App.debug?
+
     Rails.logger.info do
       " !¡ WarRoomChannel#reject "\
         "stream_name=#{stream_name.inspect}), "\
@@ -55,14 +57,15 @@ class WarRoomChannel < Turbo::StreamsChannel
 
   # :reek:DuplicateMethodCall
   # :reek:TooManyStatements
-  def log_subscription_event(method_name)
-    event = method_name.to_s[3..].capitalize
+  def log_subscription_event(method_name) # rubocop:disable Metrics/MethodLength
+    return yield unless App.debug?
 
     before = DutyRoster.participants.to_a
     result = yield
     after = DutyRoster.participants.to_a
 
     Rails.logger.info do
+      event = method_name.to_s[3..].capitalize
       " -> WarRoomChannel/#{event} "\
         "current_user_token=#{current_user_token.inspect}) :: "\
         "DutyRoster: #{before.inspect} -> #{after.inspect}"

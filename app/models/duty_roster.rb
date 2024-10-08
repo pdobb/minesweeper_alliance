@@ -51,7 +51,8 @@ module DutyRoster
   end
 
   def self.clear
-    Rails.logger.info { " -> DutyRoster#clear" }
+    Rails.logger.info { " -> DutyRoster#clear" } if App.debug?
+
     cache.delete(:participants)
 
     participants
