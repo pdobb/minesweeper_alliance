@@ -7,7 +7,11 @@
   <%= render("welcome_banner", view: @view.welcome_banner(context: layout)) %>
 </div>
 
-<%= render(@view.render_options) %>
+<% if @view.current_game? %>
+  <%= render("games/game", view: @view.show_game_view) %>
+<% else # new_game? %>
+  <%= render("games/new_container", view: @view.new_game_view) %>
+<% end %>
 
 <% if @view.current_game? %>
   <div class="container mx-auto">

@@ -10,13 +10,7 @@ class Application::ThemeMenu
     @button_content = button_content
   end
 
-  def render_options
-    { layout: "application/menu", locals: { view: self } }
-  end
-
-  def title
-    "Theme"
-  end
+  def title = "Theme"
 
   def button_attributes
     { data: { theme_target: "themeSelectorButton" } }

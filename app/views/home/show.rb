@@ -14,15 +14,15 @@ class Home::Show
     WelcomeBanner.new(context:)
   end
 
-  def current_game? = !!current_game
-
-  def render_options
-    if current_game?
-      { partial: "games/game", locals: { view: show_view } }
-    else # new_game?
-      { partial: "games/new_container", locals: { view: new_view } }
-    end
+  def show_game_view
+    Games::Show.new(game: current_game)
   end
+
+  def new_game_view
+    Games::New.new
+  end
+
+  def current_game? = !!current_game
 
   def game_just_ended?
     current_game.just_ended?
@@ -35,14 +35,6 @@ class Home::Show
   private
 
   attr_reader :current_game
-
-  def show_view
-    Games::Show.new(game: current_game)
-  end
-
-  def new_view
-    Games::New.new
-  end
 
   # Home::Show::Nav is a View Model for handling navigation between Game - Show
   # pages.
