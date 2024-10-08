@@ -44,10 +44,6 @@ class Home::Show
     Games::New.new
   end
 
-  def previous_game
-    @previous_game ||= Game.second_to_last
-  end
-
   # Home::Show::Nav is a View Model for handling navigation between Game - Show
   # pages.
   class Nav
@@ -58,7 +54,7 @@ class Home::Show
     end
 
     def previous_game
-      @previous_game ||= Game.second_to_last
+      @previous_game ||= Game.for_game_over_statuses.last
     end
   end
 
