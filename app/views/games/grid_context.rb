@@ -1,8 +1,7 @@
 # frozen_string_literal: true
 
-# Games::GridContext is a View Model that wraps the current context (i.e. the
-# view template / controller context) with a specialized set of additional
-# features.
+# Games::GridContext wraps the current view context (i.e. the view template)
+# with a specialized set of additional features.
 class Games::GridContext
   MOBILE_VIEW_DISPLAY_WIDTH_IN_COLUMNS = 10
 

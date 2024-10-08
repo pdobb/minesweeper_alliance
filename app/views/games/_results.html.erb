@@ -21,34 +21,36 @@
   "
 >
   <% view.stats.tap do |stats| %>
-    <div class="md:justify-self-end space-y-3">
-      <h4 class="h3">Metrics</h4>
+    <% cache(stats.cache_name) do %>
+      <div class="md:justify-self-end space-y-3">
+        <h4 class="h3">Metrics</h4>
 
-      <table class="-m-3">
-        <tbody class="*:*:px-3 *:*:py-1">
-          <tr>
-            <th class="text-left">Duration</th>
-            <td><%= stats.duration %></td>
-          </tr>
-          <tr>
-            <th class="text-left"># Active Players</th>
-            <td><%= stats.players_count %></td>
-          </tr>
-          <tr>
-            <th class="text-left"># Cells Revealed</th>
-            <td><%= stats.reveals_count %></td>
-          </tr>
-          <tr>
-            <th class="text-left"># Flags Placed</th>
-            <td><%= stats.flags_count %></td>
-          </tr>
-          <tr>
-            <th class="text-left"># Flags Removed</th>
-            <td><%= stats.unflags_count %></td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+        <table class="-m-3">
+          <tbody class="*:*:px-3 *:*:py-1">
+            <tr>
+              <th class="text-left">Duration</th>
+              <td><%= stats.duration %></td>
+            </tr>
+            <tr>
+              <th class="text-left"># Active Players</th>
+              <td><%= stats.players_count %></td>
+            </tr>
+            <tr>
+              <th class="text-left"># Cells Revealed</th>
+              <td><%= stats.reveals_count %></td>
+            </tr>
+            <tr>
+              <th class="text-left"># Flags Placed</th>
+              <td><%= stats.flags_count %></td>
+            </tr>
+            <tr>
+              <th class="text-left"># Flags Removed</th>
+              <td><%= stats.unflags_count %></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    <% end %>
   <% end %>
 
   <% view.duty_roster.tap do |duty_roster| %>

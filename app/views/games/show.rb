@@ -19,6 +19,13 @@ class Games::Show
 
   def nav = Nav.new(game:)
 
+  def cache_name(context:)
+    [
+      game,
+      context.mobile? ? :mobile : :web,
+    ]
+  end
+
   def current_game? = game_on? || game_just_ended?
   def game_on? = game.on?
   def game_just_ended? = game.just_ended?

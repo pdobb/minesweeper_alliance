@@ -1,157 +1,165 @@
 <%# locals: (view:) %>
 
-<%= turbo_frame_tag(:current_game, class: "space-y-6") do %>
-  <div class="container mx-auto">
-    <h2 class="text-center">
-      <span class="<%= class_names(view.game_status_css_class) %>">
-        <%= view.game_status %>
-      </span>
-
-      <% if view.game_in_progress? %>
-        <span class="inline-flex gap-x-2">
-          <%= view.game_status_mojis %>
-          <small
-            id="fleet_count"
-            class="
-              before:content-['x'] before:mr-1.5
-              font-normal text-gray-500 dark:text-neutral-400
-            "
-          ><%= view.players_count %></small>
+<%=
+  if view.game_on?
+    ->(&block) { turbo_frame_tag(:current_game, &block) }
+  else # game_over?
+    ->(&block) { cache(view.cache_name(context: layout), &block) }
+  end.call do
+%>
+  <div class="space-y-6">
+    <div class="container mx-auto">
+      <h2 class="text-center">
+        <span class="<%= class_names(view.game_status_css_class) %>">
+          <%= view.game_status %>
         </span>
-      <% else %>
-        <span class="tracking-emojis"><%= view.game_status_mojis %></span>
-      <% end %>
-    </h2>
-  </div>
 
-  <div class="mx-auto md:w-fit md:max-w-full space-y-2">
-    <div class="md:-mx-3 flex justify-between gap-x-12 text-lg">
-      <div
         <% if view.game_in_progress? %>
-          data-controller="elapsed-time"
-          data-elapsed-time-start-value="<%= view.elapsed_time.to_i %>"
+          <span class="inline-flex gap-x-2">
+            <%= view.game_status_mojis %>
+            <small
+              id="fleet_count"
+              class="
+                before:content-['x'] before:mr-1.5
+                font-normal text-gray-500 dark:text-neutral-400
+              "
+            ><%= view.players_count %></small>
+          </span>
+        <% else %>
+          <span class="tracking-emojis"><%= view.game_status_mojis %></span>
         <% end %>
-        data-turbo-temporary
-        title="Game Timer"
+      </h2>
+    </div>
+
+    <div class="mx-auto md:w-fit md:max-w-full space-y-2">
+      <div class="md:-mx-3 flex justify-between gap-x-12 text-lg">
+        <div
+          <% if view.game_in_progress? %>
+            data-controller="elapsed-time"
+            data-elapsed-time-start-value="<%= view.elapsed_time.to_i %>"
+          <% end %>
+          data-turbo-temporary
+          title="Game Timer"
+        >
+          <time
+            data-elapsed-time-target="elapsedTime"
+            datetime="PT<%= view.elapsed_time.to_i %>S"
+            aria-label="Elapsed Time"
+          ><%= view.elapsed_time %></time>
+        </div>
+
+        <ul
+          title="Placed Flags vs Total Mines"
+          class="flex gap-x-1.5 whitespace-nowrap"
+        >
+          <li><%= view.flags_count %></li>
+          <li><%= Icon.flag %></li>
+          <li class="text-gray-500 dark:text-neutral-400">/</li>
+          <li><%= view.mines %></li>
+          <li><%= Icon.mine %></li>
+        </ul>
+      </div>
+
+      <div
+        class="
+          -mx-5
+          <% if view.grid_context(layout).allow_scrolling? %>
+            overflow-x-auto
+          <% end %>
+        "
       >
-        <time
-          data-elapsed-time-target="elapsedTime"
-          datetime="PT<%= view.elapsed_time.to_i %>S"
-          aria-label="Elapsed Time: <%= view.elapsed_time %>"
-        ><%= view.elapsed_time %></time>
+        <table
+          id="game_board"
+          class="
+            mx-auto table-fixed
+            border-double border-4
+            border-slate-500 dark:border-neutral-950
+          "
+        >
+          <tbody
+            <% if view.game_on? %>
+              data-controller="board"
+              data-board-reveal-url-value="<%= view.reveal_url %>"
+              data-board-toggle-flag-url-value="<%= view.toggle_flag_url %>"
+              data-board-highlight-neighbors-url-value="<%= view.highlight_neighbors_url %>"
+              data-board-reveal-neighbors-url-value="<%= view.reveal_neighbors_url %>"
+              data-action="
+                click->board#reveal
+                contextmenu->board#toggleFlag:prevent
+                mousedown->board#highlightNeighbors
+                mouseup->board#revealNeighbors
+              "
+            <% end %>
+            class="
+              text-center select-none
+
+              <%# Cells %>
+              *:*:size-8 *:*:min-w-8 *:*:min-h-8
+              *:*:border *:*:border-slate-600 *:*:dark:border-neutral-950
+              <% if view.game_on? %>
+                data-[revealed=false]:*:*:cursor-cell
+                data-[revealed=true]:*:*:cursor-default
+              <% end %>
+            "
+          >
+            <% view.rows(context: view.grid_context(layout)).each do |row| %>
+              <tr>
+                <% row.each do |cell| %>
+                  <td
+                    data-id="<%= cell.id %>"
+                    data-revealed="<%= cell.revealed? %>"
+                    data-flagged="<%= cell.flagged? %>"
+                    class="<%= class_names(cell.css_classes) %>"
+                  >
+                    <%= cell %>
+                  </td>
+                <% end %>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
       </div>
 
       <ul
-        title="Placed Flags vs Total Mines"
-        class="flex gap-x-1.5 whitespace-nowrap"
+        class="
+          md:-mx-5 flex justify-end gap-x-3
+          text-gray-400 dark:text-neutral-500
+        "
       >
-        <li><%= view.flags_count %></li>
-        <li><%= Icon.flag %></li>
-        <li class="text-gray-500 dark:text-neutral-400">/</li>
-        <li><%= view.mines %></li>
-        <li><%= Icon.mine %></li>
+        <li><%= view.type %></li>
+        <li>(<%= view.board_dimensions %>)</li>
       </ul>
     </div>
 
-    <div
-      class="
-        -mx-5
-        <% if view.grid_context(layout).allow_scrolling? %>
-          overflow-x-auto
-        <% end %>
-      "
-    >
-      <table
-        id="game_board"
-        class="
-          mx-auto table-fixed
-          border-double border-4
-          border-slate-400 dark:border-neutral-950
-        "
-      >
-        <tbody
-          <% if view.game_on? %>
-            data-controller="board"
-            data-board-reveal-url-value="<%= view.reveal_url %>"
-            data-board-toggle-flag-url-value="<%= view.toggle_flag_url %>"
-            data-board-highlight-neighbors-url-value="<%= view.highlight_neighbors_url %>"
-            data-board-reveal-neighbors-url-value="<%= view.reveal_neighbors_url %>"
-            data-action="
-              click->board#reveal
-              contextmenu->board#toggleFlag:prevent
-              mousedown->board#highlightNeighbors
-              mouseup->board#revealNeighbors
-            "
-          <% end %>
-          class="
-            text-center select-none
-
-            <%# Cells %>
-            *:*:size-8 *:*:min-w-8 *:*:min-h-8
-            *:*:border *:*:border-slate-600 *:*:dark:border-neutral-950
-            <% if view.game_on? %>
-              data-[revealed=false]:*:*:cursor-cell
-              data-[revealed=true]:*:*:cursor-default
-            <% end %>
-          "
+    <div class="container mx-auto text-center">
+      <% if view.game_on? %>
+        <div
+          data-controller="board-actions"
+          data-board-actions-board-id-value="game_board"
         >
-          <% view.rows(context: view.grid_context(layout)).each do |row| %>
-            <tr>
-              <% row.each do |cell| %>
-                <td
-                  data-id="<%= cell.id %>"
-                  data-revealed="<%= cell.revealed? %>"
-                  data-flagged="<%= cell.flagged? %>"
-                  class="<%= class_names(cell.css_classes) %>"
-                >
-                  <%= cell %>
-                </td>
-              <% end %>
-            </tr>
-          <% end %>
-        </tbody>
-      </table>
-    </div>
-
-    <ul
-      class="
-        md:-mx-5 flex justify-end gap-x-3
-        text-gray-400 dark:text-neutral-500
-      "
-    >
-      <li><%= view.type %></li>
-      <li>(<%= view.board_dimensions %>)</li>
-    </ul>
-  </div>
-
-  <div class="container mx-auto text-center">
-    <% if view.game_on? %>
-      <div
-        data-controller="board-actions"
-        data-board-actions-board-id-value="game_board"
-      >
-        <%= button_to(
-              "Reveal Random",
-              nil,
-              class: "btn-primary",
-              data: { action: "board-actions#revealRandom:prevent" }) %>
-      </div>
-    <% elsif view.game_just_ended? %>
-      <div class="mt-3 flex flex-col justify-center items-center gap-6">
-        <h3 class="h4">
-          <%=
-            if view.game_ended_in_victory?
-              t("game.victory.restart_html").sample
-            else # view.game_ended_in_defeat?
-              t("game.defeat.restart_html").sample
-            end
-          %>
-        </h3>
-
-        <div class="flex justify-center items-center min-h-12">
-          <%= render("games/new", view: Games::New.new) %>
+          <%= button_to(
+                "Reveal Random",
+                nil,
+                class: "btn-primary",
+                data: { action: "board-actions#revealRandom:prevent" }) %>
         </div>
-      </div>
-    <% end %>
+      <% elsif view.game_just_ended? %>
+        <div class="mt-3 flex flex-col justify-center items-center gap-6">
+          <h3 class="h4">
+            <%=
+              if view.game_ended_in_victory?
+                t("game.victory.restart_html").sample
+              else # view.game_ended_in_defeat?
+                t("game.defeat.restart_html").sample
+              end
+            %>
+          </h3>
+
+          <div class="flex justify-center items-center min-h-12">
+            <%= render("games/new", view: Games::New.new) %>
+          </div>
+        </div>
+      <% end %>
+    </div>
   </div>
 <% end %>

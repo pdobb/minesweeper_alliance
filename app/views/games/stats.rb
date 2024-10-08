@@ -8,6 +8,8 @@ class Games::Stats
     @game = game
   end
 
+  def cache_name = [game, :stats]
+
   def duration
     Duration.new(game.started_at..game.ended_at)
   end
