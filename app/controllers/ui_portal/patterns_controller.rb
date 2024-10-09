@@ -86,7 +86,7 @@ class UIPortal::PatternsController < UIPortal::BaseController
   end
 
   def store_pattern_settings(settings)
-    layout.store_cookie(
+    layout.store_http_cookie(
       UIPortal::Patterns::New::SettingsForm::STORAGE_KEY,
       value: settings.to_json)
   end

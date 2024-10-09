@@ -21,7 +21,7 @@ module Games::CreateBehaviors
   def store_board_settings(current_game)
     return unless (settings = current_game.board_settings).custom?
 
-    layout.store_cookie(
+    layout.store_http_cookie(
       Games::Customs::New::Form::STORAGE_KEY,
       value: settings.to_json)
   end

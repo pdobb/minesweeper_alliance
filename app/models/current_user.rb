@@ -42,6 +42,6 @@ class CurrentUser
   end
 
   def store_user_token(user_token:)
-    context.store_cookie(:user_token, value: user_token)
+    context.store_http_cookie(:user_token, value: user_token)
   end
 end

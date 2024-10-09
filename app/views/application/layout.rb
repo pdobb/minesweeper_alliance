@@ -29,7 +29,7 @@ class Application::Layout
     @helpers ||= ActionController::Base.helpers
   end
 
-  def store_cookie(name, value:)
+  def store_http_cookie(name, value:)
     cookies.permanent[name] = {
       value:,
       secure: App.production?,

@@ -50,7 +50,7 @@ class CurrentUserTest < ActiveSupport::TestCase
       @cookies = CookieJar.new(cookies)
     end
 
-    def store_cookie(name, value:)
+    def store_http_cookie(name, value:)
     end
 
     attr_reader :cookies
