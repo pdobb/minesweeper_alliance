@@ -66,8 +66,10 @@ en:
     successful_destroy_with_name: "Destroyed %{type} %{name}"
 
   site:
-    title: Minesweeper Alliance
-    description: |
+    name: Minesweeper Alliance
+    short_name: MA
+    meta_description: Minesweeper Alliance is an open-multiplayer riff on the classic Minesweeper game. Join forces with your fellow minesweepers and take on the mines in real-time!
+    description:
       Welcome to Minesweeper Alliance, an open-multiplayer riff on the classic Minesweeper game.
       Join forces with your fellow minesweepers and take on the mines in real-time!
       But be warned...

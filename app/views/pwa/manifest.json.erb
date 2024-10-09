@@ -1,22 +1,49 @@
 {
-  "name": "MinesweeperAlliance",
+  "name": "<%= t("site.name") %>",
+  "short_name": "<%= t("site.short_name") %>",
   "icons": [
     {
-      "src": "/android-chrome-512x512.png",
+      "src": "/icon-192.png",
       "type": "image/png",
-      "sizes": "512x512"
+      "sizes": "192x192"
     },
     {
-      "src": "/android-chrome-512x512.png",
+      "src": "/icon-512-mask.png",
       "type": "image/png",
       "sizes": "512x512",
       "purpose": "maskable"
+    },
+    {
+      "src": "/icon-512.png",
+      "type": "image/png",
+      "sizes": "512x512"
     }
   ],
-  "start_url": "/",
+  "start_url": "<%= root_path %>",
   "display": "standalone",
-  "scope": "/",
-  "description": "Minesweeper Alliance is an open-multiplayer riff on the classic Minesweeper game.",
+  "scope": "<%= root_path %>",
+  "description": "<%= t("site.meta_description") %>",
+  "categories": ["games"],
   "theme_color": "#b91c1c",
-  "background_color": "#262626"
+  "background_color": "#262626",
+  "shortcuts": [
+    {
+      "name": "War Room",
+      "description": "New / Current Game",
+      "url": "<%= root_path %>",
+      "icons": [{ "src": "<%= image_url("heroicons/home.svg") %>", "sizes": "any" }]
+    },
+    {
+      "name": "Sweep Ops Archive",
+      "description": "Past Games",
+      "url": "<%= games_path %>",
+      "icons": [{ "src": "<%= image_url("heroicons/archive-box.svg") %>", "sizes": "any" }]
+    },
+    {
+      "name": "About",
+      "description": "About Minesweeper Alliance",
+      "url": "<%= about_path %>",
+      "icons": [{ "src": "<%= image_url("heroicons/information-circle.svg") %>", "sizes": "any" }]
+    }
+  ]
 }
