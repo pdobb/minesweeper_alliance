@@ -88,7 +88,7 @@ class Home::Show
       def cookies(...) = @base_context.cookies(...)
 
       def show_banner_dismissal_button?
-        @base_context.current_user_has_signed_their_name?
+        @base_context.current_user.signer?
       end
     end
   end

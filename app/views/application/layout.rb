@@ -11,18 +11,7 @@ class Application::Layout
     @context = context
   end
 
-  def current_user
-    @current_user ||= CurrentUser.(context: self)
-  end
-
-  def current_user?(user)
-    current_user == user
-  end
-
-  def current_user_has_signed_their_name? = current_user.signer?
-  def current_user_time_zone = current_user.time_zone
-  def current_user_display_name = current_user.display_name
-  def current_user_mms_id = current_user.mms_id
+  def current_user = context.current_user
 
   def flash_notifications
     Application::Flash.new(flash).notifications

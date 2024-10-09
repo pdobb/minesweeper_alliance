@@ -45,8 +45,6 @@ class Games::UsersController < ApplicationController
     params.require(:user).permit(:username)
   end
 
-  def current_user = @current_user ||= layout.current_user
-
   def broadcast_update(game:)
     Turbo::StreamsChannel.broadcast_update_to(
       game,

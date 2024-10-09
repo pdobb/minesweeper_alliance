@@ -34,8 +34,8 @@ class Games::Users::DutyRoster
       [user, :duty_roster_listing]
     end
 
-    def current_user?(context:)
-      context.current_user?(user)
+    def user?(current_user)
+      current_user == user
     end
 
     def dom_id(helpers:)

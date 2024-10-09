@@ -6,8 +6,7 @@ class Games::Boards::Cells::ToggleFlagsController < ApplicationController
   def create
     cell.transaction do
       cell.toggle_flag
-      determine_transaction_class.create_between(
-        user: layout.current_user, cell:)
+      determine_transaction_class.create_between(user: current_user, cell:)
     end
 
     broadcast_changes

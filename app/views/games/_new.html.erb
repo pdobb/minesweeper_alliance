@@ -24,7 +24,7 @@
           class: "btn-primary",
           data: { turbo_frame: :_top }) %>
 
-    <% if layout.current_user_has_signed_their_name? %>
+    <% if current_user.signer? %>
       <%= button_to(
             "Custom",
             view.new_custom_game_url,

@@ -58,8 +58,7 @@ module Games::Boards::Cells::ActionBehaviors
     def board = context.__send__(:board)
     def cell = context.__send__(:cell)
 
-    def user = layout.current_user
-    def layout = context.layout
+    def user = context.current_user
 
     private
 

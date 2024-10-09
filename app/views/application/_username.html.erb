@@ -1,14 +1,12 @@
 <%# locals: () %>
 
-<% user = layout.current_user %>
-
-<%= turbo_frame_tag(user, "nav") do %>
-  <% if layout.current_user_has_signed_their_name? %>
+<%= turbo_frame_tag(current_user, "nav") do %>
+  <% if current_user.signer? %>
     <%= active_link_to(
-          user_path(user),
+          user_path(current_user),
           data: { turbo_frame: :_top }) do %>
       <span class="hidden md:inline">
-        <%= layout.current_user_display_name %>
+        <%= current_user.display_name %>
       </span>
       <%= Icon.profile %>
     <% end %>

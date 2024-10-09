@@ -12,7 +12,7 @@
   >
     <h1>Sweep Ops Archives</h1>
 
-    <% @view.time_zone_form(user: layout.current_user).tap do |form| %>
+    <% @view.time_zone_form(user: current_user).tap do |form| %>
       <%= form_with(model: form, url: form.post_url) do |f| %>
           <%= f.label(:time_zone, "Time Zone:", class: "sr-only") %>
           <%= f.time_zone_select(

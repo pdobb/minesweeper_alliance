@@ -68,7 +68,7 @@
             <div class="flex items-baseline gap-x-3">
               <span><%= index.next %>.</span>
 
-              <% if listing.current_user?(context: layout) %>
+              <% if listing.user?(current_user) %>
                 <span title="Me"><%= Icon.eyes %></span>
               <% end %>
 

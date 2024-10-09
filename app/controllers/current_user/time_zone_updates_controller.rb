@@ -2,7 +2,7 @@
 
 class CurrentUser::TimeZoneUpdatesController < ApplicationController
   def create
-    layout.current_user.update!(time_zone: new_time_zone)
+    current_user.update!(time_zone: new_time_zone)
 
     cookies.permanent[:time_zone] = {
       value: new_time_zone,
