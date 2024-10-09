@@ -8,8 +8,10 @@ class Games::Users::Edit
     @user = user
   end
 
+  def turbo_frame_name = signature.turbo_frame_name
+
   def signature
-    Games::Users::Signature.new(game:, user:)
+    @signature ||= Games::Users::Signature.new(game:, user:)
   end
 
   def form_model = user
