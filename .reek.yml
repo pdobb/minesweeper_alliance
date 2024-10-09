@@ -24,9 +24,6 @@ directories:
   app/channels/application_cable:
     IrresponsibleModule:
       enabled: false
-  app/components:
-    IrresponsibleModule:
-      enabled: false
   app/controllers:
     IrresponsibleModule:
       enabled: false

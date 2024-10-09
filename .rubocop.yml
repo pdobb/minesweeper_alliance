@@ -1,80 +1,20 @@
 require:
   - rubocop-minitest
   - rubocop-performance
-  - rubocop-rake
   - rubocop-rails
+  - rubocop-rake
 
 inherit_gem:
   gemwork: lib/rubocop/.rubocop-rails.yml
 
 AllCops:
   TargetRubyVersion: 3.3
-  Exclude:
-    - bin/bundle
-    - db/schema.rb
-    - lib/templates/**/*
-
-Layout/LineLength:
-  Exclude:
-    - Gemfile
-    - config/environments/*.rb
-
-Metrics/AbcSize:
-  Exclude:
-    - db/migrate/*.rb
-
-Metrics/MethodLength:
-  Exclude:
-    - db/migrate/*.rb
-
-Metrics/BlockLength:
-  Exclude:
-    - config/environments/*.rb
-    - config/routes.rb
-    - db/migrate/*.rb
-    - test/**/*
 
 Naming/MethodParameterName:
   AllowedNames:
     - x
     - y
 
-Rails/ActionOrder:
-  ExpectedOrder: [index, show, new, create, edit, update, destroy]
-
 Rails/ApplicationController:
   Exclude:
     - app/controllers/ui_portal/**/*
-
-Rails/Output:
-  Exclude:
-    - db/seeds.rb
-
-Rails/WhereExists:
-  Exclude:
-    - test/**/*
-
-Style/Documentation:
-  Exclude:
-    - app/controllers/**/*
-    - app/helpers/**/*
-    - app/jobs/**/*
-    - app/mailers/**/*
-    - app/models/concerns/**/*
-    - db/**/*
-    - test/**/*
-
-Style/FrozenStringLiteralComment:
-  Exclude:
-    - config.ru
-    - bin/*
-
-Style/GuardClause:
-  AllowConsecutiveConditionals: true
-
-Style/HashAsLastArrayItem:
-  Exclude:
-    - test/**/*
-
-Style/SymbolProc:
-  AllowMethodsWithArguments: true
