@@ -1,4 +1,4 @@
-<%# locals: (view:) %>
+<%# locals: (menu:) %>
 
 <div
   data-controller="menu"
@@ -12,13 +12,13 @@
     type="button"
     data-menu-target="button"
     data-action="menu#toggle"
-    aria-label="<%= view.title %>"
+    aria-label="<%= menu.title %>"
     aria-haspopup="true"
     aria-expanded="false"
-    <%= tag.attributes(view.button_attributes) %>
-    class="<%= class_names(view.button_css) %>"
+    <%= tag.attributes(menu.button_attributes) %>
+    class="<%= class_names(menu.button_css) %>"
   >
-    <%= view.button_content %>
+    <%= menu.button_content %>
   </button>
 
   <div
@@ -33,7 +33,7 @@
     aria-hidden="true"
     aria-orientation="vertical"
     tabindex="0"
-    <%= tag.attributes(view.menu_attributes) %>
+    <%= tag.attributes(menu.menu_attributes) %>
     class="
       hidden
       overflow-hidden
@@ -42,7 +42,7 @@
       rounded-lg shadow-xl
       border border-gray-200 dark:border-neutral-700
       bg-white dark:bg-neutral-900
-      <%= class_names(view.menu_css) %>
+      <%= class_names(menu.menu_css) %>
     "
   >
     <%= yield %>

@@ -18,7 +18,7 @@ class Application::Layout
   end
 
   def theme_menu(button_content:)
-    Application::ThemeMenu.new(button_content:)
+    Application::Footer::ThemeMenu.new(button_content:)
   end
 
   def mobile?
