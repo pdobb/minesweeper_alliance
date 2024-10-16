@@ -88,7 +88,7 @@ en:
       - For The Alliance!
     victory:
       restart_html:
-        - ♠️ Aces! ♠️ Sign up for another tour?
+        - <span class="tracking-emojis">♠️♠️♠️</span> Again?
         - Huzzah! Keep it up! <span class="tracking-emojis">👍🙏🏻</span>
         - Sweep on! <span class="tracking-emojis">⛴️⚓️🎉</span>
     defeat:
