@@ -20,8 +20,7 @@ class Games::UsersController < ApplicationController
           redirect_to(
             root_path,
             notice:
-              t(
-                "flash.successful_update_to",
+              t("flash.successful_update_to",
                 type: "username",
                 to: current_user.display_name))
         end

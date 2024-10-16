@@ -95,8 +95,7 @@ class UIPortal::PatternsController < UIPortal::BaseController
     redirect_to(
       { action: :index },
       notice:
-        t(
-          "flash.successful_destroy_with_name",
+        t("flash.successful_destroy_with_name",
           type: "Pattern",
           name: pattern.name.inspect))
   end

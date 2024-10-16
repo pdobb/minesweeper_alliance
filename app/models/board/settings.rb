@@ -23,7 +23,7 @@ class Board::Settings
     width: 6..30,
     height: 6..30,
     mines: 4..299,
-    mine_density: (1/10r)..(1/3r),
+    mine_density: 1/10r..1/3r,
   }.freeze
 
   include ActiveModel::Model

@@ -15,6 +15,10 @@ Naming/MethodParameterName:
     - x
     - y
 
+Layout/FirstMethodArgumentLineBreak:
+  AllowedMethods:
+    - t
+
 Rails/ApplicationController:
   Exclude:
     - app/controllers/ui_portal/**/*
