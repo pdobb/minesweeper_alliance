@@ -7,6 +7,10 @@
     @apply font-mono;
   }
 
+  body {
+    @apply dark:bg-neutral-800 dark:text-gray-300;
+  }
+
   a,
   .a {
     @apply underline underline-offset-4
