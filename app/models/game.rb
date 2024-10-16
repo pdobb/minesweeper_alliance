@@ -16,7 +16,7 @@ class Game < ApplicationRecord
   self.inheritance_column = nil
   self.implicit_order_column = "created_at"
 
-  DEFAULT_JUST_ENDED_DURATION = 1.second
+  DEFAULT_JUST_ENDED_DURATION = 0.5.seconds
 
   include ConsoleBehaviors
   include Statusable::HasStatuses
