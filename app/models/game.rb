@@ -12,10 +12,13 @@
 #   {#status} "Standing By" to "Sweep in Progress".
 # @attr ended_at [DateTime] When this Game ended. i.e. transitioned from
 #   {#status} "Sweep in Progress" to either "Alliance Wins" or "Mines Win".
+# @attr score [Integer] The play-time in seconds of a victorious Game. Maxes out
+#   at {Game::MAX_SCORE} (999).
 class Game < ApplicationRecord
   self.inheritance_column = nil
   self.implicit_order_column = "created_at"
 
+  MAX_SCORE = 999
   DEFAULT_JUST_ENDED_DURATION = 0.5.seconds
 
   include ConsoleBehaviors
@@ -97,7 +100,10 @@ class Game < ApplicationRecord
   end
 
   def end_in_victory
-    end_game { set_status_alliance_wins! }
+    end_game {
+      set_score
+      set_status_alliance_wins!
+    }
   end
 
   def end_in_defeat
@@ -137,6 +143,14 @@ class Game < ApplicationRecord
     end
 
     self
+  end
+
+  def set_score
+    update(score: [duration, MAX_SCORE].min)
+  end
+
+  def duration
+    ended_at - started_at
   end
 
   # Game::Console acts like a {Game} but otherwise handles IRB Console-specific

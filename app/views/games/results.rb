@@ -25,6 +25,9 @@ class Games::Results
       "&ndash;".html_safe)
   end
 
+  def game_score = game.score
+  def show_game_score? = game.ended_in_victory?
+
   def stats
     Games::Stats.new(game:)
   end

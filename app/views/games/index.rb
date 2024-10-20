@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
-# EngagementTallyBehaviors is a View Model wrapper around {EngagementTally},
-# for displaying engagement tally details in the view template.
+# EngagementTallyBehaviors mixes in View Model behaviors for objects that wrap
+# {EngagementTally}, for displaying engagement tally details in the view
+# template.
 module EngagementTallyBehaviors
   def wins_count = engagement_tally.wins_count
   def losses_count = engagement_tally.losses_count
@@ -200,6 +201,9 @@ class Games::Index
     def type_indicator
       type[0]
     end
+
+    def game_score = to_model.score
+    def show_game_score? = !!game_score
 
     def game_engagement_time_range(template)
       template.safe_join(

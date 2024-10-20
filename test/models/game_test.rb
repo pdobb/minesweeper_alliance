@@ -177,6 +177,12 @@ class GameTest < ActiveSupport::TestCase
             "subject.status",
             to: Game.status_alliance_wins)
         end
+
+        it "sets Game#score" do
+          _(-> { subject.end_in_victory }).must_change(
+            "subject.score",
+            from: nil)
+        end
       end
 
       context "GIVEN a Game that's already over" do
@@ -210,6 +216,11 @@ class GameTest < ActiveSupport::TestCase
           _(-> { subject.end_in_defeat }).must_change(
             "subject.status",
             to: Game.status_mines_win)
+        end
+
+        it "doesn't set Game#score" do
+          _(-> { subject.end_in_defeat }).wont_change(
+            "subject.score", from: nil)
         end
       end
 

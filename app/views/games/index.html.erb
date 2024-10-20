@@ -44,7 +44,7 @@
                 type.games_filter_url,
                 class: type.css_classes,
                 data: { turbo_prefetch: "false" }) %>
-          <span class="text-gray-500 dark:text-neurtal-400">
+          <span class="text-gray-400 dark:text-gray-500">
             (<%= type.games_count %> /
             <%= number_to_percentage(type.games_percent, precision: 0) %>)
           </span>
@@ -75,16 +75,25 @@
             "
           >
             <% listings.each do |listing| %>
-              <%= link_to(listing.game_url, class: "group space-x-1") do %>
+              <%= link_to(listing.game_url, class: "group whitespace-nowrap") do %>
                 <span class="text-gray-500 dark:text-neutral-400 group-hover:text-inherit">
                   #<%= listing.game_number %>
                   <abbr
                     title="<%= listing.type %>"
                   ><%= listing.type_indicator %></abbr>
                 </span>
-
+                <% if listing.show_game_score? %>
+                  <abbr
+                    title="Score (lower is better)"
+                    class="
+                      -ml-2 before:content-[':']
+                      text-gray-500 dark:text-neutral-400
+                      group-hover:text-inherit
+                    "
+                  ><%= listing.game_score %></abbr>
+                <% end %>
                 <span><%= listing.game_engagement_time_range(self) %></span>
-                <span class="tracking-emojis"><%= listing.game_status_mojis %></span>
+                <span class="tracking-widest"><%= listing.game_status_mojis %></span>
               <% end %>
             <% end %>
           </div>

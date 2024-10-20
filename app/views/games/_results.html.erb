@@ -1,10 +1,16 @@
 <%# locals: (view:) %>
 
-<h3 class="mb-12 h4 text-center">
-  <span class="sr-only">Engagement Date:</span>
-  <%= view.game_engagement_date %>
-  <%= view.game_engagement_time_range(self) %>
-</h3>
+<div class="mb-12 text-center space-y-3">
+  <h3 class="h4">
+    <span class="sr-only">Engagement Date:</span>
+    <%= view.game_engagement_date %>
+    <%= view.game_engagement_time_range(self) %>
+  </h3>
+
+  <% if view.show_game_score? %>
+    <p title="Lower is better">Score: <%= view.game_score %></p>
+  <% end %>
+</div>
 
 <% view.signature.tap do |signature| %>
   <% if signature.show? %>

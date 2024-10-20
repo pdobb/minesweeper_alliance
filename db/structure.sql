@@ -146,6 +146,7 @@ CREATE TABLE public.games (
     type character varying NOT NULL,
     started_at timestamp(6) with time zone,
     ended_at timestamp(6) with time zone,
+    score integer,
     created_at timestamp(6) with time zone NOT NULL,
     updated_at timestamp(6) with time zone NOT NULL
 );
@@ -427,6 +428,13 @@ CREATE INDEX index_games_on_created_at ON public.games USING btree (created_at);
 --
 
 CREATE INDEX index_games_on_ended_at ON public.games USING btree (ended_at);
+
+
+--
+-- Name: index_games_on_score; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_games_on_score ON public.games USING btree (score);
 
 
 --

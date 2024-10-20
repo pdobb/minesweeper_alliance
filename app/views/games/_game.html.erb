@@ -33,6 +33,17 @@
 
     <div class="mx-auto md:w-fit md:max-w-full space-y-2">
       <div class="md:-mx-3 flex justify-between gap-x-12 text-lg">
+        <ul
+          title="Placed Flags vs Total Mines"
+          class="flex gap-x-1.5 whitespace-nowrap"
+        >
+          <li><%= view.flags_count %></li>
+          <li><%= Icon.flag %></li>
+          <li class="text-gray-500 dark:text-neutral-400">/</li>
+          <li><%= view.mines %></li>
+          <li><%= Icon.mine %></li>
+        </ul>
+
         <div
           <% if view.game_in_progress? %>
             data-controller="elapsed-time"
@@ -47,17 +58,6 @@
             aria-label="Elapsed Time"
           ><%= view.elapsed_time %></time>
         </div>
-
-        <ul
-          title="Placed Flags vs Total Mines"
-          class="flex gap-x-1.5 whitespace-nowrap"
-        >
-          <li><%= view.flags_count %></li>
-          <li><%= Icon.flag %></li>
-          <li class="text-gray-500 dark:text-neutral-400">/</li>
-          <li><%= view.mines %></li>
-          <li><%= Icon.mine %></li>
-        </ul>
       </div>
 
       <div
