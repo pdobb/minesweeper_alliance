@@ -9,7 +9,7 @@ module Games::StatusBehaviors
     if game_ended_in_defeat?
       Icon.mine
     elsif game_ended_in_victory?
-      "#{Icon.ship}#{Icon.anchor}#{Icon.victory}"
+      "#{Icon.ship}#{Icon.victory}"
     elsif game_in_progress?
       Icon.ship
     else # Standing By
