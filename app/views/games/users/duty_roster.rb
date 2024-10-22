@@ -13,6 +13,10 @@ class Games::Users::DutyRoster
     [game, :duty_roster]
   end
 
+  def count
+    game.users.size
+  end
+
   def listings
     Listing.wrap(game.users, game:)
   end

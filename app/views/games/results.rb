@@ -25,8 +25,9 @@ class Games::Results
       "&ndash;".html_safe)
   end
 
-  def game_score = game.score
-  def show_game_score? = game.ended_in_victory?
+  def duration
+    Duration.new(game.started_at..game.ended_at)
+  end
 
   def stats
     Games::Stats.new(game:)

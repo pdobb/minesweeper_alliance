@@ -4,18 +4,23 @@
 #
 # @see Games::Results
 class Games::Stats
+  PRECISION = 3
+
   def initialize(game:)
     @game = game
   end
 
   def cache_name = [game, :stats]
 
-  def duration
-    Duration.new(game.started_at..game.ended_at)
+  def show_game_score? = game.ended_in_victory?
+  def game_score = game.score
+
+  def bbbv
+    @bbbv ||= Calc3BV.(grid)
   end
 
-  def players_count
-    game.users.size
+  def bbbv_per_second
+    (bbbv / game_score.to_f).round(PRECISION)
   end
 
   def reveals_count
@@ -33,4 +38,7 @@ class Games::Stats
   private
 
   attr_reader :game
+
+  def board = game.board
+  def grid = board.grid
 end

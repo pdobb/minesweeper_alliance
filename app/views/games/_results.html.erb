@@ -5,11 +5,10 @@
     <span class="sr-only">Engagement Date:</span>
     <%= view.game_engagement_date %>
     <%= view.game_engagement_time_range(self) %>
+    <small class="text-gray-500 dark:text-neutral-400">
+      (<%= view.duration %>)
+    </small>
   </h3>
-
-  <% if view.show_game_score? %>
-    <p title="Lower is better">Score: <%= view.game_score %></p>
-  <% end %>
 </div>
 
 <% view.signature.tap do |signature| %>
@@ -20,27 +19,33 @@
   <% end %>
 <% end %>
 
-<div
-  class="
-    grid md:grid-cols-2
-    gap-x-28 gap-y-12
-  "
->
-  <% view.stats.tap do |stats| %>
-    <% cache(stats.cache_name) do %>
+<% view.stats.tap do |stats| %>
+  <% cache(stats.cache_name) do %>
+    <div
+      class="
+        grid md:grid-cols-2
+        gap-x-28 gap-y-12
+      "
+    >
       <div class="md:justify-self-end space-y-3">
         <h4 class="h3">Metrics</h4>
 
         <table class="-m-3">
           <tbody class="*:*:px-3 *:*:py-1">
-            <tr>
-              <th class="text-left">Duration</th>
-              <td><%= stats.duration %></td>
-            </tr>
-            <tr>
-              <th class="text-left"># Active Players</th>
-              <td><%= stats.players_count %></td>
-            </tr>
+            <% if stats.show_game_score? %>
+              <tr title="<%= t("game.stats.score") %>">
+                <th class="text-left">Score</th>
+                <td><%= stats.game_score %></td>
+              </tr>
+              <tr title="<%= t("game.stats.bbbv") %>">
+                <th class="text-left">3BV</th>
+                <td><%= stats.bbbv %></td>
+              </tr>
+              <tr title="<%= t("game.stats.bbbvps") %>">
+                <th class="text-left">3BV/s</th>
+                <td><%= stats.bbbv_per_second %></td>
+              </tr>
+            <% end %>
             <tr>
               <th class="text-left"># Cells Revealed</th>
               <td><%= stats.reveals_count %></td>
@@ -55,16 +60,21 @@
             </tr>
           </tbody>
         </table>
-      </div>
+      <% end %>
     <% end %>
-  <% end %>
+  </div>
 
   <% view.duty_roster.tap do |duty_roster| %>
     <div>
       <%= turbo_stream_from(*duty_roster.turbo_stream_name) %>
 
       <div class="space-y-3">
-        <h4 class="h3">Duty Roster</h4>
+        <h4 class="h3">
+          Duty Roster
+          <small title="Count" class="text-gray-500 dark:text-neutral-400">
+            (<%= duty_roster.count %>)
+          </small>
+        </h4>
 
         <div
           data-turbo-prefetch="false"
