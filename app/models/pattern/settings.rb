@@ -34,7 +34,7 @@ class Pattern::Settings
   # Shortcut for Custom Settings: See {RANGES}.
   #
   # @example
-  #   Board::Settings[12, 20]
+  #   Pattern::Settings[12, 20]
   def self.[](*args)
     new(width: args[0], height: args[1])
   end

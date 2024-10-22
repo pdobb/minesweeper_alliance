@@ -42,6 +42,14 @@ class GridTest < ActiveSupport::TestCase
       end
     end
 
+    describe "#columns_count" do
+      subject { unit_class.new(cells_array1) }
+
+      it "returns the expected Integer" do
+        _(subject.columns_count).must_equal(2)
+      end
+    end
+
     describe "#to_h" do
       context "GIVEN Cell#y is not nil" do
         subject { unit_class.new([coordinates1]) }

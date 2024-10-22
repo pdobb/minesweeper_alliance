@@ -60,7 +60,7 @@ class Board < ApplicationRecord
   def pattern? = settings.pattern?
 
   def pattern
-    @pattern ||= Pattern.find(name: settings.name)
+    @pattern ||= Pattern.find_by!(name: settings.name)
   end
 
   def check_for_victory

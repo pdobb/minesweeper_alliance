@@ -19,6 +19,7 @@ class Grid
   end
 
   def cells_count = cells.size
+  def columns_count = first.size
 
   # rubocop:disable Layout/LineLength
 

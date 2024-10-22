@@ -27,7 +27,7 @@ class Coordinates < Data.define(:x, :y) # rubocop:disable Style/DataInheritance
 
   # Allow sorting with other Coordinates objects.
   def <=>(other)
-    unless other.is_a?(self.class)
+    unless other.is_a?(self.class) || other.is_a?(self.class::Console)
       raise(
         TypeError,
         "can't compare with non-Coordinates objects, got #{other.class}")
