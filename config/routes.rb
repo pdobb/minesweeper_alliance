@@ -9,9 +9,9 @@ Rails.application.routes.draw do
     scope module: :games do
       resource :user, only: %i[edit update]
 
-      resources :boards, only: :none do
+      resources :boards, only: [] do
         scope module: :boards do
-          resources :cells, only: :none do
+          resources :cells, only: [] do
             scope module: :cells do
               resource :reveal, only: :create
               resource :toggle_flag, only: :create
@@ -30,7 +30,7 @@ Rails.application.routes.draw do
   end
 
   resources :users, only: :show
-  resource :current_user, only: :none do
+  resource :current_user, only: [] do
     scope module: :current_user do
       resource :time_zone_update, only: :create
     end
