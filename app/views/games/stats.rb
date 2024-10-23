@@ -4,7 +4,7 @@
 #
 # @see Games::Results
 class Games::Stats
-  PRECISION = 3
+  DEFAULT_PRECISION = 2
 
   def initialize(game:)
     @game = game
@@ -15,24 +15,34 @@ class Games::Stats
   def show_game_score? = game.ended_in_victory?
   def game_score = game.score
 
-  def bbbv
-    @bbbv ||= Calc3BV.(grid)
+  def display_3bv = bbbv
+
+  def display_3bvps
+    (bbbv / game_score.to_f).round(DEFAULT_PRECISION)
   end
 
-  def bbbv_per_second
-    (bbbv / game_score.to_f).round(PRECISION)
+  def display_efficiency_percentage
+    percentage(efficiency_percent * 100.0)
   end
 
-  def reveals_count
-    game.cell_reveal_transactions.size
+  def display_clicks_count
+    delimit(clicks_count)
   end
 
-  def flags_count
-    game.cell_flag_transactions.size
+  def display_reveals_count
+    delimit(game.cell_reveal_transactions.size)
   end
 
-  def unflags_count
-    game.cell_unflag_transactions.size
+  def display_chords_count
+    delimit(game.cell_chord_transactions.size)
+  end
+
+  def display_flags_count
+    delimit(game.cell_flag_transactions.size)
+  end
+
+  def display_unflags_count
+    delimit(game.cell_unflag_transactions.size)
   end
 
   private
@@ -41,4 +51,26 @@ class Games::Stats
 
   def board = game.board
   def grid = board.grid
+
+  def bbbv
+    @bbbv ||= Calc3BV.(grid)
+  end
+
+  def efficiency_percent
+    bbbv / clicks_count.to_f
+  end
+
+  def clicks_count
+    game.cell_transactions.size
+  end
+
+  def percentage(value, precision: DEFAULT_PRECISION)
+    helpers.number_to_percentage(value, precision:)
+  end
+
+  def delimit(value)
+    helpers.number_with_delimiter(value)
+  end
+
+  def helpers = ActionController::Base.helpers
 end

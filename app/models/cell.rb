@@ -33,6 +33,7 @@ class Cell < ApplicationRecord
 
   has_many :cell_transactions, dependent: :delete_all
   has_one :cell_reveal_transaction
+  has_one :cell_chord_transaction
   has_many :cell_flag_transactions
   has_many :cell_unflag_transactions
 
