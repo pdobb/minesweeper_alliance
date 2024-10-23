@@ -146,7 +146,7 @@ CREATE TABLE public.games (
     type character varying NOT NULL,
     started_at timestamp(6) with time zone,
     ended_at timestamp(6) with time zone,
-    score integer,
+    score double precision,
     created_at timestamp(6) with time zone NOT NULL,
     updated_at timestamp(6) with time zone NOT NULL
 );
