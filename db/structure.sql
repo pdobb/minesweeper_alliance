@@ -107,11 +107,11 @@ CREATE TABLE public.cells (
     id bigint NOT NULL,
     board_id bigint NOT NULL,
     coordinates jsonb DEFAULT '{}'::jsonb NOT NULL,
-    value integer,
     mine boolean DEFAULT false NOT NULL,
     flagged boolean DEFAULT false NOT NULL,
     highlighted boolean DEFAULT false NOT NULL,
     revealed boolean DEFAULT false NOT NULL,
+    value integer,
     created_at timestamp(6) with time zone NOT NULL,
     updated_at timestamp(6) with time zone NOT NULL
 );
@@ -142,8 +142,8 @@ ALTER SEQUENCE public.cells_id_seq OWNED BY public.cells.id;
 
 CREATE TABLE public.games (
     id bigint NOT NULL,
-    status character varying DEFAULT 'Standing By'::character varying NOT NULL,
     type character varying NOT NULL,
+    status character varying DEFAULT 'Standing By'::character varying NOT NULL,
     started_at timestamp(6) with time zone,
     ended_at timestamp(6) with time zone,
     score double precision,

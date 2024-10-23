@@ -4,6 +4,8 @@
 class CreateGames < ActiveRecord::Migration[7.1]
   def up
     create_table(:games) do |t|
+      t.string(:type, null: false)
+
       t.string(:status, null: false, default: Game.status_standing_by)
       t.index(
         :status,
@@ -15,7 +17,6 @@ class CreateGames < ActiveRecord::Migration[7.1]
           SQL
       )
 
-      t.string(:type, null: false)
       t.datetime(:started_at)
       t.datetime(:ended_at, index: true)
       t.float(:score, index: true)

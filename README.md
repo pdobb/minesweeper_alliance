@@ -93,15 +93,21 @@ bin/rake
 
 ## Web App
 
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://github.com/pdobb/minesweeper_alliance/blob/main/public/screenshots/erd-dark.webp?raw=true">
+  <source media="(prefers-color-scheme: light)" srcset="https://github.com/pdobb/minesweeper_alliance/blob/main/public/screenshots/erd-light.webp?raw=true">
+  <img alt="Game Board" src="https://github.com/pdobb/minesweeper_alliance/blob/main/public/screenshots/erd-dark.webp?raw=true">
+</picture>
+
 ### Users
 
 Visiting the site for the first time automatically creates a new User entry in the database. The primary key for this entry is a UUID. The UUID is stored in an HTTP cookie for re-identification of the current User in the future. It is easily possible to create multiple User records per actual user (e.g. by visiting on different browsers or computers), but this is an acceptable price to pay versus the pain of explicitly registering a User + credentials for such a simple site. This is also reminiscent of arcade games: just enter your username after finishing a game and that's trustworthy enough.
 
-#### Name Signing
+#### Usernames / Signing
 
-At the end of any game that a user participates in, an option is presented for signing their name. This may be not only a point of pride, but also unlocks additional functionality. e.g. custom game board sizing and the ability to permanently hide the welcome banner at the top of the War Room page.
+At the end of any game that a user participates in, an option is presented for signing their username. This may be not only a point of pride, but it also unlocks additional functionality. e.g. custom game board sizing and the ability to permanently hide the welcome banner at the top of the War Room page.
 
-### Time Zone
+#### Time Zone
 
 The default Time Zone for this app is `Central Time (US & Canada)`. However, JavaScript is used to detect the current user's local time. This is then used to set the current Time Zone for the duration of each request.
 
@@ -109,7 +115,7 @@ The default Time Zone for this app is `Central Time (US & Canada)`. However, Jav
 
 Visit `/ui` while in the development environment to access the UI Portal. This portal acts as a playground / test bed when developing new UI/UX features.
 
-##### Patterns
+#### Patterns
 
 Currently a bit lumped into the UI Portal at `/ui/patterns` is the Patterns tool--for creating playable mine patterns. These boards/patterns are selected by random luck (as an Easter egg) when staring a new "Random" game.
 
