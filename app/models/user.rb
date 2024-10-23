@@ -15,6 +15,7 @@ class User < ApplicationRecord
 
   has_many :cell_transactions, dependent: :nullify
   has_many :cell_reveal_transactions
+  has_many :cell_chord_transactions
   has_many :cell_flag_transactions
   has_many :cell_unflag_transactions
 

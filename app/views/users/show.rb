@@ -2,11 +2,11 @@
 
 # Users::Show is a View Model for displaying the Users Show page.
 class Users::Show
-  DEFAULT_PRECISION = 1
+  DEFAULT_PRECISION = 2
+  NO_VALUE_INDICATOR = "—"
 
-  def initialize(user:, context:)
+  def initialize(user:)
     @user = user
-    @context = context
   end
 
   def display_name = user.display_name
@@ -15,25 +15,45 @@ class Users::Show
   def display_games_count = delimit(games_count)
 
   def display_winning_games_count
+    return 0 if winning_games_count.zero?
+
     "#{winning_games_count} (#{winning_games_percentage})"
   end
 
   def display_losing_games_count
+    return 0 if losing_games_count.zero?
+
     "#{losing_games_count} (#{losing_games_percentage})"
   end
 
   def display_reveals_count = delimit(reveals_count)
+  def display_chords_count = delimit(chords_count)
   def display_flags_count = delimit(flags_count)
   def display_unflags_count = delimit(unflags_count)
   def display_tripped_mines_count = delimit(tripped_mines_count)
 
+  def display_best_score
+    score = best_score
+    score ? score.round(DEFAULT_PRECISION) : NO_VALUE_INDICATOR
+  end
+
+  def display_best_3bvps
+    bbbvps = best_3bvps
+    bbbvps ? bbbvps.round(DEFAULT_PRECISION) : NO_VALUE_INDICATOR
+  end
+
+  def display_best_efficiency
+    efficiency = best_efficiency
+    efficiency ? percentage(efficiency * 100.0) : NO_VALUE_INDICATOR
+  end
+
   private
 
-  attr_reader :user,
-              :context
+  attr_reader :user
 
   def games = user.games
   def cell_reveal_transactions = user.cell_reveal_transactions
+  def cell_chord_transactions = user.cell_chord_transactions
   def cell_flag_transactions = user.cell_flag_transactions
   def cell_unflag_transactions = user.cell_unflag_transactions
   def revealed_cells = user.revealed_cells
@@ -59,15 +79,21 @@ class Users::Show
   end
 
   def reveals_count = cell_reveal_transactions.size
+  def chords_count = cell_chord_transactions.size
   def flags_count = cell_flag_transactions.size
   def unflags_count = cell_unflag_transactions.size
   def tripped_mines_count = revealed_cells.is_mine.size
+  def best_score = user.games.by_score_asc.pick(:score)
+  def best_3bvps = user.games.by_3bvps_desc.pick(:bbbvps)
+  def best_efficiency = user.games.by_efficiency_desc.pick(:efficiency)
 
-  def percentage(value, helpers: context.helpers, precision: DEFAULT_PRECISION)
+  def percentage(value, precision: DEFAULT_PRECISION)
     helpers.number_to_percentage(value, precision:)
   end
 
-  def delimit(value, helpers: context.helpers)
+  def delimit(value)
     helpers.number_with_delimiter(value)
   end
+
+  def helpers = ActionController::Base.helpers
 end
