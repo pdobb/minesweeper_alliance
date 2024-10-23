@@ -13,7 +13,10 @@ class Games::Stats
   def cache_name = [game, :stats]
 
   def show_game_score? = game.ended_in_victory?
-  def game_score = game.score
+
+  def display_game_score
+    game_score.round(DEFAULT_PRECISION)
+  end
 
   def display_3bv = bbbv
 
@@ -51,6 +54,8 @@ class Games::Stats
 
   def board = game.board
   def grid = board.grid
+
+  def game_score = game.score
 
   def bbbv
     @bbbv ||= Calc3BV.(grid)
