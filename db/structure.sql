@@ -147,6 +147,9 @@ CREATE TABLE public.games (
     started_at timestamp(6) with time zone,
     ended_at timestamp(6) with time zone,
     score double precision,
+    bbbv integer,
+    bbbvps double precision,
+    efficiency double precision,
     created_at timestamp(6) with time zone NOT NULL,
     updated_at timestamp(6) with time zone NOT NULL
 );
@@ -417,10 +420,31 @@ CREATE INDEX index_cells_on_revealed ON public.cells USING btree (revealed);
 
 
 --
+-- Name: index_games_on_bbbv; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_games_on_bbbv ON public.games USING btree (bbbv);
+
+
+--
+-- Name: index_games_on_bbbvps; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_games_on_bbbvps ON public.games USING btree (bbbvps);
+
+
+--
 -- Name: index_games_on_created_at; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_games_on_created_at ON public.games USING btree (created_at);
+
+
+--
+-- Name: index_games_on_efficiency; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_games_on_efficiency ON public.games USING btree (efficiency);
 
 
 --

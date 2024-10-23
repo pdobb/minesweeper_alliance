@@ -178,10 +178,13 @@ class GameTest < ActiveSupport::TestCase
             to: Game.status_alliance_wins)
         end
 
-        it "sets Game#score" do
-          _(-> { subject.end_in_victory }).must_change(
-            "subject.score",
-            from: nil)
+        it "sets Game stats" do
+          _(-> { subject.end_in_victory }).must_change_all([
+            ["subject.score", from: nil],
+            ["subject.bbbv", from: nil],
+            ["subject.bbbvps", from: nil],
+            ["subject.efficiency", from: nil],
+          ])
         end
       end
 
@@ -218,9 +221,13 @@ class GameTest < ActiveSupport::TestCase
             to: Game.status_mines_win)
         end
 
-        it "doesn't set Game#score" do
-          _(-> { subject.end_in_defeat }).wont_change(
-            "subject.score", from: nil)
+        it "doesn't set Game stats" do
+          _(-> { subject.end_in_defeat }).wont_change_all([
+            ["subject.score", from: nil],
+            ["subject.bbbv", from: nil],
+            ["subject.bbbvps", from: nil],
+            ["subject.efficiency", from: nil],
+          ])
         end
       end
 
