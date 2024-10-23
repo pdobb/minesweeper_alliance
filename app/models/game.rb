@@ -13,12 +13,15 @@
 # @attr ended_at [DateTime] When this Game ended. i.e. transitioned from
 #   {#status} "Sweep in Progress" to either "Alliance Wins" or "Mines Win".
 # @attr score [Integer] The play-time in seconds of a victorious Game. Maxes out
-#   at {Game::MAX_SCORE} (999).
+#   at {Game::CalcStats::MAX_SCORE} (999).
+# @attr bbbv [Integer] The 3BV value for the associated, solved {Board}.
+# @attr bbbvps [Float] The 3BV/s rating of a solved {Board}.
+# @attr efficiency [Float] The ratio of actual clicks vs necessary clicks (3BV)
+#   used to solve the associated {Board}.
 class Game < ApplicationRecord
   self.inheritance_column = nil
   self.implicit_order_column = "created_at"
 
-  MAX_SCORE = 999
   DEFAULT_JUST_ENDED_DURATION = 0.5.seconds
 
   include ConsoleBehaviors
@@ -102,7 +105,7 @@ class Game < ApplicationRecord
 
   def end_in_victory
     end_game {
-      set_score
+      set_stats
       set_status_alliance_wins!
     }
   end
@@ -131,6 +134,8 @@ class Game < ApplicationRecord
     started_at..(ended_at if over?)
   end
 
+  def duration = ended_at - started_at
+
   def board_settings = board&.settings
 
   private
@@ -146,12 +151,54 @@ class Game < ApplicationRecord
     self
   end
 
-  def set_score
-    update(score: [duration, MAX_SCORE].min)
+  def set_stats
+    CalcStats.(self)
   end
 
-  def duration
-    ended_at - started_at
+  # Game::CalcStats determines and updates the given Game object with relevant
+  # statistical values (on Game end).
+  class CalcStats
+    MAX_SCORE = 999
+
+    include CallMethodBehaviors
+
+    def initialize(game)
+      @game = game
+    end
+
+    def on_call
+      game.update(
+        score: score,
+        bbbv: bbbv,
+        bbbvps: bbbvps,
+        efficiency: efficiency)
+    end
+
+    private
+
+    attr_reader :game
+
+    def score
+      [duration, MAX_SCORE].min
+    end
+
+    def duration = game.duration
+
+    def bbbv
+      @bbbv ||= Calc3BV.(grid)
+    end
+
+    def grid = game.board.grid
+
+    def bbbvps
+      bbbv / score.to_f
+    end
+
+    def efficiency
+      bbbv / clicks_count.to_f
+    end
+
+    def clicks_count = game.cell_transactions.size
   end
 
   # Game::Console acts like a {Game} but otherwise handles IRB Console-specific
@@ -189,7 +236,17 @@ class Game < ApplicationRecord
       ])
     end
 
-    def inspect_info = engagement_time_range
+    def inspect_info(scope:)
+      scope.join_info([
+        "Score: #{score}",
+        "3BV: #{bbbv}",
+        "Efficiency: #{efficiency}",
+      ])
+    end
+
+    def inspect_name = game_number
+
+    def game_number = "##{id.to_s.rjust(4, "0")}"
 
     # :reek:TooManyStatements
     def do_reset

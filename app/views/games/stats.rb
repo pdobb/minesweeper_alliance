@@ -5,6 +5,7 @@
 # @see Games::Results
 class Games::Stats
   DEFAULT_PRECISION = 2
+  NO_VALUE_INDICATOR = "—"
 
   def initialize(game:)
     @game = game
@@ -15,21 +16,21 @@ class Games::Stats
   def show_game_score? = game.ended_in_victory?
 
   def display_game_score
-    game_score.round(DEFAULT_PRECISION)
+    score ? score.round(DEFAULT_PRECISION) : NO_VALUE_INDICATOR
   end
 
-  def display_3bv = bbbv
+  def display_3bv = bbbv || NO_VALUE_INDICATOR
 
   def display_3bvps
-    (bbbv / game_score.to_f).round(DEFAULT_PRECISION)
+    bbbvps ? bbbvps.round(DEFAULT_PRECISION) : NO_VALUE_INDICATOR
   end
 
   def display_efficiency_percentage
-    percentage(efficiency_percent * 100.0)
+    efficiency ? percentage(efficiency * 100.0) : NO_VALUE_INDICATOR
   end
 
   def display_clicks_count
-    delimit(clicks_count)
+    delimit(game.cell_transactions.size)
   end
 
   def display_reveals_count
@@ -52,22 +53,10 @@ class Games::Stats
 
   attr_reader :game
 
-  def board = game.board
-  def grid = board.grid
-
-  def game_score = game.score
-
-  def bbbv
-    @bbbv ||= Calc3BV.(grid)
-  end
-
-  def efficiency_percent
-    bbbv / clicks_count.to_f
-  end
-
-  def clicks_count
-    game.cell_transactions.size
-  end
+  def score = game.score
+  def bbbv = game.bbbv
+  def bbbvps = game.bbbvps
+  def efficiency = game.efficiency
 
   def percentage(value, precision: DEFAULT_PRECISION)
     helpers.number_to_percentage(value, precision:)

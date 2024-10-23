@@ -19,6 +19,9 @@ class CreateGames < ActiveRecord::Migration[7.1]
       t.datetime(:started_at)
       t.datetime(:ended_at, index: true)
       t.float(:score, index: true)
+      t.integer(:bbbv, index: true)
+      t.float(:bbbvps, index: true)
+      t.float(:efficiency, index: true)
 
       t.timestamps
       t.index(:created_at)
