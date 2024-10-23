@@ -88,7 +88,7 @@ en:
       - For The Alliance!
     victory:
       restart_html:
-        - <span class="tracking-emojis">♠️♠️♠️</span> Again?
+        - <span class="tracking-emojis">♠️♥️♣️</span> Once again, Ace?
         - Huzzah! Keep it up! <span class="tracking-emojis">👍🙏🏻</span>
         - Sweep on! <span class="tracking-emojis">⛴️⚓️🎉</span>
     defeat:
