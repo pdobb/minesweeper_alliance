@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 # Cell::RevealNeighbors is a Service Object for collaborating with a {Game},
-# {Board}, and {Cell} to process a {Cell} "Reveal Neighbors" event. In order
-# for processing to proceed:
+# {Board}, and {Cell} to process a {Cell} "Reveal Neighbors" event (a.k.a.
+# "chording"). In order for processing to proceed:
 # - The given, originating {Cell} must have been previously revealed, and
 # - The number of flagged neighboring {Cell}s must match the given {Cell}'s
 #   {Cell#value}.
@@ -18,10 +18,10 @@
 # - We take care of this here, in case we don't end up revealing any
 #   neighbors.
 # - If neighbors are revealed, however, {Cell#reveal} takes care of the
-#   dehighlighting of those {Cell}s for us.
+#   de-highlighting of those {Cell}s for us.
 #
 # Notes:
-# - If this operation results in a win or loss, we need to react to that.
+# - If this operation results in a win or loss, we need to capture that.
 # - Revealing neighbors doesn't guarantee success. If any of the flags are
 #   incorrectly placed a mine could still go off!
 #
@@ -63,8 +63,14 @@ class Cell::RevealNeighbors
   end
 
   def reveal_neighbors
-    revealable_neighboring_cells.each do |neighboring_cell|
-      reveal_neighbor(neighboring_cell)
+    return if revealable_neighboring_cells.none?
+
+    cell.transaction do
+      CellChordTransaction.create_between(user:, cell:)
+
+      revealable_neighboring_cells.each do |neighboring_cell|
+        reveal_neighbor(neighboring_cell)
+      end
     end
   end
 
@@ -79,12 +85,7 @@ class Cell::RevealNeighbors
 
   # :reek:FeatureEnvy
   def reveal(neighboring_cell)
-    return unless neighboring_cell.can_be_revealed?
-
-    neighboring_cell.transaction do
-      neighboring_cell.reveal
-      CellRevealTransaction.create_between(user:, cell: neighboring_cell)
-    end
+    neighboring_cell.reveal
 
     end_in_defeat if neighboring_cell.mine?
   end
