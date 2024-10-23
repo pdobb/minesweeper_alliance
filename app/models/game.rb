@@ -219,6 +219,7 @@ class Game < ApplicationRecord
     def reset
       do_reset {
         set_status_sweep_in_progress! if over?
+        update(started_at: Time.current)
         board.reset
       }
     end
@@ -228,6 +229,7 @@ class Game < ApplicationRecord
     def reset!
       do_reset {
         set_status_standing_by!
+        update(started_at: nil)
         board.reset!
       }
     end
@@ -258,7 +260,12 @@ class Game < ApplicationRecord
       check_for_current_game
 
       transaction do
-        update!(started_at: nil, ended_at: nil)
+        update!(
+          ended_at: nil,
+          score: nil,
+          bbbv: nil,
+          bbbvps: nil,
+          efficiency: nil)
 
         CellTransaction.for_id(cell_transaction_ids).delete_all
 
