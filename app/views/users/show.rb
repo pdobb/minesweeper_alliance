@@ -9,10 +9,14 @@ class Users::Show
     @user = user
   end
 
+  def cache_name
+    [user, completed_games_count]
+  end
+
   def display_name = user.display_name
   def enlistment_date = I18n.l(user.created_at.to_date)
 
-  def display_games_count = delimit(games_count)
+  def display_games_count = delimit(completed_games_count)
 
   def display_winning_games_count
     return 0 if winning_games_count.zero?
@@ -58,13 +62,13 @@ class Users::Show
   def cell_unflag_transactions = user.cell_unflag_transactions
   def revealed_cells = user.revealed_cells
 
-  def games_count
-    @games_count ||= games.size
+  def completed_games_count
+    @completed_games_count ||= games.for_game_over_statuses.size
   end
 
   def winning_games_percentage = percentage(winning_games_percent)
   def winning_games_percent = winning_games_ratio * 100.0
-  def winning_games_ratio = winning_games_count / games_count.to_f
+  def winning_games_ratio = winning_games_count / completed_games_count.to_f
 
   def winning_games_count
     @winning_games_count ||= games.for_status_alliance_wins.size
@@ -72,7 +76,7 @@ class Users::Show
 
   def losing_games_percentage = percentage(losing_games_percent)
   def losing_games_percent = losing_games_ratio * 100.0
-  def losing_games_ratio = losing_games_count / games_count.to_f
+  def losing_games_ratio = losing_games_count / completed_games_count.to_f
 
   def losing_games_count
     @losing_games_count ||= games.for_status_mines_win.size

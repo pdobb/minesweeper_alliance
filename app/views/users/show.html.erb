@@ -1,82 +1,84 @@
 <% title(@view.display_name) %>
 
 <div class="container mx-auto">
-  <div class="lg:w-2/3 space-y-12">
-    <div class="space-y-6">
-      <h1
-        class="
-          border-b border-dotted
-          border-b-300 dark:border-b-neutral-600
-        "
-      >Service Record</h1>
+  <% cache(@view.cache_name) do %>
+    <div class="lg:w-2/3 space-y-12">
+      <div class="space-y-6">
+        <h1
+          class="
+            border-b border-dotted
+            border-b-300 dark:border-b-neutral-600
+          "
+        >Service Record</h1>
 
-      <h2><%= @view.display_name %></h2>
+        <h2><%= @view.display_name %></h2>
 
-      <ul class="mb-12 flex items-baseline gap-x-6">
-        <li>
-          <h3 class="h5">Enlisted:</h3>
-        </li>
-        <li><%= @view.enlistment_date %></li>
-      </ul>
+        <ul class="mb-12 flex items-baseline gap-x-6">
+          <li>
+            <h3 class="h5">Enlisted:</h3>
+          </li>
+          <li><%= @view.enlistment_date %></li>
+        </ul>
+      </div>
+
+      <div class="space-y-6">
+        <h3>Stats</h3>
+
+        <table class="-m-3">
+          <tbody class="*:*:px-3 *:*:py-1">
+            <tr>
+              <th class="text-left">Engagements</th>
+              <td><%= @view.display_games_count %></td>
+            </tr>
+            <tr>
+              <th class="text-left">Victories</th>
+              <td><%= @view.display_winning_games_count %></td>
+            </tr>
+            <tr>
+              <th class="text-left">Defeats</th>
+              <td><%= @view.display_losing_games_count %></td>
+            </tr>
+
+            <tr><td colspan="100%" class="select-none">&nbsp;</td></tr>
+
+            <tr>
+              <th class="text-left">Cells Revealed</th>
+              <td><%= @view.display_reveals_count %></td>
+            </tr>
+            <tr>
+              <th class="text-left">Chords</th>
+              <td><%= @view.display_chords_count %></td>
+            </tr>
+            <tr>
+              <th class="text-left">Flags Placed</th>
+              <td><%= @view.display_flags_count %></td>
+            </tr>
+            <tr>
+              <th class="text-left">Flags Removed</th>
+              <td><%= @view.display_unflags_count %></td>
+            </tr>
+            <tr>
+              <th class="text-left">Mines Detonated</th>
+              <td><%= @view.display_tripped_mines_count %></td>
+            </tr>
+
+            <tr><td colspan="100%" class="select-none">&nbsp;</td></tr>
+
+            <tr>
+              <th class="text-left">Best Score</th>
+              <td><%= @view.display_best_score %></td>
+            </tr>
+            <tr>
+              <th class="text-left">Best 3BV/s</th>
+              <td><%= @view.display_best_3bvps %></td>
+            </tr>
+            <tr>
+              <th class="text-left">Best Efficiency</th>
+              <td><%= @view.display_best_efficiency %></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
-
-    <div class="space-y-6">
-      <h3>Stats</h3>
-
-      <table class="-m-3">
-        <tbody class="*:*:px-3 *:*:py-1">
-          <tr>
-            <th class="text-left">Engagements</th>
-            <td><%= @view.display_games_count %></td>
-          </tr>
-          <tr>
-            <th class="text-left">Victories</th>
-            <td><%= @view.display_winning_games_count %></td>
-          </tr>
-          <tr>
-            <th class="text-left">Defeats</th>
-            <td><%= @view.display_losing_games_count %></td>
-          </tr>
-
-          <tr><td colspan="100%" class="select-none">&nbsp;</td></tr>
-
-          <tr>
-            <th class="text-left">Cells Revealed</th>
-            <td><%= @view.display_reveals_count %></td>
-          </tr>
-          <tr>
-            <th class="text-left">Chords</th>
-            <td><%= @view.display_chords_count %></td>
-          </tr>
-          <tr>
-            <th class="text-left">Flags Placed</th>
-            <td><%= @view.display_flags_count %></td>
-          </tr>
-          <tr>
-            <th class="text-left">Flags Removed</th>
-            <td><%= @view.display_unflags_count %></td>
-          </tr>
-          <tr>
-            <th class="text-left">Mines Detonated</th>
-            <td><%= @view.display_tripped_mines_count %></td>
-          </tr>
-
-          <tr><td colspan="100%" class="select-none">&nbsp;</td></tr>
-
-          <tr>
-            <th class="text-left">Best Score</th>
-            <td><%= @view.display_best_score %></td>
-          </tr>
-          <tr>
-            <th class="text-left">Best 3BV/s</th>
-            <td><%= @view.display_best_3bvps %></td>
-          </tr>
-          <tr>
-            <th class="text-left">Best Efficiency</th>
-            <td><%= @view.display_best_efficiency %></td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
+  <% end %>
 </div>
