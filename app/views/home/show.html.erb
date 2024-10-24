@@ -21,7 +21,7 @@
       <% if @view.game_just_ended? %>
         <%= render("games/results", view: @view.results(user: current_user)) %>
       <% else %>
-        <%= render("games/rules") %>
+        <%= render("games/rules", view: @view.rules(context: layout)) %>
       <% end %>
     </div>
   </div>
