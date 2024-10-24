@@ -41,8 +41,8 @@ class Users::Show
     score ? score.round(DEFAULT_PRECISION) : NO_VALUE_INDICATOR
   end
 
-  def display_best_3bvps
-    bbbvps = best_3bvps
+  def display_best_bbbvps
+    bbbvps = best_bbbvps
     bbbvps ? bbbvps.round(DEFAULT_PRECISION) : NO_VALUE_INDICATOR
   end
 
@@ -88,7 +88,7 @@ class Users::Show
   def unflags_count = cell_unflag_transactions.size
   def tripped_mines_count = revealed_cells.is_mine.size
   def best_score = user.games.by_score_asc.pick(:score)
-  def best_3bvps = user.games.by_3bvps_desc.pick(:bbbvps)
+  def best_bbbvps = user.games.by_bbbvps_desc.pick(:bbbvps)
   def best_efficiency = user.games.by_efficiency_desc.pick(:efficiency)
 
   def percentage(value, precision: DEFAULT_PRECISION)
