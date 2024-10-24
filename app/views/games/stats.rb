@@ -15,37 +15,37 @@ class Games::Stats
 
   def show_game_score? = game.ended_in_victory?
 
-  def display_game_score
-    score ? score.round(DEFAULT_PRECISION) : NO_VALUE_INDICATOR
+  def game_score
+    _score ? _score.round(DEFAULT_PRECISION) : NO_VALUE_INDICATOR
   end
 
-  def display_bbbv = bbbv || NO_VALUE_INDICATOR
+  def bbbv = _bbbv || NO_VALUE_INDICATOR
 
-  def display_bbbvps
-    bbbvps ? bbbvps.round(DEFAULT_PRECISION) : NO_VALUE_INDICATOR
+  def bbbvps
+    _bbbvps ? _bbbvps.round(DEFAULT_PRECISION) : NO_VALUE_INDICATOR
   end
 
-  def display_efficiency_percentage
-    efficiency ? percentage(efficiency * 100.0) : NO_VALUE_INDICATOR
+  def efficiency_percentage
+    _efficiency ? percentage(_efficiency * 100.0) : NO_VALUE_INDICATOR
   end
 
-  def display_clicks_count
+  def clicks_count
     delimit(game.cell_transactions.size)
   end
 
-  def display_reveals_count
+  def reveals_count
     delimit(game.cell_reveal_transactions.size)
   end
 
-  def display_chords_count
+  def chords_count
     delimit(game.cell_chord_transactions.size)
   end
 
-  def display_flags_count
+  def flags_count
     delimit(game.cell_flag_transactions.size)
   end
 
-  def display_unflags_count
+  def unflags_count
     delimit(game.cell_unflag_transactions.size)
   end
 
@@ -53,10 +53,10 @@ class Games::Stats
 
   attr_reader :game
 
-  def score = game.score
-  def bbbv = game.bbbv
-  def bbbvps = game.bbbvps
-  def efficiency = game.efficiency
+  def _score = game.score
+  def _bbbv = game.bbbv
+  def _bbbvps = game.bbbvps
+  def _efficiency = game.efficiency
 
   def percentage(value, precision: DEFAULT_PRECISION)
     helpers.number_to_percentage(value, precision:)

@@ -202,8 +202,8 @@ class Games::Index
       type[0]
     end
 
-    def display_game_score = game_score.round(0)
-    def show_game_score? = !!game_score
+    def game_score = _game_score.round(0)
+    def show_game_score? = !!_game_score
 
     def game_engagement_time_range(template)
       template.safe_join(
@@ -222,6 +222,6 @@ class Games::Index
 
     def to_model = @model
 
-    def game_score = to_model.score
+    def _game_score = to_model.score
   end
 end
