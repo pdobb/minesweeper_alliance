@@ -5,10 +5,10 @@
 // Usage:
 //
 // Set a cookie:
-//   cookies.set("theme", "dark", { expires: { days: 30 } })
-//   cookies.set("time_zone", "America/Chicago", { expires: { hours: 1 } })
+//   cookies.set("theme", "dark", { expiresIn: { days: 30 } })
+//   cookies.set("time_zone", "America/Chicago", { expiresIn: { hours: 1 } })
 //
-// Set a permanent cookie (expires in 20 years):
+// Set a "permanent" cookie (expires in 1 year):
 //   cookies.permanent.set("theme", "dark", { httpOnly: true })
 //
 // Get a cookie:
@@ -37,6 +37,7 @@ class Cookies {
   // @param {Object} options - Options for the cookie.
   set(name, value, options = {}) {
     let expiresIn
+
     if (options.expiresIn) {
       if (options.expiresIn.seconds) {
         expiresIn = options.expiresIn.seconds
@@ -72,7 +73,7 @@ class Cookies {
   // @param {string} [path='/'] - The path of the cookie to delete, must be same
   //   as when it was set.
   delete(name, path = "/") {
-    this.set(name, "", { expires: -1, path })
+    this.set(name, "", { expiresIn: { seconds: -1 }, path: path })
   }
 
   #setPermanent(name, value, options = {}) {
