@@ -65,6 +65,10 @@
   .h6 {
     @apply text-base;
   }
+
+  dfn {
+    @apply underline underline-offset-2 decoration-dashed not-italic;
+  }
 }
 
 @layer components {
@@ -115,5 +119,9 @@
   }
   .form-error {
     @apply text-red-600 dark:selection:bg-[#469dff];
+  }
+
+  [data-balloon-pos] {
+    --balloon-font-size: 16px;
   }
 }
