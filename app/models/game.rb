@@ -60,7 +60,7 @@ class Game < ApplicationRecord
 
   scope :by_most_recently_ended, -> { order(ended_at: :desc) }
   scope :by_score_asc, -> { where.not(score: nil).order(score: :asc) }
-  scope :by_3bvps_desc, -> { where.not(bbbvps: nil).order(bbbvps: :desc) }
+  scope :by_bbbvps_desc, -> { where.not(bbbvps: nil).order(bbbvps: :desc) }
   scope :by_efficiency_desc, -> {
     where.not(efficiency: nil).order(efficiency: :desc)
   }

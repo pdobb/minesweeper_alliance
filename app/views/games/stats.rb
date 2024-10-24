@@ -19,9 +19,9 @@ class Games::Stats
     score ? score.round(DEFAULT_PRECISION) : NO_VALUE_INDICATOR
   end
 
-  def display_3bv = bbbv || NO_VALUE_INDICATOR
+  def display_bbbv = bbbv || NO_VALUE_INDICATOR
 
-  def display_3bvps
+  def display_bbbvps
     bbbvps ? bbbvps.round(DEFAULT_PRECISION) : NO_VALUE_INDICATOR
   end
 
