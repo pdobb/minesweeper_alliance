@@ -65,6 +65,10 @@
   .h6 {
     @apply text-base;
   }
+
+  dfn {
+    @apply underline underline-offset-2 decoration-dashed not-italic;
+  }
 }
 
 @layer components {
@@ -115,5 +119,90 @@
   }
   .form-error {
     @apply text-red-600 dark:selection:bg-[#469dff];
+  }
+
+  /*
+    CSS Tooltips (based on balloon-css)
+    Example Usage:
+      <dfn
+        data-tooltip="up-left"
+        aria-label="..."
+        class="after:w-80"
+      >...</dfn>
+  */
+  [data-tooltip] {
+    @apply relative cursor-pointer;
+
+    &::before,
+    &::after {
+      @apply pointer-events-none
+        absolute z-10
+        opacity-0 hover:opacity-100
+        transition-all duration-150 ease-out delay-150;
+    }
+    &::before {
+      @apply size-3 content-[""] rotate-45 bg-neutral-900;
+    }
+    &::after {
+      @apply content-[attr(aria-label)] my-1.5 p-4 rounded-md
+        bg-neutral-900 font-normal text-gray-200;
+    }
+
+    &[data-tooltip="up"]:hover::before,
+    &[data-tooltip="up"]:hover::after,
+    &[data-tooltip="down"]:hover::before,
+    &[data-tooltip="down"]:hover::after {
+      @apply -translate-x-1/2;
+    }
+    &[data-tooltip="up"]:before,
+    &[data-tooltip="up"]:after {
+      @apply left-1/2 translate-y-1;
+    }
+    &[data-tooltip="down"]:after,
+    &[data-tooltip="down"]:before {
+      @apply left-1/2 -translate-y-1;
+    }
+
+    &[data-tooltip^="up"]::before,
+    &[data-tooltip^="up"]::after {
+      @apply bottom-full origin-top -translate-y-1;
+    }
+
+    &[data-tooltip^="down"]::before,
+    &[data-tooltip^="down"]::after {
+      @apply top-full -translate-y-1;
+    }
+
+    &[data-tooltip="left"]:hover::before,
+    &[data-tooltip="left"]:hover::after,
+    &[data-tooltip="right"]:hover::before,
+    &[data-tooltip="right"]:hover::after {
+      @apply -translate-y-1/2;
+    }
+    &[data-tooltip="left"]::after {
+      @apply mr-2.5;
+    }
+    &[data-tooltip="right"]::after {
+      @apply ml-2.5;
+    }
+
+    &[data-tooltip*="-left"]:hover::before,
+    &[data-tooltip*="-left"]:hover::after,
+    &[data-tooltip*="-right"]:hover::before,
+    &[data-tooltip*="-right"]:hover::after {
+      @apply translate-x-0;
+    }
+    &[data-tooltip*="-left"]::before {
+      @apply left-2.5;
+    }
+    &[data-tooltip*="-left"]::after {
+      @apply left-0;
+    }
+    &[data-tooltip*="-right"]::before {
+      @apply right-2.5;
+    }
+    &[data-tooltip*="-right"]::after {
+      @apply right-0;
+    }
   }
 }
