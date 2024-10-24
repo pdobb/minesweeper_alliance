@@ -1,0 +1,46 @@
+<%# locals: (view:) %>
+
+<div
+  data-controller="collapse"
+  data-collapse-button-toggle-class="<%= view.collapsed_button_css_class %>"
+  data-collapse-icon-toggle-class="<%= view.collapsed_icon_css_class %>"
+  <% if view.respond_to?(:cookie_name) %>
+    data-collapse-cookie-name-value="<%= view.cookie_name %>"
+  <% end %>
+  class="space-y-6"
+>
+  <button
+    data-collapse-target="button"
+    data-action="collapse#toggle"
+    aria-label="Toggle <%= view.button_text %>"
+    aria-haspopup="true"
+    aria-expanded="<%= view.open? %>"
+    class="
+      flex items-center gap-x-3
+      <%= class_names(view.button_css_class) %>
+    "
+  >
+    <%= view.button_text %>
+    <%= inline_svg_tag(
+          "heroicons/chevron-down.svg",
+          class:
+            "max-w-4 max-h-4 stroke-2 transition-transform "\
+            "#{class_names(view.icon_css_class)}",
+          data: { collapse_target: "icon" }) %>
+  </button>
+
+  <div
+    data-collapse-target="section"
+    data-transition-enter="transition ease-out duration-100"
+    data-transition-enter-start="transform opacity-0 scale-95"
+    data-transition-enter-end="transform opacity-100 scale-100"
+    data-transition-leave="transition ease-in duration-75"
+    data-transition-leave-start="transform opacity-100 scale-100"
+    data-transition-leave-end="transform opacity-0 scale-95"
+    aria-hidden="<%= view.collapsed? %>"
+    aria-orientation="vertical"
+    class="<%= class_names(view.section_css_class) %>"
+  >
+    <%= yield %>
+  </div>
+</div>

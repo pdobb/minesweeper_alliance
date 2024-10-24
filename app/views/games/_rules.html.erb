@@ -1,8 +1,6 @@
-<%# locals: () %>
+<%# locals: (view:) %>
 
-<div class="space-y-6">
-  <h3 class="h4">Rules of Engagement</h3>
-
+<%= render(layout: "collapse_container", locals: { view: }) do %>
   <ol class="space-y-2 list-decimal ml-7">
     <li><strong>Click</strong> a cell to reveal it.</li>
     <li>
@@ -29,9 +27,9 @@
       </p>
     </li>
   </ol>
-</div>
 
-<p class="mt-10">
-  <%= Icon.clover %> Good luck!
-  The Alliance is counting on you<span class="font-sans">&hellip;</span>
-</p>
+  <p>
+    <%= Icon.clover %> Good luck!
+    The Alliance is counting on you<span class="font-sans">&hellip;</span>
+  </p>
+<% end %>

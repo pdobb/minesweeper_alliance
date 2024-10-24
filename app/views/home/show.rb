@@ -22,6 +22,10 @@ class Home::Show
     Games::New.new
   end
 
+  def rules(context:)
+    Games::Rules.new(context:)
+  end
+
   def current_game? = !!current_game
 
   def game_just_ended?

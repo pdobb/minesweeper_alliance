@@ -1,12 +1,11 @@
 import { Controller } from "@hotwired/stimulus"
-import { enter, leave, toggle } from "el-transition"
+import { leave, toggle } from "el-transition"
 
 export default class extends Controller {
   static targets = ["menu", "button"]
 
   toggle() {
     toggle(this.menuTarget)
-    this.toggleButtonState()
     this.#updateAriaAttributes()
   }
 
@@ -20,22 +19,9 @@ export default class extends Controller {
     }
   }
 
-  toggleButtonState() {
-    // Implement in child classes as needed.
-  }
-
-  #show() {
-    if (this.#menuIsHidden()) {
-      enter(this.menuTarget)
-      this.toggleButtonState()
-      this.#updateAriaAttributes()
-    }
-  }
-
   #hide() {
     if (this.#menuIsVisible()) {
       leave(this.menuTarget)
-      this.toggleButtonState()
       this.#updateAriaAttributes()
     }
   }
