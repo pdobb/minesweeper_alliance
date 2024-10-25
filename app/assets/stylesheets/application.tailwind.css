@@ -43,27 +43,27 @@
 
   h1,
   .h1 {
-    @apply text-3xl;
+    @apply text-3xl normal-case;
   }
   h2,
   .h2 {
-    @apply text-2xl;
+    @apply text-2xl normal-case;
   }
   h3,
   .h3 {
-    @apply text-xl;
+    @apply text-xl uppercase;
   }
   h4,
   .h4 {
-    @apply text-lg;
+    @apply text-lg normal-case;
   }
   h5,
   .h5 {
-    @apply text-base;
+    @apply text-base normal-case;
   }
   h6,
   .h6 {
-    @apply text-base;
+    @apply text-base normal-case;
   }
 
   dfn {
