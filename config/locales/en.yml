@@ -106,6 +106,6 @@ en:
       chords: Chords are groups of cells that are automatically revealed by clicking on a previously revealed cell (number) for which the corresponding number of surrounding cells have been flagged.
 
   footer:
-    maker:
+    maker_html:
       - alliance.
-      - mines!
+      - <span class="line-through decoration-1">alliance</span> mines!
