@@ -5,7 +5,7 @@
     <li><%= active_link_to("War Room", root_path) %></li>
     <li>
       <%= active_link_to(
-            "Sweep Ops Archives", games_path, includes: "games") %>
+            "Sweep Ops Archives", games_path, includes: GamesController.name) %>
     </li>
   </ul>
 

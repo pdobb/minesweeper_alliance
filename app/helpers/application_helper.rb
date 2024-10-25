@@ -36,6 +36,7 @@ module ApplicationHelper
   private
 
   def active_link?(url, includes:)
-    current_page?(url) || includes.include?(controller_name)
+    includes = Array.wrap(includes)
+    current_page?(url) || includes.include?(controller.class.name)
   end
 end
