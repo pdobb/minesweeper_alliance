@@ -51,7 +51,7 @@
                 <td><%= @view.losing_games_count %></td>
               </tr>
 
-              <tr><td colspan="100%" class="select-none">&nbsp;</td></tr>
+              <tr><td colspan="2" class="select-none">&nbsp;</td></tr>
 
               <tr>
                 <th>Cells Revealed</th>
@@ -61,7 +61,7 @@
                 <th>
                   <dfn
                     data-tooltip="up-left"
-                    aria-label="<%= t("terms.chords") %>"
+                    data-tooltip-text="<%= t("terms.chords") %>"
                     class="after:w-80"
                   >Chords</dfn>
                 </th>
@@ -96,10 +96,10 @@
           >
             <tbody>
               <tr>
-                <th>
+                <th colspan="2">
                   <dfn
                     data-tooltip="up-left"
-                    aria-label="<%= t("terms.score") %>"
+                    data-tooltip-text="<%= t("terms.score") %>"
                     class="after:w-80"
                   >Score</dfn>
                 </th>
@@ -117,10 +117,10 @@
                 <td><%= @view.best_expert_score %></td>
               </tr>
               <tr>
-                <th>
+                <th colspan="2">
                   <dfn
                     data-tooltip="up-left"
-                    aria-label="<%= t("terms.bbbvps") %>"
+                    data-tooltip-text="<%= t("terms.bbbvps") %>"
                     class="after:w-80"
                   >3BV/s</dfn>
                 </th>
@@ -138,10 +138,10 @@
                 <td><%= @view.best_expert_bbbvps %></td>
               </tr>
               <tr>
-                <th>
+                <th colspan="2">
                   <dfn
                     data-tooltip="up-left"
-                    aria-label="<%= t("terms.efficiency") %>"
+                    data-tooltip-text="<%= t("terms.efficiency") %>"
                     class="after:w-80"
                   >Efficiency</dfn>
                 </th>

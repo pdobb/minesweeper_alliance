@@ -122,11 +122,13 @@
   }
 
   /*
-    CSS Tooltips (based on balloon-css)
+    CSS Tooltips
+     - Based on balloon-css: https://kazzkiq.github.io/balloon.css/
+
     Example Usage:
       <dfn
         data-tooltip="up-left"
-        aria-label="..."
+        data-tooltip-text="..."
         class="after:w-80"
       >...</dfn>
   */
@@ -144,7 +146,7 @@
       @apply size-3 content-[""] rotate-45 bg-neutral-900;
     }
     &::after {
-      @apply content-[attr(aria-label)] my-1.5 p-4 rounded-md
+      @apply content-[attr(data-tooltip-text)] my-1.5 p-4 rounded-md
         bg-neutral-900 font-normal text-gray-200;
     }
 

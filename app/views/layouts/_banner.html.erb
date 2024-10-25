@@ -1,7 +1,7 @@
 <%# locals: (banner:) %>
 
-<banner
-  role="alert"
+<div
+  role="banner"
   data-controller="banner"
   <% if banner.permanently_dismissable? %>
     data-banner-permanently-dismissable-value="<%= banner.permanently_dismissable? %>"
@@ -36,4 +36,4 @@
       </button>
     <% end %>
   </div>
-</banner>
+</div>

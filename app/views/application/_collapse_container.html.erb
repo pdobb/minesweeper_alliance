@@ -10,8 +10,10 @@
   class="space-y-6"
 >
   <button
+    id="<%= view.button_id %>"
     data-collapse-target="button"
     data-action="collapse#toggle"
+    aria-controls="<%= view.content_id %>"
     aria-label="Toggle <%= view.button_text %>"
     aria-haspopup="true"
     aria-expanded="<%= view.open? %>"
@@ -30,6 +32,7 @@
   </button>
 
   <div
+    id="<%= view.content_id %>"
     data-collapse-target="section"
     data-transition-enter="transition ease-out duration-100"
     data-transition-enter-start="transform opacity-0 scale-95"
@@ -37,8 +40,9 @@
     data-transition-leave="transition ease-in duration-75"
     data-transition-leave-start="transform opacity-100 scale-100"
     data-transition-leave-end="transform opacity-0 scale-95"
+    role="region"
+    aria-labelledby="<%= view.button_id %>"
     aria-hidden="<%= view.collapsed? %>"
-    aria-orientation="vertical"
     class="<%= class_names(view.section_css_class) %>"
   >
     <%= yield %>
