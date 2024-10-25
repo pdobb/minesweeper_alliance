@@ -27,6 +27,8 @@ directories:
   app/controllers:
     IrresponsibleModule:
       enabled: false
+    InstanceVariableAssumption:
+      enabled: false
   app/helpers:
     IrresponsibleModule:
       enabled: false
