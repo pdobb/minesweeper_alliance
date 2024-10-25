@@ -1,0 +1,24 @@
+<%# locals: () %>
+
+<div
+  class="
+    print:hidden
+    fixed bottom-1 right-1 z-50
+    px-2 py-1 rounded-md
+    flex gap-x-2
+    bg-gray-200 dark:bg-neutral-900
+    font-mono text-xs dark:text-neutral-400
+    opacity-50
+  "
+>
+  <% if App.debug? %>
+    DBG
+  <% end %>
+
+  <div class="hidden max-sm:block">xs</div>
+  <div class="hidden sm:max-md:block">sm</div>
+  <div class="hidden md:max-lg:block">md</div>
+  <div class="hidden lg:max-xl:block">lg</div>
+  <div class="hidden xl:max-2xl:block">xl</div>
+  <div class="hidden 2xl:block">2xl</div>
+</div>
