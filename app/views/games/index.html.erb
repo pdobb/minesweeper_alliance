@@ -53,65 +53,9 @@
     </ul>
   </nav>
 
-  <div class="space-y-6">
-    <h2 class="h3 text-center">
-      <%= render("engagement_tally", view: @view) %>
-    </h3>
-  </div>
+  <h2 class="h3 text-center">
+    <%= render("engagement_tally", view: @view.engagement_tally) %>
+  </h2>
 
-  <div class="space-y-6">
-    <% if @view.any_listings? %>
-      <% @view.listings_grouped_by_date.each do |listings_date, listings| %>
-        <div class="space-y-3">
-          <h3><%= listings_date %></h3>
-          <h4 class="h5 text-gray-600 dark:text-neutral-400">
-            Tally: <%= render("engagement_tally", view: listings_date) %>
-          </h4>
-          <div
-            data-turbo-prefetch="false"
-            class="
-              grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 3xl:grid-cols-6
-              gap-y-1
-            "
-          >
-            <% listings.each do |listing| %>
-              <%= link_to(listing.game_url, class: "group whitespace-nowrap") do %>
-                <span class="text-gray-500 dark:text-neutral-400 group-hover:text-inherit">
-                  #<%= listing.game_number %>
-                  <abbr
-                    title="<%= listing.type %>"
-                  ><%= listing.type_indicator %></abbr>
-                </span>
-                <% if listing.show_game_score? %>
-                  <abbr
-                    title="Score (lower is better)"
-                    class="
-                      -ml-2 before:content-[':']
-                      text-gray-500 dark:text-neutral-400
-                      group-hover:text-inherit
-                    "
-                  ><%= listing.game_score %></abbr>
-                <% end %>
-                <span><%= listing.game_engagement_time_range(self) %></span>
-                <span class="tracking-emojis"><%= listing.game_status_mojis %></span>
-              <% end %>
-            <% end %>
-          </div>
-        </div>
-      <% end %>
-    <% else %>
-      <div
-        class="
-          mt-12 p-12
-          text-center italic text-gray-500 dark:text-neutral-400
-          border border-dashed
-          border-gray-300 dark:border-y-neutral-600
-        "
-      >
-        No
-        <%= params[:type] if params.key?(:type) %>
-        engagement records found.
-      </div>
-    <% end %>
-  </div>
+  <%= render("listings", view: @view) %>
 </div>

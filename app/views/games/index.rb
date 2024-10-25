@@ -1,33 +1,7 @@
 # frozen_string_literal: true
 
-# EngagementTallyBehaviors mixes in View Model behaviors for objects that wrap
-# {EngagementTally}, for displaying engagement tally details in the view
-# template.
-module EngagementTallyBehaviors
-  def wins_count = engagement_tally.wins_count
-  def losses_count = engagement_tally.losses_count
-  def alliance_leads? = engagement_tally.alliance_leads?
-  def mines_lead? = engagement_tally.mines_lead?
-
-  def alliance_ranking_css_class
-    if alliance_leads?
-      %w[text-green-700 dark:text-green-600]
-    elsif mines_lead?
-      %w[text-red-700 dark:text-red-600]
-    end
-  end
-
-  private
-
-  def engagement_tally
-    raise(NotImplementedError)
-  end
-end
-
 # Games::Index is a View Model for displaying the Games Index page.
 class Games::Index
-  include EngagementTallyBehaviors
-
   def self.current_time_zone_description
     Time.zone.to_s
   end
@@ -45,6 +19,10 @@ class Games::Index
 
   def types
     Type.wrap(Board::Settings::ALL_TYPES, type_filter:)
+  end
+
+  def engagement_tally
+    EngagementTally.new(base_arel:)
   end
 
   def any_listings?
@@ -70,11 +48,6 @@ class Games::Index
 
   def games_grouped_by_ended_at
     arel.group_by { |game| game.ended_at.to_date }
-  end
-
-  def engagement_tally
-    start_at = App.created_at
-    @engagement_tally ||= EngagementTally.new(start_at.., base_arel: arel)
   end
 
   # Games::Index::TimeZoneForm wraps the drop-down/select form that updates
@@ -155,9 +128,24 @@ class Games::Index
     end
   end
 
+  # Games::Index::EngagementTally
+  class EngagementTally
+    include Games::EngagementTallyBehaviors
+
+    def initialize(base_arel:)
+      @base_arel = base_arel
+    end
+
+    private
+
+    attr_reader :base_arel
+
+    def start_at = App.created_at
+  end
+
   # Games::Index::ListingsDate
   class ListingsDate
-    include EngagementTallyBehaviors
+    include Games::EngagementTallyBehaviors
 
     attr_reader :date
 
@@ -174,16 +162,11 @@ class Games::Index
 
     attr_reader :base_arel
 
-    def engagement_tally
-      @engagement_tally ||=
-        EngagementTally.new(start_time..end_time, base_arel:)
-    end
-
-    def start_time
+    def start_at
       date.in_time_zone.at_beginning_of_day
     end
 
-    def end_time
+    def end_at
       date.in_time_zone.at_end_of_day
     end
   end
