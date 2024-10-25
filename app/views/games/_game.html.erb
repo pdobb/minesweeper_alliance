@@ -4,7 +4,9 @@
   if view.current_game?
     ->(&block) { turbo_frame_tag(:current_game, &block) }
   else # game_over?
-    ->(&block) { cache(view.cache_name(context: layout), &block) }
+    ->(&block) {
+      cache_unless(App.debug?, view.cache_name(context: layout), &block)
+    }
   end.call do
 %>
   <div class="space-y-6">
