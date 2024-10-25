@@ -24,60 +24,91 @@
       <div class="space-y-6">
         <h3>Stats</h3>
 
-        <table class="-m-3">
-          <tbody class="*:*:px-3 *:*:py-1">
-            <tr>
-              <th class="text-left">Engagements</th>
-              <td><%= @view.games_count %></td>
-            </tr>
-            <tr>
-              <th class="text-left">Victories</th>
-              <td><%= @view.winning_games_count %></td>
-            </tr>
-            <tr>
-              <th class="text-left">Defeats</th>
-              <td><%= @view.losing_games_count %></td>
-            </tr>
+        <div class="flex flex-col md:flex-row gap-x-24 gap-y-8 items-start">
+          <table>
+            <tbody class="*:*:px-3 *:*:py-1">
+              <tr>
+                <th class="text-left">Engagements</th>
+                <td><%= @view.games_count %></td>
+              </tr>
+              <tr>
+                <th class="text-left">Victories</th>
+                <td><%= @view.winning_games_count %></td>
+              </tr>
+              <tr>
+                <th class="text-left">Defeats</th>
+                <td><%= @view.losing_games_count %></td>
+              </tr>
 
-            <tr><td colspan="100%" class="select-none">&nbsp;</td></tr>
+              <tr><td colspan="100%" class="select-none">&nbsp;</td></tr>
 
-            <tr>
-              <th class="text-left">Cells Revealed</th>
-              <td><%= @view.reveals_count %></td>
-            </tr>
-            <tr>
-              <th class="text-left">Chords</th>
-              <td><%= @view.chords_count %></td>
-            </tr>
-            <tr>
-              <th class="text-left">Flags Placed</th>
-              <td><%= @view.flags_count %></td>
-            </tr>
-            <tr>
-              <th class="text-left">Flags Removed</th>
-              <td><%= @view.unflags_count %></td>
-            </tr>
-            <tr>
-              <th class="text-left">Mines Detonated</th>
-              <td><%= @view.tripped_mines_count %></td>
-            </tr>
+              <tr>
+                <th class="text-left">
+                  Best
+                  <dfn
+                    data-tooltip="up-left"
+                    aria-label="<%= t("game.stats.score") %>"
+                    class="after:w-80"
+                  >Score</dfn>
+                </th>
+                <td><%= @view.best_score %></td>
+              </tr>
+              <tr>
+                <th class="text-left">
+                  Best
+                  <dfn
+                    data-tooltip="up-left"
+                    aria-label="<%= t("game.stats.bbbvps") %>"
+                    class="after:w-80"
+                  >3BV/s</dfn>
+                </th>
+                <td><%= @view.best_bbbvps %></td>
+              </tr>
+              <tr>
+                <th class="text-left">
+                  Best
+                  <dfn
+                    data-tooltip="up-left"
+                    aria-label="<%= t("game.stats.efficiency") %>"
+                    class="after:w-80"
+                  >Efficiency</dfn>
+                </th>
+                <td><%= @view.best_efficiency %></td>
+              </tr>
+            </tbody>
+          </table>
 
-            <tr><td colspan="100%" class="select-none">&nbsp;</td></tr>
-
-            <tr>
-              <th class="text-left">Best Score</th>
-              <td><%= @view.best_score %></td>
-            </tr>
-            <tr>
-              <th class="text-left">Best 3BV/s</th>
-              <td><%= @view.best_bbbvps %></td>
-            </tr>
-            <tr>
-              <th class="text-left">Best Efficiency</th>
-              <td><%= @view.best_efficiency %></td>
-            </tr>
-          </tbody>
-        </table>
+          <table>
+            <tbody class="*:*:px-3 *:*:py-1">
+              <tr>
+                <th class="text-left">Cells Revealed</th>
+                <td><%= @view.reveals_count %></td>
+              </tr>
+              <tr>
+                <th class="text-left">
+                  <dfn
+                    data-tooltip="up-left"
+                    aria-label="<%= t("game.stats.chords") %>"
+                    class="after:w-80"
+                  >Chords</dfn>
+                </th>
+                <td><%= @view.chords_count %></td>
+              </tr>
+              <tr>
+                <th class="text-left">Flags Placed</th>
+                <td><%= @view.flags_count %></td>
+              </tr>
+              <tr>
+                <th class="text-left">Flags Removed</th>
+                <td><%= @view.unflags_count %></td>
+              </tr>
+              <tr>
+                <th class="text-left">Mines Detonated</th>
+                <td><%= @view.tripped_mines_count %></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   <% end %>
