@@ -4,6 +4,7 @@
   <% if current_user.signer? %>
     <%= active_link_to(
           user_path(current_user),
+          includes: Users::GamesController.name,
           data: { turbo_frame: :_top }) do %>
       <span class="hidden md:inline">
         <%= current_user.display_name %>

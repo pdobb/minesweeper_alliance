@@ -163,5 +163,21 @@
         </div>
       </div>
     </div>
+
+    <hr class="my-12 border-dotted dark:border-neutral-600">
+
+    <div class="space-y-12">
+      <% games = @view.games %>
+
+      <div class="space-y-8">
+        <h2>Past Engagements</h2>
+
+        <h3 class="text-center">
+          <%= render("games/engagement_tally", view: games.engagement_tally) %>
+        </h3>
+      </div>
+
+      <%= render("games/listings", view: games) %>
+    </div>
   <% end %>
 </div>

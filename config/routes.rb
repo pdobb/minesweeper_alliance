@@ -29,7 +29,12 @@ Rails.application.routes.draw do
     resources :customs, only: :create, as: :custom_games
   end
 
-  resources :users, only: :show
+  resources :users, only: :show do
+    scope module: :users do
+      resources :games, only: :show
+    end
+  end
+
   resource :current_user, only: [] do
     scope module: :current_user do
       resource :time_zone_update, only: :create
