@@ -36,29 +36,29 @@ class Users::Show
   def unflags_count = delimit(_unflags_count)
   def tripped_mines_count = delimit(_tripped_mines_count)
 
-  def best_score
-    score = _best_score
-    score ? score.round(DEFAULT_PRECISION) : NO_VALUE_INDICATOR
-  end
+  def best_overall_score = best_score(_best_overall_score)
+  def best_beginner_score = best_score(_best_beginner_score)
+  def best_intermediate_score = best_score(_best_intermediate_score)
+  def best_expert_score = best_score(_best_expert_score)
 
-  def best_bbbvps
-    bbbvps = _best_bbbvps
-    bbbvps ? bbbvps.round(DEFAULT_PRECISION) : NO_VALUE_INDICATOR
-  end
+  def best_overall_bbbvps = best_bbbvps(_best_overall_bbbvps)
+  def best_beginner_bbbvps = best_bbbvps(_best_beginner_bbbvps)
+  def best_intermediate_bbbvps = best_bbbvps(_best_intermediate_bbbvps)
+  def best_expert_bbbvps = best_bbbvps(_best_expert_bbbvps)
 
-  def best_efficiency
-    efficiency = _best_efficiency
-    efficiency ? percentage(efficiency * 100.0) : NO_VALUE_INDICATOR
-  end
+  # rubocop:disable Layout/LineLength
+  def best_overall_efficiency = best_efficiency(_best_overall_efficiency)
+  def best_beginner_efficiency = best_efficiency(_best_beginner_efficiency)
+  def best_intermediate_efficiency = best_efficiency(_best_intermediate_efficiency)
+  def best_expert_efficiency = best_efficiency(_best_expert_efficiency)
+  # rubocop:enable Layout/LineLength
 
   private
 
   attr_reader :user
 
-  def games = user.games
-
   def _completed_games_count
-    @_completed_games_count ||= games.for_game_over_statuses.size
+    @_completed_games_count ||= games_arel.for_game_over_statuses.size
   end
 
   def winning_games_percentage = percentage(winning_games_percent)
@@ -66,7 +66,7 @@ class Users::Show
   def winning_games_ratio = _winning_games_count / _completed_games_count.to_f
 
   def _winning_games_count
-    @_winning_games_count ||= games.for_status_alliance_wins.size
+    @_winning_games_count ||= games_arel.for_status_alliance_wins.size
   end
 
   def losing_games_percentage = percentage(losing_games_percent)
@@ -74,7 +74,7 @@ class Users::Show
   def losing_games_ratio = _losing_games_count / _completed_games_count.to_f
 
   def _losing_games_count
-    @_losing_games_count ||= games.for_status_mines_win.size
+    @_losing_games_count ||= games_arel.for_status_mines_win.size
   end
 
   def _reveals_count = cell_reveal_transactions.size
@@ -91,9 +91,40 @@ class Users::Show
 
   def _tripped_mines_count = user.revealed_cells.is_mine.size
 
-  def _best_score = user.games.by_score_asc.pick(:score)
-  def _best_bbbvps = user.games.by_bbbvps_desc.pick(:bbbvps)
-  def _best_efficiency = user.games.by_efficiency_desc.pick(:efficiency)
+  def best_score(value)
+    valuify(value) { |score| score.round(DEFAULT_PRECISION) }
+  end
+
+  def _best_beginner_score = _best_score(games_arel.for_beginner_type)
+  def _best_intermediate_score = _best_score(games_arel.for_intermediate_type)
+  def _best_expert_score = _best_score(games_arel.for_expert_type)
+  def _best_score(arel) = arel.by_score_asc.pick(:score)
+
+  def best_bbbvps(value)
+    valuify(value) { |bbbvps| bbbvps.round(DEFAULT_PRECISION) }
+  end
+
+  def _best_beginner_bbbvps = _best_bbbvps(games_arel.for_beginner_type)
+  def _best_intermediate_bbbvps = _best_bbbvps(games_arel.for_intermediate_type)
+  def _best_expert_bbbvps = _best_bbbvps(games_arel.for_expert_type)
+  def _best_bbbvps(arel) = arel.by_bbbvps_desc.pick(:bbbvps)
+
+  def best_efficiency(value)
+    valuify(value) { |efficiency| percentage(efficiency * 100.0) }
+  end
+
+  # rubocop:disable Layout/LineLength
+  def _best_beginner_efficiency = _best_efficiency(games_arel.for_beginner_type)
+  def _best_intermediate_efficiency = _best_efficiency(games_arel.for_intermediate_type)
+  def _best_expert_efficiency = _best_efficiency(games_arel.for_expert_type)
+  def _best_efficiency(arel) = arel.by_efficiency_desc.pick(:efficiency)
+  # rubocop:enable Layout/LineLength
+
+  def games_arel = user.games
+
+  def valuify(value)
+    value ? yield(value) : NO_VALUE_INDICATOR
+  end
 
   def percentage(value, precision: DEFAULT_PRECISION)
     helpers.number_to_percentage(value, precision:)

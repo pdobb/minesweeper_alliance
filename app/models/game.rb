@@ -50,6 +50,11 @@ class Game < ApplicationRecord
   ])
 
   scope :for_type, ->(type) { where(type:) }
+  scope :for_beginner_type, -> { where(type: Board::Settings::BEGINNER) }
+  scope :for_intermediate_type, -> {
+    where(type: Board::Settings::INTERMEDIATE)
+  }
+  scope :for_expert_type, -> { where(type: Board::Settings::EXPERT) }
   scope :for_game_on_statuses, -> {
     for_status([status_standing_by, status_sweep_in_progress])
   }

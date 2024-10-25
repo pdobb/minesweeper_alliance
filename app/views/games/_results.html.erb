@@ -30,11 +30,18 @@
       <div class="md:justify-self-end space-y-3">
         <h4 class="h3">Stats</h4>
 
-        <table class="-m-3">
-          <tbody class="*:*:px-3 *:*:py-1">
+        <table
+          class="
+            border-separate
+            border-spacing-x-6 border-spacing-y-2
+            -mx-3 -my-1
+            text-left
+          "
+        >
+          <tbody>
             <% if stats.show_game_score? %>
               <tr>
-                <th class="text-left">
+                <th>
                   <dfn
                     data-tooltip="up-left"
                     aria-label="<%= t("game.stats.score") %>"
@@ -44,7 +51,7 @@
                 <td><%= stats.game_score %></td>
               </tr>
               <tr>
-                <th class="text-left">
+                <th>
                   <dfn
                     data-tooltip="up-left"
                     aria-label="<%= t("game.stats.bbbv") %>"
@@ -54,7 +61,7 @@
                 <td><%= stats.bbbv %></td>
               </tr>
               <tr>
-                <th class="text-left">
+                <th>
                   <dfn
                     data-tooltip="up-left"
                     aria-label="<%= t("game.stats.bbbvps") %>"
@@ -64,7 +71,7 @@
                 <td><%= stats.bbbvps %></td>
               </tr>
               <tr>
-                <th class="text-left">
+                <th>
                   <dfn
                     data-tooltip="up-left"
                     aria-label="<%= t("game.stats.efficiency") %>"
@@ -75,15 +82,22 @@
               </tr>
             <% end %>
             <tr>
-              <th class="text-left">Clicks</th>
+              <th>Clicks</th>
               <td><%= stats.clicks_count %></td>
             </tr>
             <tr>
               <td colspan="100%">
-                <table class="ml-3">
-                  <tbody class="*:*:px-3 *:*:py-1">
+                <table
+                  class="
+                    border-separate
+                    border-spacing-x-6 border-spacing-y-2
+                    -mx-3 -my-1
+                    text-left
+                  "
+                >
+                  <tbody>
                     <tr>
-                      <th class="text-left">
+                      <th class="pl-6">
                         <dfn
                           data-tooltip="up-left"
                           aria-label="<%= t("game.stats.reveals") %>"
@@ -93,7 +107,7 @@
                       <td><%= stats.reveals_count %></td>
                     </tr>
                     <tr>
-                      <th class="text-left">
+                      <th class="pl-6">
                         <dfn
                           data-tooltip="up-left"
                           aria-label="<%= t("game.stats.chords") %>"
@@ -103,11 +117,11 @@
                       <td><%= stats.chords_count %></td>
                     </tr>
                     <tr>
-                      <th class="text-left">Flags Placed</th>
+                      <th class="pl-6">Flags Placed</th>
                       <td><%= stats.flags_count %></td>
                     </tr>
                     <tr>
-                      <th class="text-left">Flags Removed</th>
+                      <th class="pl-6">Flags Removed</th>
                       <td><%= stats.unflags_count %></td>
                     </tr>
                   </tbody>
