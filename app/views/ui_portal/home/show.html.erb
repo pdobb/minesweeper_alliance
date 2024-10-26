@@ -1,26 +1,24 @@
-<% title("Home") %>
+<% title("UI Portal") %>
 
-<div class="container mx-auto">
+<div class="container mx-auto space-y-12">
   <%= render("layouts/banner", banner: @banner) %>
 
-  <div class="space-y-12">
-    <h1>UI</h1>
+  <h1><%= title %></h1>
 
-    <div class="space-y-6">
-      <h2>Icons</h2>
-      <ul class="whitespace-nowrap">
-        <% (Icon.methods - Object.methods).sort.each do |method| %>
-          <li>
-            <code>Icon.<%= method %></code>:
-            <span class="max-h-6"><%= Icon.public_send(method) %></span>
-          </li>
-        <% end %>
-      </ul>
-    </div>
+  <div class="space-y-6">
+    <h2>Icons</h2>
+    <ul class="whitespace-nowrap">
+      <% (Icon.methods - Object.methods).sort.each do |method| %>
+        <li>
+          <code>Icon.<%= method %></code>:
+          <span class="max-h-6"><%= Icon.public_send(method) %></span>
+        </li>
+      <% end %>
+    </ul>
+  </div>
 
-    <div class="space-y-6">
-      <h2>Flash</h2>
-      <%= debug(flash) %>
-    </div>
+  <div class="space-y-6">
+    <h2>Flash</h2>
+    <%= debug(flash) %>
   </div>
 </div>
