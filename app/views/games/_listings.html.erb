@@ -17,7 +17,11 @@
         >
           <% listings.each do |listing| %>
             <%= link_to(listing.game_url, class: "group whitespace-nowrap") do %>
-              <span class="text-gray-500 dark:text-neutral-400 group-hover:text-inherit">
+              <span
+                class="
+                  text-gray-500 dark:text-neutral-400 group-hover:text-inherit
+                "
+              >
                 #<%= listing.game_number %>
                 <abbr
                   title="<%= listing.type %>"

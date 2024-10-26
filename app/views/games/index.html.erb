@@ -10,7 +10,7 @@
       gap-y-6
     "
   >
-    <h1>Sweep Ops Archives</h1>
+    <h1><%= title %></h1>
 
     <% @view.time_zone_form(user: current_user).tap do |form| %>
       <%= form_with(model: form, url: form.post_url) do |f| %>

@@ -6,14 +6,12 @@
           user_path(current_user),
           includes: Users::GamesController.name,
           data: { turbo_frame: :_top }) do %>
-      <span class="hidden md:inline">
+      <span class="max-md:hidden">
         <%= current_user.display_name %>
       </span>
       <%= Emoji.profile %>
     <% end %>
   <% else %>
-    <span class="hidden md:inline">
-      <%= t("site.name") %>
-    </span>
+    <span class="max-md:hidden"><%= t("site.name") %></span>
   <% end %>
 <% end %>

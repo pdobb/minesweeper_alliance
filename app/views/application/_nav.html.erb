@@ -1,11 +1,13 @@
 <%# locals: () %>
 
 <nav class="container mx-auto flex justify-between">
-  <ul class="flex gap-x-6 lg:gap-x-12">
+  <ul class="flex gap-x-6 md:gap-x-10 lg:gap-x-12">
     <li><%= active_link_to("War Room", root_path) %></li>
     <li>
-      <%= active_link_to(
-            "Sweep Ops Archives", games_path, includes: GamesController.name) %>
+      <%= active_link_to(games_path, includes: GamesController.name) do %>
+        <span class="sm:hidden">Archive</span>
+        <span class="max-sm:hidden">Sweep Ops Archive</span>
+      <% end %>
     </li>
   </ul>
 

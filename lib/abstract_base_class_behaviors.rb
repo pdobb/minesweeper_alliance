@@ -5,7 +5,7 @@
 #
 # @example
 #   class MyBaseClass
-#     include ActiveModelWrapperBehaviors
+#     include AbstractBaseClassBehaviors
 #
 #     as_abstract_class
 #   end
