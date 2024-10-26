@@ -3,8 +3,6 @@
 Rails.application.routes.draw do
   root "home#show"
 
-  get "about" => "home#about"
-
   resources :games, only: %i[index show new create] do
     scope module: :games do
       resource :user, only: %i[edit update]
@@ -34,6 +32,8 @@ Rails.application.routes.draw do
       resources :games, only: :show
     end
   end
+
+  resource :about, controller: :about, only: :show
 
   resource :current_user, only: [] do
     scope module: :current_user do
