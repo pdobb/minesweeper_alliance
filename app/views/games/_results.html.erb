@@ -35,9 +35,8 @@
 
         <table
           class="
-            border-separate
-            border-spacing-x-6 border-spacing-y-2
-            -mx-3 -my-1
+            -my-2
+            border-separate border-spacing-y-2
             text-left
           "
         >
@@ -88,48 +87,33 @@
               <th>Clicks</th>
               <td><%= stats.clicks_count %></td>
             </tr>
-            <tr>
-              <td colspan="2">
-                <table
-                  class="
-                    border-separate
-                    border-spacing-x-6 border-spacing-y-2
-                    -mx-3 -my-1
-                    text-left
-                  "
-                >
-                  <tbody>
-                    <tr>
-                      <th class="pl-6">
-                        <dfn
-                          data-tooltip="up-left"
-                          data-tooltip-text="<%= t("terms.reveals") %>"
-                          class="after:w-80"
-                        >Reveals</dfn>
-                      </th>
-                      <td><%= stats.reveals_count %></td>
-                    </tr>
-                    <tr>
-                      <th class="pl-6">
-                        <dfn
-                          data-tooltip="up-left"
-                          data-tooltip-text="<%= t("terms.chords") %>"
-                          class="after:w-80"
-                        >Chords</dfn>
-                      </th>
-                      <td><%= stats.chords_count %></td>
-                    </tr>
-                    <tr>
-                      <th class="pl-6">Flags Placed</th>
-                      <td><%= stats.flags_count %></td>
-                    </tr>
-                    <tr>
-                      <th class="pl-6">Flags Removed</th>
-                      <td><%= stats.unflags_count %></td>
-                    </tr>
-                  </tbody>
-                </table>
-              </td>
+            <tr class="*:pl-6">
+              <th>
+                <dfn
+                  data-tooltip="up-left"
+                  data-tooltip-text="<%= t("terms.reveals") %>"
+                  class="after:w-80"
+                >Reveals</dfn>
+              </th>
+              <td><%= stats.reveals_count %></td>
+            </tr>
+            <tr class="*:pl-6">
+              <th>
+                <dfn
+                  data-tooltip="up-left"
+                  data-tooltip-text="<%= t("terms.chords") %>"
+                  class="after:w-80"
+                >Chords</dfn>
+              </th>
+              <td><%= stats.chords_count %></td>
+            </tr>
+            <tr class="*:pl-6">
+              <th>Flags Placed</th>
+              <td><%= stats.flags_count %></td>
+            </tr>
+            <tr class="*:pl-6">
+              <th>Flags Removed</th>
+              <td><%= stats.unflags_count %></td>
             </tr>
           </tbody>
         </table>
