@@ -6,15 +6,23 @@
   <h1><%= title %></h1>
 
   <div class="space-y-6">
-    <h2>Icons</h2>
-    <ul class="whitespace-nowrap">
-      <% (Icon.methods - Object.methods).sort.each do |method| %>
-        <li>
-          <code>Icon.<%= method %></code>:
-          <span class="max-h-6"><%= Icon.public_send(method) %></span>
-        </li>
-      <% end %>
-    </ul>
+    <h2>Emojis</h2>
+    <table
+      class="
+        -mx-6 -my-1
+        border-separate border-spacing-x-6 border-spacing-y-1
+        text-left
+      "
+    >
+      <tbody>
+        <% (Emoji.methods - Object.methods).sort.each do |method| %>
+          <tr>
+            <td><%= Emoji.public_send(method) %></td>
+            <td><code>Emoji.<%= method %></code></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
   </div>
 
   <div class="space-y-6">

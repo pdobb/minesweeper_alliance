@@ -131,10 +131,10 @@ class Board < ApplicationRecord
 
     def inspect_info(scope:)
       scope.join_info([
-        "#{Icon.cell} x#{cells_count} (#{dimensions})",
-        "#{Icon.revealed_cell} #{revealed_cells_count}",
-        "#{Icon.mine} #{mines}",
-        "#{Icon.flag} #{flags_count}",
+        "#{Emoji.cell} x#{cells_count} (#{dimensions})",
+        "#{Emoji.revealed_cell} #{revealed_cells_count}",
+        "#{Emoji.mine} #{mines}",
+        "#{Emoji.flag} #{flags_count}",
       ])
     end
 

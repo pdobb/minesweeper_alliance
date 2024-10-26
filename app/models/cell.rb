@@ -156,10 +156,10 @@ class Cell < ApplicationRecord
 
     def inspect_flags(scope:)
       scope.join_flags([
-        (revealed? ? Icon.revealed_cell : Icon.cell),
-        (Icon.flag if flagged?),
-        (Icon.mine if mine?),
-        (Icon.eyes if highlighted?),
+        (revealed? ? Emoji.revealed_cell : Emoji.cell),
+        (Emoji.flag if flagged?),
+        (Emoji.mine if mine?),
+        (Emoji.eyes if highlighted?),
       ])
     end
 
@@ -174,9 +174,9 @@ class Cell < ApplicationRecord
       if revealed?
         " #{value}"
       elsif flagged?
-        Icon.flag
+        Emoji.flag
       else
-        Icon.cell
+        Emoji.cell
       end
     end
   end

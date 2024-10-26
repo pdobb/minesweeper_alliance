@@ -96,8 +96,8 @@ class Calc3BV
 
     def inspect_flags(scope:)
       scope.join_flags([
-        (Icon.mine if mine?),
-        (visited? ? Icon.eyes : "🙈"),
+        (Emoji.mine if mine?),
+        (visited? ? Emoji.eyes : "🙈"),
       ])
     end
 

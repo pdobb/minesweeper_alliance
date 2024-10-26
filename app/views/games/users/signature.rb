@@ -25,7 +25,7 @@ class Games::Users::Signature
 
   def attribution_link_content
     base = user.signer? ? user.display_name : "Sign your name?"
-    "#{base} #{Icon.pencil}"
+    "#{base} #{Emoji.pencil}"
   end
 
   def attribution_link_url(router = RailsRouter.instance)

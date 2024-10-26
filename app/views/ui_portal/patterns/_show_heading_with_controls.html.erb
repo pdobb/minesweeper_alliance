@@ -6,12 +6,12 @@
 
     <div class="flex gap-x-3">
       <%= link_to(
-            Icon.pencil,
+            Emoji.pencil,
             view.edit_pattern_url,
             data: { turbo_stream: true },
             class: "btn-basic") %>
       <%= button_to(
-            Icon.trash,
+            Emoji.trash,
             view.destroy_pattern_url,
             method: :delete,
             data: {

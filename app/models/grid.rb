@@ -92,7 +92,7 @@ class Grid
     def inspect_identification = __model__.class.name
 
     def inspect_info
-      "#{Icon.cell} x#{cells_count} (#{dimensions})"
+      "#{Emoji.cell} x#{cells_count} (#{dimensions})"
     end
 
     def dimensions

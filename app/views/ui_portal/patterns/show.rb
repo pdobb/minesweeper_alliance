@@ -71,7 +71,7 @@ class UIPortal::Patterns::Show
 
     def to_s
       if flagged?
-        Icon.flag
+        Emoji.flag
       else
         ""
       end

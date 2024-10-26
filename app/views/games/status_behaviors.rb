@@ -7,13 +7,13 @@ module Games::StatusBehaviors
 
   def game_status_mojis
     if game_ended_in_defeat?
-      Icon.mine
+      Emoji.mine
     elsif game_ended_in_victory?
-      "#{Icon.ship}#{Icon.victory}"
+      "#{Emoji.ship}#{Emoji.victory}"
     elsif game_in_progress?
-      Icon.ship
+      Emoji.ship
     else # Standing By
-      Icon.anchor
+      Emoji.anchor
     end
   end
 end

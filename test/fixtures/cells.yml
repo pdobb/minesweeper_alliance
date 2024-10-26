@@ -27,7 +27,7 @@ loss1_board_cell9:
   board: loss1_board
   coordinates: <%= ActiveSupport::JSON.encode(Coordinates[2, 2]) %>
   mine: true
-  value: <%= Icon.mine %>
+  value: <%= Emoji.mine %>
 
 # 0 => ◻️ (0, 0) ◻️ (1, 0) ◻️ (2, 0)
 # 1 => ◻️ (0, 1) ◻️ (1, 1) ◻️ (2, 1)

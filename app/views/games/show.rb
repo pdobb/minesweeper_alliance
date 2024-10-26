@@ -204,7 +204,7 @@ class Games::Show
       elsif value
         value.to_s
       elsif flagged?
-        Icon.flag
+        Emoji.flag
       else # rubocop:disable Lint/DuplicateBranch
         ""
       end
@@ -274,11 +274,11 @@ class Games::Show
 
       # if mine? && ...
       if revealed?
-        Icon.mine
+        Emoji.mine
       elsif flagged?
-        Icon.flag
+        Emoji.flag
       else
-        game_ended_in_victory? ? Icon.flag : Icon.mine
+        game_ended_in_victory? ? Emoji.flag : Emoji.mine
       end
     end
 

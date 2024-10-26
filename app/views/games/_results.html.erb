@@ -145,7 +145,7 @@
               <span><%= index.next %>.</span>
 
               <% if listing.user?(current_user) %>
-                <span title="Me"><%= Icon.eyes %></span>
+                <span title="Me"><%= Emoji.eyes %></span>
               <% end %>
 
               <%= turbo_frame_tag(*listing.turbo_frame_name) do %>

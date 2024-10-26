@@ -74,7 +74,7 @@ class Pattern < ApplicationRecord
   def inspect_info(scope:)
     scope.join_info([
       dimensions,
-      "#{Icon.flag} x#{flags_count}",
+      "#{Emoji.flag} x#{flags_count}",
     ])
   end
 
