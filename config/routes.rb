@@ -8,37 +8,31 @@ Rails.application.routes.draw do
       resource :user, only: %i[edit update]
 
       resources :boards, only: [] do
-        scope module: :boards do
-          resources :cells, only: [] do
-            scope module: :cells do
-              resource :reveal, only: :create
-              resource :toggle_flag, only: :create
-              resource :highlight_neighbors, only: :create
-              resource :reveal_neighbors, only: :create
-            end
+        resources :cells, only: [], module: :boards do
+          scope module: :cells do
+            resource :reveal, only: :create
+            resource :toggle_flag, only: :create
+            resource :highlight_neighbors, only: :create
+            resource :reveal_neighbors, only: :create
           end
         end
       end
     end
   end
-  scope "/games", module: :games do
+  scope :games, module: :games do
     resource :random, only: :create, as: :random_game
     resources :customs, only: :new, as: :custom_game
     resources :customs, only: :create, as: :custom_games
   end
 
   resources :users, only: :show do
-    scope module: :users do
-      resources :games, only: :show
-    end
+    resources :games, only: :show, module: :users
   end
 
   resource :about, controller: :about, only: :show
 
   resource :current_user, only: [] do
-    scope module: :current_user do
-      resource :time_zone_update, only: :create
-    end
+    resource :time_zone_update, only: :create, module: :current_user
   end
 
   if App.development?
