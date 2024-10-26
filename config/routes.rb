@@ -40,7 +40,7 @@ Rails.application.routes.draw do
     namespace :ui_portal, path: :ui do
       root "home#show"
 
-      get "flash_notifications" => "home#flash_notifications"
+      resources :flash_notifications, only: :index
 
       resources :patterns do
         scope module: :patterns do
