@@ -51,6 +51,43 @@
   </div>
 
   <div class="space-y-6">
+    <h2>Tooltips</h2>
+
+    <table
+      class="
+        -mx-6 -my-1
+        border-separate border-spacing-x-6 border-spacing-y-1
+        text-left
+      "
+    >
+      <tbody>
+        <tr>
+          <td>
+            <dfn
+              data-tooltip="Huzzah! Tooltip text! 👏"
+              class="after:w-80"
+            >text</dfn>
+          </td>
+          <td>
+            <code>&lt;dfn data-tooltip="..." class="after:w-80" &gt;...&lt;/dfn&gt;</code>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <dfn
+              data-tooltip="Huzzah! Tooltip text! 👏"
+              class="after:whitespace-nowrap"
+            >text</dfn>
+          </td>
+          <td>
+            <code>&lt;dfn data-tooltip="..." class="after:whitespace-nowrap" &gt;...&lt;/dfn&gt;</code>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="space-y-6">
     <h2>Flash</h2>
     <%= debug(flash) %>
   </div>
