@@ -23,6 +23,8 @@ class Duration
       join(" ")
   end
 
+  def to_i = duration.to_i
+
   private
 
   attr_reader :duration_builder

@@ -44,5 +44,13 @@ class DurationTest < ActiveSupport::TestCase
         end
       end
     end
+
+    describe "#to_i" do
+      subject { unit_class.new(9.seconds.ago..) }
+
+      it "returns the expected Integer" do
+        _(subject.to_i).must_equal(9)
+      end
+    end
   end
 end
