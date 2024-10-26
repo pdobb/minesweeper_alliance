@@ -26,6 +26,31 @@
   </div>
 
   <div class="space-y-6">
+    <h2><%= external_link_to("Heroicons", "https://heroicons.com/") %></h2>
+    <table
+      class="
+        -mx-6 -my-1
+        border-separate border-spacing-x-6 border-spacing-y-1
+        text-left
+      "
+    >
+      <tbody>
+        <% Dir.glob("app/assets/images/heroicons/*.svg").each do |path| %>
+          <%
+            basename = File.basename(path)
+            css_class = File.open(path, &:readline)[/class="([^"]*)"/, 1]
+          %>
+          <tr>
+            <td><%= inline_svg_tag("heroicons/#{basename}") %></td>
+            <td><%= css_class %></td>
+            <td><code>inline_svg_tag("heroicons/<%= basename %>")</code></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="space-y-6">
     <h2>Flash</h2>
     <%= debug(flash) %>
   </div>

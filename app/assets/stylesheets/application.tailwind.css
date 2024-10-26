@@ -69,6 +69,13 @@
   dfn {
     @apply underline underline-offset-2 decoration-dashed not-italic;
   }
+
+  code {
+    @apply px-2 py-1 rounded
+      bg-gray-200 dark:bg-neutral-700
+      dark:text-gray-200
+      select-all selection:bg-green-300 selection:text-green-900;
+  }
 }
 
 @layer components {
