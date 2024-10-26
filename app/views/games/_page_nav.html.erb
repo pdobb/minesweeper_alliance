@@ -9,39 +9,27 @@
     "
   >
     <%= link_to(nav.close_game_url, title: "Close Op") do %>
-      <%= inline_svg_tag(
-            "heroicons/x-mark.svg",
-            class: "size-[20px] min-w-[20px] min-h-[20px]") %>
+      <%= inline_svg_tag("heroicons/x-mark.svg") %>
     <% end %>
 
     <% if nav.previous_game? %>
       <%= link_to(nav.previous_game_url, title: "Previous Op") do %>
-        <%= inline_svg_tag(
-              "heroicons/arrow-long-left.svg",
-              class: "size-[22px] min-w-[22px] min-h-[22px]") %>
+        <%= inline_svg_tag("heroicons/arrow-long-left.svg") %>
       <% end %>
     <% else %>
       <%= inline_svg_tag(
             "heroicons/arrow-long-left.svg",
-            class: %w[
-              size-[22px] min-w-[22px] min-h-[22px]
-              stroke-gray-300 dark:stroke-neutral-600
-            ]) %>
+            class: %w[stroke-gray-300 dark:stroke-neutral-600]) %>
     <% end %>
 
     <% if nav.next_game? %>
       <%= link_to(nav.next_game_url, title: "Next Op") do %>
-        <%= inline_svg_tag(
-              "heroicons/arrow-long-right.svg",
-              class: "size-[22px] min-w-[22px] min-h-[22px]") %>
+        <%= inline_svg_tag("heroicons/arrow-long-right.svg") %>
       <% end %>
     <% else %>
       <%= inline_svg_tag(
             "heroicons/arrow-long-right.svg",
-            class: %w[
-              size-[22px] min-w-[22px] min-h-[22px]
-              stroke-gray-300 dark:stroke-neutral-600
-            ]) %>
+            class: %w[stroke-gray-300 dark:stroke-neutral-600]) %>
     <% end %>
   </div>
 </div>

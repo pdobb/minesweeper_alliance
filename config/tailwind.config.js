@@ -7,6 +7,7 @@ module.exports = {
     "./app/helpers/**/*.rb",
     "./app/javascript/**/*.js",
     "./app/views/**/*.{erb,html,rb}",
+    "./app/assets/images/heroicons/*.svg",
     "./config/locales/*.yml",
   ],
   theme: {
@@ -19,11 +20,11 @@ module.exports = {
         "external-link-dark":
           "url('heroicons/arrow-top-right-on-square-dark.svg')",
       },
-      fontFamily: {
-        // sans: ["Inter var", ...defaultTheme.fontFamily.sans],
-      },
       letterSpacing: {
         emojis: ".5em",
+      },
+      size: {
+        5.5: "1.375em",
       },
     },
   },

@@ -21,19 +21,17 @@
     <span data-theme-target="themeSelectorButton">
       <%= inline_svg_tag(
             "heroicons/sun.svg",
-            class: "max-w-5 max-h-5 dark:hidden fill-current") %>
+            class: "dark:hidden fill-current") %>
       <%= inline_svg_tag(
             "heroicons/moon.svg",
-            class: "max-w-5 max-h-5 hidden dark:block") %>
+            class: "hidden dark:block") %>
     </span>
 
     <span data-theme-target="themeSelectorText">
       System
     </span>
 
-    <%= inline_svg_tag(
-          "heroicons/chevron-down.svg",
-          class: "max-w-4 max-h-4 stroke-2") %>
+    <%= inline_svg_tag("heroicons/chevron-down.svg", class: "stroke-2") %>
 
     <%= select_tag(
           "mobile-theme_dropdown",
@@ -49,18 +47,19 @@
 <div class="hidden lg:flex items-center gap-x-3">
   <span class="sr-only">Theme:</span>
 
-  <% content_for(:button) do %>
+  <% content_for(:theme_menu_button) do %>
     <%= inline_svg_tag(
           "heroicons/sun.svg",
-          class: "inline dark:hidden mb-px max-w-5 max-h-5 fill-current") %>
+          class: "inline dark:hidden mb-px fill-current") %>
     <%= inline_svg_tag(
           "heroicons/moon.svg",
-          class: "hidden dark:inline mb-px max-w-5 max-h-5") %>
+          class: "hidden dark:inline mb-px") %>
   <% end %>
   <%= render(
         layout: "application/menu",
         locals: {
-          menu: layout.theme_menu(button_content: content_for(:button))
+          menu:
+            layout.theme_menu(button_content: content_for(:theme_menu_button))
         }) do %>
     <ul
       role="listbox"
@@ -78,9 +77,7 @@
         aria-selected="false"
         tabindex="-1"
       >
-        <%= inline_svg_tag(
-              "heroicons/sun.svg",
-              class: "max-w-5 max-h-5 fill-current") %>
+        <%= inline_svg_tag("heroicons/sun.svg", class: "fill-current") %>
         Light
       </li>
       <li
@@ -90,9 +87,7 @@
         tabindex="-1"
         aria-selected="false"
       >
-        <%= inline_svg_tag(
-              "heroicons/moon.svg",
-              class: "max-w-5 max-h-5") %>
+        <%= inline_svg_tag("heroicons/moon.svg") %>
         Dark
       </li>
       <li
@@ -102,9 +97,7 @@
         tabindex="-1"
         aria-selected="false"
       >
-        <%= inline_svg_tag(
-              "heroicons/computer-desktop.svg",
-              class: "max-w-5 max-h-5") %>
+        <%= inline_svg_tag("heroicons/computer-desktop.svg") %>
         System
       </li>
     </ul>
