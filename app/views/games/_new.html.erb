@@ -1,36 +1,37 @@
 <%# locals: (view:) %>
 
-<%= turbo_frame_tag(:new_game) do %>
-  <div
-    class="
-      flex
-      flex-col md:flex-row
-      justify-center items-center
-      gap-6
-      min-h-12
-    "
-  >
-    <% view.presets.each do |preset| %>
+<div class="flex justify-center">
+  <%= turbo_frame_tag(:new_game) do %>
+    <div
+      class="
+        flex
+        flex-col md:flex-row
+        justify-center items-center
+        gap-6
+      "
+    >
+      <% view.presets.each do |preset| %>
+        <%= button_to(
+              preset,
+              view.game_url(preset),
+              class: "btn-primary",
+              data: { turbo_frame: :_top }) %>
+      <% end %>
+
       <%= button_to(
-            preset,
-            view.game_url(preset),
+            "Random",
+            view.random_game_url,
             class: "btn-primary",
             data: { turbo_frame: :_top }) %>
-    <% end %>
 
-    <%= button_to(
-          "Random",
-          view.random_game_url,
-          class: "btn-primary",
-          data: { turbo_frame: :_top }) %>
-
-    <% if current_user.signer? %>
-      <%= button_to(
-            "Custom",
-            view.new_custom_game_url,
-            method: :get,
-            class: "btn-primary",
-            data: { turbo_stream: true }) %>
-    <% end %>
-  </div>
-<% end %>
+      <% if current_user.signer? %>
+        <%= button_to(
+              "Custom",
+              view.new_custom_game_url,
+              method: :get,
+              class: "btn-primary",
+              data: { turbo_stream: true }) %>
+      <% end %>
+    </div>
+  <% end %>
+</div>
