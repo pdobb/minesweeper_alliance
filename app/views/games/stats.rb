@@ -11,7 +11,7 @@ class Games::Stats
     @game = game
   end
 
-  def cache_name = [game, :stats]
+  def cache_key = [game, :stats]
 
   def show_game_score? = game.ended_in_victory?
 

@@ -17,7 +17,7 @@
 <% end %>
 
 <% view.stats.tap do |stats| %>
-  <% cache_unless(App.debug?, stats.cache_name) do %>
+  <% cache_unless(App.debug?, stats.cache_key) do %>
     <div
       class="
         grid md:grid-cols-2

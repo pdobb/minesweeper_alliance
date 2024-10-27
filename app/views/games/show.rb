@@ -19,7 +19,7 @@ class Games::Show
 
   def nav = Nav.new(game:)
 
-  def cache_name(context:)
+  def cache_key(context:)
     [
       game,
       context.mobile? ? :mobile : :web,

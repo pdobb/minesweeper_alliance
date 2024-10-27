@@ -9,7 +9,7 @@ class Users::Show
     @user = user
   end
 
-  def cache_name
+  def cache_key
     [user, _completed_games_count]
   end
 
