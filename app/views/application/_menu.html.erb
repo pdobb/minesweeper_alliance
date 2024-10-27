@@ -16,7 +16,10 @@
     aria-haspopup="true"
     aria-expanded="false"
     <%= tag.attributes(menu.button_attributes) %>
-    class="<%= class_names(menu.button_css) %>"
+    class="
+      flex items-center
+      <%= class_names(menu.button_css) %>
+    "
   >
     <%= menu.button_content %>
   </button>
@@ -35,12 +38,9 @@
     tabindex="0"
     <%= tag.attributes(menu.menu_attributes) %>
     class="
-      hidden
-      overflow-hidden
-      min-w-fit
-      absolute z-10
-      rounded-lg shadow-xl
-      border border-gray-200 dark:border-neutral-700
+      hidden overflow-hidden
+      absolute z-10 rounded-lg shadow-xl
+      border border-gray-300 dark:border-neutral-700
       bg-white dark:bg-neutral-900
       <%= class_names(menu.menu_css) %>
     "

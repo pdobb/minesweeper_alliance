@@ -29,8 +29,8 @@ class Application::Footer # rubocop:disable Style/ClassAndModuleChildren
     def menu_css
       # rubocop:disable Layout/MultilineArrayLineBreaks
       %w[
-        mb-3 w-36
         right-0 bottom-full origin-bottom-right
+        mb-3 w-32
       ]
       # rubocop:enable Layout/MultilineArrayLineBreaks
     end
