@@ -13,7 +13,7 @@ class Application::Banner
     @css_classes ||= {
       button: %w[
         hover:bg-gray-200 dark:hover:bg-neutral-700
-        text-gray-500 dark:text-gray-400
+        text-dim
         focus:ring-gray-400 hover:focus:bg-gray-200
       ],
     }.with_indifferent_access.freeze

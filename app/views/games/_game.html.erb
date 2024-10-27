@@ -21,10 +21,7 @@
             <%= view.game_status_mojis %>
             <small
               id="fleet_count"
-              class="
-                before:content-['x'] before:mr-1.5
-                font-normal text-gray-500 dark:text-neutral-400
-              "
+              class="before:content-['x'] before:mr-1.5 font-normal text-dim"
             ><%= view.players_count %></small>
           </span>
         <% else %>
@@ -41,7 +38,7 @@
         >
           <li><%= view.flags_count %></li>
           <li><%= Emoji.flag %></li>
-          <li class="text-gray-500 dark:text-neutral-400">/</li>
+          <li class="text-dim">/</li>
           <li><%= view.mines %></li>
           <li><%= Emoji.mine %></li>
         </ul>
@@ -120,12 +117,7 @@
         </table>
       </div>
 
-      <div
-        class="
-          md:-mx-5 flex justify-end gap-x-3
-          text-gray-400 dark:text-neutral-500
-        "
-      >
+      <div class="md:-mx-5 flex justify-end gap-x-3 text-dim-lg">
         <%= view.type %> (<%= view.board_dimensions %>)
       </div>
     </div>

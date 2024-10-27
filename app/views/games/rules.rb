@@ -26,7 +26,7 @@ class Games::Rules
     ].tap(&:compact!)
   end
 
-  def collapsed_button_css_class = "text-gray-500"
+  def collapsed_button_css_class = "text-dim-lg"
 
   def icon_css_class
     collapsed_icon_css_class if collapsed?

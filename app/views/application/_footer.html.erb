@@ -23,14 +23,14 @@
     </ul>
   </nav>
 
-  <small class="text-center text-gray-500 dark:text-neutral-400 lg:order-1">
+  <small class="text-center text-dim lg:order-1">
     <%= link_to_if(
           App.development?,
           "©",
           ui_portal_root_path,
           class: "no-underline") %>
     <%= Date.today.year %> Minesweeper Alliance
-    <span class="font-sans text-gray-400 dark:text-neutral-500 mx-1">&mdash;</span>
+    <span class="font-sans text-dim-lg mx-1">&mdash;</span>
     Made with
     <span class="opacity-80"><%= Emoji.heart %></span>
     by the <%= t("footer.maker_html").sample %>

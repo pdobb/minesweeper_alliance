@@ -8,7 +8,7 @@
   }
 
   body {
-    @apply dark:bg-neutral-800 dark:text-gray-300;
+    @apply dark:bg-neutral-800 dark:text-neutral-200;
   }
 
   a,
@@ -73,7 +73,7 @@
   code {
     @apply px-2 py-1 rounded
       bg-gray-200 dark:bg-neutral-700
-      dark:text-gray-200
+      dark:text-neutral-200
       select-all selection:bg-green-300 selection:text-green-900;
   }
 }
@@ -87,6 +87,16 @@
         ml-1.5 size-[.8em] inline-block hover:opacity-70
         bg-contain bg-external-link-light dark:bg-external-link-dark;
     }
+  }
+
+  .text-dim-sm {
+    @apply text-gray-600 dark:text-neutral-300;
+  }
+  .text-dim {
+    @apply text-gray-500 dark:text-neutral-400;
+  }
+  .text-dim-lg {
+    @apply text-gray-400 dark:text-neutral-500;
   }
 
   .btn-basic {
@@ -154,7 +164,7 @@
       @apply left-0
         content-[attr(data-tooltip)]
         mb-1.5 p-4 rounded-md
-        font-normal text-gray-200;
+        font-normal text-neutral-200;
     }
   }
 }

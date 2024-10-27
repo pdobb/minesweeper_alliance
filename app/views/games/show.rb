@@ -255,7 +255,7 @@ class Games::Show
       shadow-inner shadow-slate-600 dark:shadow-neutral-800
     ].freeze
     # rubocop:enable Layout/MultilineArrayLineBreaks
-    DIMMED_TEXT_COLOR = %w[text-gray-400 dark:text-neutral-600].freeze
+    DIMMED_TEXT_COLOR = %w[text-dim-lg].freeze
 
     include CellBehaviors
 

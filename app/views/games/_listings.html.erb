@@ -5,7 +5,7 @@
     <% view.listings_grouped_by_date.each do |listings_date, listings| %>
       <div class="space-y-3">
         <h3><%= listings_date %></h3>
-        <h4 class="h5 text-gray-600 dark:text-neutral-400">
+        <h4 class="h5 text-dim-sm">
           Tally: <%= render("games/engagement_tally", view: listings_date) %>
         </h4>
         <div
@@ -17,11 +17,7 @@
         >
           <% listings.each do |listing| %>
             <%= link_to(listing.game_url, class: "group whitespace-nowrap") do %>
-              <span
-                class="
-                  text-gray-500 dark:text-neutral-400 group-hover:text-inherit
-                "
-              >
+              <span class="text-dim group-hover:text-inherit">
                 #<%= listing.game_number %>
                 <abbr
                   title="<%= listing.type %>"
@@ -32,7 +28,7 @@
                   title="Score (lower is better)"
                   class="
                     -ml-2 before:content-[':']
-                    text-gray-500 dark:text-neutral-400
+                    text-dim
                     group-hover:text-inherit
                   "
                 ><%= listing.game_score %></abbr>
@@ -48,7 +44,7 @@
     <div
       class="
         mt-12 p-12
-        text-center italic text-gray-500 dark:text-neutral-400
+        text-center italic text-dim
         border border-dashed
         border-gray-300 dark:border-y-neutral-600
       "

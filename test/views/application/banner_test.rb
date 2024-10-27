@@ -14,7 +14,7 @@ class Application::BannerTest < ActiveSupport::TestCase
       subject { banner1 }
 
       it "returns the expected String" do
-        _(subject.button_css_class).must_include("text-gray-500")
+        _(subject.button_css_class).must_include("text-dim")
       end
     end
 

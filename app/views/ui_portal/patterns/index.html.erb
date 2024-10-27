@@ -19,9 +19,7 @@
           "
         >
           <div class="flex gap-x-3">
-            <span class="text-gray-500 dark:text-neutral-400">
-              #<%= listing.id %>
-            </span>
+            <span class="text-dim">#<%= listing.id %></span>
 
             <div class="flex justify-between w-full">
               <%= link_to(listing.name, listing.show_pattern_url) %>
@@ -38,9 +36,7 @@
             </div>
           </div>
 
-          <p class="text-gray-500 dark:text-neutral-400">
-            <%= listing.timestamp %>
-          </p>
+          <p class="text-dim"><%= listing.timestamp %></p>
         </div>
       <% end %>
     <% end %>

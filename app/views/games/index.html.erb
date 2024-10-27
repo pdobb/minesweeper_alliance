@@ -23,8 +23,8 @@
                 class: %w[
                   form-select w-full sm:w-auto
                   pl-0 md:pl-1 py-1 pr-10 sm:pr-0
-                  text-gray-500 dark:text-neutral-400
                   border-b-transparent dark:border-b-transparent
+                  text-dim
                 ]) %>
       <% end %>
     <% end %>
@@ -44,7 +44,7 @@
                 type.games_filter_url,
                 class: type.css_classes,
                 data: { turbo_prefetch: "false" }) %>
-          <span class="text-gray-400 dark:text-gray-500">
+          <span class="text-dim-lg">
             (<%= type.games_count %> /
             <%= number_to_percentage(type.games_percent, precision: 0) %>)
           </span>
