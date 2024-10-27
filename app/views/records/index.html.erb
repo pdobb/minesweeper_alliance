@@ -1,0 +1,73 @@
+<% title("Records") %>
+
+<% cache_unless(App.debug?, @view.cache_key) do %>
+  <div class="container mx-auto space-y-12">
+    <h1><%= title %></h1>
+
+    <div class="space-y-6">
+      <h2
+        class="
+          border-b border-dotted
+          border-b-300 dark:border-b-neutral-600
+        "
+      >Engagements</h2>
+
+      <div class="flex max-lg:flex-col gap-x-24 gap-y-6">
+        <% @view.top_games_by_type.each do |top_games| %>
+          <div class="space-y-3">
+            <h3><%= top_games.type %></h3>
+
+            <table
+              class="
+                -mx-6 -my-2
+                table-fixed
+                border-separate border-spacing-x-6 border-spacing-y-2
+                text-left
+              "
+            >
+              <thead>
+                <tr>
+                  <th>Rank</th>
+                  <th class="min-w-[100px]">
+                    <dfn
+                      data-tooltip="<%= t("terms.score") %>"
+                      class="after:w-72"
+                    >Score</dfn>
+                  </th>
+                  <th>
+                    <dfn
+                      data-tooltip="The number of participating Minesweepers"
+                      class="sm:after:w-72"
+                    ># <span class="lg:max-xl:hidden">Sweepers</span></dfn>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <% top_games.limit.times do |index| %>
+                  <% top_games.listings[index].tap do |listing| %>
+                    <tr>
+                      <td><%= index.next %></td>
+                      <% if listing %>
+                        <td>
+                          <%= link_to(listing.game_score, listing.game_url) %>
+                        </td>
+                        <td><%= listing.players_count %></td>
+                      <% else %>
+                        <td class="text-gray-300 dark:text-neutral-500">
+                          <%= @view.no_value_indicator %>
+                        </td>
+                        <td class="text-gray-300 dark:text-neutral-500">
+                          <%= @view.no_value_indicator %>
+                        </td>
+                      <% end %>
+                    </tr>
+                  <% end %>
+                <% end %>
+              </tbody>
+            </table>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+<% end %>

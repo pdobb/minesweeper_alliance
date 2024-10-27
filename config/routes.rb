@@ -29,6 +29,8 @@ Rails.application.routes.draw do
     resources :games, only: :show, module: :users
   end
 
+  resources :records, only: :index
+
   resource :about, controller: :about, only: :show
 
   resource :current_user, only: [] do
