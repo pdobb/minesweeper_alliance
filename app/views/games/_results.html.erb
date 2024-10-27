@@ -5,12 +5,6 @@
     <span class="sr-only">Engagement Date:</span>
     <%= view.game_engagement_date %>
     <%= view.game_engagement_time_range(self) %>
-
-    <small class="text-gray-500 dark:text-neutral-400">
-      (<time
-        datetime="PT<%= view.duration.to_i %>S"
-      ><%= view.duration %></time>)
-    </small>
   </h3>
 </div>
 
@@ -49,7 +43,11 @@
                     class="after:w-80"
                   >Score</dfn>
                 </th>
-                <td><%= stats.game_score %></td>
+                <td>
+                  <time
+                    datetime="PT<%= stats.game_score %>S"
+                  ><%= stats.game_score %></time>
+                </td>
               </tr>
               <tr>
                 <th>

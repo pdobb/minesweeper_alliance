@@ -13,20 +13,16 @@ class Games::Results
   end
 
   def game_engagement_date
-    I18n.l(game.ended_at.to_date, format: :weekday_comma_date)
+    I18n.l(game_ended_at.to_date, format: :weekday_comma_date)
   end
 
   def game_engagement_time_range(template)
     template.safe_join(
       [
-        I18n.l(game.started_at, format: :hours_minutes_seconds),
-        I18n.l(game.ended_at, format: :hours_minutes_seconds),
+        I18n.l(game_started_at, format: :hours_minutes_seconds),
+        I18n.l(game_ended_at, format: :hours_minutes_seconds),
       ],
       "&ndash;".html_safe)
-  end
-
-  def duration
-    Duration.new(game.started_at..game.ended_at)
   end
 
   def stats
@@ -41,4 +37,7 @@ class Games::Results
 
   attr_reader :game,
               :user
+
+  def game_started_at = game.started_at
+  def game_ended_at = game.ended_at
 end
