@@ -3,13 +3,7 @@
 <%= turbo_stream_from(:sweep_ops_archive) %>
 
 <div class="container mx-auto space-y-12">
-  <div
-    class="
-      flex flex-col lg:flex-row
-      content-start lg:justify-between lg:items-end
-      gap-y-6
-    "
-  >
+  <div class="flex max-lg:flex-col justify-between gap-y-6">
     <h1><%= title %></h1>
 
     <% @view.time_zone_form(user: current_user).tap do |form| %>
@@ -21,7 +15,7 @@
                 {},
                 data: { action: "time-zone#select" },
                 class: %w[
-                  form-select w-full sm:w-auto
+                  form-select max-sm:w-full
                   pl-0 md:pl-1 py-1 pr-10 sm:pr-0
                   border-b-transparent dark:border-b-transparent
                   text-dim

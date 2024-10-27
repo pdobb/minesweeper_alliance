@@ -3,16 +3,16 @@
 <div
   class="
     container mx-auto
-    flex flex-col lg:flex-row gap-y-6
+    flex max-lg:flex-col gap-y-6
     justify-between items-center
   "
 >
-  <nav class="lg:order-2 w-full lg:w-fit">
+  <nav class="lg:order-2 max-lg:w-full">
     <ul class="flex justify-between items-center gap-x-24 lg:gap-x-8">
       <li><%= active_link_to("About", about_path) %></li>
       <li
         class="
-          hidden lg:inline
+          max-lg:hidden
           border-l border-gray-300 dark:border-neutral-600
           self-stretch
         "
