@@ -21,133 +21,137 @@
 
       <div class="flex max-md:flex-col gap-x-24 gap-y-8 items-start">
         <div class="space-y-6">
-          <h3>Stats</h3>
+          <h3>Duty Log</h3>
 
-          <table
-            class="
-               -mx-6 -my-2
-               border-separate border-spacing-x-6 border-spacing-y-2
-               text-left
-            "
-          >
-            <tbody>
-              <tr>
-                <th>Engagements</th>
-                <td><%= @view.games_count %></td>
-              </tr>
-              <tr>
-                <th>Victories</th>
-                <td><%= @view.winning_games_count %></td>
-              </tr>
-              <tr>
-                <th>Defeats</th>
-                <td><%= @view.losing_games_count %></td>
-              </tr>
+          <% @view.duty_log.tap do |duty_log| %>
+            <table
+              class="
+                 -mx-6 -my-2
+                 border-separate border-spacing-x-6 border-spacing-y-2
+                 text-left
+              "
+            >
+              <tbody>
+                <tr>
+                  <th>Engagements</th>
+                  <td><%= duty_log.games_count %></td>
+                </tr>
+                <tr>
+                  <th>Victories</th>
+                  <td><%= duty_log.winning_games_count %></td>
+                </tr>
+                <tr>
+                  <th>Defeats</th>
+                  <td><%= duty_log.losing_games_count %></td>
+                </tr>
 
-              <tr><td colspan="2" class="select-none">&nbsp;</td></tr>
+                <tr><td colspan="2" class="select-none">&nbsp;</td></tr>
 
-              <tr>
-                <th>Cells Revealed</th>
-                <td><%= @view.reveals_count %></td>
-              </tr>
-              <tr>
-                <th>
-                  <dfn
-                    data-tooltip="<%= t("terms.chords") %>"
-                    class="after:w-80"
-                  >Chords</dfn>
-                </th>
-                <td><%= @view.chords_count %></td>
-              </tr>
-              <tr>
-                <th>Flags Placed</th>
-                <td><%= @view.flags_count %></td>
-              </tr>
-              <tr>
-                <th>Flags Removed</th>
-                <td><%= @view.unflags_count %></td>
-              </tr>
-              <tr>
-                <th>Mines Detonated</th>
-                <td><%= @view.tripped_mines_count %></td>
-              </tr>
-            </tbody>
-          </table>
+                <tr>
+                  <th>Cells Revealed</th>
+                  <td><%= duty_log.reveals_count %></td>
+                </tr>
+                <tr>
+                  <th>
+                    <dfn
+                      data-tooltip="<%= t("terms.chords") %>"
+                      class="after:w-80"
+                    >Chords</dfn>
+                  </th>
+                  <td><%= duty_log.chords_count %></td>
+                </tr>
+                <tr>
+                  <th>Flags Placed</th>
+                  <td><%= duty_log.flags_count %></td>
+                </tr>
+                <tr>
+                  <th>Flags Removed</th>
+                  <td><%= duty_log.unflags_count %></td>
+                </tr>
+                <tr>
+                  <th>Mines Detonated</th>
+                  <td><%= duty_log.tripped_mines_count %></td>
+                </tr>
+              </tbody>
+            </table>
+          <% end %>
         </div>
 
         <div class="space-y-6">
-          <h3>Records</h3>
+          <h3>Bests</h3>
 
-          <table
-            class="
-               -mx-6 -my-2
-               border-separate border-spacing-x-6 border-spacing-y-2
-               text-left
-            "
-          >
-            <tbody>
-              <tr>
-                <th colspan="2">
-                  <dfn
-                    data-tooltip="<%= t("terms.score") %>"
-                    class="after:w-72"
-                  >Score</dfn>
-                </th>
-              </tr>
-              <tr>
-                <th class="pl-6">Beginner</th>
-                <td><%= @view.best_beginner_score %></td>
-              </tr>
-              <tr>
-                <th class="pl-6">Intermediate</th>
-                <td><%= @view.best_intermediate_score %></td>
-              </tr>
-              <tr>
-                <th class="pl-6">Expert</th>
-                <td><%= @view.best_expert_score %></td>
-              </tr>
-              <tr>
-                <th colspan="2">
-                  <dfn
-                    data-tooltip="<%= t("terms.bbbvps") %>"
-                    class="after:w-80"
-                  >3BV/s</dfn>
-                </th>
-              </tr>
-              <tr>
-                <th class="pl-6">Beginner</th>
-                <td><%= @view.best_beginner_bbbvps %></td>
-              </tr>
-              <tr>
-                <th class="pl-6">Intermediate</th>
-                <td><%= @view.best_intermediate_bbbvps %></td>
-              </tr>
-              <tr>
-                <th class="pl-6">Expert</th>
-                <td><%= @view.best_expert_bbbvps %></td>
-              </tr>
-              <tr>
-                <th colspan="2">
-                  <dfn
-                    data-tooltip="<%= t("terms.efficiency") %>"
-                    class="after:w-80"
-                  >Efficiency</dfn>
-                </th>
-              </tr>
-              <tr>
-                <th class="pl-6">Beginner</th>
-                <td><%= @view.best_beginner_efficiency %></td>
-              </tr>
-              <tr>
-                <th class="pl-6">Intermediate</th>
-                <td><%= @view.best_intermediate_efficiency %></td>
-              </tr>
-              <tr>
-                <th class="pl-6">Expert</th>
-                <td><%= @view.best_expert_efficiency %></td>
-              </tr>
-            </tbody>
-          </table>
+          <% @view.bests.tap do |bests| %>
+            <table
+              class="
+                 -mx-6 -my-2
+                 border-separate border-spacing-x-6 border-spacing-y-2
+                 text-left
+              "
+            >
+              <tbody>
+                <tr>
+                  <th colspan="2">
+                    <dfn
+                      data-tooltip="<%= t("terms.score") %>"
+                      class="after:w-72"
+                    >Score</dfn>
+                  </th>
+                </tr>
+                <tr>
+                  <th class="pl-6">Beginner</th>
+                  <td><%= bests.beginner_score %></td>
+                </tr>
+                <tr>
+                  <th class="pl-6">Intermediate</th>
+                  <td><%= bests.intermediate_score %></td>
+                </tr>
+                <tr>
+                  <th class="pl-6">Expert</th>
+                  <td><%= bests.expert_score %></td>
+                </tr>
+                <tr>
+                  <th colspan="2">
+                    <dfn
+                      data-tooltip="<%= t("terms.bbbvps") %>"
+                      class="after:w-80"
+                    >3BV/s</dfn>
+                  </th>
+                </tr>
+                <tr>
+                  <th class="pl-6">Beginner</th>
+                  <td><%= bests.beginner_bbbvps %></td>
+                </tr>
+                <tr>
+                  <th class="pl-6">Intermediate</th>
+                  <td><%= bests.intermediate_bbbvps %></td>
+                </tr>
+                <tr>
+                  <th class="pl-6">Expert</th>
+                  <td><%= bests.expert_bbbvps %></td>
+                </tr>
+                <tr>
+                  <th colspan="2">
+                    <dfn
+                      data-tooltip="<%= t("terms.efficiency") %>"
+                      class="after:w-80"
+                    >Efficiency</dfn>
+                  </th>
+                </tr>
+                <tr>
+                  <th class="pl-6">Beginner</th>
+                  <td><%= bests.beginner_efficiency %></td>
+                </tr>
+                <tr>
+                  <th class="pl-6">Intermediate</th>
+                  <td><%= bests.intermediate_efficiency %></td>
+                </tr>
+                <tr>
+                  <th class="pl-6">Expert</th>
+                  <td><%= bests.expert_efficiency %></td>
+                </tr>
+              </tbody>
+            </table>
+          <% end %>
         </div>
       </div>
     </div>
@@ -155,17 +159,17 @@
     <hr class="my-12 border-dotted dark:border-neutral-600">
 
     <div class="space-y-12">
-      <% games = @view.games %>
+      <% @view.games.tap do |games| %>
+        <div class="space-y-8">
+          <h2>Past Engagements</h2>
 
-      <div class="space-y-8">
-        <h2>Past Engagements</h2>
+          <h3 class="text-center">
+            <%= render("games/engagement_tally", view: games.engagement_tally) %>
+          </h3>
+        </div>
 
-        <h3 class="text-center">
-          <%= render("games/engagement_tally", view: games.engagement_tally) %>
-        </h3>
-      </div>
-
-      <%= render("games/listings", view: games) %>
+        <%= render("games/listings", view: games) %>
+      <% end %>
     </div>
   <% end %>
 </div>
