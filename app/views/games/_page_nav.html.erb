@@ -8,8 +8,10 @@
       *:no-underline
     "
   >
-    <%= link_to(nav.close_game_url, title: "Close Op") do %>
-      <%= inline_svg_tag("heroicons/x-mark.svg") %>
+    <% if nav.show_close_button? %>
+      <%= link_to(nav.close_game_url, title: "Close Op") do %>
+        <%= inline_svg_tag("heroicons/x-mark.svg") %>
+      <% end %>
     <% end %>
 
     <% if nav.previous_game? %>
@@ -30,6 +32,12 @@
       <%= inline_svg_tag(
             "heroicons/arrow-long-right.svg",
             class: %w[stroke-gray-300 dark:stroke-neutral-600]) %>
+    <% end %>
+
+    <% if nav.show_current_game_button? %>
+      <%= link_to(nav.current_game_url, title: "War Room") do %>
+        <%= inline_svg_tag("heroicons/arrow-right-circle.svg") %>
+      <% end %>
     <% end %>
   </div>
 </div>

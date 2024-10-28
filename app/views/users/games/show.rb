@@ -26,6 +26,8 @@ class Users::Games::Show < Games::Show
       @user = user
     end
 
+    def show_close_button? = true
+
     def close_game_url(router = RailsRouter.instance)
       router.user_path(user)
     end
@@ -37,6 +39,8 @@ class Users::Games::Show < Games::Show
     def next_game_url(router = RailsRouter.instance)
       router.user_game_path(user, next_game)
     end
+
+    def show_current_game_button? = false
 
     private
 

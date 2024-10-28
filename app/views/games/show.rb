@@ -103,9 +103,7 @@ class Games::Show
       @game = game
     end
 
-    def close_game_url(router = RailsRouter.instance)
-      router.games_path
-    end
+    def show_close_button? = false
 
     def previous_game? = !!previous_game
 
@@ -117,6 +115,12 @@ class Games::Show
 
     def next_game_url(router = RailsRouter.instance)
       router.game_path(next_game)
+    end
+
+    def show_current_game_button? = true
+
+    def current_game_url(router = RailsRouter.instance)
+      router.root_path
     end
 
     private
