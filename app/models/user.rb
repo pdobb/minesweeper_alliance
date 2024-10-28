@@ -59,6 +59,36 @@ class User < ApplicationRecord
     game.users.for_id(self).exists?
   end
 
+  def bests = @bests ||= Bests.new(self)
+
+  # User::Bests is a specialization on User for finding "best" (e.g.
+  # top-scoring) {Game}s.
+  class Bests
+    def initialize(user)
+      @user = user
+    end
+
+    def beginner_score = games.for_beginner_type.by_score_asc.take
+    def intermediate_score = games.for_intermediate_type.by_score_asc.take
+    def expert_score = games.for_expert_type.by_score_asc.take
+
+    def beginner_bbbvps = games.for_beginner_type.by_bbbvps_desc.take
+    def intermediate_bbbvps = games.for_intermediate_type.by_bbbvps_desc.take
+    def expert_bbbvps = games.for_expert_type.by_bbbvps_desc.take
+
+    # rubocop:disable Layout/LineLength
+    def beginner_efficiency = games.for_beginner_type.by_efficiency_desc.take
+    def intermediate_efficiency = games.for_intermediate_type.by_efficiency_desc.take
+    def expert_efficiency = games.for_expert_type.by_efficiency_desc.take
+    # rubocop:enable Layout/LineLength
+
+    private
+
+    attr_reader :user
+
+    def games = user.games
+  end
+
   # User::Console acts like a {User} but otherwise handles IRB Console-specific
   # methods/logic.
   class Console

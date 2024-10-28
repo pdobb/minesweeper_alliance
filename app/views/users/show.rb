@@ -117,63 +117,126 @@ class Users::Show
       @user = user
     end
 
-    def overall_score = score(_overall_score)
-    def beginner_score = score(_beginner_score)
-    def intermediate_score = score(_intermediate_score)
-    def expert_score = score(_expert_score)
-
-    def overall_bbbvps = bbbvps(_overall_bbbvps)
-    def beginner_bbbvps = bbbvps(_beginner_bbbvps)
-    def intermediate_bbbvps = bbbvps(_intermediate_bbbvps)
-    def expert_bbbvps = bbbvps(_expert_bbbvps)
-
-    def overall_efficiency = efficiency(_overall_efficiency)
-    def beginner_efficiency = efficiency(_beginner_efficiency)
-    def intermediate_efficiency = efficiency(_intermediate_efficiency)
-    def expert_efficiency = efficiency(_expert_efficiency)
+    def score = Score.new(user:)
+    def bbbvps = BBBVPS.new(user:)
+    def efficiency = Efficiency.new(user:)
 
     private
 
     attr_reader :user
 
-    def score(value)
-      valuify(value) { |score| score.round(DEFAULT_PRECISION) }
+    # :reek:ModuleInitialize
+
+    # Users::Show::Bests::Behaviors
+    module Behaviors
+      def initialize(user:)
+        @user = user
+      end
+
+      def valuify(value)
+        value ? yield(value) : NO_VALUE_INDICATOR
+      end
+
+      private
+
+      attr_reader :user
+
+      def user_bests = @user_bests ||= user.bests
+
+      def url_for(game, router: RailsRouter.instance)
+        router.user_game_path(user, game) if game
+      end
+
+      def games_arel = user.games
+      def helpers = ActionController::Base.helpers
     end
 
-    def _beginner_score = _score(games_arel.for_beginner_type)
-    def _intermediate_score = _score(games_arel.for_intermediate_type)
-    def _expert_score = _score(games_arel.for_expert_type)
-    def _score(arel) = arel.by_score_asc.pick(:score)
+    # Users::Show::Bests::Score
+    class Score
+      include Behaviors
 
-    def bbbvps(value)
-      valuify(value) { |bbbvps| bbbvps.round(DEFAULT_PRECISION) }
+      def beginner_score? = !!_beginner
+      def beginner_score = score(_beginner)
+      def beginner_score_url = url_for(_beginner)
+
+      def intermediate_score? = !!_intermediate
+      def intermediate_score = score(_intermediate)
+      def intermediate_score_url = url_for(_intermediate)
+
+      def expert_score? = !!_expert
+      def expert_score = score(_expert)
+      def expert_score_url = url_for(_expert)
+
+      private
+
+      def score(game)
+        valuify(game&.score) { |score| score.round(DEFAULT_PRECISION) }
+      end
+
+      def _beginner = @_beginner ||= user_bests.beginner_score
+      def _intermediate = @_intermediate ||= user_bests.intermediate_score
+      def _expert = @_expert ||= user_bests.expert_score
     end
 
-    def _beginner_bbbvps = _bbbvps(games_arel.for_beginner_type)
-    def _intermediate_bbbvps = _bbbvps(games_arel.for_intermediate_type)
-    def _expert_bbbvps = _bbbvps(games_arel.for_expert_type)
-    def _bbbvps(arel) = arel.by_bbbvps_desc.pick(:bbbvps)
+    # Users::Show::Bests::BBBVPS
+    class BBBVPS
+      include Behaviors
 
-    def efficiency(value)
-      valuify(value) { |efficiency| percentage(efficiency * 100.0) }
+      def beginner_bbbvps? = !!_beginner
+      def beginner_bbbvps = bbbvps(_beginner)
+      def beginner_bbbvps_url = url_for(_beginner)
+
+      def intermediate_bbbvps? = !!_intermediate
+      def intermediate_bbbvps = bbbvps(_intermediate)
+      def intermediate_bbbvps_url = url_for(_intermediate)
+
+      def expert_bbbvps? = !!_expert
+      def expert_bbbvps = bbbvps(_expert)
+      def expert_bbbvps_url = url_for(_expert)
+
+      private
+
+      def bbbvps(game)
+        valuify(game&.bbbvps) { |bbbvps| bbbvps.round(DEFAULT_PRECISION) }
+      end
+
+      def _beginner = @_beginner ||= user_bests.beginner_bbbvps
+      def _intermediate = @_intermediate ||= user_bests.intermediate_bbbvps
+      def _expert = @_expert ||= user_bests.expert_bbbvps
     end
 
-    def _beginner_efficiency = _efficiency(games_arel.for_beginner_type)
-    def _intermediate_efficiency = _efficiency(games_arel.for_intermediate_type)
-    def _expert_efficiency = _efficiency(games_arel.for_expert_type)
-    def _efficiency(arel) = arel.by_efficiency_desc.pick(:efficiency)
+    # Users::Show::Bests::Efficiency
+    class Efficiency
+      include Behaviors
 
-    def games_arel = user.games
+      def beginner_efficiency? = !!_beginner
+      def beginner_efficiency = efficiency(_beginner)
+      def beginner_efficiency_url = url_for(_beginner)
 
-    def valuify(value)
-      value ? yield(value) : NO_VALUE_INDICATOR
+      def intermediate_efficiency? = !!_intermediate
+      def intermediate_efficiency = efficiency(_intermediate)
+      def intermediate_efficiency_url = url_for(_intermediate)
+
+      def expert_efficiency? = !!_expert
+      def expert_efficiency = efficiency(_expert)
+      def expert_efficiency_url = url_for(_expert)
+
+      private
+
+      def efficiency(game)
+        valuify(game&.efficiency) { |efficiency|
+          percentage(efficiency * 100.0)
+        }
+      end
+
+      def _beginner = @_beginner ||= user_bests.beginner_efficiency
+      def _intermediate = @_intermediate ||= user_bests.intermediate_efficiency
+      def _expert = @_expert ||= user_bests.expert_efficiency
+
+      def percentage(value, precision: DEFAULT_PRECISION)
+        helpers.number_to_percentage(value, precision:)
+      end
     end
-
-    def percentage(value, precision: DEFAULT_PRECISION)
-      helpers.number_to_percentage(value, precision:)
-    end
-
-    def helpers = ActionController::Base.helpers
   end
 
   # Users::Show::Games is a View Model for displaying a user's past {Game}s on

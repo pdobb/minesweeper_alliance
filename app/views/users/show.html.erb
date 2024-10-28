@@ -97,18 +97,35 @@
                     >Score</dfn>
                   </th>
                 </tr>
-                <tr>
-                  <th class="pl-6">Beginner</th>
-                  <td><%= bests.beginner_score %></td>
-                </tr>
-                <tr>
-                  <th class="pl-6">Intermediate</th>
-                  <td><%= bests.intermediate_score %></td>
-                </tr>
-                <tr>
-                  <th class="pl-6">Expert</th>
-                  <td><%= bests.expert_score %></td>
-                </tr>
+                <% bests.score.tap do |best| %>
+                  <tr>
+                    <th class="pl-6">Beginner</th>
+                    <td>
+                      <%= link_to_if(
+                            best.beginner_score?,
+                            best.beginner_score,
+                            best.beginner_score_url) %>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th class="pl-6">Intermediate</th>
+                    <td>
+                      <%= link_to_if(
+                            best.intermediate_score?,
+                            best.intermediate_score,
+                            best.intermediate_score_url) %>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th class="pl-6">Expert</th>
+                    <td>
+                      <%= link_to_if(
+                            best.expert_score?,
+                            best.expert_score,
+                            best.expert_score_url) %>
+                    </td>
+                  </tr>
+                <% end %>
                 <tr>
                   <th colspan="2">
                     <dfn
@@ -117,18 +134,35 @@
                     >3BV/s</dfn>
                   </th>
                 </tr>
-                <tr>
-                  <th class="pl-6">Beginner</th>
-                  <td><%= bests.beginner_bbbvps %></td>
-                </tr>
-                <tr>
-                  <th class="pl-6">Intermediate</th>
-                  <td><%= bests.intermediate_bbbvps %></td>
-                </tr>
-                <tr>
-                  <th class="pl-6">Expert</th>
-                  <td><%= bests.expert_bbbvps %></td>
-                </tr>
+                <% bests.bbbvps.tap do |best| %>
+                  <tr>
+                    <th class="pl-6">Beginner</th>
+                    <td>
+                      <%= link_to_if(
+                            best.beginner_bbbvps?,
+                            best.beginner_bbbvps,
+                            best.beginner_bbbvps_url) %>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th class="pl-6">Intermediate</th>
+                    <td>
+                      <%= link_to_if(
+                            best.intermediate_bbbvps?,
+                            best.intermediate_bbbvps,
+                            best.intermediate_bbbvps_url) %>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th class="pl-6">Expert</th>
+                    <td>
+                      <%= link_to_if(
+                            best.expert_bbbvps?,
+                            best.expert_bbbvps,
+                            best.expert_bbbvps_url) %>
+                    </td>
+                  </tr>
+                <% end %>
                 <tr>
                   <th colspan="2">
                     <dfn
@@ -137,18 +171,35 @@
                     >Efficiency</dfn>
                   </th>
                 </tr>
-                <tr>
-                  <th class="pl-6">Beginner</th>
-                  <td><%= bests.beginner_efficiency %></td>
-                </tr>
-                <tr>
-                  <th class="pl-6">Intermediate</th>
-                  <td><%= bests.intermediate_efficiency %></td>
-                </tr>
-                <tr>
-                  <th class="pl-6">Expert</th>
-                  <td><%= bests.expert_efficiency %></td>
-                </tr>
+                <% bests.efficiency.tap do |best| %>
+                  <tr>
+                    <th class="pl-6">Beginner</th>
+                    <td>
+                      <%= link_to_if(
+                            best.beginner_efficiency?,
+                            best.beginner_efficiency,
+                            best.beginner_efficiency_url) %>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th class="pl-6">Intermediate</th>
+                    <td>
+                      <%= link_to_if(
+                            best.intermediate_efficiency?,
+                            best.intermediate_efficiency,
+                            best.intermediate_efficiency_url) %>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th class="pl-6">Expert</th>
+                    <td>
+                      <%= link_to_if(
+                            best.expert_efficiency?,
+                            best.expert_efficiency,
+                            best.expert_efficiency_url) %>
+                    </td>
+                  </tr>
+                <% end %>
               </tbody>
             </table>
           <% end %>
