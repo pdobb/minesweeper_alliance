@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-# Records::Index is a View Model for displaying the Records Index page.
-class Records::Index
+# Metrics::Show is a View Model for displaying the Metrics Show page.
+class Metrics::Show
   TOP_RECORDS_LIMIT = 3
   NO_VALUE_INDICATOR = "—"
 
@@ -19,8 +19,8 @@ class Records::Index
 
   def no_value_indicator = NO_VALUE_INDICATOR
 
-  # Records::Index::TopGames
-  class TopGames
+  # Metrics::Show::Games
+  class Games
     include AbstractBaseClassBehaviors
 
     as_abstract_class
@@ -37,7 +37,7 @@ class Records::Index
       Game.for_status_alliance_wins.by_score_asc.limit(TOP_RECORDS_LIMIT)
     end
 
-    # Records::Index::TopGames::Listing
+    # Metrics::Show::Games::Listing
     class Listing
       include WrapMethodBehaviors
 
@@ -58,20 +58,20 @@ class Records::Index
     end
   end
 
-  # Records::Index::BeginnerGames
-  class BeginnerGames < Records::Index::TopGames
+  # Metrics::Show::BeginnerGames
+  class BeginnerGames < Metrics::Show::Games
     def type = Board::Settings::BEGINNER
     def arel = base_arel.for_beginner_type
   end
 
-  # Records::Index::IntermediateGames
-  class IntermediateGames < Records::Index::TopGames
+  # Metrics::Show::IntermediateGames
+  class IntermediateGames < Metrics::Show::Games
     def type = Board::Settings::INTERMEDIATE
     def arel = base_arel.for_intermediate_type
   end
 
-  # Records::Index::ExpertGames
-  class ExpertGames < Records::Index::TopGames
+  # Metrics::Show::ExpertGames
+  class ExpertGames < Metrics::Show::Games
     def type = Board::Settings::EXPERT
     def arel = base_arel.for_expert_type
   end

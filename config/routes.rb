@@ -25,11 +25,11 @@ Rails.application.routes.draw do
     resources :customs, only: :create, as: :custom_games
   end
 
+  resource :metrics, only: :show
+
   resources :users, only: :show do
     resources :games, only: :show, module: :users
   end
-
-  resources :records, only: :index
 
   resource :about, controller: :about, only: :show
 

@@ -1,10 +1,10 @@
-<% title("Records") %>
+<% title("Metrics") %>
 
 <% cache_unless(App.debug?, @view.cache_key) do %>
   <div class="container mx-auto space-y-12">
     <h1><%= title %></h1>
 
-    <div class="space-y-6">
+    <div class="space-y-10">
       <h2
         class="
           border-b border-dotted
@@ -12,10 +12,12 @@
         "
       >Engagements</h2>
 
+      <h3 class="h2">Top Scores</h3>
+
       <div class="flex max-lg:flex-col gap-x-24 gap-y-6">
         <% @view.top_games_by_type.each do |top_games| %>
           <div class="space-y-3">
-            <h3><%= top_games.type %></h3>
+            <h4 class="h3"><%= top_games.type %></h4>
 
             <table
               class="
