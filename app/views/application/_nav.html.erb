@@ -1,6 +1,6 @@
 <%# locals: () %>
 
-<nav class="container mx-auto flex justify-between">
+<nav class="relative container mx-auto flex justify-between">
   <ul class="flex gap-x-6 md:gap-x-10 lg:gap-x-12">
     <li><%= active_link_to("War Room", root_path) %></li>
     <li>
@@ -13,4 +13,15 @@
   </ul>
 
   <%= render("application/username") %>
+
+  <% if content_for?(:page_nav) %>
+    <div
+      class="
+        absolute -bottom-12 -left-3 translate-y-1/2 px-2
+        no-active-links
+      "
+    >
+      <%= yield(:page_nav) %>
+    </div>
+  <% end %>
 </nav>

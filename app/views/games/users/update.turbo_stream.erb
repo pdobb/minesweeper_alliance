@@ -17,10 +17,12 @@
 <% end %>
 
 <% if @view.signer_status_just_changed? %>
-  <%= turbo_stream.update(:welcome_banner) do %>
-    <%= render(
-          "home/welcome_banner",
-          view: @view.welcome_banner(context: layout)) %>
+  <% @view.welcome_banner(context: layout).tap do |welcome_banner| %>
+    <% if welcome_banner.show? %>
+      <%= turbo_stream.update(:welcome_banner) do %>
+        <%= render("home/welcome_banner", view: welcome_banner) %>
+      <% end %>
+    <% end %>
   <% end %>
 
   <%= turbo_stream.update(:new_game) do %>

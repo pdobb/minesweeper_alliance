@@ -1,6 +1,8 @@
 <% title("Game ##{@view.game_number}") %>
 
-<%= render("games/page_nav", nav: @view.nav) %>
+<% content_for(:page_nav) do %>
+  <%= render("games/page_nav", nav: @view.nav) %>
+<% end %>
 
 <%= render("games/game", view: @view) %>
 

@@ -1,7 +1,5 @@
 <%# locals: (view:) %>
 
 <%= turbo_frame_tag(view.turbo_frame_name) do %>
-  <% if view.show? %>
-    <%= render("layouts/banner", banner: view.banner) %>
-  <% end %>
+  <%= render("layouts/banner", banner: view.banner) %>
 <% end %>
