@@ -19,9 +19,9 @@
 
       <div class="flex max-md:flex-col gap-x-24 gap-y-8 items-start">
         <div class="space-y-6">
-          <h2 class="h3">Duty Log</h2>
+          <h2 class="h3">Service Record</h2>
 
-          <% @view.duty_log.tap do |duty_log| %>
+          <% @view.service_record.tap do |service_record| %>
             <table
               class="
                  -mx-6 -my-2
@@ -32,22 +32,22 @@
               <tbody>
                 <tr>
                   <th>Engagements</th>
-                  <td><%= duty_log.games_count %></td>
+                  <td><%= service_record.games_count %></td>
                 </tr>
                 <tr>
                   <th>Victories</th>
-                  <td><%= duty_log.winning_games_count %></td>
+                  <td><%= service_record.winning_games_count %></td>
                 </tr>
                 <tr>
                   <th>Defeats</th>
-                  <td><%= duty_log.losing_games_count %></td>
+                  <td><%= service_record.losing_games_count %></td>
                 </tr>
 
                 <tr><td colspan="2" class="select-none">&nbsp;</td></tr>
 
                 <tr>
                   <th>Cells Revealed</th>
-                  <td><%= duty_log.reveals_count %></td>
+                  <td><%= service_record.reveals_count %></td>
                 </tr>
                 <tr>
                   <th>
@@ -56,19 +56,19 @@
                       class="after:w-80"
                     >Chords</dfn>
                   </th>
-                  <td><%= duty_log.chords_count %></td>
+                  <td><%= service_record.chords_count %></td>
                 </tr>
                 <tr>
                   <th>Flags Placed</th>
-                  <td><%= duty_log.flags_count %></td>
+                  <td><%= service_record.flags_count %></td>
                 </tr>
                 <tr>
                   <th>Flags Removed</th>
-                  <td><%= duty_log.unflags_count %></td>
+                  <td><%= service_record.unflags_count %></td>
                 </tr>
                 <tr>
                   <th>Mines Detonated</th>
-                  <td><%= duty_log.tripped_mines_count %></td>
+                  <td><%= service_record.tripped_mines_count %></td>
                 </tr>
               </tbody>
             </table>

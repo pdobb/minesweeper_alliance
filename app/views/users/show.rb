@@ -10,14 +10,14 @@ class Users::Show
   end
 
   def cache_key
-    [user, duty_log.completed_games_count]
+    [user, service_record.completed_games_count]
   end
 
   def display_name = user.display_name
   def enlistment_date = I18n.l(user.created_at.to_date)
 
-  def duty_log
-    @duty_log ||= DutyLog.new(user:)
+  def service_record
+    @service_record ||= ServiceRecord.new(user:)
   end
 
   def bests
@@ -34,8 +34,8 @@ class Users::Show
 
   attr_reader :user
 
-  # Users::Show::DutyLog
-  class DutyLog
+  # Users::Show::ServiceRecord
+  class ServiceRecord
     def initialize(user:)
       @user = user
     end
