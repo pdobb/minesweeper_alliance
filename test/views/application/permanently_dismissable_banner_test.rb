@@ -34,11 +34,11 @@ class Application::PermanentlyDismissableBannerTest < ActiveSupport::TestCase
       end
     end
 
-    describe "#button_css_class" do
+    describe "#button_css" do
       subject { banner1 }
 
       it "returns the expected String" do
-        _(subject.button_css_class).must_include("text-dim")
+        _(subject.button_css).must_include("text-dim")
       end
     end
 

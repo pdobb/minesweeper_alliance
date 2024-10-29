@@ -2,8 +2,8 @@
 
 <div
   data-controller="collapse"
-  data-collapse-button-toggle-class="<%= view.collapsed_button_css_class %>"
-  data-collapse-icon-toggle-class="<%= view.collapsed_icon_css_class %>"
+  data-collapse-button-toggle-class="<%= view.collapsed_button_css %>"
+  data-collapse-icon-toggle-class="<%= view.collapsed_icon_css %>"
   <% if view.respond_to?(:cookie_name) %>
     data-collapse-cookie-name-value="<%= view.cookie_name %>"
   <% end %>
@@ -19,7 +19,7 @@
     aria-expanded="<%= view.open? %>"
     class="
       flex items-center gap-x-3
-      <%= class_names(view.button_css_class) %>
+      <%= class_names(view.button_css) %>
     "
   >
     <%= view.button_text %>
@@ -27,7 +27,7 @@
           "heroicons/chevron-down.svg",
           class:
             "stroke-2 transition-transform "\
-            "#{class_names(view.icon_css_class)}",
+            "#{class_names(view.icon_css)}",
           data: { collapse_target: "icon" }) %>
   </button>
 
@@ -43,7 +43,7 @@
     role="region"
     aria-labelledby="<%= view.button_id %>"
     aria-hidden="<%= view.collapsed? %>"
-    class="<%= class_names(view.section_css_class) %>"
+    class="<%= class_names(view.section_css) %>"
   >
     <%= yield %>
   </div>

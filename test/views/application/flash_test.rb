@@ -83,12 +83,12 @@ class Application::FlashTest < ActiveSupport::TestCase
         unit_class.new(type: :warning, content: "Test warning.")
       }
 
-      describe "#container_css_class" do
+      describe "#container_css" do
         context "GIVEN type = :notice" do
           subject { notice_notification1 }
 
           it "returns the expected String" do
-            _(subject.container_css_class).must_include("text-green-800")
+            _(subject.container_css).must_include("text-green-800")
           end
         end
 
@@ -96,7 +96,7 @@ class Application::FlashTest < ActiveSupport::TestCase
           subject { alert_notification1 }
 
           it "returns the expected String" do
-            _(subject.container_css_class).must_include("text-red-800")
+            _(subject.container_css).must_include("text-red-800")
           end
         end
 
@@ -104,7 +104,7 @@ class Application::FlashTest < ActiveSupport::TestCase
           subject { info_notification1 }
 
           it "returns the expected String" do
-            _(subject.container_css_class).must_include("text-blue-800")
+            _(subject.container_css).must_include("text-blue-800")
           end
         end
 
@@ -112,17 +112,17 @@ class Application::FlashTest < ActiveSupport::TestCase
           subject { warning_notification1 }
 
           it "returns the expected String" do
-            _(subject.container_css_class).must_include("text-yellow-800")
+            _(subject.container_css).must_include("text-yellow-800")
           end
         end
       end
 
-      describe "#button_css_class" do
+      describe "#button_css" do
         context "GIVEN type = :notice" do
           subject { notice_notification1 }
 
           it "returns the expected String" do
-            _(subject.button_css_class).must_include("text-green-500")
+            _(subject.button_css).must_include("text-green-500")
           end
         end
 
@@ -130,7 +130,7 @@ class Application::FlashTest < ActiveSupport::TestCase
           subject { alert_notification1 }
 
           it "returns the expected String" do
-            _(subject.button_css_class).must_include("text-red-500")
+            _(subject.button_css).must_include("text-red-500")
           end
         end
 
@@ -138,7 +138,7 @@ class Application::FlashTest < ActiveSupport::TestCase
           subject { info_notification1 }
 
           it "returns the expected String" do
-            _(subject.button_css_class).must_include("text-blue-500")
+            _(subject.button_css).must_include("text-blue-500")
           end
         end
 
@@ -146,7 +146,7 @@ class Application::FlashTest < ActiveSupport::TestCase
           subject { warning_notification1 }
 
           it "returns the expected String" do
-            _(subject.button_css_class).must_include("text-yellow-500")
+            _(subject.button_css).must_include("text-yellow-500")
           end
         end
       end

@@ -36,7 +36,7 @@
           <%= link_to(
                 "#{type.initials} = #{type.name}",
                 type.games_filter_url,
-                class: type.css_classes,
+                class: type.css,
                 data: { turbo_prefetch: "false" }) %>
           <span class="text-dim-lg">
             (<%= type.games_count %> /

@@ -10,11 +10,11 @@ class Application::BannerTest < ActiveSupport::TestCase
       unit_class.new(content: { text: "Test 1." })
     }
 
-    describe "#button_css_class" do
+    describe "#button_css" do
       subject { banner1 }
 
       it "returns the expected String" do
-        _(subject.button_css_class).must_include("text-dim")
+        _(subject.button_css).must_include("text-dim")
       end
     end
 

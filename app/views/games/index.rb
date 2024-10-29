@@ -104,7 +104,7 @@ class Games::Index
       end
     end
 
-    def css_classes
+    def css
       "active" if filter_active?
     end
 

@@ -42,7 +42,7 @@ class UIPortal::Patterns::Show
     flag_density * 100.0
   end
 
-  def flag_density_css_class
+  def flag_density_css
     if Board::Settings::RANGES.fetch(:mine_density).exclude?(flag_density)
       "text-red-600"
     end

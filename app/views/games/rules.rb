@@ -18,30 +18,30 @@ class Games::Rules
 
   def button_text = "Rules of Engagement"
 
-  def button_css_class
+  def button_css
     [
       "h4",
       "transition-colors",
-      (collapsed_button_css_class if collapsed?),
+      (collapsed_button_css if collapsed?),
     ].tap(&:compact!)
   end
 
-  def collapsed_button_css_class = "text-dim-lg"
+  def collapsed_button_css = "text-dim-lg"
 
-  def icon_css_class
-    collapsed_icon_css_class if collapsed?
+  def icon_css
+    collapsed_icon_css if collapsed?
   end
 
-  def collapsed_icon_css_class = "-rotate-90"
+  def collapsed_icon_css = "-rotate-90"
 
-  def section_css_class
+  def section_css
     [
       "space-y-10",
-      (collapsed_section_css_class if collapsed?),
+      (collapsed_section_css if collapsed?),
     ].tap(&:compact!)
   end
 
-  def collapsed_section_css_class = "hidden"
+  def collapsed_section_css = "hidden"
 
   def open? = !collapsed?
   def collapsed? = cookies[cookie_name].present?

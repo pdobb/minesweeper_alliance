@@ -38,11 +38,11 @@
         <% Dir.glob("app/assets/images/heroicons/*.svg").each do |path| %>
           <%
             basename = File.basename(path)
-            css_class = File.open(path, &:readline)[/class="([^"]*)"/, 1]
+            css = File.open(path, &:readline)[/class="([^"]*)"/, 1]
           %>
           <tr>
             <td><%= inline_svg_tag("heroicons/#{basename}") %></td>
-            <td class="whitespace-nowrap"><%= css_class %></td>
+            <td class="whitespace-nowrap"><%= css %></td>
             <td><code>inline_svg_tag("heroicons/<%= basename %>")</code></td>
           </tr>
         <% end %>

@@ -43,9 +43,9 @@ class Application::Flash
                 :content,
                 :timeout
 
-    def self.css_classes_map
+    def self.css_map
       # rubocop:disable Layout/MultilineArrayLineBreaks
-      @css_classes_map ||= {
+      @css_map ||= {
         notice: {
           container: %w[
             bg-green-50 dark:bg-neutral-900
@@ -119,12 +119,12 @@ class Application::Flash
       end
     end
 
-    def container_css_class
-      Array.wrap(css_classes.fetch(:container))
+    def container_css
+      Array.wrap(css.fetch(:container))
     end
 
-    def button_css_class
-      Array.wrap(css_classes.fetch(:button))
+    def button_css
+      Array.wrap(css.fetch(:button))
     end
 
     def timeout_in_milliseconds
@@ -139,8 +139,8 @@ class Application::Flash
 
     private
 
-    def css_classes
-      self.class.css_classes_map.fetch(type)
+    def css
+      self.class.css_map.fetch(type)
     end
   end
 end

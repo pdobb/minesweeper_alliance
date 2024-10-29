@@ -9,9 +9,9 @@ class Application::PermanentlyDismissableBanner
   attr_reader :name,
               :content
 
-  def self.css_classes
+  def self.css
     # rubocop:disable Layout/MultilineArrayLineBreaks
-    @css_classes ||= {
+    @css ||= {
       button: %w[
         hover:bg-gray-200 dark:hover:bg-neutral-700
         text-dim
@@ -36,7 +36,7 @@ class Application::PermanentlyDismissableBanner
     @context = context
   end
 
-  def button_css_class = css_classes.fetch(:button)
+  def button_css = css.fetch(:button)
 
   # Whether or not the context (generally the object that instantiate this
   # object) wants the dismissal button to be shown.
@@ -49,5 +49,5 @@ class Application::PermanentlyDismissableBanner
 
   attr_reader :context
 
-  def css_classes = self.class.css_classes
+  def css = self.class.css
 end

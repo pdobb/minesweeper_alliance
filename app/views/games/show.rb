@@ -30,7 +30,7 @@ class Games::Show
   def game_on? = game.on?
   def game_just_ended? = game.just_ended?
 
-  def game_status_css_class
+  def game_status_css
     if game.status_alliance_wins?
       %w[text-green-700 dark:text-green-600]
     elsif game.status_mines_win?
@@ -214,7 +214,7 @@ class Games::Show
       end
     end
 
-    def css_classes
+    def css
       raise NotImplementedError
     end
 
@@ -239,7 +239,7 @@ class Games::Show
     def unrevealed? = !to_model.revealed?
     def highlighted? = to_model.highlighted?
 
-    def css_classes
+    def css
       if highlighted?
         [BG_HIGHLIGHTED_COLOR, HIGHLIGHTED_ANIMATION]
       elsif mine? && App.debug?
@@ -286,7 +286,7 @@ class Games::Show
       end
     end
 
-    def css_classes
+    def css
       if revealed?
         mine? ? BG_ERROR_COLOR : DIMMED_TEXT_COLOR
       elsif incorrectly_flagged?
