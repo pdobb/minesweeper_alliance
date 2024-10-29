@@ -56,7 +56,7 @@
     data-controller="theme time-zone"
     data-theme-active-theme-button-class="text-red-700 dark:text-red-600"
     data-time-zone-update-url-value="<%= current_user_time_zone_update_path %>"
-    class="flex flex-col h-screen"
+    class="flex flex-col gap-y-12 h-screen"
   >
     <%= render("layouts/flash/container") %>
 
@@ -69,14 +69,13 @@
       <%= render("nav") %>
     </header>
 
-    <main class="my-12 px-6 lg:px-12">
+    <main class="px-6 lg:px-12">
       <%= yield %>
     </main>
 
     <footer
       class="
-        mt-auto
-        px-6 lg:px-12 py-6
+        mt-auto px-6 lg:px-12 py-6
         border-t border-t-300 dark:border-t-neutral-700
       "
     >

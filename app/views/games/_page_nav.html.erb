@@ -21,7 +21,7 @@
     <% else %>
       <%= inline_svg_tag(
             "heroicons/arrow-long-left.svg",
-            class: %w[stroke-gray-300 dark:stroke-neutral-600]) %>
+            class: "text-dim-xl") %>
     <% end %>
 
     <% if nav.next_game? %>
@@ -31,7 +31,7 @@
     <% else %>
       <%= inline_svg_tag(
             "heroicons/arrow-long-right.svg",
-            class: %w[stroke-gray-300 dark:stroke-neutral-600]) %>
+            class: "text-dim-xl") %>
     <% end %>
 
     <% if nav.show_current_game_button? %>
