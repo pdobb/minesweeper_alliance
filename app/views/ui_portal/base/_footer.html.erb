@@ -1,16 +1,5 @@
 <%# locals: () %>
 
-<nav class="container mx-auto flex justify-between">
-  <%= link_to(
-        root_path,
-        title: "Exit Portal",
-        class: %w[
-          -my-3 hover:border-b-transparent dark:hover:border-b-transparent
-        ]) do %>
-    <%= inline_svg_tag(
-          "heroicons/arrow-left-circle.svg",
-          class: "inline-block") %>
-  <% end %>
-
+<nav class="container mx-auto flex justify-end">
   <%= render("layouts/theme_selector") %>
 </nav>
