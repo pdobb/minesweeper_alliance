@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class UIPortal::FlashNotificationsController < UIPortal::BaseController
-  def index
+  def show
     now = l(Time.current, format: :debug)
 
     types = Application::Flash.notification_types
