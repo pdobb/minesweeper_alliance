@@ -7,7 +7,7 @@
 <%= render("games/game", view: @view) %>
 
 <div class="container mx-auto">
-  <hr class="my-12 border-dotted dark:border-neutral-600">
+  <hr>
 
   <%= render("games/results", view: @view.results(user: current_user)) %>
 </div>
