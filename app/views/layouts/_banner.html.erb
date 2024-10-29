@@ -1,7 +1,6 @@
 <%# locals: (banner:) %>
 
 <div
-  role="banner"
   data-controller="banner"
   <% if banner.permanently_dismissable? %>
     data-banner-permanently-dismissable-value="<%= banner.permanently_dismissable? %>"
@@ -9,27 +8,28 @@
   <% end %>
   data-banner-hide-class="opacity-0"
   data-action="transitionend->banner#remove"
-  class="mb-12 text-center text-balance transition-opacity ease-in"
+  role="banner"
+  class="
+    mx-auto mb-12 max-w-4xl
+    flex gap-x-6 items-baseline justify-center
+    transition-opacity ease-in
+  "
 >
-  <span class="sr-only">Banner</span>
+  <p class="text-center text-balance"><%= banner.content %></p>
 
-  <div class="flex gap-x-6 items-baseline">
-    <p><%= banner.content %></p>
-
-    <% if banner.show_dismissal_button? %>
-      <button
-        type="button"
-        data-action="banner#dismiss"
-        class="
-          -m-1.5 p-2 rounded-lg
-          focus:ring-2 focus:animate-pulse-fast
-          <%= class_names(banner.button_css_class) %>
-        "
-        aria-label="Dismiss"
-      >
-        <span class="sr-only">Dismiss</span>
-        <%= inline_svg_tag("heroicons/x-mark.svg", class: "stroke-2") %>
-      </button>
-    <% end %>
-  </div>
+  <% if banner.show_dismissal_button? %>
+    <button
+      type="button"
+      data-action="banner#dismiss"
+      class="
+        -m-1.5 p-2 rounded-lg
+        focus:ring-2 focus:animate-pulse-fast
+        <%= class_names(banner.button_css_class) %>
+      "
+      aria-label="Dismiss"
+    >
+      <span class="sr-only">Dismiss</span>
+      <%= inline_svg_tag("heroicons/x-mark.svg", class: "stroke-2") %>
+    </button>
+  <% end %>
 </div>
