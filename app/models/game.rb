@@ -136,6 +136,8 @@ class Game < ApplicationRecord
     (within.ago..).cover?(ended_at)
   end
 
+  def recently_ended? = just_ended?(within: 1.minute)
+
   def ended_in_victory? = status_alliance_wins?
   def ended_in_defeat? = status_mines_win?
 
