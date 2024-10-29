@@ -9,19 +9,17 @@
             border-b border-dotted
             border-b-300 dark:border-b-neutral-600
           "
-        >Service Record</h1>
+        ><%= @view.display_name %></h1>
 
-        <h2><%= @view.display_name %></h2>
-
-        <h3 class="h5 flex items-baseline gap-x-6">
+        <p class="flex gap-x-6">
           <span>Enlisted:</span>
           <span><%= @view.enlistment_date %></span>
-        </h3>
+        </p>
       </div>
 
       <div class="flex max-md:flex-col gap-x-24 gap-y-8 items-start">
         <div class="space-y-6">
-          <h3>Duty Log</h3>
+          <h2 class="h3">Duty Log</h2>
 
           <% @view.duty_log.tap do |duty_log| %>
             <table
@@ -78,7 +76,7 @@
         </div>
 
         <div class="space-y-6">
-          <h3>Bests</h3>
+          <h2 class="h3">Bests</h2>
 
           <% @view.bests.tap do |bests| %>
             <table
