@@ -25,11 +25,11 @@
     </table>
   </div>
 
-  <div class="space-y-6">
+  <div class="space-y-6 overflow-x-auto">
     <h2><%= external_link_to("Heroicons", "https://heroicons.com/") %></h2>
     <table
       class="
-        -mx-6 -my-1
+        table-fixed -mx-6 -my-1
         border-separate border-spacing-x-6 border-spacing-y-1
         text-left
       "
@@ -42,7 +42,7 @@
           %>
           <tr>
             <td><%= inline_svg_tag("heroicons/#{basename}") %></td>
-            <td><%= css_class %></td>
+            <td class="whitespace-nowrap"><%= css_class %></td>
             <td><code>inline_svg_tag("heroicons/<%= basename %>")</code></td>
           </tr>
         <% end %>
@@ -50,12 +50,12 @@
     </table>
   </div>
 
-  <div class="space-y-6">
+  <div class="space-y-6 overflow-x-auto">
     <h2>Tooltips</h2>
 
     <table
       class="
-        -mx-6 -my-1
+        table-fixed -mx-6 -my-1
         border-separate border-spacing-x-6 border-spacing-y-1
         text-left
       "
@@ -87,7 +87,7 @@
     </table>
   </div>
 
-  <div class="space-y-6">
+  <div class="space-y-6 overflow-x-auto">
     <h2>Flash</h2>
     <%= debug(flash) %>
   </div>
