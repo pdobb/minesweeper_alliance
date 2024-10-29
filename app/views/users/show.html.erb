@@ -4,12 +4,9 @@
   <% cache_unless(App.debug?, @view.cache_key) do %>
     <div class="xl:w-2/3 space-y-12">
       <div class="space-y-6">
-        <h1
-          class="
-            border-b border-dotted
-            border-b-300 dark:border-b-neutral-600
-          "
-        ><%= @view.display_name %></h1>
+        <h1 class="border-b border-dotted border-dim">
+          <%= @view.display_name %>
+        </h1>
 
         <p class="flex gap-x-6">
           <span>Enlisted:</span>

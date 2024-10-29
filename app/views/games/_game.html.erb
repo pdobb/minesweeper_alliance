@@ -69,8 +69,7 @@
           id="game_board"
           class="
             mx-auto table-fixed
-            border-double border-4
-            border-slate-500 dark:border-neutral-950
+            border-double border-4 border-dark
           "
         >
           <tbody
@@ -92,7 +91,7 @@
 
               <%# Cells %>
               *:*:size-8 *:*:min-w-8 *:*:min-h-8
-              *:*:border *:*:border-slate-600 *:*:dark:border-neutral-950
+              *:*:border *:*:border-dark
               <% if view.game_on? %>
                 data-[revealed=false]:*:*:cursor-cell
                 data-[revealed=true]:*:*:cursor-default

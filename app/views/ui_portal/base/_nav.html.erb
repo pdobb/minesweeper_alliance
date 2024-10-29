@@ -12,14 +12,9 @@
     </li>
   </ul>
 
-  <%= link_to(
-        root_path,
-        title: "Exit Portal",
-        class: %w[
-          -my-3 hover:border-b-transparent dark:hover:border-b-transparent
-        ]) do %>
-    <%= inline_svg_tag(
-          "heroicons/arrow-left-circle.svg",
-          class: "inline-block") %>
-  <% end %>
+  <div class="no-active-links">
+    <%= link_to(root_path, title: "Exit Portal") do %>
+      <%= inline_svg_tag("heroicons/arrow-left-circle.svg") %>
+    <% end %>
+  </div>
 </nav>

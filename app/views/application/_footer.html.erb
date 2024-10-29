@@ -10,16 +10,8 @@
   <nav class="lg:order-2 max-lg:w-full">
     <ul class="flex justify-between items-center gap-x-24 lg:gap-x-8">
       <li><%= active_link_to("About", about_path) %></li>
-      <li
-        class="
-          max-lg:hidden
-          border-l border-gray-300 dark:border-neutral-600
-          self-stretch
-        "
-      ></li>
-      <li>
-        <%= render("layouts/theme_selector") %>
-      </li>
+      <li class="max-lg:hidden border-l border-dim self-stretch"></li>
+      <li><%= render("layouts/theme_selector") %></li>
     </ul>
   </nav>
 

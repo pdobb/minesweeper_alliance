@@ -256,7 +256,7 @@ class Games::Show
     # rubocop:disable Layout/MultilineArrayLineBreaks
     BG_ERROR_COLOR = %w[
       bg-red-600 dark:bg-red-800
-      shadow-inner shadow-slate-600 dark:shadow-neutral-800
+      shadow-inner shadow-gray-600 dark:shadow-neutral-800
     ].freeze
     # rubocop:enable Layout/MultilineArrayLineBreaks
     DIMMED_TEXT_COLOR = %w[text-dim-lg].freeze

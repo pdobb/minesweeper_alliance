@@ -96,6 +96,16 @@
     }
   }
 
+  .border-dim {
+    @apply border-gray-300 dark:border-neutral-600;
+  }
+  .border-dim-lg {
+    @apply border-gray-200 dark:border-neutral-700;
+  }
+  .border-dark {
+    @apply border-gray-600 dark:border-neutral-950;
+  }
+
   .text-dim-sm {
     @apply text-gray-600 dark:text-neutral-300;
   }
