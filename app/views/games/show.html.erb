@@ -1,4 +1,4 @@
-<% title("Game ##{@view.game_number}") %>
+<% title("Game ##{@view.game_number}") unless title %>
 
 <% content_for(:page_nav) do %>
   <%= render("games/page_nav", nav: @view.nav) %>

@@ -10,7 +10,11 @@ class Users::Games::Show < Games::Show
     @user = user
   end
 
-  def nav = Nav.new(game:, user:)
+  def nav
+    Nav.new(game:, user:)
+  end
+
+  def display_name = user.display_name
 
   private
 

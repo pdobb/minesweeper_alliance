@@ -8,7 +8,6 @@ class Users::GamesController < ApplicationController
       redirect_to(root_path) and return if game.on?
 
       @view = Users::Games::Show.new(game:, user: @user)
-      render(template: "games/show")
     else
       redirect_to(
         user_path(@user), alert: t("flash.not_found", type: "Game"))
