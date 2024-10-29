@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-# Games::Stats is a View Model for displaying end-of-{Game} stats.
+# Games::Metrics is a View Model for displaying end-of-{Game} scores/stats.
 #
 # @see Games::Results
-class Games::Stats
+class Games::Metrics
   DEFAULT_PRECISION = 2
   NO_VALUE_INDICATOR = "—"
 
@@ -11,7 +11,7 @@ class Games::Stats
     @game = game
   end
 
-  def cache_key = [game, :stats]
+  def cache_key = [game, :metrics]
 
   def show_game_score? = game.ended_in_victory?
 

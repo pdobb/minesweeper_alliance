@@ -16,8 +16,8 @@
   <% end %>
 <% end %>
 
-<% view.stats.tap do |stats| %>
-  <% cache_unless(App.debug?, stats.cache_key) do %>
+<% view.metrics.tap do |metrics| %>
+  <% cache_unless(App.debug?, metrics.cache_key) do %>
     <div
       class="
         grid md:grid-cols-2
@@ -25,7 +25,7 @@
       "
     >
       <div class="md:justify-self-end space-y-3">
-        <h4 class="h3">Stats</h4>
+        <h4 class="h3">Metrics</h4>
 
         <table
           class="
@@ -35,7 +35,7 @@
           "
         >
           <tbody>
-            <% if stats.show_game_score? %>
+            <% if metrics.show_game_score? %>
               <tr>
                 <th>
                   <dfn
@@ -45,8 +45,8 @@
                 </th>
                 <td>
                   <time
-                    datetime="PT<%= stats.game_score %>S"
-                  ><%= stats.game_score %></time>
+                    datetime="PT<%= metrics.game_score %>S"
+                  ><%= metrics.game_score %></time>
                 </td>
               </tr>
               <tr>
@@ -56,7 +56,7 @@
                     class="after:w-80"
                   >3BV</dfn>
                 </th>
-                <td><%= stats.bbbv %></td>
+                <td><%= metrics.bbbv %></td>
               </tr>
               <tr>
                 <th>
@@ -65,7 +65,7 @@
                     class="after:w-80"
                   >3BV/s</dfn>
                 </th>
-                <td><%= stats.bbbvps %></td>
+                <td><%= metrics.bbbvps %></td>
               </tr>
               <tr>
                 <th>
@@ -74,12 +74,12 @@
                     class="after:w-80"
                   >Efficiency</dfn>
                 </th>
-                <td><%= stats.efficiency_percentage %></td>
+                <td><%= metrics.efficiency_percentage %></td>
               </tr>
             <% end %>
             <tr>
               <th>Clicks</th>
-              <td><%= stats.clicks_count %></td>
+              <td><%= metrics.clicks_count %></td>
             </tr>
             <tr class="*:pl-6">
               <th>
@@ -88,7 +88,7 @@
                   class="after:w-80"
                 >Reveals</dfn>
               </th>
-              <td><%= stats.reveals_count %></td>
+              <td><%= metrics.reveals_count %></td>
             </tr>
             <tr class="*:pl-6">
               <th>
@@ -97,15 +97,15 @@
                   class="after:w-80"
                 >Chords</dfn>
               </th>
-              <td><%= stats.chords_count %></td>
+              <td><%= metrics.chords_count %></td>
             </tr>
             <tr class="*:pl-6">
               <th>Flags Placed</th>
-              <td><%= stats.flags_count %></td>
+              <td><%= metrics.flags_count %></td>
             </tr>
             <tr class="*:pl-6">
               <th>Flags Removed</th>
-              <td><%= stats.unflags_count %></td>
+              <td><%= metrics.unflags_count %></td>
             </tr>
           </tbody>
         </table>

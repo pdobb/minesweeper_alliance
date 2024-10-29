@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Games::Results is a View Model for displaying end-of-{Game} results (and
-# collect signatures, show stats, show Duty Roster, etc.).
+# collect signatures, show metrics, show Duty Roster, etc.).
 class Games::Results
   def initialize(game:, user:)
     @game = game
@@ -25,8 +25,8 @@ class Games::Results
       "&ndash;".html_safe)
   end
 
-  def stats
-    Games::Stats.new(game:)
+  def metrics
+    Games::Metrics.new(game:)
   end
 
   def duty_roster
