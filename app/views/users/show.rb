@@ -133,10 +133,6 @@ class Users::Show
         @user = user
       end
 
-      def valuify(value)
-        value ? yield(value) : NO_VALUE_INDICATOR
-      end
-
       private
 
       attr_reader :user
@@ -147,7 +143,10 @@ class Users::Show
         router.user_game_path(user, game) if game
       end
 
-      def games_arel = user.games
+      def valuify(value)
+        value ? yield(value) : NO_VALUE_INDICATOR
+      end
+
       def helpers = ActionController::Base.helpers
     end
 

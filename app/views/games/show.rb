@@ -107,25 +107,27 @@ class Games::Show
 
     def previous_game? = !!previous_game
 
-    def previous_game_url(router = RailsRouter.instance)
+    def previous_game_url
       router.game_path(previous_game)
     end
 
     def next_game? = next_game&.over?
 
-    def next_game_url(router = RailsRouter.instance)
+    def next_game_url
       router.game_path(next_game)
     end
 
     def show_current_game_button? = true
 
-    def current_game_url(router = RailsRouter.instance)
+    def current_game_url
       router.root_path
     end
 
     private
 
     attr_reader :game
+
+    def router = RailsRouter.instance
 
     def previous_game
       @previous_game ||=
@@ -138,7 +140,7 @@ class Games::Show
     end
 
     def base_arel
-      Game.excluding(game).limit(1)
+      Game.excluding(game)
     end
   end
 

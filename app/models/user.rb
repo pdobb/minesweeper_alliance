@@ -68,25 +68,26 @@ class User < ApplicationRecord
       @user = user
     end
 
-    def beginner_score = games.for_beginner_type.by_score_asc.take
-    def intermediate_score = games.for_intermediate_type.by_score_asc.take
-    def expert_score = games.for_expert_type.by_score_asc.take
+    def beginner_score = _score_arel.for_beginner_type.take
+    def intermediate_score = _score_arel.for_intermediate_type.take
+    def expert_score = _score_arel.for_expert_type.take
 
-    def beginner_bbbvps = games.for_beginner_type.by_bbbvps_desc.take
-    def intermediate_bbbvps = games.for_intermediate_type.by_bbbvps_desc.take
-    def expert_bbbvps = games.for_expert_type.by_bbbvps_desc.take
+    def beginner_bbbvps = _bbbvps_arel.for_beginner_type.take
+    def intermediate_bbbvps = _bbbvps_arel.for_intermediate_type.take
+    def expert_bbbvps = _bbbvps_arel.for_expert_type.take
 
-    # rubocop:disable Layout/LineLength
-    def beginner_efficiency = games.for_beginner_type.by_efficiency_desc.take
-    def intermediate_efficiency = games.for_intermediate_type.by_efficiency_desc.take
-    def expert_efficiency = games.for_expert_type.by_efficiency_desc.take
-    # rubocop:enable Layout/LineLength
+    def beginner_efficiency = _efficiency_arel.for_beginner_type.take
+    def intermediate_efficiency = _efficiency_arel.for_intermediate_type.take
+    def expert_efficiency = _efficiency_arel.for_expert_type.take
 
     private
 
     attr_reader :user
 
     def games = user.games
+    def _score_arel = games.by_score_asc
+    def _bbbvps_arel = games.by_bbbvps_desc
+    def _efficiency_arel = games.by_efficiency_desc
   end
 
   # User::Console acts like a {User} but otherwise handles IRB Console-specific

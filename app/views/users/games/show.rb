@@ -32,15 +32,15 @@ class Users::Games::Show < Games::Show
 
     def show_close_button? = true
 
-    def close_game_url(router = RailsRouter.instance)
+    def close_game_url
       router.user_path(user)
     end
 
-    def previous_game_url(router = RailsRouter.instance)
+    def previous_game_url
       router.user_game_path(user, previous_game)
     end
 
-    def next_game_url(router = RailsRouter.instance)
+    def next_game_url
       router.user_game_path(user, next_game)
     end
 
@@ -52,7 +52,7 @@ class Users::Games::Show < Games::Show
                 :user
 
     def base_arel
-      user.games.excluding(game).limit(1)
+      user.games.excluding(game)
     end
   end
 end
