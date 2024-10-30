@@ -59,11 +59,15 @@ class Games::Index
 
     def to_model = User.new(@user)
 
-    def post_url(router = RailsRouter.instance)
+    def post_url
       router.current_user_time_zone_update_path
     end
 
     def priority_zones = ActiveSupport::TimeZone.us_zones
+
+    private
+
+    def router = RailsRouter.instance
 
     # Games::Index::TimeZoneForm::User is a Form View Model for representing
     # {User}s.
@@ -96,7 +100,7 @@ class Games::Index
     def initials = name[0]
     def name = preset
 
-    def games_filter_url(router = RailsRouter.instance)
+    def games_filter_url
       if filter_active?
         router.games_path
       else
@@ -126,6 +130,8 @@ class Games::Index
     def filter_active?
       type_filter&.include?(name)
     end
+
+    def router = RailsRouter.instance
   end
 
   # Games::Index::EngagementTally
@@ -197,7 +203,7 @@ class Games::Index
         "&ndash;".html_safe)
     end
 
-    def game_url(router = RailsRouter.instance)
+    def game_url
       router.game_path(to_model)
     end
 
@@ -206,5 +212,7 @@ class Games::Index
     def to_model = @model
 
     def _game_score = to_model.score
+
+    def router = RailsRouter.instance
   end
 end

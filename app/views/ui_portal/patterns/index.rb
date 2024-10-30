@@ -9,11 +9,11 @@ class UIPortal::Patterns::Index
     @base_arel = base_arel
   end
 
-  def new_pattern_url(router = RailsRouter.instance)
+  def new_pattern_url
     router.new_ui_portal_pattern_path
   end
 
-  def new_import_pattern_url(router = RailsRouter.instance)
+  def new_import_pattern_url
     router.new_ui_portal_patterns_import_path
   end
 
@@ -22,6 +22,10 @@ class UIPortal::Patterns::Index
   def listings
     Listing.wrap(base_arel)
   end
+
+  private
+
+  def router = RailsRouter.instance
 
   # UIPortal::Patterns::Index::Listing
   class Listing
@@ -41,16 +45,20 @@ class UIPortal::Patterns::Index
 
     def name = to_model.name
 
-    def show_pattern_url(router = RailsRouter.instance)
+    def show_pattern_url
       router.ui_portal_pattern_path(to_model)
     end
 
-    def destroy_pattern_url(router = RailsRouter.instance)
+    def destroy_pattern_url
       router.ui_portal_pattern_path(to_model)
     end
 
     def timestamp
       I18n.l(to_model.created_at, format: :debug)
     end
+
+    private
+
+    def router = RailsRouter.instance
   end
 end

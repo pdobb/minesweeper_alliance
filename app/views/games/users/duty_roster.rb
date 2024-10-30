@@ -50,7 +50,7 @@ class Games::Users::DutyRoster
       user.display_name
     end
 
-    def show_user_url(router = RailsRouter.instance)
+    def show_user_url
       router.user_path(user)
     end
 
@@ -58,5 +58,7 @@ class Games::Users::DutyRoster
 
     attr_reader :user,
                 :game
+
+    def router = RailsRouter.instance
   end
 end

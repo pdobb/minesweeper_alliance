@@ -48,13 +48,15 @@ class Metrics::Show
       def game_score = to_model.score
       def players_count = to_model.users.size
 
-      def game_url(router = RailsRouter.instance)
+      def game_url
         router.game_path(to_model)
       end
 
       private
 
       def to_model = @model
+
+      def router = RailsRouter.instance
     end
   end
 

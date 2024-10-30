@@ -47,19 +47,19 @@ class Games::Show
   def flags_count = board.flags_count
   def mines = board.mines
 
-  def reveal_url(router = RailsRouter.instance)
+  def reveal_url
     router.game_board_cell_reveal_path(game, board, NULL_CELL_ID)
   end
 
-  def toggle_flag_url(router = RailsRouter.instance)
+  def toggle_flag_url
     router.game_board_cell_toggle_flag_path(game, board, NULL_CELL_ID)
   end
 
-  def highlight_neighbors_url(router = RailsRouter.instance)
+  def highlight_neighbors_url
     router.game_board_cell_highlight_neighbors_path(game, board, NULL_CELL_ID)
   end
 
-  def reveal_neighbors_url(router = RailsRouter.instance)
+  def reveal_neighbors_url
     router.game_board_cell_reveal_neighbors_path(game, board, NULL_CELL_ID)
   end
 
@@ -95,6 +95,8 @@ class Games::Show
   end
 
   def game_engagement_time_range = game.engagement_time_range
+
+  def router = RailsRouter.instance
 
   # Games::Show::Nav is a View Model for handling navigation between Game - Show
   # pages.

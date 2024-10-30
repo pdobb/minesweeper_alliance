@@ -6,15 +6,19 @@ class Games::New
     Board::Settings::PRESETS.keys
   end
 
-  def game_url(preset, router = RailsRouter.instance)
+  def game_url(preset)
     router.games_path(preset:)
   end
 
-  def random_game_url(router = RailsRouter.instance)
+  def random_game_url
     router.random_game_path
   end
 
-  def new_custom_game_url(router = RailsRouter.instance)
+  def new_custom_game_url
     router.new_custom_game_path
   end
+
+  private
+
+  def router = RailsRouter.instance
 end

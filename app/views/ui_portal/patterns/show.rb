@@ -12,27 +12,27 @@ class UIPortal::Patterns::Show
     grid.map { |row| Cell.wrap(row) }
   end
 
-  def edit_pattern_url(router = RailsRouter.instance)
+  def edit_pattern_url
     router.edit_ui_portal_pattern_path(pattern)
   end
 
-  def destroy_pattern_url(router = RailsRouter.instance)
+  def destroy_pattern_url
     router.ui_portal_pattern_path(pattern)
   end
 
-  def toggle_flag_url(router = RailsRouter.instance)
+  def toggle_flag_url
     router.ui_portal_pattern_toggle_flag_path(pattern)
   end
 
-  def pattern_reset_url(router = RailsRouter.instance)
+  def pattern_reset_url
     router.ui_portal_pattern_resets_path(pattern)
   end
 
-  def pattern_export_url(router = RailsRouter.instance)
+  def pattern_export_url
     router.ui_portal_pattern_exports_path(pattern)
   end
 
-  def pattern_import_url(router = RailsRouter.instance)
+  def pattern_import_url
     router.new_ui_portal_pattern_import_path(pattern)
   end
 
@@ -51,6 +51,8 @@ class UIPortal::Patterns::Show
   private
 
   attr_reader :pattern
+
+  def router = RailsRouter.instance
 
   def grid = pattern.grid
 

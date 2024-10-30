@@ -28,7 +28,7 @@ class Games::Users::Signature
     "#{base} #{Emoji.pencil}"
   end
 
-  def attribution_link_url(router = RailsRouter.instance)
+  def attribution_link_url
     router.edit_game_user_path(game)
   end
 
@@ -36,4 +36,6 @@ class Games::Users::Signature
 
   attr_reader :game,
               :user
+
+  def router = RailsRouter.instance
 end

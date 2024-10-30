@@ -295,13 +295,15 @@ class Users::Show
         @user = user
       end
 
-      def game_url(router = RailsRouter.instance)
+      def game_url
         router.user_game_path(user, to_model)
       end
 
       private
 
       attr_reader :user
+
+      def router = RailsRouter.instance
     end
   end
 end
