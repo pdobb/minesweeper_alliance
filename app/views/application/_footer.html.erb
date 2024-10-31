@@ -16,15 +16,16 @@
   </nav>
 
   <small class="text-center text-dim lg:order-1">
-    <%= link_to_if(
-          App.development?,
-          "©",
-          ui_portal_root_path,
-          class: "no-underline") %>
-    <%= Date.today.year %> Minesweeper Alliance
+    &copy; <%= Date.today.year %> Minesweeper Alliance
     <span class="font-sans text-dim-lg mx-1">&mdash;</span>
     Made with
-    <span class="opacity-80"><%= Emoji.heart %></span>
+    <span class="opacity-80">
+      <%= link_to_if(
+            App.development?,
+            Emoji.heart,
+            ui_portal_root_path,
+            class: "no-underline") %>
+    </span>
     by the <%= t("footer.maker_html").sample %>
   </small>
 </div>

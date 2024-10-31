@@ -2,7 +2,7 @@
 
 <nav class="container mx-auto flex items-center justify-between">
   <ul class="flex gap-x-8">
-    <li><%= active_link_to("Home", ui_portal_root_path) %></li>
+    <li><%= active_link_to("UI Home", ui_portal_root_path) %></li>
     <li><%= active_link_to("Flash", ui_portal_flash_notifications_path) %></li>
     <li>
       <%= active_link_to(
@@ -14,7 +14,7 @@
 
   <div class="no-active-links">
     <%= link_to(root_path, title: "Exit Portal") do %>
-      <%= inline_svg_tag("heroicons/arrow-left-circle.svg") %>
+      <%= inline_svg_tag("heroicons/arrow-left-start-on-rectangle.svg") %>
     <% end %>
   </div>
 </nav>
