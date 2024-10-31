@@ -28,7 +28,7 @@ class Cell::Reveal
 
   # :reek:TooManyStatements
 
-  def on_call
+  def call
     return self if already_revealed?
 
     catch(:return) {

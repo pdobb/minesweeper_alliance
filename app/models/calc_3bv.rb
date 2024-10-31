@@ -20,7 +20,7 @@ class Calc3BV
     @grid = grid
   end
 
-  def on_call
+  def call
     process_cells
     count
   end

@@ -58,7 +58,7 @@ class ElapsedTime
     end
 
     # @return [Array] e.g. [<hours>, <minutes>, <seconds>]
-    def on_call
+    def call
       remaining_seconds = total_seconds.dup
       hours, remaining_seconds = parse_hours(remaining_seconds)
 

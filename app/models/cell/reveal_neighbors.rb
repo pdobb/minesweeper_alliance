@@ -41,7 +41,7 @@ class Cell::RevealNeighbors
     @user = context.user
   end
 
-  def on_call
+  def call
     return self if cell.unrevealed?
 
     catch(:return) {

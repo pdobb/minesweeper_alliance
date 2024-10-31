@@ -15,7 +15,7 @@ class Pattern::Import
 
   # :reek:FeatureEnvy
 
-  def on_call
+  def call
     result = ProcessCSV.(path:, header:)
 
     attributes = result.fetch(:attributes)
@@ -50,7 +50,7 @@ class Pattern::Import
       @header = header
     end
 
-    def on_call
+    def call
       meta_data, csv_data = split_meta_data_from_csv_data
 
       attributes = build_attributes(meta_data)

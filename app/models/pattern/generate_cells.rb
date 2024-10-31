@@ -9,7 +9,7 @@ class Pattern::GenerateCells
     @pattern = pattern
   end
 
-  def on_call
+  def call
     cell_data
   end
 

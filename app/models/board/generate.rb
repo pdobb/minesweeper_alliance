@@ -17,7 +17,7 @@ class Board::Generate
     @board = board
   end
 
-  def on_call
+  def call
     Cell.insert_all!(cell_data)
   end
 

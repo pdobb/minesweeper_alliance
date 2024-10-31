@@ -178,7 +178,7 @@ class Game < ApplicationRecord
       @game = game
     end
 
-    def on_call
+    def call
       game.update(
         score: score,
         bbbv: bbbv,

@@ -26,10 +26,6 @@ module CallMethodBehaviors
   end
 
   def call
-    on_call
-  end
-
-  def on_call
     raise NotImplementedError
   end
 end

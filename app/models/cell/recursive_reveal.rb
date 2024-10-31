@@ -11,7 +11,7 @@
 # - We purposefully don't `include CallMethodBehaviors` here, because this is
 #   recursion and it's actually worth reducing the call stack size.
 #   So instead of:
-#     RecursiveReveal.call -> RecursiveReveal.new(..).call -> #on_call
+#     RecursiveReveal.call -> RecursiveReveal.new(..).call -> #call
 #   We optimize to just:
 #     RecursiveReveal.new(...).call -> #call
 #

@@ -17,7 +17,7 @@ class Board::RandomlyPlaceMines
     @seed_cell = seed_cell
   end
 
-  def on_call
+  def call
     raise(Error, "can't place mines in an unsaved Board") if new_record?
     raise(Error, "mines have already been placed") if mines_placed?
 

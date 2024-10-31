@@ -20,7 +20,7 @@ class Pattern::Export
     FileUtils.mkdir_p(@path.dirname)
   end
 
-  def on_call
+  def call
     csv_string = generate_csv
 
     path.open("w") do |file|
