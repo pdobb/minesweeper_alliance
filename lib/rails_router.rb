@@ -5,7 +5,7 @@
 #
 # @example
 #   def game_url
-#     router.game_path(to_model)
+#     router.game_path(game)
 #   end
 #
 #   private

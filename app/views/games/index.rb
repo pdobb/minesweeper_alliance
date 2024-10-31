@@ -57,7 +57,7 @@ class Games::Index
       @user = user
     end
 
-    def to_model = User.new(@user)
+    def to_model = UserWrapper.new(@user)
 
     def post_url
       router.current_user_time_zone_update_path
@@ -69,9 +69,9 @@ class Games::Index
 
     def router = RailsRouter.instance
 
-    # Games::Index::TimeZoneForm::User is a Form View Model for representing
-    # {User}s.
-    class User
+    # Games::Index::TimeZoneForm::UserWrapper is a Form View Model for
+    # representing {User}s.
+    class UserWrapper
       def initialize(user)
         @user = user
       end
@@ -179,12 +179,11 @@ class Games::Index
 
   # Games::Index::Listing
   class Listing
-    include ActiveModelWrapperBehaviors
     include Games::ShowBehaviors
     include WrapMethodBehaviors
 
-    def initialize(model)
-      @model = model
+    def initialize(game)
+      @game = game
     end
 
     def type_indicator
@@ -197,21 +196,21 @@ class Games::Index
     def game_engagement_time_range(template)
       template.safe_join(
         [
-          I18n.l(to_model.started_at, format: :time),
-          I18n.l(to_model.ended_at, format: :time),
+          I18n.l(game.started_at, format: :time),
+          I18n.l(game.ended_at, format: :time),
         ],
         "&ndash;".html_safe)
     end
 
     def game_url
-      router.game_path(to_model)
+      router.game_path(game)
     end
 
     private
 
-    def to_model = @model
+    attr_reader :game
 
-    def _game_score = to_model.score
+    def _game_score = game.score
 
     def router = RailsRouter.instance
   end

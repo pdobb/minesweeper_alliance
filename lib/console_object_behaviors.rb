@@ -49,9 +49,9 @@ module ConsoleObjectBehaviors
     @model = model
   end
 
-  # Among other similar reasons, we do this to prevent ObjectInspector from
-  # thinking of this object as a wrapper. This way, we can fully present ourself
-  # as if we are the original object.
+  # Prevent ObjectInspector from thinking of this object as a wrapper object.
+  # This way, we can fully present ourself as if we are the original object
+  # during object inspection.
   def to_model
     self
   end

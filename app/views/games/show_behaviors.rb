@@ -5,21 +5,21 @@
 module Games::ShowBehaviors
   include Games::StatusBehaviors
 
-  def game_in_progress? = to_model.status_sweep_in_progress?
-  def game_ended_in_victory? = to_model.ended_in_victory?
-  def game_ended_in_defeat? = to_model.ended_in_defeat?
+  def game_in_progress? = game.status_sweep_in_progress?
+  def game_ended_in_victory? = game.ended_in_victory?
+  def game_ended_in_defeat? = game.ended_in_defeat?
 
   def game_number
     game_id.to_s.rjust(4, "0")
   end
 
-  def type = to_model.type
+  def type = game.type
 
   private
 
-  def to_model
+  def game
     raise(NotImplementedError)
   end
 
-  def game_id = to_model.id
+  def game_id = game.id
 end

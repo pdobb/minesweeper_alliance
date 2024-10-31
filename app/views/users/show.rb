@@ -296,7 +296,7 @@ class Users::Show
       end
 
       def game_url
-        router.user_game_path(user, to_model)
+        router.user_game_path(user, game)
       end
 
       private

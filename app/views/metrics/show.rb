@@ -41,20 +41,20 @@ class Metrics::Show
     class Listing
       include WrapMethodBehaviors
 
-      def initialize(model)
-        @model = model
+      def initialize(game)
+        @game = game
       end
 
-      def game_score = to_model.score
-      def players_count = to_model.users.size
+      def game_score = game.score
+      def players_count = game.users.size
 
       def game_url
-        router.game_path(to_model)
+        router.game_path(game)
       end
 
       private
 
-      def to_model = @model
+      attr_reader :game
 
       def router = RailsRouter.instance
     end

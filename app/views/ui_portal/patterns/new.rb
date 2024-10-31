@@ -8,23 +8,23 @@ class UIPortal::Patterns::New
     @context = context
   end
 
-  def to_model = pattern
-  def settings = pattern.settings
+  def to_model = @pattern
+
+  def settings = to_model.settings
 
   def settings_form
     SettingsForm.new(settings, context:)
   end
 
-  def any_errors? = pattern.errors.any?
+  def any_errors? = to_model.errors.any?
 
   def display_errors
-    pattern.errors.full_messages.join(", ")
+    to_model.errors.full_messages.join(", ")
   end
 
   private
 
-  attr_reader :pattern,
-              :context
+  attr_reader :context
 
   # UIPortal::Patterns::New::SettingsForm
   class SettingsForm

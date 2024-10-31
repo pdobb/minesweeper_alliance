@@ -63,13 +63,13 @@ class UIPortal::Patterns::Show
   class Cell
     include WrapMethodBehaviors
 
-    def initialize(model)
-      @model = model
+    def initialize(cell)
+      @cell = cell
     end
 
-    def id = to_model.id
-    def flagged? = to_model.flagged?
-    def coordinates = to_model.coordinates
+    def id = cell.id
+    def flagged? = cell.flagged?
+    def coordinates = cell.coordinates
 
     def to_s
       if flagged?
@@ -81,6 +81,6 @@ class UIPortal::Patterns::Show
 
     private
 
-    def to_model = @model
+    attr_reader :cell
   end
 end

@@ -87,7 +87,6 @@ class Games::Show
 
   attr_reader :game
 
-  def to_model = game
   def board = game.board
 
   def grid(context:)
@@ -196,15 +195,14 @@ class Games::Show
 
     BG_UNREVEALED_CELL_COLOR = "bg-slate-400 dark:bg-neutral-700"
 
-    include ActiveModelWrapperBehaviors
     include WrapMethodBehaviors
 
-    def id = to_model.id
-    def mine? = to_model.mine?
-    def revealed? = to_model.revealed?
-    def flagged? = to_model.flagged?
-    def blank? = to_model.blank?
-    def value = to_model.value
+    def id = cell.id
+    def mine? = cell.mine?
+    def revealed? = cell.revealed?
+    def flagged? = cell.flagged?
+    def blank? = cell.blank?
+    def value = cell.value
 
     def to_s
       if blank?
@@ -224,7 +222,7 @@ class Games::Show
 
     private
 
-    def to_model = @model
+    attr_reader :cell
   end
 
   # Games::Show::ActiveCell is a View Model for displaying Active {Cell}s. i.e.
@@ -236,12 +234,12 @@ class Games::Show
 
     include CellBehaviors
 
-    def initialize(model, _show_view)
-      @model = model
+    def initialize(cell, _show_view)
+      @cell = cell
     end
 
-    def unrevealed? = !to_model.revealed?
-    def highlighted? = to_model.highlighted?
+    def unrevealed? = !cell.revealed?
+    def highlighted? = cell.highlighted?
 
     def css
       if highlighted?
@@ -267,12 +265,12 @@ class Games::Show
 
     include CellBehaviors
 
-    def initialize(model, show_view)
-      @model = model
+    def initialize(cell, show_view)
+      @cell = cell
       @show_view = show_view
     end
 
-    def incorrectly_flagged? = to_model.incorrectly_flagged?
+    def incorrectly_flagged? = cell.incorrectly_flagged?
     def game_ended_in_victory? = show_view.game_ended_in_victory?
 
     # :reek:DuplicateMethodCall

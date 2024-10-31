@@ -35,29 +35,28 @@ class UIPortal::Patterns::Index
       @pattern = pattern
     end
 
-    def to_model = @pattern
-
     def dom_id(context)
-      context.dom_id(to_model)
+      context.dom_id(pattern)
     end
 
-    def id = to_model.id
-
-    def name = to_model.name
+    def id = pattern.id
+    def name = pattern.name
 
     def show_pattern_url
-      router.ui_portal_pattern_path(to_model)
+      router.ui_portal_pattern_path(pattern)
     end
 
     def destroy_pattern_url
-      router.ui_portal_pattern_path(to_model)
+      router.ui_portal_pattern_path(pattern)
     end
 
     def timestamp
-      I18n.l(to_model.created_at, format: :debug)
+      I18n.l(pattern.created_at, format: :debug)
     end
 
     private
+
+    attr_reader :pattern
 
     def router = RailsRouter.instance
   end
