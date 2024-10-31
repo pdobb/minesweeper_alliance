@@ -18,7 +18,7 @@ class Games::Index
   def current_time_zone_description = self.class.current_time_zone_description
 
   def types
-    Type.wrap(Board::Settings::ALL_TYPES, type_filter:)
+    Type.wrap(Game::ALL_TYPES, type_filter:)
   end
 
   def engagement_tally
@@ -84,8 +84,8 @@ class Games::Index
     end
   end
 
-  # Games::Index::Type wraps {Board::Settings} types, for display of the
-  # "Initials = Name" map/legend.
+  # Games::Index::Type wraps {Game::TYPES}, for display of the "Initials = Name"
+  # map/legend.
   class Type
     include WrapMethodBehaviors
 

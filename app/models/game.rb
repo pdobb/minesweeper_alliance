@@ -5,8 +5,8 @@
 # lose.
 #
 # @attr status [String] The current Game status / life-cycle state.
-# @attr type [String] The {Board::Settings#type} (preset/name) that was used to
-#   generate this Game's {Board} / {Grid} of {Cell}s.
+# @attr type [String] The preset or Game type used to generate this Game's
+#   {Board} / {Grid} of {Cell}s.
 #   Note: This attribute/column is *not* used for STI.
 # @attr started_at [DateTime] When this Game started. i.e. transitioned from
 #   {#status} "Standing By" to "Sweep in Progress".
@@ -21,6 +21,14 @@
 class Game < ApplicationRecord
   self.inheritance_column = nil
   self.implicit_order_column = "created_at"
+
+  ALL_TYPES = [
+    BEGINNER_TYPE = "Beginner",
+    INTERMEDIATE_TYPE = "Intermediate",
+    EXPERT_TYPE = "Expert",
+    CUSTOM_TYPE = "Custom",
+    PATTERN_TYPE = "Pattern",
+  ].freeze
 
   DEFAULT_JUST_ENDED_DURATION = 0.5.seconds
 
@@ -50,11 +58,9 @@ class Game < ApplicationRecord
   ])
 
   scope :for_type, ->(type) { where(type:) }
-  scope :for_beginner_type, -> { where(type: Board::Settings::BEGINNER) }
-  scope :for_intermediate_type, -> {
-    where(type: Board::Settings::INTERMEDIATE)
-  }
-  scope :for_expert_type, -> { where(type: Board::Settings::EXPERT) }
+  scope :for_beginner_type, -> { where(type: BEGINNER_TYPE) }
+  scope :for_intermediate_type, -> { where(type: INTERMEDIATE_TYPE) }
+  scope :for_expert_type, -> { where(type: EXPERT_TYPE) }
   scope :for_game_on_statuses, -> {
     for_status([status_standing_by, status_sweep_in_progress])
   }

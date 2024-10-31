@@ -5,17 +5,11 @@
 class Board::Settings
   # rubocop:disable Layout/HashAlignment, Layout/LineLength
   PRESETS = {
-    BEGINNER     = "Beginner"     => { width: 9,  height: 9,  mines: 10 }, # 12.3% mine density
-    INTERMEDIATE = "Intermediate" => { width: 16, height: 16, mines: 40 }, # 15.6% mine density
-    EXPERT       = "Expert"       => { width: 30, height: 16, mines: 99 }, # 20.6% mine density
+    Game::BEGINNER_TYPE     => { width: 9,  height: 9,  mines: 10 }, # 12.3% mine density
+    Game::INTERMEDIATE_TYPE => { width: 16, height: 16, mines: 40 }, # 15.6% mine density
+    Game::EXPERT_TYPE       => { width: 30, height: 16, mines: 99 }, # 20.6% mine density
   }.freeze
   # rubocop:enable Layout/HashAlignment, Layout/LineLength
-
-  ALL_TYPES = [
-    *PRESETS.keys,
-    CUSTOM = "Custom",
-    PATTERN = "Pattern",
-  ].freeze
 
   PERCENT_CHANCE_FOR_RANDOM_PRESET = 90
 
@@ -37,10 +31,8 @@ class Board::Settings
   attribute :height, :integer, default: -> { RANGES.fetch(:height).begin }
   attribute :mines, :integer, default: -> { RANGES.fetch(:mines).begin }
 
-  validates :type,
-            presence: true
-  validates :name,
-            presence: { if: :pattern? }
+  validates :type, presence: true
+  validates :name, presence: { if: :pattern? }
 
   validates :width,
             presence: true,
@@ -93,7 +85,7 @@ class Board::Settings
   private_class_method :settings_for
 
   # Custom Settings: See {RANGES}.
-  def self.custom(**) = new(type: CUSTOM, **)
+  def self.custom(**) = new(type: Game::CUSTOM_TYPE, **)
 
   # Shortcut for Custom Settings: See {RANGES}.
   #
@@ -111,7 +103,7 @@ class Board::Settings
   def self.pattern(name)
     pattern = Pattern.find_by!(name:)
     new(
-      type: PATTERN,
+      type: Game::PATTERN_TYPE,
       name: pattern.name,
       width: pattern.width,
       height: pattern.height,
@@ -123,8 +115,8 @@ class Board::Settings
   def to_a = to_h.values
   def as_json = to_h
 
-  def custom? = type == CUSTOM
-  def pattern? = type == PATTERN
+  def custom? = type == Game::CUSTOM_TYPE
+  def pattern? = type == Game::PATTERN_TYPE
 
   private
 

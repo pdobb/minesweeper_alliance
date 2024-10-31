@@ -19,7 +19,8 @@ class Metrics::Show
 
   def no_value_indicator = NO_VALUE_INDICATOR
 
-  # Metrics::Show::Games
+  # Metrics::Show::Games is an abstract base class that holds methods common to
+  # the Metrics::Show::<Type>Games models.
   class Games
     include AbstractBaseClassBehaviors
 
@@ -62,19 +63,19 @@ class Metrics::Show
 
   # Metrics::Show::BeginnerGames
   class BeginnerGames < Metrics::Show::Games
-    def type = Board::Settings::BEGINNER
+    def type = Game::BEGINNER_TYPE
     def arel = base_arel.for_beginner_type
   end
 
   # Metrics::Show::IntermediateGames
   class IntermediateGames < Metrics::Show::Games
-    def type = Board::Settings::INTERMEDIATE
+    def type = Game::INTERMEDIATE_TYPE
     def arel = base_arel.for_intermediate_type
   end
 
   # Metrics::Show::ExpertGames
   class ExpertGames < Metrics::Show::Games
-    def type = Board::Settings::EXPERT
+    def type = Game::EXPERT_TYPE
     def arel = base_arel.for_expert_type
   end
 end
