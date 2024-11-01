@@ -193,15 +193,6 @@ class Games::Index
     def game_score = _game_score.round(0)
     def show_game_score? = !!_game_score
 
-    def game_engagement_time_range(template)
-      template.safe_join(
-        [
-          I18n.l(game.started_at, format: :time),
-          I18n.l(game.ended_at, format: :time),
-        ],
-        "&ndash;".html_safe)
-    end
-
     def game_url
       router.game_path(game)
     end
