@@ -36,37 +36,28 @@
   }
 
   h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    @apply font-bold;
-  }
-
-  h1,
   .h1 {
-    @apply text-3xl normal-case;
+    @apply text-3xl font-bold normal-case;
   }
   h2,
   .h2 {
-    @apply text-2xl normal-case;
+    @apply text-2xl font-bold normal-case;
   }
   h3,
   .h3 {
-    @apply text-xl uppercase;
+    @apply text-xl font-bold uppercase;
   }
   h4,
   .h4 {
-    @apply text-lg normal-case;
+    @apply text-lg font-bold normal-case;
   }
   h5,
   .h5 {
-    @apply text-base normal-case;
+    @apply text-base font-bold normal-case;
   }
   h6,
   .h6 {
-    @apply text-base normal-case;
+    @apply text-base font-bold normal-case;
   }
 
   hr {
