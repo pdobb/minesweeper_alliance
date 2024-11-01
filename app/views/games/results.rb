@@ -12,6 +12,8 @@ class Games::Results
     Games::Users::Signature.new(game:, user:)
   end
 
+  def game_number = game.display_id
+
   def game_engagement_date
     I18n.l(game_ended_at.to_date, format: :weekday_comma_date)
   end

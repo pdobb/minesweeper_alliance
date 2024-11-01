@@ -9,9 +9,7 @@ module Games::ShowBehaviors
   def game_ended_in_victory? = game.ended_in_victory?
   def game_ended_in_defeat? = game.ended_in_defeat?
 
-  def game_number
-    game_id.to_s.rjust(4, "0")
-  end
+  def game_number = game.display_id
 
   def type = game.type
 

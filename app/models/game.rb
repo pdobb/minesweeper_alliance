@@ -105,6 +105,12 @@ class Game < ApplicationRecord
     }
   end
 
+  def self.display_id_width
+    @display_id_width ||= [largest_id.digits.size, 4].max
+  end
+
+  def display_id = "##{id.to_s.rjust(self.class.display_id_width, "0")}"
+
   # :reek:TooManyStatements
 
   def start(seed_cell:)
@@ -148,7 +154,6 @@ class Game < ApplicationRecord
   def ended_in_defeat? = status_mines_win?
 
   def engagement_time_range
-    # TODO: Use Start/Stop Transactions for this instead, if/when available.
     started_at..(ended_at if over?)
   end
 
@@ -264,9 +269,7 @@ class Game < ApplicationRecord
       ])
     end
 
-    def inspect_name = game_number
-
-    def game_number = "##{id.to_s.rjust(4, "0")}"
+    def inspect_name = display_id
 
     # :reek:TooManyStatements
     def do_reset

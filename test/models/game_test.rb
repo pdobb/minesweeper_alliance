@@ -11,7 +11,7 @@ class GameTest < ActiveSupport::TestCase
     let(:win1) { games(:win1) }
     let(:loss1) { games(:loss1) }
     let(:standing_by1) { games(:standing_by1) }
-    let(:new_game) { Game.new }
+    let(:new_game) { unit_class.new }
     let(:preset_settings1) { Board::Settings.beginner }
     let(:custom_settings1) { Board::Settings[6, 6, 4] }
 
@@ -98,6 +98,46 @@ class GameTest < ActiveSupport::TestCase
           _(result.board.cells).must_be_empty
         end
       end
+
+      describe ".display_id_width" do
+        before do
+          unit_class.instance_variable_set(:@display_id_width, nil)
+        end
+
+        context "GIVEN largest_id < 4 digits" do
+          before do
+            MuchStub.(subject, :largest_id) { 1 }
+          end
+
+          it "returns the expected String" do
+            _(subject.display_id_width).must_equal(4)
+          end
+        end
+
+        context "GIVEN largest_id > 4 digits" do
+          before do
+            MuchStub.(subject, :largest_id) { 12_345 }
+          end
+
+          it "returns the expected String" do
+            _(subject.display_id_width).must_equal(5)
+          end
+        end
+      end
+    end
+
+    describe "#display_id" do
+      before do
+        unit_class.instance_variable_set(:@display_id_width, nil)
+        MuchStub.(subject.class, :largest_id) { 1 }
+        MuchStub.(subject, :id) { 1 }
+      end
+
+      subject { win1 }
+
+      it "returns the expected String" do
+        _(subject.display_id).must_equal("#0001")
+      end
     end
 
     describe "#type" do
@@ -175,7 +215,7 @@ class GameTest < ActiveSupport::TestCase
         it "sets the expected Status" do
           _(-> { subject.end_in_victory }).must_change(
             "subject.status",
-            to: Game.status_alliance_wins)
+            to: unit_class.status_alliance_wins)
         end
 
         it "sets Game stats" do
@@ -218,7 +258,7 @@ class GameTest < ActiveSupport::TestCase
         it "sets the expected Status" do
           _(-> { subject.end_in_defeat }).must_change(
             "subject.status",
-            to: Game.status_mines_win)
+            to: unit_class.status_mines_win)
         end
 
         it "doesn't set Game stats" do

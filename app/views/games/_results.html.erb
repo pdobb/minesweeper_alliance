@@ -2,11 +2,20 @@
 
 <hr>
 
-<div class="my-12 text-center space-y-3">
-  <h3 class="h4">
-    <span class="sr-only">Engagement Date:</span>
-    <%= view.game_engagement_date %>
-    <%= view.game_engagement_time_range(self) %>
+<div class="my-12">
+  <h3
+    class="
+      h4
+      flex justify-center gap-x-12
+      max-sm:flex-col max-sm:items-center gap-y-6
+    "
+  >
+    <%= view.game_number %>
+    <div>
+      <span class="sr-only">Engagement Date:</span>
+      <%= view.game_engagement_date %>
+      <%= view.game_engagement_time_range(self) %>
+    </div>
   </h3>
 </div>
 
