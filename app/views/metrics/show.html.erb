@@ -1,70 +1,80 @@
 <% title("Metrics") %>
 
-<% cache_unless(App.debug?, @view.cache_key) do %>
-  <div class="container mx-auto space-y-12">
-    <h1><%= title %></h1>
 
+<div class="container mx-auto space-y-12">
+  <h1><%= title %></h1>
+
+  <% @view.engagements.tap do |engagements| %>
     <div class="space-y-10">
       <h2 class="border-b border-dotted border-dim">Engagements</h2>
 
-      <h3 class="h2">Top Scores</h3>
+      <h3 class="h2">Bests</h3>
 
-      <div class="flex max-lg:flex-col gap-x-24 gap-y-6">
-        <% @view.top_games_by_type.each do |top_games| %>
-          <div class="space-y-3">
-            <h4 class="h3"><%= top_games.type %></h4>
+      <% cache_unless(App.debug?, engagements.cache_key) do %>
+        <div class="flex max-lg:flex-col gap-x-24 gap-y-6">
+          <% engagements.bests_per_type.each do |bests| %>
+            <div class="space-y-3">
+              <h4 class="h3"><%= bests.type %></h4>
 
-            <table
-              class="
-                -mx-6 -my-2
-                table-fixed
-                border-separate border-spacing-x-6 border-spacing-y-2
-                text-left
-              "
-            >
-              <thead>
-                <tr>
-                  <th>Rank</th>
-                  <th class="min-w-[100px]">
-                    <dfn
-                      data-tooltip="<%= t("terms.score") %>"
-                      class="after:w-72"
-                    >Score</dfn>
-                  </th>
-                  <th>
-                    <dfn
-                      data-tooltip="Participating minesweepers count."
-                      class="sm:after:w-72 -ml-1"
-                    ><%= Emoji.ship %></dfn>
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                <% top_games.limit.times do |index| %>
-                  <% top_games.listings[index].tap do |listing| %>
-                    <tr>
-                      <td><%= index.next %></td>
-                      <% if listing %>
-                        <td>
-                          <%= link_to(listing.game_score, listing.game_url) %>
-                        </td>
-                        <td><%= listing.players_count %></td>
-                      <% else %>
-                        <td class="text-dim-lg">
-                          <%= @view.no_value_indicator %>
-                        </td>
-                        <td class="text-dim-lg">
-                          <%= @view.no_value_indicator %>
-                        </td>
-                      <% end %>
-                    </tr>
+              <table
+                class="
+                  -mx-6 -my-2
+                  table-fixed
+                  border-separate border-spacing-x-6 border-spacing-y-2
+                  text-left
+                "
+              >
+                <thead>
+                  <tr>
+                    <th>Rank</th>
+                    <th class="min-w-[100px]">
+                      <dfn
+                        data-tooltip="<%= t("terms.score") %>"
+                        class="after:w-72"
+                      >Score</dfn>
+                    </th>
+                    <th>
+                      <dfn
+                        data-tooltip="Participating minesweepers count."
+                        class="sm:after:w-72 -ml-1"
+                      ><%= Emoji.ship %></dfn>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% bests.limit.times do |index| %>
+                    <% bests.listings[index].tap do |listing| %>
+                      <tr>
+                        <td><%= index.next %></td>
+                        <% if listing %>
+                          <td>
+                            <%= link_to(
+                                  listing.game_score,
+                                  listing.game_url,
+                                  data: { turbo_frame: :game_with_results }) %>
+                          </td>
+                          <td><%= listing.players_count %></td>
+                        <% else %>
+                          <td class="text-dim-lg">
+                            <%= @view.no_value_indicator %>
+                          </td>
+                          <td class="text-dim-lg">
+                            <%= @view.no_value_indicator %>
+                          </td>
+                        <% end %>
+                      </tr>
+                    <% end %>
                   <% end %>
-                <% end %>
-              </tbody>
-            </table>
-          </div>
-        <% end %>
+                </tbody>
+              </table>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+
+      <div class="has-[turbo-frame:empty]:hidden border border-dim p-6">
+        <%= turbo_frame_tag(:game_with_results) %>
       </div>
     </div>
-  </div>
-<% end %>
+  <% end %>
+</div>

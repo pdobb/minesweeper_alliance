@@ -4,10 +4,10 @@
   <%= render("games/page_nav", nav: @view.nav) %>
 <% end %>
 
-<%= render("games/game", view: @view) %>
+<%= turbo_frame_tag(:game_with_results) do %>
+  <%= render("games/game", view: @view) %>
 
-<div class="container mx-auto">
-  <hr>
-
-  <%= render("games/results", view: @view.results(user: current_user)) %>
-</div>
+  <div class="container mx-auto">
+    <%= render("games/results", view: @view.results(user: current_user)) %>
+  </div>
+<% end %>
