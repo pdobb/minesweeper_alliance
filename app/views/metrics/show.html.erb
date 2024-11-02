@@ -11,9 +11,13 @@
       <h3 class="h2">Bests</h3>
 
       <% cache_unless(App.debug?, engagements.cache_key) do %>
-        <div class="flex max-lg:flex-col gap-x-24 gap-y-6">
+        <div
+          data-controller="active-link"
+          data-active-link-active-class="active"
+          class="flex max-lg:flex-col gap-x-24 gap-y-6"
+        >
           <% engagements.bests_per_type.each do |bests| %>
-            <div class="space-y-3">
+            <nav class="space-y-3">
               <h4 class="h3"><%= bests.type %></h4>
 
               <table
@@ -51,7 +55,10 @@
                             <%= link_to(
                                   listing.game_score,
                                   listing.game_url,
-                                  data: { turbo_frame: :game_with_results }) %>
+                                  data: {
+                                    action: "active-link#set",
+                                    turbo_frame: :game_with_results
+                                  }) %>
                           </td>
                           <td><%= listing.players_count %></td>
                         <% else %>
@@ -67,7 +74,7 @@
                   <% end %>
                 </tbody>
               </table>
-            </div>
+            </nav>
           <% end %>
         </div>
       <% end %>
