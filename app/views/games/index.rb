@@ -190,7 +190,7 @@ class Games::Index
       type[0]
     end
 
-    def game_score = _game_score.round(0)
+    def game_score = View.round(_game_score, precision: 0)
     def show_game_score? = !!_game_score
 
     def game_url

@@ -3,13 +3,10 @@
 # Metrics::Show is a View Model for displaying the Metrics Show page.
 class Metrics::Show
   TOP_RECORDS_LIMIT = 3
-  NO_VALUE_INDICATOR = "—"
 
   def engagements
     Engagements.new
   end
-
-  def no_value_indicator = NO_VALUE_INDICATOR
 
   # Metrics::Show::Engagements
   class Engagements
@@ -38,16 +35,20 @@ class Metrics::Show
         as_abstract_class
 
         def type = raise(NotImplementedError)
-        def limit = TOP_RECORDS_LIMIT
-        def listings = @listings ||= Listing.wrap(arel)
+
+        def listings
+          @listings ||= Listing.wrap_upto(arel, limit:, fill: NullListing.new)
+        end
 
         private
 
         def arel = raise(NotImplementedError)
 
         def base_arel
-          Game.for_status_alliance_wins.by_score_asc.limit(TOP_RECORDS_LIMIT)
+          Game.for_status_alliance_wins.by_score_asc.limit(limit)
         end
+
+        def limit = TOP_RECORDS_LIMIT
 
         # Metrics::Show::Games::Listing
         class Listing
@@ -57,12 +58,10 @@ class Metrics::Show
             @game = game
           end
 
-          def game_score = game.score
+          def table_cell_css = nil
+          def game_score = View.round(game.score)
           def players_count = game.users.size
-
-          def game_url
-            router.game_path(game)
-          end
+          def game_url = router.game_path(game)
 
           private
 
@@ -70,23 +69,42 @@ class Metrics::Show
 
           def router = RailsRouter.instance
         end
+
+        # Metrics::Show::Games::NullListing implements the NulL Pattern for
+        # {Metrics::Show::Games::Listing} view models.
+        class NullListing
+          def present? = false
+          def table_cell_css = "text-dim-lg"
+          def game_score = View.no_value_indicator
+          def game_url = nil
+          def players_count = View.no_value_indicator
+        end
       end
 
       # Metrics::Show::Engagements::Bests::Beginner
       class Beginner < Metrics::Show::Engagements::Bests::Base
         def type = Game::BEGINNER_TYPE
+
+        private
+
         def arel = base_arel.for_beginner_type
       end
 
       # Metrics::Show::Engagements::Bests::Intermediate
       class Intermediate < Metrics::Show::Engagements::Bests::Base
         def type = Game::INTERMEDIATE_TYPE
+
+        private
+
         def arel = base_arel.for_intermediate_type
       end
 
       # Metrics::Show::Engagements::Bests::Expert
       class Expert < Metrics::Show::Engagements::Bests::Base
         def type = Game::EXPERT_TYPE
+
+        private
+
         def arel = base_arel.for_expert_type
       end
     end

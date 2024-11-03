@@ -46,31 +46,23 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <% bests.limit.times do |index| %>
-                    <% bests.listings[index].tap do |listing| %>
-                      <tr>
-                        <td><%= index.next %></td>
-                        <% if listing %>
-                          <td>
-                            <%= link_to(
-                                  listing.game_score,
-                                  listing.game_url,
-                                  data: {
-                                    action: "active-link#set",
-                                    turbo_frame: :game_with_results
-                                  }) %>
-                          </td>
-                          <td><%= listing.players_count %></td>
-                        <% else %>
-                          <td class="text-dim-lg">
-                            <%= @view.no_value_indicator %>
-                          </td>
-                          <td class="text-dim-lg">
-                            <%= @view.no_value_indicator %>
-                          </td>
-                        <% end %>
-                      </tr>
-                    <% end %>
+                  <% bests.listings.each_with_index do |listing, index| %>
+                    <tr>
+                      <td><%= index.next %></td>
+                      <td class="<%= listing.table_cell_css %>">
+                        <%= link_to_if(
+                              listing.present?,
+                              listing.game_score,
+                              listing.game_url,
+                              data: {
+                                action: "active-link#set",
+                                turbo_frame: :game_with_results
+                              }) %>
+                      </td>
+                      <td class="<%= listing.table_cell_css %>">
+                        <%= listing.players_count %>
+                      </td>
+                    </tr>
                   <% end %>
                 </tbody>
               </table>

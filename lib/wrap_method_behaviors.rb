@@ -22,5 +22,27 @@ module WrapMethodBehaviors
         new(object, ...)
       }
     end
+
+    # :reek:LongParameterList
+
+    # @example
+    #   class Dog
+    #     include WrapMethodBehaviors
+    #
+    #     def initialize(name)
+    #       @name = name
+    #     end
+    #   end
+    #
+    #   Dog.wrap_upto(["Spot", "Max"], limit: 3) # =>
+    #     [#<Dog @name="Spot">, #<Dog @name="Max">, nil]
+    #
+    #   Dog.wrap_upto(["Spot", "Max"], limit: 3, fill: NullDog.new) # =>
+    #     [#<Dog @name="Spot">, #<Dog @name="Max">, #<NullDog...>]
+    def wrap_upto(objects, *, limit:, fill: nil, **)
+      Array.new(limit) { |index|
+        (object = objects[index]) ? new(object, *, **) : fill
+      }
+    end
   end
 end
