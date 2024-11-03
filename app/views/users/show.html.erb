@@ -243,7 +243,7 @@
     <% end %>
 
     <div
-      data-controller="frame"
+      data-controller="frame scroll-to"
       data-action="active-link:deactivate@window->frame#hide"
       data-transition-enter="transition ease-out duration-100"
       data-transition-enter-start="transform opacity-0 scale-95"
@@ -277,7 +277,9 @@
             :game_with_results,
             data: {
               frame_target: "frame",
-              action: "turbo:frame-load->frame#show"
+              action:
+                "turbo:frame-load->frame#show "\
+                "turbo:frame-load->scroll-to#jumpToContainer",
             }) %>
     </div>
   </div>
