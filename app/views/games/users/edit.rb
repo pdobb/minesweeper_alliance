@@ -17,13 +17,11 @@ class Games::Users::Edit
   def form_model = user
 
   def update_form_url
-    router.game_user_path(game)
+    Router.game_user_path(game)
   end
 
   private
 
   attr_reader :game,
               :user
-
-  def router = RailsRouter.instance
 end

@@ -54,7 +54,7 @@ class Home::Show
     def previous_game? = !!previous_game
 
     def previous_game_url
-      router.game_path(previous_game)
+      Router.game_path(previous_game)
     end
 
     def previous_game
@@ -64,8 +64,6 @@ class Home::Show
     private
 
     attr_reader :current_game
-
-    def router = RailsRouter.instance
   end
 
   # Home::Show::WelcomeBanner aids in building an

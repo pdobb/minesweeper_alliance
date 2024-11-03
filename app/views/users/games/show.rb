@@ -33,15 +33,15 @@ class Users::Games::Show < Games::Show
     def show_close_button? = true
 
     def close_game_url
-      router.user_path(user)
+      Router.user_path(user)
     end
 
     def previous_game_url
-      router.user_game_path(user, previous_game)
+      Router.user_game_path(user, previous_game)
     end
 
     def next_game_url
-      router.user_game_path(user, next_game)
+      Router.user_game_path(user, next_game)
     end
 
     def show_current_game_button? = false

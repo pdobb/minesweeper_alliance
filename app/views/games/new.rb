@@ -7,18 +7,14 @@ class Games::New
   end
 
   def game_url(preset)
-    router.games_path(preset:)
+    Router.games_path(preset:)
   end
 
   def random_game_url
-    router.random_game_path
+    Router.random_game_path
   end
 
   def new_custom_game_url
-    router.new_custom_game_path
+    Router.new_custom_game_path
   end
-
-  private
-
-  def router = RailsRouter.instance
 end

@@ -126,8 +126,8 @@ class Users::Show
 
       def user_bests = @user_bests ||= user.bests
 
-      def url_for(game, router: RailsRouter.instance)
-        router.user_game_path(user, game) if game
+      def url_for(game)
+        Router.user_game_path(user, game) if game
       end
     end
 
@@ -273,14 +273,12 @@ class Users::Show
       end
 
       def game_url
-        router.user_game_path(user, game)
+        Router.user_game_path(user, game)
       end
 
       private
 
       attr_reader :user
-
-      def router = RailsRouter.instance
     end
   end
 end

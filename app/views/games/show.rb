@@ -48,19 +48,19 @@ class Games::Show
   def mines = board.mines
 
   def reveal_url
-    router.game_board_cell_reveal_path(game, board, NULL_CELL_ID)
+    Router.game_board_cell_reveal_path(game, board, NULL_CELL_ID)
   end
 
   def toggle_flag_url
-    router.game_board_cell_toggle_flag_path(game, board, NULL_CELL_ID)
+    Router.game_board_cell_toggle_flag_path(game, board, NULL_CELL_ID)
   end
 
   def highlight_neighbors_url
-    router.game_board_cell_highlight_neighbors_path(game, board, NULL_CELL_ID)
+    Router.game_board_cell_highlight_neighbors_path(game, board, NULL_CELL_ID)
   end
 
   def reveal_neighbors_url
-    router.game_board_cell_reveal_neighbors_path(game, board, NULL_CELL_ID)
+    Router.game_board_cell_reveal_neighbors_path(game, board, NULL_CELL_ID)
   end
 
   def rows(context:)
@@ -95,8 +95,6 @@ class Games::Show
 
   def game_engagement_time_range = game.engagement_time_range
 
-  def router = RailsRouter.instance
-
   # Games::Show::Nav is a View Model for handling navigation between Game - Show
   # pages.
   class Nav
@@ -109,26 +107,24 @@ class Games::Show
     def previous_game? = !!previous_game
 
     def previous_game_url
-      router.game_path(previous_game)
+      Router.game_path(previous_game)
     end
 
     def next_game? = next_game&.over?
 
     def next_game_url
-      router.game_path(next_game)
+      Router.game_path(next_game)
     end
 
     def show_current_game_button? = true
 
     def current_game_url
-      router.root_path
+      Router.root_path
     end
 
     private
 
     attr_reader :game
-
-    def router = RailsRouter.instance
 
     def previous_game
       @previous_game ||=

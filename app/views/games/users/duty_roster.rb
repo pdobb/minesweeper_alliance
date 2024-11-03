@@ -51,14 +51,12 @@ class Games::Users::DutyRoster
     end
 
     def show_user_url
-      router.user_path(user)
+      Router.user_path(user)
     end
 
     private
 
     attr_reader :user,
                 :game
-
-    def router = RailsRouter.instance
   end
 end

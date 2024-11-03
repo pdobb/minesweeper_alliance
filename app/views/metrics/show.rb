@@ -61,13 +61,11 @@ class Metrics::Show
           def table_cell_css = nil
           def game_score = View.round(game.score)
           def players_count = game.users.size
-          def game_url = router.game_path(game)
+          def game_url = Router.game_path(game)
 
           private
 
           attr_reader :game
-
-          def router = RailsRouter.instance
         end
 
         # Metrics::Show::Games::NullListing implements the NulL Pattern for

@@ -29,13 +29,11 @@ class Games::Users::Signature
   end
 
   def attribution_link_url
-    router.edit_game_user_path(game)
+    Router.edit_game_user_path(game)
   end
 
   private
 
   attr_reader :game,
               :user
-
-  def router = RailsRouter.instance
 end

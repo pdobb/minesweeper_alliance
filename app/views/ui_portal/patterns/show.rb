@@ -13,27 +13,27 @@ class UIPortal::Patterns::Show
   end
 
   def edit_pattern_url
-    router.edit_ui_portal_pattern_path(pattern)
+    Router.edit_ui_portal_pattern_path(pattern)
   end
 
   def destroy_pattern_url
-    router.ui_portal_pattern_path(pattern)
+    Router.ui_portal_pattern_path(pattern)
   end
 
   def toggle_flag_url
-    router.ui_portal_pattern_toggle_flag_path(pattern)
+    Router.ui_portal_pattern_toggle_flag_path(pattern)
   end
 
   def pattern_reset_url
-    router.ui_portal_pattern_resets_path(pattern)
+    Router.ui_portal_pattern_resets_path(pattern)
   end
 
   def pattern_export_url
-    router.ui_portal_pattern_exports_path(pattern)
+    Router.ui_portal_pattern_exports_path(pattern)
   end
 
   def pattern_import_url
-    router.new_ui_portal_pattern_import_path(pattern)
+    Router.new_ui_portal_pattern_import_path(pattern)
   end
 
   def dimensions = pattern.dimensions
@@ -52,10 +52,7 @@ class UIPortal::Patterns::Show
 
   attr_reader :pattern
 
-  def router = RailsRouter.instance
-
   def grid = pattern.grid
-
   def flag_density = pattern.flag_density
 
   # UIPortal::Patterns::Show::Cell is a View Model for displaying virtual
