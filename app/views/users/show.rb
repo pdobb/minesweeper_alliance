@@ -6,10 +6,6 @@ class Users::Show
     @user = user
   end
 
-  def cache_key
-    [user, service_record.completed_games_count]
-  end
-
   def display_name = user.display_name
   def enlistment_date = I18n.l(user.created_at.to_date)
 
@@ -35,6 +31,10 @@ class Users::Show
   class ServiceRecord
     def initialize(user:)
       @user = user
+    end
+
+    def cache_key
+      [user, completed_games_count]
     end
 
     def games_count = View.delimit(completed_games_count)

@@ -1,22 +1,22 @@
 <% title(@view.display_name) %>
 
 <div class="container mx-auto">
-  <% cache_unless(App.debug?, @view.cache_key) do %>
-    <div class="xl:w-2/3 space-y-12">
-      <div class="space-y-6">
-        <h1 class="border-b border-dotted border-dim">
-          <%= @view.display_name %>
-        </h1>
+  <div class="space-y-10">
+    <div class="xl:w-2/3 space-y-6">
+      <h1 class="border-b border-dotted border-dim">
+        <%= @view.display_name %>
+      </h1>
 
-        <p class="flex gap-x-6">
-          <span>Enlisted:</span>
-          <span><%= @view.enlistment_date %></span>
-        </p>
-      </div>
+      <p class="flex gap-x-6">
+        <span>Enlisted:</span>
+        <span><%= @view.enlistment_date %></span>
+      </p>
+    </div>
 
+    <% cache_unless(App.debug?, @view.service_record.cache_key) do %>
       <div class="flex max-md:flex-col gap-x-24 gap-y-8 items-start">
-        <div class="space-y-6">
-          <h2 class="h3">Service Record</h2>
+        <div>
+          <h2 class="h3 mb-6">Service Record</h2>
 
           <% @view.service_record.tap do |service_record| %>
             <table
@@ -72,8 +72,12 @@
           <% end %>
         </div>
 
-        <div class="space-y-6">
-          <h2 class="h3">Bests</h2>
+        <nav
+          data-controller="active-link"
+          data-active-link-active-class="active"
+          data-action="frame:hide@window->active-link#clear"
+        >
+          <h2 class="h3 mb-6">Bests</h2>
 
           <% @view.bests.tap do |bests| %>
             <table
@@ -99,7 +103,11 @@
                       <%= link_to_if(
                             best.beginner_score?,
                             best.beginner_score,
-                            best.beginner_score_url) %>
+                            best.beginner_score_url,
+                            data: {
+                              action: "active-link#toggle",
+                              turbo_frame: :game_with_results,
+                            }) %>
                     </td>
                   </tr>
                   <tr>
@@ -108,7 +116,11 @@
                       <%= link_to_if(
                             best.intermediate_score?,
                             best.intermediate_score,
-                            best.intermediate_score_url) %>
+                            best.intermediate_score_url,
+                            data: {
+                              action: "active-link#toggle",
+                              turbo_frame: :game_with_results,
+                            }) %>
                     </td>
                   </tr>
                   <tr>
@@ -117,7 +129,11 @@
                       <%= link_to_if(
                             best.expert_score?,
                             best.expert_score,
-                            best.expert_score_url) %>
+                            best.expert_score_url,
+                            data: {
+                              action: "active-link#toggle",
+                              turbo_frame: :game_with_results,
+                            }) %>
                     </td>
                   </tr>
                 <% end %>
@@ -136,7 +152,11 @@
                       <%= link_to_if(
                             best.beginner_bbbvps?,
                             best.beginner_bbbvps,
-                            best.beginner_bbbvps_url) %>
+                            best.beginner_bbbvps_url,
+                            data: {
+                              action: "active-link#toggle",
+                              turbo_frame: :game_with_results,
+                            }) %>
                     </td>
                   </tr>
                   <tr>
@@ -145,7 +165,11 @@
                       <%= link_to_if(
                             best.intermediate_bbbvps?,
                             best.intermediate_bbbvps,
-                            best.intermediate_bbbvps_url) %>
+                            best.intermediate_bbbvps_url,
+                            data: {
+                              action: "active-link#toggle",
+                              turbo_frame: :game_with_results,
+                            }) %>
                     </td>
                   </tr>
                   <tr>
@@ -154,7 +178,11 @@
                       <%= link_to_if(
                             best.expert_bbbvps?,
                             best.expert_bbbvps,
-                            best.expert_bbbvps_url) %>
+                            best.expert_bbbvps_url,
+                            data: {
+                              action: "active-link#toggle",
+                              turbo_frame: :game_with_results,
+                            }) %>
                     </td>
                   </tr>
                 <% end %>
@@ -173,7 +201,11 @@
                       <%= link_to_if(
                             best.beginner_efficiency?,
                             best.beginner_efficiency,
-                            best.beginner_efficiency_url) %>
+                            best.beginner_efficiency_url,
+                            data: {
+                              action: "active-link#toggle",
+                              turbo_frame: :game_with_results,
+                            }) %>
                     </td>
                   </tr>
                   <tr>
@@ -182,7 +214,11 @@
                       <%= link_to_if(
                             best.intermediate_efficiency?,
                             best.intermediate_efficiency,
-                            best.intermediate_efficiency_url) %>
+                            best.intermediate_efficiency_url,
+                            data: {
+                              action: "active-link#toggle",
+                              turbo_frame: :game_with_results,
+                            }) %>
                     </td>
                   </tr>
                   <tr>
@@ -191,31 +227,74 @@
                       <%= link_to_if(
                             best.expert_efficiency?,
                             best.expert_efficiency,
-                            best.expert_efficiency_url) %>
+                            best.expert_efficiency_url,
+                            data: {
+                              action: "active-link#toggle",
+                              turbo_frame: :game_with_results,
+                            }) %>
                     </td>
                   </tr>
                 <% end %>
               </tbody>
             </table>
           <% end %>
-        </div>
+        </nav>
       </div>
+    <% end %>
+
+    <div
+      data-controller="frame"
+      data-action="active-link:deactivate@window->frame#hide"
+      data-transition-enter="transition ease-out duration-100"
+      data-transition-enter-start="transform opacity-0 scale-95"
+      data-transition-enter-end="transform opacity-100 scale-100"
+      data-transition-leave="transition ease-in duration-75"
+      data-transition-leave-start="transform opacity-100 scale-100"
+      data-transition-leave-end="transform opacity-0 scale-95"
+      class="
+        hidden relative
+        px-6 py-12 -mx-3 shadow-lg rounded
+        border border-dim
+      "
+    >
+      <div class="absolute top-3 right-3 flex justify-end">
+        <button
+          type="button"
+          data-action="frame#hide"
+          class="
+            -m-1.5 p-2 rounded-lg
+            hover:bg-gray-200 dark:hover:bg-neutral-700 hover:focus:bg-gray-200
+            focus:ring-2 focus:ring-gray-400 focus:animate-pulse-fast
+            text-dim
+          "
+          aria-label="Close"
+        >
+          <%= inline_svg_tag("heroicons/x-mark.svg", class: "stroke-2") %>
+        </button>
+      </div>
+
+      <%= turbo_frame_tag(
+            :game_with_results,
+            data: {
+              frame_target: "frame",
+              action: "turbo:frame-load->frame#show"
+            }) %>
     </div>
+  </div>
 
-    <hr>
+  <hr>
 
-    <div class="space-y-12">
-      <% @view.games.tap do |games| %>
-        <div class="space-y-8">
-          <h2>Past Engagements</h2>
+  <div class="space-y-12">
+    <% @view.games.tap do |games| %>
+      <div class="space-y-8">
+        <h2>Past Engagements</h2>
 
-          <h3 class="text-center">
-            <%= render("games/engagement_tally", view: games.engagement_tally) %>
-          </h3>
-        </div>
+        <h3 class="text-center">
+          <%= render("games/engagement_tally", view: games.engagement_tally) %>
+        </h3>
+      </div>
 
-        <%= render("games/listings", view: games) %>
-      <% end %>
-    </div>
-  <% end %>
+      <%= render("games/listings", view: games) %>
+    <% end %>
+  </div>
 </div>
