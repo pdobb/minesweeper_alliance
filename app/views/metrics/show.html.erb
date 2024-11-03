@@ -56,7 +56,7 @@
                               listing.game_score,
                               listing.game_url,
                               data: {
-                                action: "active-link#set",
+                                action: "active-link#toggle",
                                 turbo_frame: :game_with_results
                               }) %>
                       </td>
@@ -74,6 +74,7 @@
 
       <div
         data-controller="frame"
+        data-action="active-link:deactivate@window->frame#hide"
         data-transition-enter="transition ease-out duration-100"
         data-transition-enter-start="transform opacity-0 scale-95"
         data-transition-enter-end="transform opacity-100 scale-100"

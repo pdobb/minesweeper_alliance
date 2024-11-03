@@ -3,38 +3,29 @@ import { Controller } from "@hotwired/stimulus"
 export default class extends Controller {
   static classes = ["active"]
 
-  set(event) {
-    this.clear()
-    this.#activate(event.target)
+  toggle(event) {
+    const $link = event.currentTarget
+
+    if ($link.classList.contains(this.activeClass)) {
+      this.#deactivate($link)
+      this.dispatch("deactivate")
+    } else {
+      this.clear()
+      this.#activate($link)
+    }
   }
 
   clear() {
-    Array.from(this.element.querySelectorAll("a")).forEach(
+    Array.from(this.element.querySelectorAll(`a.${this.activeClass}`)).forEach(
       this.#deactivate.bind(this),
     )
   }
 
-  #deactivate($link) {
-    $link.classList.remove(...this.activeClasses)
-  }
-
   #activate($link) {
-    const id = $link.dataset.activeLinkId
-
-    if (id) {
-      this.#activateLinksById(id)
-    } else {
-      this.#activateLink($link)
-    }
+    $link.classList.add(this.activeClass)
   }
 
-  #activateLinksById(id) {
-    Array.from(
-      this.element.querySelectorAll(`a[data-active-link-id="${id}"]`),
-    ).forEach(this.#activateLink.bind(this))
-  }
-
-  #activateLink($link) {
-    $link.classList.add(...this.activeClasses)
+  #deactivate($link) {
+    $link.classList.remove(this.activeClass)
   }
 }
