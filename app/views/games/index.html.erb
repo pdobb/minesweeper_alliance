@@ -32,8 +32,9 @@
     >
       <% @view.types.each do |type| %>
         <li>
+          <%= type.initials %> =
           <%= link_to(
-                "#{type.initials} = #{type.name}",
+                type.name,
                 type.games_filter_url,
                 class: type.css,
                 data: { turbo_prefetch: "false" }) %>

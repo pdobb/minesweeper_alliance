@@ -20,11 +20,11 @@
   header,
   footer {
     nav a {
-      @apply py-2;
+      @apply py-2 no-underline;
     }
   }
   nav a {
-    @apply no-underline border-2 border-transparent;
+    @apply border-2 border-transparent;
 
     &.active,
     &:hover {
