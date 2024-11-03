@@ -14,6 +14,7 @@
         <div
           data-controller="active-link"
           data-active-link-active-class="active"
+          data-action="frame:hide@window->active-link#clear"
           class="flex max-lg:flex-col gap-x-24 gap-y-6"
         >
           <% engagements.bests_per_type.each do |bests| %>
@@ -71,8 +72,42 @@
         </div>
       <% end %>
 
-      <div class="has-[turbo-frame:empty]:hidden border border-dim p-6">
-        <%= turbo_frame_tag(:game_with_results) %>
+      <div
+        data-controller="frame"
+        data-transition-enter="transition ease-out duration-100"
+        data-transition-enter-start="transform opacity-0 scale-95"
+        data-transition-enter-end="transform opacity-100 scale-100"
+        data-transition-leave="transition ease-in duration-75"
+        data-transition-leave-start="transform opacity-100 scale-100"
+        data-transition-leave-end="transform opacity-0 scale-95"
+        class="
+          hidden relative
+          px-6 py-12 -mx-3 shadow-lg rounded
+          border border-dim
+        "
+      >
+        <div class="absolute top-3 right-3 flex justify-end">
+          <button
+            type="button"
+            data-action="frame#hide"
+            class="
+              -m-1.5 p-2 rounded-lg
+              hover:bg-gray-200 dark:hover:bg-neutral-700 hover:focus:bg-gray-200
+              focus:ring-2 focus:ring-gray-400 focus:animate-pulse-fast
+              text-dim
+            "
+            aria-label="Close"
+          >
+            <%= inline_svg_tag("heroicons/x-mark.svg", class: "stroke-2") %>
+          </button>
+        </div>
+
+        <%= turbo_frame_tag(
+              :game_with_results,
+              data: {
+                frame_target: "frame",
+                action: "turbo:frame-load->frame#show"
+              }) %>
       </div>
     </div>
   <% end %>

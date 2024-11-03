@@ -2,12 +2,12 @@
 
 <div
   data-controller="banner"
+  data-action="transitionend->banner#remove"
   <% if banner.permanently_dismissable? %>
     data-banner-permanently-dismissable-value="<%= banner.permanently_dismissable? %>"
     data-banner-name-value="<%= banner.name %>"
   <% end %>
   data-banner-hide-class="opacity-0"
-  data-action="transitionend->banner#remove"
   role="banner"
   class="
     mx-auto mb-12 max-w-4xl
@@ -23,12 +23,12 @@
       data-action="banner#dismiss"
       class="
         -m-1.5 p-2 rounded-lg
-        focus:ring-2 focus:animate-pulse-fast
-        <%= class_names(banner.button_css) %>
+        hover:bg-gray-200 dark:hover:bg-neutral-700 hover:focus:bg-gray-200
+        focus:ring-2 focus:ring-gray-400 focus:animate-pulse-fast
+        text-dim
       "
       aria-label="Dismiss"
     >
-      <span class="sr-only">Dismiss</span>
       <%= inline_svg_tag("heroicons/x-mark.svg", class: "stroke-2") %>
     </button>
   <% end %>

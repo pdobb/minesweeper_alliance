@@ -10,14 +10,6 @@ class Application::BannerTest < ActiveSupport::TestCase
       unit_class.new(content: { text: "Test 1." })
     }
 
-    describe "#button_css" do
-      subject { banner1 }
-
-      it "returns the expected String" do
-        _(subject.button_css).must_include("text-dim")
-      end
-    end
-
     describe "#show_dismissal_button?" do
       context "GIVEN a #context" do
         subject {
