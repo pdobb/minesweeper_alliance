@@ -9,7 +9,9 @@ export default class extends Controller {
     if ($link.classList.contains(this.activeClass)) {
       this.#deactivate($link)
       this.dispatch("deactivate")
-    } else {
+    } else if (!event.metaKey) {
+      // Cmd + Click = "Open Link in New Tab" event.
+      // Don't highlight the link as active in that case.
       this.clear()
       this.#activate($link)
     }
