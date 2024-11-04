@@ -4,7 +4,7 @@
   <%= render("games/page_nav", nav: @view.nav) %>
 <% end %>
 
-<%= turbo_frame_tag(:game_with_results) do %>
+<%= turbo_frame_tag(:game_frame) do %>
   <%= render("games/game", view: @view) %>
 
   <div class="container mx-auto">
