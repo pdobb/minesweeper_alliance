@@ -59,6 +59,10 @@ class User < ApplicationRecord
     game.users.for_id(self).exists?
   end
 
+  def completed_games_count
+    games.for_game_over_statuses.size
+  end
+
   def bests = @bests ||= Bests.new(self)
 
   # User::Bests is a specialization on User for finding "best" (e.g.

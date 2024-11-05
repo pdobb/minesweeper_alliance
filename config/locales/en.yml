@@ -96,6 +96,12 @@ en:
         - Ups! Wellp<span class="font-sans">&hellip;</span>
         - Oh noes! Uhm<span class="font-sans">&hellip;</span> Ok. Back at it! 😅
         - <span class="tracking-emojis">😳😳😳</span> Again!
+    board:
+      header:
+        counts:
+          title: Placed Flags vs Total Mines
+        timer:
+          title: Game Timer
 
   terms:
     score: Score = solve speed in seconds. Lower is better.

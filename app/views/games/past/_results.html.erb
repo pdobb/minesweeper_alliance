@@ -1,0 +1,15 @@
+<%# locals: (results:) %>
+
+<div
+  class="
+    grid md:grid-cols-2
+    gap-x-28 gap-y-8
+  "
+>
+  <div class="md:justify-self-end space-y-3">
+    <%= render("games/past/metrics", metrics: results.metrics) %>
+  </div>
+  <div>
+    <%= render("games/past/duty_roster", duty_roster: results.duty_roster) %>
+  </div>
+</div>

@@ -1,58 +1,42 @@
 # frozen_string_literal: true
 
-# Users::Games::Show is a View Model for displaying the Games Show page in the
-# context of a User.
-#
-# @see Games::Show
-class Users::Games::Show < Games::Show
+# Users::Games::Show represents past {Game}s in the context of a participating
+# player ({User}).
+class Users::Games::Show
+  def self.turbo_frame_name = :past_game_frame
+
   def initialize(game:, user:)
-    super(game:)
+    @game = game
     @user = user
   end
 
+  def display_name = user.display_name
+  def game_number = game.display_id
+
   def nav
-    Nav.new(game:, user:)
+    Users::Games::Nav.new(game:, user:)
   end
 
-  def display_name = user.display_name
+  def turbo_frame_name = self.class.turbo_frame_name
+
+  def cache_key(context:)
+    [
+      :user,
+      game,
+      context.mobile? ? :mobile : :web,
+    ]
+  end
+
+  def content
+    Users::Games::Content.new(game:)
+  end
+
+  def results
+    Games::Past::Results.new(game:)
+  end
 
   private
 
-  attr_reader :user
-
-  # Users::Games::Show::Nav is a View Model for handling navigation between
-  # User-specific Game - Show pages.
-  #
-  # @see Games::Show::Nav
-  class Nav < Games::Show::Nav
-    def initialize(game:, user:)
-      super(game:)
-      @user = user
-    end
-
-    def show_close_button? = true
-
-    def close_game_url
-      Router.user_path(user)
-    end
-
-    def previous_game_url
-      Router.user_game_path(user, previous_game)
-    end
-
-    def next_game_url
-      Router.user_game_path(user, next_game)
-    end
-
-    def show_current_game_button? = false
-
-    private
-
-    attr_reader :game,
-                :user
-
-    def base_arel
-      user.games.excluding(game)
-    end
-  end
+  attr_reader :game,
+              :user
 end

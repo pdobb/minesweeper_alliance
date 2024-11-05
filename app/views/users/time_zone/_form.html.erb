@@ -1,0 +1,15 @@
+<%# locals: (form:) %>
+
+<%= form_with(model: form, url: form.post_url) do |f| %>
+  <%= f.label(:time_zone, "Time Zone:", class: "sr-only") %>
+  <%= f.time_zone_select(
+        :time_zone,
+        form.priority_zones,
+        {},
+        data: { action: "time-zone#select" },
+        class: %w[
+          form-select max-sm:w-full
+          pl-0 md:pl-1 py-1 pr-10 sm:pr-0
+          text-dim
+        ]) %>
+<% end %>

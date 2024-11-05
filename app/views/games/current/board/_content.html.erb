@@ -1,0 +1,58 @@
+<%# locals: (content:) %>
+
+<% content.grid_context(layout).tap do |grid_context| %>
+  <div
+    class="
+      -mx-5
+      <% if grid_context.allow_scrolling? %>
+        overflow-x-auto
+      <% end %>
+    "
+  >
+    <table
+      id="game_board"
+      class="
+        mx-auto table-fixed
+        border-double border-4 border-dark
+      "
+    >
+      <tbody
+        data-controller="board"
+        data-board-reveal-url-value="<%= content.reveal_url %>"
+        data-board-toggle-flag-url-value="<%= content.toggle_flag_url %>"
+        data-board-highlight-neighbors-url-value="<%= content.highlight_neighbors_url %>"
+        data-board-reveal-neighbors-url-value="<%= content.reveal_neighbors_url %>"
+        data-action="
+          click->board#reveal
+          contextmenu->board#toggleFlag:prevent
+          mousedown->board#highlightNeighbors
+          mouseup->board#revealNeighbors
+        "
+        class="
+          text-center select-none
+
+          <%# Cells %>
+          *:*:size-8 *:*:min-w-8 *:*:min-h-8
+          *:*:border *:*:border-dark
+          data-[revealed=false]:*:*:cursor-cell
+          data-[revealed=true]:*:*:cursor-default
+        "
+      >
+        <% content.rows(context: grid_context).each do |row| %>
+          <tr>
+            <% row.each do |cell| %>
+              <td
+                data-id="<%= cell.id %>"
+                data-revealed="<%= cell.revealed? %>"
+                data-flagged="<%= cell.flagged? %>"
+                class="<%= class_names(cell.css) %>"
+              >
+                <%= cell %>
+              </td>
+            <% end %>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+<% end %>

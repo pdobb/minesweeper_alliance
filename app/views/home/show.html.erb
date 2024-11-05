@@ -1,35 +1,17 @@
 <% title("War Room") %>
 
-<%= turbo_stream_from(:current_game, channel: WarRoomChannel) %>
-
-<% @view.nav.tap do |nav| %>
-  <% if nav.show? %>
-    <% content_for(:page_nav) do %>
-      <%= render("home/page_nav", nav:) %>
-    <% end %>
-  <% end %>
-<% end %>
+<%= turbo_stream_from(
+      @view.turbo_stream_name,
+      channel: @view.turbo_stream_channel) %>
 
 <% @view.welcome_banner(context: layout).tap do |welcome_banner| %>
   <% if welcome_banner.show? %>
     <div class="container mx-auto">
-      <%= render("welcome_banner", view: welcome_banner) %>
+      <%= render("home/welcome_banner", view: welcome_banner) %>
     </div>
   <% end %>
 <% end %>
 
-<% if @view.current_game? %>
-  <%= render("games/game", view: @view.show_game_view) %>
-
-  <div class="container mx-auto mt-12">
-    <div id="game_details">
-      <% if @view.game_just_ended? %>
-        <%= render("games/results", view: @view.results(user: current_user)) %>
-      <% else %>
-        <%= render("games/rules", view: @view.rules(context: layout)) %>
-      <% end %>
-    </div>
-  </div>
-<% else # @view.new_game? %>
-  <%= render("games/new_container", view: @view.new_game_view) %>
+<% @view.view.tap do |view| %>
+  <%= render(template: view.template_path, locals: { view: }) %>
 <% end %>

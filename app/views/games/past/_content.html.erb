@@ -1,0 +1,10 @@
+<%# locals: (content:) %>
+
+<div class="space-y-12">
+  <%= render("games/title", title: content.title) %>
+
+  <div class="space-y-6">
+    <%= render("games/past/status", status: content.status) %>
+    <%= render("games/past/board", board: content.board) %>
+  </div>
+</div>

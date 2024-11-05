@@ -1,0 +1,7 @@
+<%# locals: (board:) %>
+
+<div class="mx-auto md:w-fit md:max-w-full space-y-2">
+  <%= render("games/past/board/header", header: board.header) %>
+  <%= render("games/past/board/content", content: board.content) %>
+  <%= render("games/board/footer", footer: board.footer) %>
+</div>

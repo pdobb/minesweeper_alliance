@@ -1,0 +1,6 @@
+<% @view.show.tap do |show| %>
+  <%= turbo_stream.update(
+        show.turbo_frame_name,
+        template: "games/just_ended/show",
+        locals: { view: show }) %>
+<% end %>

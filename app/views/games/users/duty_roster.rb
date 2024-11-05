@@ -1,17 +1,15 @@
 # frozen_string_literal: true
 
-# Games::Users::DutyRoster is a View Model for servicing the "Duty Roster"
-# (a list of {User}s that participated in a {Game}) view template.
-#
-# @see Games::Results
+# Games::Users::DutyRoster represents the "Duty Roster" (a list of {User}s that
+# participated in a {Game}).
 class Games::Users::DutyRoster
+  def self.turbo_stream_name(game) = [game, :duty_roster]
+
   def initialize(game:)
     @game = game
   end
 
-  def turbo_stream_name
-    [game, :duty_roster]
-  end
+  def turbo_stream_name = self.class.turbo_stream_name(game)
 
   def count
     game.users.size

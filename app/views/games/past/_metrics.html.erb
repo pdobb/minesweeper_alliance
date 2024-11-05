@@ -1,0 +1,88 @@
+<%# locals: (metrics:) %>
+
+<% cache_unless(App.debug?, metrics.cache_key) do %>
+  <h4 class="h3">Metrics</h4>
+
+  <table
+    class="
+      -my-2
+      border-separate border-spacing-y-2
+      text-left
+    "
+  >
+    <tbody>
+      <% if metrics.show_game_score? %>
+        <tr>
+          <th>
+            <dfn
+              data-tooltip="<%= t("terms.score") %>"
+              class="after:w-72"
+            >Score</dfn>
+          </th>
+          <td>
+            <time
+              datetime="PT<%= metrics.game_score %>S"
+            ><%= metrics.game_score %></time>
+          </td>
+        </tr>
+        <tr>
+          <th>
+            <dfn
+              data-tooltip="<%= t("terms.bbbv") %>"
+              class="after:w-80"
+            >3BV</dfn>
+          </th>
+          <td><%= metrics.bbbv %></td>
+        </tr>
+        <tr>
+          <th>
+            <dfn
+              data-tooltip="<%= t("terms.bbbvps") %>"
+              class="after:w-80"
+            >3BV/s</dfn>
+          </th>
+          <td><%= metrics.bbbvps %></td>
+        </tr>
+        <tr>
+          <th>
+            <dfn
+              data-tooltip="<%= t("terms.efficiency") %>"
+              class="after:w-80"
+            >Efficiency</dfn>
+          </th>
+          <td><%= metrics.efficiency_percentage %></td>
+        </tr>
+      <% end %>
+      <tr>
+        <th>Clicks</th>
+        <td><%= metrics.clicks_count %></td>
+      </tr>
+      <tr class="*:pl-6">
+        <th>
+          <dfn
+            data-tooltip="<%= t("terms.reveals") %>"
+            class="after:w-80"
+          >Reveals</dfn>
+        </th>
+        <td><%= metrics.reveals_count %></td>
+      </tr>
+      <tr class="*:pl-6">
+        <th>
+          <dfn
+            data-tooltip="<%= t("terms.chords") %>"
+            class="after:w-80"
+          >Chords</dfn>
+        </th>
+        <td><%= metrics.chords_count %></td>
+      </tr>
+      <tr class="*:pl-6">
+        <th>Flags Placed</th>
+        <td><%= metrics.flags_count %></td>
+      </tr>
+      <tr class="*:pl-6">
+        <th>Flags Removed</th>
+        <td><%= metrics.unflags_count %></td>
+      </tr>
+    </tbody>
+  </table>
+<% end %>

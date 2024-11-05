@@ -1,13 +1,7 @@
-<% title("Game #{@view.game_number}") unless title %>
+<% title("Game #{@view.game_number}") %>
 
 <% content_for(:page_nav) do %>
-  <%= render("games/page_nav", nav: @view.nav) %>
+  <%= render("games/past/page_nav", nav: @view.nav) %>
 <% end %>
 
-<%= turbo_frame_tag(:game_frame) do %>
-  <%= render("games/game", view: @view) %>
-
-  <div class="container mx-auto">
-    <%= render("games/results", view: @view.results(user: current_user)) %>
-  </div>
-<% end %>
+<%= render(template: "games/past/show", locals: { view: @view.show }) %>

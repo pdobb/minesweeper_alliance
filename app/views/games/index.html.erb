@@ -1,26 +1,14 @@
 <% title("Sweep Ops Archive") %>
 
-<%= turbo_stream_from(:sweep_ops_archive) %>
+<%= turbo_stream_from(@view.turbo_stream_name) %>
 
 <div class="container mx-auto space-y-12">
   <div class="flex max-lg:flex-col justify-between gap-y-6">
     <h1><%= title %></h1>
 
-    <% @view.time_zone_form(user: current_user).tap do |form| %>
-      <%= form_with(model: form, url: form.post_url) do |f| %>
-          <%= f.label(:time_zone, "Time Zone:", class: "sr-only") %>
-          <%= f.time_zone_select(
-                :time_zone,
-                form.priority_zones,
-                {},
-                data: { action: "time-zone#select" },
-                class: %w[
-                  form-select max-sm:w-full
-                  pl-0 md:pl-1 py-1 pr-10 sm:pr-0
-                  text-dim
-                ]) %>
-      <% end %>
-    <% end %>
+    <%= render(
+         "users/time_zone/form",
+         form: @view.time_zone_form(user: current_user)) %>
   </div>
 
   <nav class="py-6 border-y border-dim">
@@ -39,8 +27,7 @@
                 class: type.css,
                 data: { turbo_prefetch: "false" }) %>
           <span class="text-dim-lg">
-            (<%= type.games_count %> /
-            <%= number_to_percentage(type.games_percent, precision: 0) %>)
+            (<%= type.games_count %> / <%= type.games_percentage %>)
           </span>
         </li>
       <% end %>
@@ -48,7 +35,9 @@
   </nav>
 
   <h2 class="h3 text-center">
-    <%= render("engagement_tally", view: @view.engagement_tally) %>
+    <%= render(
+          "games/past/engagement_tally",
+          engagement_tally: @view.engagement_tally) %>
   </h2>
 
   <%= render("listings", view: @view) %>

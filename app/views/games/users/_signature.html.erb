@@ -1,12 +1,12 @@
-<%# locals: (view:) %>
+<%# locals: (signature:) %>
 
-<%= turbo_frame_tag(
-      *view.turbo_frame_name,
-      class: "flex items-center gap-x-3") do %>
-  <%= view.attribution_prefix %>
+<%= turbo_frame_tag(*signature.turbo_frame_name) do %>
+  <div class="flex items-center gap-x-3">
+    <%= signature.attribution_prefix %>
 
-  <%= link_to(
-        view.attribution_link_content,
-        view.attribution_link_url,
-        data: { turbo_stream: true }) %>
+    <%= link_to(
+          signature.attribution_link_content,
+          signature.attribution_link_url,
+          data: { turbo_stream: true }) %>
+  </div>
 <% end %>

@@ -54,6 +54,8 @@ class Metrics::Show
         class Listing
           include WrapMethodBehaviors
 
+          def self.turbo_frame_name = :past_game_frame
+
           def initialize(game)
             @game = game
           end
@@ -61,7 +63,9 @@ class Metrics::Show
           def table_cell_css = nil
           def game_score = View.round(game.score)
           def players_count = game.users.size
-          def game_url = Router.game_path(game)
+          def game_url = Router.metrics_game_path(game)
+
+          def turbo_frame_name = self.class.turbo_frame_name
 
           private
 
@@ -74,8 +78,9 @@ class Metrics::Show
           def present? = false
           def table_cell_css = "text-dim-lg"
           def game_score = View.no_value_indicator
-          def game_url = nil
           def players_count = View.no_value_indicator
+          def game_url = nil
+          def turbo_frame_name = nil
         end
       end
 

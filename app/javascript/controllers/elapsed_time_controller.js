@@ -7,7 +7,6 @@ export default class extends Controller {
     start: { type: Number, default: 0 },
     interval: { type: Number, default: 1000 },
   }
-  static targets = ["elapsedTime"]
 
   static secondsPerDay = 86_400
   static maxTimeDisplayString = "23:59:59+"
@@ -48,9 +47,8 @@ export default class extends Controller {
   }
 
   #updateUi(value) {
-    this.elapsedTimeTarget.textContent = value
-    this.elapsedTimeTarget.setAttribute("datetime", `PT${this.totalSeconds}S`)
-    this.elapsedTimeTarget.setAttribute("aria-label", `Elapsed time: ${value}`)
+    this.element.textContent = value
+    this.element.setAttribute("datetime", `PT${this.totalSeconds}S`)
   }
 
   #determineTimestamp() {

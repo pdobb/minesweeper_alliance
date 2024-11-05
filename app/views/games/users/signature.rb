@@ -1,10 +1,7 @@
 # frozen_string_literal: true
 
-# Games::Users::Signature is a View Model for servicing the "Sign game?" /
-# "Signed, <username>" (edit) link that shows for participating {User}s at the
-# end of a {Game} (and on the Games - Show page).
-#
-# @see Games::Results
+# Games::Users::Signature represents the "Sign game?" / "Signed, <username>"
+# (edit) link that shows for participating {User}s at {Game} end.
 class Games::Users::Signature
   def initialize(game:, user:)
     @game = game
@@ -12,11 +9,11 @@ class Games::Users::Signature
   end
 
   def show?
-    game.recently_ended? && user.participated_in?(game)
+    game.just_ended? && user.participated_in?(game)
   end
 
   def turbo_frame_name
-    [game, :signature]
+    [user, :signature]
   end
 
   def attribution_prefix

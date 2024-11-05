@@ -1,7 +1,7 @@
 <%# locals: (view:) %>
 
 <div class="flex justify-center">
-  <%= turbo_frame_tag(:new_game) do %>
+  <%= turbo_frame_tag(view.turbo_frame_name) do %>
     <div class="flex max-md:flex-col justify-center items-center gap-6">
       <% view.presets.each do |preset| %>
         <%= button_to(

@@ -2,6 +2,8 @@
 
 # Games::Index is a View Model for displaying the Games Index page.
 class Games::Index
+  def self.turbo_stream_name = :sweep_ops_archive
+
   def self.current_time_zone_description
     Time.zone.to_s
   end
@@ -11,8 +13,10 @@ class Games::Index
     @type_filter = type_filter
   end
 
+  def turbo_stream_name = self.class.turbo_stream_name
+
   def time_zone_form(user:)
-    TimeZoneForm.new(user:)
+    Users::TimeZone::Form.new(user:)
   end
 
   def current_time_zone_description = self.class.current_time_zone_description
@@ -50,36 +54,6 @@ class Games::Index
     arel.group_by { |game| game.ended_at.to_date }
   end
 
-  # Games::Index::TimeZoneForm wraps the drop-down/select form that updates
-  # {User#time_zone}.
-  class TimeZoneForm
-    def initialize(user:)
-      @user = user
-    end
-
-    def to_model = UserWrapper.new(@user)
-
-    def post_url
-      Router.current_user_time_zone_update_path
-    end
-
-    def priority_zones = ActiveSupport::TimeZone.us_zones
-
-    # Games::Index::TimeZoneForm::UserWrapper is a Form View Model for
-    # representing {User}s.
-    class UserWrapper
-      def initialize(user)
-        @user = user
-      end
-
-      def model_name = @user.model_name
-
-      def time_zone
-        @user.time_zone || Time.zone.name
-      end
-    end
-  end
-
   # Games::Index::Type wraps {Game::TYPES}, for display of the "Initials = Name"
   # map/legend.
   class Type
@@ -108,12 +82,11 @@ class Games::Index
       "active" if filter_active?
     end
 
-    def games_percent
-      result = (games_count / total_games_count.to_f) * 100.0
-      result.nan? ? 0.0 : result
-    end
-
     def games_count = @games_count ||= base_arel.for_type(name).count
+
+    def games_percentage
+      View.percentage(games_percent, precision: 0)
+    end
 
     private
 
@@ -126,11 +99,16 @@ class Games::Index
     def filter_active?
       type_filter&.include?(name)
     end
+
+    def games_percent
+      result = (games_count / total_games_count.to_f) * 100.0
+      result.nan? ? 0.0 : result
+    end
   end
 
   # Games::Index::EngagementTally
   class EngagementTally
-    include Games::EngagementTallyBehaviors
+    include Games::Past::EngagementTallyBehaviors
 
     def initialize(base_arel:)
       @base_arel = base_arel
@@ -145,7 +123,7 @@ class Games::Index
 
   # Games::Index::ListingsDate
   class ListingsDate
-    include Games::EngagementTallyBehaviors
+    include Games::Past::EngagementTallyBehaviors
 
     attr_reader :date
 
@@ -173,22 +151,29 @@ class Games::Index
 
   # Games::Index::Listing
   class Listing
-    include Games::ShowBehaviors
     include WrapMethodBehaviors
 
     def initialize(game)
       @game = game
     end
 
-    def type_indicator
-      type[0]
-    end
-
-    def game_score = View.round(_game_score, precision: 0)
-    def show_game_score? = !!_game_score
-
     def game_url
       Router.game_path(game)
+    end
+
+    def game_number = game.display_id
+    def type = game.type
+    def type_indicator = type[0]
+
+    def show_game_score? = !!_game_score
+    def game_score = View.round(_game_score, precision: 0)
+
+    def game_status_mojis
+      if game_ended_in_defeat?
+        Emoji.mine
+      elsif game_ended_in_victory?
+        "#{Emoji.ship}#{Emoji.victory}"
+      end
     end
 
     private
@@ -196,5 +181,8 @@ class Games::Index
     attr_reader :game
 
     def _game_score = game.score
+
+    def game_ended_in_victory? = game.ended_in_victory?
+    def game_ended_in_defeat? = game.ended_in_defeat?
   end
 end

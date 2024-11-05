@@ -1,0 +1,49 @@
+<%# locals: (form:) %>
+
+<%= form_with(
+      model: form.to_model,
+      url: form.post_url,
+      data: { turbo_frame: :_top },
+      html: { novalidate: true }) do |f| %>
+  <div class="flex max-md:flex-col items-center gap-y-6 gap-x-12">
+    <div class="flex items-baseline gap-x-3">
+      <%= f.label(:width, "Width:", class: "max-md:min-w-20") %>
+      <%= f.number_field(
+            :width,
+            value: form.value(:width),
+            autofocus: true,
+            onfocus: "this.select()",
+            in: form.ranges(:width),
+            class: "form-input w-[72px] p-1",
+            inputmode: "numeric",
+            pattern: "[0-9]{1,2}") %>
+    </div>
+    <div class="flex items-baseline gap-x-3">
+      <%= f.label(:height, "Height:", class: "max-md:min-w-20") %>
+      <%= f.number_field(
+            :height,
+            value: form.value(:height),
+            in: form.ranges(:height),
+            class: "form-input w-[72px] p-1",
+            inputmode: "numeric",
+            pattern: "[0-9]{1,2}") %>
+    </div>
+    <div class="flex items-baseline gap-x-3">
+      <%= f.label(:mines, "Mines:", class: "max-md:min-w-20") %>
+      <%= f.number_field(
+            :mines,
+            value: form.value(:mines),
+            in: form.ranges(:mines),
+            class: "form-input w-[72px] p-1",
+            inputmode: "numeric",
+            pattern: "[0-9]{1,3}") %>
+    </div>
+    <%= f.submit("Engage!", class: "btn-primary") %>
+  </div>
+
+  <% if form.any_errors? %>
+    <div class="mt-6 form-error text-center">
+      <%= form.display_errors %>
+    </div>
+  <% end %>
+<% end %>

@@ -1,0 +1,169 @@
+<%# locals: (bests:) %>
+
+<% cache_unless(App.debug?, bests.cache_key) do %>
+  <nav
+    data-controller="active-link"
+    data-active-link-active-class="active"
+    data-action="frame-container:hide@window->active-link#clear"
+  >
+    <h2 class="h3 mb-6">Bests</h2>
+
+    <table
+      class="
+         -mx-6 -my-2
+         border-separate border-spacing-x-6 border-spacing-y-2
+         text-left
+      "
+    >
+      <tbody>
+        <tr>
+          <th colspan="2">
+            <dfn
+              data-tooltip="<%= t("terms.score") %>"
+              class="after:w-72"
+            >Score</dfn>
+          </th>
+        </tr>
+        <% bests.score.tap do |best| %>
+          <tr>
+            <th class="pl-6">Beginner</th>
+            <td>
+              <%= link_to_if(
+                    best.beginner_score?,
+                    best.beginner_score,
+                    best.beginner_score_url,
+                    data: {
+                      action: "active-link#toggle",
+                      turbo_frame: best.turbo_frame_name,
+                    }) %>
+            </td>
+          </tr>
+          <tr>
+            <th class="pl-6">Intermediate</th>
+            <td>
+              <%= link_to_if(
+                    best.intermediate_score?,
+                    best.intermediate_score,
+                    best.intermediate_score_url,
+                    data: {
+                      action: "active-link#toggle",
+                      turbo_frame: best.turbo_frame_name,
+                    }) %>
+            </td>
+          </tr>
+          <tr>
+            <th class="pl-6">Expert</th>
+            <td>
+              <%= link_to_if(
+                    best.expert_score?,
+                    best.expert_score,
+                    best.expert_score_url,
+                    data: {
+                      action: "active-link#toggle",
+                      turbo_frame: best.turbo_frame_name,
+                    }) %>
+            </td>
+          </tr>
+        <% end %>
+        <tr>
+          <th colspan="2">
+            <dfn
+              data-tooltip="<%= t("terms.bbbvps") %>"
+              class="after:w-80"
+            >3BV/s</dfn>
+          </th>
+        </tr>
+        <% bests.bbbvps.tap do |best| %>
+          <tr>
+            <th class="pl-6">Beginner</th>
+            <td>
+              <%= link_to_if(
+                    best.beginner_bbbvps?,
+                    best.beginner_bbbvps,
+                    best.beginner_bbbvps_url,
+                    data: {
+                      action: "active-link#toggle",
+                      turbo_frame: best.turbo_frame_name,
+                    }) %>
+            </td>
+          </tr>
+          <tr>
+            <th class="pl-6">Intermediate</th>
+            <td>
+              <%= link_to_if(
+                    best.intermediate_bbbvps?,
+                    best.intermediate_bbbvps,
+                    best.intermediate_bbbvps_url,
+                    data: {
+                      action: "active-link#toggle",
+                      turbo_frame: best.turbo_frame_name,
+                    }) %>
+            </td>
+          </tr>
+          <tr>
+            <th class="pl-6">Expert</th>
+            <td>
+              <%= link_to_if(
+                    best.expert_bbbvps?,
+                    best.expert_bbbvps,
+                    best.expert_bbbvps_url,
+                    data: {
+                      action: "active-link#toggle",
+                      turbo_frame: best.turbo_frame_name,
+                    }) %>
+            </td>
+          </tr>
+        <% end %>
+        <tr>
+          <th colspan="2">
+            <dfn
+              data-tooltip="<%= t("terms.efficiency") %>"
+              class="after:w-80"
+            >Efficiency</dfn>
+          </th>
+        </tr>
+        <% bests.efficiency.tap do |best| %>
+          <tr>
+            <th class="pl-6">Beginner</th>
+            <td>
+              <%= link_to_if(
+                    best.beginner_efficiency?,
+                    best.beginner_efficiency,
+                    best.beginner_efficiency_url,
+                    data: {
+                      action: "active-link#toggle",
+                      turbo_frame: best.turbo_frame_name,
+                    }) %>
+            </td>
+          </tr>
+          <tr>
+            <th class="pl-6">Intermediate</th>
+            <td>
+              <%= link_to_if(
+                    best.intermediate_efficiency?,
+                    best.intermediate_efficiency,
+                    best.intermediate_efficiency_url,
+                    data: {
+                      action: "active-link#toggle",
+                      turbo_frame: best.turbo_frame_name,
+                    }) %>
+            </td>
+          </tr>
+          <tr>
+            <th class="pl-6">Expert</th>
+            <td>
+              <%= link_to_if(
+                    best.expert_efficiency?,
+                    best.expert_efficiency,
+                    best.expert_efficiency_url,
+                    data: {
+                      action: "active-link#toggle",
+                      turbo_frame: best.turbo_frame_name,
+                    }) %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </nav>
+<% end %>

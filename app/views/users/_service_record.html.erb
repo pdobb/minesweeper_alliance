@@ -1,0 +1,58 @@
+<%# locals: (service_record:) %>
+
+<% cache_unless(App.debug?, service_record.cache_key) do %>
+  <div>
+    <h2 class="h3 mb-6">Service Record</h2>
+
+    <table
+      class="
+         -mx-6 -my-2
+         border-separate border-spacing-x-6 border-spacing-y-2
+         text-left
+      "
+    >
+      <tbody>
+        <tr>
+          <th>Engagements</th>
+          <td><%= service_record.games_count %></td>
+        </tr>
+        <tr>
+          <th>Victories</th>
+          <td><%= service_record.winning_games_count %></td>
+        </tr>
+        <tr>
+          <th>Defeats</th>
+          <td><%= service_record.losing_games_count %></td>
+        </tr>
+
+        <tr><td colspan="2" class="select-none">&nbsp;</td></tr>
+
+        <tr>
+          <th>Cells Revealed</th>
+          <td><%= service_record.reveals_count %></td>
+        </tr>
+        <tr>
+          <th>
+            <dfn
+              data-tooltip="<%= t("terms.chords") %>"
+              class="after:w-80"
+            >Chords</dfn>
+          </th>
+          <td><%= service_record.chords_count %></td>
+        </tr>
+        <tr>
+          <th>Flags Placed</th>
+          <td><%= service_record.flags_count %></td>
+        </tr>
+        <tr>
+          <th>Flags Removed</th>
+          <td><%= service_record.unflags_count %></td>
+        </tr>
+        <tr>
+          <th>Mines Detonated</th>
+          <td><%= service_record.tripped_mines_count %></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+<% end %>

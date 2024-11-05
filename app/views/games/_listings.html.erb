@@ -6,7 +6,10 @@
       <div class="space-y-3">
         <h3><%= listings_date %></h3>
         <h4 class="h5 text-dim-sm">
-          Tally: <%= render("games/engagement_tally", view: listings_date) %>
+          Tally:
+          <%= render(
+                "games/past/engagement_tally",
+                engagement_tally: listings_date) %>
         </h4>
         <div
           data-turbo-prefetch="false"

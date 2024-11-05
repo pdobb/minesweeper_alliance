@@ -1,7 +1,15 @@
 # frozen_string_literal: true
 
-# Games::New is a View Model for displaying the Games New page.
+# Games::New is a View Model for displaying the New {Game} view.
 class Games::New
+  def self.turbo_frame_name = :new_game
+
+  def template_path
+    "games/new"
+  end
+
+  def turbo_frame_name = self.class.turbo_frame_name
+
   def presets
     Board::Settings::PRESETS.keys
   end

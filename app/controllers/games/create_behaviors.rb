@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-# Games::CreateBehaviors defines common code needed by the Games::* View models
-# for showing {Game}-specific info.
+# Games::CreateBehaviors defines common code needed by the Games::*::*
+# controllers for new {Game} creation.
 module Games::CreateBehaviors
   # :reek:FeatureEnvy
 
@@ -9,7 +9,7 @@ module Games::CreateBehaviors
     Game.find_or_create_current(settings:).tap { |current_game|
       if current_game.just_created?
         DutyRoster.clear
-        current_game.broadcast_refresh_to(:current_game)
+        WarRoomChannel.broadcast_refresh
 
         store_board_settings(current_game)
       end
@@ -22,7 +22,7 @@ module Games::CreateBehaviors
     return unless (settings = current_game.board_settings).custom?
 
     layout.store_http_cookie(
-      Games::Customs::New::Form::STORAGE_KEY,
+      CustomGames::Form::STORAGE_KEY,
       value: settings.to_json)
   end
 end

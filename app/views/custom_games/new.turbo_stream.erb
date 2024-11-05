@@ -1,0 +1,17 @@
+<%= turbo_stream.update(:new_game) do %>
+  <div
+    data-controller="inline-edit"
+    data-action="keydown.esc@window->inline-edit#cancel"
+  >
+    <div
+      data-inline-edit-target="beforeEdit"
+      class="hidden"
+    >
+      <%= render("games/new", view: @view.new_game) %>
+    </div>
+    <div data-inline-edit-target="editing">
+      <%= render("custom_games/form", form: @view.form(context: layout)) %>
+    </div>
+  </div>
+<% end %>
+

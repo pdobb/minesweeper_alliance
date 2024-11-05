@@ -1,0 +1,23 @@
+<%# locals: (title:) %>
+
+<h3
+  class="
+    flex justify-center gap-x-8
+    max-sm:flex-col max-sm:items-center gap-y-3
+  "
+>
+  <span class="max-sm:font-bold">
+    <%= link_to(
+          title.game_number,
+          title.game_url,
+          data: { turbo_frame: :_top }) %>
+  </span>
+
+  <span aria-label="Engagement Date">
+    <%= title.game_engagement_date %>
+  </span>
+
+  <span aria-label="Engagement Time Range">
+    <%= title.game_engagement_time_range %>
+  </span>
+</h3>

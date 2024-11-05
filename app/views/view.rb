@@ -21,6 +21,10 @@ module View
 
   def self.no_value_indicator = "—"
 
+  def self.safe_join(...)
+    helpers.safe_join(...)
+  end
+
   def self.helpers = ActionController::Base.helpers
   private_class_method :helpers
 end

@@ -1,0 +1,21 @@
+<%# locals: (status:) %>
+
+<div class="container mx-auto">
+  <h2 class="text-center">
+    <span class="<%= class_names(status.game_status_css) %>">
+      <%= status.game_status %>
+    </span>
+
+    <% if status.standing_by? %>
+      <span class="tracking-emojis"><%= Emoji.anchor %></span>
+    <% else %>
+      <span class="inline-flex gap-x-2">
+        <%= Emoji.ship %>
+        <small
+          id="fleet_count"
+          class="before:content-['x'] before:mr-1.5 font-normal text-dim"
+        ><%= status.players_count %></small>
+      </span>
+    <% end %>
+  </h2>
+</div>

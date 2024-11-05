@@ -1,0 +1,19 @@
+<%# locals: (header:) %>
+
+<div class="md:-mx-3 flex justify-between gap-x-12 text-lg">
+  <ul
+    title="<%= t("game.board.header.counts.title") %>"
+    class="flex gap-x-1.5 whitespace-nowrap"
+  >
+    <li><%= header.flags_count %></li>
+    <li><%= Emoji.flag %></li>
+    <li class="text-dim">/</li>
+    <li><%= header.mines %></li>
+    <li><%= Emoji.mine %></li>
+  </ul>
+
+  <time
+    title="<%= t("game.board.header.timer.title") %>"
+    datetime="PT<%= header.elapsed_time.to_i %>S"
+  ><%= header.elapsed_time %></time>
+</div>

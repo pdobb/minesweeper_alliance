@@ -1,0 +1,11 @@
+<div
+  data-controller="board-actions"
+  data-board-actions-board-id-value="game_board"
+  class="container mx-auto text-center"
+>
+  <%= button_to(
+        "Reveal Random",
+        nil,
+        class: "btn-primary",
+        data: { action: "board-actions#revealRandom:prevent" }) %>
+</div>

@@ -6,10 +6,14 @@
 # This is an attempt at keeping a count of the number of current subscribers to
 # the :current_game stream, which shall be the only stream on this channel.
 #
-# NOTE:
-#  - This is buggy... at least in the development environment. Reconsider once
-#    we get to production. Either way, it may be better than nothing.
+# NOTE: Subscription tracking for web sockets / streams are (very) often
+# unreliable. We must take pains to attenuate this unreliability, while boosting
+# what we can rely on.
 class WarRoomChannel < Turbo::StreamsChannel
+  STREAM_NAME = :current_game
+
+  def self.broadcast_refresh = broadcast_refresh_to(STREAM_NAME)
+
   # Override Turbo::StreamsChannel#subscribed to add #on_subscribe logic.
   def subscribed
     if stream_name && current_user_token?
@@ -75,7 +79,7 @@ class WarRoomChannel < Turbo::StreamsChannel
   end
 
   def broadcast_subscription_update
-    Games::Show.broadcast_players_count_update(
+    Games::Current::Show.broadcast_players_count_update(
       stream_name:, count: DutyRoster.count)
   end
 end

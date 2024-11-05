@@ -9,10 +9,10 @@
       data-inline-edit-target="beforeEdit"
       class="hidden"
     >
-      <%= render("games/users/signature", view: signature) %>
+      <%= render("games/users/signature", signature:) %>
     </div>
     <div data-inline-edit-target="editing">
-      <%= render("games/users/form", view: @view) %>
+      <%= render("games/users/form", form: @view.form) %>
     </div>
   </div>
 <% end %>

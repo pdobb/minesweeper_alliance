@@ -46,8 +46,7 @@ class Games::UsersController < ApplicationController
 
   def broadcast_update(game:)
     Turbo::StreamsChannel.broadcast_update_to(
-      game,
-      :duty_roster,
+      Games::Users::DutyRoster.turbo_stream_name(game),
       target: helpers.dom_id(current_user),
       partial: "games/users/duty_roster_listing",
       locals: {

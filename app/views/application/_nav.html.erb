@@ -12,7 +12,9 @@
     <li><%= active_link_to("Metrics", metrics_path) %></li>
   </ul>
 
-  <%= render("application/username") %>
+  <%= render(
+        "application/user_nav",
+        user_nav: Application::UserNav.new(current_user:)) %>
 
   <% if content_for?(:page_nav) %>
     <div

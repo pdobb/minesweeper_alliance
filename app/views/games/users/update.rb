@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-# Games::Users::Update is a View Model for servicing the Update Action of the
-# {User} "signature" form that shows at the end of a {Game}.
+# Games::Users::Update aides "update" action/processing of the {User}
+# "signature" form that shows at {Game} end.
 class Games::Users::Update
   def initialize(game:, user:)
     @game = game
@@ -16,18 +16,18 @@ class Games::Users::Update
     Games::Users::DutyRoster::Listing.new(user, game:)
   end
 
-  def user_nav_turbo_frame_name
-    [user, :nav]
+  def user_nav
+    Application::UserNav.new(current_user: user)
   end
 
   def signer_status_just_changed? = user.signer_status_just_changed?
 
-  def new_game_view
-    Games::New.new
+  def welcome_banner(context:)
+    Home::WelcomeBanner.new(context:)
   end
 
-  def welcome_banner(context:)
-    Home::Show::WelcomeBanner.new(context:)
+  def new_game
+    Games::New.new
   end
 
   private

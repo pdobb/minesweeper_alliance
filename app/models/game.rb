@@ -148,8 +148,6 @@ class Game < ApplicationRecord
     (within.ago..).cover?(ended_at)
   end
 
-  def recently_ended? = just_ended?(within: 1.minute)
-
   def ended_in_victory? = status_alliance_wins?
   def ended_in_defeat? = status_mines_win?
 
@@ -262,10 +260,12 @@ class Game < ApplicationRecord
     end
 
     def inspect_info(scope:)
+      return unless score || bbbv || efficiency
+
       scope.join_info([
-        "Score: #{score}",
-        "3BV: #{bbbv}",
-        "Efficiency: #{efficiency}",
+        "Score: #{score.inspect}",
+        "3BV: #{bbbv.inspect}",
+        "Efficiency: #{efficiency.inspect}",
       ])
     end
 
@@ -288,7 +288,7 @@ class Game < ApplicationRecord
         yield
       end
 
-      broadcast_refresh_to(:current_game)
+      WarRoomChannel.broadcast_refresh
 
       self
     end
