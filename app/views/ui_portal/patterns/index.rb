@@ -31,10 +31,7 @@ class UIPortal::Patterns::Index
       @pattern = pattern
     end
 
-    def dom_id(context)
-      context.dom_id(pattern)
-    end
-
+    def dom_id = View.dom_id(pattern)
     def id = pattern.id
     def name = pattern.name
 

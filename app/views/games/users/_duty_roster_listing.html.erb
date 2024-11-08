@@ -1,6 +1,6 @@
 <%# locals: (listing:) %>
 
-<span id="<%= listing.dom_id(helpers: layout.helpers) %>">
+<span id="<%= listing.dom_id %>">
   <%= link_to(
         listing.name,
         listing.show_user_url,

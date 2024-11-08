@@ -40,13 +40,8 @@ class Games::Users::DutyRoster
       current_user == user
     end
 
-    def dom_id(helpers:)
-      helpers.dom_id(user)
-    end
-
-    def name
-      user.display_name
-    end
+    def dom_id = View.dom_id(user)
+    def name = user.display_name
 
     def show_user_url
       Router.user_path(user)

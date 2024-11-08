@@ -8,6 +8,34 @@ class ViewTest < ActiveSupport::TestCase
 
     subject { unit_class }
 
+    describe ".dom_id" do
+      it "returns the expected String" do
+        _(subject.dom_id(Game.new)).must_equal("new_game")
+      end
+    end
+
+    describe ".display" do
+      context "GIVEN a non-blank value" do
+        it "returns the result of the given block" do
+          result = subject.display(12.345) { |_value| "RESULT" }
+          _(result).must_equal("RESULT")
+        end
+      end
+
+      context "GIVEN a blank value" do
+        it "returns the expected value" do
+          result = subject.display(nil) { |_value| "RESULT" }
+          _(result).must_equal("—")
+        end
+      end
+    end
+
+    describe ".no_value_indicator" do
+      it "returns the expected String" do
+        _(subject.no_value_indicator).must_equal("—")
+      end
+    end
+
     describe ".delimit" do
       it "returns the expected String" do
         _(subject.delimit(12_345)).must_equal("12,345")
@@ -39,28 +67,6 @@ class ViewTest < ActiveSupport::TestCase
         it "returns the expected String" do
           _(subject.percentage(12.345, precision: 1)).must_equal("12.3%")
         end
-      end
-    end
-
-    describe ".display" do
-      context "GIVEN a non-blank value" do
-        it "returns the result of the given block" do
-          result = subject.display(12.345) { |_value| "RESULT" }
-          _(result).must_equal("RESULT")
-        end
-      end
-
-      context "GIVEN a blank value" do
-        it "returns the expected value" do
-          result = subject.display(nil) { |_value| "RESULT" }
-          _(result).must_equal("—")
-        end
-      end
-    end
-
-    describe ".no_value_indicator" do
-      it "returns the expected String" do
-        _(subject.no_value_indicator).must_equal("—")
       end
     end
   end

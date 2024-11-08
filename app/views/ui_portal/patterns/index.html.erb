@@ -11,7 +11,7 @@
     <% if @view.any_listings? %>
       <% @view.listings.each do |listing| %>
         <div
-          id="<%= listing.dom_id(self) %>"
+          id="<%= listing.dom_id %>"
           class="
             flex-col space-y-3
             p-3 md:max-w-lg
