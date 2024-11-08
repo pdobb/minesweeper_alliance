@@ -11,10 +11,6 @@ class Games::Board::GridContext
     @board = board
   end
 
-  def allow_scrolling?
-    mobile? && too_wide_for_mobile?
-  end
-
   def transpose?
     mobile? && transposable? && (landscape? && too_wide_for_mobile?)
   end

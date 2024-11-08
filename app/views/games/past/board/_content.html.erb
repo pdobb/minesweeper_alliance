@@ -1,39 +1,25 @@
 <%# locals: (content:) %>
 
-<% content.grid_context(layout).tap do |grid_context| %>
-  <div
-    class="
-      -mx-5
-      <% if grid_context.allow_scrolling? %>
-        overflow-x-auto
-      <% end %>
-    "
-  >
-    <table
+<div class="-mx-5 overflow-x-auto">
+  <table class="mx-auto table-fixed border-double border-4 border-dark">
+    <tbody
       class="
-        mx-auto table-fixed
-        border-double border-4 border-dark
+        text-center select-none
+
+        <%# Cells %>
+        *:*:size-8 *:*:min-w-8 *:*:min-h-8
+        *:*:border *:*:border-dark
       "
     >
-      <tbody
-        class="
-          text-center select-none
-
-          <%# Cells %>
-          *:*:size-8 *:*:min-w-8 *:*:min-h-8
-          *:*:border *:*:border-dark
-        "
-      >
-        <% content.rows(context: grid_context).each do |row| %>
-          <tr>
-            <% row.each do |cell| %>
-              <td class="<%= class_names(cell.css) %>">
-                <%= cell %>
-              </td>
-            <% end %>
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
-  </div>
-<% end %>
+      <% content.rows(context: content.grid_context(layout)).each do |row| %>
+        <tr>
+          <% row.each do |cell| %>
+            <td class="<%= class_names(cell.css) %>">
+              <%= cell %>
+            </td>
+          <% end %>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
