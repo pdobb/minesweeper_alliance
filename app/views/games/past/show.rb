@@ -2,7 +2,7 @@
 
 # Games::Past::Show represents the entire view context surrounding past {Game}s.
 class Games::Past::Show
-  def self.turbo_frame_name = :past_game_frame
+  def self.turbo_frame_name = :past_game_display_case
 
   def initialize(game:)
     @game = game

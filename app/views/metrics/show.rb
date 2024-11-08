@@ -16,6 +16,15 @@ class Metrics::Show
 
     def bests_per_type = Bests.per_type
 
+    def display_case
+      DisplayCase.new
+    end
+
+    # Metrics::Show::Engagements::DisplayCase
+    class DisplayCase
+      include Games::Past::DisplayCaseBehaviors
+    end
+
     # Metrics::Show::Engagements::Bests
     class Bests
       def self.per_type
@@ -54,8 +63,6 @@ class Metrics::Show
         class Listing
           include WrapMethodBehaviors
 
-          def self.turbo_frame_name = :past_game_frame
-
           def initialize(game)
             @game = game
           end
@@ -65,7 +72,7 @@ class Metrics::Show
           def players_count = game.users.size
           def game_url = Router.metrics_game_path(game)
 
-          def turbo_frame_name = self.class.turbo_frame_name
+          def turbo_frame_name = Games::Past::Show.turbo_frame_name
 
           private
 

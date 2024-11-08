@@ -14,7 +14,7 @@
         <div
           data-controller="active-link"
           data-active-link-active-class="active"
-          data-action="frame-container:hide@window->active-link#clear"
+          data-action="display-case:hide@window->active-link#clear"
           class="flex max-lg:flex-col gap-x-24 gap-y-6"
         >
           <% engagements.bests_per_type.each do |bests| %>
@@ -72,7 +72,7 @@
         </div>
       <% end %>
 
-      <%= render("games/frame_container") %>
+      <%= render("display_case", display_case: engagements.display_case) %>
     </div>
   <% end %>
 </div>

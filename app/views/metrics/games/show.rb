@@ -3,8 +3,6 @@
 # Metrics::Games::Show represents past {Game}s in the context of the Metrics
 # Show page.
 class Metrics::Games::Show
-  def self.turbo_frame_name = :past_game_frame
-
   def initialize(game:, user:)
     @game = game
     @user = user
@@ -12,7 +10,7 @@ class Metrics::Games::Show
 
   def game_number = game.display_id
 
-  def turbo_frame_name = self.class.turbo_frame_name
+  def turbo_frame_name = Games::Past::Show.turbo_frame_name
 
   def cache_key(context:)
     [

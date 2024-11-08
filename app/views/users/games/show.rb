@@ -3,8 +3,6 @@
 # Users::Games::Show represents past {Game}s in the context of a participating
 # player ({User}).
 class Users::Games::Show
-  def self.turbo_frame_name = :past_game_frame
-
   def initialize(game:, user:)
     @game = game
     @user = user
@@ -17,7 +15,7 @@ class Users::Games::Show
     Users::Games::Nav.new(game:, user:)
   end
 
-  def turbo_frame_name = self.class.turbo_frame_name
+  def turbo_frame_name = Games::Past::Show.turbo_frame_name
 
   def cache_key(context:)
     [

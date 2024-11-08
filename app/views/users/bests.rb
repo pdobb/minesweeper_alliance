@@ -33,7 +33,7 @@ class Users::Bests
       @user = user
     end
 
-    def turbo_frame_name = :past_game_frame
+    def turbo_frame_name = Games::Past::Show.turbo_frame_name
 
     private
 

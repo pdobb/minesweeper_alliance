@@ -1,10 +1,10 @@
-<%# locals: () %>
+<%# locals: (display_case:) %>
 
 <div
-  data-controller="frame-container scroll-to"
+  data-controller="display-case scroll-to"
   data-action="
-    active-link:deactivate@window->frame-container#hide
-    frame-container:show->scroll-to#jumpToContainer
+    <%= display_case.try(:stimulus_action) %>
+    display-case:show->scroll-to#jumpToContainer
   "
   data-transition-enter="transition ease-out duration-100"
   data-transition-enter-start="transform opacity-0 scale-95"
@@ -14,14 +14,14 @@
   data-transition-leave-end="transform opacity-0 scale-95"
   class="
     hidden relative
-    px-6 py-12 -mx-3 shadow-lg rounded
-    border border-dim
+    border border-dim shadow-lg rounded
+    <%= display_case.try(:container_css) %>
   "
 >
   <div class="absolute top-3 right-3 flex justify-end">
     <button
       type="button"
-      data-action="frame-container#hide"
+      data-action="display-case#hide"
       class="
         -m-1.5 p-2 rounded-lg
         hover:bg-gray-200 dark:hover:bg-neutral-700 hover:focus:bg-gray-200
@@ -35,10 +35,10 @@
   </div>
 
   <%= turbo_frame_tag(
-        :past_game_frame,
+        display_case.turbo_frame_name,
         data: {
           state: "empty",
-          frame_container_target: "turboFrame",
-          action: "turbo:frame-load->frame-container#load",
+          display_case_target: "turboFrame",
+          action: "turbo:frame-load->display-case#load",
         }) %>
 </div>

@@ -18,6 +18,10 @@ class Users::Show
     Users::Bests.new(user:)
   end
 
+  def display_case
+    DisplayCase.new
+  end
+
   def games
     Users::Games.new(
       base_arel: user.games.for_game_over_statuses.by_most_recently_ended,
@@ -27,4 +31,9 @@ class Users::Show
   private
 
   attr_reader :user
+
+  # Users::Show::DisplayCase
+  class DisplayCase
+    include Games::Past::DisplayCaseBehaviors
+  end
 end

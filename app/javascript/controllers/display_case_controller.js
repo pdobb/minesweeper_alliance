@@ -1,7 +1,8 @@
 import { Controller } from "@hotwired/stimulus"
 import { enter, leave } from "el-transition"
 
-// FrameContainerController represents a dynamically shown/hideable view frame.
+// DisplayCaseController represents a dynamically shown/hideable view "frame"
+// (e.g. a <div> with a border).
 export default class extends Controller {
   static targets = ["turboFrame"]
 
@@ -47,19 +48,19 @@ export default class extends Controller {
     this.turboFrameTarget.replaceChildren()
   }
 
-  #setState(value) {
-    this.turboFrameTarget.dataset.state = value
+  #isEmpty() {
+    return this.#getState() == this.constructor.EMPTY_STATE
   }
 
   #isVisible() {
     return this.#getState() == this.constructor.VISIBLE_STATE
   }
 
-  #isEmpty() {
-    return this.#getState() == this.constructor.EMPTY_STATE
-  }
-
   #getState() {
     return this.turboFrameTarget.dataset.state
+  }
+
+  #setState(value) {
+    this.turboFrameTarget.dataset.state = value
   }
 }
