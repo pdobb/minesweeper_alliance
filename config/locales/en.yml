@@ -52,11 +52,11 @@ en:
       invariable: can't be changed
       present: can't be present
       required: can't be blank
+      too_long: "can't be > %{count} characters"
 
   activerecord:
     errors:
       <<: *ERRORS
-      too_long: "can't be > %{count} characters"
 
   flash:
     not_found: "%{type} not found."
