@@ -6,11 +6,26 @@
     max-sm:flex-col max-sm:items-center gap-y-3
   "
 >
-  <span class="max-sm:font-bold">
+  <span
+    data-controller="clipboard"
+    data-clipboard-source-value="<%= title.game_full_url %>"
+    data-clipboard-highlight-class="
+      text-green-500 animate-ping-once origin-center
+    "
+    class="flex gap-x-2 items-center max-sm:font-bold"
+  >
     <%= link_to(
           title.game_number,
           title.game_url,
           data: { turbo_frame: :_top }) %>
+    <%= inline_svg_tag(
+          "heroicons/clipboard-document.svg",
+          class: "btn-basic",
+          data: {
+            action:
+              "click->clipboard#copy "\
+              "animationend->clipboard#dehighlight"
+          }) %>
   </span>
 
   <span aria-label="Engagement Date">

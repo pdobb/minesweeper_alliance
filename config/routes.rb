@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
+  default_url_options(
+    Rails.application.config.action_mailer.default_url_options)
+
   root "home#show"
 
   resources :games, only: %i[index show new create] do

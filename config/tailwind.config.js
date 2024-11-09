@@ -12,7 +12,11 @@ module.exports = {
   ],
   theme: {
     extend: {
+      keyframes: {
+        "ping-sm": { "75%, 100%": { transform: "scale(1.5)", opacity: "0" } },
+      },
       animation: {
+        "ping-once": "ping-sm 0.5s cubic-bezier(0, 0, 0.2, 1) 1",
         "pulse-fast": "pulse 1.5s cubic-bezier(0.6, 0, 0.4, 1) infinite",
       },
       backgroundImage: {

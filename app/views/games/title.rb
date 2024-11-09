@@ -8,6 +8,10 @@ class Games::Title
 
   def game_number = game.display_id
 
+  def game_full_url
+    Router.game_url(game)
+  end
+
   def game_url
     Router.game_path(game)
   end
