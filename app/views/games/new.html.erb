@@ -2,10 +2,8 @@
 
 <% title("New Game") %>
 
-<div class="container mx-auto">
-  <div class="md:mt-24 space-y-16">
-    <h1 class="text-center"><%= t("game.new_html").sample %></h1>
+<div class="container mx-auto md:mt-24 space-y-16">
+  <h1 class="text-center"><%= t("game.new_html").sample %></h1>
 
-    <%= render("games/new", view:) %>
-  </div>
+  <%= render("games/new", view:) %>
 </div>
