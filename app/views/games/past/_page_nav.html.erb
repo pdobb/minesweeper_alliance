@@ -1,35 +1,40 @@
 <%# locals: (nav:) %>
 
-<div class="flex items-center gap-x-3 text-dim">
-  <% if nav.show_close_button? %>
-    <%= link_to(nav.close_game_url, title: "Close Op") do %>
-      <%= inline_svg_tag("heroicons/x-mark.svg") %>
-    <% end %>
-  <% end %>
+<% if block_given? %>
+  <span class="mr-3 flex items-center gap-x-1 text-dim-xl">
+    <%= yield %>
+    <%= inline_svg_tag("heroicons/chevron-right.svg") %>
+  </span>
+<% end %>
 
-  <% if nav.previous_game? %>
-    <%= link_to(nav.previous_game_url, title: "Previous Op") do %>
-      <%= inline_svg_tag("heroicons/arrow-long-left.svg") %>
-    <% end %>
-  <% else %>
-    <%= inline_svg_tag(
-          "heroicons/arrow-long-left.svg",
-          class: "text-dim-xl") %>
+<% if nav.show_close_button? %>
+  <%= link_to(nav.close_game_url, title: "Close Op") do %>
+    <%= inline_svg_tag("heroicons/x-mark.svg") %>
   <% end %>
+<% end %>
 
-  <% if nav.next_game? %>
-    <%= link_to(nav.next_game_url, title: "Next Op") do %>
-      <%= inline_svg_tag("heroicons/arrow-long-right.svg") %>
-    <% end %>
-  <% else %>
-    <%= inline_svg_tag(
-          "heroicons/arrow-long-right.svg",
-          class: "text-dim-xl") %>
+<% if nav.previous_game? %>
+  <%= link_to(nav.previous_game_url, title: "Previous Op") do %>
+    <%= inline_svg_tag("heroicons/arrow-long-left.svg") %>
   <% end %>
+<% else %>
+  <%= inline_svg_tag(
+        "heroicons/arrow-long-left.svg",
+        class: "text-dim-xl") %>
+<% end %>
 
-  <% if nav.show_current_game_button? %>
-    <%= link_to(nav.current_game_url, title: "War Room") do %>
-      <%= inline_svg_tag("heroicons/arrow-right-circle.svg") %>
-    <% end %>
+<% if nav.next_game? %>
+  <%= link_to(nav.next_game_url, title: "Next Op") do %>
+    <%= inline_svg_tag("heroicons/arrow-long-right.svg") %>
   <% end %>
-</div>
+<% else %>
+  <%= inline_svg_tag(
+        "heroicons/arrow-long-right.svg",
+        class: "text-dim-xl") %>
+<% end %>
+
+<% if nav.show_current_game_button? %>
+  <%= link_to(nav.current_game_url, title: "War Room") do %>
+    <%= inline_svg_tag("heroicons/arrow-right-circle.svg") %>
+  <% end %>
+<% end %>

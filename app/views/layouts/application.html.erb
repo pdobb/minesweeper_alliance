@@ -64,6 +64,7 @@
       class="
         px-6 lg:px-12 py-6
         border-b border-dim
+        <%= "mb-5" if content_for?(:page_nav) %>
       "
     >
       <%= render("nav") %>

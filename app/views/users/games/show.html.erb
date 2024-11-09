@@ -1,17 +1,17 @@
 <% title("#{@view.display_name} -> Game ##{@view.game_number}") %>
 
 <% content_for(:page_nav) do %>
-  <%= render("games/past/page_nav", nav: @view.nav) %>
+  <%= render(layout: "games/past/page_nav", locals: { nav: @view.nav }) do %>
+    <%= @view.display_name %>
+  <% end %>
 <% end %>
 
-<%= turbo_frame_tag(@view.turbo_frame_name) do %>
-  <div class="space-y-12">
-    <% cache_unless(App.debug?, @view.cache_key(context: layout)) do %>
-      <%= render("users/games/content", content: @view.content) %>
-    <% end %>
+<%= turbo_frame_tag(@view.turbo_frame_name, class: "space-y-12") do %>
+  <% cache_unless(App.debug?, @view.cache_key(context: layout)) do %>
+    <%= render("users/games/content", content: @view.content) %>
+  <% end %>
 
-    <div class="container mx-auto">
-      <%= render("games/past/results", results: @view.results) %>
-    </div>
+  <div class="container mx-auto">
+    <%= render("games/past/results", results: @view.results) %>
   </div>
 <% end %>

@@ -19,8 +19,9 @@
   <% if content_for?(:page_nav) %>
     <div
       class="
-        absolute -bottom-12 -left-3 translate-y-1/2 px-2
+        absolute -bottom-12 translate-y-1/2
         no-active-links
+        flex items-center gap-x-3 text-sm text-dim
       "
     >
       <%= yield(:page_nav) %>
