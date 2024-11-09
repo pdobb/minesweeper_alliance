@@ -2,7 +2,10 @@
 
 <div
   data-controller="display-case scroll-to"
-  data-action="display-case:show->scroll-to#jumpToContainer"
+  data-action="
+    display-case:show->scroll-to#jumpToContainer
+    keydown.esc@window->display-case#hide
+  "
   data-transition-enter="transition ease-out duration-100"
   data-transition-enter-start="transform opacity-0 scale-95"
   data-transition-enter-end="transform opacity-100 scale-100"
@@ -20,7 +23,7 @@
       type="button"
       data-action="display-case#hide"
       class="
-        -m-1.5 p-2 rounded-lg
+        -m-1 p-2 rounded-lg
         hover:bg-gray-200 dark:hover:bg-neutral-700 hover:focus:bg-gray-200
         focus:ring-2 focus:ring-gray-400 focus:animate-pulse-fast
         text-dim
