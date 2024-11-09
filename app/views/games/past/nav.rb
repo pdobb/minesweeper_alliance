@@ -6,7 +6,8 @@ class Games::Past::Nav
     @game = game
   end
 
-  def show_close_button? = false
+  def show_close_button? = true
+  def close_game_url = Router.games_path
 
   def previous_game? = !!previous_game
   def previous_game_url = Router.game_path(previous_game)

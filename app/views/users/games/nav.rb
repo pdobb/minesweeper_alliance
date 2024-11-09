@@ -9,19 +9,9 @@ class Users::Games::Nav < Games::Past::Nav
   end
 
   def show_close_button? = true
-
-  def close_game_url
-    Router.user_path(user)
-  end
-
-  def previous_game_url
-    Router.user_game_path(user, previous_game)
-  end
-
-  def next_game_url
-    Router.user_game_path(user, next_game)
-  end
-
+  def close_game_url = Router.user_path(user)
+  def previous_game_url = Router.user_game_path(user, previous_game)
+  def next_game_url = Router.user_game_path(user, next_game)
   def show_current_game_button? = false
 
   private
