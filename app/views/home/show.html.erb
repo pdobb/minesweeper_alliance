@@ -6,9 +6,11 @@
 
 <% @view.welcome_banner(context: layout).tap do |welcome_banner| %>
   <% if welcome_banner.show? %>
-    <div class="container mx-auto">
-      <%= render("home/welcome_banner", view: welcome_banner) %>
-    </div>
+    <%= turbo_frame_tag(
+          welcome_banner.turbo_frame_name,
+          class: "container mx-auto") do %>
+      <%= render("layouts/banner", banner: welcome_banner.banner) %>
+    <% end %>
   <% end %>
 <% end %>
 
