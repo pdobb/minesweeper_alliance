@@ -32,10 +32,6 @@ class Games::Users::DutyRoster
       @game = game
     end
 
-    def turbo_frame_name
-      [user, :duty_roster_listing]
-    end
-
     def user?(current_user)
       current_user == user
     end

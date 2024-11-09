@@ -22,9 +22,11 @@
           <span title="Me"><%= Emoji.eyes %></span>
         <% end %>
 
-        <%= turbo_frame_tag(*listing.turbo_frame_name) do %>
-          <%= render("games/users/duty_roster_listing", listing:) %>
-        <% end %>
+        <%= link_to(
+              listing.name,
+              listing.show_user_url,
+              id: listing.dom_id,
+              data: { turbo_frame: :_top }) %>
       </div>
     <% end %>
   </div>

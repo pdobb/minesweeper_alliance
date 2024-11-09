@@ -5,11 +5,9 @@
 <% end %>
 
 <% @view.duty_roster_listing.tap do |duty_roster_listing| %>
-  <%= turbo_stream.update(duty_roster_listing.turbo_frame_name) do %>
-    <%= render(
-          "games/users/duty_roster_listing",
-          listing: duty_roster_listing) %>
-  <% end %>
+  <%= turbo_stream.update(
+        duty_roster_listing.dom_id,
+        duty_roster_listing.name) %>
 <% end %>
 
 <% @view.user_nav.tap do |user_nav| %>

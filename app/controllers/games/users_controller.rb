@@ -44,13 +44,14 @@ class Games::UsersController < ApplicationController
     params.require(:user).permit(:username)
   end
 
+  # :reek:FeatureEnvy
   def broadcast_update(game:)
+    duty_roster_listing =
+      Games::Users::DutyRoster::Listing.new(current_user, game:)
+
     Turbo::StreamsChannel.broadcast_update_to(
       Games::Users::DutyRoster.turbo_stream_name(game),
-      target: helpers.dom_id(current_user),
-      partial: "games/users/duty_roster_listing",
-      locals: {
-        listing: Games::Users::DutyRoster::Listing.new(current_user, game:),
-      })
+      target: duty_roster_listing.dom_id,
+      html: duty_roster_listing.name)
   end
 end
