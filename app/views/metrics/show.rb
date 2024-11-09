@@ -62,6 +62,7 @@ class Metrics::Show
         # Metrics::Show::Games::Listing
         class Listing
           include WrapMethodBehaviors
+          include Games::Past::ActiveLinkBehaviors
 
           def initialize(game)
             @game = game
@@ -72,14 +73,12 @@ class Metrics::Show
           def players_count = game.users.size
           def game_url = Router.metrics_game_path(game)
 
-          def turbo_frame_name = Games::Past::Show.turbo_frame_name
-
           private
 
           attr_reader :game
         end
 
-        # Metrics::Show::Games::NullListing implements the NulL Pattern for
+        # Metrics::Show::Games::NullListing implements the Null Pattern for
         # {Metrics::Show::Games::Listing} view models.
         class NullListing
           def present? = false
@@ -87,6 +86,7 @@ class Metrics::Show
           def game_score = View.no_value_indicator
           def players_count = View.no_value_indicator
           def game_url = nil
+          def link_action = nil
           def turbo_frame_name = nil
         end
       end

@@ -3,24 +3,34 @@ import { Controller } from "@hotwired/stimulus"
 export default class extends Controller {
   static classes = ["active"]
 
-  toggle(event) {
-    const $link = event.currentTarget
+  activate(event) {
+    // Activate unless Cmd + Click ("Open Link in New Tab") detected.
+    if (event.metaKey) return
 
-    if ($link.classList.contains(this.activeClass)) {
-      this.#deactivate($link)
-      this.dispatch("deactivate")
-    } else if (!event.metaKey) {
-      // Cmd + Click = "Open Link in New Tab" event.
-      // Don't highlight the link as active in that case.
-      this.clear()
-      this.#activate($link)
-    }
+    this.clear()
+
+    const $link = event.currentTarget
+    this.#activateAllByHref($link.href)
   }
 
   clear() {
     Array.from(this.element.querySelectorAll(`a.${this.activeClass}`)).forEach(
       this.#deactivate.bind(this),
     )
+  }
+
+  #isActive($link) {
+    return $link.classList.contains(this.activeClass)
+  }
+
+  #activateAllByHref(href) {
+    this.#allLinks().forEach(($link) => {
+      if ($link.href === href) this.#activate($link)
+    })
+  }
+
+  #allLinks() {
+    return this.element.querySelectorAll("a")
   }
 
   #activate($link) {

@@ -15,7 +15,7 @@ class Users::Games::Show
     Users::Games::Nav.new(game:, user:)
   end
 
-  def turbo_frame_name = Games::Past::Show.turbo_frame_name
+  def turbo_frame_name = Games::Past::Show.display_case_turbo_frame_name
 
   def cache_key(context:)
     [

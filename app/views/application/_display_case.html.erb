@@ -2,10 +2,7 @@
 
 <div
   data-controller="display-case scroll-to"
-  data-action="
-    <%= display_case.try(:stimulus_action) %>
-    display-case:show->scroll-to#jumpToContainer
-  "
+  data-action="display-case:show->scroll-to#jumpToContainer"
   data-transition-enter="transition ease-out duration-100"
   data-transition-enter-start="transform opacity-0 scale-95"
   data-transition-enter-end="transform opacity-100 scale-100"

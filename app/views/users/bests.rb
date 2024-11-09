@@ -29,11 +29,11 @@ class Users::Bests
 
   # Users::Bests::Behaviors
   module Behaviors
+    include Games::Past::ActiveLinkBehaviors
+
     def initialize(user:)
       @user = user
     end
-
-    def turbo_frame_name = Games::Past::Show.turbo_frame_name
 
     private
 
