@@ -44,12 +44,12 @@ bin/rails server --binding 0.0.0.0 --port=3000
 ... then run the tailwindcss server in a separate tab/process:
 
 ```bash
-bin/dev web=0,all=1
+bin/rails tailwindcss:watch
 ```
 
 #### Debug Mode
 
-Use debug mode to enable additional logging, and to show mines placement on boards. Search on `App.debug_mode?`
+Use debug mode to show mines placement on the Game board, and to enable additional logging, etc. Search on `App.debug?`.
 
 ```bash
 DEBUG=1 bin/rails server [...]
@@ -98,6 +98,64 @@ bin/rake
   <source media="(prefers-color-scheme: light)" srcset="https://github.com/pdobb/minesweeper_alliance/blob/main/public/screenshots/erd-light.webp?raw=true">
   <img alt="Game Board" src="https://github.com/pdobb/minesweeper_alliance/blob/main/public/screenshots/erd-dark.webp?raw=true">
 </picture>
+
+Note: Much of the complexity in this app comes from the need for varying content based on current Game state. Especially given the "War Room" (home page) dynamically adjusts to current game state by:
+
+1. Showing the "New Game" content when no current Game exists,
+2. Showing the "Current Game" content when a current Game exists,
+3. Showing "Just Ended" Game content (to all participating Users) on Game end.
+
+Plus, there are various ways of displaying past Games:
+
+1. Sweep Ops Archive
+2. Metrics
+3. User context
+
+The overall structure of the view templates and [View Models](#view-models) to support this looks like:
+
+```
+Current Game:
+- Game status ("Standing By" vs "Sweep in Progress")
+- Rules of Engagement
+
+Just ended Game:
+- Game "Title"
+- Game status ("Mines Win" vs "Alliance Wins")
+- "Signature" section for signing Username + <hr> above it
+- Metrics + Duty Roster
+
+Sweep Ops Archive: Standard view of past Games.
+- Game "Title"
+- Game status ("Mines Win" vs "Alliance Wins")
+- Metrics + Duty Roster
+
+Metrics -> Games:
+- Game "Title"
+- Metrics + Duty Roster
+
+User -> Games:
+- Game "Title"
+- Metrics + Duty Roster
+
+# Plus:
+New Game:
+- Standard: Beginner, Intermediate, or Expert
+- Random (one of the Standard Games, plus a small chance for a random Pattern Game)
+- Custom Game
+```
+
+### View Models
+
+View Models are POROs that:
+
+- Insulate view templates from ActiveRecord Models,
+- Handle view-specific logic ("display" versions of Model attributes, conditionals, etc.),
+- Live alongside the view templates/partials they support, and
+- Are easily unit testable (though there are currently very view View Model tests in this project).
+
+View Models are somewhat similar to, yet much simpler than, GitHub's ViewComponent pattern/gem. They make no attempt to intervene in the rendering stack or to add a custom DSL. The only thing to learn about them is when to use them and, to some extent, how.
+
+Generally speaking, a View Model should be used any time a view template would otherwise need to interact with the application layer or implement any kind of logic via ERB. View templates should still render their own HTML, but should appeal to View Models for any non-static view code.
 
 ### Users
 
