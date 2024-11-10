@@ -6,6 +6,8 @@ class Games::Past::Nav
     @game = game
   end
 
+  def breadcrumb_name = "Archive"
+
   def show_close_button? = true
   def close_game_url = Router.games_path
 

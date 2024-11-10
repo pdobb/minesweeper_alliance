@@ -8,6 +8,8 @@ class Users::Games::Nav < Games::Past::Nav
     @user = user
   end
 
+  def breadcrumb_name = user.display_name
+
   def show_close_button? = true
   def close_game_url = Router.user_path(user)
   def previous_game_url = Router.user_game_path(user, previous_game)

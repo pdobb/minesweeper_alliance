@@ -1,11 +1,9 @@
 <%# locals: (nav:) %>
 
-<% if block_given? %>
-  <span class="mr-3 flex items-center gap-x-1 text-dim-xl">
-    <%= yield %>
-    <%= inline_svg_tag("heroicons/chevron-right.svg") %>
-  </span>
-<% end %>
+<span class="mr-3 flex items-center gap-x-1 text-dim-xl">
+  <%= nav.breadcrumb_name %>
+  <%= inline_svg_tag("heroicons/chevron-right.svg") %>
+</span>
 
 <% if nav.show_close_button? %>
   <%= link_to(nav.close_game_url, title: "Close Op") do %>
