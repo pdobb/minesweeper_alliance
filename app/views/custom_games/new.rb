@@ -6,10 +6,10 @@ class CustomGames::New
     @settings = settings
   end
 
-  def turbo_frame_name = Games::New.turbo_frame_name
+  def turbo_frame_name = Games::New::Content.turbo_frame_name
 
-  def new_game
-    Games::New.new
+  def new_game_content
+    Games::New::Content.new
   end
 
   def form(context:)

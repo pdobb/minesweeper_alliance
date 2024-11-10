@@ -25,9 +25,9 @@
     <% end %>
   <% end %>
 
-  <% @view.new_game.tap do |new_game| %>
-    <%= turbo_stream.update(new_game.turbo_frame_name) do %>
-      <%= render("games/new", view: @view.new_game) %>
+  <% @view.new_game_content.tap do |content| %>
+    <%= turbo_stream.update(content.turbo_frame_name) do %>
+      <%= render("games/new/content", content:) %>
     <% end %>
   <% end %>
 <% end %>

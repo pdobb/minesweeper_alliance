@@ -11,7 +11,7 @@ class CustomGamesController < ApplicationController
     settings = Board::Settings.custom(**settings_params.to_h.symbolize_keys)
 
     if settings.valid?
-      find_or_create_game(settings:)
+      find_or_create_current_game(settings:)
       redirect_to(root_path)
     else
       @view = CustomGames::New.new(settings:)

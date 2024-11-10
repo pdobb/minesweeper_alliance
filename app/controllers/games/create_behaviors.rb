@@ -5,7 +5,7 @@
 module Games::CreateBehaviors
   # :reek:FeatureEnvy
 
-  def find_or_create_game(settings:)
+  def find_or_create_current_game(settings:)
     Game.find_or_create_current(settings:).tap { |current_game|
       if current_game.just_created?
         DutyRoster.clear

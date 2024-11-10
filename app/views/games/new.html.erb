@@ -1,9 +1,9 @@
 <%# locals: (view: @view) %>
 
-<% title("New Game") %>
+<% title("New Game") unless title %>
 
 <div class="container mx-auto md:mt-24 space-y-16">
   <h1 class="text-center"><%= t("game.new_html").sample %></h1>
 
-  <%= render("games/new", view:) %>
+  <%= render("games/new/content", content: view.content) %>
 </div>

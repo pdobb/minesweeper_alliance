@@ -1,4 +1,4 @@
-<%= turbo_stream.update(:new_game) do %>
+<%= turbo_stream.update(@view.turbo_frame_name) do %>
   <div
     data-controller="inline-edit"
     data-action="keydown.esc@window->inline-edit#cancel"
@@ -7,7 +7,7 @@
       data-inline-edit-target="beforeEdit"
       class="hidden"
     >
-      <%= render("games/new", view: @view.new_game) %>
+      <%= render("games/new/content", content: @view.new_game_content) %>
     </div>
     <div data-inline-edit-target="editing">
       <%= render("custom_games/form", form: @view.form(context: layout)) %>

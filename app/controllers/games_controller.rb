@@ -25,7 +25,8 @@ class GamesController < ApplicationController
   end
 
   def create
-    find_or_create_game(settings: Board::Settings.preset(params[:preset]))
+    find_or_create_current_game(
+      settings: Board::Settings.preset(params[:preset]))
     redirect_to(root_path)
   end
 end

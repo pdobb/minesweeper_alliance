@@ -26,8 +26,8 @@ class Games::Users::Update
     Home::WelcomeBanner.new(context:)
   end
 
-  def new_game
-    Games::New.new
+  def new_game_content
+    Games::New::Content.new
   end
 
   private
