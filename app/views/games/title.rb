@@ -8,7 +8,7 @@ class Games::Title
 
   def game_number = game.display_id
 
-  def game_full_url
+  def game_absolute_url
     Router.game_url(game)
   end
 

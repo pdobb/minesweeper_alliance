@@ -3,12 +3,13 @@
 # Users::Games::Content represents {Game} content for past {Game}s in the
 # context of a {User}.
 class Users::Games::Content
-  def initialize(game:)
+  def initialize(game:, user:)
     @game = game
+    @user = user
   end
 
   def title
-    Games::Title.new(game:)
+    Users::Games::Title.new(game:, user:)
   end
 
   def board
@@ -17,5 +18,6 @@ class Users::Games::Content
 
   private
 
-  attr_reader :game
+  attr_reader :game,
+              :user
 end

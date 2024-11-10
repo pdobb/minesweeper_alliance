@@ -26,7 +26,7 @@ class Users::Games::Show
   end
 
   def content
-    Users::Games::Content.new(game:)
+    Users::Games::Content.new(game:, user:)
   end
 
   def results
