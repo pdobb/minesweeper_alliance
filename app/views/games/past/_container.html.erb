@@ -1,0 +1,13 @@
+<%# locals: (container:) %>
+
+<%= turbo_frame_tag(container.turbo_frame_name) do %>
+  <div class="space-y-12">
+    <% cache_unless(App.debug?, container.cache_key(context: layout)) do %>
+      <%= render("games/past/content", content: container.content) %>
+    <% end %>
+
+    <div class="container mx-auto">
+      <%= render("games/past/footer", footer: container.footer) %>
+    </div>
+  </div>
+<% end %>

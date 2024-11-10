@@ -7,8 +7,8 @@ class Games::JustEnded::Update
     @current_game = current_game
   end
 
-  def show
-    Games::JustEnded::Show.new(current_game:)
+  def container
+    Games::JustEnded::Container.new(current_game:)
   end
 
   private

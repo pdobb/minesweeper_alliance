@@ -8,6 +8,6 @@ module Games::Past::ActiveLinkBehaviors
   end
 
   def turbo_frame_name
-    Games::Past::Show.display_case_turbo_frame_name
+    Games::Past::Container.display_case_turbo_frame_name
   end
 end

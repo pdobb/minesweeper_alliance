@@ -79,7 +79,7 @@ class WarRoomChannel < Turbo::StreamsChannel
   end
 
   def broadcast_subscription_update
-    Games::Current::Show.broadcast_players_count_update(
+    Games::Current::Container.broadcast_players_count_update(
       stream_name:, count: DutyRoster.count)
   end
 end

@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-# Games::Current::Show represents the entire view context surrounding the
-# current {Game}.
-class Games::Current::Show
+# Games::Current::Container represents the entire view context surrounding the
+# current {Game}, as a partial for reuse.
+class Games::Current::Container
   def self.broadcast_players_count_update(stream_name:, count:)
     count = [count, 1].max
     WarRoomChannel.broadcast_update_to(
@@ -15,8 +15,8 @@ class Games::Current::Show
     @current_game = current_game
   end
 
-  def template_path
-    "games/current/show"
+  def partial_path
+    "games/current/container"
   end
 
   def turbo_frame_name = self.class.turbo_frame_name

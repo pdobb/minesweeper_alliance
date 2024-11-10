@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
-# Games::Past::Show represents the entire view context surrounding past {Game}s.
-class Games::Past::Show
+# Games::Past::Container represents the entire view context surrounding past
+# {Game}s, as a partial for reuse.
+class Games::Past::Container
   def self.display_case_turbo_frame_name = :past_game_display_case
 
   def initialize(game:)

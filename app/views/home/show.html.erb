@@ -14,6 +14,6 @@
   <% end %>
 <% end %>
 
-<% @view.view.tap do |view| %>
-  <%= render(template: view.template_path, locals: { view: }) %>
+<% @view.container.tap do |container| %>
+  <%= render(container.partial_path, container:) %>
 <% end %>

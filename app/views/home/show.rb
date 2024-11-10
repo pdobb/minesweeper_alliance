@@ -16,13 +16,13 @@ class Home::Show
     Home::WelcomeBanner.new(context:)
   end
 
-  def view
+  def container
     if !current_game
-      Games::New.new
+      Games::New::Container.new
     elsif current_game.on?
-      Games::Current::Show.new(current_game:)
+      Games::Current::Container.new(current_game:)
     elsif current_game.just_ended?
-      Games::JustEnded::Show.new(current_game:)
+      Games::JustEnded::Container.new(current_game:)
     end
   end
 

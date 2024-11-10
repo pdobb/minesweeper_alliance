@@ -12,8 +12,8 @@ class Games::Show
     Games::Past::Nav.new(game:)
   end
 
-  def show
-    Games::Past::Show.new(game:)
+  def container
+    Games::Past::Container.new(game:)
   end
 
   private
