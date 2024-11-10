@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class GamesController < ApplicationController
-  include Games::CreateBehaviors
+  include Games::New::Behaviors
 
   def index
     @view =

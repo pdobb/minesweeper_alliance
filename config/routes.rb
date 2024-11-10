@@ -6,6 +6,12 @@ Rails.application.routes.draw do
 
   root "home#show"
 
+  namespace :games do
+    scope module: :new do
+      resource :random, only: :create, controller: :random
+      resource :custom, only: %i[new create], controller: :custom
+    end
+  end
   resources :games, only: %i[index show new create] do
     scope module: :games do
       resource :user, only: %i[edit update]
@@ -24,8 +30,6 @@ Rails.application.routes.draw do
       end
     end
   end
-  resource :random_game, only: :create
-  resource :custom_game, only: %i[new create]
 
   resource :metrics, only: :show do
     resources :games, only: :show, module: :metrics

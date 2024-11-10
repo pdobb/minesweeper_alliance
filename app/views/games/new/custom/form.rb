@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-# CustomGames::Form represents the "New Custom Game" form.
-class CustomGames::Form
+# Games::New::Custom::Form represents the "New Custom Game" form.
+class Games::New::Custom::Form
   STORAGE_KEY = :board_settings
 
   def initialize(settings:, context:)
@@ -10,7 +10,7 @@ class CustomGames::Form
   end
 
   def to_model = @settings
-  def post_url = Router.custom_game_path
+  def post_url = Router.games_custom_path
 
   def value(name)
     current_value = to_model.public_send(name)

@@ -14,11 +14,11 @@ class Games::New::Content
     Router.games_path(preset:)
   end
 
-  def random_game_url
-    Router.random_game_path
+  def random_game_post_url
+    Router.games_random_path
   end
 
   def new_custom_game_url
-    Router.new_custom_game_path
+    Router.new_games_custom_path
   end
 end

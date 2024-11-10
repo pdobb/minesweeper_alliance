@@ -10,7 +10,7 @@
       <%= render("games/new/content", content: @view.new_game_content) %>
     </div>
     <div data-inline-edit-target="editing">
-      <%= render("custom_games/form", form: @view.form(context: layout)) %>
+      <%= render("games/new/custom/form", form: @view.form(context: layout)) %>
     </div>
   </div>
 <% end %>

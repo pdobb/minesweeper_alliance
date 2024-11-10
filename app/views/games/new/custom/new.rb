@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-# CustomGames::New represents the "New Custom Game" page.
-class CustomGames::New
+# Games::New::Custom::New represents the "New Custom Game" page.
+class Games::New::Custom::New
   def initialize(settings: Board::Settings.new)
     @settings = settings
   end
@@ -13,7 +13,7 @@ class CustomGames::New
   end
 
   def form(context:)
-    CustomGames::Form.new(settings:, context:)
+    Games::New::Custom::Form.new(settings:, context:)
   end
 
   private

@@ -1,8 +1,7 @@
 # frozen_string_literal: true
 
-# Games::CreateBehaviors defines common code needed by the Games::*::*
-# controllers for new {Game} creation.
-module Games::CreateBehaviors
+# Games::New::Behaviors defines common controller code for {Game} creation.
+module Games::New::Behaviors
   # :reek:FeatureEnvy
 
   def find_or_create_current_game(settings:)
@@ -22,7 +21,7 @@ module Games::CreateBehaviors
     return unless (settings = current_game.board_settings).custom?
 
     layout.store_http_cookie(
-      CustomGames::Form::STORAGE_KEY,
+      Games::New::Custom::Form::STORAGE_KEY,
       value: settings.to_json)
   end
 end

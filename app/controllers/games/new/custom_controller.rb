@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
-class CustomGamesController < ApplicationController
-  include Games::CreateBehaviors
+class Games::New::CustomController < ApplicationController
+  include Games::New::Behaviors
 
   def new
-    @view = CustomGames::New.new
+    @view = Games::New::Custom::New.new
   end
 
   def create
@@ -14,7 +14,7 @@ class CustomGamesController < ApplicationController
       find_or_create_current_game(settings:)
       redirect_to(root_path)
     else
-      @view = CustomGames::New.new(settings:)
+      @view = Games::New::Custom::New.new(settings:)
       render(:new, status: :unprocessable_entity)
     end
   end
