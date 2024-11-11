@@ -8,7 +8,7 @@ class Metrics::Games::Content
   end
 
   def title
-    Games::Title.new(game:)
+    Metrics::Games::Title.new(game:)
   end
 
   def board

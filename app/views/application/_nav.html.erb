@@ -9,7 +9,10 @@
         <span class="max-sm:hidden">Sweep Ops Archive</span>
       <% end %>
     </li>
-    <li><%= active_link_to("Metrics", metrics_path) %></li>
+    <li>
+      <%= active_link_to(
+            "Metrics", metrics_path, includes: Metrics::GamesController.name) %>
+    </li>
   </ul>
 
   <%= render(

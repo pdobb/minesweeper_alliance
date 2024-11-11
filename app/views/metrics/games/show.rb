@@ -10,22 +10,8 @@ class Metrics::Games::Show
 
   def game_number = game.display_id
 
-  def turbo_frame_name = Games::Past::Container.display_case_turbo_frame_name
-
-  def cache_key(context:)
-    [
-      :metrics,
-      game,
-      context.mobile? ? :mobile : :web,
-    ]
-  end
-
-  def content
-    Metrics::Games::Content.new(game:)
-  end
-
-  def results
-    Games::Past::Results.new(game:)
+  def container
+    Metrics::Games::Container.new(game:)
   end
 
   private

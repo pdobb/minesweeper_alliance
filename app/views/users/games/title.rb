@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
-# Users::Games::Title
+# Users::Games::Title is a specialization on {Games::Title} that provides
+# {User}-specific {Game} paths.
 class Users::Games::Title < Games::Title
   def initialize(game:, user:)
     super(game:)

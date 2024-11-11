@@ -4,14 +4,16 @@
   <%= render("games/current/page_nav", nav: container.nav) %>
 <% end %>
 
-<%= turbo_frame_tag(container.turbo_frame_name, class: "space-y-12") do %>
-  <% container.content.tap do |content| %>
-    <%= turbo_frame_tag(content.turbo_frame_name) do %>
-      <%= render("games/current/content", content:) %>
+<%= turbo_frame_tag(container.turbo_frame_name) do %>
+  <div class="space-y-12">
+    <% container.content.tap do |content| %>
+      <%= turbo_frame_tag(content.turbo_frame_name) do %>
+        <%= render("games/current/content", content:) %>
+      <% end %>
     <% end %>
-  <% end %>
 
-  <div class="container mx-auto">
-    <%= render("games/current/footer", footer: container.footer(self)) %>
+    <div class="container mx-auto">
+      <%= render("games/current/footer", footer: container.footer(self)) %>
+    </div>
   </div>
 <% end %>
