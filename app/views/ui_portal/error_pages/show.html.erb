@@ -1,0 +1,13 @@
+<% title("Error Pages") %>
+
+<div class="container mx-auto space-y-12">
+  <h1><%= title %></h1>
+
+  <ul class="space-y-1">
+    <li><%= link_to("400: Bad Request", "/400") %></li>
+    <li><%= link_to("404: Not Found", "/404") %></li>
+    <li><%= link_to("406: Unsupported Browser", "/406") %></li>
+    <li><%= link_to("422: Unprocessable Entity", "/422") %></li>
+    <li><%= link_to("500: Internal Server Error", "/500") %></li>
+  </ul>
+</div>

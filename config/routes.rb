@@ -49,6 +49,7 @@ Rails.application.routes.draw do
       root "home#show"
 
       resource :flash_notifications, only: :show
+      resource :error_pages, only: :show
 
       resources :patterns do
         scope module: :patterns do
@@ -69,6 +70,12 @@ Rails.application.routes.draw do
   # Can be used by load balancers and uptime monitors to verify that the app is
   # live.
   get "up" => "rails/health#show", as: :rails_health_check
+
+  match "/400" => "errors#bad_request", via: :all
+  match "/404" => "errors#not_found", via: :all
+  match "/406" => "errors#unsupported_browser", via: :all
+  match "/422" => "errors#unprocessable_entity", via: :all
+  match "/500" => "errors#internal_server_error", via: :all
 
   # Render dynamic PWA files from app/views/pwa/*
   get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
