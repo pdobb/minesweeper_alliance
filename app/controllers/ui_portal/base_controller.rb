@@ -6,6 +6,6 @@ class UIPortal::BaseController < ActionController::Base
   helper_method :layout
 
   def layout
-    @layout ||= Application::Layout.new(context: self)
+    @layout ||= UIPortal::Layout.new(context: self)
   end
 end

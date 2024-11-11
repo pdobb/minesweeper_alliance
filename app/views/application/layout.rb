@@ -3,13 +3,14 @@
 # Application::Layout is a View Model for handling application-level view
 # concerns.
 #
-# For example: It is a great alternative to having the ApplicationController
-# define helper methods for use in controllers / view templates, such as the
-# ubiquitous `current_user`.
+# For example: It is a great alternative to having {ApplicationController}
+# define helper methods for use in controllers / view templates.
 class Application::Layout
   def initialize(context:)
     @context = context
   end
+
+  def portal = "application".inquiry # rubocop:disable Rails/Inquiry
 
   def current_user = context.current_user
 
