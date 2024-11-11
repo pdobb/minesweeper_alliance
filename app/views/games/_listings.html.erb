@@ -1,8 +1,8 @@
-<%# locals: (view:) %>
+<%# locals: (listings:) %>
 
 <div class="space-y-6">
-  <% if view.any_listings? %>
-    <% view.listings_grouped_by_date.each do |listings_date, listings| %>
+  <% if listings.any? %>
+    <% listings.listings_grouped_by_date.each do |listings_date, listings| %>
       <div class="space-y-3">
         <h3><%= listings_date %></h3>
         <h4 class="h5 text-dim-sm">
