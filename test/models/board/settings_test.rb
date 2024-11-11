@@ -301,6 +301,26 @@ class Board::SettingsTest < ActiveSupport::TestCase
       end
     end
 
+    describe "#name" do
+      subject { unit_class.beginner }
+
+      context "GIVEN a preset" do
+        subject { unit_class.beginner }
+
+        it "returns nil" do
+          _(subject.name).must_be_nil
+        end
+      end
+
+      context "GIVEN a pattern" do
+        subject { unit_class.pattern("Test Pattern 1") }
+
+        it "returns the expected String" do
+          _(subject.name).must_equal("Test Pattern 1")
+        end
+      end
+    end
+
     describe "#width" do
       subject { unit_class.beginner }
 
@@ -324,6 +344,60 @@ class Board::SettingsTest < ActiveSupport::TestCase
 
       it "returns the expected Integer" do
         _(subject.mines).must_equal(10)
+      end
+    end
+
+    describe "#custom?" do
+      context "GIVEN a preset" do
+        subject { unit_class.beginner }
+
+        it "returns false" do
+          _(subject.custom?).must_equal(false)
+        end
+      end
+
+      context "GIVEN custom attributes" do
+        subject { unit_class[6, 6, 9] }
+
+        it "returns true" do
+          _(subject.custom?).must_equal(true)
+        end
+      end
+    end
+
+    describe "#pattern?" do
+      context "GIVEN a preset" do
+        subject { unit_class.beginner }
+
+        it "returns false" do
+          _(subject.pattern?).must_equal(false)
+        end
+      end
+
+      context "GIVEN a pattern" do
+        subject { unit_class.pattern("Test Pattern 1") }
+
+        it "returns true" do
+          _(subject.pattern?).must_equal(true)
+        end
+      end
+    end
+
+    describe "#to_s" do
+      context "GIVEN a preset" do
+        subject { unit_class.beginner }
+
+        it "returns the expected String" do
+          _(subject.to_s).must_equal("Beginner")
+        end
+      end
+
+      context "GIVEN custom attributes" do
+        subject { unit_class[6, 6, 9] }
+
+        it "returns the expected String" do
+          _(subject.to_s).must_equal("Custom")
+        end
       end
     end
 
@@ -355,42 +429,6 @@ class Board::SettingsTest < ActiveSupport::TestCase
       it "returns the expected Hash" do
         _(subject.as_json).must_equal(
           { type: "Beginner", width: 9, height: 9, mines: 10 })
-      end
-    end
-
-    describe "#to_s" do
-      context "GIVEN a preset" do
-        subject { unit_class.beginner }
-
-        it "returns the expected String" do
-          _(subject.to_s).must_equal("Beginner")
-        end
-      end
-
-      context "GIVEN custom attributes" do
-        subject { unit_class[6, 6, 9] }
-
-        it "returns the expected String" do
-          _(subject.to_s).must_equal("Custom")
-        end
-      end
-    end
-
-    describe "#custom?" do
-      context "GIVEN a preset" do
-        subject { unit_class.beginner }
-
-        it "returns false" do
-          _(subject.custom?).must_equal(false)
-        end
-      end
-
-      context "GIVEN custom attributes" do
-        subject { unit_class[6, 6, 9] }
-
-        it "returns true" do
-          _(subject.custom?).must_equal(true)
-        end
       end
     end
   end
