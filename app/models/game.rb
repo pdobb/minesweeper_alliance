@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# :reek:TooManyConstants
+
 # Game represents a game of Minesweeper Alliance. It handles creation of new
 # Games and keeps track of the {#status} of each Game in the database, win or
 # lose.
@@ -176,8 +178,8 @@ class Game < ApplicationRecord
     CalcStats.(self)
   end
 
-  # Game::CalcStats determines and updates the given Game object with relevant
-  # statistical values (on Game end).
+  # Game::CalcStats determines and updates the given {Game} object with relevant
+  # statistical values (on {Game} end).
   class CalcStats
     MAX_SCORE = 999
 

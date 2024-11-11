@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# :reek:TooManyMethods
+
 # Pattern is a slimmed-down version of a {Board} and its associated {Cell}s,
 # dedicated to "Draw Mode". Wherein we place Flags to produce a reusable pattern
 # for placing mines in regular {Board} {Cell}s.

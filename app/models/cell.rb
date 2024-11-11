@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# :reek:TooManyMethods
+
 # Cell represents a clickable position on the {Board}. Cells:
 # - may secretly contain a mine
 # - may be blank (indicating that neither it nor any of its neighbors are
@@ -121,7 +123,6 @@ class Cell < ApplicationRecord
   end
 
   def unrevealed? = !revealed?
-  def correctly_flagged? = flagged? && mine?
   def incorrectly_flagged? = flagged? && !mine?
   def blank? = value == BLANK_VALUE
   def safely_revealable? = !(mine? || revealed?)

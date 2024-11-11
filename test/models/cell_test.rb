@@ -374,36 +374,6 @@ class CellTest < ActiveSupport::TestCase
       end
     end
 
-    describe "#correctly_flagged?" do
-      context "GIVEN #flagged? = true" do
-        subject { win1_board_cell1 }
-
-        context "GIVEN #mine? = true" do
-          it "returns true" do
-            _(subject.correctly_flagged?).must_equal(true)
-          end
-        end
-
-        context "GIVEN #mine? = false" do
-          before do
-            subject.update!(mine: false)
-          end
-
-          it "returns false" do
-            _(subject.correctly_flagged?).must_equal(false)
-          end
-        end
-      end
-
-      context "GIVEN #flagged? = false" do
-        subject { win1_board_cell2 }
-
-        it "returns false" do
-          _(subject.correctly_flagged?).must_equal(false)
-        end
-      end
-    end
-
     describe "#incorrectly_flagged?" do
       context "GIVEN #flagged? = true" do
         subject { win1_board_cell1 }
