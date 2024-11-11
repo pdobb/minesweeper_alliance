@@ -3,12 +3,7 @@
 <%= turbo_stream_from(*duty_roster.turbo_stream_name) %>
 
 <div class="space-y-3">
-  <h4 class="h3">
-    Duty Roster
-    <small title="Player Count" class="text-dim">
-      (<%= duty_roster.count %>)
-    </small>
-  </h4>
+  <h4 class="h3">Duty Roster</h4>
 
   <div
     data-turbo-prefetch="false"

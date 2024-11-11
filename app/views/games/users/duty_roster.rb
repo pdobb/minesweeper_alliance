@@ -11,10 +11,6 @@ class Games::Users::DutyRoster
 
   def turbo_stream_name = self.class.turbo_stream_name(game)
 
-  def count
-    game.users.size
-  end
-
   def listings
     Listing.wrap(game.users, game:)
   end
