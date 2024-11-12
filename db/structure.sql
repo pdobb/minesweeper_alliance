@@ -350,6 +350,13 @@ CREATE INDEX index_cell_transactions_on_cell_id ON public.cell_transactions USIN
 
 
 --
+-- Name: index_cell_transactions_on_cell_id_and_type; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_cell_transactions_on_cell_id_and_type ON public.cell_transactions USING btree (cell_id, type) WHERE ((type)::text = ANY ((ARRAY['CellChordTransaction'::character varying, 'CellRevealTransaction'::character varying])::text[]));
+
+
+--
 -- Name: index_cell_transactions_on_created_at; Type: INDEX; Schema: public; Owner: -
 --
 

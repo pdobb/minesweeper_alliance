@@ -10,6 +10,8 @@
 class CellTransaction < ApplicationRecord
   self.implicit_order_column = "created_at"
 
+  UNIQUE_TYPES = %w[CellChordTransaction CellRevealTransaction].freeze
+
   include AbstractBaseClassBehaviors
   include ConsoleBehaviors
 
@@ -25,6 +27,9 @@ class CellTransaction < ApplicationRecord
   scope :for_cell, ->(cell) { where(cell:) }
   scope :for_board, ->(board) { joins(:cell).merge(Cell.for_board(board)) }
   scope :for_game, ->(game) { joins(:cell).merge(Cell.for_game(game)) }
+
+  validates :cell,
+            uniqueness: { scope: :type, if: -> { type.in?(UNIQUE_TYPES) } }
 
   def self.create_between(user:, cell:)
     new(user:, cell:).tap(&:save!)
