@@ -19,16 +19,10 @@ module ConsoleObjectBehaviors
     define_method(:__class__) { self.class.module_parent }
 
     try(:reflections)&.each do |name, reflection|
-      if reflection.macro.in?(%i[has_one belongs_to])
-        define_method(name) do
-          __model__.public_send(name).try(:console)
-        end
-      elsif reflection.macro == :has_many
-        define_method(name) do
-          __model__.public_send(name).by_most_recent.map { |record|
-            record.try(:console)
-          }
-        end
+      next unless reflection.macro.in?(%i[has_one belongs_to])
+
+      define_method(name) do
+        __model__.public_send(name).try(:console)
       end
     end
   end

@@ -15,6 +15,8 @@ class GameTest < ActiveSupport::TestCase
     let(:preset_settings1) { Board::Settings.beginner }
     let(:custom_settings1) { Board::Settings[6, 6, 4] }
 
+    let(:user1) { users(:user1) }
+
     context "Class Methods" do
       subject { unit_class }
 
@@ -27,7 +29,10 @@ class GameTest < ActiveSupport::TestCase
 
         context "GIVEN a Game#on? = true Game doesn't exist" do
           context "GIVEN a recently-ended Game exists" do
-            before { recently_ended_game.end_in_victory }
+            before do
+              recently_ended_game.touch(:started_at)
+              recently_ended_game.end_in_victory(user: user1)
+            end
 
             let(:recently_ended_game) { standing_by1 }
 
@@ -50,7 +55,7 @@ class GameTest < ActiveSupport::TestCase
         context "GIVEN a Game.current already exists" do
           it "raises ActiveRecord::RecordNotUnique" do
             _(-> {
-              subject.create_for(settings: custom_settings1)
+              subject.create_for(settings: custom_settings1, user: user1)
             }).must_raise(ActiveRecord::RecordNotUnique)
           end
         end
@@ -60,7 +65,7 @@ class GameTest < ActiveSupport::TestCase
 
           it "returns a persisted Game with the expected attributes" do
             result =
-              subject.create_for(settings: custom_settings1)
+              subject.create_for(settings: custom_settings1, user: user1)
             _(result).must_be_instance_of(unit_class)
             _(result.persisted?).must_equal(true)
             _(result.status_standing_by?).must_equal(true)
@@ -79,7 +84,7 @@ class GameTest < ActiveSupport::TestCase
             it "doesn't persist the Game/Board/Cells" do
               _(-> {
                 _(-> {
-                  subject.create_for(settings: custom_settings1)
+                  subject.create_for(settings: custom_settings1, user: user1)
                 }).must_raise(ErrorDouble)
               }).wont_change_all([
                 ["Game.count"], ["Board.count"], ["Cell.count"]
@@ -174,7 +179,9 @@ class GameTest < ActiveSupport::TestCase
 
         it "orchestrates the expected updates and returns the Game" do
           result =
-            _(-> { subject.start(seed_cell: nil) }).must_change_all([
+            _(-> {
+              subject.start(seed_cell: nil, user: user1)
+            }).must_change_all([
               ["subject.started_at"],
               [
                 "subject.status",
@@ -192,7 +199,9 @@ class GameTest < ActiveSupport::TestCase
 
         it "returns the Game without orchestrating any changes" do
           result =
-            _(-> { subject.start(seed_cell: nil) }).wont_change_all([
+            _(-> {
+              subject.start(seed_cell: nil, user: user1)
+            }).wont_change_all([
               ["subject.started_at"],
               ["subject.status"],
             ])
@@ -204,22 +213,22 @@ class GameTest < ActiveSupport::TestCase
 
     describe "#end_in_victory" do
       context "GIVEN a Game that's still on" do
-        subject { standing_by1.start(seed_cell: nil) }
+        subject { standing_by1.start(seed_cell: nil, user: user1) }
 
         it "touches Game#ended_at" do
-          _(-> { subject.end_in_victory }).must_change(
+          _(-> { subject.end_in_victory(user: user1) }).must_change(
             "subject.ended_at",
             from: nil)
         end
 
         it "sets the expected Status" do
-          _(-> { subject.end_in_victory }).must_change(
+          _(-> { subject.end_in_victory(user: user1) }).must_change(
             "subject.status",
             to: unit_class.status_alliance_wins)
         end
 
         it "sets Game stats" do
-          _(-> { subject.end_in_victory }).must_change_all([
+          _(-> { subject.end_in_victory(user: user1) }).must_change_all([
             ["subject.score", from: nil],
             ["subject.bbbv", from: nil],
             ["subject.bbbvps", from: nil],
@@ -238,7 +247,7 @@ class GameTest < ActiveSupport::TestCase
         subject { win1 }
 
         it "returns the Game without orchestrating any changes" do
-          result = subject.end_in_victory
+          result = subject.end_in_victory(user: user1)
           _(result).must_be_same_as(subject)
           _(@touch_call).must_be_nil
         end
@@ -247,22 +256,22 @@ class GameTest < ActiveSupport::TestCase
 
     describe "#end_in_defeat" do
       context "GIVEN a Game that's still on" do
-        subject { standing_by1.start(seed_cell: nil) }
+        subject { standing_by1.start(seed_cell: nil, user: user1) }
 
         it "touches Game#ended_at" do
-          _(-> { subject.end_in_defeat }).must_change(
+          _(-> { subject.end_in_defeat(user: user1) }).must_change(
             "subject.ended_at",
             from: nil)
         end
 
         it "sets the expected Status" do
-          _(-> { subject.end_in_defeat }).must_change(
+          _(-> { subject.end_in_defeat(user: user1) }).must_change(
             "subject.status",
             to: unit_class.status_mines_win)
         end
 
         it "doesn't set Game stats" do
-          _(-> { subject.end_in_defeat }).wont_change_all([
+          _(-> { subject.end_in_defeat(user: user1) }).wont_change_all([
             ["subject.score", from: nil],
             ["subject.bbbv", from: nil],
             ["subject.bbbvps", from: nil],
@@ -281,7 +290,7 @@ class GameTest < ActiveSupport::TestCase
         subject { win1 }
 
         it "returns the Game without orchestrating any changes" do
-          result = subject.end_in_defeat
+          result = subject.end_in_defeat(user: user1)
           _(result).must_be_same_as(subject)
           _(@touch_call).must_be_nil
         end

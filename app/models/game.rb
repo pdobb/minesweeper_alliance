@@ -20,7 +20,7 @@
 # @attr bbbvps [Float] The 3BV/s rating of a solved {Board}.
 # @attr efficiency [Float] The ratio of actual clicks vs necessary clicks (3BV)
 #   used to solve the associated {Board}.
-class Game < ApplicationRecord
+class Game < ApplicationRecord # rubocop:disable Metrics/ClassLength
   self.inheritance_column = nil
   self.implicit_order_column = "created_at"
 
@@ -41,6 +41,11 @@ class Game < ApplicationRecord
   validates_associated :board, on: :create
 
   has_many :cells, through: :board
+
+  has_many :game_transactions, dependent: :delete_all
+  has_one :game_create_transaction
+  has_one :game_start_transaction
+  has_one :game_end_transaction
 
   has_many :cell_transactions, through: :cells
   has_many :cell_reveal_transactions, through: :cells
@@ -91,10 +96,11 @@ class Game < ApplicationRecord
       last
   end
 
-  def self.create_for(...)
-    build_for(...).tap { |new_game|
+  def self.create_for(user:, **)
+    build_for(**).tap { |new_game|
       transaction do
         new_game.save!
+        GameCreateTransaction.create_between(user:, game: new_game)
         new_game.board.on_create
       end
     }
@@ -115,11 +121,12 @@ class Game < ApplicationRecord
 
   # :reek:TooManyStatements
 
-  def start(seed_cell:)
+  def start(seed_cell:, user:)
     return self unless status_standing_by?
 
     transaction do
       touch(:started_at)
+      GameStartTransaction.create_between(user:, game: self)
       board.on_game_start(seed_cell:)
       set_status_sweep_in_progress!
     end
@@ -127,15 +134,17 @@ class Game < ApplicationRecord
     self
   end
 
-  def end_in_victory
-    end_game {
+  def end_in_victory(user:)
+    end_game(user:) {
       set_stats
       set_status_alliance_wins!
     }
   end
 
-  def end_in_defeat
-    end_game { set_status_mines_win! }
+  def end_in_defeat(user:)
+    end_game(user:) {
+      set_status_mines_win!
+    }
   end
 
   def on?
@@ -163,11 +172,12 @@ class Game < ApplicationRecord
 
   private
 
-  def end_game
+  def end_game(user:)
     return self if over?
 
     transaction do
       touch(:ended_at)
+      GameEndTransaction.create_between(user:, game: self)
       yield
     end
 
@@ -242,7 +252,7 @@ class Game < ApplicationRecord
       }
     end
 
-    # Like {#reset} but also resets status to "Standing By" and reset mines on
+    # Like {#reset} but also resets status to "Standing By" and resets mines on
     # the {Board}.
     def reset!
       do_reset {
@@ -285,6 +295,7 @@ class Game < ApplicationRecord
           bbbvps: nil,
           efficiency: nil)
 
+        game_transactions.clear
         CellTransaction.for_id(cell_transaction_ids).delete_all
 
         yield

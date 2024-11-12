@@ -137,6 +137,38 @@ ALTER SEQUENCE public.cells_id_seq OWNED BY public.cells.id;
 
 
 --
+-- Name: game_transactions; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.game_transactions (
+    id bigint NOT NULL,
+    type character varying NOT NULL,
+    user_id uuid,
+    game_id bigint NOT NULL,
+    created_at timestamp(6) with time zone NOT NULL
+);
+
+
+--
+-- Name: game_transactions_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.game_transactions_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: game_transactions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.game_transactions_id_seq OWNED BY public.game_transactions.id;
+
+
+--
 -- Name: games; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -251,6 +283,13 @@ ALTER TABLE ONLY public.cells ALTER COLUMN id SET DEFAULT nextval('public.cells_
 
 
 --
+-- Name: game_transactions id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.game_transactions ALTER COLUMN id SET DEFAULT nextval('public.game_transactions_id_seq'::regclass);
+
+
+--
 -- Name: games id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -294,6 +333,14 @@ ALTER TABLE ONLY public.cell_transactions
 
 ALTER TABLE ONLY public.cells
     ADD CONSTRAINT cells_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: game_transactions game_transactions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.game_transactions
+    ADD CONSTRAINT game_transactions_pkey PRIMARY KEY (id);
 
 
 --
@@ -427,6 +474,41 @@ CREATE INDEX index_cells_on_revealed ON public.cells USING btree (revealed);
 
 
 --
+-- Name: index_game_transactions_on_created_at; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_game_transactions_on_created_at ON public.game_transactions USING btree (created_at);
+
+
+--
+-- Name: index_game_transactions_on_game_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_game_transactions_on_game_id ON public.game_transactions USING btree (game_id);
+
+
+--
+-- Name: index_game_transactions_on_game_id_and_type; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_game_transactions_on_game_id_and_type ON public.game_transactions USING btree (game_id, type);
+
+
+--
+-- Name: index_game_transactions_on_type; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_game_transactions_on_type ON public.game_transactions USING btree (type);
+
+
+--
+-- Name: index_game_transactions_on_user_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_game_transactions_on_user_id ON public.game_transactions USING btree (user_id);
+
+
+--
 -- Name: index_games_on_bbbv; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -527,11 +609,27 @@ ALTER TABLE ONLY public.cell_transactions
 
 
 --
+-- Name: game_transactions fk_rails_adddf1bd52; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.game_transactions
+    ADD CONSTRAINT fk_rails_adddf1bd52 FOREIGN KEY (game_id) REFERENCES public.games(id) ON DELETE CASCADE;
+
+
+--
 -- Name: cell_transactions fk_rails_baaa458a22; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.cell_transactions
     ADD CONSTRAINT fk_rails_baaa458a22 FOREIGN KEY (user_id) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
+-- Name: game_transactions fk_rails_c020c31c6a; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.game_transactions
+    ADD CONSTRAINT fk_rails_c020c31c6a FOREIGN KEY (user_id) REFERENCES public.users(id) ON DELETE SET NULL;
 
 
 --
@@ -549,6 +647,7 @@ ALTER TABLE ONLY public.cells
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20241112041937'),
 ('20240927195322'),
 ('20240912030247'),
 ('20240911180310'),

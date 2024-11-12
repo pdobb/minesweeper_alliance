@@ -1,0 +1,17 @@
+win1_game_start_transaction:
+  type: GameStartTransaction
+  user: user1
+  game: win1
+win1_game_end_transaction:
+  type: GameEndTransaction
+  user: user1
+  game: win1
+
+loss1_game_start_transaction:
+  type: GameStartTransaction
+  user: user1
+  game: loss1
+loss1_game_end_transaction:
+  type: GameEndTransaction
+  user: user2
+  game: loss1
