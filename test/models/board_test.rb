@@ -15,6 +15,8 @@ class BoardTest < ActiveSupport::TestCase
     let(:preset_settings1) { unit_class::Settings.beginner }
     let(:custom_settings1) { unit_class::Settings[4, 4, 1] }
 
+    let(:user1) { users(:user1) }
+
     describe ".new" do
       it "returns the expected Board" do
         result = unit_class.new(settings: preset_settings1)
@@ -135,7 +137,7 @@ class BoardTest < ActiveSupport::TestCase
         subject { [standing_by1_board, win1_board, loss1_board].sample }
 
         it "doesn't orchestrate any changes, and returns nil" do
-          result = subject.check_for_victory
+          result = subject.check_for_victory(user: user1)
           _(result).must_be_nil
           _(@end_in_victory_call).must_be_nil
         end
@@ -144,13 +146,13 @@ class BoardTest < ActiveSupport::TestCase
       context "GIVEN the associated Game#status_sweep_in_progress? = true" do
         context "GIVEN the Board is not yet in a victorious state" do
           before do
-            subject.game.start(seed_cell: nil)
+            subject.game.start(seed_cell: nil, user: user1)
           end
 
           subject { standing_by1_board }
 
           it "doesn't call Game#end_in_vicotry, and returns false" do
-            result = subject.check_for_victory
+            result = subject.check_for_victory(user: user1)
             _(result).must_equal(false)
             _(@end_in_victory_call).must_be_nil
           end
@@ -158,7 +160,7 @@ class BoardTest < ActiveSupport::TestCase
 
         context "GIVEN the Board is in a victorious state" do
           before do
-            subject.game.start(seed_cell: nil)
+            subject.game.start(seed_cell: nil, user: user1)
             subject.cells.is_not_mine.update_all(revealed: true)
             subject.cells.reload
           end
@@ -166,7 +168,7 @@ class BoardTest < ActiveSupport::TestCase
           subject { standing_by1_board }
 
           it "calls Game#end_in_vicotry, and returns the Game" do
-            result = subject.check_for_victory
+            result = subject.check_for_victory(user: user1)
             _(result).must_be_same_as(subject.game)
             _(@end_in_victory_call).wont_be_nil
           end

@@ -57,6 +57,19 @@ en:
   activerecord:
     errors:
       <<: *ERRORS
+      models:
+        game_create_transaction:
+          attributes:
+            game:
+              taken: has already been created
+        game_start_transaction:
+          attributes:
+            game:
+              taken: has already been started
+        game_end_transaction:
+          attributes:
+            game:
+              taken: has already been ended
 
   flash:
     not_found: "%{type} not found."

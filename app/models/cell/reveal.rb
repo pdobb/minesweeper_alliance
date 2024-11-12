@@ -49,7 +49,7 @@ class Cell::Reveal
   end
 
   def start_game_if_standing_by
-    game.start(seed_cell: cell)
+    game.start(seed_cell: cell, user:)
   end
 
   def reveal_cell
@@ -62,7 +62,7 @@ class Cell::Reveal
   def end_game_in_defeat_if_mine_revealed
     return unless cell.mine?
 
-    game.end_in_defeat
+    game.end_in_defeat(user:)
     throw(:return, self)
   end
 
@@ -74,6 +74,6 @@ class Cell::Reveal
   end
 
   def end_game_in_victory_if_all_safe_cells_revealed
-    board.check_for_victory
+    board.check_for_victory(user:)
   end
 end

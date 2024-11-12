@@ -5,14 +5,16 @@ module Games::New::Behaviors
   # :reek:FeatureEnvy
 
   def find_or_create_current_game(settings:)
-    Game.find_or_create_current(settings:).tap { |current_game|
-      if current_game.just_created?
-        DutyRoster.clear
-        WarRoomChannel.broadcast_refresh
+    Game.
+      find_or_create_current(settings:, user: current_user).
+      tap { |current_game|
+        if current_game.just_created?
+          DutyRoster.clear
+          WarRoomChannel.broadcast_refresh
 
-        store_board_settings(current_game)
-      end
-    }
+          store_board_settings(current_game)
+        end
+      }
   end
 
   private

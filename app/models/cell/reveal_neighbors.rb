@@ -87,11 +87,11 @@ class Cell::RevealNeighbors
   def reveal(neighboring_cell)
     neighboring_cell.reveal
 
-    end_in_defeat if neighboring_cell.mine?
+    end_in_defeat(user:) if neighboring_cell.mine?
   end
 
-  def end_in_defeat
-    game.end_in_defeat
+  def end_in_defeat(user:)
+    game.end_in_defeat(user:)
     throw(:return, self)
   end
 
@@ -102,6 +102,6 @@ class Cell::RevealNeighbors
   end
 
   def end_game_in_victory_if_all_safe_cells_revealed
-    board.check_for_victory
+    board.check_for_victory(user:)
   end
 end

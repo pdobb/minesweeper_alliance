@@ -11,9 +11,8 @@ loss1:
   <<: *DEFAULTS
   status: <%= Game.status_mines_win %>
   started_at: <%= 30.seconds.ago %>
-  ended_at: <%= 10.second.ago %>
+  ended_at: <%= 10.seconds.ago %>
 
 standing_by1:
   <<: *DEFAULTS
   status: <%= Game.status_standing_by %>
-  started_at: <%= Time.current %>
