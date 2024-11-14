@@ -126,6 +126,30 @@ class GameTest < ActiveSupport::TestCase
       end
     end
 
+    describe "#validate" do
+      describe "#type" do
+        subject { unit_class.new(type: type1) }
+
+        context "GIVEN valid, unique #type" do
+          let(:type1) { unit_class::ALL_TYPES.sample }
+
+          it "passes validation" do
+            subject.validate
+            _(subject.errors[:type]).must_be_empty
+          end
+        end
+
+        context "GIVEN no #type" do
+          let(:type1) { nil }
+
+          it "fails validation" do
+            subject.validate
+            _(subject.errors[:type]).must_include(ValidationError.presence)
+          end
+        end
+      end
+    end
+
     describe "#display_id" do
       before do
         unit_class.instance_variable_set(:@display_id_width, nil)

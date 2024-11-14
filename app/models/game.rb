@@ -78,6 +78,8 @@ class Game < ApplicationRecord
     where.not(efficiency: nil).order(efficiency: :desc)
   }
 
+  validates :type, presence: true
+
   def self.find_or_create_current(...)
     current || create_for(...)
   rescue ActiveRecord::RecordNotUnique
