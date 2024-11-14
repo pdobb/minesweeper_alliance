@@ -2,16 +2,20 @@ win1_game_start_transaction:
   type: GameStartTransaction
   user: user1
   game: win1
+  audit: <%= { user: 1 }.to_json %>
 win1_game_end_transaction:
   type: GameEndTransaction
   user: user1
   game: win1
+  audit: <%= { user: 1 }.to_json %>
 
 loss1_game_start_transaction:
   type: GameStartTransaction
   user: user1
   game: loss1
+  audit: <%= { user: 1 }.to_json %>
 loss1_game_end_transaction:
   type: GameEndTransaction
   user: user2
   game: loss1
+  audit: <%= { user: 2 }.to_json %>

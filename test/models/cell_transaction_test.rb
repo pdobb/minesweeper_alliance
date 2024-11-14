@@ -7,6 +7,7 @@ class CellTransactionTest < ActiveSupport::TestCase
     let(:unit_class) { CellTransaction }
 
     let(:user1) { users(:user1) }
+
     let(:win1_board_cell2) { cells(:win1_board_cell2) }
     let(:standing_by1_board_cell1) { cells(:standing_by1_board_cell1) }
 
@@ -15,7 +16,12 @@ class CellTransactionTest < ActiveSupport::TestCase
     }
 
     describe "DB insertion (GIVEN no Rails validation)" do
-      subject { CellRevealTransaction.new(user: user1, cell: win1_board_cell2) }
+      subject {
+        CellRevealTransaction.new(
+          user: user1,
+          cell: win1_board_cell2,
+          audit: Audit.new(user: user1.audit))
+      }
 
       it "raises ActiveRecord::RecordNotUnique" do
         exception =

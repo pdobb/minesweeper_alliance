@@ -70,6 +70,17 @@ class User < ApplicationRecord
 
   def bests = @bests ||= Bests.new(self)
 
+  # Object identification for logging or storing historical data into a
+  # transaction object, etc.
+  #
+  # @example
+  #   User.first.audit # => 'User["pdobb"]'
+  #
+  # @return [String]
+  def audit
+    identify(:username)
+  end
+
   # User::Bests is a specialization on User for finding "best" (e.g.
   # top-scoring) {Game}s.
   class Bests

@@ -1,3 +1,5 @@
 vendor
 test/fixtures/cells.yml
+test/fixtures/cell_transactions.yml
+test/fixtures/game_transactions.yml
 test/fixtures/patterns.yml

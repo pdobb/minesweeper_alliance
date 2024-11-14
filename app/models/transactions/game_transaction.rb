@@ -6,6 +6,8 @@
 # @attr type [String] The Subclass name.
 # @attr user_id [Integer] References the {User} involved in this Transaction.
 # @attr game_id [Integer] References the {Game} involved in this Transaction.
+# @attr audit [String] An audit of relevant objects involved in the creation of
+#   this record.
 # @attr created_at [DateTime] When this Transaction occurred.
 class GameTransaction < ApplicationRecord
   self.implicit_order_column = "created_at"
@@ -15,6 +17,8 @@ class GameTransaction < ApplicationRecord
 
   as_abstract_class
 
+  serialize :audit, coder: Audit
+
   belongs_to :user
   belongs_to :game
 
@@ -22,13 +26,21 @@ class GameTransaction < ApplicationRecord
   scope :for_game, ->(game) { where(game:) }
 
   validates :game, uniqueness: { scope: :type }
+  validates :audit, presence: { on: :create }
 
   def self.create_between(user:, game:)
-    new(user:, game:).tap(&:save!)
+    new(user:, game:).tap { |new_game_transaction|
+      new_game_transaction.audit = Audit.new(user: user.audit)
+      new_game_transaction.save!
+    }
   end
 
   def self.exists_between?(user:, game:)
     for_user(user).for_game(game).exists?
+  end
+
+  def user_audit
+    audit[:user]
   end
 
   # GameTransaction::Console acts like a {GameTransaction} but otherwise handles

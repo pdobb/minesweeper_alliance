@@ -2,28 +2,35 @@ win1_cell_reveal_transaction1:
   type: CellRevealTransaction
   user: user1
   cell: win1_board_cell2
+  audit: <%= { user: 1 }.to_json %>
 win1_cell_reveal_transaction2:
   type: CellRevealTransaction
   user: user1
   cell: win1_board_cell4
+  audit: <%= { user: 1 }.to_json %>
 win1_cell_reveal_transaction3:
   type: CellRevealTransaction
   user: user1
   cell: win1_board_cell5
+  audit: <%= { user: 1 }.to_json %>
 win1_cell_flag_transaction4:
   type: CellFlagTransaction
   user: user1
   cell: win1_board_cell1
+  audit: <%= { user: 1 }.to_json %>
 win1_cell_reveal_transaction5:
   type: CellRevealTransaction
   user: user1
   cell: win1_board_cell9
+  audit: <%= { user: 1 }.to_json %>
 
 loss1_cell_reveal_transaction1:
   type: CellRevealTransaction
   user: user1
   cell: loss1_board_cell8
+  audit: <%= { user: 1 }.to_json %>
 loss1_cell_reveal_transaction2:
   type: CellRevealTransaction
   user: user2
   cell: loss1_board_cell9
+  audit: <%= { user: 2 }.to_json %>

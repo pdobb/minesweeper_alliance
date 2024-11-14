@@ -9,6 +9,7 @@ class CreateGameTransactions < ActiveRecord::Migration[8.0]
         :user, type: :uuid, foreign_key: { on_delete: :nullify }, index: true)
       t.references(
         :game, null: false, foreign_key: { on_delete: :cascade })
+      t.text(:audit, null: false)
 
       t.datetime(:created_at, null: false, index: true)
     end

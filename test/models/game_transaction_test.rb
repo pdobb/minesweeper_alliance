@@ -13,7 +13,10 @@ class GameTransactionTest < ActiveSupport::TestCase
     let(:standing_by1) { games(:standing_by1) }
 
     describe "DB insertion (GIVEN no Rails validation)" do
-      subject { GameStartTransaction.new(user: user1, game: win1) }
+      subject {
+        GameStartTransaction.new(
+          user: user1, game: win1, audit: Audit.new(user: user1.audit))
+      }
 
       it "raises ActiveRecord::RecordNotUnique" do
         exception =
@@ -40,6 +43,7 @@ class GameTransactionTest < ActiveSupport::TestCase
           _(result).must_be_instance_of(subject)
           _(result.user).must_be_same_as(user2)
           _(result.game).must_be_same_as(standing_by1)
+          _(result.audit.key?(:user)).must_equal(true)
         end
       end
 

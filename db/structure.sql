@@ -76,6 +76,7 @@ CREATE TABLE public.cell_transactions (
     type character varying NOT NULL,
     user_id uuid,
     cell_id bigint NOT NULL,
+    audit text NOT NULL,
     created_at timestamp(6) with time zone NOT NULL
 );
 
@@ -145,6 +146,7 @@ CREATE TABLE public.game_transactions (
     type character varying NOT NULL,
     user_id uuid,
     game_id bigint NOT NULL,
+    audit text NOT NULL,
     created_at timestamp(6) with time zone NOT NULL
 );
 
