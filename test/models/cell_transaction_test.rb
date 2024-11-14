@@ -14,7 +14,7 @@ class CellTransactionTest < ActiveSupport::TestCase
       cell_transactions(:win1_cell_reveal_transaction1)
     }
 
-    describe "DB insertion (GIVEN no Rails validation)" do
+    describe "#save(validate: false)" do
       subject { CellRevealTransaction.new(user: user1, cell: win1_board_cell2) }
 
       it "raises ActiveRecord::RecordNotUnique" do
@@ -39,7 +39,7 @@ class CellTransactionTest < ActiveSupport::TestCase
             _(-> {
               subject.create_between(
                 user: user1, cell: standing_by1_board_cell1)
-            }).must_change("CellTransaction.count")
+            }).must_change("unit_class.count")
           _(result).must_be_instance_of(subject)
           _(result.user).must_be_same_as(user1)
           _(result.cell).must_be_same_as(standing_by1_board_cell1)

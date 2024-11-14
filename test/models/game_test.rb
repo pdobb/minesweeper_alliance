@@ -30,7 +30,8 @@ class GameTest < ActiveSupport::TestCase
         context "GIVEN a Game#on? = true Game doesn't exist" do
           context "GIVEN a recently-ended Game exists" do
             before do
-              recently_ended_game.touch(:started_at)
+              GameStartTransaction.create_between(
+                user: user1, game: recently_ended_game)
               recently_ended_game.end_in_victory(user: user1)
             end
 
@@ -239,7 +240,7 @@ class GameTest < ActiveSupport::TestCase
       context "GIVEN a Game that's still on" do
         subject { standing_by1.start(seed_cell: nil, user: user1) }
 
-        it "touches Game#ended_at" do
+        it "updates Game#ended_at" do
           _(-> { subject.end_in_victory(user: user1) }).must_change(
             "subject.ended_at",
             from: nil)
@@ -282,7 +283,7 @@ class GameTest < ActiveSupport::TestCase
       context "GIVEN a Game that's still on" do
         subject { standing_by1.start(seed_cell: nil, user: user1) }
 
-        it "touches Game#ended_at" do
+        it "updates Game#ended_at" do
           _(-> { subject.end_in_defeat(user: user1) }).must_change(
             "subject.ended_at",
             from: nil)

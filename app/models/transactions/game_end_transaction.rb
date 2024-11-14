@@ -9,6 +9,9 @@ class GameEndTransaction < GameTransaction
       new_game_end_transaction.transaction do
         new_game_end_transaction.save!
         game.game_end_transaction = new_game_end_transaction
+
+        # Cache Game start time onto Game itself, for easier querying.
+        game.touch(:ended_at, time: new_game_end_transaction.created_at)
       end
     }
   end

@@ -11,9 +11,12 @@
 #   {Board} / {Grid} of {Cell}s.
 #   Note: This attribute/column is *not* used for STI.
 # @attr started_at [DateTime] When this Game started. i.e. transitioned from
-#   {#status} "Standing By" to "Sweep in Progress".
+#   {#status} "Standing By" to "Sweep in Progress". This is a cached version of
+#   the associated {GameStartTransaction#created_at} value.
 # @attr ended_at [DateTime] When this Game ended. i.e. transitioned from
 #   {#status} "Sweep in Progress" to either "Alliance Wins" or "Mines Win".
+#   This is a cached version of the associated {GameEndTransaction#created_at}
+#   value.
 # @attr score [Integer] The play-time in seconds of a victorious Game. Maxes out
 #   at {Game::CalcStats::MAX_SCORE} (999).
 # @attr bbbv [Integer] The 3BV value for the associated, solved {Board}.
@@ -93,9 +96,8 @@ class Game < ApplicationRecord # rubocop:disable Metrics/ClassLength
   end
 
   def self.current(within: DEFAULT_JUST_ENDED_DURATION)
-    for_game_on_statuses.or(
-      for_game_over_statuses.for_ended_at(within.ago..)).
-      last
+    for_game_on_statuses.last ||
+      for_game_over_statuses.for_ended_at(within.ago..).last
   end
 
   def self.create_for(user:, **)
@@ -127,7 +129,6 @@ class Game < ApplicationRecord # rubocop:disable Metrics/ClassLength
     return self unless status_standing_by?
 
     transaction do
-      touch(:started_at)
       GameStartTransaction.create_between(user:, game: self)
       board.on_game_start(seed_cell:)
       set_status_sweep_in_progress!
@@ -178,7 +179,6 @@ class Game < ApplicationRecord # rubocop:disable Metrics/ClassLength
     return self if over?
 
     transaction do
-      touch(:ended_at)
       GameEndTransaction.create_between(user:, game: self)
       yield
     end
@@ -249,7 +249,8 @@ class Game < ApplicationRecord # rubocop:disable Metrics/ClassLength
     def reset
       do_reset {
         set_status_sweep_in_progress! if over?
-        update(started_at: Time.current)
+        game_start_transaction.update(created_at: Time.current)
+        touch(:started_at, time: game_start_transaction.created_at)
         board.reset
       }
     end
@@ -258,8 +259,9 @@ class Game < ApplicationRecord # rubocop:disable Metrics/ClassLength
     # the {Board}.
     def reset!
       do_reset {
-        set_status_standing_by!
+        game_start_transaction&.delete
         update(started_at: nil)
+        set_status_standing_by!
         board.reset!
       }
     end
@@ -297,7 +299,7 @@ class Game < ApplicationRecord # rubocop:disable Metrics/ClassLength
           bbbvps: nil,
           efficiency: nil)
 
-        game_transactions.clear
+        game_end_transaction&.delete
         CellTransaction.for_id(cell_transaction_ids).delete_all
 
         yield

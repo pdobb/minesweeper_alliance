@@ -14,11 +14,13 @@ class CreateCellTransactions < ActiveRecord::Migration[7.2]
     end
 
     CellTransaction.reset_column_information
+
     add_index(
       :cell_transactions,
       %i[cell_id type],
       unique: true,
       where:
-        CellTransaction.arel_table[:type].in(CellTransaction::UNIQUE_TYPES))
+        CellTransaction.arel_table[:type].in(CellTransaction::UNIQUE_TYPES).
+          to_sql)
   end
 end

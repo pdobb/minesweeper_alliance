@@ -23,8 +23,9 @@ class GameTransaction < ApplicationRecord
 
   validates :game, uniqueness: { scope: :type }
 
+  # :reek:UnusedParameters
   def self.create_between(user:, game:)
-    new(user:, game:).tap(&:save!)
+    raise(NotImplementedError)
   end
 
   def self.exists_between?(user:, game:)

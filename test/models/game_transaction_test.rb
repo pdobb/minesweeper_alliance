@@ -12,13 +12,13 @@ class GameTransactionTest < ActiveSupport::TestCase
     let(:win1) { games(:win1) }
     let(:standing_by1) { games(:standing_by1) }
 
-    describe "DB insertion (GIVEN no Rails validation)" do
-      subject { GameStartTransaction.new(user: user1, game: win1) }
+    describe "#save(validate: false)" do
+      subject { unit_class.take }
 
       it "raises ActiveRecord::RecordNotUnique" do
         exception =
           _(-> {
-            subject.save(validate: false)
+            subject.dup.save(validate: false)
           }).must_raise(ActiveRecord::RecordNotUnique)
 
         _(exception.message).must_include(
@@ -29,32 +29,12 @@ class GameTransactionTest < ActiveSupport::TestCase
     end
 
     describe ".create_between" do
-      context "GIVEN a new, unique pair" do
-        subject { GameStartTransaction }
+      subject { unit_class }
 
-        it "creates the expected GameTransaction record, and returns it" do
-          result =
-            _(-> {
-              subject.create_between(user: user2, game: standing_by1)
-            }).must_change("GameTransaction.count")
-          _(result).must_be_instance_of(subject)
-          _(result.user).must_be_same_as(user2)
-          _(result.game).must_be_same_as(standing_by1)
-        end
-      end
-
-      context "GIVEN an existing, non-unique pair" do
-        subject { [GameStartTransaction, GameEndTransaction].sample }
-
-        it "raises ActiveRecord::RecordInvalid" do
-          exception =
-            _(-> {
-              subject.create_between(user: user1, game: win1)
-            }).must_raise(ActiveRecord::RecordInvalid)
-
-          _(exception.message).must_equal(
-            "Validation failed: Game has already been taken")
-        end
+      it "raises NotImplementedError" do
+        _(-> {
+          subject.create_between(user: user1, game: win1)
+        }).must_raise(NotImplementedError)
       end
     end
 
