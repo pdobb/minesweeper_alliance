@@ -43,7 +43,7 @@ class Calc3BV
   def count = cells.sum(&:count)
 
   concerning :ObjectInspection do
-    include ObjectInspector::InspectorsHelper
+    include ObjectInspectionBehaviors
 
     def inspect_identification = identify(:grid)
   end
@@ -103,7 +103,7 @@ class Calc3BV
     def neighboring_coordinates = coordinates.neighbors
 
     concerning :ObjectInspection do
-      include ObjectInspector::InspectorsHelper
+      include ObjectInspectionBehaviors
 
       def inspect_flags(scope:)
         scope.join_flags([
@@ -146,7 +146,7 @@ class Calc3BV
     def grid = super.console
 
     concerning :ObjectInspection do
-      include ObjectInspector::InspectorsHelper
+      include ObjectInspectionBehaviors
 
       def inspect_identification = identify(:grid, klass: __class__)
     end

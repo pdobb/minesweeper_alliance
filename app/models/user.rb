@@ -73,7 +73,7 @@ class User < ApplicationRecord
   def bests = @bests ||= Bests.new(self)
 
   concerning :ObjectInspection do
-    include ObjectInspector::InspectorsHelper
+    include ObjectInspectionBehaviors
 
     def inspect_identification = identify(:truncated_id)
     def truncated_id = id[TRUNCATED_ID_RANGE]

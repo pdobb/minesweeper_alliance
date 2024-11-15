@@ -40,7 +40,7 @@ class CellTransaction < ApplicationRecord
   end
 
   concerning :ObjectInspection do
-    include ObjectInspector::InspectorsHelper
+    include ObjectInspectionBehaviors
 
     def inspect_identification = identify
 

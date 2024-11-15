@@ -42,7 +42,7 @@ class Pattern::Settings
   def as_json = to_h
 
   concerning :ObjectInspection do
-    include ObjectInspector::InspectorsHelper
+    include ObjectInspectionBehaviors
 
     def inspect_identification = identify(:width, :height)
   end

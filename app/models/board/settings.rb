@@ -117,7 +117,7 @@ class Board::Settings
   def to_a = to_h.values
 
   concerning :ObjectInspection do
-    include ObjectInspector::InspectorsHelper
+    include ObjectInspectionBehaviors
 
     def inspect_identification = identify(:width, :height, :mines)
 
