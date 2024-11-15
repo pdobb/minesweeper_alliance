@@ -249,6 +249,37 @@ CREATE TABLE public.schema_migrations (
 
 
 --
+-- Name: user_update_transactions; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.user_update_transactions (
+    id bigint NOT NULL,
+    user_id uuid,
+    change_set jsonb NOT NULL,
+    created_at timestamp(6) with time zone NOT NULL
+);
+
+
+--
+-- Name: user_update_transactions_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.user_update_transactions_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: user_update_transactions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.user_update_transactions_id_seq OWNED BY public.user_update_transactions.id;
+
+
+--
 -- Name: users; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -301,6 +332,13 @@ ALTER TABLE ONLY public.games ALTER COLUMN id SET DEFAULT nextval('public.games_
 --
 
 ALTER TABLE ONLY public.patterns ALTER COLUMN id SET DEFAULT nextval('public.patterns_id_seq'::regclass);
+
+
+--
+-- Name: user_update_transactions id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.user_update_transactions ALTER COLUMN id SET DEFAULT nextval('public.user_update_transactions_id_seq'::regclass);
 
 
 --
@@ -365,6 +403,14 @@ ALTER TABLE ONLY public.patterns
 
 ALTER TABLE ONLY public.schema_migrations
     ADD CONSTRAINT schema_migrations_pkey PRIMARY KEY (version);
+
+
+--
+-- Name: user_update_transactions user_update_transactions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.user_update_transactions
+    ADD CONSTRAINT user_update_transactions_pkey PRIMARY KEY (id);
 
 
 --
@@ -572,6 +618,20 @@ CREATE UNIQUE INDEX index_patterns_on_name ON public.patterns USING btree (name)
 
 
 --
+-- Name: index_user_update_transactions_on_created_at; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_user_update_transactions_on_created_at ON public.user_update_transactions USING btree (created_at);
+
+
+--
+-- Name: index_user_update_transactions_on_user_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_user_update_transactions_on_user_id ON public.user_update_transactions USING btree (user_id);
+
+
+--
 -- Name: index_users_on_username; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -598,6 +658,14 @@ CREATE TRIGGER game_status_check BEFORE INSERT OR UPDATE ON public.games FOR EAC
 
 ALTER TABLE ONLY public.boards
     ADD CONSTRAINT fk_rails_1f4dcdc327 FOREIGN KEY (game_id) REFERENCES public.games(id) ON DELETE CASCADE;
+
+
+--
+-- Name: user_update_transactions fk_rails_52bf7868db; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.user_update_transactions
+    ADD CONSTRAINT fk_rails_52bf7868db FOREIGN KEY (user_id) REFERENCES public.users(id) ON DELETE CASCADE;
 
 
 --
@@ -647,6 +715,7 @@ ALTER TABLE ONLY public.cells
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20241115023724'),
 ('20241112041937'),
 ('20240927195322'),
 ('20240912030247'),

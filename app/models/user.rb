@@ -13,6 +13,8 @@ class User < ApplicationRecord
 
   include ConsoleBehaviors
 
+  has_many :user_update_transactions, dependent: :delete_all
+
   has_many :game_transactions, dependent: :nullify
   has_many :game_create_transactions
   has_many :game_start_transactions

@@ -9,10 +9,8 @@ class Games::UsersController < ApplicationController
 
   # :reek:TooManyStatements
 
-  def update # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
-    current_user.attributes = update_params
-
-    if current_user.save
+  def update # rubocop:disable Metrics/MethodLength
+    if UpdateUser.(current_user, attributes: update_params)
       broadcast_update(game: @game)
 
       respond_to do |format|
@@ -53,5 +51,38 @@ class Games::UsersController < ApplicationController
       Games::Users::DutyRoster.turbo_stream_name(game),
       target: duty_roster_listing.dom_id,
       html: duty_roster_listing.name)
+  end
+
+  # UpdateUser
+  class UpdateUser
+    include CallMethodBehaviors
+
+    def initialize(user, attributes:)
+      @user = user
+      @attributes = attributes
+    end
+
+    def call
+      user.attributes = attributes
+      user.user_update_transactions.build(change_set:) if username_changed?
+      user.save
+    end
+
+    private
+
+    attr_reader :user,
+                :attributes
+
+    def change_set
+      { username: username_change_set }
+    end
+
+    def username_change_set
+      { old: old_username, new: new_username }
+    end
+
+    def username_changed? = user.username_changed?
+    def old_username = user.username_was
+    def new_username = user.username
   end
 end
