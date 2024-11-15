@@ -23,8 +23,6 @@ class Board::Settings
   include ActiveModel::Model
   include ActiveModel::Attributes
 
-  include ObjectInspector::InspectorsHelper
-
   attribute :type, :string
   attribute :name, :string
   attribute :width, :integer, default: -> { RANGES.fetch(:width).begin }
@@ -118,11 +116,13 @@ class Board::Settings
   def as_json = to_h
   def to_a = to_h.values
 
-  private
+  concerning :ObjectInspection do
+    include ObjectInspector::InspectorsHelper
 
-  def inspect_identification = identify(:width, :height, :mines)
+    def inspect_identification = identify(:width, :height, :mines)
 
-  def inspect_name
-    pattern? ? "#{type} (#{name.inspect})" : type
+    def inspect_name
+      pattern? ? "#{type} (#{name.inspect})" : type
+    end
   end
 end

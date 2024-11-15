@@ -42,12 +42,17 @@ class Calc3BV
 
   def count = cells.sum(&:count)
 
+  concerning :ObjectInspection do
+    include ObjectInspector::InspectorsHelper
+
+    def inspect_identification = identify(:grid)
+  end
+
   # :reek:InstanceVariableAssumption
 
   # Calc3BV::Cell wraps {Cell} for performing 3BV scoring functions.
   class Cell
     include WrapMethodBehaviors
-    include ObjectInspector::InspectorsHelper
 
     delegate_missing_to :to_model
 
@@ -94,17 +99,21 @@ class Calc3BV
 
     attr_reader :calculator
 
-    def inspect_flags(scope:)
-      scope.join_flags([
-        (Emoji.mine if mine?),
-        (visited? ? Emoji.eyes : "🙈"),
-      ])
-    end
-
-    def inspect_name = @count.inspect
-
     def neighbors = calculator.cells_at(neighboring_coordinates)
     def neighboring_coordinates = coordinates.neighbors
+
+    concerning :ObjectInspection do
+      include ObjectInspector::InspectorsHelper
+
+      def inspect_flags(scope:)
+        scope.join_flags([
+          (Emoji.mine if mine?),
+          (visited? ? Emoji.eyes : "🙈"),
+        ])
+      end
+
+      def inspect_name = @count.inspect
+    end
   end
 
   # Calc3BV::Console acts like a {Calc3BV} but otherwise handles IRB
@@ -113,8 +122,7 @@ class Calc3BV
     include ConsoleObjectBehaviors
 
     # @example
-    #   calc = Calc3BV.new(Board.last.grid).cons
-    #   calc.call
+    #   Calc3BV.new(Board.last.grid).cons.call
     def call
       process_cells
       count
@@ -129,17 +137,18 @@ class Calc3BV
     # Show where the clicks came from.
     #
     # @example
-    #   calc = Calc3BV.new(Board.last.grid).cons
-    #   calc.call
-    #   calc.render  # Compare to `calc.grid.render`
+    #   # Compare output against `calc.grid.render`:
+    #   Calc3BV.new(Board.last.grid).cons.render
     def render
       cells.map(&:count).in_groups_of(grid.columns_count)
     end
 
     def grid = super.console
 
-    private
+    concerning :ObjectInspection do
+      include ObjectInspector::InspectorsHelper
 
-    def inspect_identification = identify(:grid, klass: __class__)
+      def inspect_identification = identify(:grid, klass: __class__)
+    end
   end
 end

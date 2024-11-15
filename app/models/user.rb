@@ -72,6 +72,15 @@ class User < ApplicationRecord
 
   def bests = @bests ||= Bests.new(self)
 
+  concerning :ObjectInspection do
+    include ObjectInspector::InspectorsHelper
+
+    def inspect_identification = identify(:truncated_id)
+    def truncated_id = id[TRUNCATED_ID_RANGE]
+
+    def inspect_info = time_zone
+  end
+
   # User::Bests is a specialization on User for finding "best" (e.g.
   # top-scoring) {Game}s.
   class Bests
@@ -99,25 +108,5 @@ class User < ApplicationRecord
     def _score_arel = games.by_score_asc
     def _bbbvps_arel = games.by_bbbvps_desc
     def _efficiency_arel = games.by_efficiency_desc
-  end
-
-  # User::Console acts like a {User} but otherwise handles IRB Console-specific
-  # methods/logic.
-  class Console
-    TRUNCATED_ID_RANGE = (-7..)
-
-    include ConsoleObjectBehaviors
-
-    private
-
-    def inspect_identification
-      identify(:truncated_id, klass: __class__)
-    end
-
-    def inspect_info
-      time_zone
-    end
-
-    def truncated_id = id[TRUNCATED_ID_RANGE]
   end
 end

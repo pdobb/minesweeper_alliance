@@ -93,6 +93,24 @@ class Board < ApplicationRecord
     errors.merge!(settings.errors)
   end
 
+  concerning :ObjectInspection do
+    include ObjectInspector::InspectorsHelper
+
+    def inspect_identification = identify
+
+    def inspect_info(scope:)
+      scope.join_info([
+        "#{Emoji.cell} x#{cells_count} (#{dimensions})",
+        "#{Emoji.revealed_cell} #{revealed_cells_count}",
+        "#{Emoji.mine} #{mines}",
+        "#{Emoji.flag} #{flags_count}",
+      ])
+    end
+
+    def cells_count = cells.size
+    def revealed_cells_count = cells.count(&:revealed?)
+  end
+
   # Board::Console acts like a {Board} but otherwise handles IRB
   # Console-specific methods/logic.
   class Console
@@ -125,23 +143,6 @@ class Board < ApplicationRecord
         value: nil)
 
       self
-    end
-
-    private
-
-    def inspect_info(scope:)
-      scope.join_info([
-        "#{Emoji.cell} x#{cells_count} (#{dimensions})",
-        "#{Emoji.revealed_cell} #{revealed_cells_count}",
-        "#{Emoji.mine} #{mines}",
-        "#{Emoji.flag} #{flags_count}",
-      ])
-    end
-
-    def cells_count = cells.size
-
-    def revealed_cells_count
-      cells.count(&:revealed?)
     end
   end
 end

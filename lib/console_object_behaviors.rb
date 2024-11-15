@@ -8,8 +8,6 @@
 module ConsoleObjectBehaviors
   extend ActiveSupport::Concern
 
-  include ObjectInspector::InspectorsHelper
-
   included do
     # *::Console::Error represents any StandardError related to Console
     # processing on the including object.
@@ -65,6 +63,4 @@ module ConsoleObjectBehaviors
   def respond_to_missing?(method, include_private = true)
     __model__.respond_to?(method, include_private) || super
   end
-
-  def inspect_identification(...) = __model__.identify(...)
 end

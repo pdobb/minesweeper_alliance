@@ -39,12 +39,10 @@ class CellTransaction < ApplicationRecord
     for_user(user).for_cell(cell).exists?
   end
 
-  # CellTransaction::Console acts like a {CellTransaction} but otherwise handles
-  # IRB Console-specific methods/logic.
-  class Console
-    include ConsoleObjectBehaviors
+  concerning :ObjectInspection do
+    include ObjectInspector::InspectorsHelper
 
-    private
+    def inspect_identification = identify
 
     def inspect_info
       [

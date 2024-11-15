@@ -21,12 +21,10 @@ class UserUpdateTransaction < ApplicationRecord
     user.user_update_transactions.create!(change_set:)
   end
 
-  # UserUpdateTransaction::Console acts like a {UserUpdateTransaction} but
-  # otherwise handles IRB Console-specific methods/logic.
-  class Console
-    include ConsoleObjectBehaviors
+  concerning :ObjectInspection do
+    include ObjectInspector::InspectorsHelper
 
-    private
+    def inspect_identification = identify
 
     def inspect_info
       [

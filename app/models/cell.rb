@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 # :reek:TooManyMethods
+# :reek:RepeatedConditional
 
 # Cell represents a clickable position on the {Board}. Cells:
 # - may secretly contain a mine
@@ -141,19 +142,10 @@ class Cell < ApplicationRecord
     @neighboring_flags_count ||= neighbors.count(&:flagged?)
   end
 
-  # Cell::Console acts like a {Cell} but otherwise handles IRB Console-specific
-  # methods/logic.
-  class Console
-    include ConsoleObjectBehaviors
+  concerning :ObjectInspection do
+    include ObjectInspector::InspectorsHelper
 
-    def coordinates = super.console
-    def neighbors = super.map(&:console)
-
-    def render(cells_count: nil)
-      "#{current_state}#{coordinates.console.render(cells_count:)}"
-    end
-
-    private
+    def inspect_identification = identify
 
     def inspect_flags(scope:)
       scope.join_flags([
@@ -168,8 +160,20 @@ class Cell < ApplicationRecord
       "INCORRECTLY_FLAGGED" if incorrectly_flagged?
     end
 
-    def inspect_info = coordinates.console
+    def inspect_info = coordinates
     def inspect_name = value.inspect
+  end
+
+  # Cell::Console acts like a {Cell} but otherwise handles IRB Console-specific
+  # methods/logic.
+  class Console
+    include ConsoleObjectBehaviors
+
+    def render(cells_count: value)
+      "#{current_state}#{coordinates.console.render(cells_count:)}"
+    end
+
+    private
 
     def current_state
       if revealed?

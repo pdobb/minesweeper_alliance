@@ -17,8 +17,6 @@
 class Pattern < ApplicationRecord
   self.implicit_order_column = "created_at"
 
-  include ObjectInspector::InspectorsHelper
-
   attribute :coordinates_array, Type::CoordinatesArray.new
 
   validates :name,
@@ -73,18 +71,24 @@ class Pattern < ApplicationRecord
 
   private
 
-  def inspect_info(scope:)
-    scope.join_info([
-      dimensions,
-      "#{Emoji.flag} x#{flags_count}",
-    ])
-  end
-
-  def inspect_name = name
-
   def validate_settings
     return if settings.valid?
 
     errors.merge!(settings.errors)
+  end
+
+  concerning :ObjectInspection do
+    include ObjectInspector::InspectorsHelper
+
+    def inspect_identification = identify
+
+    def inspect_info(scope:)
+      scope.join_info([
+        dimensions,
+        "#{Emoji.flag} x#{flags_count}",
+      ])
+    end
+
+    def inspect_name = name
   end
 end

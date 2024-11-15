@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 # :reek:TooManyConstants
+# :reek:TooManyMethods
 
 # Game represents a game of Minesweeper Alliance. It handles creation of new
 # Games and keeps track of the {#status} of each Game in the database, win or
@@ -190,6 +191,31 @@ class Game < ApplicationRecord # rubocop:disable Metrics/ClassLength
     CalcStats.(self)
   end
 
+  concerning :ObjectInspection do
+    include ObjectInspector::InspectorsHelper
+
+    def inspect_identification = identify
+
+    def inspect_flags(scope:)
+      scope.join_flags([
+        type,
+        status,
+      ])
+    end
+
+    def inspect_info(scope:)
+      return unless score || bbbv || efficiency
+
+      scope.join_info([
+        "Score: #{score.inspect}",
+        "3BV: #{bbbv.inspect}",
+        "Efficiency: #{efficiency.inspect}",
+      ])
+    end
+
+    def inspect_name = display_id
+  end
+
   # Game::CalcStats determines and updates the given {Game} object with relevant
   # statistical values (on {Game} end).
   class CalcStats
@@ -267,25 +293,6 @@ class Game < ApplicationRecord # rubocop:disable Metrics/ClassLength
     end
 
     private
-
-    def inspect_flags(scope:)
-      scope.join_flags([
-        type,
-        status,
-      ])
-    end
-
-    def inspect_info(scope:)
-      return unless score || bbbv || efficiency
-
-      scope.join_info([
-        "Score: #{score.inspect}",
-        "3BV: #{bbbv.inspect}",
-        "Efficiency: #{efficiency.inspect}",
-      ])
-    end
-
-    def inspect_name = display_id
 
     # :reek:TooManyStatements
     def do_reset

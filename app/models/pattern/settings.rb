@@ -11,8 +11,6 @@ class Pattern::Settings
   include ActiveModel::Model
   include ActiveModel::Attributes
 
-  include ObjectInspector::InspectorsHelper
-
   attribute :width, :integer, default: -> { RANGES.fetch(:width).begin }
   attribute :height, :integer, default: -> { RANGES.fetch(:height).begin }
 
@@ -43,7 +41,9 @@ class Pattern::Settings
   def to_a = to_h.values
   def as_json = to_h
 
-  private
+  concerning :ObjectInspection do
+    include ObjectInspector::InspectorsHelper
 
-  def inspect_identification = identify(:width, :height)
+    def inspect_identification = identify(:width, :height)
+  end
 end

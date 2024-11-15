@@ -11,11 +11,10 @@ class NullCoordinates
   def neighbors = []
   def to_h = {}
   def to_json(*) = "{}"
+  def to_s = inspect
+  def render = inspect
 
   def inspect
     "(nil, nil)"
   end
-
-  def to_s = inspect
-  def render = inspect
 end

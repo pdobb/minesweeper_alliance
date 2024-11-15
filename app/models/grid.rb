@@ -19,6 +19,7 @@ class Grid
   end
 
   def cells_count = cells.size
+  def rows_count = count
   def columns_count = first.size
 
   # rubocop:disable Layout/LineLength
@@ -58,22 +59,26 @@ class Grid
     context&.transpose? ? TRANSPOSE_ORGANIZER : STANDARD_ORGANIZER
   end
 
+  concerning :ObjectInspection do
+    include ObjectInspector::InspectorsHelper
+
+    def inspect_identification = self.class.name
+
+    def inspect_info
+      "#{Emoji.cell} x#{cells_count} (#{dimensions})"
+    end
+
+    def dimensions
+      "#{rows_count}x#{columns_count}"
+    end
+  end
+
   # rubocop:enable Layout/LineLength
 
   # Grid::Console acts like a {Grid} but otherwise handles IRB Console-specific
   # methods/logic.
   class Console
     include ConsoleObjectBehaviors
-
-    def cells = super.map(&:console)
-
-    def to_h
-      super.transform_values { |row| row.map(&:console) }
-    end
-
-    def to_a
-      super.map { |row| row.map(&:console) }
-    end
 
     # @example
     #   0 => ◻️ (0, 0) ◻️ (1, 0) ◻️ (2, 0)
@@ -88,16 +93,6 @@ class Grid
     end
 
     private
-
-    def inspect_identification = __model__.class.name
-
-    def inspect_info
-      "#{Emoji.cell} x#{cells_count} (#{dimensions})"
-    end
-
-    def dimensions
-      "#{count}x#{to_a.first.size}"
-    end
 
     # rubocop:disable Rails/Output
     def render_row(y:, row:)

@@ -45,6 +45,14 @@ class Coordinates < Data.define(:x, :y) # rubocop:disable Style/DataInheritance
     [x, y]
   end
 
+  def to_s
+    inspect
+  end
+
+  def inspect
+    "(#{x}, #{y})"
+  end
+
   # Coordinates::Console acts like a {Coordinates} but otherwise handles IRB
   # Console-specific methods/logic.
   class Console
@@ -59,15 +67,7 @@ class Coordinates < Data.define(:x, :y) # rubocop:disable Style/DataInheritance
       "(#{pad(x, cells_count:)}, #{pad(y, cells_count:)})"
     end
 
-    def to_s
-      inspect
-    end
-
     private
-
-    def inspect
-      "(#{x}, #{y})"
-    end
 
     def pad(value, cells_count:)
       return value if cells_count <= BEGINNER_DIFFICULTY_LEVEL_CELLS_COUNT

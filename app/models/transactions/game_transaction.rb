@@ -32,12 +32,10 @@ class GameTransaction < ApplicationRecord
     for_user(user).for_game(game).exists?
   end
 
-  # GameTransaction::Console acts like a {GameTransaction} but otherwise handles
-  # IRB Console-specific methods/logic.
-  class Console
-    include ConsoleObjectBehaviors
+  concerning :ObjectInspection do
+    include ObjectInspector::InspectorsHelper
 
-    private
+    def inspect_identification = identify
 
     def inspect_info
       [
