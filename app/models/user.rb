@@ -75,6 +75,19 @@ class User < ApplicationRecord
   concerning :ObjectInspection do
     include ObjectInspectionBehaviors
 
+    def introspect(limit: 5)
+      {
+        self => {
+          profile_updates:
+            user_update_transactions.
+              by_most_recent.
+              limit(limit).
+              map(&:change_set),
+          games: games.by_most_recent.limit(limit),
+        },
+      }
+    end
+
     def inspect_identification = identify(:truncated_id)
     def truncated_id = id[TRUNCATED_ID_RANGE]
 

@@ -7,4 +7,8 @@ module ObjectInspectionBehaviors
   unless App.debug? # rubocop:disable Style/IfUnlessModifier
     include ObjectInspector::InspectorsHelper
   end
+
+  def introspect
+    self
+  end
 end

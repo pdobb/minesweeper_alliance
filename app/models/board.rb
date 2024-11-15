@@ -96,6 +96,10 @@ class Board < ApplicationRecord
   concerning :ObjectInspection do
     include ObjectInspectionBehaviors
 
+    def introspect
+      { self => grid.introspect }
+    end
+
     def inspect_identification = identify
 
     def inspect_info(scope:)

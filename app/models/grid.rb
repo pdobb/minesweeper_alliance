@@ -62,6 +62,10 @@ class Grid
   concerning :ObjectInspection do
     include ObjectInspectionBehaviors
 
+    def introspect
+      { self => to_h }
+    end
+
     def inspect_identification = self.class.name
 
     def inspect_info

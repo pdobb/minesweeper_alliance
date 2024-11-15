@@ -43,4 +43,16 @@ class CoordinatesArray
   private
 
   attr_reader :array
+
+  concerning :ObjectInspection do
+    include ObjectInspectionBehaviors
+
+    def introspect
+      { self => array.map(&:inspect) }
+    end
+
+    def inspect_info
+      "x#{size}"
+    end
+  end
 end

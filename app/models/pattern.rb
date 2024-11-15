@@ -80,6 +80,10 @@ class Pattern < ApplicationRecord
   concerning :ObjectInspection do
     include ObjectInspectionBehaviors
 
+    def introspect
+      { self => coordinates_array.introspect }
+    end
+
     def inspect_identification = identify
 
     def inspect_info(scope:)
