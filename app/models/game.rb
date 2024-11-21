@@ -198,6 +198,8 @@ class Game < ApplicationRecord # rubocop:disable Metrics/ClassLength
       { self => board.introspect }
     end
 
+    private
+
     def inspect_identification = identify
 
     def inspect_flags(scope:)

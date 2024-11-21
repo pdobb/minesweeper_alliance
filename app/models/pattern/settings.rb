@@ -44,6 +44,8 @@ class Pattern::Settings
   concerning :ObjectInspection do
     include ObjectInspectionBehaviors
 
+    private
+
     def inspect_identification = identify(:width, :height)
   end
 end

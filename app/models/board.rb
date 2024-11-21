@@ -100,7 +100,9 @@ class Board < ApplicationRecord
       { self => grid.introspect }
     end
 
-    def inspect_identification = identify
+    private
+
+    def inspect_identification = identify(:id, :game_id)
 
     def inspect_info(scope:)
       scope.join_info([

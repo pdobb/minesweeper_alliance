@@ -66,6 +66,8 @@ class Grid
       { self => to_h }
     end
 
+    private
+
     def inspect_identification = self.class.name
 
     def inspect_info

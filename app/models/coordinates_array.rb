@@ -51,6 +51,8 @@ class CoordinatesArray
       { self => array.map(&:inspect) }
     end
 
+    private
+
     def inspect_info
       "x#{size}"
     end

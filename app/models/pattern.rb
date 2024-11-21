@@ -84,6 +84,8 @@ class Pattern < ApplicationRecord
       { self => coordinates_array.introspect }
     end
 
+    private
+
     def inspect_identification = identify
 
     def inspect_info(scope:)

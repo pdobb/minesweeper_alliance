@@ -145,6 +145,8 @@ class Cell < ApplicationRecord
   concerning :ObjectInspection do
     include ObjectInspectionBehaviors
 
+    private
+
     def inspect_identification = identify
 
     def inspect_flags(scope:)

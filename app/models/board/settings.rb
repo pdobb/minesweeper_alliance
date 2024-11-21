@@ -119,6 +119,8 @@ class Board::Settings
   concerning :ObjectInspection do
     include ObjectInspectionBehaviors
 
+    private
+
     def inspect_identification = identify(:width, :height, :mines)
 
     def inspect_name

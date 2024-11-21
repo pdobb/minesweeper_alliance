@@ -35,6 +35,8 @@ class GameTransaction < ApplicationRecord
   concerning :ObjectInspection do
     include ObjectInspectionBehaviors
 
+    private
+
     def inspect_identification = identify
 
     def inspect_info

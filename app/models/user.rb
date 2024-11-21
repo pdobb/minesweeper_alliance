@@ -88,6 +88,8 @@ class User < ApplicationRecord
       }
     end
 
+    private
+
     def inspect_identification = identify(:truncated_id)
     def truncated_id = id[TRUNCATED_ID_RANGE]
 

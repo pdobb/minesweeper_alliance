@@ -45,6 +45,8 @@ class Calc3BV
   concerning :ObjectInspection do
     include ObjectInspectionBehaviors
 
+    private
+
     def inspect_identification = identify(:grid)
   end
 
@@ -105,6 +107,8 @@ class Calc3BV
     concerning :ObjectInspection do
       include ObjectInspectionBehaviors
 
+      private
+
       def inspect_flags(scope:)
         scope.join_flags([
           (Emoji.mine if mine?),
@@ -147,6 +151,8 @@ class Calc3BV
 
     concerning :ObjectInspection do
       include ObjectInspectionBehaviors
+
+      private
 
       def inspect_identification = identify(:grid, klass: __class__)
     end
