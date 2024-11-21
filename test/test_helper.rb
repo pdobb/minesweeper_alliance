@@ -7,7 +7,7 @@ require_relative "../config/environment"
 require "rails/test_help"
 require "minitest/rails"
 
-require "gemwork/test/support/much_stub"
+require "gemwork/test/support/much_stub-rails"
 require "gemwork/test/support/reporters"
 require "gemwork/test/support/spec_dsl"
 

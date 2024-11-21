@@ -15,14 +15,6 @@ Naming/MethodParameterName:
     - x
     - y
 
-Layout/FirstMethodArgumentLineBreak:
-  AllowedMethods:
-    - t
-
-Lint/UselessAccessModifier:
-  ContextCreatingMethods:
-    - concerning
-
 Rails/ApplicationController:
   Exclude:
     - app/controllers/ui_portal/**/*
