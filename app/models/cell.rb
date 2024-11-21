@@ -147,7 +147,7 @@ class Cell < ApplicationRecord
 
     private
 
-    def inspect_identification = identify
+    def inspect_identification = identify(:id, :board_id)
 
     def inspect_flags(scope:)
       scope.join_flags([
