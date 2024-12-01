@@ -6,9 +6,16 @@
       keywords: ["minesweeper", "real-time", "multiplayer game"],
       separator: "&mdash;".html_safe,
       reverse: true,
+      index: true,
+      image_src: "https://github.com/pdobb/minesweeper_alliance/blob/main/public/screenshots/expert-dark.webp?raw=true",
       og: {
-        title: :title,
         site_name: :site,
+        title: :full_title,
+        description: t("site.meta_description"),
         type: "website",
+        image: :image_src,
+      },
+      twitter: {
+        card: "summary",
       },
     ) %>
