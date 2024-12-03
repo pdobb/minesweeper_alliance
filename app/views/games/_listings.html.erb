@@ -19,7 +19,9 @@
           "
         >
           <% listings.each do |listing| %>
-            <%= link_to(listing.game_url, class: "group whitespace-nowrap") do %>
+            <%= link_to(
+                  listing.game_url(context: layout),
+                  class: "group whitespace-nowrap") do %>
               <span class="text-dim group-hover:text-inherit">
                 <%= listing.game_number %>
                 <abbr

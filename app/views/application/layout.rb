@@ -30,6 +30,8 @@ class Application::Layout
     @helpers ||= ActionController::Base.helpers
   end
 
+  def query_parameters = request.query_parameters
+
   def store_http_cookie(name, value:)
     cookies.permanent[name] = {
       value:,

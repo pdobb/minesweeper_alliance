@@ -1,15 +1,14 @@
 # frozen_string_literal: true
 
-# Games::Listings represents {Game} listings on the Games Index page.
+# Games::Listings represents {Game} listings on the Games Index page. Listings
+# may be optionally filtered by {Game#type} using the passed in `type_filter`.
 class Games::Listings
   def initialize(base_arel:, type_filter:)
     @base_arel = base_arel
     @type_filter = type_filter
   end
 
-  def any?
-    arel.any?
-  end
+  def any? = arel.any?
 
   def listings_grouped_by_date
     games_grouped_by_ended_at.
@@ -28,9 +27,11 @@ class Games::Listings
 
   def arel
     arel = base_arel
-    arel = arel.for_type(type_filter) if type_filter
+    arel = arel.for_type(type_filter) if type_filter?
     arel
   end
+
+  def type_filter? = type_filter.present?
 
   # Games::Listings::ListingsDate
   class ListingsDate
@@ -68,8 +69,8 @@ class Games::Listings
       @game = game
     end
 
-    def game_url
-      Router.game_path(game)
+    def game_url(context:)
+      Router.game_path(game, filter_params(context))
     end
 
     def game_number = game.display_id
@@ -95,5 +96,9 @@ class Games::Listings
 
     def game_ended_in_victory? = game.ended_in_victory?
     def game_ended_in_defeat? = game.ended_in_defeat?
+
+    def filter_params(context)
+      context.query_parameters.slice(:type)
+    end
   end
 end
