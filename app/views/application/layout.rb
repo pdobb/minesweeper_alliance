@@ -40,6 +40,7 @@ class Application::Layout
     }
   end
 
+  def params = context.params
   def cookies = context.__send__(:cookies)
 
   private

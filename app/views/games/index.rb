@@ -4,9 +4,9 @@
 class Games::Index
   def self.turbo_stream_name = :sweep_ops_archive
 
-  def initialize(base_arel:, type_filter:)
+  def initialize(base_arel:, context:)
     @base_arel = base_arel
-    @type_filter = type_filter
+    @context = context
   end
 
   def turbo_stream_name = self.class.turbo_stream_name
@@ -26,13 +26,15 @@ class Games::Index
   end
 
   def listings
-    Games::Listings.new(base_arel:, type_filter:)
+    Games::Listings.new(base_arel:, context:)
   end
 
   private
 
   attr_reader :base_arel,
-              :type_filter
+              :context
+
+  def type_filter = context.params[:type]
 
   # Games::Index::Type wraps {Game::TYPES}, for display of the "Initials = Name"
   # map/legend + filter links.

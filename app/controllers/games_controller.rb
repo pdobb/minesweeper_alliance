@@ -7,7 +7,7 @@ class GamesController < ApplicationController
     @view =
       Games::Index.new(
         base_arel: Game.for_game_over_statuses.by_most_recently_ended,
-        type_filter: params[:type])
+        context: layout)
   end
 
   def show

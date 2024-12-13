@@ -1,11 +1,12 @@
 # frozen_string_literal: true
 
 # Games::Listings represents {Game} listings on the Games Index page. Listings
-# may be optionally filtered by {Game#type} using the passed in `type_filter`.
+# may be optionally filtered by {Game#type} using `params[:type]` from the
+# passed-in `context`.
 class Games::Listings
-  def initialize(base_arel:, type_filter:)
+  def initialize(base_arel:, context:)
     @base_arel = base_arel
-    @type_filter = type_filter
+    @context = context
   end
 
   def any? = arel.any?
@@ -13,13 +14,13 @@ class Games::Listings
   def listings_grouped_by_date
     games_grouped_by_ended_at.
       transform_keys! { |date| ListingsDate.new(date, base_arel: arel) }.
-      transform_values! { |games| Listing.wrap(games) }
+      transform_values! { |games| Listing.wrap(games, context:) }
   end
 
   private
 
   attr_reader :base_arel,
-              :type_filter
+              :context
 
   def games_grouped_by_ended_at
     arel.group_by { |game| game.ended_at.to_date }
@@ -32,6 +33,7 @@ class Games::Listings
   end
 
   def type_filter? = type_filter.present?
+  def type_filter = context.params[:type]
 
   # Games::Listings::ListingsDate
   class ListingsDate
@@ -65,12 +67,13 @@ class Games::Listings
   class Listing
     include WrapMethodBehaviors
 
-    def initialize(game)
+    def initialize(game, context: nil)
       @game = game
+      @context = context
     end
 
-    def game_url(context:)
-      Router.game_path(game, filter_params(context))
+    def game_url
+      Router.game_path(game, filter_params)
     end
 
     def game_number = game.display_id
@@ -90,14 +93,17 @@ class Games::Listings
 
     private
 
-    attr_reader :game
+    attr_reader :game,
+                :context
 
     def _game_score = game.score
 
     def game_ended_in_victory? = game.ended_in_victory?
     def game_ended_in_defeat? = game.ended_in_defeat?
 
-    def filter_params(context)
+    def filter_params
+      return {} unless context
+
       context.query_parameters.slice(:type)
     end
   end
