@@ -1,6 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
+import ParseTime from "parse_time"
 
-// StopwatchController is responsible for displaying time-elapsed in minutes
+// ElapsedTimeController is responsible for displaying time-elapsed in minutes
 // and seconds, given an optional start value (in seconds).
 export default class extends Controller {
   static values = {
@@ -13,7 +14,7 @@ export default class extends Controller {
   static timeDigitLength = 2
 
   connect() {
-    this.totalSeconds = this.startValue
+    this.startTimestamp = Date.now() - this.startValue * 1000
 
     if (!this.#isOverADay()) {
       this.intervalId = setInterval(this.#update.bind(this), this.intervalValue)
@@ -32,32 +33,37 @@ export default class extends Controller {
   }
 
   #update() {
-    this.totalSeconds += 1
+    const elapsedSeconds = this.#determineElapsedSeconds()
 
-    if (this.#isOverADay()) {
+    if (this.#isOverADay(elapsedSeconds)) {
       this.#stop()
-      this.#updateUi(this.constructor.maxTimeDisplayString)
+      this.#updateUi(this.constructor.maxTimeDisplayString, elapsedSeconds)
     } else {
-      this.#updateUi(this.#determineTimestamp())
+      this.#updateUi(this.#formatTime(elapsedSeconds), elapsedSeconds)
     }
   }
 
-  #isOverADay() {
-    return this.totalSeconds >= this.constructor.secondsPerDay
+  #determineElapsedSeconds() {
+    const elapsedMilliseconds = Date.now() - this.startTimestamp
+    return Math.floor(elapsedMilliseconds / 1000)
   }
 
-  #updateUi(value) {
+  #isOverADay(elapsedSeconds) {
+    return elapsedSeconds >= this.constructor.secondsPerDay
+  }
+
+  #updateUi(value, elapsedSeconds) {
     this.element.textContent = value
-    this.element.setAttribute("datetime", `PT${this.totalSeconds}S`)
+    this.element.setAttribute("datetime", `PT${elapsedSeconds}S`)
   }
 
-  #determineTimestamp() {
-    return this.#buildTimestamp(...this.#parseTotalSeconds())
+  #formatTime(elapsedSeconds) {
+    return this.#buildTimestamp(...this.#parseTime(elapsedSeconds))
   }
 
   // Returns: [[[hours, ][minutes, ]]<seconds>]
-  #parseTotalSeconds() {
-    return new TimeParser().parse(this.totalSeconds)
+  #parseTime(elapsedSeconds) {
+    return new ParseTime().call(elapsedSeconds)
   }
 
   #buildTimestamp(hours, minutes, seconds) {
@@ -75,34 +81,5 @@ export default class extends Controller {
 
   #pad(value) {
     return value.toString().padStart(this.constructor.timeDigitLength, "0")
-  }
-}
-
-class TimeParser {
-  static secondsPerHour = 3_600
-  static secondsPerMinute = 60
-
-  parse(totalSeconds) {
-    const [hours, remainingSeconds] = this.#parseHours(totalSeconds)
-
-    return [
-      hours,
-      this.#parseMinutes(remainingSeconds),
-      this.#parseSeconds(remainingSeconds),
-    ]
-  }
-
-  #parseHours(remainingSeconds) {
-    const hours = Math.floor(remainingSeconds / TimeParser.secondsPerHour)
-    remainingSeconds = remainingSeconds % TimeParser.secondsPerHour
-    return [hours, remainingSeconds]
-  }
-
-  #parseMinutes(remainingSeconds) {
-    return Math.floor(remainingSeconds / TimeParser.secondsPerMinute)
-  }
-
-  #parseSeconds(remainingSeconds) {
-    return remainingSeconds % TimeParser.secondsPerMinute
   }
 }

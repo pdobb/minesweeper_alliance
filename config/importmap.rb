@@ -12,3 +12,4 @@ pin "el-transition" # @0.0.7
 
 # Utils
 pin "cookies", to: "lib/cookies.js"
+pin "parse_time", to: "lib/parse_time.js"
