@@ -82,7 +82,7 @@ production:
     <<: *default
     database: minesweeper_alliance_production
     username: minesweeper_alliance
-    password: <%= ENV["MINESWEEPER_ALLIANCE_DATABASE_PASSWORD"] %>
+    password: <%= ENV["DB_PASSWORD"] %>
   cache:
     <<: *primary_production
     database: minesweeper_alliance_production_cache
