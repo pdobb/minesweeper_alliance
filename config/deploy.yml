@@ -53,7 +53,6 @@ env:
     DB_PORT: 5432
     DB_NAME: minesweeper_alliance_production
     DB_USERNAME: minesweeper_alliance
-    DB_PASSWORD: DATABASE_PASSWORD
 
     # Log everything from Rails
     # RAILS_LOG_LEVEL: debug
@@ -100,7 +99,7 @@ accessories:
         POSTGRES_USER: "${DB_USERNAME}"
         POSTGRES_DB: "${DB_NAME}"
       secret:
-        - DB_PASSWORD
+        - DATABASE_PASSWORD
     directories:
       - data:/var/lib/postgresql/data
 #   db:
