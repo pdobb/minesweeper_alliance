@@ -102,7 +102,7 @@ production:
     host: <%= ENV["DB_HOST"] %>
     port: <%= ENV["DB_PORT"] %>
     database: minesweeper_alliance_production
-    username: minesweeper_alliance
+    username: <%= ENV["POSTGRES_USER"] %>
     password: <%= ENV["POSTGRES_PASSWORD"] %>
   cache:
     <<: *primary_production

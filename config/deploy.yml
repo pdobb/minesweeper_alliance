@@ -17,9 +17,9 @@ servers:
 # Remove this section when using multiple web servers and ensure you terminate SSL at your load balancer.
 #
 # Note: If using Cloudflare, set encryption mode in SSL/TLS setting to "Full" to enable CF-to-app encryption.
-# proxy:
-#   ssl: true
-#   host: app.example.com
+proxy:
+  ssl: false # Default: true
+  host: minesweeperalliance.net
 
 # Credentials for your image host.
 registry:
@@ -48,6 +48,7 @@ env:
     # Use minesweeper_alliance-db for a db accessory server on same machine via local kamal docker network.
     DB_HOST: minesweeper_alliance-postgres
     DB_PORT: 5432
+    POSTGRES_USER: minesweeper_alliance
 
     # Log everything from Rails
     # RAILS_LOG_LEVEL: debug
@@ -94,6 +95,8 @@ accessories:
     host: 10.211.55.5
     port: 127.0.0.1:5432:5432
     env:
+      clear:
+        POSTGRES_USER: minesweeper_alliance
       secret:
         - POSTGRES_PASSWORD
     directories:
