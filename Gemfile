@@ -34,7 +34,7 @@ gem "solid_queue"
 
 # Deploy this application anywhere as a Docker container
 # [https://kamal-deploy.org]
-# gem "kamal", ">= 2.0.0.rc2", require: false
+# gem "kamal", ">= 2.4.0", require: false
 
 # Add HTTP asset caching/compression and X-Sendfile acceleration to Puma
 # [https://github.com/basecamp/thruster/]
