@@ -74,5 +74,5 @@ group :test do
   # gem "capybara"
   # gem "selenium-webdriver"
 
-  gem "minitest-rails", github: "bquorning/minitest-rails", ref: "302bdfc"
+  gem "minitest-rails"
 end
