@@ -44,3 +44,5 @@
 # YARD Documentation.
 /.yardoc/
 /doc/
+
+/config/credentials/production.key

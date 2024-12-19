@@ -1,0 +1,4 @@
+CREATE DATABASE minesweeper_alliance_production;
+CREATE DATABASE minesweeper_alliance_production_cache;
+CREATE DATABASE minesweeper_alliance_production_queue;
+CREATE DATABASE minesweeper_alliance_production_cable;
