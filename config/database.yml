@@ -99,8 +99,12 @@ test:
 production:
   primary: &primary_production
     <<: *default
-    database: minesweeper_alliance_production
-    username: minesweeper_alliance
+    host: <%= ENV["DB_HOST"] %>
+    port: <%= ENV["DB_PORT"] %>
+    database: <%= ENV["DB_NAME"] %>
+    username: <%= ENV["DB_USERNAME"] %>
+    # database: minesweeper_alliance_production
+    # username: minesweeper_alliance
     password: <%= ENV["DB_PASSWORD"] %>
   cache:
     <<: *primary_production
