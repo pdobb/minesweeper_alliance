@@ -2,7 +2,7 @@
 
 source "https://rubygems.org"
 
-ruby file: ".ruby-version"
+ruby "3.3.6"
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem "rails", "~> 8.0"
@@ -34,7 +34,7 @@ gem "solid_queue"
 
 # Deploy this application anywhere as a Docker container
 # [https://kamal-deploy.org]
-# gem "kamal", ">= 2.0.0.rc2", require: false
+gem "kamal", ">= 2.4.0", require: false
 
 # Add HTTP asset caching/compression and X-Sendfile acceleration to Puma
 # [https://github.com/basecamp/thruster/]
