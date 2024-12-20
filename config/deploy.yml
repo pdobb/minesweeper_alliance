@@ -87,6 +87,7 @@ builder:
 ssh:
   user: parallels
   proxy: paul@Neptune-Jr.local
+
 # Use accessory services (secrets come from .kamal/secrets).
 accessories:
   postgres:
@@ -98,7 +99,7 @@ accessories:
         POSTGRES_USER: "${DB_USERNAME}"
         POSTGRES_DB: "${DB_NAME}"
       secret:
-        - DATABASE_PASSWORD
+        - DB_PASSWORD
     directories:
       - data:/var/lib/postgresql/data
 #   db:
