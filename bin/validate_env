@@ -1,0 +1,9 @@
+#!/bin/sh
+set -e
+
+echo "Validating autoload environment..."
+bin/rails runner -e production_local '
+  puts " -> Successfully validated #{Rails.env}."
+
+  exit
+'

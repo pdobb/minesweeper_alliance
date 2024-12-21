@@ -11,6 +11,9 @@ default: &default
 development:
   <<: *default
 
+production_local:
+  <<: *default
+
 test:
   <<: *default
 

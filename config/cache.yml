@@ -8,6 +8,10 @@ default: &default
 development:
   <<: *default
 
+production_local:
+  database: cache
+  <<: *default
+
 test:
   <<: *default
 
