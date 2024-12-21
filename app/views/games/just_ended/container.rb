@@ -3,6 +3,8 @@
 # Games::JustEnded::Container represents the entire view context surrounding
 # {Game}s that have just ended, as a partial for reuse.
 class Games::JustEnded::Container
+  def self.turbo_stream_name = :just_ended_game
+
   def initialize(current_game:)
     @current_game = current_game
   end
@@ -10,6 +12,8 @@ class Games::JustEnded::Container
   def partial_path
     "games/just_ended/container"
   end
+
+  def turbo_stream_name = self.class.turbo_stream_name
 
   def turbo_frame_name = Games::Current::Container.turbo_frame_name
   def turbo_stream_channel_name = WarRoomChannel.name
