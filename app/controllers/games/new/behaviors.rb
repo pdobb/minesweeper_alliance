@@ -30,7 +30,7 @@ module Games::New::Behaviors
           Application::Flash::Notification.new(
             type: :info,
             content: {
-              text: t("flash.new_current_game"),
+              text: t("flash.new_current_game_html"),
               timeout: false,
             }),
       })
