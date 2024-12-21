@@ -12,6 +12,7 @@ class Games::JustEnded::Container
   end
 
   def turbo_frame_name = Games::Current::Container.turbo_frame_name
+  def turbo_stream_channel_name = WarRoomChannel.name
 
   def content
     Games::JustEnded::Content.new(current_game:)

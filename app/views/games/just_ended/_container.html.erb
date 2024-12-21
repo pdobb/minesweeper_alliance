@@ -1,6 +1,12 @@
 <%# locals: (container:) %>
 
-<%= turbo_frame_tag(container.turbo_frame_name) do %>
+<%= turbo_frame_tag(
+      container.turbo_frame_name,
+      data: {
+        controller: "game-over",
+        game_over_turbo_stream_channel_name_value:
+          container.turbo_stream_channel_name
+      }) do %>
   <div class="space-y-12">
     <%= render("games/just_ended/content", content: container.content) %>
 
