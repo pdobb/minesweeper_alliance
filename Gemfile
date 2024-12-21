@@ -48,10 +48,12 @@ gem "object_inspector"
 gem "requestjs-rails"
 gem "statusable"
 
-group :development, :test do
+group :development, :production_local, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[mri windows], require: "debug/prelude"
+end
 
+group :development, :test do
   # Static analysis for security vulnerabilities [https://brakemanscanner.org/]
   gem "brakeman", require: false
 
