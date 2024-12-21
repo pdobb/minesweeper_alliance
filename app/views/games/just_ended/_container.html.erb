@@ -3,9 +3,16 @@
 <%= turbo_stream_from(container.turbo_stream_name) %>
 <div
   id="new_game_notification_container"
+  data-controller="game-notification"
+  data-action="
+    keydown.esc@window->game-notification#close
+    transitionend->game-notification#remove
+  "
+  data-game-notification-hide-class="opacity-0"
   class="
     pointer-events-none z-20
     fixed top-6 left-1/2 -translate-x-1/2
+    transition-opacity ease-in
   "></div>
 
 <%= turbo_frame_tag(
