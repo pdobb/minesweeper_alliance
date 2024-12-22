@@ -9,9 +9,6 @@ class Home::Show
     @current_game = current_game
   end
 
-  def turbo_stream_name = self.class.turbo_stream_name
-  def turbo_stream_channel = self.class.turbo_stream_channel
-
   def welcome_banner(context:)
     Home::WelcomeBanner.new(context:)
   end

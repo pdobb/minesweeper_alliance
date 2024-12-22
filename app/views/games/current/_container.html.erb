@@ -1,5 +1,9 @@
 <%# locals: (container:) %>
 
+<%= turbo_stream_from(
+      Home::Show.turbo_stream_name,
+      channel: Home::Show.turbo_stream_channel) %>
+
 <% content_for(:page_nav) do %>
   <%= render("games/current/page_nav", nav: container.nav) %>
 <% end %>
