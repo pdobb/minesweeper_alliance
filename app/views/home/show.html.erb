@@ -2,7 +2,8 @@
 
 <%= turbo_stream_from(
       @view.turbo_stream_name,
-      channel: @view.turbo_stream_channel) %>
+      channel: @view.turbo_stream_channel,
+      id: @view.turbo_stream_dom_id) %>
 
 <% @view.welcome_banner(context: layout).tap do |welcome_banner| %>
   <% if welcome_banner.show? %>
