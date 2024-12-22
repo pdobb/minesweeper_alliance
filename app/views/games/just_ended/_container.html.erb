@@ -1,5 +1,7 @@
 <%# locals: (container:) %>
 
+<%= turbo_stream.remove(Home::Show.turbo_stream_dom_id) %>
+
 <%= turbo_stream_from(container.turbo_stream_name) %>
 <div
   id="new_game_notification_container"
@@ -15,13 +17,7 @@
     transition-opacity ease-in
   "></div>
 
-<%= turbo_frame_tag(
-      container.turbo_frame_name,
-      data: {
-        controller: "game-over",
-        game_over_turbo_stream_channel_name_value:
-          container.turbo_stream_channel_name
-      }) do %>
+<%= turbo_frame_tag(container.turbo_frame_name) do %>
   <div class="space-y-12">
     <%= render("games/just_ended/content", content: container.content) %>
 

@@ -4,6 +4,7 @@
 class Home::Show
   def self.turbo_stream_name = WarRoomChannel::STREAM_NAME
   def self.turbo_stream_channel = WarRoomChannel
+  def self.turbo_stream_dom_id = "#{turbo_stream_name}_turbo_stream"
 
   def initialize(current_game:)
     @current_game = current_game
@@ -11,6 +12,7 @@ class Home::Show
 
   def turbo_stream_name = self.class.turbo_stream_name
   def turbo_stream_channel = self.class.turbo_stream_channel
+  def turbo_stream_dom_id = self.class.turbo_stream_dom_id
 
   def welcome_banner(context:)
     Home::WelcomeBanner.new(context:)
