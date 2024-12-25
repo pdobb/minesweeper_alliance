@@ -12,7 +12,7 @@ Welcome to Minesweeper Alliance, an open-multiplayer riff on the classic Mineswe
 
 ## Development
 
-Ruby version: 3.3+
+Ruby version: 3.4+
 
 To get started:
 
