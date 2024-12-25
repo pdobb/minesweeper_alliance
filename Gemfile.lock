@@ -77,10 +77,8 @@ GEM
     ast (2.4.2)
     base64 (0.2.0)
     bcrypt_pbkdf (1.1.1)
-    bcrypt_pbkdf (1.1.1-arm64-darwin)
-    bcrypt_pbkdf (1.1.1-x86_64-darwin)
     benchmark (0.4.0)
-    bigdecimal (3.1.8)
+    bigdecimal (3.1.9)
     bindex (0.8.1)
     brakeman (6.2.2)
       racc
@@ -185,6 +183,7 @@ GEM
     meta-tags (2.22.1)
       actionpack (>= 6.0.0, < 8.1)
     mini_mime (1.1.5)
+    mini_portile2 (2.8.8)
     minitest (5.25.4)
     minitest-rails (8.0.0)
       minitest (~> 5.20)
@@ -207,20 +206,20 @@ GEM
     net-sftp (4.0.0)
       net-ssh (>= 5.0.0, < 8.0.0)
     net-smtp (0.5.0)
-      net-protocol
     net-ssh (7.3.0)
     nio4r (2.7.4)
-    nokogiri (1.17.2-aarch64-linux)
+    nokogiri (1.18.0)
+      mini_portile2 (~> 2.8.2)
       racc (~> 1.4)
-    nokogiri (1.17.2-arm-linux)
+    nokogiri (1.18.0-aarch64-linux-gnu)
       racc (~> 1.4)
-    nokogiri (1.17.2-arm64-darwin)
+    nokogiri (1.18.0-arm-linux-gnu)
       racc (~> 1.4)
-    nokogiri (1.17.2-x86-linux)
+    nokogiri (1.18.0-arm64-darwin)
       racc (~> 1.4)
-    nokogiri (1.17.2-x86_64-darwin)
+    nokogiri (1.18.0-x86_64-darwin)
       racc (~> 1.4)
-    nokogiri (1.17.2-x86_64-linux)
+    nokogiri (1.18.0-x86_64-linux-gnu)
       racc (~> 1.4)
     object_identifier (0.9.0)
     object_inspector (0.7.0)
@@ -287,7 +286,7 @@ GEM
       parser (~> 3.3.0)
       rainbow (>= 2.0, < 4.0)
       rexml (~> 3.1)
-    regexp_parser (2.9.3)
+    regexp_parser (2.10.0)
     reline (0.6.0)
       io-console (~> 0.5)
     requestjs-rails (0.0.12)
@@ -311,7 +310,7 @@ GEM
     rubocop-performance (1.23.0)
       rubocop (>= 1.48.1, < 2.0)
       rubocop-ast (>= 1.31.1, < 2.0)
-    rubocop-rails (2.27.0)
+    rubocop-rails (2.28.0)
       activesupport (>= 4.2.0)
       rack (>= 1.1)
       rubocop (>= 1.52.0, < 2.0)
@@ -430,7 +429,7 @@ DEPENDENCIES
   web-console
 
 RUBY VERSION
-   ruby 3.3.6p108
+   ruby 3.4.1p0
 
 BUNDLED WITH
-   2.5.23
+   2.6.2
