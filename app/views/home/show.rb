@@ -19,12 +19,10 @@ class Home::Show
   end
 
   def container
-    if !current_game
-      Games::New::Container.new
-    elsif current_game.on?
+    if current_game
       Games::Current::Container.new(current_game:)
-    elsif current_game.just_ended?
-      Games::JustEnded::Container.new(current_game:)
+    else
+      Games::New::Container.new
     end
   end
 

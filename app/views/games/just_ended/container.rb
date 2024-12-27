@@ -9,10 +9,6 @@ class Games::JustEnded::Container
     @current_game = current_game
   end
 
-  def partial_path
-    "games/just_ended/container"
-  end
-
   def turbo_stream_name = self.class.turbo_stream_name
 
   def turbo_frame_name = Games::Current::Container.turbo_frame_name

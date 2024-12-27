@@ -1,6 +1,0 @@
-<% @view.container.tap do |container| %>
-  <%= turbo_stream.update(
-        container.turbo_frame_name,
-        partial: "games/just_ended/container",
-        locals: { container: }) %>
-<% end %>

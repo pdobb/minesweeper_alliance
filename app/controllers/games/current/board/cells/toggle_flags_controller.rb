@@ -10,7 +10,6 @@ class Games::Current::Board::Cells::ToggleFlagsController <
       determine_transaction_class.create_between(user: current_user, cell:)
     end
 
-    broadcast_changes
     render_updated_game
   end
 

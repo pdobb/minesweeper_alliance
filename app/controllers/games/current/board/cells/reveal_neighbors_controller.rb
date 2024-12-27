@@ -7,7 +7,6 @@ class Games::Current::Board::Cells::RevealNeighborsController <
   def create
     Cell::RevealNeighbors.(current_context)
 
-    broadcast_changes
     render_updated_game
   end
 end

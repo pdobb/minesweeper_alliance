@@ -6,7 +6,6 @@ class Games::Current::Board::Cells::RevealsController < ApplicationController
   def create
     Cell::Reveal.(current_context)
 
-    broadcast_changes
     render_updated_game
   end
 end
