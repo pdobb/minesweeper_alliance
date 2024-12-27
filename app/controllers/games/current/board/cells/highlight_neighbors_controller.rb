@@ -7,7 +7,6 @@ class Games::Current::Board::Cells::HighlightNeighborsController <
   def create
     cell.highlight_neighbors
 
-    broadcast_changes
     render_updated_game
   end
 end

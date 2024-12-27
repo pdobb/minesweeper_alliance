@@ -3,7 +3,7 @@
 # Games::Current::Content represents the updateable {Game} content for the
 # current {Game}.
 class Games::Current::Content
-  def self.turbo_frame_name = :current_game
+  def self.turbo_frame_name = :current_game_content
 
   def initialize(current_game:)
     @current_game = current_game

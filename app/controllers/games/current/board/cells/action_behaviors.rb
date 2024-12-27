@@ -33,34 +33,47 @@ module Games::Current::Board::Cells::ActionBehaviors
     end
   end
 
-  def broadcast_changes
-    DutyRoster.cleanup
-    WarRoomChannel.broadcast_refresh
-
-    if current_game.just_ended? # rubocop:disable Style/GuardClause
-      Turbo::StreamsChannel.broadcast_refresh_to(Games::Index.turbo_stream_name)
-    end
-  end
-
   def render_updated_game
+    DutyRoster.cleanup
+
     if current_game.just_ended?
+      broadcast_past_games_index_refresh
       render_updated_just_ended_game
     else
-      render_updated_current_game_content
+      render_updated_current_game
     end
   end
 
+  def broadcast_past_games_index_refresh
+    Turbo::StreamsChannel.broadcast_refresh_later_to(
+      Games::Index.turbo_stream_name)
+  end
+
+  # :reek:TooManyStatements
+  def render_updated_current_game
+    content = Games::Current::Content.new(current_game:)
+    target = content.turbo_frame_name
+    html =
+      render_to_string(
+        partial: "games/current/content", locals: { content: })
+
+    WarRoomChannel.broadcast_update(target:, html:)
+    render_update do
+      render(turbo_stream: turbo_stream.update(target, html))
+    end
+  end
+
+  # :reek:TooManyStatements
   def render_updated_just_ended_game
-    render_update do
-      @view = Games::JustEnded::Update.new(current_game:)
-      render("games/just_ended/update")
-    end
-  end
+    container = Games::JustEnded::Container.new(current_game:)
+    target = container.turbo_frame_name
+    html =
+      render_to_string(
+        partial: "games/just_ended/container", locals: { container: })
 
-  def render_updated_current_game_content
+    WarRoomChannel.broadcast_replace(target:, html:)
     render_update do
-      @view = Games::Current::Update.new(current_game:)
-      render("games/current/update")
+      render(turbo_stream: turbo_stream.replace(target, html))
     end
   end
 
