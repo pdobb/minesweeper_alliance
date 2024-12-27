@@ -46,6 +46,8 @@ module MinesweeperAlliance # rubocop:disable Style/ClassAndModuleChildren
 
     # Custom Configuration
 
+    config.autoload_once_paths << "#{root}/app/serializers"
+
     config.debug = ENV["DEBUG"] == "1"
     config.dev_mode = ENV["DEV_MODE"] == "1"
     config.disable_turbo = ENV["DISABLE_TURBO"] == "1"

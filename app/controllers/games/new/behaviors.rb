@@ -21,7 +21,7 @@ module Games::New::Behaviors
   private
 
   def notify_other_players_of_new_current_game
-    Turbo::StreamsChannel.broadcast_update_to(
+    Turbo::StreamsChannel.broadcast_update_later_to(
       Games::JustEnded::Container.turbo_stream_name,
       target: :new_game_notification_container,
       partial: "layouts/flash/notifications",
