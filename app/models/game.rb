@@ -2,6 +2,7 @@
 
 # :reek:TooManyConstants
 # :reek:TooManyMethods
+# :reek:RepeatedConditional (#over?)
 
 # Game represents a game of Minesweeper Alliance. It handles creation of new
 # Games and keeps track of the {#status} of each Game in the database, win or
@@ -35,8 +36,6 @@ class Game < ApplicationRecord # rubocop:disable Metrics/ClassLength
     CUSTOM_TYPE = "Custom",
     PATTERN_TYPE = "Pattern",
   ].freeze
-
-  DEFAULT_JUST_ENDED_DURATION = 0.5.seconds
 
   include ConsoleBehaviors
   include Statusable::HasStatuses
@@ -96,9 +95,8 @@ class Game < ApplicationRecord # rubocop:disable Metrics/ClassLength
     retry
   end
 
-  def self.current(within: DEFAULT_JUST_ENDED_DURATION)
-    for_game_on_statuses.last ||
-      for_game_over_statuses.for_ended_at(within.ago..).last
+  def self.current
+    for_game_on_statuses.last
   end
 
   def self.create_for(user:, **)
@@ -140,8 +138,8 @@ class Game < ApplicationRecord # rubocop:disable Metrics/ClassLength
 
   def end_in_victory(user:)
     end_game(user:) {
-      set_stats
       set_status_alliance_wins!
+      set_stats
     }
   end
 
@@ -149,6 +147,11 @@ class Game < ApplicationRecord # rubocop:disable Metrics/ClassLength
     end_game(user:) {
       set_status_mines_win!
     }
+  end
+
+  def update_ended_at(time:)
+    touch(:ended_at, time:)
+    self.just_ended = true
   end
 
   def on?
@@ -159,10 +162,7 @@ class Game < ApplicationRecord # rubocop:disable Metrics/ClassLength
     !on?
   end
 
-  def just_ended?(within: DEFAULT_JUST_ENDED_DURATION)
-    (within.ago..).cover?(ended_at)
-  end
-
+  def just_ended? = !!just_ended
   def ended_in_victory? = status_alliance_wins?
   def ended_in_defeat? = status_mines_win?
 
@@ -170,11 +170,15 @@ class Game < ApplicationRecord # rubocop:disable Metrics/ClassLength
     started_at..(ended_at if over?)
   end
 
-  def duration = ended_at - started_at
+  def duration
+    ended_at - started_at if over?
+  end
 
   def board_settings = board&.settings
 
   private
+
+  attr_accessor :just_ended
 
   def end_game(user:)
     return self if over?
