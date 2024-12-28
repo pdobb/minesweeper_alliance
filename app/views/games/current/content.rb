@@ -11,6 +11,8 @@ class Games::Current::Content
 
   def turbo_frame_name = self.class.turbo_frame_name
 
+  def version = current_game.version
+
   def status
     Games::Current::Status.new(current_game:)
   end

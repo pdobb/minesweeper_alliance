@@ -1,7 +1,11 @@
 <%# locals: (content:) %>
 
-<div class="space-y-6 lg:space-y-12">
-  <%= render("games/current/status", status: content.status) %>
-  <%= render("games/current/board", board: content.board) %>
-  <%= render("games/current/actions") %>
-</div>
+<%= turbo_frame_tag(
+      content.turbo_frame_name,
+      data: { version: content.version }) do %>
+  <div class="space-y-6 lg:space-y-12">
+    <%= render("games/current/status", status: content.status) %>
+    <%= render("games/current/board", board: content.board) %>
+    <%= render("games/current/actions") %>
+  </div>
+<% end %>

@@ -14,12 +14,12 @@ class WarRoomChannel < Turbo::StreamsChannel
 
   def self.broadcast_refresh = broadcast_refresh_to(STREAM_NAME)
 
-  def self.broadcast_update(target:, **)
-    broadcast_update_to(STREAM_NAME, target:, **)
-  end
-
   def self.broadcast_replace(target:, **)
     broadcast_replace_to(STREAM_NAME, target:, **)
+  end
+
+  def self.broadcast_versioned_replace(target:, **)
+    broadcast_action_to(STREAM_NAME, action: :versioned_replace, target:, **)
   end
 
   # Override Turbo::StreamsChannel#subscribed to add #on_subscribe logic.

@@ -6,11 +6,7 @@
 
 <%= turbo_frame_tag(container.turbo_frame_name) do %>
   <div class="space-y-12">
-    <% container.content.tap do |content| %>
-      <%= turbo_frame_tag(content.turbo_frame_name) do %>
-        <%= render("games/current/content", content:) %>
-      <% end %>
-    <% end %>
+    <%= render("games/current/content", content: container.content) %>
 
     <div class="container mx-auto">
       <%= render("games/current/footer", footer: container.footer(self)) %>

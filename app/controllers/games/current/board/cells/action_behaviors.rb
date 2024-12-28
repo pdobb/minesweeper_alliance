@@ -37,8 +37,8 @@ module Games::Current::Board::Cells::ActionBehaviors
     DutyRoster.cleanup
 
     if current_game.just_ended?
+      render_just_ended_game
       broadcast_past_games_index_refresh
-      render_updated_just_ended_game
     else
       render_updated_current_game
     end
@@ -57,14 +57,14 @@ module Games::Current::Board::Cells::ActionBehaviors
       render_to_string(
         partial: "games/current/content", locals: { content: })
 
-    WarRoomChannel.broadcast_update(target:, html:)
+    WarRoomChannel.broadcast_versioned_replace(target:, html:)
     render_update do
-      render(turbo_stream: turbo_stream.update(target, html))
+      render(turbo_stream: turbo_stream.replace(target, html))
     end
   end
 
   # :reek:TooManyStatements
-  def render_updated_just_ended_game
+  def render_just_ended_game
     container = Games::JustEnded::Container.new(current_game:)
     target = container.turbo_frame_name
     html =
