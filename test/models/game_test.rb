@@ -28,26 +28,10 @@ class GameTest < ActiveSupport::TestCase
         end
 
         context "GIVEN a Game#on? = true Game doesn't exist" do
-          context "GIVEN a recently-ended Game exists" do
-            before do
-              GameStartTransaction.create_between(
-                user: user1, game: recently_ended_game)
-              recently_ended_game.end_in_victory(user: user1)
-            end
+          before { standing_by1.delete }
 
-            let(:recently_ended_game) { standing_by1 }
-
-            it "returns the recently-ended Game" do
-              _(subject.current).must_equal(recently_ended_game)
-            end
-          end
-
-          context "GIVEN no recently-ended Game exists" do
-            before { standing_by1.set_status_alliance_wins! }
-
-            it "returns nil" do
-              _(subject.current).must_be_nil
-            end
+          it "returns nil" do
+            _(subject.current).must_be_nil
           end
         end
       end
@@ -386,6 +370,35 @@ class GameTest < ActiveSupport::TestCase
 
         it "returns true" do
           _(subject.over?).must_equal(true)
+        end
+      end
+    end
+
+    describe "#just_ended?" do
+      context "GIVEN Game#ended_at = nil" do
+        subject { new_game }
+
+        it "returns false" do
+          _(subject.just_ended?).must_equal(false)
+        end
+      end
+
+      context "GIVEN Game#ended_at was not just set" do
+        subject { win1 }
+
+        it "returns false" do
+          _(subject.just_ended?).must_equal(false)
+        end
+      end
+
+      context "GIVEN Game#ended_at was just set/saved" do
+        subject {
+          standing_by1.start(seed_cell: nil, user: user1)
+          standing_by1.end_in_victory(user: user1)
+        }
+
+        it "returns true" do
+          _(subject.just_ended?).must_equal(true)
         end
       end
     end
