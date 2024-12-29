@@ -85,6 +85,7 @@ en:
         </a>
         to join in!
       </span>
+    web_socket_lost: Live connection was lost. Reconnecting... ✅
     not_found: "%{type} not found."
     successful_update: "Updated %{type}"
     successful_update_to: "Updated %{type} to %{to}"

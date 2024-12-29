@@ -5,12 +5,14 @@ class Games::Current::Board::Cells::ToggleFlagsController <
   include Games::Current::Board::Cells::ActionBehaviors
 
   def create
-    cell.transaction do
-      cell.toggle_flag
-      determine_transaction_class.create_between(user: current_user, cell:)
-    end
+    safe_perform_game_action do
+      cell.transaction do
+        cell.toggle_flag
+        determine_transaction_class.create_between(user: current_user, cell:)
+      end
 
-    render_updated_game
+      render_updated_game
+    end
   end
 
   private

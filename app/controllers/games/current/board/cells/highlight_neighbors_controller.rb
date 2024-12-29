@@ -5,8 +5,10 @@ class Games::Current::Board::Cells::HighlightNeighborsController <
   include Games::Current::Board::Cells::ActionBehaviors
 
   def create
-    cell.highlight_neighbors
+    safe_perform_game_action do
+      cell.highlight_neighbors
 
-    render_updated_game
+      render_updated_game
+    end
   end
 end

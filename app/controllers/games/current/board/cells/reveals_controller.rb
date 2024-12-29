@@ -4,8 +4,10 @@ class Games::Current::Board::Cells::RevealsController < ApplicationController
   include Games::Current::Board::Cells::ActionBehaviors
 
   def create
-    Cell::Reveal.(current_context)
+    safe_perform_game_action do
+      Cell::Reveal.(current_context)
 
-    render_updated_game
+      render_updated_game
+    end
   end
 end

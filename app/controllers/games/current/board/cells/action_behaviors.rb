@@ -33,6 +33,16 @@ module Games::Current::Board::Cells::ActionBehaviors
     end
   end
 
+  def safe_perform_game_action
+    yield
+  rescue Error
+    flash[:warning] = t("flash.web_socket_lost")
+
+    render_update do
+      render(turbo_stream: turbo_stream.refresh(request_id: nil))
+    end
+  end
+
   def render_updated_game
     DutyRoster.cleanup
 
