@@ -7,7 +7,7 @@ module.exports = {
     "./app/helpers/**/*.rb",
     "./app/javascript/**/*.js",
     "./app/views/**/*.{erb,html,rb}",
-    "./app/assets/images/heroicons/*.svg",
+    "./app/assets/images/**/*.svg",
     "./config/locales/*.yml",
   ],
   theme: {
