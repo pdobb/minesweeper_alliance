@@ -17,8 +17,12 @@ class Games::JustEnded::Container
     Games::JustEnded::Content.new(current_game:)
   end
 
-  def footer(user:)
-    Games::JustEnded::Footer.new(current_game:, user:)
+  def footer_turbo_frame_name
+    Games::JustEnded::Footer.turbo_frame_name(current_game)
+  end
+
+  def footer_source_url
+    Router.game_just_ended_footer_path(current_game)
   end
 
   private

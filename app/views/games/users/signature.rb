@@ -9,7 +9,7 @@ class Games::Users::Signature
   end
 
   def show?
-    game.just_ended? && user.participated_in?(game)
+    user.participated_in?(game)
   end
 
   def turbo_frame_name

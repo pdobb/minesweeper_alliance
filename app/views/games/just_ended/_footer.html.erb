@@ -1,13 +1,15 @@
 <%# locals: (footer:) %>
 
-<% footer.signature.tap do |signature| %>
-  <% if signature.show? %>
-    <hr>
+<%= turbo_frame_tag(*footer.turbo_frame_name) do %>
+  <% footer.signature.tap do |signature| %>
+    <% if signature.show? %>
+      <hr>
 
-    <div class="-mt-10 mb-3 min-h-24 flex justify-center items-center">
-      <%= render("games/users/signature", signature:) %>
-    </div>
+      <div class="-mt-10 mb-3 min-h-24 flex justify-center items-center">
+        <%= render("games/users/signature", signature:) %>
+      </div>
+    <% end %>
   <% end %>
-<% end %>
 
-<%= render("games/past/results", results: footer.results) %>
+  <%= render("games/past/results", results: footer.results) %>
+<% end %>

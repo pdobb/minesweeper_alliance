@@ -28,6 +28,10 @@ Rails.application.routes.draw do
           end
         end
       end
+
+      namespace :just_ended do
+        resource :footer, only: :show, controller: :footer
+      end
     end
   end
 
