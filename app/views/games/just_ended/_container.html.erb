@@ -22,6 +22,8 @@
     <%= render("games/just_ended/content", content: container.content) %>
 
     <div class="container mx-auto">
+      <hr>
+
       <%= turbo_frame_tag(
             *container.footer_turbo_frame_name,
             src: container.footer_source_url) do %>
