@@ -41,13 +41,14 @@ class Games::Index
   class Type
     include WrapMethodBehaviors
 
-    def initialize(preset, type_filter:)
-      @preset = preset
+    def initialize(name, type_filter:)
+      @name = name
       @type_filter = type_filter
     end
 
-    def initials = name[0]
-    def name = preset
+    def filter_name
+      "(#{name.first})#{name[1..]}"
+    end
 
     def games_filter_url
       if filter_active?
@@ -69,7 +70,7 @@ class Games::Index
 
     private
 
-    attr_reader :preset,
+    attr_reader :name,
                 :type_filter
 
     def base_arel = Game.for_game_over_statuses
