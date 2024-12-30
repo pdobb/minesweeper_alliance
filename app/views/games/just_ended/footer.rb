@@ -12,7 +12,7 @@ class Games::JustEnded::Footer
   def turbo_frame_name = self.class.turbo_frame_name(current_game)
 
   def signature
-    Games::Users::Signature.new(game: current_game, user:)
+    Games::Participants::Signature.new(game: current_game, user:)
   end
 
   def results

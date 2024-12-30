@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-# Games::Users::DutyRoster represents the "Duty Roster" (a list of {User}s that
-# participated in a {Game}).
-class Games::Users::DutyRoster
+# Games::Participants::DutyRoster represents a list of {User}s that participated
+# in a {Game}.
+class Games::Participants::DutyRoster
   def self.turbo_stream_name(game) = [game, :duty_roster]
 
   def initialize(game:)
@@ -19,7 +19,7 @@ class Games::Users::DutyRoster
 
   attr_reader :game
 
-  # Games::Users::DutyRoster::Listing
+  # Games::Participants::DutyRoster::Listing
   class Listing
     include WrapMethodBehaviors
 

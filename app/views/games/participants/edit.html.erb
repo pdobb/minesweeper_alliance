@@ -1,9 +1,9 @@
-<% title("User Signature") %>
+<% title("Participant Signature") %>
 
 <div class="container mx-auto space-y-16">
   <h1><%= title %></h1>
 
   <%= turbo_frame_tag(*@view.turbo_frame_name, class: "block") do %>
-    <%= render("games/users/form", form: @view.form) %>
+    <%= render("games/participants/form", form: @view.form) %>
   <% end %>
 </div>

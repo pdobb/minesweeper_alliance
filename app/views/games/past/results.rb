@@ -12,7 +12,7 @@ class Games::Past::Results
   end
 
   def duty_roster
-    Games::Users::DutyRoster.new(game:)
+    Games::Participants::DutyRoster.new(game:)
   end
 
   private

@@ -14,7 +14,7 @@ Rails.application.routes.draw do
   end
   resources :games, only: %i[index show new create] do
     scope module: :games do
-      resource :user, only: %i[edit update]
+      resource :participants, only: %i[edit update]
 
       scope module: :current do
         namespace :board do

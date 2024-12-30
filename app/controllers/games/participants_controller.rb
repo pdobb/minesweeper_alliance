@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
-class Games::UsersController < ApplicationController
+class Games::ParticipantsController < ApplicationController
   before_action :require_game, only: %i[edit update]
 
   def edit
-    @view = Games::Users::Edit.new(game: @game, user: current_user)
+    @view = Games::Participants::Edit.new(game: @game, user: current_user)
   end
 
   # :reek:TooManyStatements
@@ -23,7 +23,8 @@ class Games::UsersController < ApplicationController
                 to: current_user.display_name))
         end
         format.turbo_stream {
-          @view = Games::Users::Update.new(game: @game, user: current_user)
+          @view =
+            Games::Participants::Update.new(game: @game, user: current_user)
         }
       end
     else
@@ -45,10 +46,10 @@ class Games::UsersController < ApplicationController
   # :reek:FeatureEnvy
   def broadcast_update(game:)
     duty_roster_listing =
-      Games::Users::DutyRoster::Listing.new(current_user, game:)
+      Games::Participants::DutyRoster::Listing.new(current_user, game:)
 
     Turbo::StreamsChannel.broadcast_update_to(
-      Games::Users::DutyRoster.turbo_stream_name(game),
+      Games::Participants::DutyRoster.turbo_stream_name(game),
       target: duty_roster_listing.dom_id,
       html: duty_roster_listing.name)
   end

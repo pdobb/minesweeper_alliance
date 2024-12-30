@@ -1,19 +1,19 @@
 # frozen_string_literal: true
 
-# Games::Users::Update aides "update" action/processing of the {User}
+# Games::Participants::Update aides "update" action/processing of the {User}
 # "signature" form that shows at {Game} end.
-class Games::Users::Update
+class Games::Participants::Update
   def initialize(game:, user:)
     @game = game
     @user = user
   end
 
   def signature
-    Games::Users::Signature.new(game:, user:)
+    Games::Participants::Signature.new(game:, user:)
   end
 
   def duty_roster_listing
-    Games::Users::DutyRoster::Listing.new(user, game:)
+    Games::Participants::DutyRoster::Listing.new(user, game:)
   end
 
   def user_nav

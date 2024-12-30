@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-# Games::Users::Edit represents the {User} "signature" form that shows at
+# Games::Participants::Edit represents the {User} "signature" form that shows at
 # {Game} end for participating {User}s.
-class Games::Users::Edit
+class Games::Participants::Edit
   def initialize(game:, user:)
     @game = game
     @user = user
@@ -11,11 +11,11 @@ class Games::Users::Edit
   def turbo_frame_name = signature.turbo_frame_name
 
   def signature
-    @signature ||= Games::Users::Signature.new(game:, user:)
+    @signature ||= Games::Participants::Signature.new(game:, user:)
   end
 
   def form
-    Games::Users::Form.new(game:, user:)
+    Games::Participants::Form.new(game:, user:)
   end
 
   private
