@@ -2,7 +2,7 @@
 
 # Games::New::Behaviors defines common controller code for {Game} creation.
 module Games::New::Behaviors
-  # :reek:FeatureEnvy
+  TURBO_STREAM_DISCONNECT_AFFORDANCE_IN_SECONDS = 0.25.seconds
 
   def find_or_create_current_game(settings:)
     Game.
@@ -11,7 +11,8 @@ module Games::New::Behaviors
         if current_game.just_created?
           DutyRoster.clear
           WarRoomChannel.broadcast_refresh
-          notify_other_players_of_new_current_game
+          broadcast_new_game_notification(
+            wait: TURBO_STREAM_DISCONNECT_AFFORDANCE_IN_SECONDS)
 
           store_board_settings(current_game)
         end
@@ -20,21 +21,8 @@ module Games::New::Behaviors
 
   private
 
-  def notify_other_players_of_new_current_game
-    Turbo::StreamsChannel.broadcast_update_to(
-      Games::JustEnded::Container.turbo_stream_name,
-      target: :new_game_notification_container,
-      partial: "layouts/flash/notifications",
-      locals: { notifications: new_current_game_notification })
-  end
-
-  def new_current_game_notification
-    Application::Flash::Notification.new(
-      type: :info,
-      content: {
-        text: t("flash.new_current_game_html"),
-        timeout: false,
-      })
+  def broadcast_new_game_notification(wait:)
+    BroadcastNewGameNotificationJob.set(wait:).perform_later
   end
 
   def store_board_settings(current_game)
