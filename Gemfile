@@ -43,6 +43,7 @@ gem "thruster", require: false
 gem "csv"
 gem "inline_svg"
 gem "meta-tags"
+gem "mission_control-jobs"
 gem "object_identifier"
 gem "object_inspector"
 gem "requestjs-rails"
