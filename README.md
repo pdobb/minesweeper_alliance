@@ -30,7 +30,7 @@ bin/dev
 
 #### Without Foreman
 
-If more control over the server processes is needed they can be run without foreman.
+If more control over the server processes is needed, they can be run without foreman.
 
 e.g. To simplify breakpoints/debugging, run the Rails server in its own process:
 
@@ -99,11 +99,10 @@ bin/rake
   <img alt="Game Board" src="https://github.com/pdobb/minesweeper_alliance/blob/main/public/screenshots/erd-dark.webp?raw=true">
 </picture>
 
-Note: Much of the complexity in this app comes from the need for varying content based on current Game state. Especially given the "War Room" (home page) dynamically adjusts to current game state by:
+Note: Much of the complexity in this app comes from the Home page (a.k.a. the War Room) acting as a one-stop shop for all Game play needs. i.e. it dynamically adjusts to the current Game state by:
 
 1. Showing the "New Game" content when no current Game exists,
 2. Showing the "Current Game" content when a current Game exists,
-3. Showing "Just Ended" Game content (to all participating Users) on Game end.
 
 Plus, there are various ways of displaying past Games:
 
@@ -151,7 +150,7 @@ View Models are POROs that:
 - Insulate view templates from ActiveRecord Models,
 - Handle view-specific logic ("display" versions of Model attributes, conditionals, etc.),
 - Live alongside the view templates/partials they support, and
-- Are easily unit testable (though there are currently very view View Model tests in this project).
+- Are easily unit testable (though there are currently very few View Model tests in this project).
 
 View Models are somewhat similar to, yet much simpler than, GitHub's ViewComponent pattern/gem. They make no attempt to intervene in the rendering stack or to add a custom DSL. The only thing to learn about them is when to use them and, to some extent, how.
 
@@ -159,7 +158,7 @@ Generally speaking, a View Model should be used any time a view template would o
 
 ### Users
 
-Visiting the site for the first time automatically creates a new User entry in the database. The primary key for this entry is a UUID. The UUID is stored in an HTTP cookie for re-identification of the current User in the future. It is easily possible to create multiple User records per actual user (e.g. by visiting on different browsers or computers), but this is an acceptable price to pay versus the pain of explicitly registering a User + credentials for such a simple site. This is also reminiscent of arcade games: just enter your username after finishing a game and that's trustworthy enough.
+Visiting the site for the first time automatically creates a new User entry in the database. The primary key for this entry is a UUID. The UUID is stored in an HTTP cookie for re-identification of the current User in the future. It is easily possible to create multiple User records per actual user (e.g. by visiting on different browsers or computers), but this is an acceptable price to pay versus the pain of requiring explicitly registered Users (+ credentials) for such a simple site. This is also reminiscent of arcade games: just enter your username after finishing a game and that's trustworthy enough.
 
 #### Usernames / Signing
 
@@ -177,7 +176,7 @@ Visit `/ui` while in the development environment to access the UI Portal. This p
 
 Currently a bit lumped into the UI Portal at `/ui/patterns` is the Patterns tool--for creating playable mine patterns. These boards/patterns are selected by random luck (as an Easter egg) when staring a new "Random" game.
 
-Patterns my be imported/exported as CSV. The mere presence of a Pattern in the database makes it eligible for being randomly selected for game play.
+Patterns may be imported/exported as CSV. The mere presence of a Pattern in the database makes it eligible for being randomly selected for game play.
 
 ## Deploys
 
