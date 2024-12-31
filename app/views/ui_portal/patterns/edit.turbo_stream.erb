@@ -3,16 +3,6 @@
     data-controller="inline-edit"
     data-action="keydown.esc@window->inline-edit#cancel"
   >
-    <div
-      data-inline-edit-target="beforeEdit"
-      class="hidden"
-    >
-      <%= render(
-            "ui_portal/patterns/show_heading_with_controls",
-            view: UIPortal::Patterns::Show.new(@pattern)) %>
-    </div>
-    <div data-inline-edit-target="editing">
-      <%= render("ui_portal/patterns/edit_form", pattern: @pattern) %>
-    </div>
+    <%= render("ui_portal/patterns/edit_form", pattern: @pattern) %>
   </div>
 <% end %>
