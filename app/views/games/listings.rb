@@ -9,11 +9,11 @@ class Games::Listings
     @context = context
   end
 
-  def any? = arel.any?
+  def any? = base_arel.any?
 
   def listings_grouped_by_date
     games_grouped_by_ended_at.
-      transform_keys! { |date| ListingsDate.new(date, base_arel: arel) }.
+      transform_keys! { |date| ListingsDate.new(date, base_arel:) }.
       transform_values! { |games| Listing.wrap(games, context:) }
   end
 
@@ -23,17 +23,8 @@ class Games::Listings
               :context
 
   def games_grouped_by_ended_at
-    arel.group_by { |game| game.ended_at.to_date }
+    base_arel.group_by { |game| game.ended_at.to_date }
   end
-
-  def arel
-    arel = base_arel
-    arel = arel.for_type(type_filter) if type_filter?
-    arel
-  end
-
-  def type_filter? = type_filter.present?
-  def type_filter = context.params[:type]
 
   # Games::Listings::ListingsDate
   class ListingsDate

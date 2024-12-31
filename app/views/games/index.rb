@@ -22,11 +22,11 @@ class Games::Index
   end
 
   def engagement_tally
-    EngagementTally.new(base_arel:)
+    EngagementTally.new(base_arel: arel)
   end
 
   def listings
-    Games::Listings.new(base_arel:, context:)
+    Games::Listings.new(base_arel: arel, context:)
   end
 
   private
@@ -34,7 +34,12 @@ class Games::Index
   attr_reader :base_arel,
               :context
 
+  def arel
+    @arel ||= type_filter? ? base_arel.for_type(type_filter) : base_arel
+  end
+
   def type_filter = context.params[:type]
+  def type_filter? = type_filter.present?
 
   # Games::Index::Type wraps {Game::TYPES}, for display of the "Initials = Name"
   # map/legend + filter links.
