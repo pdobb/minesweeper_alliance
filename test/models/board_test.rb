@@ -243,7 +243,6 @@ class BoardTest < ActiveSupport::TestCase
         subject.grid
         _(@grid_new_call).wont_be_nil
         _(@grid_new_call.pargs).wont_be_empty
-        _(@grid_new_call.kargs).must_equal({ context: nil })
       end
     end
 

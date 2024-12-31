@@ -10,14 +10,7 @@ class Games::Past::Container
   end
 
   def turbo_frame_name = self.class.display_case_turbo_frame_name
-
-  def cache_key(context:)
-    [
-      game,
-      :past,
-      context.mobile? ? :mobile : :web,
-    ]
-  end
+  def cache_key = [game, :past]
 
   def content
     Games::Past::Content.new(game:)

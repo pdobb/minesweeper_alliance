@@ -77,8 +77,8 @@ class Board < ApplicationRecord
   def mines_placed? = cells.any?(&:mine?)
   def flags_count = cells.count(&:flagged?)
 
-  def grid(context: nil)
-    Grid.new(cells, context:)
+  def grid
+    Grid.new(cells)
   end
 
   private

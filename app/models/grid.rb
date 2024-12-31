@@ -3,19 +3,14 @@
 # Grid allows for organizing an Array of {Cell}s. Outputs include: a Hash, an
 # Array of Arrays, or any such Enumerable method result.
 class Grid
-  STANDARD_ORGANIZER = ->(array) { array }
-  TRANSPOSE_ORGANIZER = ->(array) { array.transpose }
-
   include Enumerable
   include ConsoleBehaviors
 
-  attr_reader :cells,
-              :context
+  attr_reader :cells
 
   # :reek:ManualDispatch
-  def initialize(cells, context: nil)
+  def initialize(cells)
     @cells = Array.wrap(cells)
-    @context = context
   end
 
   def cells_count = cells.size
@@ -50,13 +45,7 @@ class Grid
   #       [<Cell[7](◻️) (0, 2) :: nil>, <Cell[8](◻️) (1, 2) :: nil>, <Cell[9](◻️ / 💣) (2, 2) :: nil>]
   #     ]
   def each(&)
-    organizer.(to_h.values).each(&)
-  end
-
-  private
-
-  def organizer
-    context&.transpose? ? TRANSPOSE_ORGANIZER : STANDARD_ORGANIZER
+    to_h.values.each(&)
   end
 
   concerning :ObjectInspection do

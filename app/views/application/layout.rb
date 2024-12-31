@@ -22,10 +22,6 @@ class Application::Layout
     Application::Footer::ThemeMenu.new(button_content:)
   end
 
-  def mobile?
-    @mobile ||= UserAgent.parse(user_agent).mobile?
-  end
-
   def helpers
     @helpers ||= ActionController::Base.helpers
   end

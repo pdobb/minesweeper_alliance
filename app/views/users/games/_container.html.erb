@@ -2,7 +2,7 @@
 
 <%= turbo_frame_tag(container.turbo_frame_name) do %>
   <div class="space-y-12">
-    <% cache_unless(App.debug?, container.cache_key(context: layout)) do %>
+    <% cache_unless(App.debug?, container.cache_key) do %>
       <%= render("users/games/content", content: container.content) %>
     <% end %>
 

@@ -9,10 +9,6 @@ class Games::Current::Board::Content
     @board = board
   end
 
-  def grid_context(context)
-    @grid_context ||= Games::Board::GridContext.new(context:, board:)
-  end
-
   def reveal_url
     Router.game_board_cell_reveal_path(game, NULL_CELL_ID)
   end
@@ -29,18 +25,19 @@ class Games::Current::Board::Content
     Router.game_board_cell_reveal_neighbors_path(game, NULL_CELL_ID)
   end
 
-  def rows(context:)
-    grid(context:).map { |row| Games::Current::Board::Cell.wrap(row, game:) }
+  def rows
+    grid.map { |row| Games::Current::Board::Cell.wrap(row, game:) }
   end
 
   private
 
   attr_reader :board
 
-  def game = @game ||= board.game
+  def game
+    @game ||= board.game
+  end
+
   def game_on? = game.on?
 
-  def grid(context:)
-    @grid ||= board.grid(context:)
-  end
+  def grid = board.grid
 end

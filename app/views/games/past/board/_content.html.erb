@@ -11,7 +11,7 @@
         *:*:border *:*:border-dark
       "
     >
-      <% content.rows(context: content.grid_context(layout)).each do |row| %>
+      <% content.rows.each do |row| %>
         <tr>
           <% row.each do |cell| %>
             <td class="<%= class_names(cell.css) %>">

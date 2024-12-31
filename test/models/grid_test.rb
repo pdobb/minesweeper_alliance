@@ -6,13 +6,6 @@ class GridTest < ActiveSupport::TestCase
   describe "Grid" do
     let(:unit_class) { Grid }
 
-    let(:transposing_context1) {
-      Class.new { def transpose? = true }.new
-    }
-    let(:non_transposing_context1) {
-      Class.new { def transpose? = false }.new
-    }
-
     let(:cells_array1) { [Coordinates[0, 0], Coordinates[1, 0]] }
     let(:coordinates1) { Coordinates[9, 9] }
 
@@ -69,25 +62,10 @@ class GridTest < ActiveSupport::TestCase
     end
 
     describe "#to_a" do
-      subject { unit_class.new(cells_array1, context:) }
+      subject { unit_class.new(cells_array1) }
 
-      context "GIVEN a transposing context" do
-        let(:context) { transposing_context1 }
-
-        it "returns the expected, transposed Array" do
-          _(subject.to_a).must_equal([
-            [Coordinates[0, 0]],
-            [Coordinates[1, 0]],
-          ])
-        end
-      end
-
-      context "GIVEN a non-transposing context" do
-        let(:context) { non_transposing_context1 }
-
-        it "returns the expected, non-transposed Array" do
-          _(subject.to_a).must_equal([cells_array1])
-        end
+      it "returns the expected Array" do
+        _(subject.to_a).must_equal([cells_array1])
       end
     end
 
