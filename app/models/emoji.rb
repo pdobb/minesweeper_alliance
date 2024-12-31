@@ -9,6 +9,7 @@ module Emoji
   def self.eyes = "👀"
   def self.flag = "🚩"
   def self.heart = "❤️"
+  def self.hide = "🙈"
   def self.mine = "💣"
   def self.pencil = "✏️"
   def self.profile = "🎖️"
