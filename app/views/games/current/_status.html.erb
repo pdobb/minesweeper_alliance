@@ -6,16 +6,12 @@
       <%= status.game_status %>
     </span>
 
-    <% if status.standing_by? %>
-      <span class="tracking-emojis"><%= Emoji.anchor %></span>
-    <% else %>
-      <span class="inline-flex gap-x-2">
-        <%= Emoji.ship %>
-        <small
-          id="fleet_count"
-          class="before:content-['x'] before:mr-1.5 font-normal text-dim"
-        ><%= status.players_count %></small>
-      </span>
-    <% end %>
+    <span class="inline-flex gap-x-2">
+      <%= status.game_status_emoji %>
+      <small
+        id="fleet_count"
+        class="before:content-['x'] before:mr-1.5 font-normal text-dim"
+      ><%= status.players_count %></small>
+    </span>
   </h2>
 </div>

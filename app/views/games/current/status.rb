@@ -17,7 +17,9 @@ class Games::Current::Status
 
   def game_status = current_game.status
 
-  def standing_by? = current_game.status_standing_by?
+  def game_status_emoji
+    game_standing_by? ? Emoji.anchor : Emoji.ship
+  end
 
   def players_count(roster = DutyRoster)
     [roster.count, 1].max
@@ -27,6 +29,7 @@ class Games::Current::Status
 
   attr_reader :current_game
 
+  def game_standing_by? = current_game.status_standing_by?
   def game_ended_in_defeat? = current_game.ended_in_defeat?
   def game_ended_in_victory? = current_game.ended_in_victory?
 end
