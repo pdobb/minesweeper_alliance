@@ -12,7 +12,17 @@
               accept: ".csv,text/csv",
               class: "w-96") %>
 
-        <%= f.submit("Import", class: "btn-primary") %>
+        <div class="inline-flex items-center gap-x-6">
+          <%= f.submit("Import", class: "btn-primary") %>
+          <%= link_to(
+                Emoji.hide,
+                ui_portal_patterns_path,
+                class: "no-underline text-xl",
+                data: {
+                  inline_edit_target: "cancel",
+                  turbo_stream: true,
+                }) %>
+        </div>
       </div>
 
       <% if f.object.errors.any? %>
