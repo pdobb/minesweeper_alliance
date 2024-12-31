@@ -47,7 +47,17 @@
         </div>
       <% end %>
 
-      <%= f.submit("Create", class: "btn-primary") %>
+      <div class="inline-flex items-center gap-x-6">
+        <%= f.submit("Create", class: "btn-primary") %>
+        <%= link_to(
+              Emoji.hide,
+              ui_portal_patterns_path,
+              class: "no-underline text-xl",
+              data: {
+                inline_edit_target: "cancel",
+                turbo_stream: true,
+              }) %>
+      </div>
     </div>
 
     <% if view.any_errors? %>
