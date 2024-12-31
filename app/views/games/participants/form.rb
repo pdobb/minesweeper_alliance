@@ -8,8 +8,12 @@ class Games::Participants::Form
     @user = user
   end
 
+  def dom_id = View.dom_id(user, :signature)
+
   def to_model = user
+
   def post_url = Router.game_participants_path(game)
+  def cancel_url = Router.game_participants_path(game)
 
   private
 

@@ -1,7 +1,11 @@
 # frozen_string_literal: true
 
 class Games::ParticipantsController < ApplicationController
-  before_action :require_game, only: %i[edit update]
+  before_action :require_game
+
+  def show
+    @view = Games::Participants::Show.new(game: @game, user: current_user)
+  end
 
   def edit
     @view = Games::Participants::Edit.new(game: @game, user: current_user)

@@ -1,0 +1,5 @@
+<% @view.signature.tap do |signature| %>
+  <%= turbo_stream.update(signature.turbo_frame_name) do %>
+    <%= render("games/participants/signature", signature:) %>
+  <% end %>
+<% end %>

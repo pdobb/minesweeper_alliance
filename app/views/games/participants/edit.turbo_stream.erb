@@ -1,18 +1,10 @@
-<% signature = @view.signature %>
-
-<%= turbo_stream.update(signature.turbo_frame_name) do %>
-  <div
-    data-controller="inline-edit"
-    data-action="keydown.esc@window->inline-edit#cancel"
-  >
+<% @view.signature.tap do |signature| %>
+  <%= turbo_stream.update(signature.turbo_frame_name) do %>
     <div
-      data-inline-edit-target="beforeEdit"
-      class="hidden"
+      data-controller="inline-edit"
+      data-action="keydown.esc@window->inline-edit#cancel"
     >
-      <%= render("games/participants/signature", signature:) %>
-    </div>
-    <div data-inline-edit-target="editing">
       <%= render("games/participants/form", form: @view.form) %>
     </div>
-  </div>
+  <% end %>
 <% end %>
