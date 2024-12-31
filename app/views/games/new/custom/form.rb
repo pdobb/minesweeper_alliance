@@ -9,8 +9,12 @@ class Games::New::Custom::Form
     @context = context
   end
 
+  def dom_id = Games::New::Content.turbo_frame_name
+
   def to_model = @settings
+
   def post_url = Router.games_custom_path
+  def cancel_url = Router.new_game_path
 
   def value(name)
     current_value = to_model.public_send(name)

@@ -3,15 +3,7 @@
     data-controller="inline-edit"
     data-action="keydown.esc@window->inline-edit#cancel"
   >
-    <div
-      data-inline-edit-target="beforeEdit"
-      class="hidden"
-    >
-      <%= render("games/new/content", content: @view.new_game_content) %>
-    </div>
-    <div data-inline-edit-target="editing">
-      <%= render("games/new/custom/form", form: @view.form(context: layout)) %>
-    </div>
+    <%= render("games/new/custom/form", form: @view.form(context: layout)) %>
   </div>
 <% end %>
 
