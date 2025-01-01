@@ -12,6 +12,7 @@ import { post } from "@rails/request.js"
 //  - Left Click (onMouseUp) - Reveal Neighbors
 export default class extends Controller {
   static LEFT_MOUSE_BUTTON = 0
+  static RIGHT_MOUSE_BUTTON = 2
 
   static values = {
     revealUrl: String,
@@ -23,6 +24,8 @@ export default class extends Controller {
   static cellIdRegex = /cells\/(\d+)\//
 
   reveal(event) {
+    if (this.#isRightClick(event)) return this.toggleFlag(event)
+
     const $cell = event.target
     if (!($cell instanceof HTMLTableCellElement)) return
     if (this.#isRevealed($cell) || this.#isFlagged($cell)) return
@@ -54,6 +57,18 @@ export default class extends Controller {
     if (this.#isNotRevealed($cell) || this.#isBlank($cell)) return
 
     this.#submit($cell, this.revealNeighborsUrlValue)
+  }
+
+  #isRightClick(event) {
+    return (
+      event.button === this.constructor.RIGHT_MOUSE_BUTTON ||
+      // "ctrl + left click" = "right click" on MacOS
+      (event.ctrlKey && this.#isMacOS())
+    )
+  }
+
+  #isMacOS() {
+    return navigator.platform.indexOf("Mac") > -1
   }
 
   #isRevealed($cell) {
