@@ -29,6 +29,8 @@ class Games::Current::Board::Content
     grid.map { |row| Games::Current::Board::Cell.wrap(row, game:) }
   end
 
+  def mobile?(context) = context.mobile?
+
   private
 
   attr_reader :board

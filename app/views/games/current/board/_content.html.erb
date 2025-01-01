@@ -13,9 +13,15 @@
       data-board-reveal-neighbors-url-value="<%= content.reveal_neighbors_url %>"
       data-action="
         click->board#reveal
-        contextmenu->board#toggleFlag:prevent
-        mousedown->board#highlightNeighbors
         mouseup->board#revealNeighbors
+        <% if content.mobile?(layout) %>
+          touchstart->board#touchStart
+          touchmove->board#touchEnd
+          touchend->board#touchEnd
+        <% else %>
+          contextmenu->board#toggleFlag:prevent
+          mousedown->board#highlightNeighbors
+        <% end %>
       "
       class="
         text-center
