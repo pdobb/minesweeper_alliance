@@ -20,7 +20,8 @@ module ConsoleObjectBehaviors
       next unless reflection.macro.in?(%i[has_one belongs_to])
 
       define_method(name) do
-        __model__.public_send(name).try(:console)
+        result = __model__.public_send(name)
+        result.try(:console) || result
       end
     end
   end
