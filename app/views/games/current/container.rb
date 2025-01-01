@@ -29,8 +29,8 @@ class Games::Current::Container
     Games::Current::Content.new(current_game:)
   end
 
-  def footer(template)
-    Games::Current::Footer.new(template)
+  def footer(context)
+    Games::Current::Footer.new(context)
   end
 
   private

@@ -7,8 +7,8 @@
 class Games::Current::Rules
   COOKIE_NAME = "rules"
 
-  def initialize(template)
-    @context = Context.new(template)
+  def initialize(context)
+    @context = Context.new(context)
   end
 
   def cookie_name = COOKIE_NAME
@@ -46,18 +46,30 @@ class Games::Current::Rules
   def open? = !collapsed?
   def collapsed? = cookies[cookie_name].present?
 
+  def reveal_method_descriptor
+    mobile? ? "Tap" : "Click"
+  end
+
+  def reveal_neighbors_method_descriptor = reveal_method_descriptor
+
+  def flag_method_descriptor
+    mobile? ? "Long Press" : "Right Click"
+  end
+
   private
 
   attr_reader :context
 
   def cookies = context.cookies
+  def mobile? = context.mobile?
 
   # Games::Current::Rules::Context
   class Context
-    def initialize(template)
-      @template = template
+    def initialize(context)
+      @context = context
     end
 
-    def cookies = @template.__send__(:cookies)
+    def cookies = @context.cookies
+    def mobile? = @context.mobile?
   end
 end

@@ -3,7 +3,7 @@
 <%= render(layout: "collapse_container", locals: { view: rules }) do %>
   <ol class="space-y-2 list-decimal ml-7">
     <li>
-      <strong>Click</strong> a cell to reveal it.
+      <strong><%= rules.reveal_method_descriptor %></strong> a cell to reveal it.
     </li>
     <li>
       A revealed cell indicates the number of mines (<%= Emoji.mine %>) in the cells surrounding it.
@@ -12,10 +12,11 @@
       </p>
     </li>
     <li>
-      <strong>Right Click</strong> a cell to flag (<%= Emoji.flag %>) it as a suspected mine (<%= Emoji.mine %>).
+      <strong><%= rules.flag_method_descriptor %></strong> a cell to flag (<%= Emoji.flag %>) it as a suspected mine (<%= Emoji.mine %>).
     </li>
     <li>
-      <strong>Click</strong> a revealed cell to reveal all possible surrounding cells (this is called "chording").
+      <strong><%= rules.reveal_neighbors_method_descriptor %></strong>
+      a revealed cell to reveal all possible surrounding cells (this is called "chording").
       <p class="text-dim">
         &ndash; Possible only after the correct number of surrounding cells have been flagged.
       </p>
