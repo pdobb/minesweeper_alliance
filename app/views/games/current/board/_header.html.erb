@@ -1,16 +1,14 @@
 <%# locals: (header:) %>
 
 <div class="md:-mx-3 flex justify-between gap-x-12 text-lg">
-  <ul
+  <div
     title="<%= t("game.board.header.counts.title") %>"
-    class="flex gap-x-1.5 whitespace-nowrap"
+    class="whitespace-nowrap tracking-[-0.15em]"
   >
-    <li><%= header.flags_count %></li>
-    <li><%= Emoji.flag %></li>
-    <li class="text-dim">/</li>
-    <li><%= header.mines %></li>
-    <li><%= Emoji.mine %></li>
-  </ul>
+    <%= header.flags_count %> <%= Emoji.flag %>
+    <span class="text-dim -ml-1">/</span>
+    <%= header.mines %> <%= Emoji.mine %>
+  </div>
 
   <% header.elapsed_time.tap do |elapsed_time| %>
     <time
