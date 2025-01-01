@@ -47,13 +47,21 @@ class Metrics::Engagements::Bests
       end
 
       def table_cell_css = nil
-      def game_score = View.round(game.score)
+
+      def game_score
+        return Game::MAX_SCORE if _score >= Game::MAX_SCORE
+
+        View.round(_score)
+      end
+
       def players_count = game.users.size
       def game_url = Router.metrics_game_path(game)
 
       private
 
       attr_reader :game
+
+      def _score = game.score
     end
 
     # Metrics::Show::Games::NullListing implements the Null Pattern for

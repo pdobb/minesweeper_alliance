@@ -11,6 +11,8 @@ class Games::Past::Metrics
   def show_game_score? = game.ended_in_victory?
 
   def game_score
+    return Game::MAX_SCORE if _score >= Game::MAX_SCORE
+
     View.display(_score) { |value| View.round(value) }
   end
 

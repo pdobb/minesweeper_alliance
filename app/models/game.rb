@@ -20,7 +20,7 @@
 #   This is a cached version of the associated {GameEndTransaction#created_at}
 #   value.
 # @attr score [Integer] The play-time in seconds of a victorious Game. Maxes out
-#   at {Game::CalcStats::MAX_SCORE} (999).
+#   at {MAX_SCORE} (999).
 # @attr bbbv [Integer] The 3BV value for the associated, solved {Board}.
 # @attr bbbvps [Float] The 3BV/s rating of a solved {Board}.
 # @attr efficiency [Float] The ratio of actual clicks vs necessary clicks (3BV)
@@ -36,6 +36,8 @@ class Game < ApplicationRecord # rubocop:disable Metrics/ClassLength
     CUSTOM_TYPE = "Custom",
     PATTERN_TYPE = "Pattern",
   ].freeze
+
+  MAX_SCORE = 999
 
   include ConsoleBehaviors
   include Statusable::HasStatuses
@@ -233,8 +235,6 @@ class Game < ApplicationRecord # rubocop:disable Metrics/ClassLength
   # Game::CalcStats determines and updates the given {Game} object with relevant
   # statistical values (on {Game} end).
   class CalcStats
-    MAX_SCORE = 999
-
     include CallMethodBehaviors
 
     def initialize(game)
@@ -243,10 +243,10 @@ class Game < ApplicationRecord # rubocop:disable Metrics/ClassLength
 
     def call
       game.update(
-        score: score,
-        bbbv: bbbv,
-        bbbvps: bbbvps,
-        efficiency: efficiency)
+        score:,
+        bbbv:,
+        bbbvps:,
+        efficiency:)
     end
 
     private
