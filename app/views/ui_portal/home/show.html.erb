@@ -53,7 +53,20 @@
   <div class="space-y-6">
     <h2>Spinner</h2>
 
-    <%= inline_svg_tag("spinner.svg") %>
+    <table
+      class="
+        table-fixed -mx-6 -my-1
+        border-separate border-spacing-x-6 border-spacing-y-1
+        text-left
+      "
+    >
+      <tbody>
+        <tr>
+          <td class="w-14"><%= inline_svg_tag("spinner.svg") %></td>
+          <td><code>inline_svg_tag("spinner.svg")</code></td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 
   <div class="space-y-6 overflow-x-auto">
@@ -68,7 +81,7 @@
     >
       <tbody>
         <tr>
-          <td>
+          <td class="w-14">
             <dfn
               data-tooltip="Huzzah! Tooltip text! 👏"
               class="after:w-80"
