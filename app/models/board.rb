@@ -32,14 +32,15 @@ class Board < ApplicationRecord
 
   validate :validate_settings, on: :create
 
-  def on_create
+  def generate_cells
     Generate.(board: self)
-    return unless pattern?
 
-    PlaceMines.(board: self, coordinates_array: pattern.coordinates_array)
+    if pattern? # rubocop:disable Style/GuardClause
+      PlaceMines.(board: self, coordinates_array: pattern.coordinates_array)
+    end
   end
 
-  def on_game_start(seed_cell:)
+  def place_mines(seed_cell:)
     return if pattern?
 
     RandomlyPlaceMines.(board: self, seed_cell:)

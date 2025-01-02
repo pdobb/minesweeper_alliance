@@ -106,7 +106,7 @@ class Game < ApplicationRecord # rubocop:disable Metrics/ClassLength
       transaction do
         new_game.save!
         GameCreateTransaction.create_between(user:, game: new_game)
-        new_game.board.on_create
+        new_game.board.generate_cells
       end
     }
   end
@@ -135,7 +135,7 @@ class Game < ApplicationRecord # rubocop:disable Metrics/ClassLength
 
     transaction do
       GameStartTransaction.create_between(user:, game: self)
-      board.on_game_start(seed_cell:)
+      board.place_mines(seed_cell:)
       set_status_sweep_in_progress!
     end
 
