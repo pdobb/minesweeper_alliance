@@ -4,9 +4,45 @@
 # :reek:TooManyMethods
 # :reek:RepeatedConditional (#over?)
 
-# Game represents a game of Minesweeper Alliance. It handles creation of new
-# Games and keeps track of the {#status} of each Game in the database, win or
-# lose.
+# Game represents a game of Minesweeper Alliance. Game play is kept as close to
+# that of the original Microsoft Minesweeper game as possible, while adding a
+# real-time, collaborative multiplayer element to it.
+#
+# Game is the top-most model in the object graph that's driving the overall
+# gameplay flow--from new game creation to game end. The current Game "state"
+# is stored by {Game#status}, and is described by the lifecycle states:
+# - "Standing By",
+# - "Sweep in Progress", and either
+# - "Alliance Wins" or "Mines Win"
+#
+# Typical flow for Game creation/start is:
+# 1. Build a new Game (`Game.build_for(settings: <Board::Settings>)`),
+# 2. Which builds an associated {Board} (storing off the given {Board::Settings}
+#    object into {Board#settings} as a serialized Hash).
+# 3. Generate an associated 1-dimensional Array of {Cell}s of length
+#    {Board#width} * {Board#height}--filling in {Cell#coordinates} for each,
+#    based on its Array index (see {Board::Generate#build_coordinates_for}).
+# 4. Atomically save all of the above to the database, while also setting the
+#    lifecycle state of the Game ({Game#status}) to "Standing By" (i.e. awaiting
+#    the first {Cell#reveal} of the Game).
+#
+# Later, when a player clicks to reveal a {Cell} in the first round of the
+# game:
+#  1. Randomly mark {Cell#mine} = `true` from among the associated Array of
+#     {Board#cells}.
+#    - Note: We ensure that the first-revealed Cell of the game (a.k.a. the
+#      "Seed Cell") is excluded from this mine-placing randomization so that the
+#      first {Cell#reveal} of the Game is, in effect, always safe.º
+#    - The number of mines to be placed comes from the stored {Board#settings},
+#      as may be expected.
+#  2. Start the Game (i.e. transition to lifecycle state: "Sweep in Progress").
+#  3. Reveal the first-clicked-on {Cell}, following the general rules of
+#     Minesweeper gameplay from there.
+#
+#  º EXCEPTION: In the case of a "Pattern" Game board, mines are specifically
+#    placed after step 4 in the "Typical flow for Game creation/start", above.
+#    Which means that the first {Cell#reveal} of the Game for a "Pattern" Game
+#    board is *not* safe and *can* end the Game in defeat, straight away.
 #
 # @attr status [String] The current Game status / life-cycle state.
 # @attr type [String] The preset or Game type used to generate this Game's

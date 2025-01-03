@@ -10,7 +10,7 @@
 # - or will otherwise indicate how many of its neighboring Cells do contain a
 #   mine once revealed.
 #
-# Which of these values a Cell is, is discovered when the Cell is revealed (when
+# Which of these values a Cell is is discovered when the Cell is revealed (when
 # a player clicks on the Cell).
 # - If a mine is revealed, the {Game} ends in defeat.
 # - If all safe Cells are revealed, the {Game} ends in victory for the alliance!

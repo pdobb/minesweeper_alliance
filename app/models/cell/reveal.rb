@@ -2,13 +2,14 @@
 
 # Cell::Reveal is a Service Object for collaborating with a {Game}, {Board}, and
 # {Cell} to process a {Cell} "Reveal" event. This involves:
-# - "Starting" the {Game}, if it hasn't already been
-# - Actually calling {Cell#reveal} (of course)
-# - "Ending" the {Game} early if the {Cell} we just revealed was a mine
-# - Recursively revealing neighboring {Cell}s if the {Cell} we just revealed
-#   was Blank
+# - "Starting" the {Game} (if it hasn't already been started),
+# - Actually calling {Cell#reveal} (of course),
+# - "Ending" the {Game} early / in defeat--if the just-revealed {Cell} was a
+#   mine,
+# - Recursively revealing neighboring {Cell}s--if the just-revealed {Cell} was
+#   Blank, and
 # - "Ending" the {Game} in victory if all safe {Cell}s on the {Board} have
-#   just been revealed
+#   now/just been revealed.
 #
 # @see Cell::RecursiveReveal
 class Cell::Reveal

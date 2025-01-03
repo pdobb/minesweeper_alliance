@@ -1,18 +1,19 @@
 # frozen_string_literal: true
 
 # Cell::RecursiveReveal is a Service Object for revealing the given {Cell} and
-# then recursively revealing neighboring {Cell}s--if the {Cell} we just revealed
-# was {Cell#blank?}.
+# then recursively revealing neighboring {Cell}s--if the just-revealed {Cell}
+# was Blank (see {Cell#blank?}).
 #
 # Notes:
-# - We don't want or need to spend time checking on {Game#status} or {Board}
-#   state while recursing. We only get to here by revealing a blank {Cell} in
-#   the first place, which is always safe to reveal neighbors on.
+# - We don't want or need to spend time checking on {Game#status} or current
+#   {Board} state while recursing. This is because we only get to here by
+#   revealing a blank {Cell} in the first place--which is always safe to reveal
+#   neighbors on.
 # - We purposefully don't `include CallMethodBehaviors` here, because this is
-#   recursion and it's actually worth reducing the call stack size.
+#   recursion and it's actually worth trimming down the call stack size.
 #   So instead of:
 #     RecursiveReveal.call -> RecursiveReveal.new(..).call -> #call
-#   We optimize to just:
+#   We optimize this to just:
 #     RecursiveReveal.new(...).call -> #call
 #
 # @see Cell::Reveal

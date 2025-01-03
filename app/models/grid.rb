@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
-# Grid allows for organizing an Array of {Cell}s. Outputs include: a Hash, an
-# Array of Arrays, or any such Enumerable method result.
+# Grid is a utility object for grouping together a given Array of {Cell}s into
+# various structures, including: as a Hash, as an Array of Arrays, or as any
+# other Enumerable method result (since we `include Enumerable` herein).
 class Grid
   include Enumerable
   include ConsoleBehaviors
