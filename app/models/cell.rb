@@ -159,7 +159,11 @@ class Cell < ApplicationRecord
     end
 
     def inspect_issues
-      "INCORRECTLY_FLAGGED" if incorrectly_flagged?
+      if incorrectly_flagged?
+        "INCORRECTLY_FLAGGED"
+      elsif revealed? && mine?
+        "MINE_DETONATED"
+      end
     end
 
     def inspect_info = coordinates
