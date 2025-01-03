@@ -35,7 +35,8 @@ export default class extends Controller {
   static cellIdRegex = /cells\/(\d+)\//
 
   reveal(event) {
-    if (mouse(event).isRightClick()) return this.toggleFlag(event)
+    // ctrl + Left Click = "Right Click" on macOS
+    if (mouse(event).actsAsARightClick()) return this.toggleFlag(event)
 
     const $cell = event.target
     if (!($cell instanceof HTMLTableCellElement)) return

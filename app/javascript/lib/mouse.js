@@ -14,11 +14,8 @@ export default class Mouse {
     return !this.isLeftClick()
   }
 
-  isRightClick() {
-    return (
-      this.event.button === this.constructor.RIGHT_BUTTON ||
-      (this.event.ctrlKey && this.isLeftClick() && this.#isMacOS())
-    )
+  actsAsARightClick() {
+    return this.event.ctrlKey && this.isLeftClick() && this.#isMacOS()
   }
 
   #isMacOS() {
