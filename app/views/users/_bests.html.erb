@@ -1,6 +1,6 @@
 <%# locals: (bests:) %>
 
-<% cache_unless(App.debug?, bests.cache_key) do %>
+<% cache(bests.cache_key) do %>
   <nav
     data-controller="active-link"
     data-active-link-active-class="active"

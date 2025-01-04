@@ -9,7 +9,7 @@
 
       <h3 class="h2">Bests</h3>
 
-      <% cache_unless(App.debug?, engagements.cache_key) do %>
+      <% cache(engagements.cache_key) do %>
         <div
           data-controller="active-link"
           data-active-link-active-class="active"

@@ -1,6 +1,6 @@
 <%# locals: (metrics:) %>
 
-<% cache_unless(App.debug?, metrics.cache_key) do %>
+<% cache(metrics.cache_key) do %>
   <h4 class="h3">Metrics</h4>
 
   <table

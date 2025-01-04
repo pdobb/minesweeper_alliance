@@ -1,6 +1,6 @@
 <%# locals: (service_record:) %>
 
-<% cache_unless(App.debug?, service_record.cache_key) do %>
+<% cache(service_record.cache_key) do %>
   <div>
     <h2 class="h3 mb-6">Service Record</h2>
 

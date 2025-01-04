@@ -7,14 +7,20 @@
     px-2 py-1 rounded-md
     bg-gray-200 dark:bg-neutral-900
     font-mono text-xs text-dim
-    opacity-50
+    opacity-60
   "
 >
   <%= link_to(
         layout.portal.ui? ? root_path : ui_portal_root_path,
         class: "no-underline flex gap-x-2") do %>
     <% if App.debug? %>
-      DBG
+      <span title="Debug Mode On">DEBUG</span>
+    <% end %>
+
+    <% if Rails.root.join("tmp/caching-dev.txt").exist? %>
+      <span title="Caching Enabled">📸</span>
+    <% else %>
+      <span title="Caching Disabled">🙈</span>
     <% end %>
 
     <div class="hidden max-sm:block">xs</div>
