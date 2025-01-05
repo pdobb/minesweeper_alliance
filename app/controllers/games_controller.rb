@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class GamesController < ApplicationController
+  include AllowBrowserBehaviors
   include Games::New::Behaviors
 
   def index

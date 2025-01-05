@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Users::GamesController < ApplicationController
+  include AllowBrowserBehaviors
+
   before_action :require_user, only: :show
 
   def show

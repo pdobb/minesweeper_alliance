@@ -3,9 +3,15 @@
 # Games::Current::Board::Cells::ActionBehaviors is a Controller mix-in for
 # Controllers that need to operate on {Board}s and their associated {Cell}s.
 module Games::Current::Board::Cells::ActionBehaviors
+  extend ActiveSupport::Concern
+
   # Games::Current::Board::Cells::ActionBehaviors::Error represents any
   # StandardError related to Game / Board / Cell Actions processing.
   Error = Class.new(StandardError)
+
+  included do
+    include AllowBrowserBehaviors
+  end
 
   private
 

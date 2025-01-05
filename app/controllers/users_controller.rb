@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class UsersController < ApplicationController
+  include AllowBrowserBehaviors
+
   def show
     if (user = User.for_id(params[:id]).take)
       @view = Users::Show.new(user:)
