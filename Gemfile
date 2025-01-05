@@ -41,6 +41,7 @@ gem "kamal", ">= 2.4.0", require: false
 gem "thruster", require: false
 
 gem "csv"
+gem "honeybadger"
 gem "inline_svg"
 gem "meta-tags"
 gem "mission_control-jobs"

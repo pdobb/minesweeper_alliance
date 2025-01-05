@@ -144,3 +144,14 @@ en:
     maker_html:
       - alliance.
       - <span class="line-through decoration-1">alliance</span> mines!
+
+  honeybadger:
+    feedback:
+      heading: What happened?
+      explanation: ""
+      submit: Submit
+      thanks: Thanks for your feedback!
+      labels:
+        name: Name (optional)
+        email: Email (optional)
+        comment: ""
