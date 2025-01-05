@@ -54,6 +54,10 @@ Rails.application.routes.draw do
 
       resource :flash_notifications, only: :show
       resource :error_pages, only: :show
+      resource(
+        :unsupported_browser_test,
+        only: :show,
+        controller: :unsupported_browser_test)
 
       resources :patterns do
         scope module: :patterns do

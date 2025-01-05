@@ -3,11 +3,27 @@
 <div class="container mx-auto space-y-12">
   <h1><%= title %></h1>
 
-  <ul class="space-y-1">
-    <li><%= link_to("400: Bad Request", "/400") %></li>
-    <li><%= link_to("404: Not Found", "/404") %></li>
-    <li><%= link_to("406: Unsupported Browser", "/406") %></li>
-    <li><%= link_to("422: Unprocessable Entity", "/422") %></li>
-    <li><%= link_to("500: Internal Server Error", "/500") %></li>
-  </ul>
+  <div class="space-y-6">
+    <h2>Direct Links</h2>
+
+    <ul class="space-y-1">
+      <li><%= link_to("400: Bad Request", "/400") %></li>
+      <li><%= link_to("404: Not Found", "/404") %></li>
+      <li><%= link_to("406: Unsupported Browser", "/406") %></li>
+      <li><%= link_to("422: Unprocessable Entity", "/422") %></li>
+      <li><%= link_to("500: Internal Server Error", "/500") %></li>
+    </ul>
+  </div>
+
+  <div class="space-y-6">
+    <h2>Simulated Versions</h2>
+
+    <ul class="space-y-1">
+      <li>
+        <%= link_to(
+              "406: Unsupported Browser",
+              ui_portal_unsupported_browser_test_path) %>
+      </li>
+    </ul>
+  </div>
 </div>
