@@ -1,6 +1,11 @@
 <%# locals: (content:) %>
 
-<div class="-mx-5 overflow-x-auto scrollbar-hidden">
+<div
+  data-controller="scroll-position"
+  data-scroll-position-storage-element-id-value="gameBoardDataStore"
+  data-action="scroll->scroll-position#save"
+  class="-mx-5 overflow-x-auto scrollbar-hidden"
+>
   <table
     id="game_board"
     class="mx-auto table-fixed border-double border-4 border-dark"
