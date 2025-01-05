@@ -79,15 +79,15 @@ Rails.application.routes.draw do
   # live.
   get "up" => "rails/health#show", as: :rails_health_check
 
-  match "/400" => "errors#bad_request", via: :all
-  match "/404" => "errors#not_found", via: :all
-  match "/406" => "errors#unsupported_browser", via: :all
-  match "/422" => "errors#unprocessable_entity", via: :all
-  match "/500" => "errors#internal_server_error", via: :all
+  get "/400", to: "errors#bad_request", as: :bad_request
+  get "/404", to: "errors#not_found", as: :not_found
+  get "/406", to: "errors#unsupported_browser", as: :unsupported_browser
+  get "/422", to: "errors#unprocessable_entity", as: :unprocessable_entity
+  get "/500", to: "errors#internal_server_error", as: :internal_server_error
 
   # Render dynamic PWA files from app/views/pwa/*
-  get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
-  get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
+  get "service-worker", to: "rails/pwa#service_worker", as: :pwa_service_worker
+  get "manifest", to: "rails/pwa#manifest", as: :pwa_manifest
 
   mount MissionControl::Jobs::Engine, at: "/jobs"
 end
