@@ -21,6 +21,8 @@ class Games::Current::Container
 
   def turbo_frame_name = self.class.turbo_frame_name
 
+  def version = current_game.version
+
   def nav
     Games::Current::Nav.new
   end

@@ -4,7 +4,9 @@
   <%= render("games/current/page_nav", nav: container.nav) %>
 <% end %>
 
-<%= turbo_frame_tag(container.turbo_frame_name) do %>
+<%= turbo_frame_tag(
+      container.turbo_frame_name,
+      data: { version: container.version }) do %>
   <div class="space-y-12">
     <%= render("games/current/content", content: container.content) %>
 

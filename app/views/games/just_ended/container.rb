@@ -13,6 +13,8 @@ class Games::JustEnded::Container
 
   def turbo_frame_name = Games::Current::Container.turbo_frame_name
 
+  def version = current_game.version
+
   def content
     Games::JustEnded::Content.new(current_game:)
   end

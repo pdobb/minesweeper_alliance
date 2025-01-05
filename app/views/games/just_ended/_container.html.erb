@@ -1,6 +1,8 @@
 <%# locals: (container:) %>
 
-<%= turbo_frame_tag(container.turbo_frame_name) do %>
+<%= turbo_frame_tag(
+      container.turbo_frame_name,
+      data: { version: container.version }) do %>
   <%= turbo_stream.remove(Home::Show.turbo_stream_dom_id) %>
 
   <%= turbo_stream_from(container.turbo_stream_name) %>
