@@ -79,16 +79,13 @@ DISABLE_TURBO=1 bin/rails server [...]
 
 ```bash
 # Unit tests
-bin/rake test
-
-# System tests
-bin/rake test:system
+bin/rails test
 ```
 
 Or, run test, rubocop, reek, and test:system all at once:
 
 ```bash
-bin/rake
+rake
 ```
 
 ## Web App
@@ -152,9 +149,15 @@ View Models are POROs that:
 - Live alongside the view templates/partials they support, and
 - Are easily unit testable (though there are currently very few View Model tests in this project).
 
-View Models are somewhat similar to, yet much simpler than, GitHub's ViewComponent pattern/gem. They make no attempt to intervene in the rendering stack or to add a custom DSL. The only thing to learn about them is when to use them and, to some extent, how.
+View Models are like service objects for view templates. They can be thought of as somewhat similar to, yet much simpler than, GitHub's ViewComponent pattern/gem. Notably different: they make no attempt to intervene in the rendering stack or to add a custom DSL. Again, View Models are just POROs, so the only thing to learn about them is when and how best to use them.
 
-Generally speaking, a View Model should be used any time a view template would otherwise need to interact with the application layer or implement any kind of logic via ERB. View templates should still render their own HTML, but should appeal to View Models for any non-static view code.
+Generally speaking, a View Model should be used any time a view template would otherwise need to interact with your ActiveRecord models or implement any kind of ERB logic/conditionals.
+
+Notes:
+
+- View Models exist because view templates should not have direct access to your ActiveRecord models. This is a slippery slope to the needs of view templates shaping the design of or even inserting view logic into your ActiveRecord models.
+- View models should not be used for generating HTML. View templates should still render all of their own HTML while appealing to View Models for any non-static rendering logic.
+- Using view models generally means there is no need for Rails' view helpers outside of a few high-level, if not Application-level, helpers.
 
 ### Users
 
@@ -162,7 +165,11 @@ Visiting the site for the first time automatically creates a new User entry in t
 
 #### Usernames / Signing
 
-At the end of any game that a user participates in, an option is presented for signing their username. This may be not only a point of pride, but it also unlocks additional functionality. e.g. custom game board sizing and the ability to permanently hide the welcome banner at the top of the War Room page.
+At the end of any game, an option is presented for signing one's username (for all participants). This not only captures a point of pride, but it also unlocks additional functionality. For example:
+
+- The ability to permanently hide the welcome banner at the top of the War Room page
+- A "New Custom Game" button/option for defining custom Game board settings
+- Direct access to User-specific "Best" Games and stats
 
 #### Time Zone
 
@@ -174,7 +181,7 @@ Visit `/ui` while in the development environment to access the UI Portal. This p
 
 #### Patterns
 
-Currently a bit lumped into the UI Portal at `/ui/patterns` is the Patterns tool--for creating playable mine patterns. These boards/patterns are selected by random luck (as an Easter egg) when staring a new "Random" game.
+Currently, a bit lumped into the UI Portal at `/ui/patterns`, is the Patterns tool--for creating a set of Game boards with admin-specified mine patterns. These boards/patterns are selected by random luck (as an Easter egg) when staring a new "Random" game.
 
 Patterns may be imported/exported as CSV. The mere presence of a Pattern in the database makes it eligible for being randomly selected for game play.
 
@@ -186,7 +193,9 @@ First, push changes to GitHub:
 git push origin main
 ```
 
-Next, ... (TODO: No production server yet.)
+Next, deploy using Kamal: `kamal deploy`.
+
+Note: This process can only be completed by me (@pdobb) at current, as the server is hosted on a machine in my local network.
 
 ## Contributing
 
