@@ -12,6 +12,8 @@
       <%= Emoji.profile %>
     <% end %>
   <% else %>
-    <span class="max-md:hidden"><%= t("site.name") %></span>
+    <span id="unsignedUserNav" class="max-md:hidden">
+      <%= t("site.name") %>
+    </span>
   <% end %>
 <% end %>

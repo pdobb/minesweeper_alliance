@@ -17,11 +17,12 @@
         class: "btn-primary",
         data: { turbo_frame: :_top }) %>
 
-  <% if current_user.signer? %>
+  <% if content.show_new_custom_game_button?(current_user) %>
     <%= button_to(
           "Custom",
           content.new_custom_game_url,
           method: :get,
+          form: { id: "newCustomGameForm" },
           class: "btn-primary",
           data: { turbo_stream: true }) %>
   <% end %>

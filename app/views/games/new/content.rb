@@ -18,6 +18,10 @@ class Games::New::Content
     Router.games_random_path
   end
 
+  def show_new_custom_game_button?(current_user)
+    current_user.signer?
+  end
+
   def new_custom_game_url
     Router.new_games_custom_path
   end
