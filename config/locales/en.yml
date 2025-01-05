@@ -48,6 +48,7 @@ en:
   errors: &ERRORS
     messages:
       blank: can't be blank
+      in: "must be in range: %{count}"
       inclusion: invalid option
       invariable: can't be changed
       present: can't be present
