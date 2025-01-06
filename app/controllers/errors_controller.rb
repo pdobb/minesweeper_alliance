@@ -13,6 +13,7 @@ class ErrorsController < ApplicationController
 
   # 406
   def unsupported_browser
+    @view = Errors::UnsupportedBrowser.new(context: layout)
     render(status: :not_acceptable)
   end
 

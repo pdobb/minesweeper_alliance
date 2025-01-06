@@ -22,10 +22,6 @@ class Application::Layout
     Application::Footer::ThemeMenu.new(button_content:)
   end
 
-  def mobile?
-    @mobile ||= UserAgent.parse(user_agent).mobile?
-  end
-
   def helpers
     @helpers ||= ActionController::Base.helpers
   end
@@ -43,11 +39,17 @@ class Application::Layout
   def params = context.params
   def cookies = context.__send__(:cookies)
 
+  def mobile? = user_agent.mobile?
+
+  def user_agent
+    @user_agent ||= UserAgent.parse(_user_agent)
+  end
+
   private
 
   attr_reader :context
 
   def request = context.request
   def flash = context.flash
-  def user_agent = request.user_agent
+  def _user_agent = request.user_agent
 end
