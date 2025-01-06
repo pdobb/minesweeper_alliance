@@ -17,7 +17,8 @@ module Games::Past::EngagementTallyBehaviors
   end
 
   def engagement_tally
-    @engagement_tally ||= ::EngagementTally.new(start_at..end_at, base_arel:)
+    @engagement_tally ||=
+      Game::EngagementTally.new(start_at..end_at, base_arel:)
   end
 
   private

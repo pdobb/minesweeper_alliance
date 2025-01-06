@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-# EngagementTally is a Service Object for tallying the numbers of {Game} wins vs
-# losses over a given time period. The period defaults to "today" (start of day
-# in Central Time, up until now).
-class EngagementTally
+# Game::EngagementTally is a Service Object for tallying the numbers of {Game}
+# wins vs losses over a given time period. The period defaults to "today"
+# (start of day in Central Time, up until now).
+class Game::EngagementTally
   include CallMethodBehaviors
 
   attr_reader :start_time,
