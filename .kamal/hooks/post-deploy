@@ -1,0 +1,18 @@
+#!/bin/sh
+
+# A sample post-deploy hook
+#
+# These environment variables are available:
+# KAMAL_RECORDED_AT
+# KAMAL_PERFORMER
+# KAMAL_VERSION
+# KAMAL_HOSTS
+# KAMAL_ROLE (if set)
+# KAMAL_DESTINATION (if set)
+# KAMAL_RUNTIME
+
+RAILS_MASTER_KEY=$(cat config/master.key)
+
+bundle exec honeybadger deploy --revision=$(git rev-parse HEAD) --repository=$(git config --get remote.origin.url) --environment=production
+
+echo "$KAMAL_PERFORMER deployed $KAMAL_VERSION to ${KAMAL_DESTINATION:-production} in $KAMAL_RUNTIME seconds"
