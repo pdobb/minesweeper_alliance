@@ -2,6 +2,7 @@
 
 <%= turbo_frame_tag(
       content.turbo_frame_name,
+      class: "block",
       data: { version: content.version }) do %>
   <div class="space-y-6 lg:space-y-12 select-none">
     <%= render("games/current/status", status: content.status) %>
