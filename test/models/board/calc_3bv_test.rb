@@ -2,9 +2,9 @@
 
 require "test_helper"
 
-class Calc3BVTest < ActiveSupport::TestCase
-  describe "Calc3BV" do
-    let(:unit_class) { Calc3BV }
+class Board::Calc3BVTest < ActiveSupport::TestCase
+  describe "Board::Calc3BV" do
+    let(:unit_class) { Board::Calc3BV }
 
     let(:win1_board) { boards(:win1_board) }
 

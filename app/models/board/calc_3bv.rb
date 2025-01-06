@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-# Calc3BV is a Service Object for calculating the 3BV value (3BV is a.k.a.
-# Bechtel's Board Benchmark Value) for a given Game Board / {Grid}.
+# Board::Calc3BV is a Service Object for calculating the 3BV value (3BV is
+# a.k.a. Bechtel's Board Benchmark Value) for a given Game {Board} / {Grid}.
 #
 # A 3BV value is a measure of board difficulty. It represents the minimum number
 # of left clicks required to win a Game:
@@ -10,7 +10,7 @@
 #   click.
 #
 # @see https://minesweepergame.com/statistics.php
-class Calc3BV
+class Board::Calc3BV
   include CallMethodBehaviors
   include ConsoleBehaviors
 
@@ -52,7 +52,7 @@ class Calc3BV
 
   # :reek:InstanceVariableAssumption
 
-  # Calc3BV::Cell wraps {Cell} for performing 3BV scoring functions.
+  # Board::Calc3BV::Cell wraps {Cell} for performing 3BV scoring functions.
   class Cell
     include WrapMethodBehaviors
 
@@ -120,13 +120,13 @@ class Calc3BV
     end
   end
 
-  # Calc3BV::Console acts like a {Calc3BV} but otherwise handles IRB
-  # Console-specific methods/logic.
+  # Board::Calc3BV::Console acts like a {Board::Calc3BV} but otherwise handles
+  # IRB Console-specific methods/logic.
   class Console
     include ConsoleObjectBehaviors
 
     # @example
-    #   Calc3BV.new(Board.last.grid).cons.call
+    #   Board::Calc3BV.new(Board.last.grid).cons.call
     def call
       process_cells
       count
@@ -142,7 +142,7 @@ class Calc3BV
     #
     # @example
     #   # Compare output against `calc.grid.render`:
-    #   Calc3BV.new(Board.last.grid).cons.render
+    #   Board::Calc3BV.new(Board.last.grid).cons.render
     def render
       cells.map(&:count).in_groups_of(grid.columns_count)
     end

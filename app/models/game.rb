@@ -300,7 +300,7 @@ class Game < ApplicationRecord # rubocop:disable Metrics/ClassLength
     def duration = game.duration
 
     def bbbv
-      @bbbv ||= Calc3BV.(grid)
+      @bbbv ||= Board::Calc3BV.(grid)
     end
 
     def grid = game.board.grid
