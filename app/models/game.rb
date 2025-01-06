@@ -134,7 +134,7 @@ class Game < ApplicationRecord # rubocop:disable Metrics/ClassLength
   end
 
   def self.current
-    for_game_on_statuses.last
+    for_game_on_statuses.take
   end
 
   def self.create_for(user:, **)
