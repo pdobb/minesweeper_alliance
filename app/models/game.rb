@@ -191,6 +191,10 @@ class Game < ApplicationRecord # rubocop:disable Metrics/ClassLength
     }
   end
 
+  def update_started_at(time:)
+    touch(:started_at, time:)
+  end
+
   def update_ended_at(time:)
     touch(:ended_at, time:)
     self.just_ended = true

@@ -316,6 +316,32 @@ class GameTest < ActiveSupport::TestCase
       end
     end
 
+    describe "#update_started_at" do
+      let(:now) { Time.current }
+
+      subject { standing_by1 }
+
+      it "updates #started_at" do
+        _(-> { subject.update_started_at(time: now) }).must_change(
+          "subject.started_at",
+          from: nil,
+          to: now)
+      end
+    end
+
+    describe "#update_ended_at" do
+      let(:now) { Time.current }
+
+      subject { standing_by1 }
+
+      it "updates #ended_at" do
+        _(-> { subject.update_ended_at(time: now) }).must_change_all([
+          ["subject.ended_at", from: nil, to: now],
+          ["subject.just_ended?", from: false, to: true],
+        ])
+      end
+    end
+
     describe "#on?" do
       context "GIVEN Game#status_standing_by? = true" do
         subject { new_game }
