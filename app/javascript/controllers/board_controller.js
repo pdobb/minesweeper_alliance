@@ -35,8 +35,7 @@ export default class extends Controller {
   static cellIdRegex = /cells\/(\d+)\//
 
   reveal(event) {
-    // ctrl + Left Click = "Right Click" on macOS
-    if (mouse(event).actsAsARightClick()) return this.toggleFlag(event)
+    if (mouse(event).actsAsRightClick()) return
 
     const $cell = event.target
     if (!($cell instanceof HTMLTableCellElement)) return
@@ -53,7 +52,7 @@ export default class extends Controller {
   }
 
   highlightNeighbors(event) {
-    if (mouse(event).isNotLeftClick()) return
+    if (!mouse(event).actsAsLeftClick()) return
 
     const $cell = event.target
     if (this.#isNotRevealed($cell) || this.#isBlank($cell)) return
@@ -62,7 +61,7 @@ export default class extends Controller {
   }
 
   revealNeighbors(event) {
-    if (mouse(event).isNotLeftClick()) return
+    if (!mouse(event).actsAsLeftClick()) return
 
     const $cell = event.target
     if (this.#isNotRevealed($cell) || this.#isBlank($cell)) return
