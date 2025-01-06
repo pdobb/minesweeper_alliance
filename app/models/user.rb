@@ -32,6 +32,17 @@ class User < ApplicationRecord
            through: :cell_reveal_transactions,
            source: :cell
 
+  scope :for_token, ->(token) { where("id::text LIKE ?", "%#{token}") }
+  scope :for_game, ->(game) {
+    joins(:games).merge(Game.for_id(game)).
+      joins(:cell_transactions).
+      select(
+        arel_table[Arel.star],
+        CellTransaction.arel_table[:created_at].minimum.as("joined_in_at")).
+      group(:id).
+      order(:joined_in_at)
+  }
+
   validates :username,
             length: { maximum: USERNAME_MAX_LEGNTH }
 

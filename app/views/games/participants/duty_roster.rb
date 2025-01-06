@@ -12,12 +12,16 @@ class Games::Participants::DutyRoster
   def turbo_stream_name = self.class.turbo_stream_name(game)
 
   def listings
-    Listing.wrap(game.users, game:)
+    Listing.wrap(sorted_users, game:)
   end
 
   private
 
   attr_reader :game
+
+  def sorted_users
+    User.for_game(game)
+  end
 
   # Games::Participants::DutyRoster::Listing
   class Listing
