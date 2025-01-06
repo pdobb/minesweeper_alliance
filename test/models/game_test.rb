@@ -495,6 +495,24 @@ class GameTest < ActiveSupport::TestCase
       end
     end
 
+    describe "#duration" do
+      context "GIVEN Game#on?" do
+        subject { standing_by1.start(seed_cell: nil, user: user1) }
+
+        it "returns nil" do
+          _(subject.duration).must_be_nil
+        end
+      end
+
+      context "GIVEN Game#over?" do
+        subject { win1 }
+
+        it "returns the expected Time range" do
+          _(subject.duration).must_equal(30.0)
+        end
+      end
+    end
+
     describe "#board_settings" do
       context "GIVEN #board = nil" do
         subject { new_game }
