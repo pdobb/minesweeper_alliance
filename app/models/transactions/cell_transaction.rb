@@ -42,6 +42,15 @@ class CellTransaction < ApplicationRecord
   concerning :ObjectInspection do
     include ObjectInspectionBehaviors
 
+    def introspect
+      {
+        self => [
+          user,
+          cell.introspect,
+        ],
+      }
+    end
+
     private
 
     def inspect_identification = identify

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# UserUpdateTransaction records update events on a {User}'s "profile" record.
+# UserUpdateTransaction records update events on a {User}'s "profile" (record).
 # Currently, this just includes updates to {User#username}, but the
 # {#change_set} can be dynamically expanded.
 #

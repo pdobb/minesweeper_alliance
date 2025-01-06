@@ -145,6 +145,10 @@ class Cell < ApplicationRecord
   concerning :ObjectInspection do
     include ObjectInspectionBehaviors
 
+    def introspect
+      { self => { board => game } }
+    end
+
     private
 
     def inspect_identification = identify(:id, :board_id)
