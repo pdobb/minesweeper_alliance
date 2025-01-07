@@ -19,11 +19,6 @@ module.exports = {
         "ping-once": "ping-sm 0.5s cubic-bezier(0, 0, 0.2, 1) 1",
         "pulse-fast": "pulse 1.5s cubic-bezier(0.6, 0, 0.4, 1) infinite",
       },
-      backgroundImage: {
-        "external-link-light": "url('heroicons/arrow-top-right-on-square.svg')",
-        "external-link-dark":
-          "url('heroicons/arrow-top-right-on-square-dark.svg')",
-      },
       letterSpacing: {
         emojis: ".5em",
       },

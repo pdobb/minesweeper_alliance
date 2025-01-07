@@ -77,16 +77,6 @@
 }
 
 @layer components {
-  a[href^="http"] {
-    @apply whitespace-nowrap;
-
-    &::after {
-      @apply content-['']
-        ml-1.5 size-[.8em] inline-block hover:opacity-70
-        bg-contain bg-external-link-light dark:bg-external-link-dark;
-    }
-  }
-
   .border-dim {
     @apply border-gray-300 dark:border-neutral-600;
   }

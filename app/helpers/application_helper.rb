@@ -29,7 +29,18 @@ module ApplicationHelper
 
   def external_link_to(name = nil, url = nil, *, **options)
     options.with_defaults!(rel: "noreferrer noopener", target: :_blank)
-    link_to(name, url, *, **options)
+
+    options[:class] = [
+      "inline-flex items-baseline gap-x-1.5",
+      options[:class],
+    ]
+
+    link_to(url, *, **options) do
+      safe_join([
+        tag.span(name),
+        inline_svg_tag("heroicons/arrow-top-right-on-square.svg"),
+      ])
+    end
   end
 
   private
