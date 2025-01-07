@@ -4,6 +4,34 @@
   <p><%= t("site.description_html") %></p>
 
   <div class="space-y-6">
+    <h2 class="h4">What is a Minesweeper?</h2>
+    <ul class="space-y-3 list-[circle] ml-7">
+      <li>
+        A minesweeper is a small warship designed to remove or detonate naval mines
+        (<%= external_link_to(
+              "Minesweeper (wiki)",
+              "https://en.wikipedia.org/wiki/Minesweeper") %>).
+      </li>
+    </ul>
+  </div>
+
+  <div class="space-y-6">
+    <h2 class="h4">What is MMS-#### (e.g. <%= current_user.mms_id %>)?</h2>
+    <ul class="space-y-3 list-[circle] ml-7">
+      <li>
+        Players are uniquely identified by a Motor Mine Sweeper (MMS) designation (+ username).
+      </li>
+      <li>
+        MMS is a nod to the Royal Navy's wooden
+        <%= external_link_to(
+              "MMS-class Minesweeper",
+              "https://en.wikipedia.org/wiki/MMS-class_minesweeper") %>
+        fleet.
+      </li>
+    </ul>
+  </div>
+
+  <div class="space-y-6">
     <h2 class="h4">This game is:</h2>
     <ul class="space-y-3 list-[circle] ml-7">
       <li>
@@ -31,34 +59,6 @@
         <%= external_link_to(
               "GitHub",
               "https://github.com/pdobb/minesweeper_alliance") %>
-      </li>
-    </ul>
-  </div>
-
-  <div class="space-y-6">
-    <h2 class="h4">What is a Minesweeper?</h2>
-    <ul class="space-y-3 list-[circle] ml-7">
-      <li>
-        A minesweeper is a small warship designed to remove or detonate naval mines
-        (<%= external_link_to(
-              "Minesweeper (wiki)",
-              "https://en.wikipedia.org/wiki/Minesweeper") %>).
-      </li>
-    </ul>
-  </div>
-
-  <div class="space-y-6">
-    <h2 class="h4">What is MMS-#### (e.g. <%= current_user.mms_id %>)?</h2>
-    <ul class="space-y-3 list-[circle] ml-7">
-      <li>
-        Players are uniquely identified by a Motor Mine Sweeper (MMS) designation (+ username).
-      </li>
-      <li>
-        MMS is a nod to the Royal Navy's wooden
-        <%= external_link_to(
-              "MMS-class Minesweeper",
-              "https://en.wikipedia.org/wiki/MMS-class_minesweeper") %>
-        fleet.
       </li>
     </ul>
   </div>
