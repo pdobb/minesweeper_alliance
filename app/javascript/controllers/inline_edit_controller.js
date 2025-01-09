@@ -5,16 +5,22 @@ import { Controller } from "@hotwired/stimulus"
 // form.
 //
 // Example:
-//  # The original content (in a partial that we can re-render later):
+//  # NOTE: You may or may not need to break out the inline-edit-form into a
+//  # container/content relationship as in 1a and 1b below:
+//
+//  # 1a. The main container frame (renders our reusable partial):
 //  <%= turbo_frame_tag(...) do %>
-//    <%= link_to(
-//          <name>,
-//          edit_<type>_path,
-//          data: { turbo_stream: true }      <-- Allow `turbo_stream` response.
-//        ) %>
+//    <%= render("_...") %>
 //  <% end %>
 //
-//  # `edit.turbo_stream.erb` template:
+//  # 1b. The reusable partial (`"_..."`) from above:
+//  <%= link_to(
+//        <name>,
+//        edit_<type>_path,
+//        data: { turbo_stream: true }      <-- Allow `turbo_stream` response.
+//      ) %>
+//
+//  # 2. `edit.turbo_stream.erb` template:
 //  <%= turbo_stream.update(...) do %>
 //    <div
 //      data-controller="inline-edit"
@@ -24,11 +30,8 @@ import { Controller } from "@hotwired/stimulus"
 //    </div>
 //  <% end %>
 //
-//  # `.../_form.html.erb` template:
-//  <%= form_with(
-//        model: form.to_model,
-//        url: form.post_url,
-//        id: form.dom_id) do |f| %>          <-- Must match turbo frame name.
+//  # 3. `.../_form.html.erb` template:
+//  <%= form_with(model: form.to_model, url: form.post_url) do |f| %>
 //    ...
 //    <%= link_to(
 //          "Cancel",
@@ -37,6 +40,12 @@ import { Controller } from "@hotwired/stimulus"
 //            inline_edit_target: "cancel",   <-- Used by `esc` key press.
 //            turbo_stream: true,             <-- Allow `turbo_stream` response.
 //          }) %>
+//  <% end %>
+//
+//  # 4. The above cancel link has to render a view that includes the original
+//  #    frame tag and content:
+//  <%= turbo_frame_tag(...) do %>
+//    <%= render("_...") %>                   <-- The reusable partial.
 //  <% end %>
 export default class extends Controller {
   static targets = ["cancel"]

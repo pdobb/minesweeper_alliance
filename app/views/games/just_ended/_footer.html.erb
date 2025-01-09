@@ -4,7 +4,9 @@
   <% footer.signature.tap do |signature| %>
     <% if signature.show? %>
       <div class="-mt-10 mb-3 min-h-24 flex justify-center items-center">
-        <%= render("games/participants/signature", signature:) %>
+        <%= turbo_frame_tag(*signature.turbo_frame_name) do %>
+          <%= render("games/participants/signature", signature:) %>
+        <% end %>
       </div>
     <% end %>
   <% end %>
