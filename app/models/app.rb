@@ -8,7 +8,10 @@ module App
   def self.dev_mode? = Rails.configuration.dev_mode
   def self.disable_turbo? = Rails.configuration.disable_turbo
 
-  def self.test? = Rails.env.test?
   def self.development? = Rails.env.development?
+  def self.test? = Rails.env.test?
+  def self.production_local? = Rails.env.production_local?
   def self.production? = Rails.env.production?
+
+  def self.local? = Rails.env.local? || production_local?
 end

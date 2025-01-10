@@ -18,3 +18,10 @@ Naming/MethodParameterName:
 Rails/ApplicationController:
   Exclude:
     - app/controllers/ui_portal/**/*
+
+Rails/UnknownEnv:
+  Environments:
+    - development
+    - test
+    - production_local
+    - production

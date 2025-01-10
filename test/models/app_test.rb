@@ -118,6 +118,32 @@ class AppTest < ActiveSupport::TestCase
       end
     end
 
+    describe ".production_local?" do
+      context "GIVEN Rails.env.production_local? = true" do
+        before do
+          MuchStub.tap(Rails, :env) { |env|
+            MuchStub.(env, :production_local?) { true }
+          }
+        end
+
+        it "returns true" do
+          _(subject.production_local?).must_equal(true)
+        end
+      end
+
+      context "GIVEN Rails.env.production_local? = false" do
+        before do
+          MuchStub.tap(Rails, :env) { |env|
+            MuchStub.(env, :production_local?) { false }
+          }
+        end
+
+        it "returns false" do
+          _(subject.production_local?).must_equal(false)
+        end
+      end
+    end
+
     describe ".production?" do
       context "GIVEN Rails.env.production? = true" do
         before do
@@ -140,6 +166,26 @@ class AppTest < ActiveSupport::TestCase
 
         it "returns false" do
           _(subject.production?).must_equal(false)
+        end
+      end
+    end
+
+    describe ".local?" do
+      context "GIVEN Rails.env is a local env" do
+        before { Rails.env = %w[development test production_local].sample }
+        after { Rails.env = "test" }
+
+        it "returns true" do
+          _(subject.local?).must_equal(true)
+        end
+      end
+
+      context "GIVEN Rails.env is not a local env" do
+        before { Rails.env = "production" }
+        after { Rails.env = "test" }
+
+        it "returns false" do
+          _(subject.local?).must_equal(false)
         end
       end
     end
