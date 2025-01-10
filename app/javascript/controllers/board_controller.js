@@ -112,7 +112,7 @@ export default class extends Controller {
   #submit($cell, baseUrl) {
     this.#showLoadingIndicator($cell)
 
-    const cellId = $cell.dataset.id
+    const cellId = $cell.id
     // /boards/<boardId>/cells/<cellId>/<action>
     const targetUrl = baseUrl.replace(
       this.constructor.cellIdRegex,

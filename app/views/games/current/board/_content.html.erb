@@ -42,7 +42,7 @@
         <tr>
           <% row.each do |cell| %>
             <td
-              data-id="<%= cell.id %>"
+              id="<%= cell.id %>"
               data-revealed="<%= cell.revealed? %>"
               data-flagged="<%= cell.flagged? %>"
               class="<%= class_names(cell.css) %>"
