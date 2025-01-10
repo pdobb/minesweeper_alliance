@@ -1,0 +1,5 @@
+<%# locals: (spectator_footer:) %>
+
+<%= turbo_frame_tag(*spectator_footer.turbo_frame_name) do %>
+  <%= render("games/past/results", results: spectator_footer.results) %>
+<% end %>

@@ -4,23 +4,19 @@
 class Games::JustEnded::Footer
   def self.turbo_frame_name(game) = [game, :just_ended_footer]
 
-  def initialize(current_game:, user:)
-    @current_game = current_game
+  def initialize(game:, user:)
+    @game = game
     @user = user
   end
 
-  def turbo_frame_name = self.class.turbo_frame_name(current_game)
-
-  def signature
-    Games::Participants::Signature.new(game: current_game, user:)
-  end
+  def turbo_frame_name = self.class.turbo_frame_name(game)
 
   def results
-    Games::Past::Results.new(game: current_game)
+    Games::Past::Results.new(game:)
   end
 
   private
 
-  attr_reader :current_game,
+  attr_reader :game,
               :user
 end

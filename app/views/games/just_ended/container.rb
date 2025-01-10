@@ -1,15 +1,11 @@
 # frozen_string_literal: true
 
 # Games::JustEnded::Container represents the entire view context surrounding
-# {Game}s that have just ended, as a partial for reuse.
+# {Game}s that have just ended.
 class Games::JustEnded::Container
-  def self.turbo_stream_name = :just_ended_game
-
   def initialize(current_game:)
     @current_game = current_game
   end
-
-  def turbo_stream_name = self.class.turbo_stream_name
 
   def turbo_frame_name = Games::Current::Container.turbo_frame_name
 

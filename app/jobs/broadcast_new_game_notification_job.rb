@@ -6,7 +6,7 @@ class BroadcastNewGameNotificationJob < ApplicationJob
 
   def perform
     Turbo::StreamsChannel.broadcast_update_to(
-      Games::JustEnded::Container.turbo_stream_name,
+      Games::JustEnded::ParticipantFooter.turbo_stream_name,
       target: :new_game_notification_container,
       partial: "layouts/flash/notifications",
       locals: { notifications: new_current_game_notification })

@@ -9,10 +9,6 @@ class Games::Participants::Signature
     @user = user
   end
 
-  def show?
-    user.participated_in?(game)
-  end
-
   def turbo_frame_name
     [user, :signature]
   end
