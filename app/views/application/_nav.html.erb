@@ -2,7 +2,16 @@
 
 <nav class="relative container mx-auto flex justify-between">
   <ul class="flex gap-x-6 md:gap-x-10 lg:gap-x-12">
-    <li><%= active_link_to("War Room", root_path) %></li>
+    <li class="relative">
+      <%= active_link_to("War Room", root_path) %>
+      <span
+        data-controller="stream-connection-status"
+        data-stream-connection-status-dom-id-value="<%= WarRoomChannel::STREAM_NAME %>_turbo_stream"
+        data-stream-connection-status-connected-class="bg-green-500"
+        data-stream-connection-status-disconnected-class="bg-gray-500"
+        title="Fleet Connection Status"
+        class="absolute -right-3 size-[7px] rounded-full bg-gray-500"></span>
+    </li>
     <li>
       <%= active_link_to(games_path, includes: GamesController.name) do %>
         <span class="sm:hidden">Archive</span>
