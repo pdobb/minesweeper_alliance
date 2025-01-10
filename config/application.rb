@@ -49,5 +49,8 @@ module MinesweeperAlliance # rubocop:disable Style/ClassAndModuleChildren
     config.debug = ENV["DEBUG"] == "1"
     config.dev_mode = ENV["DEV_MODE"] == "1"
     config.disable_turbo = ENV["DISABLE_TURBO"] == "1"
+
+    config.x.notify.reraise =
+      ActiveModel::Type::Boolean.new.cast(ENV.fetch("RERAISE_ON_NOTIFY", false))
   end
 end

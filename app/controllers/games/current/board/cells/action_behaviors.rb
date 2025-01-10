@@ -39,9 +39,11 @@ module Games::Current::Board::Cells::ActionBehaviors
     end
   end
 
+  # :reek:TooManyStatements
   def safe_perform_game_action
     yield
-  rescue Error
+  rescue => ex
+    Notify.(ex)
     flash[:warning] = t("flash.web_socket_lost")
 
     render_update do
