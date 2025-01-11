@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
-# Games::Past::Participants::DutyRoster represents a list of {User}s that
+# Games::Past::ActiveParticipants::Roster represents a list of {User}s that
 # participated in a past {Game}.
 #
-# @see Games::JustEnded::Participants::DutyRoster
-class Games::Past::Participants::DutyRoster
+# @see Games::JustEnded::ActiveParticipants::Roster
+class Games::Past::ActiveParticipants::Roster
   def initialize(game:)
     @game = game
   end
@@ -21,7 +21,7 @@ class Games::Past::Participants::DutyRoster
     User.for_game(game)
   end
 
-  # Games::Past::Participants::DutyRoster::Listing
+  # Games::Past::ActiveParticipants::Roster::Listing
   class Listing
     include WrapMethodBehaviors
 

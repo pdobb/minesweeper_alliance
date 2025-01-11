@@ -1,17 +1,11 @@
-<%# locals: (duty_roster:) %>
-
-<%= turbo_stream_from(*duty_roster.turbo_stream_name) %>
+<%# locals: (roster:) %>
 
 <div class="space-y-3">
   <h4 class="h3">Duty Roster</h4>
 
   <ol class="list-decimal list-inside space-y-2">
-    <% duty_roster.listings.each_with_index do |listing, index| %>
+    <% roster.listings.each_with_index do |listing, index| %>
       <li>
-        <% if listing.user?(current_user) %>
-          <span title="Me"><%= Emoji.eyes %></span>
-        <% end %>
-
         <%= link_to(
               listing.name,
               listing.show_user_url,

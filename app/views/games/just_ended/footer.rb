@@ -1,22 +1,9 @@
 # frozen_string_literal: true
 
-# Games::JustEnded::Footer
-class Games::JustEnded::Footer
+# Games::JustEnded::Footer is a stand-in module for either
+# {Games::JustEnded::ActiveParticipants::Footer} or
+# {Games::JustEnded::Observers::Footer}--for before we know which will be
+# selected/used by {Games::JustEnded::FooterController}.
+module Games::JustEnded::Footer
   def self.turbo_frame_name(game) = [game, :just_ended_footer]
-
-  def initialize(game:, user:)
-    @game = game
-    @user = user
-  end
-
-  def turbo_frame_name = self.class.turbo_frame_name(game)
-
-  def results
-    Games::JustEnded::Results.new(game:)
-  end
-
-  private
-
-  attr_reader :game,
-              :user
 end

@@ -3,7 +3,8 @@
 # DutyRoster represents the number of Minesweepers (players / allies) currently
 # reporting for duty--or at least *viewing* the Game Board.
 #
-# DutyRoster allows for "shakiness" of calls to {.add}/{.remove}:
+# DutyRoster allows for jitter or "shakiness" of calls in close time proximity
+# to {.add}/{.remove}:
 # - {.add} unions a new/updated item into {.participants} (by the given
 #   `user_token` value)
 # - {.remove} marks an item for removal (by {.cleanup}) after at least

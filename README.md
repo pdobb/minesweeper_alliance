@@ -165,7 +165,7 @@ Visiting the site for the first time automatically creates a new User entry in t
 
 #### Usernames / Signing
 
-At the end of any game, an option is presented for signing one's username (for all participants). This not only captures a point of pride, but it also unlocks additional functionality. For example:
+At the end of any game, an option is presented for signing one's username (for all active participants). This not only captures a point of pride, but it also unlocks additional functionality. For example:
 
 - The ability to permanently hide the welcome banner at the top of the War Room page
 - A "New Custom Game" button/option for defining custom Game board settings

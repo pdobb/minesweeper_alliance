@@ -1,9 +1,9 @@
-<%# locals: (participant_footer:) %>
+<%# locals: (footer:) %>
 
-<%= turbo_frame_tag(*participant_footer.turbo_frame_name) do %>
+<%= turbo_frame_tag(*footer.turbo_frame_name) do %>
   <%= turbo_stream.remove(Home::Show.turbo_stream_dom_id) %>
 
-  <%= turbo_stream_from(participant_footer.turbo_stream_name) %>
+  <%= turbo_stream_from(footer.turbo_stream_name) %>
   <div
     id="new_game_notification_container"
     data-controller="game-notification"
@@ -19,12 +19,12 @@
     "></div>
 
   <div class="-mt-10 mb-3 min-h-24 flex justify-center items-center">
-    <% participant_footer.signature.tap do |signature| %>
+    <% footer.signature.tap do |signature| %>
       <%= turbo_frame_tag(*signature.turbo_frame_name, class: "max-sm:w-full") do %>
-        <%= render("games/just_ended/participants/signature", signature:) %>
+        <%= render("games/just_ended/active_participants/signature", signature:) %>
       <% end %>
     <% end %>
   </div>
 
-  <%= render("games/just_ended/results", results: participant_footer.results) %>
+  <%= render("games/just_ended/results", results: footer.results) %>
 <% end %>

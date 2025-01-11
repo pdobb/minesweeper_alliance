@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-# Games::JustEnded::Participants::Signature represents the
-# "Sign game?" / "Signed, <username>" (edit) link that shows for participating
-# {User}s at {Game} end.
-class Games::JustEnded::Participants::Signature
+# Games::JustEnded::ActiveParticipants::Signature represents the
+# "Sign game?" / "Signed, <username>" (edit) link that shows for {User}s that
+# actively participated in a just-ended {Game}.
+class Games::JustEnded::ActiveParticipants::Signature
   def initialize(game:, user:)
     @game = game
     @user = user
@@ -23,7 +23,7 @@ class Games::JustEnded::Participants::Signature
   end
 
   def attribution_link_url
-    Router.edit_just_ended_game_participants_path(game)
+    Router.edit_just_ended_game_current_user_path(game)
   end
 
   private

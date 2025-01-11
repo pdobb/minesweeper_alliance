@@ -37,15 +37,15 @@ class Games::JustEnded::FooterController < ApplicationController
                 :user
 
     def partial
-      "games/just_ended/#{type}_footer"
+      "games/just_ended/#{type}/footer"
     end
 
     def locals
-      { "#{type}_footer": footer(type.classify) }
+      { footer: footer(type.camelize) }
     end
 
     def type
-      @type ||= participant? ? "participant" : "spectator"
+      @type ||= participant? ? "active_participants" : "observers"
     end
 
     def participant?
@@ -53,7 +53,7 @@ class Games::JustEnded::FooterController < ApplicationController
     end
 
     def footer(sub_type)
-      "Games::JustEnded::#{sub_type}Footer".constantize.new(game:, user:)
+      "Games::JustEnded::#{sub_type}::Footer".constantize.new(game:, user:)
     end
   end
 end

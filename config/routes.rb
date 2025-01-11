@@ -8,8 +8,8 @@ Rails.application.routes.draw do
 
   namespace :games do
     scope module: :new do
-      resource :random, only: :create, controller: :random
-      resource :custom, only: %i[new create], controller: :custom
+      resource :random, controller: :random, only: :create
+      resource :custom, controller: :custom, only: %i[new create]
     end
   end
   resources :games, only: %i[index show new create] do
@@ -28,8 +28,13 @@ Rails.application.routes.draw do
       end
 
       scope module: :just_ended, as: :just_ended do
-        resource :participants, only: %i[show edit update]
-        resource :footer, only: :show, controller: :footer
+        scope module: :active_participants do
+          resource(
+            :current_user,
+            controller: :current_user,
+            only: %i[show edit update])
+        end
+        resource :footer, controller: :footer, only: :show
       end
     end
   end
@@ -55,8 +60,8 @@ Rails.application.routes.draw do
       resource :error_pages, only: :show
       resource(
         :unsupported_browser_test,
-        only: :show,
-        controller: :unsupported_browser_test)
+        controller: :unsupported_browser_test,
+        only: :show)
 
       resources :patterns do
         scope module: :patterns do

@@ -11,8 +11,8 @@ class Games::JustEnded::Results
     Games::Past::Metrics.new(game:)
   end
 
-  def duty_roster
-    Games::JustEnded::Participants::DutyRoster.new(game:)
+  def active_participants_roster
+    Games::JustEnded::ActiveParticipants::Roster.new(game:)
   end
 
   private

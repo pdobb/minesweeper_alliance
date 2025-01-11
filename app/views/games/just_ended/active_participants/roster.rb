@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
-# Games::JustEnded::Participants::DutyRoster represents a list of {User}s that
-# participated in a just-ended {Game}.
+# Games::JustEnded::ActiveParticipants::Roster represents a list of {User}s
+# that actively participated in a just-ended {Game}.
 #
-# @see Games::Past::Participants::DutyRoster
-class Games::JustEnded::Participants::DutyRoster
-  def self.turbo_stream_name(game) = [game, :duty_roster]
+# @see Games::Past::ActiveParticipants::Roster
+class Games::JustEnded::ActiveParticipants::Roster
+  def self.turbo_stream_name(game) = [game, :active_participants_roster]
 
   def initialize(game:)
     @game = game
@@ -25,7 +25,7 @@ class Games::JustEnded::Participants::DutyRoster
     User.for_game(game)
   end
 
-  # Games::JustEnded::Participants::DutyRoster::Listing
+  # Games::JustEnded::ActiveParticipants::Roster::Listing
   class Listing
     include WrapMethodBehaviors
 
