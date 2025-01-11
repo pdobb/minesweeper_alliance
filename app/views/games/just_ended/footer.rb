@@ -12,7 +12,7 @@ class Games::JustEnded::Footer
   def turbo_frame_name = self.class.turbo_frame_name(game)
 
   def results
-    Games::Past::Results.new(game:)
+    Games::JustEnded::Results.new(game:)
   end
 
   private

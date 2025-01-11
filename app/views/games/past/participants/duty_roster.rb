@@ -1,15 +1,13 @@
 # frozen_string_literal: true
 
-# Games::Participants::DutyRoster represents a list of {User}s that participated
-# in a {Game}.
-class Games::Participants::DutyRoster
-  def self.turbo_stream_name(game) = [game, :duty_roster]
-
+# Games::Past::Participants::DutyRoster represents a list of {User}s that
+# participated in a past {Game}.
+#
+# @see Games::JustEnded::Participants::DutyRoster
+class Games::Past::Participants::DutyRoster
   def initialize(game:)
     @game = game
   end
-
-  def turbo_stream_name = self.class.turbo_stream_name(game)
 
   def listings
     Listing.wrap(sorted_users, game:)
@@ -23,17 +21,13 @@ class Games::Participants::DutyRoster
     User.for_game(game)
   end
 
-  # Games::Participants::DutyRoster::Listing
+  # Games::Past::Participants::DutyRoster::Listing
   class Listing
     include WrapMethodBehaviors
 
     def initialize(user, game:)
       @user = user
       @game = game
-    end
-
-    def user?(current_user)
-      current_user == user
     end
 
     def dom_id = View.dom_id(user)

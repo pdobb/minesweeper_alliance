@@ -14,8 +14,6 @@ Rails.application.routes.draw do
   end
   resources :games, only: %i[index show new create] do
     scope module: :games do
-      resource :participants, only: %i[show edit update]
-
       scope module: :current do
         namespace :board do
           resources :cells, only: [] do
@@ -29,7 +27,8 @@ Rails.application.routes.draw do
         end
       end
 
-      namespace :just_ended do
+      scope module: :just_ended, as: :just_ended do
+        resource :participants, only: %i[show edit update]
         resource :footer, only: :show, controller: :footer
       end
     end

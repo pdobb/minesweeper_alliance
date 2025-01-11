@@ -7,6 +7,6 @@ class Games::JustEnded::ParticipantFooter < Games::JustEnded::Footer
   def turbo_stream_name = self.class.turbo_stream_name
 
   def signature
-    Games::Participants::Signature.new(game:, user:)
+    Games::JustEnded::Participants::Signature.new(game:, user:)
   end
 end

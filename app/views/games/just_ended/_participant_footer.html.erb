@@ -21,10 +21,10 @@
   <div class="-mt-10 mb-3 min-h-24 flex justify-center items-center">
     <% participant_footer.signature.tap do |signature| %>
       <%= turbo_frame_tag(*signature.turbo_frame_name, class: "max-sm:w-full") do %>
-        <%= render("games/participants/signature", signature:) %>
+        <%= render("games/just_ended/participants/signature", signature:) %>
       <% end %>
     <% end %>
   </div>
 
-  <%= render("games/past/results", results: participant_footer.results) %>
+  <%= render("games/just_ended/results", results: participant_footer.results) %>
 <% end %>

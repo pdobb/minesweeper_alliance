@@ -5,7 +5,7 @@
 
   <% @view.signature.tap do |signature| %>
     <%= turbo_frame_tag(*signature.turbo_frame_name, class: "block") do %>
-      <%= render("games/participants/signature", signature:) %>
+      <%= render("games/just_ended/participants/signature", signature:) %>
     <% end %>
   <% end %>
 </div>

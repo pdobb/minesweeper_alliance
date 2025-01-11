@@ -20,7 +20,7 @@ class Games::JustEnded::Container
   end
 
   def footer_source_url
-    Router.game_just_ended_footer_path(current_game)
+    Router.just_ended_game_footer_path(current_game)
   end
 
   private

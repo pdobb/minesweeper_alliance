@@ -4,6 +4,6 @@
   <h1><%= title %></h1>
 
   <%= turbo_frame_tag(*@view.turbo_frame_name, class: "block") do %>
-    <%= render("games/participants/form", form: @view.form) %>
+    <%= render("games/just_ended/participants/form", form: @view.form) %>
   <% end %>
 </div>
