@@ -11,12 +11,18 @@
 # - {.remove} marks an item for removal (carried out by {.prune}) after a
 #   {REMOVAL_DELAY_SECONDS}-second delay.
 #
+# Use {.add!} and {.remove!} to also broadcast the current {.count} to the
+# fleet. See: {BroadcastCurrentFleetSizeJob}.
+#
 # @see ApplicationCable::Connection
 # @see WarRoomChannel
 # @see https://api.rubyonrails.org/classes/ActiveSupport/Cache/Store.html
 # @see https://api.rubyonrails.org/classes/ActiveSupport/Cache/MemoryStore.html
 module FleetTracker
+  ADDITION_BROADCAST_DELAY_SECONDS = 0.seconds
+
   REMOVAL_DELAY_SECONDS = 2.seconds
+  REMOVAL_BROADCAST_DELAY_SECONDS = REMOVAL_DELAY_SECONDS + 1
 
   def self.registry
     Registry.new(cache.fetch(:registry) { [] })
@@ -26,23 +32,29 @@ module FleetTracker
 
   def self.add(token)
     new_registry = registry.update(token:, expires_at: nil)
-
     cache.write(:registry, new_registry.to_a)
 
-    prune
+    registry
+  end
+
+  def self.add!(token:, stream:)
+    add(token)
+    broadcast(wait: ADDITION_BROADCAST_DELAY_SECONDS, stream:)
   end
 
   def self.remove(token)
     return registry unless registry.includes_token?(token)
 
     new_registry =
-      registry.update(
-        token:,
-        expires_at: REMOVAL_DELAY_SECONDS.from_now)
-
+      registry.update(token:, expires_at: REMOVAL_DELAY_SECONDS.from_now)
     cache.write(:registry, new_registry.to_a)
 
-    prune
+    registry
+  end
+
+  def self.remove!(token:, stream:)
+    remove(token)
+    broadcast(wait: REMOVAL_BROADCAST_DELAY_SECONDS, stream:)
   end
 
   def self.prune
@@ -58,6 +70,11 @@ module FleetTracker
 
     registry
   end
+
+  def self.broadcast(wait:, stream:)
+    BroadcastCurrentFleetSizeJob.set(wait:).perform_later(stream)
+  end
+  private_class_method :broadcast
 
   def self.cache = Rails.cache
   private_class_method :cache

@@ -54,7 +54,7 @@ class Metrics::Engagements::Bests
         View.round(_score)
       end
 
-      def players_count = game.users.size
+      def fleet_size = game.users.size
       def game_url = Router.metrics_game_path(game)
 
       private
@@ -70,7 +70,7 @@ class Metrics::Engagements::Bests
       def present? = false
       def table_cell_css = "text-dim-lg"
       def game_score = View.no_value_indicator
-      def players_count = View.no_value_indicator
+      def fleet_size = View.no_value_indicator
       def game_url = nil
       def link_action = nil
       def turbo_frame_name = nil

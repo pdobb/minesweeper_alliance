@@ -49,18 +49,14 @@ class WarRoomChannel < Turbo::StreamsChannel
 
   def on_subscribe
     log_subscription_event(__method__) do
-      FleetTracker.add(current_user_token)
+      FleetTracker.add!(token: current_user_token, stream: stream_name)
     end
-
-    broadcast_subscription_update
   end
 
   def on_unsubscribe
     log_subscription_event(__method__) do
-      FleetTracker.remove(current_user_token)
+      FleetTracker.remove!(token: current_user_token, stream: stream_name)
     end
-
-    broadcast_subscription_update
   end
 
   # :reek:DuplicateMethodCall
@@ -80,9 +76,5 @@ class WarRoomChannel < Turbo::StreamsChannel
     end
 
     result
-  end
-
-  def broadcast_subscription_update
-    BroadcastSubscriptionCountUpdateJob.perform_later(stream_name:)
   end
 end

@@ -3,10 +3,11 @@
 # Games::Current::Container represents the entire view context surrounding the
 # current {Game}, as a partial for reuse.
 class Games::Current::Container
-  def self.broadcast_players_count_update(stream_name:, count:)
-    count = [count, 1].max
+  def self.broadcast_current_fleet_size(stream_name:, count:)
     WarRoomChannel.broadcast_update_to(
-      stream_name, target: :fleet_count, html: count)
+      stream_name,
+      target: :fleet_size,
+      html: [count, 1].max)
   end
 
   def self.turbo_frame_name = :current_game_container

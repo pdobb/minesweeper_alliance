@@ -52,8 +52,6 @@ module Games::Current::Board::Cells::ActionBehaviors
   end
 
   def render_updated_game
-    FleetTracker.prune
-
     if current_game.just_ended?
       render_just_ended_game
       broadcast_past_games_index_refresh

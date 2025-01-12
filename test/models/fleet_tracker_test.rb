@@ -112,6 +112,26 @@ class FleetTrackerTest < ActiveSupport::TestCase
       end
     end
 
+    describe ".add!" do
+      before do
+        @query_spy =
+          MuchStub.spy(
+            BroadcastCurrentFleetSizeJob,
+            :set,
+            perform_later: "Test Result")
+      end
+
+      subject { empty1 }
+
+      it "calls BroadcastCurrentFleetSizeJob, as expected" do
+        subject.add!(token: "user_token1", stream: "test_stream")
+
+        _(@query_spy.set_last_called_with.pargs).must_equal([wait: 0.seconds])
+        _(@query_spy.perform_later_last_called_with.pargs).must_equal(
+          ["test_stream"])
+      end
+    end
+
     describe ".remove" do
       context "GIVEN a cache miss" do
         subject { empty1 }
@@ -149,6 +169,26 @@ class FleetTrackerTest < ActiveSupport::TestCase
             end
           end
         end
+      end
+    end
+
+    describe ".remove!" do
+      before do
+        @query_spy =
+          MuchStub.spy(
+            BroadcastCurrentFleetSizeJob,
+            :set,
+            perform_later: "Test Result")
+      end
+
+      subject { empty1 }
+
+      it "calls BroadcastCurrentFleetSizeJob, as expected" do
+        subject.remove!(token: "user_token1", stream: "test_stream")
+
+        _(@query_spy.set_last_called_with.pargs).must_equal([wait: 3.seconds])
+        _(@query_spy.perform_later_last_called_with.pargs).must_equal(
+          ["test_stream"])
       end
     end
 
