@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 # :reek:TooManyMethods
+# :reek:RepeatedConditional
 
 # Board represents a collection of {Cell}s. Internally, these {Cell}s are
 # organized as just one big Array, but they can best be visualized as an Array
@@ -64,7 +65,11 @@ class Board < ApplicationRecord
   def pattern? = settings.pattern?
 
   def pattern
-    @pattern ||= Pattern.find_by!(name: settings.name)
+    @pattern ||= Pattern.find_by!(name: pattern_name)
+  end
+
+  def pattern_name
+    settings.name if pattern?
   end
 
   def check_for_victory(user:)

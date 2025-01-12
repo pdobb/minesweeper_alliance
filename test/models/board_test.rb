@@ -126,6 +126,26 @@ class BoardTest < ActiveSupport::TestCase
       end
     end
 
+    describe "#pattern" do
+      context "GIVEN Board#pattern? = false" do
+        subject { win1_board }
+
+        it "raises ActiveRecord::RecordNotFound" do
+          _(-> { subject.pattern }).must_raise(ActiveRecord::RecordNotFound)
+        end
+      end
+    end
+
+    describe "#pattern_name" do
+      context "GIVEN Board#pattern? = false" do
+        subject { win1_board }
+
+        it "returns nil" do
+          _(subject.pattern_name).must_be_nil
+        end
+      end
+    end
+
     describe "#check_for_victory" do
       before do
         MuchStub.tap_on_call(subject.game, :end_in_victory) { |call|

@@ -15,7 +15,7 @@ class Games::Past::Board
   end
 
   def footer
-    Games::Board::Footer.new(board:)
+    Games::Past::Board::Footer.new(board:)
   end
 
   private
