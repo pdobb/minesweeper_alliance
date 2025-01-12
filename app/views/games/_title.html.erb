@@ -1,18 +1,13 @@
 <%# locals: (title:) %>
 
-<h3
-  class="
-    flex justify-center gap-x-8
-    max-sm:flex-col max-sm:items-center gap-y-3
-  "
->
+<h3 class="flex justify-center gap-x-8">
   <span
     data-controller="clipboard"
     data-clipboard-source-value="<%= title.game_absolute_url %>"
     data-clipboard-highlight-class="
       text-green-500 animate-ping-once origin-center
     "
-    class="flex gap-x-2 items-center max-sm:font-bold"
+    class="flex gap-x-2 items-center"
   >
     <%= link_to(
           title.game_number,
@@ -32,7 +27,10 @@
     <%= title.game_engagement_date %>
   </span>
 
-  <span aria-label="Engagement Time Range">
+  <span
+    aria-label="Engagement Time Range"
+    class="text-dim font-normal max-sm:hidden"
+  >
     <%= title.game_engagement_time_range %>
   </span>
 </h3>
