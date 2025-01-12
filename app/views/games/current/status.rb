@@ -21,8 +21,8 @@ class Games::Current::Status
     game_standing_by? ? Emoji.anchor : Emoji.ship
   end
 
-  def players_count(roster = DutyRoster)
-    [roster.count, 1].max
+  def players_count(tracker = FleetTracker)
+    [tracker.count, 1].max
   end
 
   private

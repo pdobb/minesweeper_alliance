@@ -52,7 +52,7 @@ module Games::Current::Board::Cells::ActionBehaviors
   end
 
   def render_updated_game
-    DutyRoster.cleanup
+    FleetTracker.prune
 
     if current_game.just_ended?
       render_just_ended_game

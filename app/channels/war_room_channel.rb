@@ -49,7 +49,7 @@ class WarRoomChannel < Turbo::StreamsChannel
 
   def on_subscribe
     log_subscription_event(__method__) do
-      DutyRoster.add(current_user_token)
+      FleetTracker.add(current_user_token)
     end
 
     broadcast_subscription_update
@@ -57,7 +57,7 @@ class WarRoomChannel < Turbo::StreamsChannel
 
   def on_unsubscribe
     log_subscription_event(__method__) do
-      DutyRoster.remove(current_user_token)
+      FleetTracker.remove(current_user_token)
     end
 
     broadcast_subscription_update
@@ -68,15 +68,15 @@ class WarRoomChannel < Turbo::StreamsChannel
   def log_subscription_event(method_name) # rubocop:disable Metrics/MethodLength
     return yield unless App.debug?
 
-    before = DutyRoster.participants.to_a
+    before = FleetTracker.registry.to_a
     result = yield
-    after = DutyRoster.participants.to_a
+    after = FleetTracker.registry.to_a
 
     Rails.logger.info do
       event = method_name.to_s[3..].capitalize
       " -> WarRoomChannel/#{event} "\
         "current_user_token=#{current_user_token.inspect}) :: "\
-        "DutyRoster: #{before.inspect} -> #{after.inspect}"
+        "FleetTracker: #{before.inspect} -> #{after.inspect}"
     end
 
     result

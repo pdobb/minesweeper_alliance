@@ -6,6 +6,6 @@ class BroadcastSubscriptionCountUpdateJob < ApplicationJob
 
   def perform(stream_name:)
     Games::Current::Container.broadcast_players_count_update(
-      stream_name:, count: DutyRoster.count)
+      stream_name:, count: FleetTracker.count)
   end
 end

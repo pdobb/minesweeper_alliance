@@ -9,7 +9,7 @@ module Games::New::Behaviors
       find_or_create_current(settings:, user: current_user).
       tap { |current_game|
         if current_game.just_created?
-          DutyRoster.clear
+          FleetTracker.reset
           WarRoomChannel.broadcast_refresh
           broadcast_new_game_notification(
             wait: TURBO_STREAM_DISCONNECT_AFFORDANCE_IN_SECONDS)
