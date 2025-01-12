@@ -11,7 +11,7 @@ class Board::Settings
   }.freeze
   # rubocop:enable Layout/HashAlignment, Layout/LineLength
 
-  PERCENT_CHANCE_FOR_RANDOM_PRESET = 90
+  PERCENT_CHANCE_FOR_RANDOM_PATTERN = 5
 
   RANGES = {
     width: 6..30,
@@ -75,7 +75,7 @@ class Board::Settings
   private_class_method :settings_for
 
   def self.random
-    if Pattern.none? || PercentChance.(PERCENT_CHANCE_FOR_RANDOM_PRESET)
+    if Pattern.none? || PercentChance.(100 - PERCENT_CHANCE_FOR_RANDOM_PATTERN)
       preset(PRESETS.keys.sample)
     else # 10% of the time:
       random_pattern

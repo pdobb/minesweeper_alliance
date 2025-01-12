@@ -71,15 +71,30 @@ class Board::SettingsTest < ActiveSupport::TestCase
         end
 
         context "GIVEN Patterns exist" do
-          before do
-            MuchStub.(PercentChance, :call) { false }
+          context "GIVEN PercentChange.call returns true" do
+            before do
+              MuchStub.(PercentChance, :call) { true }
+            end
+
+            it "returns a random Preset Type" do
+              result = subject.random
+              _(result).must_be_instance_of(unit_class)
+              _(result.type).wont_equal("Pattern")
+              _(result.name).must_be_nil
+            end
           end
 
-          it "sometimes returns a Pattern" do
-            result = subject.random
-            _(result).must_be_instance_of(unit_class)
-            _(result.type).must_equal("Pattern")
-            _(result.name).wont_be_nil
+          context "GIVEN PercentChange.call returns false" do
+            before do
+              MuchStub.(PercentChance, :call) { false }
+            end
+
+            it "returns a random Pattern Type" do
+              result = subject.random
+              _(result).must_be_instance_of(unit_class)
+              _(result.type).must_equal("Pattern")
+              _(result.name).wont_be_nil
+            end
           end
         end
       end
