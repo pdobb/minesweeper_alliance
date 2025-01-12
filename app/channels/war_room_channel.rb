@@ -24,7 +24,7 @@ class WarRoomChannel < Turbo::StreamsChannel
       stream_from(stream_name)
       on_subscribe
     else
-      reject and log_rejection_event(stream_name)
+      reject
     end
   end
 
@@ -37,44 +37,11 @@ class WarRoomChannel < Turbo::StreamsChannel
   def stream_name = verified_stream_name_from_params
   def current_user_token? = !!current_user_token
 
-  def log_rejection_event(stream_name)
-    return unless App.debug?
-
-    Rails.logger.info do
-      " !¡ WarRoomChannel#reject "\
-        "stream_name=#{stream_name.inspect}), "\
-        "current_user_token=#{current_user_token.inspect}"
-    end
-  end
-
   def on_subscribe
-    log_subscription_event(__method__) do
-      FleetTracker.add!(token: current_user_token, stream: stream_name)
-    end
+    FleetTracker.add!(token: current_user_token, stream: stream_name)
   end
 
   def on_unsubscribe
-    log_subscription_event(__method__) do
-      FleetTracker.remove!(token: current_user_token, stream: stream_name)
-    end
-  end
-
-  # :reek:DuplicateMethodCall
-  # :reek:TooManyStatements
-  def log_subscription_event(method_name) # rubocop:disable Metrics/MethodLength
-    return yield unless App.debug?
-
-    before = FleetTracker.registry.to_a
-    result = yield
-    after = FleetTracker.registry.to_a
-
-    Rails.logger.info do
-      event = method_name.to_s[3..].capitalize
-      " -> WarRoomChannel/#{event} "\
-        "current_user_token=#{current_user_token.inspect}) :: "\
-        "FleetTracker: #{before.inspect} -> #{after.inspect}"
-    end
-
-    result
+    FleetTracker.remove!(token: current_user_token, stream: stream_name)
   end
 end
