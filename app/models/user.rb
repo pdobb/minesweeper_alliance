@@ -33,14 +33,20 @@ class User < ApplicationRecord
            source: :cell
 
   scope :for_token, ->(token) { where("id::text LIKE ?", "%#{token}") }
-  scope :for_game, ->(game) {
-    joins(:games).merge(Game.for_id(game)).
-      joins(:cell_transactions).
+  scope :for_game, ->(game) { joins(:games).merge(Game.for_id(game)) }
+
+  # Only works with User-based queries. e.g.
+  #  - Fails: `Game.first.users.by_participated_at_asc`
+  #  - Works: `User.for_game(Game.first).by_participated_at_asc`
+  #  - Works: `User.by_participated_at_asc`
+  scope :by_participated_at_asc, -> {
+    joins(:cell_transactions).
       select(
         arel_table[Arel.star],
-        CellTransaction.arel_table[:created_at].minimum.as("joined_in_at")).
+        CellTransaction.arel_table[:created_at].minimum.as(
+          "first_participated_at")).
       group(:id).
-      order(:joined_in_at)
+      order(:first_participated_at)
   }
 
   validates :username,

@@ -22,7 +22,7 @@ class Games::JustEnded::ActiveParticipants::Roster
   attr_reader :game
 
   def sorted_users
-    User.for_game(game)
+    User.for_game(game).by_participated_at_asc
   end
 
   # Games::JustEnded::ActiveParticipants::Roster::Listing
