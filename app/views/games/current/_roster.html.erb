@@ -1,0 +1,15 @@
+<%# locals: (roster:) %>
+
+<div
+  class="
+    flex flex-wrap justify-center gap-x-6 gap-y-1
+    *:whitespace-nowrap
+  "
+>
+  <% roster.listings.each_with_index do |listing, index| %>
+    <%= link_to(
+          listing.name,
+          listing.show_user_url,
+          data: { turbo_frame: :_top }) %>
+  <% end %>
+</div>

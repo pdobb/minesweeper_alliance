@@ -1,23 +1,30 @@
 <%# locals: (status:) %>
 
-<div class="container mx-auto">
+<div class="container mx-auto space-y-6">
   <h2 class="text-center cursor-default">
     <span class="<%= class_names(status.game_status_css) %>">
       <%= status.game_status %>
     </span>
 
     <span
-      title="The number of current Minesweepers/Spectators"
+      title="Current Fleet Count"
       class="inline-flex gap-x-2"
     >
       <%= status.game_status_emoji %>
+
       <small
         id="fleet_size"
         class="
-          before:content-['x'] before:mx-1 before:text-[17px]
-          font-normal text-dim
+          font-normal
+          before:content-['x'] before:mr-1 before:text-[17px] before:text-dim-sm
         "
       ><%= status.fleet_size %></small>
     </span>
   </h2>
+
+  <% status.roster.tap do |roster| %>
+    <%= turbo_frame_tag(roster.turbo_frame_name, class: "block #{"hidden" unless App.debug?}") do %>
+      <%= render("games/current/roster", roster:) %>
+    <% end %>
+  <% end %>
 </div>

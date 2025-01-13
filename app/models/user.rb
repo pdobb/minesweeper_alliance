@@ -32,7 +32,9 @@ class User < ApplicationRecord
            through: :cell_reveal_transactions,
            source: :cell
 
-  scope :for_token, ->(token) { where("id::text LIKE ?", "%#{token}") }
+  scope :for_token, ->(token) {
+    where(id: token).or(where("id::text LIKE ?", "%#{token}"))
+  }
   scope :for_game, ->(game) { joins(:games).merge(Game.for_id(game)) }
 
   # Only works with User-based queries. e.g.

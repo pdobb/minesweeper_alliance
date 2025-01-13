@@ -12,7 +12,7 @@
 #   {REMOVAL_DELAY_SECONDS}-second delay.
 #
 # Use {.add!} and {.remove!} to also broadcast the current {.count} to the
-# fleet. See: {BroadcastCurrentFleetSizeJob}.
+# fleet. See: {Games::Current::BroadcastRosterUpdateJob}.
 #
 # @see ApplicationCable::Connection
 # @see WarRoomChannel
@@ -27,6 +27,8 @@ module FleetTracker
   def self.registry
     Registry.new(cache.fetch(:registry) { [] })
   end
+
+  def self.tokens = registry.tokens
 
   def self.count = registry.count
 
@@ -72,7 +74,7 @@ module FleetTracker
   end
 
   def self.broadcast(wait:, stream:)
-    BroadcastCurrentFleetSizeJob.set(wait:).perform_later(stream)
+    Games::Current::BroadcastRosterUpdateJob.set(wait:).perform_later(stream)
   end
   private_class_method :broadcast
 
@@ -87,8 +89,12 @@ module FleetTracker
       @array = Array.wrap(array)
     end
 
-    def to_a = array.dup
     def count = array.size
+    def to_a = array.dup
+
+    def tokens
+      array.map { |hash| hash.fetch(:token) }
+    end
 
     def update(entry)
       existing_index = index(token: entry.fetch(:token))
