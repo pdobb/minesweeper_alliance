@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-# BroadcastNewGameNotificationJob
-class BroadcastNewGameNotificationJob < ApplicationJob
+# Games::BroadcastCreateNotificationJob
+class Games::BroadcastCreateNotificationJob < ApplicationJob
   queue_as :default
 
   def perform

@@ -22,7 +22,7 @@ module Games::New::Behaviors
   private
 
   def broadcast_new_game_notification(wait:)
-    BroadcastNewGameNotificationJob.set(wait:).perform_later
+    Games::BroadcastCreateNotificationJob.set(wait:).perform_later
   end
 
   def store_board_settings(current_game)
