@@ -8,8 +8,8 @@ class Games::Show
 
   def game_number = game.display_id
 
-  def nav(context:)
-    Games::Past::Nav.new(game:, context:)
+  def page_nav(context:)
+    Games::Past::PageNav.new(game:, context:)
   end
 
   def container

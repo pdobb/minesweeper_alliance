@@ -1,18 +1,18 @@
-<%# locals: (nav:) %>
+<%# locals: (page_nav:) %>
 
 <span class="mr-3 flex items-center gap-x-1 text-dim-xl">
-  <%= nav.breadcrumb_name %>
+  <%= page_nav.breadcrumb_name %>
   <%= inline_svg_tag("heroicons/chevron-right.svg") %>
 </span>
 
-<% if nav.show_close_button? %>
-  <%= link_to(nav.close_game_url, title: "Close Op") do %>
+<% if page_nav.show_close_button? %>
+  <%= link_to(page_nav.close_game_url, title: "Close Op") do %>
     <%= inline_svg_tag("heroicons/x-mark.svg") %>
   <% end %>
 <% end %>
 
-<% if nav.previous_game? %>
-  <%= link_to(nav.previous_game_url, title: "Previous Op") do %>
+<% if page_nav.previous_game? %>
+  <%= link_to(page_nav.previous_game_url, title: "Previous Op") do %>
     <%= inline_svg_tag("heroicons/arrow-long-left.svg") %>
   <% end %>
 <% else %>
@@ -21,8 +21,8 @@
         class: "text-dim-xl") %>
 <% end %>
 
-<% if nav.next_game? %>
-  <%= link_to(nav.next_game_url, title: "Next Op") do %>
+<% if page_nav.next_game? %>
+  <%= link_to(page_nav.next_game_url, title: "Next Op") do %>
     <%= inline_svg_tag("heroicons/arrow-long-right.svg") %>
   <% end %>
 <% else %>
@@ -31,8 +31,8 @@
         class: "text-dim-xl") %>
 <% end %>
 
-<% if nav.show_current_game_button? %>
-  <%= link_to(nav.current_game_url, title: "War Room") do %>
+<% if page_nav.show_current_game_button? %>
+  <%= link_to(page_nav.current_game_url, title: "War Room") do %>
     <%= inline_svg_tag("heroicons/arrow-right-circle.svg") %>
   <% end %>
 <% end %>

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-# Games::Past::Nav handles page-level navigation between past {Game}s.
-class Games::Past::Nav
+# Games::Past::PageNav handles page-level navigation between past {Game}s.
+class Games::Past::PageNav
   def initialize(game:, context:)
     @game = game
     @context = context
