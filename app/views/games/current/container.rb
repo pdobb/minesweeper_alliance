@@ -24,10 +24,6 @@ class Games::Current::Container
 
   def version = current_game.version
 
-  def nav
-    Games::Current::Nav.new
-  end
-
   def content
     Games::Current::Content.new(current_game:)
   end

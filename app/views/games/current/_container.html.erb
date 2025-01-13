@@ -1,9 +1,5 @@
 <%# locals: (container:) %>
 
-<% content_for(:page_nav) do %>
-  <%= render("games/current/page_nav", nav: container.nav) %>
-<% end %>
-
 <%= turbo_frame_tag(
       container.turbo_frame_name,
       data: { version: container.version }) do %>

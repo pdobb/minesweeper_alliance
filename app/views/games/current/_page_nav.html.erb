@@ -1,7 +1,0 @@
-<%# locals: (nav:) %>
-
-<% if nav.previous_game? %>
-  <%= link_to(nav.previous_game_url, title: "Previous Op") do %>
-    <%= inline_svg_tag("heroicons/arrow-left-circle.svg") %>
-  <% end %>
-<% end %>
