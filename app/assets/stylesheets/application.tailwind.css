@@ -182,6 +182,28 @@
   }
 
   /*
+  Floating-UI Tooltips
+
+  Usage: See app/javascript/controllers/tooltip_controller.js
+  */
+  [data-controller="tooltip"] {
+    [data-tooltip-target="tooltip"] {
+      @apply hidden
+        absolute top-0 left-0 z-10
+        mb-1.5 mx-6 p-4 rounded-md
+        bg-neutral-900
+        font-normal text-base text-neutral-200;
+
+      :not([data-tooltip-target="arrow"]) {
+        @apply relative z-10;
+      }
+      [data-tooltip-target="arrow"] {
+        @apply absolute size-6 -mx-6 rotate-45 bg-neutral-900;
+      }
+    }
+  }
+
+  /*
   Honeybadger Feedback Form
   - Shows on Custom Error Pages
   */
