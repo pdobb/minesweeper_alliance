@@ -6,12 +6,16 @@ pin "application"
 pin "@hotwired/turbo-rails", to: "turbo.min.js"
 pin "@hotwired/stimulus", to: "stimulus.min.js"
 pin "@hotwired/stimulus-loading", to: "stimulus-loading.js"
-pin_all_from "app/javascript/controllers", under: "controllers"
 
-pin "el-transition" # @0.0.7
-
-# Utils
 pin "cookies", to: "lib/cookies.js"
 pin "mouse", to: "lib/mouse.js"
 pin "parse_time", to: "lib/parse_time.js"
 pin "touchpad", to: "lib/touchpad.js"
+
+pin_all_from "app/javascript/controllers", under: "controllers"
+
+pin "el-transition" # @0.0.7
+pin "@floating-ui/dom", to: "@floating-ui--dom.js" # @1.6.13
+pin "@floating-ui/core", to: "@floating-ui--core.js" # @1.6.9
+pin "@floating-ui/utils", to: "@floating-ui--utils.js" # @0.2.9
+pin "@floating-ui/utils/dom", to: "@floating-ui--utils--dom.js" # @0.2.9
