@@ -17,6 +17,10 @@ class Games::Current::Container
 
   def version = current_game.version
 
+  def status
+    Games::Current::Status.new(current_game:)
+  end
+
   def content
     Games::Current::Content.new(current_game:)
   end
