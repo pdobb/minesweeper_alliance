@@ -1,7 +1,7 @@
 <%# locals: (roster:) %>
 
 <div class="space-y-3 overflow-hidden">
-  <h2 class="h3"><%= roster.game_status_emojis %></h2>
+  <h2 class="h3"><%= Emoji.ship %> <%= Emoji.anchor %></h2>
 
   <div class="flex flex-col items-end gap-y-2 whitespace-nowrap">
     <% roster.listings.each_with_index do |listing, index| %>

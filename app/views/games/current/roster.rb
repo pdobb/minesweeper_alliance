@@ -3,29 +3,16 @@
 # Games::Current::Roster represents a simple roster (list) of all
 # participants--both active and passive--currently in the War Room (channel).
 class Games::Current::Roster
-  def self.broadcast_roster_update(current_game:)
+  def self.broadcast_roster_update
     WarRoomChannel.broadcast_update(
       target: turbo_frame_name,
       partial: "games/current/roster",
-      locals: { roster: new(current_game:) })
+      locals: { roster: new })
   end
 
   def self.turbo_frame_name = :fleet_roster
 
-  def initialize(current_game:)
-    @current_game = current_game
-  end
-
   def turbo_frame_name = self.class.turbo_frame_name
-
-  # :reek:DuplicateMethodCall
-  def game_status_emojis
-    if game_standing_by?
-      Emoji.anchor
-    else # Sweep in Progress
-      "#{Emoji.ship} #{Emoji.anchor}"
-    end
-  end
 
   def fleet_size = FleetTracker.count
 
@@ -34,10 +21,6 @@ class Games::Current::Roster
   end
 
   private
-
-  attr_reader :current_game
-
-  def game_standing_by? = current_game.status_standing_by?
 
   def users
     User.for_token(FleetTracker.tokens)

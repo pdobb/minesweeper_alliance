@@ -24,7 +24,7 @@ class Games::Current::Status
   def game_status = self.class.game_status(current_game:)
 
   def roster
-    Games::Current::Roster.new(current_game:)
+    Games::Current::Roster.new
   end
 
   def fleet_size = FleetTracker.count

@@ -133,9 +133,8 @@ class Game < ApplicationRecord # rubocop:disable Metrics/ClassLength
     retry
   end
 
-  def self.current
-    for_game_on_statuses.take
-  end
+  def self.current = for_game_on_statuses.take
+  def self.current! = for_game_on_statuses.take!
 
   def self.create_for(user:, **)
     build_for(**).tap { |new_game|

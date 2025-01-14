@@ -36,6 +36,22 @@ class GameTest < ActiveSupport::TestCase
         end
       end
 
+      describe ".current!" do
+        context "GIVEN a Game#on? = true Game exists" do
+          it "returns the Game#on? = true Game" do
+            _(subject.current!).must_equal(standing_by1)
+          end
+        end
+
+        context "GIVEN a Game#on? = true Game doesn't exist" do
+          before { standing_by1.delete }
+
+          it "raises ActiveRecord::RecordNotFound" do
+            _(-> { subject.current! }).must_raise(ActiveRecord::RecordNotFound)
+          end
+        end
+      end
+
       describe ".create_for" do
         context "GIVEN a Game.current already exists" do
           it "raises ActiveRecord::RecordNotUnique" do
