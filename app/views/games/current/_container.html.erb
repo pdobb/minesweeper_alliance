@@ -4,6 +4,7 @@
       container.turbo_frame_name,
       data: { version: container.version }) do %>
   <div class="space-y-12">
+    <%= render("games/current/status", status: container.status) %>
     <%= render("games/current/content", content: container.content) %>
 
     <div class="container mx-auto">

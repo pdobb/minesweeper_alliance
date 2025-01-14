@@ -6,27 +6,26 @@
   class="container mx-auto"
 >
   <h2 class="text-center cursor-default">
-    <span class="<%= class_names(status.game_status_css) %>">
-      <%= status.game_status %>
-    </span>
+    <span id="current_game_status"><%= status.game_status %></span>
 
-    <span class="inline-flex items-baseline gap-x-3 font-normal leading-5">
-      <%= status.game_status_emoji %>
+    <button
+      type="button"
+      data-menu-target="button"
+      data-action="menu#toggle"
+      aria-label="Toggle Roster"
+      aria-haspopup="true"
+      aria-expanded="false"
+      title="Fleet Size"
+      class="
+        small btn-basic
+        inline-flex gap-x-1
+        border-b border-dashed
 
-      <button
-        type="button"
-        data-menu-target="button"
-        data-action="menu#toggle"
-        aria-label="Toggle Roster"
-        aria-haspopup="true"
-        aria-expanded="false"
-        title="Fleet Size"
-        class="small inline-flex gap-x-1 border-b border-dashed btn-basic"
-      >
-        <span class="text-[17px] text-dim-sm">x</span>
-        <span id="fleet_size"><%= status.fleet_size %></span>
-      </button>
-    </span>
+      "
+    >
+      <span class="text-[17px] text-dim-sm">x</span>
+      <span id="fleet_size"><%= status.fleet_size %></span>
+    </button>
   </h2>
 
   <div

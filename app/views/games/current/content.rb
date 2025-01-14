@@ -13,10 +13,6 @@ class Games::Current::Content
 
   def version = current_game.version
 
-  def status
-    Games::Current::Status.new(current_game:)
-  end
-
   def board
     Games::Current::Board.new(board: current_game.board)
   end

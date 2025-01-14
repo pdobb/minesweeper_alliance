@@ -16,14 +16,7 @@ class Games::Past::Status
   end
 
   def game_status = game.status
-
-  def game_status_mojis
-    if game_ended_in_defeat?
-      Emoji.mine
-    elsif game_ended_in_victory?
-      "#{Emoji.ship}#{Emoji.victory}"
-    end
-  end
+  def game_status_mojis = past_game.status_mojis
 
   private
 
@@ -31,4 +24,6 @@ class Games::Past::Status
 
   def game_ended_in_defeat? = game.ended_in_defeat?
   def game_ended_in_victory? = game.ended_in_victory?
+
+  def past_game = @past_game ||= Games::Past.new(game:)
 end

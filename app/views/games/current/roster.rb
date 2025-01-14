@@ -18,10 +18,11 @@ class Games::Current::Roster
 
   def turbo_frame_name = self.class.turbo_frame_name
 
+  # :reek:DuplicateMethodCall
   def game_status_emojis
     if game_standing_by?
       Emoji.anchor
-    else
+    else # Sweep in Progress
       "#{Emoji.ship} #{Emoji.anchor}"
     end
   end
