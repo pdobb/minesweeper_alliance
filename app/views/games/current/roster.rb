@@ -19,8 +19,12 @@ class Games::Current::Roster
 
   def turbo_frame_name = self.class.turbo_frame_name
 
-  def game_status_emoji
-    game_standing_by? ? Emoji.anchor : Emoji.ship
+  def game_status_emojis
+    if game_standing_by?
+      Emoji.anchor
+    else
+      "#{Emoji.ship} #{Emoji.anchor}"
+    end
   end
 
   def fleet_size = FleetTracker.count

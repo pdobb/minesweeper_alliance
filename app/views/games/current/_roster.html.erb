@@ -1,15 +1,14 @@
 <%# locals: (roster:) %>
 
-<div
-  class="
-    flex flex-wrap justify-center gap-x-6 gap-y-1
-    *:whitespace-nowrap
-  "
->
-  <% roster.listings.each_with_index do |listing, index| %>
-    <%= link_to(
-          listing.name,
-          listing.show_user_url,
-          data: { turbo_frame: :_top }) %>
-  <% end %>
+<div class="space-y-3 overflow-hidden">
+  <h2 class="h3"><%= roster.game_status_emojis %></h2>
+
+  <div class="flex flex-col items-end gap-y-2 whitespace-nowrap">
+    <% roster.listings.each_with_index do |listing, index| %>
+      <%= link_to(
+            listing.name,
+            listing.show_user_url,
+            data: { turbo_frame: :_top }) %>
+    <% end %>
+  </div>
 </div>
