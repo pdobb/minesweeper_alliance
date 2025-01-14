@@ -65,7 +65,7 @@
   }
 
   dfn {
-    @apply underline underline-offset-2 decoration-dashed not-italic;
+    @apply border-b border-dashed border-gray-500 not-italic cursor-pointer;
   }
 
   code {
