@@ -3,9 +3,8 @@
 # Games::Current::Status represents the status (Standing By vs Sweep In
 # Progress) for the current {Game}.
 class Games::Current::Status
-  def self.broadcast_fleet_size_update(stream_name:)
-    WarRoomChannel.broadcast_update_to(
-      stream_name,
+  def self.broadcast_fleet_size_update
+    WarRoomChannel.broadcast_update(
       target: :fleet_size,
       html: FleetTracker.count)
   end

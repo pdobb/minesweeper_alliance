@@ -4,24 +4,21 @@
 class Games::Current::BroadcastRosterUpdateJob < ApplicationJob
   queue_as :default
 
-  def perform(stream_name = WarRoomChannel::STREAM_NAME)
+  def perform
     FleetTracker.tap(&:prune)
 
-    broadcast_fleet_size_update(stream_name:)
-    broadcast_roster_update(stream_name:)
+    broadcast_fleet_size_update
+    broadcast_roster_update
   end
 
   private
 
-  def broadcast_fleet_size_update(stream_name:)
-    Games::Current::Status.broadcast_fleet_size_update(
-      stream_name:)
+  def broadcast_fleet_size_update
+    Games::Current::Status.broadcast_fleet_size_update
   end
 
-  def broadcast_roster_update(stream_name:)
-    Games::Current::Roster.broadcast_roster_update(
-      stream_name:,
-      current_game:)
+  def broadcast_roster_update
+    Games::Current::Roster.broadcast_roster_update(current_game:)
   end
 
   def current_game

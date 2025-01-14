@@ -3,9 +3,8 @@
 # Games::Current::Roster represents a simple roster (list) of all
 # participants--both active and passive--currently in the War Room (channel).
 class Games::Current::Roster
-  def self.broadcast_roster_update(stream_name:, current_game:)
-    Turbo::StreamsChannel.broadcast_update_to(
-      stream_name,
+  def self.broadcast_roster_update(current_game:)
+    WarRoomChannel.broadcast_update(
       target: turbo_frame_name,
       partial: "games/current/roster",
       locals: { roster: new(current_game:) })

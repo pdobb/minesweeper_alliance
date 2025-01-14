@@ -124,11 +124,10 @@ class FleetTrackerTest < ActiveSupport::TestCase
       subject { empty1 }
 
       it "calls Games::Current::BroadcastRosterUpdateJob, as expected" do
-        subject.add!(token: "user_token1", stream: "test_stream")
+        subject.add!(token: "user_token1")
 
         _(@query_spy.set_last_called_with.pargs).must_equal([wait: 0.seconds])
-        _(@query_spy.perform_later_last_called_with.pargs).must_equal(
-          ["test_stream"])
+        _(@query_spy.perform_later_last_called_with.args).must_equal([])
       end
     end
 
@@ -184,11 +183,10 @@ class FleetTrackerTest < ActiveSupport::TestCase
       subject { empty1 }
 
       it "calls Games::Current::BroadcastRosterUpdateJob, as expected" do
-        subject.remove!(token: "user_token1", stream: "test_stream")
+        subject.remove!(token: "user_token1")
 
         _(@query_spy.set_last_called_with.pargs).must_equal([wait: 3.seconds])
-        _(@query_spy.perform_later_last_called_with.pargs).must_equal(
-          ["test_stream"])
+        _(@query_spy.perform_later_last_called_with.args).must_equal([])
       end
     end
 
