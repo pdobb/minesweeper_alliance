@@ -49,6 +49,22 @@
       text-right
     "
   >
+    <button
+      type="button"
+      data-action="menu#hide"
+      data-menu-target="externalClose"
+      data-transition-enter="transition ease-out duration-700"
+      data-transition-enter-start="transform opacity-0 scale-95"
+      data-transition-enter-end="transform opacity-100 scale-100"
+      data-transition-leave="transition ease-in duration-400"
+      data-transition-leave-start="transform opacity-100 scale-100"
+      data-transition-leave-end="transform opacity-0 scale-95"
+      aria-label="Close"
+      class="absolute -left-6 -m-2 p-1 btn-basic text-dim"
+    >
+      <%= inline_svg_tag("heroicons/chevron-right.svg", class: "stroke-2") %>
+    </button>
+
     <% status.roster.tap do |roster| %>
       <%= turbo_frame_tag(roster.turbo_frame_name, class: "block") do %>
         <%= render("games/current/roster", roster:) %>
