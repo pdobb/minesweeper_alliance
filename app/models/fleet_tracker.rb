@@ -39,9 +39,9 @@ module FleetTracker
     registry
   end
 
-  def self.add!(token:, stream:)
+  def self.add!(token:)
     add(token)
-    broadcast(wait: ADDITION_BROADCAST_DELAY_SECONDS, stream:)
+    broadcast(wait: ADDITION_BROADCAST_DELAY_SECONDS)
   end
 
   def self.remove(token)
@@ -54,9 +54,9 @@ module FleetTracker
     registry
   end
 
-  def self.remove!(token:, stream:)
+  def self.remove!(token:)
     remove(token)
-    broadcast(wait: REMOVAL_BROADCAST_DELAY_SECONDS, stream:)
+    broadcast(wait: REMOVAL_BROADCAST_DELAY_SECONDS)
   end
 
   def self.prune
@@ -73,8 +73,8 @@ module FleetTracker
     registry
   end
 
-  def self.broadcast(wait:, stream:)
-    Games::Current::BroadcastRosterUpdateJob.set(wait:).perform_later(stream)
+  def self.broadcast(wait:)
+    Games::Current::BroadcastRosterUpdateJob.set(wait:).perform_later
   end
   private_class_method :broadcast
 

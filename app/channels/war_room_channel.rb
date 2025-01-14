@@ -14,6 +14,9 @@ class WarRoomChannel < Turbo::StreamsChannel
 
   def self.broadcast_refresh = broadcast_refresh_to(STREAM_NAME)
 
+  def self.broadcast_replace(...) = broadcast_replace_to(STREAM_NAME, ...)
+  def self.broadcast_update(...) = broadcast_update_to(STREAM_NAME, ...)
+
   def self.broadcast_versioned_replace(target:, **)
     broadcast_action_to(STREAM_NAME, action: :versioned_replace, target:, **)
   end
@@ -38,10 +41,10 @@ class WarRoomChannel < Turbo::StreamsChannel
   def current_user_token? = !!current_user_token
 
   def on_subscribe
-    FleetTracker.add!(token: current_user_token, stream: stream_name)
+    FleetTracker.add!(token: current_user_token)
   end
 
   def on_unsubscribe
-    FleetTracker.remove!(token: current_user_token, stream: stream_name)
+    FleetTracker.remove!(token: current_user_token)
   end
 end
