@@ -2,12 +2,7 @@
 
 <div id="pattern_container" class="mx-auto w-fit max-w-full space-y-2">
   <div class="-mx-5 select-none">
-    <table
-      class="
-        mx-auto table-fixed
-        border-double border-4 border-dark
-      "
-    >
+    <table class="mx-auto table-fixed border-double border-4 border-dark">
       <tbody
         data-controller="pattern"
         data-pattern-toggle-flag-url-value="<%= view.toggle_flag_url %>"
@@ -16,7 +11,7 @@
           text-center cursor-default
 
           <%# Cells %>
-          *:*:size-8 *:*:min-w-8 *:*:min-h-8
+          *:*:size-8 *:*:min-w-8 *:*:min-h-8 *:*:p-0 *:*:text-lg
           *:*:border *:*:border-dark
           *:*:bg-slate-400 *:*:dark:bg-neutral-700
         "
