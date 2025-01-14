@@ -73,7 +73,7 @@ module Games::Current::Board::Cells::ActionBehaviors
       render_to_string(
         partial: "games/current/content", locals: { content: })
 
-    WarRoomChannel.broadcast_replace(target:, html:)
+    WarRoomChannel.broadcast_versioned_replace(target:, html:)
     render_update do
       render(turbo_stream: turbo_stream.replace(target, html))
     end
@@ -87,7 +87,7 @@ module Games::Current::Board::Cells::ActionBehaviors
       render_to_string(
         partial: "games/just_ended/container", locals: { container: })
 
-    WarRoomChannel.broadcast_replace(target:, html:)
+    WarRoomChannel.broadcast_versioned_replace(target:, html:)
     render_update do
       render(turbo_stream: turbo_stream.replace(target, html))
     end

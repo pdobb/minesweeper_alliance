@@ -14,7 +14,7 @@ class WarRoomChannel < Turbo::StreamsChannel
 
   def self.broadcast_refresh = broadcast_refresh_to(STREAM_NAME)
 
-  def self.broadcast_replace(target:, **)
+  def self.broadcast_versioned_replace(target:, **)
     broadcast_action_to(STREAM_NAME, action: :versioned_replace, target:, **)
   end
 
