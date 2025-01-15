@@ -26,8 +26,8 @@ class Home::Show
     end
   end
 
-  def slide_menu
-    Home::Roster::SlideMenu.new
+  def slide_menu(context:)
+    Home::Roster::SlideMenu.new(context:)
   end
 
   def roster

@@ -2,6 +2,9 @@
 
 <section
   data-controller="slide-menu"
+  <% if slide_menu.respond_to?(:cookie_name) %>
+    data-slide-menu-cookie-name-value="<%= slide_menu.cookie_name %>"
+  <% end %>
   data-action="keydown.esc@window->slide-menu#close"
 >
   <% slide_menu.open_button.tap do |open_button| %>
@@ -9,9 +12,9 @@
       data-slide-menu-target="openButton"
       data-action="slide-menu#open"
       type="button"
-      aria-label="Open"
+      aria-label="Open <%= slide_menu.title %>"
       aria-haspopup="true"
-      aria-expanded="false"
+      aria-expanded="<%= slide_menu.open? %>"
       class="
         <%= class_names(open_button.css) %>
         -m-2 p-2 btn-basic text-dim btn-basic
@@ -32,12 +35,13 @@
     data-transition-leave="transform transition ease-in-out duration-500"
     data-transition-leave-start="translate-x-0"
     data-transition-leave-end="translate-x-full"
-    aria-hidden="true"
+    aria-hidden="<%= slide_menu.closed? %>"
     aria-orientation="vertical"
     tabindex="0"
     class="
+      <%= "hidden" if slide_menu.closed? %>
       <%= class_names(slide_menu.css) %> border-dim
-      hidden p-6 bg-white dark:bg-neutral-800
+      p-6 bg-white dark:bg-neutral-800
     "
   >
     <% slide_menu.close_button.tap do |close_button| %>
@@ -45,7 +49,7 @@
         data-action="slide-menu#close"
         data-slide-menu-target="closeButton"
         type="button"
-        aria-label="Close"
+        aria-label="Close <%= slide_menu.title %>"
         class="
           <%= class_names(close_button.css) %>
           -m-2 p-2 btn-basic text-dim

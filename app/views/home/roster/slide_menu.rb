@@ -2,6 +2,8 @@
 
 # Home::Roster::SlideMenu represents the War Room Roster slide menu.
 class Home::Roster::SlideMenu
+  COOKIE_NAME = "war_room-roster"
+
   def self.css
     # rubocop:disable Layout/MultilineArrayLineBreaks
     @css ||= {
@@ -26,41 +28,53 @@ class Home::Roster::SlideMenu
     # rubocop:enable Layout/MultilineArrayLineBreaks
   end
 
-  def align = "right"
-
-  def css
-    self.class.css.fetch(:menu)
+  def initialize(context:)
+    @context = Context.new(context)
   end
+
+  def cookie_name = COOKIE_NAME
+
+  def title = "Roster"
 
   def open_button
     OpenButton.new
   end
 
+  def open? = !closed?
+  def closed? = cookies[cookie_name].blank?
+
+  def css = self.class.css.fetch(:menu)
+
   def close_button
     CloseButton.new
   end
 
-  # HomeRoster::SlideMenu::OpenButton
-  class OpenButton
-    def direction = "left"
+  private
 
-    def text = "ROSTER"
+  attr_reader :context
 
-    def css
-      self.class.module_parent.css.fetch(:open_button)
+  def cookies = context.cookies
+
+  # Home::Roster::SlideMenu::Context
+  class Context
+    def initialize(context)
+      @context = context
     end
 
-    def svg_css
-      self.class.module_parent.css.fetch(:open_button_svg)
-    end
+    def cookies = @context.cookies
   end
 
-  # HomeRoster::SlideMenu::CloseButton
+  # Home::Roster::SlideMenu::OpenButton
+  class OpenButton
+    def direction = "left"
+    def text = "ROSTER"
+    def css = self.class.module_parent.css.fetch(:open_button)
+    def svg_css = self.class.module_parent.css.fetch(:open_button_svg)
+  end
+
+  # Home::Roster::SlideMenu::CloseButton
   class CloseButton
     def direction = "right"
-
-    def css
-      self.class.module_parent.css.fetch(:close_button)
-    end
+    def css = self.class.module_parent.css.fetch(:close_button)
   end
 end

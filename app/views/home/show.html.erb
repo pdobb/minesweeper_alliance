@@ -21,6 +21,8 @@
   <%= render(container.partial_path, container:) %>
 <% end %>
 
-<%= render(layout: "slide_menu", locals: { slide_menu: @view.slide_menu }) do %>
+<%= render(
+      layout: "slide_menu",
+      locals: { slide_menu: @view.slide_menu(context: layout) }) do %>
   <%= render("home/roster", roster: @view.roster) %>
 <% end %>
