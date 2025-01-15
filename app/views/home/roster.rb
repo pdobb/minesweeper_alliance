@@ -1,20 +1,18 @@
 # frozen_string_literal: true
 
-# Games::Current::Roster represents a simple roster (list) of all
-# participants--both active and passive--currently in the War Room (channel).
-class Games::Current::Roster
+# Home::Roster represents a simple roster (list) of all participants--both
+# active (if applicable) and passive--currently in the War Room (channel).
+class Home::Roster
   def self.broadcast_roster_update
     WarRoomChannel.broadcast_update(
       target: turbo_frame_name,
-      partial: "games/current/roster",
+      partial: "home/roster",
       locals: { roster: new })
   end
 
-  def self.turbo_frame_name = :fleet_roster
+  def self.turbo_frame_name = :full_roster
 
   def turbo_frame_name = self.class.turbo_frame_name
-
-  def fleet_size = FleetTracker.count
 
   def listings
     Listing.wrap(users)
@@ -26,7 +24,7 @@ class Games::Current::Roster
     User.for_token(FleetTracker.tokens)
   end
 
-  # Games::Current::Roster::Listing
+  # Home::Roster::Listing
   class Listing
     include WrapMethodBehaviors
 

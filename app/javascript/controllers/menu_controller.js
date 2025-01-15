@@ -1,38 +1,29 @@
 import { Controller } from "@hotwired/stimulus"
-import { enter, leave, toggle } from "el-transition"
+import { leave, toggle } from "el-transition"
 
 export default class extends Controller {
-  static targets = ["menu", "button", "externalClose"]
+  static targets = ["menu", "button"]
 
   toggle() {
-    this.#toggleExternalClose()
     toggle(this.menuTarget)
     this.#updateAriaAttributes()
   }
 
   escape() {
-    this.hide()
+    this.#hide()
   }
 
   cancel(event) {
     if (this.#isExternal(event.target) || this.#isLinkInMenu(event.target)) {
-      this.hide()
+      this.#hide()
     }
   }
 
-  hide() {
+  #hide() {
     if (this.#menuIsVisible()) {
-      this.#toggleExternalClose()
       leave(this.menuTarget)
       this.#updateAriaAttributes()
     }
-  }
-
-  #toggleExternalClose() {
-    if (!this.hasExternalCloseTarget) return
-
-    if (this.#menuIsHidden()) enter(this.externalCloseTarget)
-    else leave(this.externalCloseTarget)
   }
 
   #menuIsHidden() {

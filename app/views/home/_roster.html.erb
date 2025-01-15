@@ -1,0 +1,19 @@
+<%# locals: (roster:) %>
+
+<div
+  id="<%= roster.turbo_frame_name %>"
+  class="space-y-3 overflow-hidden"
+>
+  <h2 class="h3">Roster</h2>
+
+  <ul class="flex flex-col items-end gap-y-2 whitespace-nowrap">
+    <% roster.listings.each_with_index do |listing, index| %>
+      <li>
+        <%= link_to(
+              listing.name,
+              listing.show_user_url,
+              data: { turbo_frame: :_top }) %>
+      </li>
+    <% end %>
+  </ul>
+</div>

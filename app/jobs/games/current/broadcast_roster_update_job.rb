@@ -18,6 +18,6 @@ class Games::Current::BroadcastRosterUpdateJob < ApplicationJob
   end
 
   def broadcast_roster_update
-    Games::Current::Roster.broadcast_roster_update
+    Home::Roster.broadcast_roster_update
   end
 end

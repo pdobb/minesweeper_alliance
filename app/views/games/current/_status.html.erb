@@ -1,73 +1,12 @@
 <%# locals: (status:) %>
 
-<div
-  data-controller="menu"
-  data-action="keydown.esc@window->menu#escape"
-  class="container mx-auto"
->
+<div class="container mx-auto">
   <h2 class="text-center cursor-default">
     <span id="current_game_status"><%= status.game_status %></span>
 
-    <button
-      type="button"
-      data-menu-target="button"
-      data-action="menu#toggle"
-      aria-label="Toggle Roster"
-      aria-haspopup="true"
-      aria-expanded="false"
-      title="Fleet Size"
-      class="
-        small btn-basic
-        inline-flex gap-x-1
-        border-b border-dashed
-
-      "
-    >
+    <span class="small inline-flex gap-x-1">
       <span class="text-[17px] text-dim-sm">x</span>
       <span id="fleet_size"><%= status.fleet_size %></span>
-    </button>
+    </span>
   </h2>
-
-  <div
-    data-menu-target="menu"
-    data-transition-enter="transform transition ease-in-out duration-500"
-    data-transition-enter-start="translate-x-full"
-    data-transition-enter-end="translate-x-0"
-    data-transition-leave="transform transition ease-in-out duration-500"
-    data-transition-leave-start="translate-x-0"
-    data-transition-leave-end="translate-x-full"
-    aria-hidden="true"
-    aria-orientation="vertical"
-    tabindex="0"
-    class="
-      hidden
-      absolute -top-12 right-0 z-10
-      p-6 max-w-64
-      bg-white dark:bg-neutral-800
-      border-l border-dim
-      text-right
-    "
-  >
-    <button
-      type="button"
-      data-action="menu#hide"
-      data-menu-target="externalClose"
-      data-transition-enter="transition ease-out duration-700"
-      data-transition-enter-start="transform opacity-0 scale-95"
-      data-transition-enter-end="transform opacity-100 scale-100"
-      data-transition-leave="transition ease-in duration-400"
-      data-transition-leave-start="transform opacity-100 scale-100"
-      data-transition-leave-end="transform opacity-0 scale-95"
-      aria-label="Close"
-      class="absolute -left-6 -m-2 p-1 btn-basic text-dim"
-    >
-      <%= inline_svg_tag("heroicons/chevron-right.svg", class: "stroke-2") %>
-    </button>
-
-    <% status.roster.tap do |roster| %>
-      <%= turbo_frame_tag(roster.turbo_frame_name, class: "block") do %>
-        <%= render("games/current/roster", roster:) %>
-      <% end %>
-    <% end %>
-  </div>
 </div>

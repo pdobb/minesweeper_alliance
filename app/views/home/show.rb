@@ -26,6 +26,14 @@ class Home::Show
     end
   end
 
+  def slide_menu
+    Home::Roster::SlideMenu.new
+  end
+
+  def roster
+    Home::Roster.new
+  end
+
   private
 
   attr_reader :current_game

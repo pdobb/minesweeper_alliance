@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# Games::Current::Status represents the status (Standing By vs Sweep In
+# Games::Current::Status represents the current status (Standing By vs Sweep In
 # Progress) for the current {Game}.
 class Games::Current::Status
   def self.broadcast_fleet_size_update
@@ -22,10 +22,6 @@ class Games::Current::Status
   end
 
   def game_status = self.class.game_status(current_game:)
-
-  def roster
-    Games::Current::Roster.new
-  end
 
   def fleet_size = FleetTracker.count
 

@@ -1,0 +1,61 @@
+<%# locals: (slide_menu:) %>
+
+<section
+  data-controller="slide-menu"
+  data-action="keydown.esc@window->slide-menu#close"
+>
+  <% slide_menu.open_button.tap do |open_button| %>
+    <button
+      data-slide-menu-target="openButton"
+      data-action="slide-menu#open"
+      type="button"
+      aria-label="Open Slide Menu"
+      aria-haspopup="true"
+      aria-expanded="false"
+      class="
+        <%= class_names(open_button.css) %>
+        -m-2 p-2 btn-basic text-dim btn-basic
+      "
+    >
+      <%= inline_svg_tag(
+            "heroicons/chevron-#{open_button.direction}.svg",
+            class: "stroke-2") %>
+    </button>
+  <% end %>
+
+  <div
+    data-slide-menu-target="menu"
+    data-transition-enter="transform transition ease-in-out duration-500"
+    data-transition-enter-start="translate-x-full"
+    data-transition-enter-end="translate-x-0"
+    data-transition-leave="transform transition ease-in-out duration-500"
+    data-transition-leave-start="translate-x-0"
+    data-transition-leave-end="translate-x-full"
+    aria-hidden="true"
+    aria-orientation="vertical"
+    tabindex="0"
+    class="
+      <%= class_names(slide_menu.css) %> border-dim
+      hidden p-6 bg-white dark:bg-neutral-800
+    "
+  >
+    <% slide_menu.close_button.tap do |close_button| %>
+      <button
+        data-action="slide-menu#close"
+        data-slide-menu-target="closeButton"
+        type="button"
+        aria-label="Close Slide Menu"
+        class="
+          <%= class_names(close_button.css) %>
+          -m-2 p-2 btn-basic text-dim
+        "
+      >
+        <%= inline_svg_tag(
+              "heroicons/chevron-#{close_button.direction}.svg",
+              class: "stroke-2") %>
+      </button>
+    <% end %>
+
+    <%= yield %>
+  </div>
+</section>
