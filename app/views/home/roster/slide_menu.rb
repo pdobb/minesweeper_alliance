@@ -12,8 +12,12 @@ class Home::Roster::SlideMenu
       ],
       open_button: %w[
         absolute -top-8 right-2
-        border-t border-b border-l border-dim rounded-l-md
+        border-t border-r border-l border-dim rounded-t-md
+        flex flex-row-reverse items-center gap-x-2
+        -rotate-90 translate-x-8 translate-y-8
+        text-dim-lg
       ],
+      open_button_svg: %w[rotate-90],
       close_button: %w[
         absolute top-4 left-2
         border-t border-r border-b border-dim rounded-r-md
@@ -40,8 +44,14 @@ class Home::Roster::SlideMenu
   class OpenButton
     def direction = "left"
 
+    def text = "ROSTER"
+
     def css
       self.class.module_parent.css.fetch(:open_button)
+    end
+
+    def svg_css
+      self.class.module_parent.css.fetch(:open_button_svg)
     end
   end
 

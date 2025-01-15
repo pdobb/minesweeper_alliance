@@ -9,7 +9,7 @@
       data-slide-menu-target="openButton"
       data-action="slide-menu#open"
       type="button"
-      aria-label="Open Slide Menu"
+      aria-label="Open"
       aria-haspopup="true"
       aria-expanded="false"
       class="
@@ -19,7 +19,8 @@
     >
       <%= inline_svg_tag(
             "heroicons/chevron-#{open_button.direction}.svg",
-            class: "stroke-2") %>
+            class: "stroke-2 #{class_names(open_button.svg_css)}") %>
+      <%= open_button.text %>
     </button>
   <% end %>
 
@@ -44,7 +45,7 @@
         data-action="slide-menu#close"
         data-slide-menu-target="closeButton"
         type="button"
-        aria-label="Close Slide Menu"
+        aria-label="Close"
         class="
           <%= class_names(close_button.css) %>
           -m-2 p-2 btn-basic text-dim
