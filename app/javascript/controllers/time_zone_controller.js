@@ -9,7 +9,7 @@ export default class extends Controller {
   static values = { updateUrl: String }
 
   connect() {
-    if (cookies.get(this.constructor.cookieName) == null)
+    if (cookies.isBlank(this.constructor.cookieName))
       this.#setCurrentUserTimeZone()
   }
 

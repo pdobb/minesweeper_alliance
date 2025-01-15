@@ -76,6 +76,14 @@ class Cookies {
     this.set(name, "", { expiresIn: { seconds: -1 }, path: path })
   }
 
+  isPresent(name) {
+    return !this.isBlank(name)
+  }
+
+  isBlank(name) {
+    return !this.get(name)
+  }
+
   #setPermanent(name, value, options = {}) {
     this.#setCookie(
       name,
