@@ -85,6 +85,7 @@ class Game < ApplicationRecord # rubocop:disable Metrics/ClassLength
 
   has_many :game_transactions, dependent: :delete_all
   has_one :game_create_transaction
+  has_many :game_join_transactions
   has_one :game_start_transaction
   has_one :game_end_transaction
 

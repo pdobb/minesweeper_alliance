@@ -4,6 +4,8 @@
 # starting move for the associated {Game}. Game "start" is when {Game#status}
 # transitions from "Standing By" to "Sweep in Progress".
 class GameStartTransaction < GameTransaction
+  validates :game, uniqueness: { scope: :type }
+
   def self.create_between(user:, game:)
     user.game_start_transactions.build(game:).tap { |new_game_start_transaction|
       new_game_start_transaction.transaction do

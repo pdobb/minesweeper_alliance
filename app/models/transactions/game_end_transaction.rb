@@ -4,6 +4,8 @@
 # final move during the associated {Game}. Game "end" is when {Game#status}
 # transitions from "Sweep in Progress" to either "Alliance Wins" or "Mines Win".
 class GameEndTransaction < GameTransaction
+  validates :game, uniqueness: { scope: :type }
+
   def self.create_between(user:, game:)
     user.game_end_transactions.build(game:).tap { |new_game_end_transaction|
       new_game_end_transaction.transaction do

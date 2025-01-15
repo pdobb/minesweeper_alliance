@@ -537,7 +537,14 @@ CREATE INDEX index_game_transactions_on_game_id ON public.game_transactions USIN
 -- Name: index_game_transactions_on_game_id_and_type; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE UNIQUE INDEX index_game_transactions_on_game_id_and_type ON public.game_transactions USING btree (game_id, type);
+CREATE UNIQUE INDEX index_game_transactions_on_game_id_and_type ON public.game_transactions USING btree (game_id, type) WHERE ((type)::text <> 'GameJoinTransaction'::text);
+
+
+--
+-- Name: index_game_transactions_on_game_id_and_user_id_and_type; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_game_transactions_on_game_id_and_user_id_and_type ON public.game_transactions USING btree (game_id, user_id, type) WHERE ((type)::text = 'GameJoinTransaction'::text);
 
 
 --
@@ -715,6 +722,7 @@ ALTER TABLE ONLY public.cells
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20250115204046'),
 ('20241115023724'),
 ('20241112041937'),
 ('20240927195322'),

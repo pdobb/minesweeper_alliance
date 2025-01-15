@@ -17,6 +17,7 @@ class User < ApplicationRecord
 
   has_many :game_transactions, dependent: :nullify
   has_many :game_create_transactions
+  has_many :game_join_transactions
   has_many :game_start_transactions
   has_many :game_end_transactions
 
