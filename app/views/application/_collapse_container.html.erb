@@ -1,38 +1,38 @@
-<%# locals: (view:) %>
+<%# locals: (collapse_container:) %>
 
 <div
   data-controller="collapse"
-  data-collapse-button-toggle-class="<%= view.collapsed_button_css %>"
-  data-collapse-icon-toggle-class="<%= view.collapsed_icon_css %>"
-  <% if view.respond_to?(:cookie_name) %>
-    data-collapse-cookie-name-value="<%= view.cookie_name %>"
+  data-collapse-button-toggle-class="<%= collapse_container.collapsed_button_css %>"
+  data-collapse-icon-toggle-class="<%= collapse_container.collapsed_icon_css %>"
+  <% if collapse_container.respond_to?(:cookie_name) %>
+    data-collapse-cookie-name-value="<%= collapse_container.cookie_name %>"
   <% end %>
   class="space-y-6"
 >
   <button
-    id="<%= view.button_id %>"
+    id="<%= collapse_container.button_id %>"
     data-collapse-target="button"
     data-action="collapse#toggle"
-    aria-controls="<%= view.content_id %>"
-    aria-label="Toggle <%= view.button_text %>"
+    aria-controls="<%= collapse_container.content_id %>"
+    aria-label="Toggle <%= collapse_container.button_text %>"
     aria-haspopup="true"
-    aria-expanded="<%= view.open? %>"
+    aria-expanded="<%= collapse_container.open? %>"
     class="
       flex items-center gap-x-3
-      <%= class_names(view.button_css) %>
+      <%= class_names(collapse_container.button_css) %>
     "
   >
-    <%= view.button_text %>
+    <%= collapse_container.button_text %>
     <%= inline_svg_tag(
           "heroicons/chevron-down.svg",
           class:
             "stroke-2 transition-transform "\
-            "#{class_names(view.icon_css)}",
+            "#{class_names(collapse_container.icon_css)}",
           data: { collapse_target: "icon" }) %>
   </button>
 
   <div
-    id="<%= view.content_id %>"
+    id="<%= collapse_container.content_id %>"
     data-collapse-target="section"
     data-transition-enter="transition ease-out duration-100"
     data-transition-enter-start="transform opacity-0 scale-95"
@@ -41,9 +41,9 @@
     data-transition-leave-start="transform opacity-100 scale-100"
     data-transition-leave-end="transform opacity-0 scale-95"
     role="region"
-    aria-labelledby="<%= view.button_id %>"
-    aria-hidden="<%= view.collapsed? %>"
-    class="<%= class_names(view.section_css) %>"
+    aria-labelledby="<%= collapse_container.button_id %>"
+    aria-hidden="<%= collapse_container.collapsed? %>"
+    class="<%= class_names(collapse_container.section_css) %>"
   >
     <%= yield %>
   </div>

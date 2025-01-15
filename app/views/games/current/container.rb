@@ -25,8 +25,8 @@ class Games::Current::Container
     Games::Current::Content.new(current_game:)
   end
 
-  def footer(context)
-    Games::Current::Footer.new(context)
+  def footer
+    Games::Current::Footer.new
   end
 
   private

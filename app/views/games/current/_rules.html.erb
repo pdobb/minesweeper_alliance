@@ -1,6 +1,10 @@
 <%# locals: (rules:) %>
 
-<%= render(layout: "collapse_container", locals: { view: rules }) do %>
+<%= render(
+      layout: "collapse_container",
+      locals: {
+        collapse_container: rules.collapse_container(context: layout)
+      }) do %>
   <ol class="space-y-2 list-decimal ml-7">
     <li>
       <strong><%= rules.reveal_method_descriptor %></strong> a cell to reveal it.
