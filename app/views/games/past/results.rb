@@ -15,6 +15,10 @@ class Games::Past::Results
     Games::Past::ActiveParticipants::Roster.new(game:)
   end
 
+  def observers_roster
+    Games::Past::Observers::Roster.new(game:)
+  end
+
   private
 
   attr_reader :game

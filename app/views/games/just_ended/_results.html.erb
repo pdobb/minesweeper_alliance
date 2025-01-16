@@ -9,9 +9,12 @@
   <div class="md:justify-self-end space-y-3">
     <%= render("games/past/metrics", metrics: results.metrics) %>
   </div>
-  <div>
+  <div class="space-y-12">
     <%= render(
           "games/just_ended/active_participants/roster",
           roster: results.active_participants_roster) %>
+    <%= render(
+          "games/just_ended/observers/roster",
+          roster: results.observers_roster) %>
   </div>
 </div>

@@ -98,6 +98,14 @@ class Game < ApplicationRecord # rubocop:disable Metrics/ClassLength
   has_many :users,
            -> { select("DISTINCT ON(users.id) users.*").order("users.id") },
            through: :cell_transactions
+  has_many :observers,
+           ->(game) {
+             select(
+               "DISTINCT ON(users.id) users.*, game_transactions.created_at").
+               where.not(id: User.for_game(game).select(:id))
+           },
+           through: :game_join_transactions,
+           source: :user
 
   has_statuses([
     "Standing By",

@@ -28,6 +28,10 @@ class User < ApplicationRecord
   has_many :cell_unflag_transactions
 
   has_many :games, -> { distinct }, through: :cell_transactions
+  has_many :observed_games,
+           ->(user) { where.not(id: user.games.select(:id)) },
+           through: :game_join_transactions,
+           source: :game
   has_many :revealed_cells,
            -> { distinct },
            through: :cell_reveal_transactions,
@@ -38,7 +42,20 @@ class User < ApplicationRecord
   scope :for_username, ->(username) {
     where("username LIKE ?", "%#{username}%")
   }
-  scope :for_game, ->(game) { joins(:games).merge(Game.for_id(game)) }
+  scope :for_game, ->(game) { joins(:games).merge(Game.for_id(game)).distinct }
+  scope :for_game_as_observer_by_joined_at_asc, ->(game) {
+    subquery =
+      (game_join_transactions = GameJoinTransaction.for_game(game)).
+        select(:user_id, "MIN(created_at) AS created_at").
+        group(:user_id).
+        to_sql
+
+    select("users.*, subquery.created_at AS joined_at").
+      joins("INNER JOIN (#{subquery}) subquery ON users.id = subquery.user_id").
+      joins(:game_join_transactions).merge(game_join_transactions).
+      excluding(for_game(game)).
+      order(:joined_at)
+  }
 
   # Only works with User-based queries. e.g.
   #  - Fails: `Game.first.users.by_participated_at_asc`
