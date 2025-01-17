@@ -1,3 +1,9 @@
+GIT
+  remote: https://github.com/pdobb/say.git
+  revision: 28b6c0a099ae14deaf142909ae5f24493c0578c7
+  specs:
+    say (0.7.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -448,6 +454,7 @@ DEPENDENCIES
   rails (~> 8.0)
   requestjs-rails
   rubocop-rails
+  say!
   solid_cable
   solid_cache
   solid_queue
@@ -575,6 +582,7 @@ CHECKSUMS
   rubocop-rails (2.28.0) sha256=4967bed9ea13e6dcab566fea4265a6dd0381db739b305e48930aba1282da2715
   rubocop-rake (0.6.0) sha256=56b6f22189af4b33d4f4e490a555c09f1281b02f4d48c3a61f6e8fe5f401d8db
   ruby-progressbar (1.13.0) sha256=80fc9c47a9b640d6834e0dc7b3c94c9df37f08cb072b7761e4a71e22cff29b33
+  say (0.7.0)
   securerandom (0.4.1) sha256=cc5193d414a4341b6e225f0cb4446aceca8e50d5e1888743fac16987638ea0b1
   simplecov (0.22.0) sha256=fe2622c7834ff23b98066bb0a854284b2729a569ac659f82621fc22ef36213a5
   simplecov-html (0.13.1) sha256=5dab0b7ee612e60e9887ad57693832fdf4695b4c0c859eaea5f95c18791ef10b

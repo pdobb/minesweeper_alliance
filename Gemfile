@@ -48,6 +48,7 @@ gem "mission_control-jobs"
 gem "object_identifier"
 gem "object_inspector"
 gem "requestjs-rails"
+gem "say", github: "pdobb/say"
 gem "statusable"
 
 group :development, :production_local, :test do
