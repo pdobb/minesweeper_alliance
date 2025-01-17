@@ -56,6 +56,10 @@ class User < ApplicationRecord
       excluding(for_game(game)).
       order(:joined_at)
   }
+  scope :for_prune, -> {
+    where(created_at: ..1.day.ago).
+      where.missing(:cell_transactions)
+  }
 
   # Only works with User-based queries. e.g.
   #  - Fails: `Game.first.users.by_participated_at_asc`
@@ -162,5 +166,55 @@ class User < ApplicationRecord
     def _score_arel = games.by_score_asc
     def _bbbvps_arel = games.by_bbbvps_desc
     def _efficiency_arel = games.by_efficiency_desc
+  end
+
+  # User::Prune handles removing all pruneable {User}s from the database.
+  # Pruneable {Users}:
+  # - are at least a day old, and
+  # - have no {CellTransaction}s.
+  #
+  # @example
+  #   User::Prune.call
+  #
+  # @example Dry Run
+  #   User::Prune.dry_run
+  module Prune
+    def self.count = base_arel.count
+    def self.user_agents_tally = base_arel.pluck(:user_agent).tally
+
+    def self.call
+      decorate do
+        base_arel.each do |user|
+          user.destroy
+          Say.success("Pruned: #{describe(user)}")
+        end
+      end
+    end
+
+    def self.dry_run
+      decorate do
+        base_arel.each { |user| Say.info("Will prune: #{describe(user)}") }
+      end
+    end
+
+    class << self
+      private
+
+      def base_arel = User.for_prune.by_least_recent
+
+      def decorate
+        Say.silent("Pruning #{count} stale Users") do
+          Say.(user_agents_tally)
+
+          results_count = yield.size
+
+          Say.info("No stale Users found.") if results_count.zero?
+        end
+
+        self
+      end
+
+      def describe(user) = user.identify(:id, :created_at)
+    end
   end
 end
