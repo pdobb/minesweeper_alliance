@@ -50,8 +50,8 @@ class CurrentUserTest < ActiveSupport::TestCase
       @cookies = CookieJar.new(cookies)
     end
 
-    def store_http_cookie(name, value:)
-    end
+    def store_http_cookie(...) = nil
+    def store_signed_http_cookie(...) = nil
 
     attr_reader :cookies
 
@@ -66,6 +66,7 @@ class CurrentUserTest < ActiveSupport::TestCase
         @cookies[key] = value
       end
 
+      def signed = self
       def permanent = self
     end
   end

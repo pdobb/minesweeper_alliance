@@ -36,6 +36,14 @@ class Application::Layout
     }
   end
 
+  def store_signed_http_cookie(name, value:)
+    cookies.signed.permanent[name] = {
+      value:,
+      secure: App.production?,
+      httponly: true,
+    }
+  end
+
   def params = context.params
   def cookies = context.__send__(:cookies)
 

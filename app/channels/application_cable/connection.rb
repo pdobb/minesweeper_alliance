@@ -5,6 +5,6 @@ class ApplicationCable::Connection < ActionCable::Connection::Base
   identified_by :current_user_token
 
   def connect
-    self.current_user_token = cookies[:user_token]
+    self.current_user_token = cookies.signed[:user_token]
   end
 end
