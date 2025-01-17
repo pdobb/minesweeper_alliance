@@ -7,8 +7,8 @@ class Errors::UnsupportedBrowser
     @context = context
   end
 
-  def current_browser_version
-    "#{user_agent.browser} #{user_agent.version}"
+  def browser_description
+    "#{browser_name} #{browser_version}"
   end
 
   def modern_browser_versions_list
@@ -24,7 +24,8 @@ class Errors::UnsupportedBrowser
 
   attr_reader :context
 
-  def user_agent = context.user_agent
+  def browser_name = context.browser_name
+  def browser_version = context.browser_version
 
   def hash
     @hash ||=

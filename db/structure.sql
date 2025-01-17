@@ -288,7 +288,8 @@ CREATE TABLE public.users (
     username character varying,
     time_zone character varying,
     created_at timestamp(6) with time zone NOT NULL,
-    updated_at timestamp(6) with time zone NOT NULL
+    updated_at timestamp(6) with time zone NOT NULL,
+    user_agent character varying
 );
 
 
@@ -722,6 +723,7 @@ ALTER TABLE ONLY public.cells
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20250117181518'),
 ('20250115204046'),
 ('20241115023724'),
 ('20241112041937'),

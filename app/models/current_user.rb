@@ -31,7 +31,10 @@ class CurrentUser
   def cookies = context.cookies
 
   def find
-    User.for_id(stored_user_token).take
+    User.for_id(stored_user_token).take.tap { |user|
+      # TODO: Remove when site != beta.
+      BackfillRequestData.(user:, context:) if user
+    }
   end
 
   def stored_user_token? = stored_user_token.present?
@@ -41,8 +44,12 @@ class CurrentUser
   end
 
   def create
-    User.create.tap { |new_user| store_user_token(value: new_user.id) }
+    User.create(user_agent:).tap { |new_user|
+      store_user_token(value: new_user.id)
+    }
   end
+
+  def user_agent = context.user_agent
 
   def store_user_token(value:)
     context.store_signed_http_cookie(:user_token, value:)
@@ -88,5 +95,33 @@ class CurrentUser
     attr_reader :context
 
     def cookies = context.cookies
+  end
+
+  # CurrentUser::BackfillRequestData is a temporary service object
+  # for backfilling request data into existing {User}s, as they come back to
+  # visit the site.
+  #
+  # TODO: Remove when site != beta.
+  class BackfillRequestData
+    include CallMethodBehaviors
+
+    def initialize(user:, context:)
+      @user = user
+      @context = context
+    end
+
+    # :reek:TooManyStatements
+    def call
+      return if user.user_agent?
+
+      user.update(user_agent:)
+    end
+
+    private
+
+    attr_reader :user,
+                :context
+
+    def user_agent = context.user_agent
   end
 end

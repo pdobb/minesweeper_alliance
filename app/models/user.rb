@@ -5,6 +5,7 @@
 # @attr id [GUID] a.k.a. "User Token"
 # @attr username [String]
 # @attr time_zone [String]
+# @attr user_agent [String] The `request.user_agent` value at User creation.
 class User < ApplicationRecord
   self.implicit_order_column = "created_at"
 
@@ -214,7 +215,7 @@ class User < ApplicationRecord
         self
       end
 
-      def describe(user) = user.identify(:id, :created_at)
+      def describe(user) = user.identify(:id, :created_at, :user_agent)
     end
   end
 end

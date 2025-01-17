@@ -46,12 +46,11 @@ class Application::Layout
 
   def params = context.params
   def cookies = context.__send__(:cookies)
+  def user_agent = request.user_agent
 
-  def mobile? = user_agent.mobile?
-
-  def user_agent
-    @user_agent ||= UserAgent.parse(_user_agent)
-  end
+  def mobile? = parsed_user_agent.mobile?
+  def browser_name = parsed_user_agent.browser
+  def browser_version = parsed_user_agent.version
 
   private
 
@@ -59,5 +58,10 @@ class Application::Layout
 
   def request = context.request
   def flash = context.flash
-  def _user_agent = request.user_agent
+
+  def parsed_user_agent
+    # UserAgent comes from the `useragent` gem:
+    # https://github.com/gshutler/useragent
+    @parsed_user_agent ||= UserAgent.parse(user_agent)
+  end
 end

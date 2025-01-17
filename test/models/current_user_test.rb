@@ -52,6 +52,7 @@ class CurrentUserTest < ActiveSupport::TestCase
 
     def store_http_cookie(...) = nil
     def store_signed_http_cookie(...) = nil
+    def user_agent = nil
 
     attr_reader :cookies
 
