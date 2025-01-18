@@ -16,6 +16,7 @@
       aria-haspopup="true"
       aria-expanded="<%= slide_menu.open? %>"
       class="
+        <%= "hidden" unless slide_menu.closed? %>
         <%= class_names(open_button.css) %>
         -m-2 p-2 btn-basic text-dim btn-basic
       "

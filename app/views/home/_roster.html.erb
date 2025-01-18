@@ -6,15 +6,19 @@
 >
   <h2 class="h3">Roster</h2>
 
-  <ul class="flex flex-col items-end gap-y-2 whitespace-nowrap">
-    <% roster.listings.each_with_index do |listing, index| %>
-      <li>
-        <%= link_to(
-              listing.name,
-              listing.show_user_url,
-              class: listing.turbo_update_id,
-              data: { turbo_frame: :_top }) %>
-      </li>
-    <% end %>
-  </ul>
+  <% if roster.listings? %>
+    <ul class="flex flex-col items-end gap-y-2 whitespace-nowrap">
+      <% roster.listings.each_with_index do |listing, index| %>
+        <li>
+          <%= link_to(
+                listing.name,
+                listing.show_user_url,
+                class: listing.turbo_update_id,
+                data: { turbo_frame: :_top }) %>
+        </li>
+      <% end %>
+    </ul>
+  <% else %>
+    <p><%= View.no_value_indicator %></p>
+  <% end %>
 </div>

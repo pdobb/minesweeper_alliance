@@ -14,6 +14,8 @@ class Home::Roster
 
   def turbo_frame_name = self.class.turbo_frame_name
 
+  def listings? = users.any?
+
   def listings
     Listing.wrap(users)
   end
