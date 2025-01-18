@@ -13,6 +13,6 @@ class UIPortal::Patterns::ToggleFlagsController < UIPortal::BaseController
   private
 
   def coordinates_params
-    params.require(:toggle_flag).permit(:x, :y)
+    params.expect(toggle_flag: %i[x y])
   end
 end

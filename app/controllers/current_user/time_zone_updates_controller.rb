@@ -15,7 +15,7 @@ class CurrentUser::TimeZoneUpdatesController < ApplicationController
   private
 
   def time_zone_params
-    params.require(:time_zone_update).permit(:time_zone)
+    params.expect(time_zone_update: %i[time_zone])
   end
 
   def new_time_zone

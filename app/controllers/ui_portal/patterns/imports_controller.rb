@@ -27,8 +27,8 @@ class UIPortal::Patterns::ImportsController < UIPortal::BaseController
       return {}
     end
 
-    params.require(:ui_portal_patterns_imports_controller_import_form).permit(
-      :file)
+    params.expect(
+      ui_portal_patterns_imports_controller_import_form: %i[file])
   end
 
   # UIPortal::Patterns::ImportsController::ImportForm is a form model.

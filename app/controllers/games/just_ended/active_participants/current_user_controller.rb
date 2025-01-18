@@ -50,7 +50,7 @@ class Games::JustEnded::ActiveParticipants::CurrentUserController <
   end
 
   def update_params
-    params.require(:user).permit(:username)
+    params.expect(user: %i[username])
   end
 
   # :reek:FeatureEnvy

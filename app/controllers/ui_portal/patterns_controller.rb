@@ -76,13 +76,15 @@ class UIPortal::PatternsController < UIPortal::BaseController
   end
 
   def new_pattern_params
-    params.require(:pattern).permit(
-      :name,
-      settings: %i[width height])
+    params.expect(
+      pattern: [
+        :name,
+        { settings: %i[width height] },
+      ])
   end
 
   def edit_pattern_params
-    params.require(:pattern).permit(:name)
+    params.expect(pattern: %i[name])
   end
 
   def store_pattern_settings(settings)

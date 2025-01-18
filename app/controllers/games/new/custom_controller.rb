@@ -22,9 +22,11 @@ class Games::New::CustomController < ApplicationController
   private
 
   def settings_params
-    params.require(:board_settings).permit(
-      :width,
-      :height,
-      :mines)
+    params.expect(
+      board_settings: %i[
+        width
+        height
+        mines
+      ])
   end
 end
