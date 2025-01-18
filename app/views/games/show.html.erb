@@ -1,4 +1,5 @@
 <% title("Game #{@view.game_number}") %>
+<% set_meta_tags(canonical: games_path) %>
 
 <% content_for(:page_nav) do %>
   <%= render(

@@ -110,6 +110,12 @@ en:
       We've got our work cut out for us!
       The mines are randomly placed, and the game is not won without clear strategy and a dash of luck 🍀.
 
+  about:
+    meta_description: About Minesweeper Alliance, an open-multiplayer riff on the classic Minesweeper game.
+
+  games:
+    meta_description: Explore the Sweep Ops Archives—a list of all past games—and find out who has won the day... The Alliance? Or the Mines?!
+
   game:
     new_html:
       - Do you have what it takes?
@@ -130,6 +136,12 @@ en:
           title: Placed Flags vs Total Mines
         timer:
           title: Game Timer
+
+  metrics:
+    meta_description: View historical stats across all players and past Sweep Ops.
+
+  user:
+    meta_description: View player-specific stats and past Sweep Ops.
 
   terms:
     score: Score = solve speed in seconds. Lower is better.

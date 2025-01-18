@@ -2,12 +2,15 @@
 
 <%= display_meta_tags(
       site: t("site.name"),
-      description: t("site.description"),
-      keywords: ["minesweeper", "real-time", "multiplayer game"],
+      description: t("site.meta_description"),
+      keywords: [
+        "minesweeper", "real-time games", "multiplayer games",
+        "free multiplayer games", "co-op minesweeper", "two player games",
+      ],
       separator: "&mdash;".html_safe,
       reverse: true,
       index: true,
-      image_src: "https://github.com/pdobb/minesweeper_alliance/blob/main/public/screenshots/expert-dark.webp?raw=true",
+      image_src: "https://github.com/pdobb/minesweeper_alliance/blob/main/public/screenshots/minesweeper_alliance.png?raw=true",
       og: {
         site_name: :site,
         title: :full_title,
