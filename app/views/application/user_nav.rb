@@ -17,6 +17,7 @@ class Application::UserNav
     Router.user_path(current_user)
   end
 
+  def turbo_update_id = View.dom_id(current_user)
   def display_name = current_user.display_name
 
   private

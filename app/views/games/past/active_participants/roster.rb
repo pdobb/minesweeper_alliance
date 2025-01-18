@@ -30,7 +30,6 @@ class Games::Past::ActiveParticipants::Roster
       @game = game
     end
 
-    def dom_id = View.dom_id(user)
     def name = user.display_name
 
     def show_user_url

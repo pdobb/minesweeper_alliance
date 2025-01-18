@@ -61,7 +61,7 @@ class Games::JustEnded::ActiveParticipants::CurrentUserController <
 
     Turbo::StreamsChannel.broadcast_update_to(
       Games::JustEnded::ActiveParticipants::Roster.turbo_stream_name(game),
-      target: active_participants_roster_listing.dom_id,
+      targets: active_participants_roster_listing.turbo_update_target,
       html: active_participants_roster_listing.name)
   end
 

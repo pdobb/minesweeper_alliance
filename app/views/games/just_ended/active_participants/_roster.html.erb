@@ -15,7 +15,7 @@
         <%= link_to(
               listing.name,
               listing.show_user_url,
-              id: listing.dom_id,
+              class: listing.turbo_update_id,
               data: { turbo_frame: :_top }) %>
       </li>
     <% end %>

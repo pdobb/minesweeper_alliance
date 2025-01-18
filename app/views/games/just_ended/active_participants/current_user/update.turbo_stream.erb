@@ -4,19 +4,13 @@
   <% end %>
 <% end %>
 
-<% @view.duty_roster_listing.tap do |duty_roster_listing| %>
-  <%= turbo_stream.update(
-        duty_roster_listing.dom_id,
-        duty_roster_listing.name) %>
-<% end %>
-
-<% @view.user_nav.tap do |user_nav| %>
-  <%= turbo_stream.update(user_nav.turbo_frame_name) do %>
-    <%= render("application/user_nav", user_nav:) %>
-  <% end %>
-<% end %>
-
 <% if @view.signer_status_just_changed? %>
+  <% @view.user_nav.tap do |user_nav| %>
+    <%= turbo_stream.update(user_nav.turbo_frame_name) do %>
+      <%= render("application/user_nav", user_nav:) %>
+    <% end %>
+  <% end %>
+
   <% @view.welcome_banner(context: layout).tap do |welcome_banner| %>
     <% if welcome_banner.show? %>
       <%= turbo_stream.update(welcome_banner.turbo_frame_name) do %>

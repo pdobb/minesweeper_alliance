@@ -38,7 +38,8 @@ class Games::JustEnded::ActiveParticipants::Roster
       current_user == user
     end
 
-    def dom_id = View.dom_id(user)
+    def turbo_update_target = ".#{turbo_update_id}"
+    def turbo_update_id = View.dom_id(user)
     def name = user.display_name
 
     def show_user_url

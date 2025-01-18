@@ -6,7 +6,7 @@
           user_nav.user_url,
           includes: Users::GamesController.name,
           data: { turbo_frame: :_top }) do %>
-      <span class="max-md:hidden">
+      <span class="max-md:hidden <%= user_nav.turbo_update_id %>">
         <%= user_nav.display_name %>
       </span>
       <%= Emoji.profile %>

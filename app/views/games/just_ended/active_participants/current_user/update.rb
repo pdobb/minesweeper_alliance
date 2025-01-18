@@ -13,15 +13,11 @@ class Games::JustEnded::ActiveParticipants::CurrentUser::Update
     Games::JustEnded::ActiveParticipants::Signature.new(game:, user:)
   end
 
-  def duty_roster_listing
-    Games::JustEnded::ActiveParticipants::Roster::Listing.new(user, game:)
-  end
+  def signer_status_just_changed? = user.signer_status_just_changed?
 
   def user_nav
     Application::UserNav.new(current_user: user)
   end
-
-  def signer_status_just_changed? = user.signer_status_just_changed?
 
   def welcome_banner(context:)
     Home::WelcomeBanner.new(context:)
