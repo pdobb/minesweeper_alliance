@@ -8,6 +8,9 @@
     "ecmaVersion": "latest",
     "sourceType": "module"
   },
+  "globals": {
+    "Turbo": "readonly"
+  },
   "overrides": [
     {
       "files": ["config/tailwind.config.js"],
