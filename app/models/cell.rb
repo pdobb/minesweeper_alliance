@@ -44,6 +44,8 @@ class Cell < ApplicationRecord
   def x = coordinates.x
   def y = coordinates.y
 
+  scope :for_game, ->(game) { joins(:game).merge(Game.for_id(game)) }
+
   scope :is_mine, -> { where(mine: true) }
   scope :is_not_mine, -> { where(mine: false) }
 

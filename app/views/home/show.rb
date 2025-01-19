@@ -31,7 +31,7 @@ class Home::Show
   end
 
   def roster
-    Home::Roster.new
+    Home::Roster.new(game: current_game)
   end
 
   private

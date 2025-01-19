@@ -100,6 +100,10 @@ class User < ApplicationRecord
     @unique_id ||= created_at.to_i.to_s[TRUNCATED_ID_RANGE]
   end
 
+  def active_participant?(game)
+    cell_transactions.for_game(game).any?
+  end
+
   def signer? = username?
 
   # :reek:NilCheck

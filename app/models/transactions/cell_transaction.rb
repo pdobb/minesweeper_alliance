@@ -23,9 +23,7 @@ class CellTransaction < ApplicationRecord
   has_one :game, through: :cell
 
   scope :for_user, ->(user) { where(user:) }
-
   scope :for_cell, ->(cell) { where(cell:) }
-  scope :for_board, ->(board) { joins(:cell).merge(Cell.for_board(board)) }
   scope :for_game, ->(game) { joins(:cell).merge(Cell.for_game(game)) }
 
   validates :cell,

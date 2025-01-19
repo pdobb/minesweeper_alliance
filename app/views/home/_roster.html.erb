@@ -15,6 +15,8 @@
                 listing.show_user_url,
                 class: listing.turbo_update_id,
                 data: { turbo_frame: :_top }) %>
+
+          <%= listing.active_participant? ? Emoji.ship : Emoji.anchor %>
         </li>
       <% end %>
     </ul>
