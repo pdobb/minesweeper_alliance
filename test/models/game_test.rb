@@ -333,7 +333,7 @@ class GameTest < ActiveSupport::TestCase
     end
 
     describe "#update_started_at" do
-      let(:now) { Time.current }
+      let(:now) { Time.current.at_beginning_of_minute }
 
       subject { standing_by1 }
 
@@ -346,7 +346,7 @@ class GameTest < ActiveSupport::TestCase
     end
 
     describe "#update_ended_at" do
-      let(:now) { Time.current }
+      let(:now) { Time.current.at_beginning_of_minute }
 
       subject { standing_by1 }
 
