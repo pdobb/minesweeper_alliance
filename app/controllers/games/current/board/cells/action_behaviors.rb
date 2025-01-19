@@ -42,10 +42,15 @@ module Games::Current::Board::Cells::ActionBehaviors
   # :reek:TooManyStatements
   def safe_perform_game_action
     yield
+  rescue Error
+    flash[:warning] = t("flash.web_socket_lost")
+    recover_from_exception
   rescue => ex
     Notify.(ex)
-    flash[:warning] = t("flash.web_socket_lost")
+    recover_from_exception
+  end
 
+  def recover_from_exception
     render_update do
       render(turbo_stream: turbo_stream.refresh(request_id: nil))
     end
