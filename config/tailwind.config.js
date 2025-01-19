@@ -30,7 +30,8 @@ module.exports = {
   plugins: [
     require("@tailwindcss/forms"),
     function ({ addVariant }) {
-      addVariant("light", "html:not(.dark) &")
+      addVariant("light", "html:not(.dark) &"),
+        addVariant("firefox", "@-moz-document url-prefix()")
     },
   ],
 }

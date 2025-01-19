@@ -13,7 +13,7 @@ class Home::Roster::SlideMenu
         border-l
       ],
       open_button: %w[
-        absolute -top-8 right-2
+        absolute -top-6 right-0 firefox:right-1
         border-t border-r border-l border-dim rounded-t-md
         flex flex-row-reverse items-center gap-x-2
         -rotate-90 translate-x-8 translate-y-8

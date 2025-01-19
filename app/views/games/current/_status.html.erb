@@ -1,10 +1,10 @@
 <%# locals: (status:) %>
 
 <div class="container mx-auto">
-  <h2 class="text-center cursor-default">
+  <h2 class="flex justify-center items-baseline gap-x-2 max-sm:text-[1.4rem]">
     <span id="current_game_status"><%= status.game_status %></span>
 
-    <span class="small inline-flex gap-x-1">
+    <span class="small inline-flex gap-x-1 items-baseline">
       <span class="text-[17px] text-dim-sm">x</span>
       <span id="fleet_size"><%= status.fleet_size %></span>
     </span>
