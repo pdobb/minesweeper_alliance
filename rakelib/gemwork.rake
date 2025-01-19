@@ -20,5 +20,6 @@ task :default do
     reek
     eslint
     prettier
+    validate_env
   ])
 end
