@@ -79,6 +79,8 @@ class User < ApplicationRecord
   validates :username,
             length: { maximum: USERNAME_MAX_LEGNTH }
 
+  def token = id
+
   def username=(value)
     super(value.to_s.strip.presence)
   end

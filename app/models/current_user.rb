@@ -45,7 +45,7 @@ class CurrentUser
 
   def create
     User.create(user_agent:).tap { |new_user|
-      store_user_token(value: new_user.id)
+      store_user_token(value: new_user.token)
     }
   end
 

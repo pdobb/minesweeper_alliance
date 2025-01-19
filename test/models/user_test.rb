@@ -61,6 +61,14 @@ class UserTest < ActiveSupport::TestCase
       end
     end
 
+    describe "#token" do
+      subject { user1 }
+
+      it "is the same as #id" do
+        _(subject.token).must_equal(subject.id)
+      end
+    end
+
     describe "#username=" do
       subject { user1 }
 
