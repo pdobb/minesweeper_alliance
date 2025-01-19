@@ -29,8 +29,8 @@ class Notify
   include ConfigurationBehaviors
   include ObjectInspector::InspectorsHelper
 
-  def self.reraise? = !!config.reraise
-  def self.external_services = config.external_services
+  def self.reraise? = !!configuration.reraise
+  def self.external_services = configuration.external_services
 
   # @attr options [Hash]
   def initialize(
@@ -139,8 +139,6 @@ class Notify
     def initialize
       @external_services = ServicesList.new
     end
-
-    def to_h = { reraise:, external_services: }
 
     # Notify::Config::ServicesList allowing for building up a list of
     # `available?` notification services.
