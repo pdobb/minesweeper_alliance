@@ -14,11 +14,17 @@
 # Use {.add!} and {.remove!} to also broadcast the current {.count} to the
 # fleet. See: {Games::Current::BroadcastRosterUpdateJob}.
 #
+# Similarly, use {.activate!} to activate and then broadcast the current
+# {User}'s participation status to the fleet--but only if this was the first
+# activation. Activated entries cannot (should not) be deactivated.
+#
 # @see ApplicationCable::Connection
 # @see WarRoomChannel
 # @see https://api.rubyonrails.org/classes/ActiveSupport/Cache/Store.html
 # @see https://api.rubyonrails.org/classes/ActiveSupport/Cache/MemoryStore.html
 module FleetTracker
+  DEFAULT_ATTRIBUTES = { active: false, expires_at: nil }.freeze
+
   ADDITION_BROADCAST_DELAY_SECONDS = 0.seconds
 
   REMOVAL_DELAY_SECONDS = 2.seconds
@@ -33,30 +39,45 @@ module FleetTracker
   def self.count = registry.count
 
   def self.add(token)
-    new_registry = registry.update(token:, expires_at: nil)
-    cache.write(:registry, new_registry.to_a)
+    hash = { token: }.with_defaults(DEFAULT_ATTRIBUTES)
+    updated_registry = registry.add(hash)
+    cache.write(:registry, updated_registry.to_a)
 
     registry
   end
 
   def self.add!(token:)
     add(token)
-    broadcast(wait: ADDITION_BROADCAST_DELAY_SECONDS)
+    broadcast_roster_update(wait: ADDITION_BROADCAST_DELAY_SECONDS)
+  end
+
+  def self.activate(token)
+    updated_registry = registry.activate(token)
+    cache.write(:registry, updated_registry.to_a)
+
+    registry
+  end
+
+  def self.activate!(token:)
+    return if registry.active?(token)
+
+    activate(token)
+    broadcast_participation_status_update(token:)
   end
 
   def self.remove(token)
-    return registry unless registry.includes_token?(token)
+    return registry if registry.exclude?(token)
 
-    new_registry =
+    updated_registry =
       registry.update(token:, expires_at: REMOVAL_DELAY_SECONDS.from_now)
-    cache.write(:registry, new_registry.to_a)
+    cache.write(:registry, updated_registry.to_a)
 
     registry
   end
 
   def self.remove!(token:)
     remove(token)
-    broadcast(wait: REMOVAL_BROADCAST_DELAY_SECONDS)
+    broadcast_roster_update(wait: REMOVAL_BROADCAST_DELAY_SECONDS)
   end
 
   def self.prune
@@ -73,17 +94,25 @@ module FleetTracker
     registry
   end
 
-  def self.broadcast(wait:)
+  def self.broadcast_roster_update(wait:)
     Games::Current::BroadcastRosterUpdateJob.set(wait:).perform_later
   end
-  private_class_method :broadcast
+  private_class_method :broadcast_roster_update
+
+  def self.broadcast_participation_status_update(token:)
+    user = User.for_token(token).take!
+    Home::Roster.broadcast_participation_status_update(user:)
+  end
+  private_class_method :broadcast_participation_status_update
 
   def self.cache = Rails.cache
   private_class_method :cache
 
-  # FleetTracker::Registry is an Array of Hashes that contain info about a
-  # `token` and its associated `expires_at` time. If `expires_at` is `nil` then
-  # it won't expire on its own.
+  # FleetTracker::Registry is an Array of Hashes indexed by a `token`. Each hash
+  # has, by default, the following keys:
+  # - `active` (Boolean)
+  # - `expires_at` (DateTime, NilClass) if `nil`, the entry won't expire on its
+  #   own.
   class Registry
     def initialize(array = [])
       @array = Array.wrap(array)
@@ -92,20 +121,32 @@ module FleetTracker
     def count = array.size
     def to_a = array.dup
 
-    def tokens
-      array.map { |hash| hash.fetch(:token) }
+    def find(token)
+      array.detect { |hash| hash.fetch(:token) == token }
+    end
+
+    def add(entry)
+      array << entry if exclude?(entry.fetch(:token))
+
+      self
     end
 
     def update(entry)
-      existing_index = index(token: entry.fetch(:token))
+      return self unless (hash = find(entry.fetch(:token)))
 
-      if existing_index
-        array[existing_index] = entry
-      else
-        array << entry
-      end
+      hash.update(entry)
 
       self
+    end
+
+    def activate(token)
+      find(token)&.update(active: true)
+
+      self
+    end
+
+    def active?(token)
+      find(token)&.fetch(:active)
     end
 
     def excluding_expired
@@ -114,16 +155,13 @@ module FleetTracker
       self
     end
 
-    def includes_token?(token)
-      array.any? { |hash| hash.fetch(:token) == token }
-    end
+    def tokens = array.pluck(:token)
+
+    def include?(token) = !!find(token)
+    def exclude?(token) = !include?(token)
 
     private
 
     attr_reader :array
-
-    def index(token:)
-      array.index { |hash| hash.fetch(:token) == token }
-    end
   end
 end

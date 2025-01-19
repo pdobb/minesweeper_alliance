@@ -10,7 +10,14 @@ class Home::Roster
       locals: { roster: new(game: Game.current) })
   end
 
-  def self.turbo_frame_name = :full_roster
+  def self.broadcast_participation_status_update(user:)
+    WarRoomChannel.broadcast_update(
+      target: Listing.participation_status_dom_id(user:),
+      html: Emoji.ship)
+  end
+
+  def self.turbo_frame_name = :fleet_roster
+
   def initialize(game:)
     @game = game
   end
@@ -35,6 +42,10 @@ class Home::Roster
   class Listing
     include WrapMethodBehaviors
 
+    def self.participation_status_dom_id(user:)
+      View.dom_id(user, :participation_status)
+    end
+
     def initialize(user, game:)
       @user = user
       @game = game
@@ -45,6 +56,10 @@ class Home::Roster
 
     def show_user_url
       Router.user_path(user)
+    end
+
+    def participation_status_dom_id
+      self.class.participation_status_dom_id(user:)
     end
 
     def active_participant?

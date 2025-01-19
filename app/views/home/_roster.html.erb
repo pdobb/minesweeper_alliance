@@ -16,7 +16,9 @@
                 class: listing.turbo_update_id,
                 data: { turbo_frame: :_top }) %>
 
-          <%= listing.active_participant? ? Emoji.ship : Emoji.anchor %>
+          <span id="<%= listing.participation_status_dom_id %>">
+            <%= listing.active_participant? ? Emoji.ship : Emoji.anchor %>
+          </span>
         </li>
       <% end %>
     </ul>

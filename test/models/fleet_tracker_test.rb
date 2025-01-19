@@ -17,20 +17,23 @@ class FleetTrackerTest < ActiveSupport::TestCase
 
     let(:empty1) { unit_class }
     let(:single_player_registry1) {
-      unit_class.add("user_token1")
+      unit_class.add(user1_token)
       unit_class
     }
     let(:two_player_registry1) {
-      unit_class.add("user_token1")
-      unit_class.add("user_token2")
+      unit_class.add(user1_token)
+      unit_class.add(user2_token)
       unit_class
     }
+
+    let(:user1_token) { users(:user1).token }
+    let(:user2_token) { users(:user2).token }
 
     describe ".registry" do
       context "GIVEN a cache miss" do
         subject { empty1 }
 
-        it "returns an empty collection" do
+        it "returns an empty Array" do
           _(subject.registry.to_a).must_equal([])
         end
       end
@@ -40,7 +43,7 @@ class FleetTrackerTest < ActiveSupport::TestCase
 
         it "returns the expected collection" do
           _(subject.registry.to_a).must_equal([
-            { token: "user_token1", expires_at: nil },
+            { token: user1_token, active: false, expires_at: nil },
           ])
         end
       end
@@ -78,22 +81,22 @@ class FleetTrackerTest < ActiveSupport::TestCase
       context "GIVEN a cache miss" do
         subject { empty1 }
 
-        it "returns the expected collection" do
-          result = subject.add("user_token1")
+        it "adds a new entry for the given token" do
+          result = subject.add(user1_token)
           _(result.to_a).must_equal([
-            { token: "user_token1", expires_at: nil },
+            { token: user1_token, active: false, expires_at: nil },
           ])
         end
       end
 
       context "GIVEN a cache hit" do
-        context "GIVEN the same registry entry" do
+        context "GIVEN a repeat token" do
           subject { single_player_registry1 }
 
-          it "returns the expected collection" do
-            result = subject.add("user_token1")
+          it "doesn't add a new entry for the given token" do
+            result = subject.add(user1_token)
             _(result.to_a).must_equal([
-              { token: "user_token1", expires_at: nil },
+              { token: user1_token, active: false, expires_at: nil },
             ])
           end
         end
@@ -101,11 +104,11 @@ class FleetTrackerTest < ActiveSupport::TestCase
         context "GIVEN a new registry entry" do
           subject { single_player_registry1 }
 
-          it "returns the expected collection" do
-            result = subject.add("user_token2")
+          it "adds a new token" do
+            result = subject.add(user2_token)
             _(result.to_a).must_equal([
-              { token: "user_token1", expires_at: nil },
-              { token: "user_token2", expires_at: nil },
+              { token: user1_token, active: false, expires_at: nil },
+              { token: user2_token, active: false, expires_at: nil },
             ])
           end
         end
@@ -122,10 +125,63 @@ class FleetTrackerTest < ActiveSupport::TestCase
       subject { empty1 }
 
       it "calls Games::Current::BroadcastRosterUpdateJob, as expected" do
-        subject.add!(token: "user_token1")
+        subject.add!(token: user1_token)
 
         _(@query_spy.set_last_called_with.pargs).must_equal([wait: 0.seconds])
         _(@query_spy.perform_later_last_called_with.args).must_equal([])
+      end
+    end
+
+    describe ".activate" do
+      context "GIVEN a new token" do
+        subject { empty1 }
+
+        it "doesn't add or activate anything for the given token" do
+          result = subject.activate("UNRECOGNIZED_TOKEN1")
+          _(result.to_a).must_equal([])
+        end
+      end
+
+      context "GIVEN an existing token" do
+        subject { single_player_registry1 }
+
+        it "activates the entry for the given token" do
+          _(-> { subject.activate(user1_token) }).must_change(
+            "subject.registry.to_a",
+            from: [{ token: user1_token, active: false, expires_at: nil }],
+            to: [{ token: user1_token, active: true, expires_at: nil }])
+        end
+      end
+    end
+
+    describe ".activate!" do
+      before do
+        MuchStub.(Home::Roster, :broadcast_participation_status_update) {
+          @broadcast_participation_status_update_called = true
+        }
+      end
+
+      subject { single_player_registry1 }
+
+      context "GIVEN an inactive entry" do
+        it "calls Home::Roster.broadcast_participation_status_update" do
+          subject.activate!(token: user1_token)
+
+          _(@broadcast_participation_status_update_called).must_equal(true)
+        end
+      end
+
+      context "GIVEN an active entry" do
+        before do
+          subject.activate(user1_token)
+        end
+
+        it "returns nil and "\
+           "doesn't call Home::Roster.broadcast_participation_status_update" do
+          result = subject.activate!(token: user1_token)
+          _(result).must_be_nil
+          _(@broadcast_participation_status_update_called).must_be_nil
+        end
       end
     end
 
@@ -134,7 +190,7 @@ class FleetTrackerTest < ActiveSupport::TestCase
         subject { empty1 }
 
         it "returns the expected collection" do
-          result = subject.remove("user_token1")
+          result = subject.remove(user1_token)
           _(result.to_a).must_equal([])
         end
       end
@@ -145,9 +201,13 @@ class FleetTrackerTest < ActiveSupport::TestCase
 
           it "returns the expected collection" do
             freeze_time do
-              result = subject.remove("user_token1")
+              result = subject.remove(user1_token)
               _(result.to_a).must_equal([
-                { token: "user_token1", expires_at: 2.seconds.from_now },
+                {
+                  token: user1_token,
+                  active: false,
+                  expires_at: 2.seconds.from_now,
+                },
               ])
             end
           end
@@ -158,10 +218,14 @@ class FleetTrackerTest < ActiveSupport::TestCase
 
           it "returns the expected collection" do
             freeze_time do
-              result = subject.remove("user_token2")
+              result = subject.remove(user2_token)
               _(result.to_a).must_equal([
-                { token: "user_token1", expires_at: nil },
-                { token: "user_token2", expires_at: 2.seconds.from_now },
+                { token: user1_token, active: false, expires_at: nil },
+                {
+                  token: user2_token,
+                  active: false,
+                  expires_at: 2.seconds.from_now,
+                },
               ])
             end
           end
@@ -179,7 +243,7 @@ class FleetTrackerTest < ActiveSupport::TestCase
       subject { empty1 }
 
       it "calls Games::Current::BroadcastRosterUpdateJob, as expected" do
-        subject.remove!(token: "user_token1")
+        subject.remove!(token: user1_token)
 
         _(@query_spy.set_last_called_with.pargs).must_equal([wait: 3.seconds])
         _(@query_spy.perform_later_last_called_with.args).must_equal([])
@@ -198,7 +262,7 @@ class FleetTrackerTest < ActiveSupport::TestCase
 
       context "GIVEN an expiring registry entry" do
         before do
-          subject.remove("user_token1")
+          subject.remove(user1_token)
         end
 
         subject { single_player_registry1 }

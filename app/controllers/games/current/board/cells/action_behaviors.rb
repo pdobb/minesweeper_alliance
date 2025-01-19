@@ -42,6 +42,8 @@ module Games::Current::Board::Cells::ActionBehaviors
   # :reek:TooManyStatements
   def safe_perform_game_action
     yield
+
+    FleetTracker.activate!(token: current_user_token)
   rescue Error
     flash[:warning] = t("flash.web_socket_lost")
     recover_from_exception
@@ -49,6 +51,8 @@ module Games::Current::Board::Cells::ActionBehaviors
     Notify.(ex)
     recover_from_exception
   end
+
+  def current_user_token = current_context.user_token
 
   def recover_from_exception
     render_update do
@@ -120,6 +124,7 @@ module Games::Current::Board::Cells::ActionBehaviors
     def cell = context.__send__(:cell)
 
     def user = context.current_user
+    def user_token = user.token
 
     private
 
