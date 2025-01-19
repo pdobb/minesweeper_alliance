@@ -70,7 +70,7 @@
   }
 
   dfn {
-    @apply border-b border-dashed border-gray-500 not-italic cursor-pointer;
+    @apply border-b border-dashed border-gray-500 not-italic;
   }
 
   code {
@@ -149,36 +149,6 @@
   }
   .form-error {
     @apply text-red-600 dark:selection:bg-[#469dff];
-  }
-
-  /*
-  CSS Tooltips
-  - Based on Balloon.css (https://kazzkiq.github.io/balloon.css) but with all
-    options removed. Tooltips are always just "up-left" style.
-
-  Usage: <dfn data-tooltip="..." class="after:w-80">...</dfn>
-  */
-  [data-tooltip] {
-    @apply relative cursor-pointer;
-
-    &::before,
-    &::after {
-      @apply pointer-events-none
-        absolute z-10
-        bg-neutral-900
-        opacity-0 hover:opacity-100
-        transition-all ease-out delay-150 duration-150
-        bottom-full origin-top translate-x-0 -translate-y-1;
-    }
-    &::before {
-      @apply left-3 size-3 content-[""] rotate-45;
-    }
-    &::after {
-      @apply left-0
-        content-[attr(data-tooltip)]
-        mb-1.5 p-4 rounded-md
-        font-normal text-neutral-200;
-    }
   }
 
   /*

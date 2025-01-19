@@ -14,10 +14,7 @@
       <% if metrics.show_game_score? %>
         <tr>
           <th>
-            <dfn
-              data-tooltip="<%= t("terms.score") %>"
-              class="after:w-72"
-            >Score</dfn>
+            <%= render("tooltip", text: "Score") %>
           </th>
           <td>
             <time
@@ -27,28 +24,19 @@
         </tr>
         <tr>
           <th>
-            <dfn
-              data-tooltip="<%= t("terms.bbbv") %>"
-              class="after:w-80"
-            >3BV</dfn>
+            <%= render("tooltip", text: "3BV", term: "bbbv") %>
           </th>
           <td><%= metrics.bbbv %></td>
         </tr>
         <tr>
           <th>
-            <dfn
-              data-tooltip="<%= t("terms.bbbvps") %>"
-              class="after:w-80"
-            >3BV/s</dfn>
+            <%= render("tooltip", text: "3BV/s", term: "bbbvps") %>
           </th>
           <td><%= metrics.bbbvps %></td>
         </tr>
         <tr>
           <th>
-            <dfn
-              data-tooltip="<%= t("terms.efficiency") %>"
-              class="after:w-80"
-            >Efficiency</dfn>
+            <%= render("tooltip", text: "Efficiency") %>
           </th>
           <td><%= metrics.efficiency_percentage %></td>
         </tr>
@@ -59,19 +47,13 @@
       </tr>
       <tr class="*:pl-6">
         <th>
-          <dfn
-            data-tooltip="<%= t("terms.reveals") %>"
-            class="after:w-80"
-          >Reveals</dfn>
+          <%= render("tooltip", text: "Reveals") %>
         </th>
         <td><%= metrics.reveals_count %></td>
       </tr>
       <tr class="*:pl-6">
         <th>
-          <dfn
-            data-tooltip="<%= t("terms.chords") %>"
-            class="after:w-80"
-          >Chords</dfn>
+          <%= render("tooltip", text: "Chords") %>
         </th>
         <td><%= metrics.chords_count %></td>
       </tr>

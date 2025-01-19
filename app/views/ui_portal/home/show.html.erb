@@ -82,24 +82,13 @@
       <tbody>
         <tr>
           <td class="w-14">
-            <dfn
-              data-tooltip="Huzzah! Tooltip text! 👏"
-              class="after:w-80"
-            >text</dfn>
+            <%= render(
+                  "application/tooltip",
+                  text: "text",
+                  description: "Huzzah! Tooltip text! 👏") %>
           </td>
           <td>
-            <code>&lt;dfn data-tooltip="..." class="after:w-80" &gt;...&lt;/dfn&gt;</code>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <dfn
-              data-tooltip="Huzzah! Tooltip text! 👏"
-              class="after:whitespace-nowrap"
-            >text</dfn>
-          </td>
-          <td>
-            <code>&lt;dfn data-tooltip="..." class="after:whitespace-nowrap" &gt;...&lt;/dfn&gt;</code>
+            <code>render("tooltip", text: "text", description: "Huzzah! Tooltip text! 👏")</code>
           </td>
         </tr>
       </tbody>

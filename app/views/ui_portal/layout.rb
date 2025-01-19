@@ -22,9 +22,20 @@ class UIPortal::Layout
 
   def cookies = context.__send__(:cookies)
 
+  def mobile? = parsed_user_agent.mobile?
+
   private
 
   attr_reader :context
 
   def flash = context.flash
+
+  def parsed_user_agent
+    # UserAgent comes from the `useragent` gem:
+    # https://github.com/gshutler/useragent
+    @parsed_user_agent ||= UserAgent.parse(user_agent)
+  end
+
+  def user_agent = request.user_agent
+  def request = context.request
 end

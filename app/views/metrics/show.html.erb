@@ -33,16 +33,10 @@
                   <tr>
                     <th>Rank</th>
                     <th class="min-w-[100px]">
-                      <dfn
-                        data-tooltip="<%= t("terms.score") %>"
-                        class="after:w-72"
-                      >Score</dfn>
+                      <%= render("tooltip", text: "Score") %>
                     </th>
                     <th>
-                      <dfn
-                        data-tooltip="Participating minesweepers count."
-                        class="sm:after:w-72 -ml-1"
-                      ><%= Emoji.ship %></dfn>
+                      <%= render("tooltip", text: Emoji.ship) %>
                     </th>
                   </tr>
                 </thead>
