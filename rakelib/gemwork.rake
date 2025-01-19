@@ -20,6 +20,7 @@ task :default do
     reek
     eslint
     prettier
+    brakeman
     validate_env
   ])
 end
