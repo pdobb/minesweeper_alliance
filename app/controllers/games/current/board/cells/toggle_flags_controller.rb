@@ -6,18 +6,24 @@ class Games::Current::Board::Cells::ToggleFlagsController <
 
   def create
     safe_perform_game_action do
-      cell.transaction do
-        cell.toggle_flag
-        determine_transaction_class.create_between(user: current_user, cell:)
-      end
-
-      render_updated_game
+      Cell::ToggleFlag.(cell, context:)
     end
+
+    head(:no_content)
   end
 
   private
 
-  def determine_transaction_class
-    cell.flagged? ? CellFlagTransaction : CellUnflagTransaction
+  def context = Context.new(self)
+
+  # Games::Current::Board::Cells::HighlightNeighborsController::Context
+  class Context
+    def initialize(context)
+      @context = context
+    end
+
+    def current_user = @context.current_user
+    def render_to_string(...) = @context.render_to_string(...)
+    def helpers = @context.helpers
   end
 end

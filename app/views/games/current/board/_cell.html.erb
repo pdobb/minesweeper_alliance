@@ -1,0 +1,10 @@
+<%# locals: (cell:) %>
+
+<td
+  id="<%= cell.dom_id %>"
+  data-revealed="<%= cell.revealed? %>"
+  data-flagged="<%= cell.flagged? %>"
+  class="<%= class_names(cell.css) %>"
+>
+  <%= cell %>
+</td>
