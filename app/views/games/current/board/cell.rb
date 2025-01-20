@@ -8,7 +8,7 @@ class Games::Current::Board::Cell
 
   include Games::Board::CellBehaviors
 
-  def initialize(cell, ...)
+  def initialize(cell)
     @cell = cell
   end
 

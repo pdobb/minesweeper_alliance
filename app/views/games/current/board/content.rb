@@ -26,7 +26,7 @@ class Games::Current::Board::Content
   end
 
   def rows
-    grid.map { |row| Games::Current::Board::Cell.wrap(row, game:) }
+    grid.map { |row| Games::Current::Board::Cell.wrap(row) }
   end
 
   def mobile?(context) = context.mobile?
