@@ -18,21 +18,6 @@ class Games::Past::Board::Cell
     @game = game
   end
 
-  # :reek:DuplicateMethodCall
-
-  def to_s
-    return super unless mine?
-
-    # if mine? && ...
-    if revealed?
-      Emoji.mine
-    elsif flagged?
-      Emoji.flag
-    else
-      game_ended_in_victory? ? Emoji.flag : Emoji.mine
-    end
-  end
-
   def css
     if revealed?
       mine? ? BG_ERROR_COLOR : DIMMED_TEXT_COLOR
@@ -40,6 +25,20 @@ class Games::Past::Board::Cell
       BG_ERROR_COLOR
     elsif !flagged?
       BG_UNREVEALED_CELL_COLOR
+    end
+  end
+
+  # :reek:DuplicateMethodCall
+
+  def to_s
+    return super unless mine?
+
+    if revealed?
+      Emoji.mine
+    elsif flagged?
+      Emoji.flag
+    else
+      game_ended_in_victory? ? Emoji.flag : Emoji.mine
     end
   end
 

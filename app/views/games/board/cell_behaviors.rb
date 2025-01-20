@@ -10,11 +10,12 @@ module Games::Board::CellBehaviors
   include WrapMethodBehaviors
 
   def id = cell.id
-  def mine? = cell.mine?
   def revealed? = cell.revealed?
   def flagged? = cell.flagged?
-  def blank? = cell.blank?
-  def value = cell.value
+
+  def css
+    raise NotImplementedError
+  end
 
   def to_s
     if blank?
@@ -28,7 +29,9 @@ module Games::Board::CellBehaviors
     end
   end
 
-  def css
-    raise NotImplementedError
-  end
+  private
+
+  def value = cell.value
+  def mine? = cell.mine?
+  def blank? = cell.blank?
 end

@@ -13,11 +13,13 @@ class Games::Current::Board::Cell
   end
 
   def css
+    return if revealed?
+
     if highlighted?
       [BG_HIGHLIGHTED_COLOR, HIGHLIGHTED_ANIMATION]
     elsif mine? && App.debug?
       BG_UNREVEALED_MINE_COLOR
-    elsif unrevealed?
+    else
       BG_UNREVEALED_CELL_COLOR
     end
   end
@@ -26,6 +28,5 @@ class Games::Current::Board::Cell
 
   attr_reader :cell
 
-  def unrevealed? = !cell.revealed?
   def highlighted? = cell.highlighted?
 end
