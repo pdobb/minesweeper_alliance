@@ -111,27 +111,39 @@ The overall structure of the view templates and [View Models](#view-models) to s
 
 ```
 Current Game:
-- Game status ("Standing By" vs "Sweep in Progress")
+- Status ("Standing By" vs "Sweep in Progress")
+- Board -> Header + Content + Footer
 - Rules of Engagement
 
-Just ended Game:
-- Game "Title"
-- Game status ("Mines Win" vs "Alliance Wins")
-- "Signature" section for signing Username + <hr> above it
-- Metrics + Duty Roster
+Just Ended Game:
+- Title
+- Status ("Mines Win" vs "Alliance Wins")
+- Board -> Header + Content + Footer
+- Active Participants:
+  - Signature
+  - Results:
+    - Metrics
+    - Active Participants -> Duty Roster + Observers
+- Observers (Passive Participants):
+  - Results:
+    - Metrics
+    - Active Participants -> Duty Roster + Observers
 
-Sweep Ops Archive: Standard view of past Games.
-- Game "Title"
-- Game status ("Mines Win" vs "Alliance Wins")
-- Metrics + Duty Roster
+Past Game (Sweep Ops Archive):
+- Title
+- Status ("Mines Win" vs "Alliance Wins")
+- Board -> Header + Content + Footer
+- Results -> Metrics + (Duty Roster + Observers)
 
-Metrics -> Games:
-- Game "Title"
-- Metrics + Duty Roster
+Metrics -> Past Game:
+- Title
+- Board -> Header + Content + Footer
+- Results -> Metrics + (Duty Roster + Observers)
 
-User -> Games:
-- Game "Title"
-- Metrics + Duty Roster
+User -> Past Game:
+- Title
+- Board -> Header + Content + Footer
+- Results -> Metrics + (Duty Roster + Observers)
 
 # Plus:
 New Game:
