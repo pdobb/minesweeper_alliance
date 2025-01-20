@@ -55,7 +55,7 @@ module Games::Current::Board::Cells::ActionBehaviors
   def current_user_token = current_context.user_token
 
   def recover_from_exception
-    render_update do
+    respond_with do
       render(turbo_stream: turbo_stream.refresh(request_id: nil))
     end
   end
@@ -83,9 +83,7 @@ module Games::Current::Board::Cells::ActionBehaviors
         partial: "games/current/content", locals: { content: })
 
     WarRoomChannel.broadcast_versioned_replace(target:, html:)
-    render_update do
-      render(turbo_stream: turbo_stream.replace(target, html))
-    end
+    respond_with { head(:no_content) }
   end
 
   # :reek:TooManyStatements
@@ -97,12 +95,10 @@ module Games::Current::Board::Cells::ActionBehaviors
         partial: "games/just_ended/container", locals: { container: })
 
     WarRoomChannel.broadcast_versioned_replace(target:, html:)
-    render_update do
-      render(turbo_stream: turbo_stream.replace(target, html))
-    end
+    respond_with { head(:no_content) }
   end
 
-  def render_update(&)
+  def respond_with(&)
     respond_to do |format|
       format.html { redirect_to(root_path) }
       format.turbo_stream(&)
