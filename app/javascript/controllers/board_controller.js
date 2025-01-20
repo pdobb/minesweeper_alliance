@@ -3,8 +3,15 @@ import { post } from "@rails/request.js"
 import Mouse from "mouse"
 import Touchpad from "touchpad"
 
-export const mouse = (event) => new Mouse(event)
-export const touchpad = (event) => new Touchpad(event)
+const mouse = (event) => new Mouse(event)
+const touchpad = (event) => new Touchpad(event)
+
+const cell = (element) =>
+  new Proxy(new Cell(element), {
+    get(target, prop) {
+      return prop in target ? target[prop] : target.element[prop]
+    },
+  })
 
 // BoardController is responsible for managing clicks on Cells within the
 // Game Board. All valid clicks event types result in a Turbo Stream "POST"
@@ -37,16 +44,16 @@ export default class extends Controller {
   reveal(event) {
     if (mouse(event).actsAsRightClick()) return
 
-    const $cell = event.target
-    if (!($cell instanceof HTMLTableCellElement)) return
-    if (this.#isRevealed($cell) || this.#isFlagged($cell)) return
+    const $cell = cell(event.target)
+    if ($cell.isNotTableCell) return
+    if ($cell.isRevealed || $cell.isFlagged) return
 
     this.#submit($cell, this.revealUrlValue)
   }
 
   toggleFlag(event) {
-    const $cell = event.target
-    if (!this.#isFlaggable($cell)) return
+    const $cell = cell(event.target)
+    if ($cell.isNotFlaggable) return
 
     this.#submit($cell, this.toggleFlagUrlValue)
   }
@@ -54,8 +61,8 @@ export default class extends Controller {
   highlightNeighbors(event) {
     if (!mouse(event).actsAsLeftClick()) return
 
-    const $cell = event.target
-    if (this.#isNotRevealed($cell) || this.#isBlank($cell)) return
+    const $cell = cell(event.target)
+    if ($cell.isNotRevealed || $cell.isBlank) return
 
     this.#submit($cell, this.highlightNeighborsUrlValue)
   }
@@ -63,14 +70,14 @@ export default class extends Controller {
   revealNeighbors(event) {
     if (!mouse(event).actsAsLeftClick()) return
 
-    const $cell = event.target
-    if (this.#isNotRevealed($cell) || this.#isBlank($cell)) return
+    const $cell = cell(event.target)
+    if ($cell.isNotRevealed || $cell.isBlank) return
 
     this.#submit($cell, this.revealNeighborsUrlValue)
   }
 
   touchStart(event) {
-    if (!this.#isFlaggable(event.target)) return
+    if (cell(event.target).isNotFlaggable) return
 
     this.longPressHandler = touchpad(event).handleLongPress(() => {
       this.#indicateSuccessfulToggleFlagEvent()
@@ -82,10 +89,6 @@ export default class extends Controller {
     this.longPressHandler?.cancel()
   }
 
-  #isFlaggable($cell) {
-    return $cell instanceof HTMLTableCellElement && !this.#isRevealed($cell)
-  }
-
   #indicateSuccessfulToggleFlagEvent() {
     document
       .getElementById("flagsToMinesRatio")
@@ -93,24 +96,8 @@ export default class extends Controller {
     if (navigator.vibrate) navigator.vibrate(100)
   }
 
-  #isRevealed($cell) {
-    return $cell.dataset.revealed === "true"
-  }
-
-  #isNotRevealed($cell) {
-    return $cell.dataset.revealed === "false"
-  }
-
-  #isFlagged($cell) {
-    return $cell.dataset.flagged === "true"
-  }
-
-  #isBlank($cell) {
-    return $cell.innerHTML.trim() === ""
-  }
-
   #submit($cell, baseUrl) {
-    this.#showLoadingIndicator($cell)
+    $cell.showLoadingIndicator()
 
     const cellId = $cell.id
     // /boards/<boardId>/cells/<cellId>/<action>
@@ -121,8 +108,44 @@ export default class extends Controller {
 
     post(targetUrl, { responseKind: "turbo-stream" })
   }
+}
 
-  #showLoadingIndicator($cell) {
-    $cell.classList.add("animate-pulse-fast")
+class Cell {
+  constructor(element) {
+    this.element = element
+    this.dataset = element.dataset
+  }
+
+  get isRevealed() {
+    return this.dataset.revealed === "true"
+  }
+  get isNotRevealed() {
+    return this.dataset.revealed === "false"
+  }
+
+  get isFlaggable() {
+    return this.isNotRevealed
+  }
+  get isNotFlaggable() {
+    return !this.isFlaggable
+  }
+
+  get isFlagged() {
+    return this.dataset.flagged === "true"
+  }
+
+  get isBlank() {
+    return this.element.innerHTML.trim() === ""
+  }
+
+  get isTableCell() {
+    return this.element instanceof HTMLTableCellElement
+  }
+  get isNotTableCell() {
+    return !this.isTableCell
+  }
+
+  showLoadingIndicator() {
+    this.element.classList.add("animate-pulse-fast")
   }
 }

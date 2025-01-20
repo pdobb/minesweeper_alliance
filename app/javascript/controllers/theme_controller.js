@@ -1,6 +1,6 @@
 import { Controller } from "@hotwired/stimulus"
 
-class ThemeController extends Controller {
+export default class ThemeController extends Controller {
   static STORAGE_KEY = "theme"
 
   static LIGHT_THEME = "light"
@@ -227,5 +227,3 @@ class ThemeController extends Controller {
     }
   }
 }
-
-export default ThemeController
