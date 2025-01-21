@@ -14,11 +14,25 @@ class Games::Current::Board::Cells::RevealNeighborsController <
       # - Else, we must take care of this here ourselves.
       if cell.neighboring_flags_count_matches_value?
         Cell::RevealNeighbors.(current_context)
-      else
-        cell.dehighlight_neighbors
-      end
 
-      render_updated_game
+        render_updated_game
+      else
+        Cell::DehighlightNeighbors.(
+          cell, context: dehighlight_neighbors_context)
+      end
     end
+  end
+
+  private
+
+  def dehighlight_neighbors_context = Context.new(self)
+
+  # Games::Current::Board::Cells::RevealNeighborsController::Context
+  class Context
+    def initialize(context)
+      @context = context
+    end
+
+    def helpers = @context.helpers
   end
 end
