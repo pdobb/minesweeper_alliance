@@ -12,6 +12,8 @@ class Games::Current::Board::Cell
     @cell = cell
   end
 
+  def dom_id = View.dom_id(cell)
+
   def css
     return if revealed?
 

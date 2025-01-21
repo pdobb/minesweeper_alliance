@@ -9,7 +9,6 @@ module Games::Board::CellBehaviors
 
   include WrapMethodBehaviors
 
-  def id = cell.id
   def revealed? = cell.revealed?
   def flagged? = cell.flagged?
 

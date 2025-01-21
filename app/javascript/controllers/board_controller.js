@@ -99,7 +99,7 @@ export default class extends Controller {
   #submit($cell, baseUrl) {
     $cell.showLoadingIndicator()
 
-    const cellId = $cell.id
+    const cellId = $cell.id.replace(/^cell_/, "")
     // /boards/<boardId>/cells/<cellId>/<action>
     const targetUrl = baseUrl.replace(
       this.constructor.cellIdRegex,
