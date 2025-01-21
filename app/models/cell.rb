@@ -80,33 +80,27 @@ class Cell < ApplicationRecord
     self
   end
 
-  # "Highlighting" marks the neighboring, non-flagged, and non-revealed Cells
-  # for highlight in the view. This makes it easy to visualize the surrounding
+  # "Highlighting" marks all {#highlightable?} neighboring Cells for highlight
+  # in the view. This makes it easy to visualize the revealable surrounding
   # Cells of a given, previously-revealed Cell.
+  #
+  # @return [Array<Cell>] The Cells that were just highlighted.
   def highlight_neighbors
     return self if unrevealed?
 
-    neighbors.each do |cell|
-      next unless cell.highlightable?
-
-      cell.update!(highlighted: true)
-    end
-
-    self
+    highlightable_neighbors = neighbors.select(&:highlightable?)
+    highlightable_neighbors.each { |cell| cell.update!(highlighted: true) }
   end
 
   # "Dehighligting" removes the highlight added by {#highlight_neighbors}
-  # from the neighboring, highlighted Cells.
+  # from all neighboring, highlighted Cells.
+  #
+  # @return [Array<Cell>] The Cells that were just dehighlighted.
   def dehighlight_neighbors
     return self if unrevealed?
 
-    neighbors.each do |cell|
-      next unless cell.highlighted?
-
-      cell.update!(highlighted: false)
-    end
-
-    self
+    highlighted_neighbors = neighbors.select(&:highlighted?)
+    highlighted_neighbors.each { |cell| cell.update!(highlighted: false) }
   end
 
   def neighboring_flags_count_matches_value?

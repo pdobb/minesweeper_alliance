@@ -12,6 +12,8 @@ class CellTest < ActiveSupport::TestCase
     let(:win1_board_cell3) { cells(:win1_board_cell3) }
     let(:standing_by1_board_cell1) { cells(:standing_by1_board_cell1) }
     let(:standing_by1_board_cell2) { cells(:standing_by1_board_cell2) }
+    let(:standing_by1_board_cell4) { cells(:standing_by1_board_cell4) }
+    let(:standing_by1_board_cell5) { cells(:standing_by1_board_cell5) }
 
     describe "#validate" do
       describe "#coordinates" do
@@ -212,12 +214,16 @@ class CellTest < ActiveSupport::TestCase
 
         subject { standing_by1_board_cell1 }
 
-        it "highlights the expected Cells, and returns self" do
+        it "highlights the expected Cells, and returns them" do
           result =
             _(-> { subject.highlight_neighbors }).must_change(
               "subject.neighbors.count(&:highlightable?)",
               to: 0)
-          _(result).must_be_same_as(subject)
+          _(result).must_match_array([
+            standing_by1_board_cell2,
+            standing_by1_board_cell4,
+            standing_by1_board_cell5,
+          ])
         end
       end
     end
@@ -243,11 +249,15 @@ class CellTest < ActiveSupport::TestCase
 
         subject { standing_by1_board_cell1 }
 
-        it "dehighlights the expected Cells, and returns self" do
+        it "dehighlights the expected Cells, and returns them" do
           result =
             _(-> { subject.dehighlight_neighbors }).must_change(
               "subject.neighbors.count(&:highlighted?)", to: 0)
-          _(result).must_be_same_as(subject)
+          _(result).must_match_array([
+            standing_by1_board_cell2,
+            standing_by1_board_cell4,
+            standing_by1_board_cell5,
+          ])
         end
       end
     end
