@@ -1,10 +1,10 @@
 import { Controller } from "@hotwired/stimulus"
 import { post } from "@rails/request.js"
 import Mouse from "mouse"
-import Touchpad from "touchpad"
+import Touch from "touch"
 
 const mouse = (event) => new Mouse(event)
-const touchpad = (event) => new Touchpad(event)
+const touch = (event) => new Touch(event)
 
 const cell = (element) =>
   new Proxy(new Cell(element), {
@@ -83,7 +83,7 @@ export default class extends Controller {
   touchStart(event) {
     this.longPressExecuted = this.touchMoveDetected = false
 
-    this.longPressTimer = touchpad(event).onLongPress(() => {
+    this.longPressTimer = touch(event).onLongPress(() => {
       this.longPressExecuted = true
       this.#longPress(event)
     })

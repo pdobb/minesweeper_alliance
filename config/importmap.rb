@@ -8,9 +8,9 @@ pin "@hotwired/stimulus", to: "stimulus.min.js"
 pin "@hotwired/stimulus-loading", to: "stimulus-loading.js"
 
 pin "cookies", to: "lib/cookies.js"
-pin "mouse", to: "lib/mouse.js"
 pin "parse_time", to: "lib/parse_time.js"
-pin "touchpad", to: "lib/touchpad.js"
+pin "mouse", to: "lib/mouse.js"
+pin "touch", to: "lib/touch.js"
 
 pin_all_from "app/javascript/controllers", under: "controllers"
 
