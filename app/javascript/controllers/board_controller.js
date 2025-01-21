@@ -90,10 +90,24 @@ export default class extends Controller {
   }
 
   #indicateSuccessfulToggleFlagEvent() {
-    document
-      .getElementById("flagsToMinesRatio")
-      .classList.add("animate-ping-once")
+    this.#animateOnce(
+      document.getElementById("flagsToMinesRatio"),
+      "animate-ping-once",
+    )
+
     if (navigator.vibrate) navigator.vibrate(100)
+  }
+
+  #animateOnce(element, className) {
+    element.classList.add(className)
+
+    element.addEventListener(
+      "animationend",
+      () => {
+        element.classList.remove(className)
+      },
+      { once: true },
+    )
   }
 
   #submit($cell, baseUrl) {
