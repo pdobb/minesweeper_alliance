@@ -17,15 +17,15 @@
       data-board-highlight-neighbors-url-value="<%= content.highlight_neighbors_url %>"
       data-board-reveal-neighbors-url-value="<%= content.reveal_neighbors_url %>"
       data-action="
-        click->board#reveal
-        mouseup->board#revealNeighbors
         <% if content.mobile?(layout) %>
           touchstart->board#touchStart
-          touchmove->board#touchEnd
+          touchmove->board#touchMove
           touchend->board#touchEnd
         <% else %>
-          contextmenu->board#toggleFlag:prevent
           mousedown->board#highlightNeighbors
+          mouseup->board#revealNeighbors
+          contextmenu->board#toggleFlag:prevent
+          click->board#reveal
         <% end %>
       "
       class="

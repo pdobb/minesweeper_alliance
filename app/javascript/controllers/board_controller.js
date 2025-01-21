@@ -79,14 +79,25 @@ export default class extends Controller {
   touchStart(event) {
     if (cell(event.target).isNotFlaggable) return
 
-    this.longPressHandler = touchpad(event).handleLongPress(() => {
+    this.longPressExecuted = this.touchMoveDetected = false
+
+    this.longPressTimer = touchpad(event).onLongPress(() => {
+      this.longPressExecuted = true
       this.#indicateSuccessfulToggleFlagEvent()
       this.toggleFlag(event)
     })
   }
 
-  touchEnd() {
-    this.longPressHandler?.cancel()
+  touchMove() {
+    this.touchMoveDetected = true
+    clearTimeout(this.longPressTimer)
+  }
+
+  touchEnd(event) {
+    if (this.touchMoveDetected || this.longPressExecuted) return
+
+    clearTimeout(this.longPressTimer)
+    this.reveal(event)
   }
 
   #indicateSuccessfulToggleFlagEvent() {

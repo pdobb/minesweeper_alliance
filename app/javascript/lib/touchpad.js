@@ -5,11 +5,10 @@ export default class Touchpad {
     this.event = event
   }
 
-  handleLongPress(onLongPress) {
-    if (this.isMultiTouch) return { cancel: () => {} }
+  onLongPress(callback) {
+    if (this.isMultiTouch) return
 
-    const timer = window.setTimeout(onLongPress, Touchpad.LONG_PRESS_TIMEOUT)
-    return { cancel: () => clearTimeout(timer) }
+    return window.setTimeout(callback, Touchpad.LONG_PRESS_TIMEOUT)
   }
 
   get isMultiTouch() {
