@@ -6,9 +6,22 @@ class Games::Current::Board::Cells::HighlightNeighborsController <
 
   def create
     safe_perform_game_action do
-      cell.highlight_neighbors
-
-      render_updated_game
+      Cell::HighlightNeighbors.(cell, context:)
     end
+
+    head(:no_content)
+  end
+
+  private
+
+  def context = Context.new(self)
+
+  # Games::Current::Board::Cells::HighlightNeighborsController::Context
+  class Context
+    def initialize(context)
+      @context = context
+    end
+
+    def helpers = @context.helpers
   end
 end

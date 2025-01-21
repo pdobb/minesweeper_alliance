@@ -21,6 +21,9 @@ class WarRoomChannel < Turbo::StreamsChannel
     broadcast_action_to(STREAM_NAME, action: :versioned_replace, target:, **)
   end
 
+  # Broadcast a self-built <turbo-stream> element (or elements) String.
+  def self.broadcast(...) = ActionCable.server.broadcast(STREAM_NAME, ...)
+
   # Override Turbo::StreamsChannel#subscribed to add #on_subscribe logic.
   def subscribed
     if stream_name && current_user_token?

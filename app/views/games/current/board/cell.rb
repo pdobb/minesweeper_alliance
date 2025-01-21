@@ -18,7 +18,7 @@ class Games::Current::Board::Cell
     return if revealed?
 
     if highlighted?
-      [BG_HIGHLIGHTED_COLOR, HIGHLIGHTED_ANIMATION]
+      [*BG_HIGHLIGHTED_COLOR, HIGHLIGHTED_ANIMATION]
     elsif mine? && App.debug?
       BG_UNREVEALED_MINE_COLOR
     else

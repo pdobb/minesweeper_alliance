@@ -10,3 +10,12 @@ Turbo.StreamActions.versioned_replace = function () {
 
   if (payloadVersion > currentVersion) Turbo.StreamActions.replace.call(this)
 }
+
+// Performs a wholesale replacement of the targets with the given CSS classes.
+Turbo.StreamActions.replace_css = function () {
+  const value = this.getAttribute("css")
+
+  this.targetElements.forEach((cell) => {
+    cell.className = value
+  })
+}
