@@ -13,9 +13,9 @@ const cell = (element) =>
     },
   })
 
-// BoardController is responsible for managing clicks on Cells within the
-// Game Board. All valid clicks event types result in a Turbo Stream "POST"
-// being sent to the Rails server.
+// BoardController is responsible for managing clicks/taps on Cells within the
+// Game Board. All valid clicks/taps result in a Turbo Stream "POST" request
+// being sent to the server.
 //
 // For Mobile Browsers:
 //   For Unrevealed Cells:
@@ -30,7 +30,7 @@ const cell = (element) =>
 //    - Right Click -> Toggle Flag
 //   For Revealed Cells
 //    - Left Click (onMouseDown) -> Highlight Neighbors
-//    - Left Click (onMouseUp) -> Reveal Neighbors
+//    - Left Click (onMouseUp) -> Reveal/Dehighlight Neighbors
 export default class extends Controller {
   static values = {
     revealUrl: String,
@@ -70,6 +70,10 @@ export default class extends Controller {
   revealNeighbors(event) {
     if (!mouse(event).actsAsLeftClick()) return
 
+    this.#revealNeighbors(event)
+  }
+
+  #revealNeighbors(event) {
     const $cell = cell(event.target)
     if ($cell.isNotRevealed || $cell.isBlank) return
 
@@ -77,14 +81,11 @@ export default class extends Controller {
   }
 
   touchStart(event) {
-    if (cell(event.target).isNotFlaggable) return
-
     this.longPressExecuted = this.touchMoveDetected = false
 
     this.longPressTimer = touchpad(event).onLongPress(() => {
       this.longPressExecuted = true
-      this.#indicateSuccessfulToggleFlagEvent()
-      this.toggleFlag(event)
+      this.#longPress(event)
     })
   }
 
@@ -97,7 +98,19 @@ export default class extends Controller {
     if (this.touchMoveDetected || this.longPressExecuted) return
 
     clearTimeout(this.longPressTimer)
-    this.reveal(event)
+    this.#tap(event)
+  }
+
+  #tap(event) {
+    if (cell(event.target).isRevealed) this.#revealNeighbors(event)
+    else this.reveal(event)
+  }
+
+  #longPress(event) {
+    if (cell(event.target).isFlaggable) {
+      this.#indicateSuccessfulToggleFlagEvent()
+      this.toggleFlag(event)
+    }
   }
 
   #indicateSuccessfulToggleFlagEvent() {
