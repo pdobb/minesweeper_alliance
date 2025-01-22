@@ -5,9 +5,12 @@ class Games::Current::Board::Cells::RevealsController < ApplicationController
 
   def create
     safe_perform_game_action do
-      Cell::Reveal.(current_context)
+      result = Cell::Reveal.(current_context)
 
-      render_updated_game
+      WarRoomChannel.broadcast(
+        Cell::TurboStream::Morph.wrap!(result.updated_cells, turbo_stream:))
     end
+
+    head(:no_content)
   end
 end

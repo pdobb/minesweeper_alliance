@@ -62,7 +62,7 @@ class Cell < ApplicationRecord
   end
 
   def reveal
-    return self if revealed?
+    return if revealed?
 
     soft_reveal.tap(&:save!)
   end
@@ -70,7 +70,7 @@ class Cell < ApplicationRecord
   # :reek:TooManyStatements
 
   def soft_reveal
-    return self if revealed?
+    return if revealed?
 
     self.revealed = true
     self.highlighted = false

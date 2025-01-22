@@ -164,14 +164,14 @@ class CellTest < ActiveSupport::TestCase
 
         subject { standing_by1_board_cell1 }
 
-        it "returns self without having updated it" do
+        it "returns nil" do
           result =
             _(-> { subject.reveal }).wont_change_all([
               ["subject.highlighted"],
               ["subject.flagged"],
               ["subject.value"],
             ])
-          _(result).must_be_same_as(subject)
+          _(result).must_be_nil
         end
       end
 

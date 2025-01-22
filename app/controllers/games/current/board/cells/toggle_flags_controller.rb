@@ -6,24 +6,12 @@ class Games::Current::Board::Cells::ToggleFlagsController <
 
   def create
     safe_perform_game_action do
-      Cell::ToggleFlag.(cell, context:)
+      updated_cell = Cell::ToggleFlag.(cell, user: current_user)
+
+      WarRoomChannel.broadcast(
+        Cell::TurboStream::Morph.(updated_cell, turbo_stream:))
     end
 
     head(:no_content)
-  end
-
-  private
-
-  def context = Context.new(self)
-
-  # Games::Current::Board::Cells::HighlightNeighborsController::Context
-  class Context
-    def initialize(context)
-      @context = context
-    end
-
-    def current_user = @context.current_user
-    def render_to_string(...) = @context.render_to_string(...)
-    def helpers = @context.helpers
   end
 end

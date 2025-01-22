@@ -24,12 +24,13 @@ class Cell::RevealTest < ActiveSupport::TestCase
         MuchStub.on_call(Board::RandomlyPlaceMines, :call) { |call|
           @board_randomly_place_mines_call = call
         }
-        MuchStub.on_call(Cell::RecursiveReveal, :new) { |call|
-          @cell_recursive_reveal_new_call = call
+        MuchStub.on_call(Cell::RecursiveReveal, :call) { |call|
+          @cell_recursive_reveal_call_call = call
           -> {}
         }
         MuchStub.on_call(Cell, :upsert_all) { |call|
           @cell_upsert_call = call
+          Class.new { def pluck(*) = 9 }.new # standing_by1_board_cell1.id
         }
         MuchStub.on_call(standing_by1_board, :check_for_victory) { |call|
           @board_check_for_victory_call = call
@@ -56,7 +57,7 @@ class Cell::RevealTest < ActiveSupport::TestCase
             ])
           _(result).must_be_same_as(subject)
           _(@board_randomly_place_mines_call).wont_be_nil
-          _(@cell_recursive_reveal_new_call).wont_be_nil
+          _(@cell_recursive_reveal_call_call).wont_be_nil
           _(@cell_upsert_call).wont_be_nil
           _(@board_check_for_victory_call).wont_be_nil
         end
@@ -84,7 +85,7 @@ class Cell::RevealTest < ActiveSupport::TestCase
             ])
           _(result).must_be_same_as(subject)
           _(@board_randomly_place_mines_call).must_be_nil
-          _(@cell_recursive_reveal_new_call).must_be_nil
+          _(@cell_recursive_reveal_call_call).must_be_nil
           _(@cell_upsert_call).must_be_nil
           _(@board_check_for_victory_call).must_be_nil
         end

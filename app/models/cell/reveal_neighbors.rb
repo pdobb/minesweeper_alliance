@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# :reek:TooManyInstanceVariables
+
 # Cell::RevealNeighbors is a Service Object for collaborating with a {Game},
 # {Board}, and {Cell} to process a {Cell} "Reveal Neighbors" event (a.k.a.
 # "chording"). Prerequisites for processing:
@@ -22,16 +24,14 @@
 class Cell::RevealNeighbors
   include CallMethodBehaviors
 
-  attr_reader :game,
-              :board,
-              :cell,
-              :user
+  attr_reader :updated_cells
 
   def initialize(context)
     @game = context.game
     @board = context.board
     @cell = context.cell
     @user = context.user
+    @updated_cells = []
   end
 
   def call
@@ -46,6 +46,11 @@ class Cell::RevealNeighbors
   end
 
   private
+
+  attr_reader :game,
+              :board,
+              :cell,
+              :user
 
   def reveal_neighbors
     return if revealable_neighboring_cells.none?
@@ -70,7 +75,7 @@ class Cell::RevealNeighbors
 
   # :reek:FeatureEnvy
   def reveal(neighboring_cell)
-    neighboring_cell.reveal
+    push(neighboring_cell.reveal)
 
     end_in_defeat(user:) if neighboring_cell.mine?
   end
@@ -81,12 +86,17 @@ class Cell::RevealNeighbors
   end
 
   def recursively_reveal_neighbors(neighboring_cell)
-    upsertable_attributes_array =
-      Cell::RecursiveReveal.new(cell: neighboring_cell).call
-    Cell.upsert_all(upsertable_attributes_array)
+    upsertable_attributes_array = Cell::RecursiveReveal.(neighboring_cell)
+    result = Cell.upsert_all(upsertable_attributes_array)
+
+    push(Cell.for_id(result.pluck("id")))
   end
 
   def end_game_in_victory_if_all_safe_cells_revealed
     board.check_for_victory(user:)
+  end
+
+  def push(cell)
+    updated_cells.concat(Array.wrap(cell))
   end
 end

@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# :reek:TooManyInstanceVariables
+
 # Cell::Reveal is a Service Object for collaborating with a {Game}, {Board}, and
 # {Cell} to process a {Cell} "Reveal" event. This involves:
 # - "Starting" the {Game} (if it hasn't already been started),
@@ -10,21 +12,17 @@
 #   Blank, and
 # - "Ending" the {Game} in victory if all safe {Cell}s on the {Board} have
 #   now/just been revealed.
-#
-# @see Cell::RecursiveReveal
 class Cell::Reveal
   include CallMethodBehaviors
 
-  attr_reader :game,
-              :board,
-              :cell,
-              :user
+  attr_reader :updated_cells
 
   def initialize(context)
     @game = context.game
     @board = context.board
     @cell = context.cell
     @user = context.user
+    @updated_cells = []
   end
 
   # :reek:TooManyStatements
@@ -45,6 +43,11 @@ class Cell::Reveal
 
   private
 
+  attr_reader :game,
+              :board,
+              :cell,
+              :user
+
   def already_revealed?
     cell.revealed?
   end
@@ -56,8 +59,8 @@ class Cell::Reveal
 
   def reveal_cell
     cell.transaction do
-      cell.reveal
       CellRevealTransaction.create_between(user:, cell:)
+      push(cell.reveal)
     end
   end
 
@@ -71,11 +74,17 @@ class Cell::Reveal
   def recursively_reveal_neighbors_if_revealed_cell_was_blank
     return unless cell.blank? # rubocop:disable all
 
-    upsertable_attributes_array = Cell::RecursiveReveal.new(cell:).call
-    Cell.upsert_all(upsertable_attributes_array)
+    upsertable_attributes_array = Cell::RecursiveReveal.(cell)
+    result = Cell.upsert_all(upsertable_attributes_array)
+
+    push(Cell.for_id(result.pluck("id")))
   end
 
   def end_game_in_victory_if_all_safe_cells_revealed
     board.check_for_victory(user:)
+  end
+
+  def push(cell)
+    updated_cells.concat(Array.wrap(cell))
   end
 end
