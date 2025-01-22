@@ -1,13 +1,15 @@
 <%# locals: () %>
 
 <div
-  data-controller="board-actions"
-  data-board-actions-board-id-value="game_board"
+  data-controller="games--current--board--actions"
+  data-games--current--board--actions-board-id-value="game_board"
   class="container mx-auto text-center"
 >
   <%= button_to(
         "Reveal Random",
         nil,
         class: "btn-primary",
-        data: { action: "board-actions#revealRandom:prevent" }) %>
+        data: {
+          action: "games--current--board--actions#revealRandom:prevent"
+        }) %>
 </div>

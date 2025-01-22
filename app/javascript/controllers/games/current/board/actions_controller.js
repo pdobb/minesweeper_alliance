@@ -1,12 +1,12 @@
 import { Controller } from "@hotwired/stimulus"
 
-// BoardActionsController is responsible for managing clicks on Buttons that
-// cause actions on the Game board. e.g. The "Reveal Random" button.
+// Games::Current::Board::ActionsController is responsible for managing clicks
+// on Buttons that cause actions on the Game board. e.g. The "Reveal Random"
+// button.
 export default class extends Controller {
   static values = { boardId: String }
 
-  static revealableCellsSelector =
-    'td:not([data-revealed="true"]):not([data-flagged="true"])'
+  static revealableCellsSelector = `td[data-revealed="false"][data-flagged="false"]`
 
   // "Reveal Random" button.
   revealRandom(event) {

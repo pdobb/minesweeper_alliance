@@ -1,4 +1,4 @@
-export default class Mouse {
+class Mouse {
   static LEFT_BUTTON = 0
   static RIGHT_BUTTON = 2
 
@@ -14,7 +14,7 @@ export default class Mouse {
   actsAsRightClick() {
     return (
       this.#isRightClick ||
-      (this.event.ctrlKey && this.#isLeftClick && this.#isMacOS)
+      (this.#isMacOS && this.event.ctrlKey && this.#isLeftClick)
     )
   }
 
@@ -30,3 +30,5 @@ export default class Mouse {
     return navigator.platform.indexOf("Mac") > -1
   }
 }
+
+export const mouse = (event) => new Mouse(event)

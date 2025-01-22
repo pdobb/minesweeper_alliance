@@ -1,4 +1,4 @@
-export default class Touch {
+class Touch {
   static DEFAULT_LONG_PRESS_TIMEOUT = 250 // ms
 
   constructor(event, options = {}) {
@@ -21,3 +21,5 @@ export default class Touch {
     return this.event.touches?.length === 1
   }
 }
+
+export const touch = (event) => new Touch(event)

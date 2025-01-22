@@ -11,23 +11,31 @@
     class="mx-auto table-fixed border-double border-4 border-dark"
   >
     <tbody
-      data-controller="board"
-      data-board-reveal-url-value="<%= content.reveal_url %>"
-      data-board-toggle-flag-url-value="<%= content.toggle_flag_url %>"
-      data-board-highlight-neighbors-url-value="<%= content.highlight_neighbors_url %>"
-      data-board-reveal-neighbors-url-value="<%= content.reveal_neighbors_url %>"
-      data-action="
-        <% if content.mobile?(layout) %>
-          touchstart->board#touchStart
-          touchmove->board#touchMove
-          touchend->board#touchEnd
-        <% else %>
-          mousedown->board#highlightNeighbors
-          mouseup->board#revealNeighbors
-          contextmenu->board#toggleFlag:prevent
-          click->board#reveal
-        <% end %>
-      "
+      <% if content.mobile?(layout) %>
+        <% controller = "games--current--board--mobile" %>
+        data-controller="<%= controller %>"
+        data-<%= controller %>-reveal-url-value="<%= content.reveal_url %>"
+        data-<%= controller %>-toggle-flag-url-value="<%= content.toggle_flag_url %>"
+        data-<%= controller %>-reveal-neighbors-url-value="<%= content.reveal_neighbors_url %>"
+        data-action="
+          touchstart-><%= controller %>#dispatchTouchStart
+          touchmove-><%= controller %>#dispatchTouchMove
+          touchend-><%= controller %>#dispatchTouchEnd
+        "
+      <% else # Desktop %>
+        <% controller = "games--current--board--desktop" %>
+        data-controller="<%= controller %>"
+        data-<%= controller %>-reveal-url-value="<%= content.reveal_url %>"
+        data-<%= controller %>-toggle-flag-url-value="<%= content.toggle_flag_url %>"
+        data-<%= controller %>-highlight-neighbors-url-value="<%= content.highlight_neighbors_url %>"
+        data-<%= controller %>-reveal-neighbors-url-value="<%= content.reveal_neighbors_url %>"
+        data-action="
+          mousedown-><%= controller %>#dispatchMousedown
+          contextmenu-><%= controller %>#dispatchContextmenu:prevent
+          mouseup-><%= controller %>#dispatchMouseup
+          click-><%= controller %>#dispatchClick
+        "
+      <% end %>
       class="
         text-center
 
