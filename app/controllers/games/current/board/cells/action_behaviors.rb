@@ -82,7 +82,7 @@ module Games::Current::Board::Cells::ActionBehaviors
       render_to_string(
         partial: "games/current/content", locals: { content: })
 
-    WarRoomChannel.broadcast_versioned_replace(target:, html:)
+    WarRoomChannel.broadcast_replace(target:, html:)
     respond_with { head(:no_content) }
   end
 
@@ -94,7 +94,7 @@ module Games::Current::Board::Cells::ActionBehaviors
       render_to_string(
         partial: "games/just_ended/container", locals: { container: })
 
-    WarRoomChannel.broadcast_versioned_replace(target:, html:)
+    WarRoomChannel.broadcast_replace(target:, html:)
     respond_with { head(:no_content) }
   end
 

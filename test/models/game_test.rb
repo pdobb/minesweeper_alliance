@@ -170,16 +170,6 @@ class GameTest < ActiveSupport::TestCase
       end
     end
 
-    describe "#version" do
-      subject { win1 }
-
-      it "returns the expected Integer" do
-        freeze_time do
-          _(subject.version).must_equal(Time.now.to_f)
-        end
-      end
-    end
-
     describe "#type" do
       context "GIVEN a standard Difficulty Level" do
         subject {

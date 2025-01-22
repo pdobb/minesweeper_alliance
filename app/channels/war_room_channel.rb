@@ -17,10 +17,6 @@ class WarRoomChannel < Turbo::StreamsChannel
   def self.broadcast_replace(...) = broadcast_replace_to(STREAM_NAME, ...)
   def self.broadcast_update(...) = broadcast_update_to(STREAM_NAME, ...)
 
-  def self.broadcast_versioned_replace(target:, **)
-    broadcast_action_to(STREAM_NAME, action: :versioned_replace, target:, **)
-  end
-
   # Broadcast a custom-built Array of `<turbo-stream>...</turbo-stream>`
   # element(s).
   def self.broadcast(content, ...)

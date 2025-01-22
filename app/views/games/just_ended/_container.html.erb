@@ -1,8 +1,6 @@
 <%# locals: (container:) %>
 
-<%= turbo_frame_tag(
-      container.turbo_frame_name,
-      data: { version: container.version }) do %>
+<%= turbo_frame_tag(container.turbo_frame_name) do %>
   <div class="space-y-12">
     <%= render("games/just_ended/content", content: container.content) %>
 

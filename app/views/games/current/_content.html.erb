@@ -1,9 +1,6 @@
 <%# locals: (content:) %>
 
-<%= turbo_frame_tag(
-      content.turbo_frame_name,
-      data: { version: content.version },
-      class: "block") do %>
+<%= turbo_frame_tag(content.turbo_frame_name, class: "block") do %>
   <div class="space-y-6 lg:space-y-12 select-none">
     <%= render("games/current/board", board: content.board) %>
     <%= render("games/current/actions") %>

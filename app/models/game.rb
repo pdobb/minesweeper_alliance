@@ -168,10 +168,6 @@ class Game < ApplicationRecord # rubocop:disable Metrics/ClassLength
 
   def display_id = "##{id.to_s.rjust(self.class.display_id_width, "0")}"
 
-  def version
-    @version ||= Time.now.to_f
-  end
-
   # :reek:TooManyStatements
 
   def start(seed_cell:, user:)
