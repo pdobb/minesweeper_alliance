@@ -9,6 +9,8 @@ class Games::Current::Board::Cells::ToggleFlagsController <
       Cell::ToggleFlag.(cell, user: current_user)
     end
 
-    broadcast_updates(cell)
+    broadcast_updates(cell) {
+      turbo_stream.update("placedFlagsCount", board.flags_count)
+    }
   end
 end

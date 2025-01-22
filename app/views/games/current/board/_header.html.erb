@@ -6,7 +6,7 @@
     title="<%= t("game.board.header.counts.title") %>"
     class="whitespace-nowrap tracking-[-0.15em]"
   >
-    <%= header.flags_count %> <%= Emoji.flag %>
+    <span id="placedFlagsCount"><%= header.flags_count %></span> <%= Emoji.flag %>
     <span class="text-dim -ml-1">/</span>
     <%= header.mines %> <%= Emoji.mine %>
   </div>

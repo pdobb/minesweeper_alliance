@@ -62,18 +62,20 @@ module Games::Current::Board::Cells::ActionBehaviors
     end
   end
 
-  def broadcast_updates(updated_cells)
+  def broadcast_updates(...)
     if current_game.just_ended?
       broadcast_just_ended_game_updates
       broadcast_past_games_index_refresh
     else
-      broadcast_current_game_updates(updated_cells)
+      broadcast_current_game_updates(...)
     end
   end
 
   def broadcast_current_game_updates(updated_cells)
-    WarRoomChannel.broadcast(
-      Cell::TurboStream::Morph.wrap_and_call(updated_cells, turbo_stream:))
+    WarRoomChannel.broadcast([
+      (yield if block_given?),
+      Cell::TurboStream::Morph.wrap_and_call(updated_cells, turbo_stream:),
+    ])
 
     respond_with { head(:no_content) }
   end
