@@ -40,6 +40,7 @@ module Games::Current::Board::Cells::ActionBehaviors
   end
 
   # :reek:TooManyStatements
+  # :reek:DuplicateMethodCall
   def safe_perform_game_action
     yield.tap {
       FleetTracker.activate!(token: current_user_token)
@@ -48,6 +49,7 @@ module Games::Current::Board::Cells::ActionBehaviors
     flash[:warning] = t("flash.web_socket_lost")
     recover_from_exception
   rescue => ex
+    flash.alert = t("flash.web_socket_lost")
     Notify.(ex)
     recover_from_exception
   end
