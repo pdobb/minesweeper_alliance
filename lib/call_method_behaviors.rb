@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-# CallMethodBehaviors is a mix-in to implement the `call` class/instance method
-# pattern used in Service Objects.
+# CallMethodBehaviors simplifies object instantiation and #call invocation by
+# exposing a single `<Object>.call(...)` interface.
 module CallMethodBehaviors
   extend ActiveSupport::Concern
 
@@ -14,9 +14,7 @@ module CallMethodBehaviors
     #       @name = name
     #     end
     #
-    #     def call
-    #       "Hello, #{@name}!"
-    #     end
+    #     def call = "Hello, #{@name}!"
     #   end
     #
     #   Greet.("World") # => "Hello, World!"
