@@ -11,7 +11,7 @@ import { mouse } from "mouse"
 //  - Right Click -> Toggle Flag
 // For Revealed Cells
 //  - Left Click (onMouseDown) -> Highlight Neighbors
-//  - Left Click (onMouseUp) -> Reveal/Dehighlight Neighbors
+//  - Left Click (onClick) -> Reveal/Dehighlight Neighbors
 export default class extends Controller {
   static values = {
     revealUrl: String,
@@ -32,15 +32,15 @@ export default class extends Controller {
     cell(event.target).toggleFlag(this.toggleFlagUrlValue)
   }
 
-  dispatchMouseup(event) {
-    if (!mouse(event).actsAsLeftClick()) return
-
-    cell(event.target).revealNeighbors(this.revealNeighborsUrlValue)
-  }
-
   dispatchClick(event) {
     if (mouse(event).actsAsRightClick()) return
 
-    cell(event.target).reveal(this.revealUrlValue)
+    const $cell = cell(event.target)
+
+    if ($cell.isRevealed) {
+      $cell.revealNeighbors(this.revealNeighborsUrlValue)
+    } else {
+      $cell.reveal(this.revealUrlValue)
+    }
   }
 }
