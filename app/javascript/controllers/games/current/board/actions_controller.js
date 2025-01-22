@@ -8,10 +8,12 @@ export default class extends Controller {
 
   static revealableCellsSelector = `td[data-revealed="false"][data-flagged="false"]`
 
-  // "Reveal Random" button.
+  // Clicking on the "Reveal Random" button randomly picks an eligible Table
+  // Cell and calls `click()` on it.
   revealRandom(event) {
-    event.currentTarget.disabled = true
+    event.target.disabled = true
     this.#getCellForRandomReveal().click()
+    event.target.disabled = false
   }
 
   #getCellForRandomReveal() {
