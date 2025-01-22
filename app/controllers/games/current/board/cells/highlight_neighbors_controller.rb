@@ -6,22 +6,12 @@ class Games::Current::Board::Cells::HighlightNeighborsController <
 
   def create
     safe_perform_game_action do
-      Cell::HighlightNeighbors.(cell, context:)
+      updated_cells = cell.highlight_neighbors
+
+      WarRoomChannel.broadcast(
+        Cell::TurboStream::Morph.wrap!([cell, updated_cells], turbo_stream:))
     end
 
     head(:no_content)
-  end
-
-  private
-
-  def context = Context.new(self)
-
-  # Games::Current::Board::Cells::HighlightNeighborsController::Context
-  class Context
-    def initialize(context)
-      @context = context
-    end
-
-    def helpers = @context.helpers
   end
 end

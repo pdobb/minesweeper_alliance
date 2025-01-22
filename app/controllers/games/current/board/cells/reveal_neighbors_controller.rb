@@ -17,22 +17,11 @@ class Games::Current::Board::Cells::RevealNeighborsController <
 
         render_updated_game
       else
-        Cell::DehighlightNeighbors.(
-          cell, context: dehighlight_neighbors_context)
+        updated_cells = cell.dehighlight_neighbors
+
+        WarRoomChannel.broadcast(
+          Cell::TurboStream::Morph.wrap!([cell, updated_cells], turbo_stream:))
       end
     end
-  end
-
-  private
-
-  def dehighlight_neighbors_context = Context.new(self)
-
-  # Games::Current::Board::Cells::RevealNeighborsController::Context
-  class Context
-    def initialize(context)
-      @context = context
-    end
-
-    def helpers = @context.helpers
   end
 end

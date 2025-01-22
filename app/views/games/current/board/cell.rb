@@ -8,9 +8,19 @@ class Games::Current::Board::Cell
 
   include Games::Board::CellBehaviors
 
+  def self.partial_path
+    @partial_path ||=
+      Pathname.new(__FILE__).
+        relative_path_from(Rails.root.join("app/views")).
+        sub_ext("").
+        to_s
+  end
+
   def initialize(cell)
     @cell = cell
   end
+
+  def to_partial_path = self.class.partial_path
 
   def dom_id = View.dom_id(cell)
 
