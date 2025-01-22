@@ -1,11 +1,18 @@
 # frozen_string_literal: true
 
+# :reek:TooManyInstanceVariables
+
 # Log::Exception is a Service Object for logging an optional message + a
 # detailed exception message/backtrace to the given logger (defaults to
 # Rails.logger) with log level `error`. It will:
 # - Log the passed-in `message`, if present
 # - Log the exception details + backtrace for the passed-in `exception` (see:
 #   {Log::Exception::Detail})
+#
+# @example
+#   Log::Exception.(ex)
+#   Log::Exception.(ex, message: "Oh, no! The thing happened!")
+#   Log::Exception.(ex, backtrace_cleaner: Rails.backtrace_cleaner)
 class Log::Exception
   include CallMethodBehaviors
 
@@ -15,12 +22,14 @@ class Log::Exception
         exception,
         message: nil,
         logger: Rails.logger,
+        backtrace_cleaner: nil,
         skip: -> { App.test? })
     raise(TypeError, "exception can't be nil") unless exception
 
     @exception = exception
     @message = message.presence
     @logger = logger
+    @backtrace_cleaner = backtrace_cleaner
     @skip = skip
   end
 
@@ -53,8 +62,10 @@ class Log::Exception
   end
 
   def exception_details
-    Detail.(exception)
+    Detail.(exception, backtrace_cleaner:)
   end
+
+  def backtrace_cleaner = @backtrace_cleaner || NullBacktraceCleaner
 
   # Log::Exception::Detail outputs the given exception' message details + a
   # cleaned-up backtrace--via the passed-in `backtrace_cleaner` (default:
@@ -64,7 +75,7 @@ class Log::Exception
 
     include CallMethodBehaviors
 
-    def initialize(exception, backtrace_cleaner: Rails.backtrace_cleaner)
+    def initialize(exception, backtrace_cleaner:)
       @exception = exception
       @backtrace_cleaner = backtrace_cleaner
     end
@@ -72,7 +83,7 @@ class Log::Exception
     def call
       [
         detailed_message,
-        backtrace,
+        *backtrace,
       ].join(SEPARATOR)
     end
 
@@ -81,10 +92,16 @@ class Log::Exception
     def detailed_message = exception.detailed_message
 
     def backtrace
-      backtrace_cleaner.clean(exception.backtrace).join(SEPARATOR)
+      backtrace_cleaner.clean(exception.backtrace)
     end
 
     attr_reader :exception,
                 :backtrace_cleaner
+  end
+
+  # Log::Exception::NullBacktraceCleaner is a simple pass-through / stand-in for
+  # an actual "backtrace cleaner" (such as Rails.backtrace_cleaner).
+  module NullBacktraceCleaner
+    def self.clean(array) = array
   end
 end

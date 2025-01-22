@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# :reek:TooManyInstanceVariables
+
 # Notify is a Service Object used for notification of caught exceptions.
 # Notification consists of:
 # - Logging the exception details + a cleaned-up backtrace
@@ -19,6 +21,7 @@
 #
 # @example Usage
 #   Notify.(ex)
+#   Notify.(ex, backtrace_cleaner: Rails.backtrace_cleaner)
 #   Notify.(ex, info: "...")
 #   Notify.(ex, user: user.inspect)
 #   Notify.(ex, user: user.inspect, alert: "...")
@@ -37,6 +40,7 @@ class Notify
         exception,
         reraise: self.class.reraise?,
         logger: Rails.logger,
+        backtrace_cleaner: nil,
         **context)
     unless exception.is_a?(Exception)
       raise(TypeError, "Exception expected, got #{exception.class}")
@@ -45,6 +49,7 @@ class Notify
     @exception = exception
     @reraise = reraise
     @logger = logger
+    @backtrace_cleaner = backtrace_cleaner
     @context = context
   end
 
@@ -60,10 +65,11 @@ class Notify
 
   attr_reader :exception,
               :logger,
+              :backtrace_cleaner,
               :context
 
   def log
-    Log::Exception.(exception, message:, logger:)
+    Log::Exception.(exception, message:, logger:, backtrace_cleaner:)
   end
 
   def message
