@@ -41,9 +41,9 @@ module Games::Current::Board::Cells::ActionBehaviors
 
   # :reek:TooManyStatements
   def safe_perform_game_action
-    yield
-
-    FleetTracker.activate!(token: current_user_token)
+    yield.tap {
+      FleetTracker.activate!(token: current_user_token)
+    }
   rescue Error
     flash[:warning] = t("flash.web_socket_lost")
     recover_from_exception
@@ -60,34 +60,24 @@ module Games::Current::Board::Cells::ActionBehaviors
     end
   end
 
-  def render_updated_game
+  def broadcast_updates(updated_cells)
     if current_game.just_ended?
-      render_just_ended_game
+      broadcast_just_ended_game_updates
       broadcast_past_games_index_refresh
     else
-      render_updated_current_game
+      broadcast_current_game_updates(updated_cells)
     end
   end
 
-  def broadcast_past_games_index_refresh
-    Turbo::StreamsChannel.broadcast_refresh_later_to(
-      Games::Index.turbo_stream_name)
-  end
+  def broadcast_current_game_updates(updated_cells)
+    WarRoomChannel.broadcast(
+      Cell::TurboStream::Morph.wrap_and_call(updated_cells, turbo_stream:))
 
-  # :reek:TooManyStatements
-  def render_updated_current_game
-    content = Games::Current::Content.new(current_game:)
-    target = content.turbo_frame_name
-    html =
-      render_to_string(
-        partial: "games/current/content", locals: { content: })
-
-    WarRoomChannel.broadcast_replace(target:, html:)
     respond_with { head(:no_content) }
   end
 
   # :reek:TooManyStatements
-  def render_just_ended_game
+  def broadcast_just_ended_game_updates
     container = Games::JustEnded::Container.new(current_game:)
     target = container.turbo_frame_name
     html =
@@ -96,6 +86,11 @@ module Games::Current::Board::Cells::ActionBehaviors
 
     WarRoomChannel.broadcast_replace(target:, html:)
     respond_with { head(:no_content) }
+  end
+
+  def broadcast_past_games_index_refresh
+    Turbo::StreamsChannel.broadcast_refresh_later_to(
+      Games::Index.turbo_stream_name)
   end
 
   def respond_with(&)

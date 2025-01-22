@@ -4,13 +4,11 @@ class Games::Current::Board::Cells::RevealsController < ApplicationController
   include Games::Current::Board::Cells::ActionBehaviors
 
   def create
-    safe_perform_game_action do
-      result = Cell::Reveal.(current_context)
+    updated_cells =
+      safe_perform_game_action {
+        Cell::Reveal.(current_context).updated_cells
+      }
 
-      WarRoomChannel.broadcast(
-        Cell::TurboStream::Morph.wrap!(result.updated_cells, turbo_stream:))
-    end
-
-    head(:no_content)
+    broadcast_updates([cell, updated_cells])
   end
 end

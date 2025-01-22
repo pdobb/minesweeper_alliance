@@ -6,12 +6,9 @@ class Games::Current::Board::Cells::ToggleFlagsController <
 
   def create
     safe_perform_game_action do
-      updated_cell = Cell::ToggleFlag.(cell, user: current_user)
-
-      WarRoomChannel.broadcast(
-        Cell::TurboStream::Morph.(updated_cell, turbo_stream:))
+      Cell::ToggleFlag.(cell, user: current_user)
     end
 
-    head(:no_content)
+    broadcast_updates(cell)
   end
 end

@@ -6,7 +6,7 @@
 #   Cell::TurboStream::Morph.(cell, turbo_stream:)
 #
 # @example Wrap and Call on a collection
-#   Cell::TurboStream::Morph.wrap!(updated_cells, turbo_stream:)
+#   Cell::TurboStream::Morph.wrap_and_call(updated_cells, turbo_stream:)
 class Cell::TurboStream::Morph
   include WrapAndCallMethodBehaviors
 

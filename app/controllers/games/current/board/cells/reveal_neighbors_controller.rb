@@ -5,8 +5,8 @@ class Games::Current::Board::Cells::RevealNeighborsController <
   include Games::Current::Board::Cells::ActionBehaviors
 
   def create
-    safe_perform_game_action do
-      updated_cells =
+    updated_cells =
+      safe_perform_game_action {
         # Whether we end up revealing any neighboring {Cell}s or not, we will
         # always need to dehighlight any highlighted neighboring {Cell}s as per
         # our game play rules.
@@ -14,16 +14,12 @@ class Games::Current::Board::Cells::RevealNeighborsController <
         #   de-highlighting of those {Cell}s for us.
         # - Else, we must take care of this here ourselves.
         if cell.neighboring_flags_count_matches_value?
-          result = Cell::RevealNeighbors.(current_context).updated_cells
-          result.updated_cells
+          Cell::RevealNeighbors.(current_context).updated_cells
         else
-          [cell, cell.dehighlight_neighbors]
+          cell.dehighlight_neighbors
         end
+      }
 
-      WarRoomChannel.broadcast(
-        Cell::TurboStream::Morph.wrap!(updated_cells, turbo_stream:))
-    end
-
-    head(:no_content)
+    broadcast_updates([cell, updated_cells])
   end
 end
