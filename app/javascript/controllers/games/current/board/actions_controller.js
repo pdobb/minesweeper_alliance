@@ -12,7 +12,7 @@ export default class extends Controller {
   // Cell and calls `click()` on it.
   revealRandom(event) {
     event.target.disabled = true
-    this.#getCellForRandomReveal().click()
+    this.#submit(this.#getCellForRandomReveal())
     event.target.disabled = false
   }
 
@@ -30,5 +30,17 @@ export default class extends Controller {
 
   #getBoard() {
     return document.getElementById(this.boardIdValue)
+  }
+
+  #submit($cell) {
+    if (this.isMobile) {
+      $cell.dispatchEvent(new Event("touchend", { bubbles: true }))
+    } else {
+      $cell.click()
+    }
+  }
+
+  get isMobile() {
+    return navigator.maxTouchPoints > 0
   }
 }
