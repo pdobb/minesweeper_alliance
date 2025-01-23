@@ -12,20 +12,28 @@ class Games::Current::Status
   def self.broadcast_status_update(current_game:)
     WarRoomChannel.broadcast_replace(
       target: :current_game_status,
-      html: game_status(current_game:))
+      html: new(current_game:).game_status_with_emoji)
   end
-
-  def self.game_status(current_game:) = Games::Current.new(current_game:).status
 
   def initialize(current_game:)
     @current_game = current_game
   end
 
-  def game_status = self.class.game_status(current_game:)
+  def game_status_with_emoji
+    "#{game_status} #{game_status_emoji}"
+  end
 
   def fleet_size = FleetTracker.count
 
   private
 
   attr_reader :current_game
+
+  def game_status = current_game.status
+
+  def game_status_emoji
+    game_standing_by? ? Emoji.anchor : Emoji.ship
+  end
+
+  def game_standing_by? = current_game.status_standing_by?
 end
