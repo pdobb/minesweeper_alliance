@@ -10,7 +10,7 @@ class Games::Past::Board::Header
   def mines = board.mines
 
   def elapsed_time
-    @elapsed_time ||= Games::Board::ElapsedTime.new(game_engagement_time_range)
+    @elapsed_time ||= Games::Board::ElapsedTime.new(game:)
   end
 
   private
@@ -18,6 +18,4 @@ class Games::Past::Board::Header
   attr_reader :board
 
   def game = board.game
-
-  def game_engagement_time_range = game.engagement_time_range
 end

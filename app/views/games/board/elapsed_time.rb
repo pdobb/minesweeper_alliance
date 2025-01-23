@@ -5,11 +5,11 @@
 class Games::Board::ElapsedTime
   MAX_TIME_STRING = "23:59:59+"
 
-  attr_reader :elapsed_time
-
-  def initialize(time_range)
-    @elapsed_time = ::ElapsedTime.new(time_range)
+  def initialize(game:)
+    @game = game
   end
+
+  def sweep_in_progress? = game.status_sweep_in_progress?
 
   # "Total Seconds"
   def to_i
@@ -26,11 +26,17 @@ class Games::Board::ElapsedTime
 
   private
 
-  def time
-    @time ||= elapsed_time.to_time
+  attr_reader :game
+
+  def elapsed_time
+    @elapsed_time ||= ::ElapsedTime.new(game.engagement_time_range)
   end
 
   def over_a_day? = elapsed_time.over_a_day?
+
+  def time
+    @time ||= elapsed_time.to_time
+  end
 
   def determine_format
     if time.hour.positive?

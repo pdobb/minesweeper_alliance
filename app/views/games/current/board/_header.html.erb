@@ -11,14 +11,7 @@
     <%= header.mines %> <%= Emoji.mine %>
   </div>
 
-  <% header.elapsed_time.tap do |elapsed_time| %>
-    <time
-      <% if header.sweep_in_progress? %>
-        data-controller="elapsed-time"
-        data-elapsed-time-start-value="<%= elapsed_time.to_i %>"
-      <% end %>
-      title="<%= t("game.board.header.timer.title") %>"
-      datetime="PT<%= elapsed_time.to_i %>S"
-    ><%= elapsed_time %></time>
-  <% end %>
+  <%= render(
+        "games/current/board/header/elapsed_time",
+        elapsed_time: header.elapsed_time) %>
 </div>

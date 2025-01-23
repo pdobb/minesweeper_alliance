@@ -10,10 +10,8 @@ class Games::Current::Board::Header
   def flags_count = board.flags_count
   def mines = board.mines
 
-  def sweep_in_progress? = game.status_sweep_in_progress?
-
   def elapsed_time
-    @elapsed_time ||= Games::Board::ElapsedTime.new(game_engagement_time_range)
+    @elapsed_time ||= Games::Board::ElapsedTime.new(game:)
   end
 
   private
@@ -21,6 +19,4 @@ class Games::Current::Board::Header
   attr_reader :board
 
   def game = board.game
-
-  def game_engagement_time_range = game.engagement_time_range
 end
