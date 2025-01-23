@@ -9,6 +9,38 @@ class Games::Current::Board::Cells::RevealsController < ApplicationController
         Cell::Reveal.(current_context).updated_cells
       }
 
-    broadcast_updates([cell, updated_cells])
+    broadcast_updates([cell, updated_cells]) {
+      just_started_game_turbo_stream_updates if current_game.just_started?
+    }
+  end
+
+  private
+
+  def just_started_game_turbo_stream_updates
+    [
+      game_status_turbo_stream_update,
+      elapsed_time_turbo_stream_update,
+      (mine_cell_indicators_turbo_stream_updates if App.debug?),
+    ]
+  end
+
+  def game_status_turbo_stream_update
+    turbo_stream.replace(
+      "current_game_status",
+      html: Games::Current::Status.new(current_game:).game_status_with_emoji)
+  end
+
+  def elapsed_time_turbo_stream_update
+    turbo_stream.replace(
+      "elapsedTime",
+      partial: "games/current/board/header/elapsed_time",
+      locals: {
+        elapsed_time: Games::Board::ElapsedTime.new(game: current_game),
+      },
+      method: :morph)
+  end
+
+  def mine_cell_indicators_turbo_stream_updates
+    Cell::TurboStream::Morph.wrap_and_call(board.mine_cells, turbo_stream:)
   end
 end

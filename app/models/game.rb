@@ -197,6 +197,7 @@ class Game < ApplicationRecord # rubocop:disable Metrics/ClassLength
 
   def update_started_at(time:)
     touch(:started_at, time:)
+    self.just_started = true
   end
 
   def update_ended_at(time:)
@@ -212,6 +213,7 @@ class Game < ApplicationRecord # rubocop:disable Metrics/ClassLength
     !on?
   end
 
+  def just_started? = !!just_started
   def just_ended? = !!just_ended
   def ended_in_victory? = status_alliance_wins?
   def ended_in_defeat? = status_mines_win?
@@ -228,7 +230,8 @@ class Game < ApplicationRecord # rubocop:disable Metrics/ClassLength
 
   private
 
-  attr_accessor :just_ended
+  attr_accessor :just_started,
+                :just_ended
 
   def end_game(user:)
     return self if over?

@@ -53,8 +53,9 @@ class Cell::Reveal
   end
 
   def start_game_if_standing_by
+    return unless game.status_standing_by?
+
     game.start(seed_cell: cell, user:)
-    Games::Current::Status.broadcast_status_update(current_game: game)
   end
 
   def reveal_cell

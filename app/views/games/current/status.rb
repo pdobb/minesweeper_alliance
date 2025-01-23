@@ -9,12 +9,6 @@ class Games::Current::Status
       html: FleetTracker.count)
   end
 
-  def self.broadcast_status_update(current_game:)
-    WarRoomChannel.broadcast_replace(
-      target: :current_game_status,
-      html: new(current_game:).game_status_with_emoji)
-  end
-
   def initialize(current_game:)
     @current_game = current_game
   end
