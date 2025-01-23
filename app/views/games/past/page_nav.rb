@@ -23,9 +23,6 @@ class Games::Past::PageNav
   def next_game? = next_game&.over?
   def next_game_url = Router.game_path(next_game, filter_params)
 
-  def show_current_game_button? = !filter_params?
-  def current_game_url = Router.root_path
-
   private
 
   attr_reader :game,

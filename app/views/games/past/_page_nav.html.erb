@@ -30,9 +30,3 @@
         "heroicons/arrow-long-right.svg",
         class: "text-dim-xl") %>
 <% end %>
-
-<% if page_nav.show_current_game_button? %>
-  <%= link_to(page_nav.current_game_url, title: "War Room") do %>
-    <%= inline_svg_tag("heroicons/arrow-right-circle.svg") %>
-  <% end %>
-<% end %>
