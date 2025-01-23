@@ -86,7 +86,7 @@ class Cell < ApplicationRecord
   #
   # @return [Array<Cell>] The Cells that were just highlighted.
   def highlight_neighbors
-    return self if unrevealed?
+    return if unrevealed?
 
     highlightable_neighbors = neighbors.select(&:highlightable?)
     highlightable_neighbors.each { |cell| cell.update!(highlighted: true) }
@@ -97,7 +97,7 @@ class Cell < ApplicationRecord
   #
   # @return [Array<Cell>] The Cells that were just dehighlighted.
   def dehighlight_neighbors
-    return self if unrevealed?
+    return if unrevealed?
 
     highlighted_neighbors = neighbors.select(&:highlighted?)
     highlighted_neighbors.each { |cell| cell.update!(highlighted: false) }

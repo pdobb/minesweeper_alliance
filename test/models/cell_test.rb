@@ -199,11 +199,11 @@ class CellTest < ActiveSupport::TestCase
       context "GIVEN an unrevealed Cell" do
         subject { standing_by1_board_cell1 }
 
-        it "returns self without having updated it" do
+        it "returns nil" do
           result =
             _(-> { subject.dehighlight_neighbors }).wont_change(
               "subject.neighbors.count(&:highlighted?)")
-          _(result).must_be_same_as(subject)
+          _(result).must_be_nil
         end
       end
 
@@ -234,11 +234,11 @@ class CellTest < ActiveSupport::TestCase
       context "GIVEN an unrevealed Cell" do
         subject { standing_by1_board_cell1 }
 
-        it "returns self without having updated it" do
+        it "returns nil" do
           result =
             _(-> { subject.dehighlight_neighbors }).wont_change(
               "subject.neighbors.count(&:highlighted?)")
-          _(result).must_be_same_as(subject)
+          _(result).must_be_nil
         end
       end
 
