@@ -24,7 +24,7 @@ module Games::New::Behaviors
 
       FleetTracker.reset
       WarRoomChannel.broadcast_refresh
-      broadcast_new_game_notification
+      broadcast_fleet_mustering_notification
       store_board_settings
     end
 
@@ -35,9 +35,10 @@ module Games::New::Behaviors
 
     def just_created? = game.just_created?
 
-    def broadcast_new_game_notification(
+    def broadcast_fleet_mustering_notification(
           wait: TURBO_STREAM_DISCONNECT_AFFORDANCE_IN_SECONDS)
-      Games::BroadcastCreateNotificationJob.set(wait:).perform_later
+      Games::Current::BroadcastFleetMusteringNotificationJob.set(wait:).
+        perform_later
     end
 
     def store_board_settings
