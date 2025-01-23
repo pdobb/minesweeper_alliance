@@ -10,7 +10,7 @@ class Games::Current::Board::Cells::RevealsController < ApplicationController
       }
 
     broadcast_updates([cell, updated_cells]) {
-      just_started_game_turbo_stream_updates if current_game.just_started?
+      just_started_game_turbo_stream_updates if game.just_started?
     }
   end
 
@@ -26,8 +26,8 @@ class Games::Current::Board::Cells::RevealsController < ApplicationController
 
   def game_status_turbo_stream_update
     turbo_stream.replace(
-      "current_game_status",
-      html: Games::Current::Status.new(current_game:).game_status_with_emoji)
+      "currentGameStatus",
+      html: Games::Current::Status.new(game:).game_status_with_emoji)
   end
 
   def elapsed_time_turbo_stream_update
@@ -35,7 +35,7 @@ class Games::Current::Board::Cells::RevealsController < ApplicationController
       "elapsedTime",
       partial: "games/current/board/header/elapsed_time",
       locals: {
-        elapsed_time: Games::Board::ElapsedTime.new(game: current_game),
+        elapsed_time: Games::Board::ElapsedTime.new(game:),
       },
       method: :morph)
   end

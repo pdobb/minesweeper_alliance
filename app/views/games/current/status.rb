@@ -9,8 +9,8 @@ class Games::Current::Status
       html: FleetTracker.count)
   end
 
-  def initialize(current_game:)
-    @current_game = current_game
+  def initialize(game:)
+    @game = game
   end
 
   def game_status_with_emoji
@@ -21,13 +21,13 @@ class Games::Current::Status
 
   private
 
-  attr_reader :current_game
+  attr_reader :game
 
-  def game_status = current_game.status
+  def game_status = game.status
 
   def game_status_emoji
     game_standing_by? ? Emoji.anchor : Emoji.ship
   end
 
-  def game_standing_by? = current_game.status_standing_by?
+  def game_standing_by? = game.status_standing_by?
 end

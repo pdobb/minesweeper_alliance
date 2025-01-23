@@ -15,8 +15,8 @@ module Games::Current::Board::Cells::ActionBehaviors
 
   private
 
-  def current_game
-    @current_game ||= begin
+  def game
+    @game ||= begin
       game_id = params[:game_id]
       Game.for_game_on_statuses.for_id(game_id).take.tap { |game|
         unless game
@@ -27,7 +27,7 @@ module Games::Current::Board::Cells::ActionBehaviors
   end
 
   def board
-    @board ||= current_game.board
+    @board ||= game.board
   end
 
   def cell
@@ -63,7 +63,7 @@ module Games::Current::Board::Cells::ActionBehaviors
   end
 
   def broadcast_updates(...)
-    if current_game.just_ended?
+    if game.just_ended?
       broadcast_just_ended_game_updates
       broadcast_past_games_index_refresh
     else
@@ -82,7 +82,7 @@ module Games::Current::Board::Cells::ActionBehaviors
 
   # :reek:TooManyStatements
   def broadcast_just_ended_game_updates
-    container = Games::JustEnded::Container.new(current_game:)
+    container = Games::JustEnded::Container.new(game:)
     target = container.turbo_frame_name
     html =
       render_to_string(
@@ -114,7 +114,7 @@ module Games::Current::Board::Cells::ActionBehaviors
       @context = context
     end
 
-    def game = context.__send__(:current_game)
+    def game = context.__send__(:game)
     def board = context.__send__(:board)
     def cell = context.__send__(:cell)
 

@@ -5,7 +5,7 @@ module Games::New::Behaviors
   def find_or_create_current_game(settings:)
     Game.
       find_or_create_current(settings:, user: current_user).
-      tap { |current_game| OnCreate.(current_game:, context: layout) }
+      tap { |game| OnCreate.(game:, context: layout) if game.just_created? }
   end
 
   # Games::New::Behaviors::OnCreate
@@ -14,8 +14,8 @@ module Games::New::Behaviors
 
     include CallMethodBehaviors
 
-    def initialize(current_game:, context:)
-      @current_game = current_game
+    def initialize(game:, context:)
+      @game = game
       @context = context
     end
 
@@ -30,10 +30,10 @@ module Games::New::Behaviors
 
     private
 
-    attr_reader :current_game,
+    attr_reader :game,
                 :context
 
-    def just_created? = current_game.just_created?
+    def just_created? = game.just_created?
 
     def broadcast_new_game_notification(
           wait: TURBO_STREAM_DISCONNECT_AFFORDANCE_IN_SECONDS)
@@ -48,7 +48,7 @@ module Games::New::Behaviors
         value: settings.to_json)
     end
 
-    def settings = @settings ||= current_game.board_settings
+    def settings = @settings ||= game.board_settings
     def custom_settings? = settings.custom?
   end
 end

@@ -3,8 +3,8 @@
 # Games::JustEnded::Actions represents represents the {Game} actions area for
 # {Game}s that have just ended.
 class Games::JustEnded::Actions
-  def initialize(current_game:)
-    @current_game = current_game
+  def initialize(game:)
+    @game = game
   end
 
   def game_over_message
@@ -21,7 +21,7 @@ class Games::JustEnded::Actions
 
   private
 
-  attr_reader :current_game
+  attr_reader :game
 
-  def game_ended_in_victory? = current_game.ended_in_victory?
+  def game_ended_in_victory? = game.ended_in_victory?
 end

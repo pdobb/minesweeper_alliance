@@ -20,7 +20,7 @@ class Home::Show
 
   def container
     if current_game
-      Games::Current::Container.new(current_game:)
+      Games::Current::Container.new(game: current_game)
     else
       Games::New::Container.new
     end

@@ -3,25 +3,25 @@
 # Games::JustEnded::Container represents the entire view context surrounding
 # {Game}s that have just ended.
 class Games::JustEnded::Container
-  def initialize(current_game:)
-    @current_game = current_game
+  def initialize(game:)
+    @game = game
   end
 
   def turbo_frame_name = Games::Current::Container.turbo_frame_name
 
   def content
-    Games::JustEnded::Content.new(current_game:)
+    Games::JustEnded::Content.new(game:)
   end
 
   def footer_turbo_frame_name
-    Games::JustEnded::Footer.turbo_frame_name(current_game)
+    Games::JustEnded::Footer.turbo_frame_name(game)
   end
 
   def footer_source_url
-    Router.just_ended_game_footer_path(current_game)
+    Router.just_ended_game_footer_path(game)
   end
 
   private
 
-  attr_reader :current_game
+  attr_reader :game
 end

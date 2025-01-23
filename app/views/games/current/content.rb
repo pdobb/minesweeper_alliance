@@ -5,17 +5,17 @@
 class Games::Current::Content
   def self.turbo_frame_name = :current_game_content
 
-  def initialize(current_game:)
-    @current_game = current_game
+  def initialize(game:)
+    @game = game
   end
 
   def turbo_frame_name = self.class.turbo_frame_name
 
   def board
-    Games::Current::Board.new(board: current_game.board)
+    Games::Current::Board.new(board: game.board)
   end
 
   private
 
-  attr_reader :current_game
+  attr_reader :game
 end

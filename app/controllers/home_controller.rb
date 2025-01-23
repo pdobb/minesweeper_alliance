@@ -6,14 +6,15 @@ class HomeController < ApplicationController
   def show
     @view = Home::Show.new(current_game:)
 
-    JoinGame.(user: current_user, game: current_game)
+    JoinGame.(user: current_user, game: current_game) if current_game
   end
 
   private
 
   def current_game = @current_game ||= Game.current
 
-  # HomeController::JoinGame
+  # HomeController::JoinGame manages what happens when a user joins(as in
+  # visits, views, or otherwise witnesses) a {Game}.
   class JoinGame
     include CallMethodBehaviors
 

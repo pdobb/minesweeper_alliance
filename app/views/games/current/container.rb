@@ -5,8 +5,8 @@
 class Games::Current::Container
   def self.turbo_frame_name = :current_game_container
 
-  def initialize(current_game:)
-    @current_game = current_game
+  def initialize(game:)
+    @game = game
   end
 
   def partial_path
@@ -16,11 +16,11 @@ class Games::Current::Container
   def turbo_frame_name = self.class.turbo_frame_name
 
   def status
-    Games::Current::Status.new(current_game:)
+    Games::Current::Status.new(game:)
   end
 
   def content
-    Games::Current::Content.new(current_game:)
+    Games::Current::Content.new(game:)
   end
 
   def footer
@@ -29,5 +29,5 @@ class Games::Current::Container
 
   private
 
-  attr_reader :current_game
+  attr_reader :game
 end
