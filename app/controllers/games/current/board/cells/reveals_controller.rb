@@ -26,13 +26,13 @@ class Games::Current::Board::Cells::RevealsController < ApplicationController
 
   def game_status_turbo_stream_update
     turbo_stream.replace(
-      "currentGameStatus",
+      Games::Current::Status.game_status_turbo_update_target,
       html: Games::Current::Status.new(game:).game_status_with_emoji)
   end
 
   def elapsed_time_turbo_stream_update
     turbo_stream.replace(
-      "elapsedTime",
+      Games::Board::ElapsedTime.turbo_update_target,
       partial: "games/current/board/header/elapsed_time",
       locals: {
         elapsed_time: Games::Board::ElapsedTime.new(game:),

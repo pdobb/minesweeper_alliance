@@ -5,9 +5,13 @@
 class Games::Board::ElapsedTime
   MAX_TIME_STRING = "23:59:59+"
 
+  def self.turbo_update_target = "elapsedTime"
+
   def initialize(game:)
     @game = game
   end
+
+  def turbo_update_target = self.class.turbo_update_target
 
   def sweep_in_progress? = game.status_sweep_in_progress?
 

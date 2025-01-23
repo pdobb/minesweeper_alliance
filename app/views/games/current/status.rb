@@ -1,13 +1,10 @@
 # frozen_string_literal: true
 
-# Games::Current::Status represents the current status (Standing By vs Sweep In
-# Progress) for the current {Game}.
+# Games::Current::Status represents the current status ("Standing By" vs
+# "Sweep In Progress") for the current {Game}.
 class Games::Current::Status
-  def self.broadcast_fleet_size_update
-    WarRoomChannel.broadcast_update(
-      target: :fleet_size,
-      html: FleetTracker.count)
-  end
+  def self.game_status_turbo_update_target = "currentGameStatus"
+  def self.fleet_size_turbo_update_target = "fleetSize"
 
   def initialize(game:)
     @game = game
@@ -16,6 +13,12 @@ class Games::Current::Status
   def game_status_with_emoji
     "#{game_status} #{game_status_emoji}"
   end
+
+  def game_status_turbo_update_target
+    self.class.game_status_turbo_update_target
+  end
+
+  def fleet_size_turbo_update_target = self.class.fleet_size_turbo_update_target
 
   def fleet_size = FleetTracker.count
 

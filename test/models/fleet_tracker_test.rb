@@ -119,12 +119,12 @@ class FleetTrackerTest < ActiveSupport::TestCase
       before do
         @query_spy =
           MuchStub.spy(
-            Games::Current::BroadcastRosterUpdateJob, :set, :perform_later)
+            Games::Current::BroadcastFleetUpdatesJob, :set, :perform_later)
       end
 
       subject { empty1 }
 
-      it "calls Games::Current::BroadcastRosterUpdateJob, as expected" do
+      it "calls Games::Current::BroadcastFleetUpdatesJob, as expected" do
         subject.add!(token: user1_token)
 
         _(@query_spy.set_last_called_with.pargs).must_equal([wait: 0.seconds])
@@ -156,18 +156,19 @@ class FleetTrackerTest < ActiveSupport::TestCase
 
     describe ".activate!" do
       before do
-        MuchStub.(Home::Roster, :broadcast_participation_status_update) {
-          @broadcast_participation_status_update_called = true
+        MuchStub.(WarRoomChannel, :broadcast_update) {
+          @broadcast_fleet_participation_status_update_called = true
         }
       end
 
       subject { single_player_registry1 }
 
       context "GIVEN an inactive entry" do
-        it "calls Home::Roster.broadcast_participation_status_update" do
+        it "calls Home::Roster.broadcast_fleet_participation_status_update" do
           subject.activate!(token: user1_token)
 
-          _(@broadcast_participation_status_update_called).must_equal(true)
+          _(@broadcast_fleet_participation_status_update_called).
+            must_equal(true)
         end
       end
 
@@ -176,11 +177,11 @@ class FleetTrackerTest < ActiveSupport::TestCase
           subject.activate(user1_token)
         end
 
-        it "returns nil and "\
-           "doesn't call Home::Roster.broadcast_participation_status_update" do
+        it "returns nil and doesn't call "\
+           "Home::Roster.broadcast_fleet_participation_status_update" do
           result = subject.activate!(token: user1_token)
           _(result).must_be_nil
-          _(@broadcast_participation_status_update_called).must_be_nil
+          _(@broadcast_fleet_participation_status_update_called).must_be_nil
         end
       end
     end
@@ -237,12 +238,12 @@ class FleetTrackerTest < ActiveSupport::TestCase
       before do
         @query_spy =
           MuchStub.spy(
-            Games::Current::BroadcastRosterUpdateJob, :set, :perform_later)
+            Games::Current::BroadcastFleetUpdatesJob, :set, :perform_later)
       end
 
       subject { empty1 }
 
-      it "calls Games::Current::BroadcastRosterUpdateJob, as expected" do
+      it "calls Games::Current::BroadcastFleetUpdatesJob, as expected" do
         subject.remove!(token: user1_token)
 
         _(@query_spy.set_last_called_with.pargs).must_equal([wait: 3.seconds])

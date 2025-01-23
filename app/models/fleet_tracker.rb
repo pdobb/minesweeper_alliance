@@ -12,7 +12,7 @@
 #   {REMOVAL_DELAY_SECONDS}-second delay.
 #
 # Use {.add!} and {.remove!} to also broadcast the current {.count} to the
-# fleet. See: {Games::Current::BroadcastRosterUpdateJob}.
+# fleet. See: {Games::Current::BroadcastFleetUpdatesJob}.
 #
 # Similarly, use {.activate!} to activate and then broadcast the current
 # {User}'s participation status to the fleet--but only if this was the first
@@ -48,7 +48,7 @@ module FleetTracker
 
   def self.add!(token:)
     add(token)
-    broadcast_roster_update(wait: ADDITION_BROADCAST_DELAY_SECONDS)
+    broadcast_fleet_update(wait: ADDITION_BROADCAST_DELAY_SECONDS)
   end
 
   def self.activate(token)
@@ -62,7 +62,7 @@ module FleetTracker
     return if registry.active?(token)
 
     activate(token)
-    broadcast_participation_status_update(token:)
+    broadcast_fleet_participation_status_update(token:)
   end
 
   def self.remove(token)
@@ -77,7 +77,7 @@ module FleetTracker
 
   def self.remove!(token:)
     remove(token)
-    broadcast_roster_update(wait: REMOVAL_BROADCAST_DELAY_SECONDS)
+    broadcast_fleet_update(wait: REMOVAL_BROADCAST_DELAY_SECONDS)
   end
 
   def self.prune
@@ -94,16 +94,20 @@ module FleetTracker
     registry
   end
 
-  def self.broadcast_roster_update(wait:)
-    Games::Current::BroadcastRosterUpdateJob.set(wait:).perform_later
+  def self.broadcast_fleet_update(wait:)
+    Games::Current::BroadcastFleetUpdatesJob.set(wait:).perform_later
   end
-  private_class_method :broadcast_roster_update
+  private_class_method :broadcast_fleet_update
 
-  def self.broadcast_participation_status_update(token:)
+  def self.broadcast_fleet_participation_status_update(token:)
     user = User.for_token(token).take!
-    Home::Roster.broadcast_participation_status_update(user:)
+
+    WarRoomChannel.broadcast_update(
+      target:
+        Home::Roster::Listing.participation_status_turbo_update_target(user:),
+      html: Emoji.ship)
   end
-  private_class_method :broadcast_participation_status_update
+  private_class_method :broadcast_fleet_participation_status_update
 
   def self.cache = Rails.cache
   private_class_method :cache

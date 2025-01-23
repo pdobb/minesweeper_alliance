@@ -3,26 +3,15 @@
 # Home::Roster represents a simple roster (list) of all participants--both
 # active (if applicable) and passive--currently in the War Room (channel).
 class Home::Roster
-  def self.broadcast_roster_update
-    WarRoomChannel.broadcast_update(
-      target: turbo_frame_name,
-      partial: "home/roster",
-      locals: { roster: new(game: Game.current) })
-  end
-
-  def self.broadcast_participation_status_update(user:)
-    WarRoomChannel.broadcast_update(
-      target: Listing.participation_status_dom_id(user:),
-      html: Emoji.ship)
-  end
-
-  def self.turbo_frame_name = :fleet_roster
+  def self.fleet_roster_turbo_update_target = "fleetRoster"
 
   def initialize(game:)
     @game = game
   end
 
-  def turbo_frame_name = self.class.turbo_frame_name
+  def fleet_roster_turbo_update_target
+    self.class.fleet_roster_turbo_update_target
+  end
 
   def listings? = users.any?
 
@@ -42,7 +31,7 @@ class Home::Roster
   class Listing
     include WrapMethodBehaviors
 
-    def self.participation_status_dom_id(user:)
+    def self.participation_status_turbo_update_target(user:)
       View.dom_id(user, :participation_status)
     end
 
@@ -58,8 +47,8 @@ class Home::Roster
       Router.user_path(user)
     end
 
-    def participation_status_dom_id
-      self.class.participation_status_dom_id(user:)
+    def participation_status_turbo_update_target
+      self.class.participation_status_turbo_update_target(user:)
     end
 
     def active_participant?
