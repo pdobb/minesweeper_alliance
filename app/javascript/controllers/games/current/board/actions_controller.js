@@ -34,6 +34,10 @@ export default class extends Controller {
 
   #submit($cell) {
     if (this.isMobile) {
+      // We first have to clear out the longPressExecuted and touchMoveDetected
+      // instance variables via touchstart in order for touchend to work
+      // properly. :/
+      $cell.dispatchEvent(new Event("touchstart", { bubbles: true }))
       $cell.dispatchEvent(new Event("touchend", { bubbles: true }))
     } else {
       $cell.click()
