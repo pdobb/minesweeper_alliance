@@ -33,6 +33,10 @@ export default class extends Controller {
   }
 
   #submit($cell) {
+    // If e.g. all unrevealed Cells have been Flagged, #getCellForRandomReveal()
+    // returns `null`.
+    if (!$cell) return
+
     if (this.isMobile) {
       // We first have to clear out the longPressExecuted and touchMoveDetected
       // instance variables via touchstart in order for touchend to work
