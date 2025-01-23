@@ -83,6 +83,8 @@ class Board < ApplicationRecord
     cells.select { |cell| coordinates_array.include?(cell.coordinates) }
   end
 
+  def mine_cells = cells.select(&:mine?)
+
   def mines_placed? = cells.any?(&:mine?)
   def flags_count = cells.count(&:flagged?)
 

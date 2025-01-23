@@ -15,6 +15,8 @@ class BoardTest < ActiveSupport::TestCase
     let(:preset_settings1) { unit_class::Settings.beginner }
     let(:custom_settings1) { unit_class::Settings[4, 4, 1] }
 
+    let(:win1_board_cell1) { cells(:win1_board_cell1) }
+
     let(:user1) { users(:user1) }
 
     describe ".new" do
@@ -215,6 +217,14 @@ class BoardTest < ActiveSupport::TestCase
           _(subject.cells_at([Coordinates[0, 0], Coordinates[1, 0]])).
             must_equal([standing_by1_board_cell1, standing_by1_board_cell2])
         end
+      end
+    end
+
+    describe "#mine_cells" do
+      subject { win1_board }
+
+      it "returns the expected Array" do
+        _(subject.mine_cells).must_match_array([win1_board_cell1])
       end
     end
 
