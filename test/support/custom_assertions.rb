@@ -195,8 +195,9 @@ module ActiveSupport::Testing::Assertions # rubocop:disable Metrics/ModuleLength
 
   private
 
-  # Extracted (and cleaned up) from Rails 7.2's `assert_changes` and
-  # `assert_no_changes` methods.
+  # Extracted (and cleaned up) from the first line of Rails 8's `assert_changes`
+  # and `assert_no_changes` methods.
+  # See: https://github.com/rails/rails/blob/df4386a5d1e591e059116561b41fb2f59eb05f7e/activesupport/lib/active_support/testing/assertions.rb#L196
   def to_expression(value, &block)
     if value.respond_to?(:call)
       value
@@ -205,8 +206,9 @@ module ActiveSupport::Testing::Assertions # rubocop:disable Metrics/ModuleLength
     end
   end
 
-  # This is an improvement on calling Rails Edge's new
-  # `_callable_to_source_string` method.
+  # This is an improvement on calling Rails 8's `_callable_to_source_string`
+  # method.
+  # See: https://github.com/rails/rails/blob/df4386a5d1e591e059116561b41fb2f59eb05f7e/activesupport/lib/active_support/testing/assertions.rb#L301
   def __callable_to_source_string(expression)
     if expression.respond_to?(:call)
       _callable_to_source_string(expression)
@@ -214,41 +216,6 @@ module ActiveSupport::Testing::Assertions # rubocop:disable Metrics/ModuleLength
       expression
     end
   end
-
-  # Extracted from Rails Edge (> 7.2). Can safely remove
-  # _callable_to_source_string after it is officially released.
-  #
-  # rubocop:disable all
-  def _callable_to_source_string(callable)
-    if defined?(RubyVM::AbstractSyntaxTree) && callable.is_a?(Proc)
-      ast = begin
-        RubyVM::AbstractSyntaxTree.of(callable, keep_script_lines: true)
-      rescue SystemCallError
-        # Failed to get the source somehow
-        return callable
-      end
-      return callable unless ast
-
-      source = ast.source
-      source.strip!
-
-      # We ignore procs defined with do/end as they are likely multi-line anyway.
-      if source.start_with?("{")
-        source.delete_suffix!("}")
-        source.delete_prefix!("{")
-        source.strip!
-        # It won't read nice if the callable contains multiple
-        # lines, and it should be a rare occurence anyway.
-        # Same if it takes arguments.
-        if !source.include?("\n") && !source.start_with?("|")
-          return source
-        end
-      end
-    end
-
-    callable
-  end
-  # rubocop:enable all
 end
 
 # Minitest::Expectations
