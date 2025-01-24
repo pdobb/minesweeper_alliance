@@ -20,7 +20,8 @@ class Games::Past::Observers::Roster
   attr_reader :game
 
   def sorted_users
-    @sorted_users ||= User.for_game_as_observer_by_joined_at_asc(game)
+    # FIXME: Sort by joined_game_at ASC
+    @sorted_users ||= game.observers
   end
 
   # Games::Past::Observers::Roster::Listing

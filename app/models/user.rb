@@ -62,44 +62,15 @@ class User < ApplicationRecord
     where("username LIKE ?", "%#{username}%")
   }
   scope :for_game, ->(game) { joins(:games).merge(Game.for_id(game)) }
+  scope :for_game_as_observer, ->(game) {
+    joins(:observed_games).merge(Game.for_id(game)).distinct
+  }
   scope :for_game_as_active_participant, ->(game) {
     joins(:actively_participated_in_games).merge(Game.for_id(game)).distinct
-  }
-  scope :for_game_as_observer_by_joined_at_asc, ->(game) {
-    subquery =
-      (game_join_transactions = GameJoinTransaction.for_game(game)).
-        select(:user_id, "MIN(created_at) AS created_at").
-        group(:user_id).
-        to_sql
-
-    select("users.*, subquery.created_at AS joined_at").
-      joins("INNER JOIN (#{subquery}) subquery ON users.id = subquery.user_id").
-      joins(:game_join_transactions).merge(game_join_transactions).
-      excluding(for_game_as_active_participant(game)).
-      order(:joined_at)
   }
   scope :for_prune, -> {
     where(created_at: ..1.day.ago).
       where.missing(:cell_transactions)
-  }
-
-  # Known Issues:
-  # Only works with simple, User-originated or "straight" `:user` queries. e.g.
-  # Fails:
-  #   `Game.last.observers.by_participated_at_asc`
-  #   `Game.last.active_participants.by_participated_at_asc`
-  # Works:
-  #   `Game.last.users.by_participated_at_asc`
-  #   `User.by_participated_at_asc`
-  #   `User.for_game_as_active_participant(Game.last).by_participated_at_asc`
-  scope :by_participated_at_asc, -> {
-    joins(:cell_transactions).
-      select(
-        arel_table[Arel.star],
-        CellTransaction.arel_table[:created_at].minimum.as(
-          "first_participated_at")).
-      group(:id).
-      order(:first_participated_at)
   }
 
   validates :username,

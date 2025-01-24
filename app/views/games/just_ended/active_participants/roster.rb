@@ -22,7 +22,8 @@ class Games::JustEnded::ActiveParticipants::Roster
   attr_reader :game
 
   def sorted_users
-    User.for_game_as_active_participant(game).by_participated_at_asc
+    # FIXME: Sort by paticipated_at ASC
+    game.active_participants
   end
 
   # Games::JustEnded::ActiveParticipants::Roster::Listing
