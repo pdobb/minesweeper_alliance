@@ -1,28 +1,16 @@
 <%# locals: (roster:) %>
 
-<div
-  id="<%= roster.fleet_roster_turbo_update_target %>"
-  class="space-y-3 overflow-hidden"
->
+<div class="space-y-3 overflow-hidden">
   <h2 class="h3">Roster</h2>
 
-  <% if roster.listings? %>
-    <ul class="flex flex-col items-end gap-y-2 whitespace-nowrap">
-      <% roster.listings.each_with_index do |listing, index| %>
-        <li>
-          <%= link_to(
-                listing.name,
-                listing.show_user_url,
-                class: listing.turbo_update_id,
-                data: { turbo_frame: :_top }) %>
+  <ul
+    id="<%= roster.turbo_target %>"
+    class="flex flex-col items-end gap-y-2 whitespace-nowrap"
+  >
+    <li class="hidden only:block"><%= View.no_value_indicator %></li>
 
-          <span id="<%= listing.participation_status_turbo_update_target %>">
-            <%= listing.active_participant? ? Emoji.ship : Emoji.anchor %>
-          </span>
-        </li>
-      <% end %>
-    </ul>
-  <% else %>
-    <p><%= View.no_value_indicator %></p>
-  <% end %>
+    <% roster.listings.each_with_index do |listing, index| %>
+      <%= render("home/roster/listing", listing:) %>
+    <% end %>
+  </ul>
 </div>

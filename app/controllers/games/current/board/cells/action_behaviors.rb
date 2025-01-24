@@ -43,7 +43,7 @@ module Games::Current::Board::Cells::ActionBehaviors
   # :reek:DuplicateMethodCall
   def safe_perform_game_action
     yield.tap {
-      FleetTracker.activate!(token: current_user_token)
+      FleetTracker.activate!(current_user_token)
     }
   rescue Error
     flash[:warning] = t("flash.web_socket_lost")

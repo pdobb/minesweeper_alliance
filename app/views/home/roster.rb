@@ -1,22 +1,20 @@
 # frozen_string_literal: true
 
 # Home::Roster represents a simple roster (list) of all participants--both
-# active (if applicable) and passive--currently in the War Room (channel).
+# active and passive--currently in the War Room channel.
 class Home::Roster
-  def self.fleet_roster_turbo_update_target = "fleetRoster"
+  def self.turbo_target = "fleetRoster"
 
   def initialize(game:)
     @game = game
   end
 
-  def fleet_roster_turbo_update_target
-    self.class.fleet_roster_turbo_update_target
-  end
+  def turbo_target = self.class.turbo_target
 
   def listings? = users.any?
 
   def listings
-    Listing.wrap(users, game:)
+    PageLoadListing.wrap(users, game:)
   end
 
   private
@@ -27,39 +25,26 @@ class Home::Roster
     User.for_token(FleetTracker.tokens)
   end
 
-  # Home::Roster::Listing
-  class Listing
-    include WrapMethodBehaviors
-
-    def self.participation_status_turbo_update_target(user:)
-      View.dom_id(user, :participation_status)
-    end
-
+  # Home::Roster::PageLoadListing is a {Home::Roster::Listing} that stands in
+  # for the initial page load while bowing out for Turbo Stream updates.
+  #
+  # As {Users} subscribe/unsubscribe from the WarRoom channel, they are are
+  # automatically added/removed from the Roster via Turbo Stream
+  # updates--initiated by the {FleetTracker}. However, we still need to render
+  # the current roster (based on {FleetTracker.tokens}) on the  initial page
+  # load, and for subsequent page reloads.
+  class PageLoadListing < Home::Roster::Listing
     def initialize(user, game:)
-      @user = user
+      super(user:, active: nil)
       @game = game
-    end
-
-    def turbo_update_id = View.dom_id(user)
-    def name = user.display_name
-
-    def show_user_url
-      Router.user_path(user)
-    end
-
-    def participation_status_turbo_update_target
-      self.class.participation_status_turbo_update_target(user:)
-    end
-
-    def active_participant?
-      return false unless game
-
-      user.active_participant_in?(game:)
     end
 
     private
 
-    attr_reader :user,
-                :game
+    attr_reader :game
+
+    def active?
+      user.active_participant_in?(game:)
+    end
   end
 end

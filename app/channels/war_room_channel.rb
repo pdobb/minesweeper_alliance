@@ -16,6 +16,8 @@ class WarRoomChannel < Turbo::StreamsChannel
 
   def self.broadcast_replace(...) = broadcast_replace_to(STREAM_NAME, ...)
   def self.broadcast_update(...) = broadcast_update_to(STREAM_NAME, ...)
+  def self.broadcast_append(...) = broadcast_append_to(STREAM_NAME, ...)
+  def self.broadcast_remove(...) = broadcast_remove_to(STREAM_NAME, ...)
 
   # Broadcast a custom-built Array of `<turbo-stream>...</turbo-stream>`
   # element(s).
@@ -44,10 +46,10 @@ class WarRoomChannel < Turbo::StreamsChannel
   def current_user_token? = !!current_user_token
 
   def on_subscribe
-    FleetTracker.add!(token: current_user_token)
+    FleetTracker.add!(current_user_token)
   end
 
   def on_unsubscribe
-    FleetTracker.remove!(token: current_user_token)
+    FleetTracker.remove!(current_user_token)
   end
 end
