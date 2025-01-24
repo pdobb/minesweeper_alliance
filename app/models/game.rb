@@ -95,17 +95,26 @@ class Game < ApplicationRecord # rubocop:disable Metrics/ClassLength
   has_many :cell_flag_transactions, through: :cells
   has_many :cell_unflag_transactions, through: :cells
 
-  has_many :users,
-           -> { select("DISTINCT ON(users.id) users.*").order("users.id") },
-           through: :cell_transactions
-  has_many :observers,
-           ->(game) {
-             select(
-               "DISTINCT ON(users.id) users.*, game_transactions.created_at").
-               where.not(id: User.for_game(game).select(:id))
-           },
-           through: :game_join_transactions,
-           source: :user
+  # Users that joined in on this Game--in any fashion.
+  # (Whether or not they were active participants in this Game).
+  has_many :users, through: :game_join_transactions
+
+  # Users that joined in on, but never actively participated in this Game.
+  has_many(
+    :observers,
+    ->(game) {
+      select("DISTINCT ON(users.id) users.*, game_transactions.created_at").
+        where.not(id: User.for_game_as_active_participant(game).select(:id))
+    },
+    through: :game_join_transactions,
+    source: :user)
+
+  # Users that actively participated in this Game.
+  has_many(
+    :active_participants,
+    -> { select("DISTINCT ON(users.id) users.*").order("users.id") },
+    through: :cell_transactions,
+    source: :user)
 
   has_statuses([
     "Standing By",

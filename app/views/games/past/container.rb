@@ -10,7 +10,7 @@ class Games::Past::Container
   end
 
   def turbo_frame_name = self.class.display_case_turbo_frame_name
-  def cache_key = [game, *game.users.pluck(:updated_at), :past]
+  def cache_key = [game, *game.users.pluck(:updated_at), :past_games]
 
   def content
     Games::Past::Content.new(game:)

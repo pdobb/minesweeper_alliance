@@ -35,6 +35,6 @@ class Users::Games::Nav
   end
 
   def base_arel
-    user.games.excluding(game)
+    user.actively_participated_in_games.excluding(game)
   end
 end

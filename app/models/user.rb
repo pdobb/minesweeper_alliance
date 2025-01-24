@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
-# User represents a player or observer of Minesweeper Alliance.
+# User represents all of:
+# 1. A simple browser session.
+# 2. A passive participant ("observer") of the current {Game} / War Room.
+# 2. An "active participant" of the current {Game} / War Room.
 #
 # @attr id [GUID] a.k.a. "User Token"
 # @attr username [String]
@@ -28,22 +31,40 @@ class User < ApplicationRecord
   has_many :cell_flag_transactions
   has_many :cell_unflag_transactions
 
-  has_many :games, -> { distinct }, through: :cell_transactions
-  has_many :observed_games,
-           ->(user) { where.not(id: user.games.select(:id)) },
-           through: :game_join_transactions,
-           source: :game
-  has_many :revealed_cells,
-           -> { distinct },
-           through: :cell_reveal_transactions,
-           source: :cell
+  # Games that were joined in on by this User--in any fashion.
+  # (Whether or not they were actively participated in by this User).
+  has_many :games, through: :game_join_transactions
+
+  # Games that were joined in on, but never actively participated in by this
+  # User.
+  has_many(
+    :observed_games,
+    ->(user) { where.not(id: user.actively_participated_in_games.select(:id)) },
+    through: :game_join_transactions,
+    source: :game)
+
+  # Games that were actively participated in by this User.
+  has_many(
+    :actively_participated_in_games,
+    -> { distinct },
+    through: :cell_transactions,
+    source: :game)
+
+  has_many(
+    :revealed_cells,
+    -> { distinct },
+    through: :cell_reveal_transactions,
+    source: :cell)
 
   scope :for_token, ->(token) { where(id: token) }
   scope :for_tokenish, ->(token) { where("id::text LIKE ?", "%#{token}") }
   scope :for_username, ->(username) {
     where("username LIKE ?", "%#{username}%")
   }
-  scope :for_game, ->(game) { joins(:games).merge(Game.for_id(game)).distinct }
+  scope :for_game, ->(game) { joins(:games).merge(Game.for_id(game)) }
+  scope :for_game_as_active_participant, ->(game) {
+    joins(:actively_participated_in_games).merge(Game.for_id(game)).distinct
+  }
   scope :for_game_as_observer_by_joined_at_asc, ->(game) {
     subquery =
       (game_join_transactions = GameJoinTransaction.for_game(game)).
@@ -54,7 +75,7 @@ class User < ApplicationRecord
     select("users.*, subquery.created_at AS joined_at").
       joins("INNER JOIN (#{subquery}) subquery ON users.id = subquery.user_id").
       joins(:game_join_transactions).merge(game_join_transactions).
-      excluding(for_game(game)).
+      excluding(for_game_as_active_participant(game)).
       order(:joined_at)
   }
   scope :for_prune, -> {
@@ -62,10 +83,15 @@ class User < ApplicationRecord
       where.missing(:cell_transactions)
   }
 
-  # Only works with User-based queries. e.g.
-  #  - Fails: `Game.first.users.by_participated_at_asc`
-  #  - Works: `User.for_game(Game.first).by_participated_at_asc`
-  #  - Works: `User.by_participated_at_asc`
+  # Known Issues:
+  # Only works with simple, User-originated or "straight" `:user` queries. e.g.
+  # Fails:
+  #   `Game.last.observers.by_participated_at_asc`
+  #   `Game.last.active_participants.by_participated_at_asc`
+  # Works:
+  #   `Game.last.users.by_participated_at_asc`
+  #   `User.by_participated_at_asc`
+  #   `User.for_game_as_active_participant(Game.last).by_participated_at_asc`
   scope :by_participated_at_asc, -> {
     joins(:cell_transactions).
       select(
@@ -113,11 +139,11 @@ class User < ApplicationRecord
   end
 
   def participated_in?(game)
-    game.users.for_id(self).exists?
+    actively_participated_in_games.for_id(game).exists?
   end
 
   def completed_games_count
-    games.for_game_over_statuses.size
+    actively_participated_in_games.for_game_over_statuses.size
   end
 
   def bests = @bests ||= Bests.new(self)
@@ -169,7 +195,7 @@ class User < ApplicationRecord
 
     attr_reader :user
 
-    def games = user.games
+    def games = user.actively_participated_in_games
     def _score_arel = games.by_score_asc
     def _bbbvps_arel = games.by_bbbvps_desc
     def _efficiency_arel = games.by_efficiency_desc

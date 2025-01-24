@@ -24,7 +24,11 @@ class Users::Show
 
   def games
     Users::Games.new(
-      base_arel: user.games.for_game_over_statuses.by_most_recently_ended,
+      base_arel:
+        user.
+          actively_participated_in_games.
+          for_game_over_statuses.
+          by_most_recently_ended,
       user:)
   end
 

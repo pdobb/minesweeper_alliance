@@ -54,7 +54,7 @@ class Metrics::Engagements::Bests
         View.round(_score)
       end
 
-      def fleet_size = game.users.size
+      def fleet_size = game.active_participants.size
       def game_url = Router.metrics_game_path(game)
 
       private

@@ -66,5 +66,5 @@ class Users::ServiceRecord
   def _unflags_count = user.cell_unflag_transactions.size
   def _tripped_mines_count = user.revealed_cells.is_mine.size
 
-  def games_arel = user.games
+  def games_arel = user.actively_participated_in_games
 end
