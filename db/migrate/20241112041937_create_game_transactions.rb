@@ -7,8 +7,7 @@ class CreateGameTransactions < ActiveRecord::Migration[8.0]
       t.string(:type, null: false, index: true)
       t.references(
         :user, type: :uuid, foreign_key: { on_delete: :nullify }, index: true)
-      t.references(
-        :game, null: false, foreign_key: { on_delete: :cascade })
+      t.references(:game, null: false, foreign_key: { on_delete: :cascade })
 
       t.datetime(:created_at, null: false, index: true)
     end

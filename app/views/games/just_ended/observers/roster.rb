@@ -20,8 +20,7 @@ class Games::JustEnded::Observers::Roster
   attr_reader :game
 
   def sorted_users
-    # FIXME: Sort by joined_game_at ASC
-    @sorted_users ||= game.observers
+    @sorted_users ||= game.observers.by_joined_at_asc.uniq
   end
 
   # Games::JustEnded::Observers::Roster::Listing

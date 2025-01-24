@@ -19,9 +19,32 @@ class User < ApplicationRecord
 
   has_many :user_update_transactions, dependent: :delete_all
 
+  # Games that were joined in on by this User--in any fashion.
+  # (Whether or not they were actively participated in by this User).
+  has_many :participant_transactions
+  has_many :games, through: :participant_transactions
+
+  # Games that were joined in on, but never actively participated in by this
+  # User.
+  has_many :passive_participant_transactions,
+           -> { is_passive },
+           inverse_of: :user,
+           class_name: "ParticipantTransaction"
+  has_many :observed_games,
+           through: :passive_participant_transactions,
+           source: :game
+
+  # Games that were actively participated in by this User.
+  has_many :active_participant_transactions,
+           -> { is_active },
+           inverse_of: :user,
+           class_name: "ParticipantTransaction"
+  has_many :actively_participated_in_games,
+           through: :active_participant_transactions,
+           source: :game
+
   has_many :game_transactions, dependent: :nullify
   has_many :game_create_transactions
-  has_many :game_join_transactions
   has_many :game_start_transactions
   has_many :game_end_transactions
 
@@ -31,30 +54,10 @@ class User < ApplicationRecord
   has_many :cell_flag_transactions
   has_many :cell_unflag_transactions
 
-  # Games that were joined in on by this User--in any fashion.
-  # (Whether or not they were actively participated in by this User).
-  has_many :games, through: :game_join_transactions
-
-  # Games that were joined in on, but never actively participated in by this
-  # User.
-  has_many(
-    :observed_games,
-    ->(user) { where.not(id: user.actively_participated_in_games.select(:id)) },
-    through: :game_join_transactions,
-    source: :game)
-
-  # Games that were actively participated in by this User.
-  has_many(
-    :actively_participated_in_games,
-    -> { distinct },
-    through: :cell_transactions,
-    source: :game)
-
-  has_many(
-    :revealed_cells,
-    -> { distinct },
-    through: :cell_reveal_transactions,
-    source: :cell)
+  has_many :revealed_cells,
+           -> { distinct },
+           through: :cell_reveal_transactions,
+           source: :cell
 
   scope :for_token, ->(token) { where(id: token) }
   scope :for_tokenish, ->(token) { where("id::text LIKE ?", "%#{token}") }
@@ -71,6 +74,14 @@ class User < ApplicationRecord
   scope :for_prune, -> {
     where(created_at: ..1.day.ago).
       where.missing(:cell_transactions)
+  }
+
+  scope :by_joined_at_asc, -> {
+    joins(:games).merge(ParticipantTransaction.by_least_recent)
+  }
+  scope :by_participated_at_asc, -> {
+    joins(:actively_participated_in_games).
+      merge(ParticipantTransaction.by_started_actively_participating_at_asc)
   }
 
   validates :username,
@@ -97,8 +108,8 @@ class User < ApplicationRecord
     @unique_id ||= created_at.to_i.to_s[TRUNCATED_ID_RANGE]
   end
 
-  def active_participant?(game)
-    cell_transactions.for_game(game).any?
+  def active_participant_in?(game:)
+    active_participant_transactions.for_game(game).exists?
   end
 
   def signer? = username?

@@ -11,13 +11,13 @@ class Cell::RevealTest < ActiveSupport::TestCase
         game: standing_by1,
         board: standing_by1_board,
         cell: standing_by1_board_cell1,
-        user: user1)
+        user: user2)
     }
 
     let(:standing_by1) { games(:standing_by1) }
     let(:standing_by1_board) { boards(:standing_by1_board) }
     let(:standing_by1_board_cell1) { cells(:standing_by1_board_cell1) }
-    let(:user1) { users(:user1) }
+    let(:user2) { users(:user2) }
 
     describe "#call" do
       before do
@@ -50,7 +50,15 @@ class Cell::RevealTest < ActiveSupport::TestCase
               [
                 -> {
                   CellRevealTransaction.exists_between?(
-                    user: user1, cell: standing_by1_board_cell1)
+                    user: user2, cell: standing_by1_board_cell1)
+                },
+                to: true,
+              ],
+              [
+                -> {
+                  ParticipantTransaction.find_between!(
+                    user: user2, game: standing_by1).
+                    active?
                 },
                 to: true,
               ],
@@ -79,7 +87,14 @@ class Cell::RevealTest < ActiveSupport::TestCase
               [
                 -> {
                   CellRevealTransaction.exists_between?(
-                    user: user1, cell: standing_by1_board_cell1)
+                    user: user2, cell: standing_by1_board_cell1)
+                },
+              ],
+              [
+                -> {
+                  ParticipantTransaction.find_between!(
+                    user: user2, game: standing_by1).
+                    active?
                 },
               ],
             ])

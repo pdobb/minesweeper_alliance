@@ -52,11 +52,13 @@ class Cell::RevealNeighbors
               :cell,
               :user
 
+  # :reek:TooManyStatements
   def reveal_neighbors
     return if revealable_neighboring_cells.none?
 
     cell.transaction do
       CellChordTransaction.create_between(user:, cell:)
+      ParticipantTransaction.activate_between(user:, game:)
 
       revealable_neighboring_cells.each do |neighboring_cell|
         reveal_neighbor(neighboring_cell)

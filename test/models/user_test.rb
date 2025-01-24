@@ -133,6 +133,26 @@ class UserTest < ActiveSupport::TestCase
       end
     end
 
+    describe "#active_participant_in?" do
+      let(:win1) { games(:win1) }
+      let(:standing_by1) { games(:standing_by1) }
+
+      subject { user1 }
+
+      context "GIVEN a Game the User actively participated in" do
+        it "returns true" do
+          _(subject.active_participant_in?(game: win1)).must_equal(true)
+        end
+      end
+
+      context "GIVEN a Game the User didn't actively participate in" do
+        it "returns false" do
+          _(subject.active_participant_in?(game: standing_by1)).
+            must_equal(false)
+        end
+      end
+    end
+
     describe "#signer?" do
       context "GIVEN a User that has signed their name" do
         subject { user1 }

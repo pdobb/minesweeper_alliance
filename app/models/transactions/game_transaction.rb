@@ -3,7 +3,7 @@
 # GameTransaction records events transacted by {User}s on a {Game} and when they
 # occurred.
 #
-# Uniqueness validations are handled per each sub-Type.
+# There can only be one GameTransaction per {#type} per {User} per {Game}.
 #
 # @attr type [String] The Subclass name.
 # @attr user_id [Integer] References the {User} involved in this Transaction.
@@ -21,6 +21,8 @@ class GameTransaction < ApplicationRecord
 
   scope :for_user, ->(user) { where(user:) }
   scope :for_game, ->(game) { where(game:) }
+
+  validates :game, uniqueness: { scope: :type }
 
   # :reek:UnusedParameters
   def self.create_between(user:, game:)

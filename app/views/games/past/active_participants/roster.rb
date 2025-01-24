@@ -18,8 +18,7 @@ class Games::Past::ActiveParticipants::Roster
   attr_reader :game
 
   def sorted_users
-    # FIXME: Sort by participated_in_game_at ASC
-    user.active_participants
+    game.active_participants.by_participated_at_asc.uniq
   end
 
   # Games::Past::ActiveParticipants::Roster::Listing

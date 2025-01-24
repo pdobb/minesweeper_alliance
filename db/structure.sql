@@ -207,6 +207,40 @@ ALTER SEQUENCE public.games_id_seq OWNED BY public.games.id;
 
 
 --
+-- Name: participant_transactions; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.participant_transactions (
+    id bigint NOT NULL,
+    user_id uuid,
+    game_id bigint NOT NULL,
+    active boolean DEFAULT false NOT NULL,
+    started_actively_participating_at timestamp(6) with time zone,
+    created_at timestamp(6) with time zone NOT NULL,
+    updated_at timestamp(6) with time zone NOT NULL
+);
+
+
+--
+-- Name: participant_transactions_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.participant_transactions_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: participant_transactions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.participant_transactions_id_seq OWNED BY public.participant_transactions.id;
+
+
+--
 -- Name: patterns; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -329,6 +363,13 @@ ALTER TABLE ONLY public.games ALTER COLUMN id SET DEFAULT nextval('public.games_
 
 
 --
+-- Name: participant_transactions id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.participant_transactions ALTER COLUMN id SET DEFAULT nextval('public.participant_transactions_id_seq'::regclass);
+
+
+--
 -- Name: patterns id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -391,6 +432,14 @@ ALTER TABLE ONLY public.games
 
 
 --
+-- Name: participant_transactions participant_transactions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.participant_transactions
+    ADD CONSTRAINT participant_transactions_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: patterns patterns_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -420,6 +469,13 @@ ALTER TABLE ONLY public.user_update_transactions
 
 ALTER TABLE ONLY public.users
     ADD CONSTRAINT users_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: idx_on_active_started_actively_participating_at_0a92ef0ee6; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX idx_on_active_started_actively_participating_at_0a92ef0ee6 ON public.participant_transactions USING btree (active, started_actively_participating_at);
 
 
 --
@@ -538,14 +594,7 @@ CREATE INDEX index_game_transactions_on_game_id ON public.game_transactions USIN
 -- Name: index_game_transactions_on_game_id_and_type; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE UNIQUE INDEX index_game_transactions_on_game_id_and_type ON public.game_transactions USING btree (game_id, type) WHERE ((type)::text <> 'GameJoinTransaction'::text);
-
-
---
--- Name: index_game_transactions_on_game_id_and_user_id_and_type; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE UNIQUE INDEX index_game_transactions_on_game_id_and_user_id_and_type ON public.game_transactions USING btree (game_id, user_id, type) WHERE ((type)::text = 'GameJoinTransaction'::text);
+CREATE UNIQUE INDEX index_game_transactions_on_game_id_and_type ON public.game_transactions USING btree (game_id, type);
 
 
 --
@@ -612,6 +661,27 @@ CREATE UNIQUE INDEX index_games_on_status ON public.games USING btree (status) W
 
 
 --
+-- Name: index_participant_transactions_on_game_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_participant_transactions_on_game_id ON public.participant_transactions USING btree (game_id);
+
+
+--
+-- Name: index_participant_transactions_on_user_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_participant_transactions_on_user_id ON public.participant_transactions USING btree (user_id);
+
+
+--
+-- Name: index_participant_transactions_on_user_id_and_game_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_participant_transactions_on_user_id_and_game_id ON public.participant_transactions USING btree (user_id, game_id);
+
+
+--
 -- Name: index_patterns_on_created_at; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -669,6 +739,14 @@ ALTER TABLE ONLY public.boards
 
 
 --
+-- Name: participant_transactions fk_rails_23486ea260; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.participant_transactions
+    ADD CONSTRAINT fk_rails_23486ea260 FOREIGN KEY (user_id) REFERENCES public.users(id) ON DELETE SET NULL;
+
+
+--
 -- Name: user_update_transactions fk_rails_52bf7868db; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -709,6 +787,14 @@ ALTER TABLE ONLY public.game_transactions
 
 
 --
+-- Name: participant_transactions fk_rails_c85491b2ac; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.participant_transactions
+    ADD CONSTRAINT fk_rails_c85491b2ac FOREIGN KEY (game_id) REFERENCES public.games(id) ON DELETE CASCADE;
+
+
+--
 -- Name: cells fk_rails_d04db06fd5; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -723,8 +809,8 @@ ALTER TABLE ONLY public.cells
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20250124190315'),
 ('20250117181518'),
-('20250115204046'),
 ('20241115023724'),
 ('20241112041937'),
 ('20240927195322'),

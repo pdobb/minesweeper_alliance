@@ -54,7 +54,7 @@ class Home::Roster
     def active_participant?
       return false unless game
 
-      user.active_participant?(game)
+      user.active_participant_in?(game:)
     end
 
     private

@@ -3,11 +3,6 @@ win1_game_create_transaction:
   user: user1
   game: win1
   created_at: <%= 1.minute.ago %>
-win1_game_join_transaction_user1:
-  type: GameJoinTransaction
-  user: user1
-  game: win1
-  created_at: <%= 1.minute.ago %>
 win1_game_start_transaction:
   type: GameStartTransaction
   user: user1
@@ -24,21 +19,11 @@ loss1_game_create_transaction:
   user: user1
   game: loss1
   created_at: <%= 30.seconds.ago %>
-loss1_game_join_transaction_user1:
-  type: GameJoinTransaction
-  user: user1
-  game: loss1
-  created_at: <%= 30.seconds.ago %>
 loss1_game_start_transaction:
   type: GameStartTransaction
   user: user1
   game: loss1
   created_at: <%= 30.seconds.ago %>
-loss1_game_join_transaction_user2:
-  type: GameJoinTransaction
-  user: user2
-  game: loss1
-  created_at: <%= 10.seconds.ago %>
 loss1_game_end_transaction:
   type: GameEndTransaction
   user: user2
@@ -47,11 +32,6 @@ loss1_game_end_transaction:
 
 standing_by1_game_create_transaction:
   type: GameCreateTransaction
-  user: user2
-  game: standing_by1
-  created_at: <%= Time.current %>
-standing_by1_game_join_transaction_user2:
-  type: GameJoinTransaction
   user: user2
   game: standing_by1
   created_at: <%= Time.current %>

@@ -61,6 +61,7 @@ class Cell::Reveal
   def reveal_cell
     cell.transaction do
       CellRevealTransaction.create_between(user:, cell:)
+      ParticipantTransaction.activate_between(user:, game:)
       push(cell.reveal)
     end
   end

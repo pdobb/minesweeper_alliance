@@ -83,9 +83,31 @@ class Game < ApplicationRecord # rubocop:disable Metrics/ClassLength
 
   has_many :cells, through: :board
 
+  # Users that joined in on this Game--in any fashion.
+  # (Whether or not they were active participants in this Game).
+  has_many :participant_transactions
+  has_many :users, through: :participant_transactions
+
+  # Users that joined in on, but never actively participated in this Game.
+  has_many :passive_participant_transactions,
+           -> { is_passive },
+           inverse_of: :game,
+           class_name: "ParticipantTransaction"
+  has_many :observers,
+           through: :passive_participant_transactions,
+           source: :user
+
+  # Users that actively participated in this Game.
+  has_many :active_participant_transactions,
+           -> { is_active },
+           inverse_of: :game,
+           class_name: "ParticipantTransaction"
+  has_many :active_participants,
+           through: :active_participant_transactions,
+           source: :user
+
   has_many :game_transactions, dependent: :delete_all
   has_one :game_create_transaction
-  has_many :game_join_transactions
   has_one :game_start_transaction
   has_one :game_end_transaction
 
@@ -94,27 +116,6 @@ class Game < ApplicationRecord # rubocop:disable Metrics/ClassLength
   has_many :cell_chord_transactions, through: :cells
   has_many :cell_flag_transactions, through: :cells
   has_many :cell_unflag_transactions, through: :cells
-
-  # Users that joined in on this Game--in any fashion.
-  # (Whether or not they were active participants in this Game).
-  has_many :users, through: :game_join_transactions
-
-  # Users that joined in on, but never actively participated in this Game.
-  has_many(
-    :observers,
-    ->(game) {
-      select("DISTINCT ON(users.id) users.*, game_transactions.created_at").
-        where.not(id: User.for_game_as_active_participant(game).select(:id))
-    },
-    through: :game_join_transactions,
-    source: :user)
-
-  # Users that actively participated in this Game.
-  has_many(
-    :active_participants,
-    -> { select("DISTINCT ON(users.id) users.*").order("users.id") },
-    through: :cell_transactions,
-    source: :user)
 
   has_statuses([
     "Standing By",
