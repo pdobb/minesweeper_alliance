@@ -9,6 +9,7 @@ class Games::Current::Board::Cells::HighlightNeighborsController <
       safe_perform_game_action {
         cell.highlight_neighbors
       }
+    return if performed?
 
     broadcast_updates([cell, updated_cells])
   end

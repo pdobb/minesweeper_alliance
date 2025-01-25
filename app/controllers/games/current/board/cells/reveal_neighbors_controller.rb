@@ -19,6 +19,7 @@ class Games::Current::Board::Cells::RevealNeighborsController <
           cell.dehighlight_neighbors
         end
       }
+    return if performed?
 
     broadcast_updates([cell, updated_cells])
   end

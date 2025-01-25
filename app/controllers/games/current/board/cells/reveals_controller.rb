@@ -8,6 +8,7 @@ class Games::Current::Board::Cells::RevealsController < ApplicationController
       safe_perform_game_action {
         Cell::Reveal.(current_context).updated_cells
       }
+    return if performed?
 
     broadcast_updates([cell, updated_cells]) {
       just_started_game_turbo_stream_updates if game.just_started?

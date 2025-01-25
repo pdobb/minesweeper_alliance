@@ -8,6 +8,7 @@ class Games::Current::Board::Cells::ToggleFlagsController <
     safe_perform_game_action do
       Cell::ToggleFlag.(cell, user: current_user)
     end
+    return if performed?
 
     broadcast_updates(cell) {
       turbo_stream.update("placedFlagsCount", board.flags_count)
