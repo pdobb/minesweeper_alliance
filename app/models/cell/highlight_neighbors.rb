@@ -10,7 +10,7 @@ class Cell::HighlightNeighbors
   def initialize(cell, context:)
     @cell = cell
     @context = context
-    @updated_cells = []
+    @updated_cells = FlatArray.new
   end
 
   def call
@@ -25,7 +25,7 @@ class Cell::HighlightNeighbors
               :updated_cells
 
   def highlight_neighbors
-    @updated_cells = cell.highlight_neighbors
+    @updated_cells << cell.highlight_neighbors
   end
 
   def broadcast

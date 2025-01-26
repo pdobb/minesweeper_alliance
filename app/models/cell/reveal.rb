@@ -22,7 +22,7 @@ class Cell::Reveal
     @board = context.board
     @cell = context.cell
     @user = context.user
-    @updated_cells = []
+    @updated_cells = FlatArray.new
   end
 
   # :reek:TooManyStatements
@@ -62,7 +62,7 @@ class Cell::Reveal
     cell.transaction do
       CellRevealTransaction.create_between(user:, cell:)
       ParticipantTransaction.activate_between(user:, game:)
-      push(cell.reveal)
+      updated_cells << cell.reveal
     end
   end
 
@@ -79,14 +79,10 @@ class Cell::Reveal
     upsertable_attributes_array = Cell::RecursiveReveal.(cell)
     result = Cell.upsert_all(upsertable_attributes_array)
 
-    push(Cell.for_id(result.pluck("id")))
+    updated_cells << Cell.for_id(result.pluck("id"))
   end
 
   def end_game_in_victory_if_all_safe_cells_revealed
     board.check_for_victory(user:)
-  end
-
-  def push(cell)
-    updated_cells.concat(Array.wrap(cell))
   end
 end

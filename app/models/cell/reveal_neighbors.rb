@@ -31,7 +31,7 @@ class Cell::RevealNeighbors
     @board = context.board
     @cell = context.cell
     @user = context.user
-    @updated_cells = []
+    @updated_cells = FlatArray.new
   end
 
   def call
@@ -77,7 +77,7 @@ class Cell::RevealNeighbors
 
   # :reek:FeatureEnvy
   def reveal(neighboring_cell)
-    push(neighboring_cell.reveal)
+    updated_cells << neighboring_cell.reveal
 
     end_in_defeat(user:) if neighboring_cell.mine?
   end
@@ -91,14 +91,10 @@ class Cell::RevealNeighbors
     upsertable_attributes_array = Cell::RecursiveReveal.(neighboring_cell)
     result = Cell.upsert_all(upsertable_attributes_array)
 
-    push(Cell.for_id(result.pluck("id")))
+    updated_cells << Cell.for_id(result.pluck("id"))
   end
 
   def end_game_in_victory_if_all_safe_cells_revealed
     board.check_for_victory(user:)
-  end
-
-  def push(cell)
-    updated_cells.concat(Array.wrap(cell))
   end
 end
