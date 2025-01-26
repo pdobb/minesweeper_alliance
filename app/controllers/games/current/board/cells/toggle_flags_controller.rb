@@ -6,7 +6,7 @@ class Games::Current::Board::Cells::ToggleFlagsController <
 
   def create
     safe_perform_game_action do
-      Cell::ToggleFlag.(cell, user: current_user)
+      Cell::ToggleFlag.(cell:, user: current_user, game:)
     end
     return if performed?
 
