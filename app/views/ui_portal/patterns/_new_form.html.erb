@@ -1,6 +1,6 @@
 <%# locals: (view:) %>
 
-<%= turbo_frame_tag(:index_actions, class: "block") do %>
+<%= turbo_frame_tag(:index_actions) do %>
   <%= form_with(
         model: view.to_model,
         url: ui_portal_patterns_path,

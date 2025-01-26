@@ -4,7 +4,7 @@
   <h1><%= title %></h1>
 
   <% @view.signature.tap do |signature| %>
-    <%= turbo_frame_tag(*signature.turbo_frame_name, class: "block") do %>
+    <%= turbo_frame_tag(*signature.turbo_frame_name) do %>
       <%= render("games/just_ended/active_participants/signature", signature:) %>
     <% end %>
   <% end %>
