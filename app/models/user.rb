@@ -100,9 +100,7 @@ class User < ApplicationRecord
     ].tap(&:compact!).join(" ")
   end
 
-  def mms_id
-    "MMS-#{unique_id}"
-  end
+  def mms_id = "MMS-#{unique_id}"
 
   def unique_id
     @unique_id ||= created_at.to_i.to_s[TRUNCATED_ID_RANGE]
@@ -118,10 +116,6 @@ class User < ApplicationRecord
 
   def signer_status_just_changed?
     username_previously_was.nil? || username.nil?
-  end
-
-  def participated_in?(game)
-    actively_participated_in_games.for_id(game).exists?
   end
 
   def completed_games_count

@@ -45,11 +45,11 @@ class Games::JustEnded::FooterController < ApplicationController
     end
 
     def type
-      @type ||= participant? ? "active_participants" : "observers"
+      @type ||= active_participant? ? "active_participants" : "observers"
     end
 
-    def participant?
-      @participant ||= user.participated_in?(game)
+    def active_participant?
+      @active_participant ||= user.active_participant_in?(game:)
     end
 
     def footer(sub_type)
