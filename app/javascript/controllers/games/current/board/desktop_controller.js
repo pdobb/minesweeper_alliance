@@ -20,12 +20,18 @@ export default class extends Controller {
     revealNeighborsUrl: String,
   }
 
-  static cellIdRegex = /cells\/(\d+)\//
+  static highlightNeighborsDelay = 100 // ms
 
   dispatchMousedown(event) {
     if (!mouse(event).actsAsLeftClick()) return
 
-    cell(event.target).highlightNeighbors(this.highlightNeighborsUrlValue)
+    this.highlightNeighborsTimer = setTimeout(() => {
+      cell(event.target).highlightNeighbors(this.highlightNeighborsUrlValue)
+    }, this.constructor.highlightNeighborsDelay)
+  }
+
+  dispatchMouseup() {
+    clearTimeout(this.highlightNeighborsTimer)
   }
 
   dispatchContextmenu(event) {
