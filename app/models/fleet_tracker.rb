@@ -103,7 +103,7 @@ module FleetTracker
   private_class_method :broadcast_fleet_addition
 
   def self.broadcast_fleet_removal(token:, wait:)
-    Games::Current::BroadcastFleetRemovalJob.set(wait:).perform_later(token)
+    Game::Current::BroadcastFleetRemovalJob.set(wait:).perform_later(token)
   end
   private_class_method :broadcast_fleet_removal
 

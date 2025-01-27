@@ -127,7 +127,7 @@ class FleetTrackerTest < ActiveSupport::TestCase
 
       subject { empty1 }
 
-      it "calls Games::Current::BroadcastFleetRemovalJob, as expected" do
+      it "calls Game::Current::BroadcastFleetRemovalJob, as expected" do
         subject.add!(user1_token)
         _(@broadcast_append_call.kargs[:target]).must_equal("fleetRoster")
         _(@broadcast_append_call.kargs[:partial]).must_equal(
@@ -258,12 +258,12 @@ class FleetTrackerTest < ActiveSupport::TestCase
       before do
         @query_spy =
           MuchStub.spy(
-            Games::Current::BroadcastFleetRemovalJob, :set, :perform_later)
+            Game::Current::BroadcastFleetRemovalJob, :set, :perform_later)
       end
 
       subject { empty1 }
 
-      it "calls Games::Current::BroadcastFleetRemovalJob, as expected" do
+      it "calls Game::Current::BroadcastFleetRemovalJob, as expected" do
         subject.remove!(user1_token)
 
         _(@query_spy.set_last_called_with.pargs).must_equal([wait: 3.seconds])
