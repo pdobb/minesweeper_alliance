@@ -20,53 +20,21 @@ class GameTest < ActiveSupport::TestCase
     context "Class Methods" do
       subject { unit_class }
 
-      describe ".current" do
-        context "GIVEN a Game#on? = true Game exists" do
-          it "returns the Game#on? = true Game" do
-            _(subject.current).must_equal(standing_by1)
-          end
-        end
-
-        context "GIVEN a Game#on? = true Game doesn't exist" do
-          before { standing_by1.delete }
-
-          it "returns nil" do
-            _(subject.current).must_be_nil
-          end
-        end
-      end
-
-      describe ".current!" do
-        context "GIVEN a Game#on? = true Game exists" do
-          it "returns the Game#on? = true Game" do
-            _(subject.current!).must_equal(standing_by1)
-          end
-        end
-
-        context "GIVEN a Game#on? = true Game doesn't exist" do
-          before { standing_by1.delete }
-
-          it "raises ActiveRecord::RecordNotFound" do
-            _(-> { subject.current! }).must_raise(ActiveRecord::RecordNotFound)
-          end
-        end
-      end
-
       describe ".create_for" do
-        context "GIVEN a Game.current already exists" do
+        context "GIVEN a current Game already exists" do
           it "raises ActiveRecord::RecordNotUnique" do
             _(-> {
-              subject.create_for(settings: custom_settings1, user: user1)
+              subject.create_for(settings: custom_settings1)
             }).must_raise(ActiveRecord::RecordNotUnique)
           end
         end
 
-        context "GIVEN no Game.current already exists" do
+        context "GIVEN no current Game" do
           before { standing_by1.delete }
 
           it "returns a persisted Game with the expected attributes" do
             result =
-              subject.create_for(settings: custom_settings1, user: user1)
+              subject.create_for(settings: custom_settings1)
             _(result).must_be_instance_of(unit_class)
             _(result.persisted?).must_equal(true)
             _(result.status_standing_by?).must_equal(true)
@@ -85,7 +53,7 @@ class GameTest < ActiveSupport::TestCase
             it "doesn't persist the Game/Board/Cells" do
               _(-> {
                 _(-> {
-                  subject.create_for(settings: custom_settings1, user: user1)
+                  subject.create_for(settings: custom_settings1)
                 }).must_raise(ErrorDouble)
               }).wont_change_all([
                 ["Game.count"], ["Board.count"], ["Cell.count"]

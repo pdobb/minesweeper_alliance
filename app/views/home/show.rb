@@ -6,6 +6,7 @@ class Home::Show
   def self.turbo_stream_channel = WarRoomChannel
   def self.turbo_stream_dom_id = "#{turbo_stream_name}_turbo_stream"
 
+  # @param current_game [Game, NilClass]
   def initialize(current_game:)
     @current_game = current_game
   end

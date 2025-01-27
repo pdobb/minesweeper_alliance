@@ -145,21 +145,11 @@ class Game < ApplicationRecord # rubocop:disable Metrics/ClassLength
 
   validates :type, presence: true
 
-  def self.find_or_create_current(...)
-    current || create_for(...)
-  rescue ActiveRecord::RecordNotUnique
-    # Handle race condition where > 1 Game is being created at the same time.
-    retry
-  end
-
-  def self.current = for_game_on_statuses.take
-  def self.current! = for_game_on_statuses.take!
-
-  def self.create_for(user:, **)
-    build_for(**).tap { |new_game|
+  def self.create_for(...)
+    build_for(...).tap { |new_game|
       transaction do
         new_game.save!
-        GameCreateTransaction.create_between(user:, game: new_game)
+        yield(new_game) if block_given?
         new_game.board.generate_cells
       end
     }
@@ -389,7 +379,7 @@ class Game < ApplicationRecord # rubocop:disable Metrics/ClassLength
     end
 
     def check_for_current_game
-      current_game = Game.current
+      current_game = Game::Current.find
 
       if current_game && current_game != __model__
         raise(Error, "Can't reset a past Game while a current Game exists.")

@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
 class Games::New::RandomController < ApplicationController
-  include Games::New::Behaviors
-
   def create
-    find_or_create_current_game(settings: Board::Settings.random)
+    settings = Board::Settings.random
+    Game::Current.(settings:, user: current_user)
+
     redirect_to(root_path)
   end
 end
