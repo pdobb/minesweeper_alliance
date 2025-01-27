@@ -11,7 +11,7 @@ class HomeController < ApplicationController
 
   private
 
-  def current_game = @current_game ||= Game.current
+  def current_game = @current_game ||= Game::Current.find
 
   # HomeController::JoinGame manages what happens when a user joins (as in
   # visits, views, or otherwise witnesses) a {Game}.

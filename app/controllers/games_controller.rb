@@ -2,7 +2,6 @@
 
 class GamesController < ApplicationController
   include AllowBrowserBehaviors
-  include Games::New::Behaviors
 
   def index
     @view =
@@ -26,8 +25,9 @@ class GamesController < ApplicationController
   end
 
   def create
-    find_or_create_current_game(
-      settings: Board::Settings.preset(params[:preset]))
+    settings = Board::Settings.preset(params[:preset])
+    Game::Current.(settings:, user: current_user)
+
     redirect_to(root_path)
   end
 end
