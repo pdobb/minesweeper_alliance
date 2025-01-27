@@ -21,6 +21,10 @@ class Games::Current::Board::Content
     Router.game_board_cell_highlight_neighbors_path(game, NULL_CELL_ID)
   end
 
+  def dehighlight_neighbors_url
+    Router.game_board_cell_dehighlight_neighbors_path(game, NULL_CELL_ID)
+  end
+
   def reveal_neighbors_url
     Router.game_board_cell_reveal_neighbors_path(game, NULL_CELL_ID)
   end

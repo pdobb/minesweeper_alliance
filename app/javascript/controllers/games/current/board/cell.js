@@ -26,6 +26,10 @@ class Cell {
     this.#submit(url)
   }
 
+  dehighlightNeighbors(url) {
+    this.#submit(url)
+  }
+
   toggleFlag(url, beforeSubmit = () => {}) {
     if (this.isNotFlaggable) return
 

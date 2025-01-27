@@ -17,6 +17,7 @@ export default class extends Controller {
     revealUrl: String,
     toggleFlagUrl: String,
     highlightNeighborsUrl: String,
+    dehighlightNeighborsUrl: String,
     revealNeighborsUrl: String,
   }
 
@@ -25,13 +26,23 @@ export default class extends Controller {
   dispatchMousedown(event) {
     if (!mouse(event).actsAsLeftClick()) return
 
+    this.mousedownTarget = event.target
+
     this.highlightNeighborsTimer = setTimeout(() => {
       cell(event.target).highlightNeighbors(this.highlightNeighborsUrlValue)
     }, this.constructor.highlightNeighborsDelay)
   }
 
-  dispatchMouseup() {
+  dispatchMouseup(event) {
+    if (mouse(event).actsAsRightClick()) return
+
     clearTimeout(this.highlightNeighborsTimer)
+
+    if (this.mousedownTarget && event.target != this.mousedownTarget) {
+      cell(this.mousedownTarget).dehighlightNeighbors(
+        this.dehighlightNeighborsUrlValue,
+      )
+    }
   }
 
   dispatchContextmenu(event) {

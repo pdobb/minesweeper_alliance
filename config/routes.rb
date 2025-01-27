@@ -21,6 +21,7 @@ Rails.application.routes.draw do
               resource :reveal, only: :create
               resource :toggle_flag, only: :create
               resource :highlight_neighbors, only: :create
+              resource :dehighlight_neighbors, only: :create
               resource :reveal_neighbors, only: :create
             end
           end
