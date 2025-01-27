@@ -3,7 +3,10 @@
 
 <%= turbo_stream_from(@view.turbo_stream_name) %>
 
-<div class="container mx-auto space-y-12">
+<div
+  data-turbo-prefetch="false"
+  class="container mx-auto space-y-12"
+>
   <div class="flex max-lg:flex-col justify-between gap-y-6">
     <h1><%= title %></h1>
 
@@ -24,8 +27,7 @@
           <%= link_to(
                 type.filter_name,
                 type.games_filter_url,
-                class: type.css,
-                data: { turbo_prefetch: "false" }) %>
+                class: type.css) %>
           <span class="text-dim-lg">
             (<%= type.games_count %> / <%= type.games_percentage %>)
           </span>
