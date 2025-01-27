@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-# Games::Current::BroadcastFleetRemovalJob
-class Games::Current::BroadcastFleetRemovalJob < ApplicationJob
+# Game::Current::BroadcastFleetRemovalJob
+class Game::Current::BroadcastFleetRemovalJob < ApplicationJob
   queue_as :default
 
   def perform(token)

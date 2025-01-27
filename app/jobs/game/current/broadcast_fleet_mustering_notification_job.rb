@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-# Games::Current::BroadcastFleetMusteringNotificationJob
-class Games::Current::BroadcastFleetMusteringNotificationJob < ApplicationJob
+# Game::Current::BroadcastFleetMusteringNotificationJob
+class Game::Current::BroadcastFleetMusteringNotificationJob < ApplicationJob
   queue_as :default
 
   def perform

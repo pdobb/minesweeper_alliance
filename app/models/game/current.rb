@@ -77,8 +77,7 @@ class Game::Current
 
     def broadcast_fleet_mustering_notification(
           wait: TURBO_STREAM_DISCONNECT_AFFORDANCE_IN_SECONDS)
-      Games::Current::BroadcastFleetMusteringNotificationJob.set(wait:).
-        perform_later
+      BroadcastFleetMusteringNotificationJob.set(wait:).perform_later
     end
   end
 end
