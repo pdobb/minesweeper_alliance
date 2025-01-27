@@ -1,7 +1,10 @@
 <% title("Metrics") %>
 <% description(t("metrics.meta_description")) %>
 
-<div class="container mx-auto space-y-12">
+<div
+  data-turbo-prefetch="false"
+  class="container mx-auto space-y-12"
+>
   <h1><%= title %></h1>
 
   <% @view.engagements.tap do |engagements| %>
