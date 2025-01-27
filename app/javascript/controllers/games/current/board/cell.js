@@ -1,14 +1,20 @@
 import { post } from "@rails/request.js"
 
 // Games::Current::Board::Cell wraps a Table Cell element for querying on its
-// state. It also exposes the Cell actions:
-//   - Reveal
-//   - Toggle Flag
-//   - Highlight Neighbors
-//   - Reveal Neighbors
+// state. It connects the front-end Cell Actions to their back-end counterparts:
+//  - Reveal
+//  - Toggle Flag
+//  - Highlight Neighbors
+//  - Reveal Neighbors
 class Cell {
   static domIdRegex = /^cell_/
   static cellIdUrlRegex = /cells\/(\d+)\//
+  static loadingIndicatorClass = "animate-pulse-fast"
+  static errorIndicatorClasses = [
+    "bg-red-600",
+    "dark:bg-red-900",
+    "animate-pulse-fast",
+  ]
 
   constructor(element) {
     this.element = element
@@ -79,11 +85,25 @@ class Cell {
     // /games/<game_id>/board/cells/<cell_id>/<action>
     const targetUrl = baseUrl.replace(Cell.cellIdUrlRegex, `cells/${this.id}/`)
 
-    post(targetUrl, { responseKind: "turbo-stream" })
+    post(targetUrl, { responseKind: "turbo-stream" }).then((response) => {
+      this.#hideLoadingIndicator()
+      if (!response.ok) {
+        this.#showErrorIndicator() // TODO: Remove?
+        Turbo.visit(window.location.href, { action: "replace" })
+      }
+    })
   }
 
   #showLoadingIndicator() {
-    this.element.classList.add("animate-pulse-fast")
+    this.element.classList.add(Cell.loadingIndicatorClass)
+  }
+
+  #hideLoadingIndicator() {
+    this.element.classList.remove(Cell.loadingIndicatorClass)
+  }
+
+  #showErrorIndicator() {
+    this.element.className = Cell.errorIndicatorClasses.join(" ")
   }
 }
 

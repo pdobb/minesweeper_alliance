@@ -5,10 +5,6 @@
 module Games::Current::Board::Cells::ActionBehaviors
   extend ActiveSupport::Concern
 
-  # Games::Current::Board::Cells::ActionBehaviors::Error represents any
-  # StandardError related to Game / Board / Cell Actions processing.
-  Error = Class.new(StandardError)
-
   included do
     include AllowBrowserBehaviors
   end
@@ -16,14 +12,7 @@ module Games::Current::Board::Cells::ActionBehaviors
   private
 
   def game
-    @game ||= begin
-      game_id = params[:game_id]
-      Game.for_game_on_statuses.for_id(game_id).take.tap { |game|
-        unless game
-          raise(Error, "Current Game with ID #{game_id.inspect} not found")
-        end
-      }
-    end
+    @game ||= Game.for_game_on_statuses.for_id(params[:game_id]).take!
   end
 
   def board
@@ -34,31 +23,13 @@ module Games::Current::Board::Cells::ActionBehaviors
     @cell ||= begin
       cell_id = params[:cell_id]
       board.cells.to_a.detect { |cell| cell.to_param == cell_id }.tap { |cell|
-        raise(Error, "Cell with ID #{cell_id.inspect} not found") unless cell
+        unless cell
+          raise(
+            ActiveRecord::RecordNotFound,
+            "#{game.identify}->#{board.identify}->Cell[#{cell_id.inspect}] "\
+            "not found")
+        end
       }
-    end
-  end
-
-  # :reek:TooManyStatements
-  # :reek:DuplicateMethodCall
-  def safe_perform_game_action
-    yield.tap {
-      FleetTracker.activate!(current_user_token)
-    }
-  rescue Error
-    flash[:warning] = t("flash.web_socket_lost")
-    recover_from_exception
-  rescue => ex
-    flash.alert = t("flash.web_socket_lost")
-    Notify.(ex)
-    recover_from_exception
-  end
-
-  def current_user_token = current_context.user_token
-
-  def recover_from_exception
-    respond_with do
-      render(turbo_stream: turbo_stream.refresh(request_id: nil))
     end
   end
 
@@ -69,18 +40,21 @@ module Games::Current::Board::Cells::ActionBehaviors
     else
       broadcast_current_game_updates(...)
     end
-  end
-
-  def broadcast_current_game_updates(updated_cells)
-    WarRoomChannel.broadcast([
-      (yield if block_given?),
-      Cell::TurboStream::Morph.wrap_and_call(updated_cells, turbo_stream:),
-    ])
 
     respond_with { head(:no_content) }
   end
 
-  # :reek:TooManyStatements
+  def broadcast_current_game_updates(updated_cells)
+    FleetTracker.activate!(current_user_token)
+
+    WarRoomChannel.broadcast([
+      (yield if block_given?), # Cell Action Controller-specific updates.
+      Cell::TurboStream::Morph.wrap_and_call(updated_cells, turbo_stream:),
+    ])
+  end
+
+  def current_user_token = current_context.user_token
+
   def broadcast_just_ended_game_updates
     container = Games::JustEnded::Container.new(game:)
     target = container.turbo_frame_name
@@ -89,7 +63,6 @@ module Games::Current::Board::Cells::ActionBehaviors
         partial: "games/just_ended/container", locals: { container: })
 
     WarRoomChannel.broadcast_replace(target:, html:)
-    respond_with { head(:no_content) }
   end
 
   def broadcast_past_games_index_refresh
@@ -104,9 +77,7 @@ module Games::Current::Board::Cells::ActionBehaviors
     end
   end
 
-  def current_context
-    CurrentContext.new(self)
-  end
+  def current_context = CurrentContext.new(self)
 
   # Games::Current::Board::Cells::ActionBehaviors::CurrentContext
   class CurrentContext
