@@ -88,6 +88,7 @@ class User < ApplicationRecord
             length: { maximum: USERNAME_MAX_LEGNTH }
 
   def token = id
+  def identifier = username || unique_id
 
   def username=(value)
     super(value.to_s.strip.presence)

@@ -69,6 +69,24 @@ class UserTest < ActiveSupport::TestCase
       end
     end
 
+    describe "#identifier" do
+      context "GIVEN a #username" do
+        subject { user1 }
+
+        it "returns #username" do
+          _(subject.identifier).must_equal(subject.username)
+        end
+      end
+
+      context "GIVEN no #username" do
+        subject { user2 }
+
+        it "returns #unique_id" do
+          _(subject.identifier).must_equal(subject.unique_id)
+        end
+      end
+    end
+
     describe "#username=" do
       subject { user1 }
 

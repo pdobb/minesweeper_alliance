@@ -28,7 +28,7 @@ class WarRoomChannel < Turbo::StreamsChannel
 
   # Override Turbo::StreamsChannel#subscribed to add #on_subscribe logic.
   def subscribed
-    if stream_name && current_user_token?
+    if stream_name && current_user?
       stream_from(stream_name)
       on_subscribe
     else
@@ -37,13 +37,13 @@ class WarRoomChannel < Turbo::StreamsChannel
   end
 
   def unsubscribed
-    on_unsubscribe if current_user_token?
+    on_unsubscribe if current_user?
   end
 
   private
 
   def stream_name = verified_stream_name_from_params
-  def current_user_token? = !!current_user_token
+  def current_user? = !!current_user
 
   def on_subscribe
     FleetTracker.add!(current_user_token)
@@ -52,4 +52,6 @@ class WarRoomChannel < Turbo::StreamsChannel
   def on_unsubscribe
     FleetTracker.remove!(current_user_token)
   end
+
+  def current_user_token = current_user.token
 end
