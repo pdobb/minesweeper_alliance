@@ -109,7 +109,6 @@ CREATE TABLE public.cells (
     coordinates jsonb DEFAULT '{}'::jsonb NOT NULL,
     mine boolean DEFAULT false NOT NULL,
     flagged boolean DEFAULT false NOT NULL,
-    highlighted boolean DEFAULT false NOT NULL,
     revealed boolean DEFAULT false NOT NULL,
     value integer,
     created_at timestamp(6) with time zone NOT NULL,
@@ -556,13 +555,6 @@ CREATE INDEX index_cells_on_flagged ON public.cells USING btree (flagged);
 
 
 --
--- Name: index_cells_on_highlighted; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_cells_on_highlighted ON public.cells USING btree (highlighted);
-
-
---
 -- Name: index_cells_on_mine; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -809,6 +801,7 @@ ALTER TABLE ONLY public.cells
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20250127005408'),
 ('20250124190315'),
 ('20250117181518'),
 ('20241115023724'),

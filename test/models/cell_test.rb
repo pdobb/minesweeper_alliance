@@ -167,7 +167,7 @@ class CellTest < ActiveSupport::TestCase
         it "returns nil" do
           result =
             _(-> { subject.reveal }).wont_change_all([
-              ["subject.highlighted"],
+              ["subject.highlighted?"],
               ["subject.flagged"],
               ["subject.value"],
             ])
@@ -177,7 +177,8 @@ class CellTest < ActiveSupport::TestCase
 
       context "GIVEN an unrevealed, highlighted, and flagged Cell" do
         before do
-          subject.update!(highlighted: true, flagged: true)
+          subject.update!(flagged: true)
+          subject.soft_highlight
         end
 
         subject { standing_by1_board_cell1 }
@@ -186,7 +187,7 @@ class CellTest < ActiveSupport::TestCase
           result =
             _(-> { subject.reveal }).must_change_all([
               ["subject.revealed", to: true],
-              ["subject.highlighted", to: false],
+              ["subject.highlighted?", to: false],
               ["subject.flagged", to: false],
               ["subject.value"],
             ])
@@ -195,13 +196,13 @@ class CellTest < ActiveSupport::TestCase
       end
     end
 
-    describe "#highlight_neighbors" do
+    describe "#soft_highlight_neighbors" do
       context "GIVEN an unrevealed Cell" do
         subject { standing_by1_board_cell1 }
 
         it "returns nil" do
           result =
-            _(-> { subject.dehighlight_neighbors }).wont_change(
+            _(-> { subject.soft_highlight_neighbors }).wont_change(
               "subject.neighbors.count(&:highlighted?)")
           _(result).must_be_nil
         end
@@ -216,7 +217,7 @@ class CellTest < ActiveSupport::TestCase
 
         it "highlights the expected Cells, and returns them" do
           result =
-            _(-> { subject.highlight_neighbors }).must_change(
+            _(-> { subject.soft_highlight_neighbors }).must_change(
               "subject.neighbors.count(&:highlightable?)",
               to: 0)
           _(result).must_match_array([
@@ -228,37 +229,40 @@ class CellTest < ActiveSupport::TestCase
       end
     end
 
-    describe "#dehighlight_neighbors" do
+    describe "#highlightable_neighbors" do
       subject { standing_by1_board_cell1 }
 
       context "GIVEN an unrevealed Cell" do
         subject { standing_by1_board_cell1 }
 
         it "returns nil" do
-          result =
-            _(-> { subject.dehighlight_neighbors }).wont_change(
-              "subject.neighbors.count(&:highlighted?)")
-          _(result).must_be_nil
+          _(subject.highlightable_neighbors).must_be_nil
         end
       end
 
-      context "GIVEN a revealed Cell with highlighted neighbors" do
+      context "GIVEN a revealed Cell" do
         before do
-          subject.reveal.highlight_neighbors
+          subject.reveal
         end
 
         subject { standing_by1_board_cell1 }
 
-        it "dehighlights the expected Cells, and returns them" do
-          result =
-            _(-> { subject.dehighlight_neighbors }).must_change(
-              "subject.neighbors.count(&:highlighted?)", to: 0)
-          _(result).must_match_array([
+        it "returns the expected Array of Cells" do
+          _(subject.highlightable_neighbors).must_match_array([
             standing_by1_board_cell2,
             standing_by1_board_cell4,
             standing_by1_board_cell5,
           ])
         end
+      end
+    end
+
+    describe "#soft_highlight" do
+      subject { standing_by1_board_cell1 }
+
+      it "sets #highlighted? = true" do
+        _(-> { subject.soft_highlight }).must_change(
+          "subject.highlighted?", from: false, to: true)
       end
     end
 

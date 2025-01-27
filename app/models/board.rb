@@ -144,7 +144,6 @@ class Board < ApplicationRecord
       __model__.cells.update_all(
         revealed: false,
         flagged: false,
-        highlighted: false,
         value: nil)
 
       self
@@ -156,7 +155,6 @@ class Board < ApplicationRecord
         revealed: false,
         mine: false,
         flagged: false,
-        highlighted: false,
         value: nil)
 
       self

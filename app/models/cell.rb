@@ -2,6 +2,7 @@
 
 # :reek:TooManyMethods
 # :reek:RepeatedConditional
+# :reek:InstanceVariableAssumption
 
 # Cell represents a clickable position on the {Board}. Cells:
 # - may secretly contain a mine
@@ -20,8 +21,6 @@
 #   representing the number of mines around this Cell.
 # @attr mine [Boolean] Whether or not this Cell contains a mine.
 # @attr flagged [Boolean] Whether or not this Cell has been flagged.
-# @attr highlighted [Boolean] Whether or not this Cell is currently being
-#   highlighted. (This is highly temporary.)
 # @attr revealed [Boolean] Whether or not this Cell has been revealed.
 class Cell < ApplicationRecord
   self.implicit_order_column = "created_at"
@@ -73,35 +72,29 @@ class Cell < ApplicationRecord
     return if revealed?
 
     self.revealed = true
-    self.highlighted = false
+    self.highlighted = false # A somewhat superfluous operation.
     self.flagged = false
     self.value = neighboring_mines_count
 
     self
   end
 
-  # "Highlighting" marks all {#highlightable?} neighboring Cells for highlight
-  # in the view. This makes it easy to visualize the revealable surrounding
-  # Cells of a given, previously-revealed Cell.
-  #
-  # @return [Array<Cell>] The Cells that were just highlighted.
-  def highlight_neighbors
+  # Mark all {#highlightable?} neighboring Cells for highlight in the view by
+  # setting virtual attribute: {#soft_highlight} = true.
+  def soft_highlight_neighbors
     return if unrevealed?
 
-    highlightable_neighbors = neighbors.select(&:highlightable?)
-    highlightable_neighbors.each { |cell| cell.update!(highlighted: true) }
+    highlightable_neighbors.each(&:soft_highlight)
   end
 
-  # "Dehighligting" removes the highlight added by {#highlight_neighbors}
-  # from all neighboring, highlighted Cells.
-  #
-  # @return [Array<Cell>] The Cells that were just dehighlighted.
-  def dehighlight_neighbors
+  def highlightable_neighbors
     return if unrevealed?
 
-    highlighted_neighbors = neighbors.select(&:highlighted?)
-    highlighted_neighbors.each { |cell| cell.update!(highlighted: false) }
+    neighbors.select(&:highlightable?)
   end
+
+  def soft_highlight = self.highlighted = true
+  def highlighted? = !!@highlighted
 
   def neighboring_flags_count_matches_value?
     neighboring_flags_count == value.to_i
@@ -127,6 +120,8 @@ class Cell < ApplicationRecord
   def highlightable? = !(revealed? || flagged? || highlighted?)
 
   private
+
+  attr_writer :highlighted
 
   def neighboring_coordinates = coordinates.neighbors
 

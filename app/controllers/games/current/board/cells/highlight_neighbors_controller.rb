@@ -7,7 +7,7 @@ class Games::Current::Board::Cells::HighlightNeighborsController <
   def create
     updated_cells =
       safe_perform_game_action {
-        cell.highlight_neighbors
+        cell.soft_highlight_neighbors
       }
     return if performed?
 
