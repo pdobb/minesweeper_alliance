@@ -13,7 +13,7 @@ module TurboStreamActionsHelper
       action: :replace,
       target: view_model.dom_id,
       method:,
-      data: { source: @view_context.cookies[CurrentUser::COOKIE] })
+      data: { source: @view_context.cookies[User::Current::COOKIE] })
   end
   # rubocop:enable Rails/HelperInstanceVariable
 end

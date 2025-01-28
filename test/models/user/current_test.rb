@@ -2,9 +2,9 @@
 
 require "test_helper"
 
-class CurrentUserTest < ActiveSupport::TestCase
-  describe "CurrentUser" do
-    let(:unit_class) { CurrentUser }
+class User::CurrentTest < ActiveSupport::TestCase
+  describe "User::Current" do
+    let(:unit_class) { User::Current }
 
     let(:user1) { users(:user1) }
 
