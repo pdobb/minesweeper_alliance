@@ -2,13 +2,13 @@
 
 # Games::Current::Rules::CollapseContainer
 class Games::Current::Rules::CollapseContainer
-  COOKIE_NAME = "rules"
+  COOKIE = "rules"
 
   def initialize(context:)
     @context = Context.new(context)
   end
 
-  def cookie_name = COOKIE_NAME
+  def cookie_name = COOKIE
 
   def button_id = @button_id ||= "rules_button-#{Time.new.to_i}"
   def content_id = @content_id ||= "rules_content-#{Time.new.to_i}"

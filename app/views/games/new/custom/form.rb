@@ -2,7 +2,7 @@
 
 # Games::New::Custom::Form represents the "New Custom Game" form.
 class Games::New::Custom::Form
-  STORAGE_KEY = :board_settings
+  COOKIE = :board_settings
 
   def initialize(settings:, context:)
     @settings = settings
@@ -39,7 +39,7 @@ class Games::New::Custom::Form
 
   def previous_settings
     @previous_settings ||=
-      JSON.parse(cookies[STORAGE_KEY] || "{}").with_indifferent_access
+      JSON.parse(cookies[COOKIE] || "{}").with_indifferent_access
   end
 
   def cookies = context.cookies

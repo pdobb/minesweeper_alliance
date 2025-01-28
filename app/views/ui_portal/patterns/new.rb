@@ -28,7 +28,7 @@ class UIPortal::Patterns::New
 
   # UIPortal::Patterns::New::SettingsForm
   class SettingsForm
-    STORAGE_KEY = :pattern_settings
+    COOKIE = :pattern_settings
 
     def initialize(pattern_settings, context:)
       @pattern_settings = pattern_settings
@@ -55,7 +55,7 @@ class UIPortal::Patterns::New
 
     def previous_settings
       @previous_settings ||=
-        JSON.parse(cookies[STORAGE_KEY] || "{}").with_indifferent_access
+        JSON.parse(cookies[COOKIE] || "{}").with_indifferent_access
     end
 
     def cookies = context.cookies

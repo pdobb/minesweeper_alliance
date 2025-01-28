@@ -1,7 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class ThemeController extends Controller {
-  static STORAGE_KEY = "theme"
+  static COOKIE = "theme"
 
   static LIGHT_THEME = "light"
   static LIGHT_THEME_COLOR = "#fff"
@@ -216,14 +216,14 @@ export default class ThemeController extends Controller {
   }
 
   get #theme() {
-    return localStorage.getItem(ThemeController.STORAGE_KEY)
+    return localStorage.getItem(ThemeController.COOKIE)
   }
 
   set #theme(value) {
     if (value == ThemeController.SYSTEM_THEME) {
-      localStorage.removeItem(ThemeController.STORAGE_KEY)
+      localStorage.removeItem(ThemeController.COOKIE)
     } else {
-      localStorage.setItem(ThemeController.STORAGE_KEY, value)
+      localStorage.setItem(ThemeController.COOKIE, value)
     }
   }
 }
