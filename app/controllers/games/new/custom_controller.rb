@@ -12,7 +12,7 @@ class Games::New::CustomController < ApplicationController
     if settings.valid?
       Game::Current.(settings:, user: current_user) {
         layout.store_http_cookie(
-          Games::New::Custom::Form::STORAGE_KEY,
+          Games::New::Custom::Form::COOKIE,
           value: settings.to_json)
       }
 

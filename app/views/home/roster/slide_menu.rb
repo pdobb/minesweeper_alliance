@@ -2,7 +2,7 @@
 
 # Home::Roster::SlideMenu represents the War Room Roster slide menu.
 class Home::Roster::SlideMenu
-  COOKIE_NAME = "war_room-roster"
+  COOKIE = "war_room-roster"
 
   def self.css
     # rubocop:disable Layout/MultilineArrayLineBreaks
@@ -32,7 +32,7 @@ class Home::Roster::SlideMenu
     @context = Context.new(context)
   end
 
-  def cookie_name = COOKIE_NAME
+  def cookie_name = COOKIE
 
   def title = "Roster"
 
