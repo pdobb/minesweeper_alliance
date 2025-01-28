@@ -7,11 +7,11 @@
 #   gem. See: https://github.com/hotwired/turbo-rails/blob/0ea92f344395234dd7fc39b0ef9ab02388e33235/app/models/turbo/streams/tag_builder.rb#L47
 module TurboStreamActionsHelper
   # rubocop:disable Rails/HelperInstanceVariable
-  def sourced_replace_for(view_model, method: :morph)
+  def sourced_replace(target, method: nil, **)
     tag.turbo_stream(
-      tag.template(@view_context.render(partial: view_model, formats: :html)),
+      tag.template(@view_context.render(formats: :html, **)),
       action: :replace,
-      target: view_model.dom_id,
+      target:,
       method:,
       data: { source: @view_context.cookies[User::Current::COOKIE] })
   end
