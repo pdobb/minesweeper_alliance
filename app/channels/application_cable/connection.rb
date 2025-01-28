@@ -14,6 +14,6 @@ class ApplicationCable::Connection < ActionCable::Connection::Base
   private
 
   def find_current_user
-    User.for_token(cookies.signed[CurrentUser::COOKIE]).take
+    User.for_token(cookies.signed[User::Current::COOKIE]).take
   end
 end
