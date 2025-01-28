@@ -10,7 +10,10 @@ class CurrentUserTest < ActiveSupport::TestCase
 
     describe "#call" do
       context "GIVEN a stored User Token" do
-        subject { unit_class.new(context: ContextDouble.new(user_token:)) }
+        subject {
+          unit_class.new(
+            context: ContextDouble.new(unit_class::COOKIE => user_token))
+        }
 
         context "GIVEN a User exists for the User Token" do
           let(:user_token) { user1.id }
@@ -50,9 +53,8 @@ class CurrentUserTest < ActiveSupport::TestCase
       @cookies = CookieJar.new(cookies)
     end
 
-    def store_http_cookie(...) = nil
-    def store_signed_http_cookie(...) = nil
-    def user_agent = nil
+    def store_signed_cookie(...) = nil
+    def user_agent = "TEST_USER_AGENT"
 
     attr_reader :cookies
 
