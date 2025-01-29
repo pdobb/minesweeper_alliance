@@ -8,6 +8,8 @@ class Profile::Show
 
   def display_name = user.display_name
 
+  def reset_profile_url = Router.profile_path
+
   private
 
   attr_reader :user

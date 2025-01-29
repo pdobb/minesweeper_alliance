@@ -152,6 +152,10 @@ en:
   user:
     meta_description: View player-specific stats and past Sweep Ops.
 
+  profile:
+    reset:
+      confirmation: Are you sure?
+
   footer:
     maker_html:
       - alliance.

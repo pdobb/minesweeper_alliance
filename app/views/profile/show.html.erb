@@ -1,5 +1,25 @@
 <% title(@view.display_name) %>
 
-<div class="container mx-auto">
+<div class="container mx-auto space-y-12">
   <h1><%= title %></h1>
+
+  <div class="space-y-3">
+    <h2 class="h5">
+      <%= link_to(
+            @view.reset_profile_url,
+            data: {
+              turbo_method: :delete,
+              turbo_confirm: t("profile.reset.confirmation"),
+            },
+            class: "inline-flex gap-x-2 items-center") do %>
+        Voluntary Discharge
+        <%= inline_svg_tag("heroicons/arrow-right-start-on-rectangle.svg") %>
+      <% end %>
+    </h2>
+    <p class="text-dim-sm">
+      Reset your record.
+      Note, however, that all of your past activity and username will remain in the Sweep Ops Archive.
+      <strong>Make sure to bookmark your Authentication Link first if you'd like the option to come back later!</strong>
+    </p>
+  </div>
 </div>
