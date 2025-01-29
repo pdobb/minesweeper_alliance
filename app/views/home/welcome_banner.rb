@@ -3,8 +3,8 @@
 # Home::WelcomeBanner aids in building
 # {Application::PermanentlyDismissableBanner}s for the given context.
 class Home::WelcomeBanner
-  WELCOME_BANNER_NAME = "welcome_banner"
-  BANNER_DISMISSAL_VALUE = "dismissed"
+  COOKIE = "welcome_banner"
+  DISMISSED_VALUE = "dismissed"
 
   def self.turbo_frame_name = :welcome_banner
 
@@ -15,12 +15,12 @@ class Home::WelcomeBanner
   def turbo_frame_name = self.class.turbo_frame_name
 
   def show?
-    context.cookies[WELCOME_BANNER_NAME] != BANNER_DISMISSAL_VALUE
+    context.cookies[COOKIE] != DISMISSED_VALUE
   end
 
   def banner
     Application::PermanentlyDismissableBanner.new(
-      name: WELCOME_BANNER_NAME,
+      cookie_name: COOKIE,
       content: { text: },
       context:)
   end

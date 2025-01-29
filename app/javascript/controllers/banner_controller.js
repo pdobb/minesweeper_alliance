@@ -6,7 +6,7 @@ import { cookies } from "cookies"
 // unless the given `permanentlyDismissable` value is true.
 export default class extends Controller {
   static values = {
-    name: String,
+    cookieName: String,
     permanentlyDismissable: Boolean,
     dismissal: { type: String, default: "dismissed" },
   }
@@ -24,8 +24,8 @@ export default class extends Controller {
 
   #saveDismissal() {
     if (!this.permanentlyDismissableValue) return
-    if (!this.hasNameValue) return
+    if (!this.hasCookieNameValue) return
 
-    cookies.permanent.set(this.nameValue, this.dismissalValue)
+    cookies.permanent.set(this.cookieNameValue, this.dismissalValue)
   }
 }

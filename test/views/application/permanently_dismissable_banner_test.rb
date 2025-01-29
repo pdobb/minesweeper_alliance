@@ -8,7 +8,7 @@ class Application::PermanentlyDismissableBannerTest < ActiveSupport::TestCase
 
     let(:banner1) {
       unit_class.new(
-        name: "test_banner",
+        cookie_name: "test_banner",
         content: { text: "Test 1." },
         context: context1)
     }
@@ -18,7 +18,7 @@ class Application::PermanentlyDismissableBannerTest < ActiveSupport::TestCase
 
     let(:banner2) {
       unit_class.new(
-        name: "test_banner",
+        cookie_name: "test_banner",
         content: { text: "Test 2." },
         context: context2)
     }
@@ -30,7 +30,7 @@ class Application::PermanentlyDismissableBannerTest < ActiveSupport::TestCase
       subject { banner1 }
 
       it "returns the expected String" do
-        _(subject.name).must_include("test_banner")
+        _(subject.cookie_name).must_include("test_banner")
       end
     end
 
