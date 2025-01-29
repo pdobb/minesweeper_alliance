@@ -73,7 +73,7 @@ class User < ApplicationRecord
   }
   scope :for_prune, -> {
     where(created_at: ..1.day.ago).
-      where.missing(:cell_transactions)
+      where.missing(:active_participant_transactions)
   }
 
   scope :by_joined_at_asc, -> {
@@ -147,84 +147,5 @@ class User < ApplicationRecord
     def truncated_id = id[TRUNCATED_ID_RANGE]
 
     def inspect_info = time_zone
-  end
-
-  # User::Bests is a specialization on User for finding "best" (e.g.
-  # top-scoring) {Game}s.
-  class Bests
-    def initialize(user)
-      @user = user
-    end
-
-    def beginner_score = _score_arel.for_beginner_type.take
-    def intermediate_score = _score_arel.for_intermediate_type.take
-    def expert_score = _score_arel.for_expert_type.take
-
-    def beginner_bbbvps = _bbbvps_arel.for_beginner_type.take
-    def intermediate_bbbvps = _bbbvps_arel.for_intermediate_type.take
-    def expert_bbbvps = _bbbvps_arel.for_expert_type.take
-
-    def beginner_efficiency = _efficiency_arel.for_beginner_type.take
-    def intermediate_efficiency = _efficiency_arel.for_intermediate_type.take
-    def expert_efficiency = _efficiency_arel.for_expert_type.take
-
-    private
-
-    attr_reader :user
-
-    def games = user.actively_participated_in_games
-    def _score_arel = games.by_score_asc
-    def _bbbvps_arel = games.by_bbbvps_desc
-    def _efficiency_arel = games.by_efficiency_desc
-  end
-
-  # User::Prune handles removing all pruneable {User}s from the database.
-  # Pruneable {Users}:
-  # - are at least a day old, and
-  # - have no {CellTransaction}s.
-  #
-  # @example
-  #   User::Prune.call
-  #
-  # @example Dry Run
-  #   User::Prune.dry_run
-  module Prune
-    def self.count = base_arel.count
-    def self.user_agents_tally = base_arel.pluck(:user_agent).tally
-
-    def self.call
-      decorate do
-        base_arel.each do |user|
-          user.destroy
-          Say.success("Pruned: #{describe(user)}")
-        end
-      end
-    end
-
-    def self.dry_run
-      decorate do
-        base_arel.each { |user| Say.info("Will prune: #{describe(user)}") }
-      end
-    end
-
-    class << self
-      private
-
-      def base_arel = User.for_prune.by_least_recent
-
-      def decorate
-        Say.silent("Pruning #{count} stale Users") do
-          Say.(user_agents_tally)
-
-          results_count = yield.size
-
-          Say.info("No stale Users found.") if results_count.zero?
-        end
-
-        self
-      end
-
-      def describe(user) = user.identify(:id, :created_at, :user_agent)
-    end
   end
 end
