@@ -11,5 +11,5 @@
 
 production:
   prune_stale_users:
-    command: "User::Prune.()"
+    command: "User::Prune.call"
     schedule: every day
