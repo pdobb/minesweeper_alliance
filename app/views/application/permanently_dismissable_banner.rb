@@ -6,7 +6,7 @@
 #
 # @see Application::Banner
 class Application::PermanentlyDismissableBanner
-  attr_reader :name,
+  attr_reader :cookie_name,
               :content
 
   def self.css
@@ -21,18 +21,18 @@ class Application::PermanentlyDismissableBanner
     # rubocop:enable Layout/MultilineArrayLineBreaks
   end
 
-  # @param name [String]
+  # @param cookie_name [String]
   # @param content [Hash]
   # @param context [#show_dismissal_button?]
   #
   # @example "Permanently"-Dismissable PermanentlyDismissableBanner
   #   Application::PermanentlyDismissableBanner.new(
-  #     name: "welcome_banner",
+  #     cookie_name: "welcome_banner",
   #     content: { text: "..." },
   #     context: layout))
-  def initialize(name:, content:, context:)
+  def initialize(cookie_name:, content:, context:)
     @content = content.fetch(:text)
-    @name = name
+    @cookie_name = cookie_name
     @context = context
   end
 

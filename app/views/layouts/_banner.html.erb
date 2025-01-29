@@ -5,7 +5,7 @@
   data-action="transitionend->banner#remove"
   <% if banner.permanently_dismissable? %>
     data-banner-permanently-dismissable-value="<%= banner.permanently_dismissable? %>"
-    data-banner-name-value="<%= banner.name %>"
+    data-banner-cookie-name-value="<%= banner.cookie_name %>"
   <% end %>
   data-banner-hide-class="opacity-0"
   role="banner"

@@ -4,13 +4,10 @@ import { cookies } from "cookies"
 
 // Connects to data-controller="timezone"
 export default class extends Controller {
-  static cookieName = "time_zone"
-
   static values = { updateUrl: String }
 
   connect() {
-    if (cookies.isBlank(this.constructor.cookieName))
-      this.#setCurrentUserTimeZone()
+    if (cookies.isBlank(window.TIME_ZONE_COOKIE)) this.#setCurrentUserTimeZone()
   }
 
   select(event) {
