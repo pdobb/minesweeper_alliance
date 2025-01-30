@@ -11,6 +11,20 @@ SET client_min_messages = warning;
 SET row_security = off;
 
 --
+-- Name: uuid-ossp; Type: EXTENSION; Schema: -; Owner: -
+--
+
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp" WITH SCHEMA public;
+
+
+--
+-- Name: EXTENSION "uuid-ossp"; Type: COMMENT; Schema: -; Owner: -
+--
+
+COMMENT ON EXTENSION "uuid-ossp" IS 'generate universally unique identifiers (UUIDs)';
+
+
+--
 -- Name: check_game_status(); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -322,7 +336,8 @@ CREATE TABLE public.users (
     time_zone character varying,
     created_at timestamp(6) with time zone NOT NULL,
     updated_at timestamp(6) with time zone NOT NULL,
-    user_agent character varying
+    user_agent character varying,
+    authentication_token uuid DEFAULT public.uuid_generate_v4() NOT NULL
 );
 
 
@@ -702,6 +717,13 @@ CREATE INDEX index_user_update_transactions_on_user_id ON public.user_update_tra
 
 
 --
+-- Name: index_users_on_authentication_token; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_users_on_authentication_token ON public.users USING btree (authentication_token);
+
+
+--
 -- Name: index_users_on_username; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -801,6 +823,7 @@ ALTER TABLE ONLY public.cells
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20250130002840'),
 ('20250127005408'),
 ('20250124190315'),
 ('20250117181518'),

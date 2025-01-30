@@ -153,8 +153,11 @@ en:
     meta_description: View player-specific stats and past Sweep Ops.
 
   profile:
+    authentication:
+      invalid_token: Invalid authentication token.
+      success: "Welcome back, %{name}!"
     reset:
-      confirmation: Are you sure?
+      confirmation: Are you sure? Make sure to copy or bookmark your Authentication Link first if you'd like the option to come back later!
 
   footer:
     maker_html:

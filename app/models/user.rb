@@ -11,6 +11,8 @@
 # @attr username [String]
 # @attr time_zone [String]
 # @attr user_agent [String] The `request.user_agent` value at User creation.
+# @attr authentication_token [String<UUID>] (<UUID>) a secret token for
+#   re-authenticating a User after e.g. "signing out", switching browsers, etc.
 class User < ApplicationRecord
   self.implicit_order_column = "created_at"
 
@@ -63,6 +65,9 @@ class User < ApplicationRecord
 
   scope :for_token, ->(token) { where(id: token) }
   scope :for_tokenish, ->(token) { where("id::text LIKE ?", "%#{token}") }
+  scope :for_authentication_token, ->(authentication_token) {
+    where(authentication_token:)
+  }
   scope :for_username, ->(username) {
     where("username LIKE ?", "%#{username}%")
   }
