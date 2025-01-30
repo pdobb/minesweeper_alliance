@@ -50,6 +50,7 @@ Rails.application.routes.draw do
   resource :current_user, only: [] do
     resource :time_zone_update, only: :create, module: :current_user
   end
+  resource :profile, controller: :profile, only: :show
 
   resource :about, controller: :about, only: :show
 

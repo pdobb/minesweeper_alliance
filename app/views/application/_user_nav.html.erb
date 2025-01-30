@@ -1,15 +1,14 @@
 <%# locals: (user_nav:) %>
 
 <%= turbo_frame_tag(*user_nav.turbo_frame_name) do %>
-  <% if user_nav.signer? %>
+  <% if user_nav.participant? %>
     <%= active_link_to(
-          user_nav.user_url,
-          includes: Users::GamesController.name,
+          user_nav.profile_url,
           data: { turbo_frame: :_top }) do %>
       <span class="max-md:hidden <%= user_nav.turbo_update_id %>">
         <%= user_nav.display_name %>
       </span>
-      <%= Emoji.profile %>
+      <%= Emoji.medal %>
     <% end %>
   <% else %>
     <span id="unsignedUserNav" class="max-md:hidden">

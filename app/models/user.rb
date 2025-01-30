@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# :reek:TooManyMethods
+
 # User represents all of:
 # 1. A simple browser session.
 # 2. A passive participant ("observer") of the current {Game} / War Room.
@@ -106,6 +108,8 @@ class User < ApplicationRecord
   def unique_id
     @unique_id ||= created_at.to_i.to_s[TRUNCATED_ID_RANGE]
   end
+
+  def active_participant? = active_participant_transactions.any?
 
   def active_participant_in?(game:)
     active_participant_transactions.for_game(game).exists?
