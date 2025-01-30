@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Application::UserNav represents the right side of the nav bar, where the
-# {User#display_name} is displayed for {User}s that have signed their name.
+# {User}'s username / profile link is displayed--for active participants.
 class Application::UserNav
   def initialize(current_user:)
     @current_user = current_user
@@ -11,14 +11,14 @@ class Application::UserNav
     [current_user, :user_nav]
   end
 
-  def signer? = current_user.signer?
+  def participant? = current_user.active_participant?
 
-  def user_url
-    Router.user_path(current_user)
+  def profile_url
+    Router.profile_path
   end
 
   def turbo_update_id = View.dom_id(current_user)
-  def display_name = current_user.display_name
+  def display_name = current_user.username
 
   private
 

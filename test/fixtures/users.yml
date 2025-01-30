@@ -1,5 +1,10 @@
 user1:
   username: User1
+  created_at: <%= 1.minute.ago %>
 
 user2:
+  username:
+  created_at: <%= 10.seconds.ago %>
+
+observer1:
   username:

@@ -8,6 +8,7 @@ class UserTest < ActiveSupport::TestCase
 
     let(:user1) { users(:user1) }
     let(:user2) { users(:user2) }
+    let(:observer1) { users(:observer1) }
 
     describe ".first" do
       subject { unit_class }
@@ -148,6 +149,24 @@ class UserTest < ActiveSupport::TestCase
 
       it "returns the expected String" do
         _(subject.unique_id).must_equal("4096")
+      end
+    end
+
+    describe "#active_participant?" do
+      context "GIVEN a User that has actively participated in a Game(s)" do
+        subject { user1 }
+
+        it "returns true" do
+          _(subject.active_participant?).must_equal(true)
+        end
+      end
+
+      context "GIVEN a User that has actively participated in a Game(s)" do
+        subject { observer1 }
+
+        it "returns false" do
+          _(subject.active_participant?).must_equal(false)
+        end
       end
     end
 
