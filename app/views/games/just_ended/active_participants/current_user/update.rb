@@ -15,8 +15,8 @@ class Games::JustEnded::ActiveParticipants::CurrentUser::Update
 
   def signer_status_just_changed? = user.signer_status_just_changed?
 
-  def user_nav
-    Application::UserNav.new(current_user: user)
+  def nav
+    CurrentUser::Nav.new(user:)
   end
 
   def welcome_banner(context:)

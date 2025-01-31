@@ -25,8 +25,8 @@
   </ul>
 
   <%= render(
-        "application/user_nav",
-        user_nav: Application::UserNav.new(current_user:)) %>
+        "current_user/nav",
+        nav: CurrentUser::Nav.new(user: current_user)) %>
 
   <% if content_for?(:page_nav) %>
     <div
