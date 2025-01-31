@@ -1,0 +1,18 @@
+<%# locals: (nav:) %>
+
+<div id="<%= nav.turbo_update_target %>">
+  <% if nav.participant? %>
+    <%= active_link_to(
+          nav.account_url,
+          data: { turbo_frame: :_top }) do %>
+      <span class="max-md:hidden <%= nav.turbo_update_id %>">
+        <%= nav.display_name %>
+      </span>
+      <%= Emoji.medal %>
+    <% end %>
+  <% else %>
+    <span id="unsignedUserNav" class="max-md:hidden">
+      <%= t("site.name") %>
+    </span>
+  <% end %>
+</div>

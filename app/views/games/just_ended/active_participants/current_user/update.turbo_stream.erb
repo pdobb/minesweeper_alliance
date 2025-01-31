@@ -5,9 +5,9 @@
 <% end %>
 
 <% if @view.signer_status_just_changed? %>
-  <% @view.user_nav.tap do |user_nav| %>
-    <%= turbo_stream.update(user_nav.turbo_frame_name) do %>
-      <%= render("application/user_nav", user_nav:) %>
+  <% @view.nav.tap do |nav| %>
+    <%= turbo_stream.update(nav.turbo_update_target) do %>
+      <%= render("current_user/nav", nav:) %>
     <% end %>
   <% end %>
 
