@@ -9,7 +9,7 @@ class Home::WelcomeBanner
   def self.turbo_frame_name = :welcome_banner
 
   def initialize(context:)
-    @context = BannerContext.new(context:)
+    @context = BannerContext.new(context)
   end
 
   def turbo_frame_name = self.class.turbo_frame_name
@@ -33,14 +33,14 @@ class Home::WelcomeBanner
 
   # Home::WelcomeBanner::BannerContext
   class BannerContext
-    def initialize(context:)
-      @base_context = context
-    end
+    def initialize(context) = @context = context
 
-    def cookies(...) = @base_context.cookies(...)
+    def cookies(...) = context.cookies(...)
+    def show_banner_dismissal_button? = current_user.active_participant?
+    def current_user = context.current_user
 
-    def show_banner_dismissal_button?
-      @base_context.current_user.signer?
-    end
+    private
+
+    attr_reader :context
   end
 end

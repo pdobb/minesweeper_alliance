@@ -50,10 +50,11 @@ class Games::Current::Rules::CollapseContainer
 
   # Games::Current::Rules::CollapseContainer::Context
   class Context
-    def initialize(context)
-      @context = context
-    end
+    def initialize(context) = @context = context
+    def cookies = context.cookies
 
-    def cookies = @context.cookies
+    private
+
+    attr_reader :context
   end
 end

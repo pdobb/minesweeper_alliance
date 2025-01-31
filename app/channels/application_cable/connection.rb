@@ -21,6 +21,10 @@ class ApplicationCable::Connection < ActionCable::Connection::Base
   # ApplicationCable::Connection#cookies method.
   class Context
     def initialize(context) = @context = context
-    def cookies = @context.__send__(:cookies)
+    def cookies = context.__send__(:cookies)
+
+    private
+
+    attr_reader :context
   end
 end

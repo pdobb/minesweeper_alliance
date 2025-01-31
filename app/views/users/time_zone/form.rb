@@ -7,13 +7,17 @@ class Users::TimeZone::Form
     @user = user
   end
 
-  def to_model = UserWrapper.new(@user)
+  def to_model = UserWrapper.new(user)
 
   def post_url
     Router.current_user_time_zone_update_path
   end
 
   def priority_zones = ActiveSupport::TimeZone.us_zones
+
+  private
+
+  attr_reader :user
 
   # Users::TimeZone::Form::UserWrapper acts as an ActiveModel for representing
   # a {User} form.
