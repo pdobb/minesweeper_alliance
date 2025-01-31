@@ -152,7 +152,7 @@ en:
   user:
     meta_description: View player-specific stats and past Sweep Ops.
 
-  profile:
+  account:
     authentication:
       invalid_token: Invalid authentication token.
       success: "Welcome back, %{name}!"

@@ -48,11 +48,14 @@ Rails.application.routes.draw do
     resources :games, only: :show, module: :users
   end
   resource :current_user, only: [] do
-    resource :time_zone_update, only: :create, module: :current_user
-  end
-  resource :profile, controller: :profile, only: %i[show destroy] do
-    scope module: :profile do
-      resource :authentication, controller: :authentication, only: :show
+    scope module: :current_user do
+      resource :account, controller: :account, only: %i[show destroy] do
+        scope module: :account do
+          resource :authentication, controller: :authentication, only: :show
+        end
+      end
+
+      resource :time_zone_update, only: :create
     end
   end
 
