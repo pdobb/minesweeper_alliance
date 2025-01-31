@@ -16,17 +16,19 @@
             @view.authentication_url,
             class: "inline-flex gap-x-2 items-center") do %>
         Authentication Link
+        <span class="hidden">
+          &gt; <%= @view.display_name %> &mdash; Minesweeper Alliance
+        </span>
         <%= inline_svg_tag("heroicons/bookmark.svg") %>
       <% end %>
     </h2>
-    <p class="text-dim-sm">
-      Want to preserve your service record?
-      Right-click the above link and choose "Bookmark".
+    <p>
+      Preserve access to your account by right-clicking the above link and choosing "Bookmark".
       Or copy/paste the link to somewhere else for safe keeping.
-      <span class="text-dim">(Don't share this with others, though, or they can/will assume your identity if they visit the link!)</span>
+      <span class="text-dim">Don't share this with others, or they will assume your identity if they visit the link!</span>
     </p>
     <p>
-      You'll need this link if you change browsers or clear your cookies, for example.
+      You'll need to visit the linked page if you change browsers or clear your cookies, for example.
     </p>
   </div>
 
@@ -36,17 +38,20 @@
             @view.reset_account_url,
             data: {
               turbo_method: :delete,
-              turbo_confirm: t("account.reset.confirmation"),
+              turbo_confirm:
+                t("account.reset.confirmation", name: current_user.display_name),
             },
             class: "inline-flex gap-x-2 items-center") do %>
         Voluntary Discharge
         <%= inline_svg_tag("heroicons/arrow-right-start-on-rectangle.svg") %>
       <% end %>
     </h2>
-    <p class="text-dim-sm">
-      Reset your record.
-      Note, however, that all of your past activity and username will remain in the Sweep Ops Archive.
-      <strong>Make sure to bookmark your Authentication Link first if you'd like the option to come back later!</strong>
+    <p>
+      Unlink this browser from your service record.
+      <span class="text-dim">Consider bookmarking your Authentication Link first (above), so you have the option to recover your identity later.</span>
+    </p>
+    <p>
+      Your username, stats, and past games history will remain in the Sweep Ops Archive.
     </p>
   </div>
 </div>

@@ -157,7 +157,7 @@ en:
       invalid_token: Invalid authentication token.
       success: "Welcome back, %{name}!"
     reset:
-      confirmation: Are you sure? Make sure to copy or bookmark your Authentication Link first if you'd like the option to come back later!
+      confirmation: Really reset all ties to your service record? Make sure to create a bookmark of your Authentication Link first if you'd like the option to return as %{name} later!
 
   footer:
     maker_html:
