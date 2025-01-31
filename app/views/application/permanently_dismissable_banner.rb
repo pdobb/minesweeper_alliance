@@ -14,8 +14,8 @@ class Application::PermanentlyDismissableBanner
     @css ||= {
       button: %w[
         hover:bg-gray-200 dark:hover:bg-neutral-700
+        focus:ring-2 focus:ring-gray-400 focus:animate-pulse-fast
         text-dim
-        focus:ring-gray-400 hover:focus:bg-gray-200
       ],
     }.with_indifferent_access.freeze
     # rubocop:enable Layout/MultilineArrayLineBreaks
