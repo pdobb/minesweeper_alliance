@@ -16,7 +16,8 @@
 class User < ApplicationRecord
   self.implicit_order_column = "created_at"
 
-  TRUNCATED_ID_RANGE = (-4..)
+  TRUNCATED_TOKENS_LENGTH = 4
+  TRUNCATED_TOKENS_RANGE = (-TRUNCATED_TOKENS_LENGTH..)
   USERNAME_MAX_LEGNTH = 26
 
   include ConsoleBehaviors
@@ -111,7 +112,7 @@ class User < ApplicationRecord
   def mms_id = "MMS-#{unique_id}"
 
   def unique_id
-    @unique_id ||= created_at.to_i.to_s[TRUNCATED_ID_RANGE]
+    @unique_id ||= created_at.to_i.to_s[TRUNCATED_TOKENS_RANGE]
   end
 
   def active_participant? = active_participant_transactions.any?
@@ -153,7 +154,7 @@ class User < ApplicationRecord
     private
 
     def inspect_identification = identify(:truncated_id)
-    def truncated_id = id[TRUNCATED_ID_RANGE]
+    def truncated_id = id[TRUNCATED_TOKENS_RANGE]
 
     def inspect_info = time_zone
   end
