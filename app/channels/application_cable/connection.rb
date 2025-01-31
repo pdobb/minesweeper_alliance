@@ -14,6 +14,13 @@ class ApplicationCable::Connection < ActionCable::Connection::Base
   private
 
   def find_current_user
-    User.for_token(cookies.signed[User::Current::COOKIE]).take
+    User::Current.call(context: Context.new(self))
+  end
+
+  # ApplicationCable::Connection::Context is a proxy for the private
+  # ApplicationCable::Connection#cookies method.
+  class Context
+    def initialize(context) = @context = context
+    def cookies = @context.__send__(:cookies)
   end
 end
