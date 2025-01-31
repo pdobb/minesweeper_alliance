@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Application::UserNav represents the right side of the nav bar, where the
-# {User}'s username / profile link is displayed--for active participants.
+# {User}'s username / account link is displayed--for active participants.
 class Application::UserNav
   def initialize(current_user:)
     @current_user = current_user
@@ -13,8 +13,8 @@ class Application::UserNav
 
   def participant? = current_user.active_participant?
 
-  def profile_url
-    Router.profile_path
+  def account_url
+    Router.current_user_account_path
   end
 
   def turbo_update_id = View.dom_id(current_user)

@@ -1,7 +1,14 @@
-<% title(@view.display_name) %>
+<% title("Account > #{@view.display_name}") %>
 
 <div class="container mx-auto space-y-12">
-  <h1><%= title %></h1>
+  <div class="-mt-7.5 mb-12 flex justify-end">
+    <div class="flex gap-x-3">
+      <%= inline_svg_tag("heroicons/arrow-uturn-right.svg") %>
+      <%= link_to("Personnel File", @view.personnel_file_url(current_user:)) %>
+    </div>
+  </div>
+
+  <h1>Account</h1>
 
   <div class="space-y-3">
     <h2 class="h5">
@@ -15,21 +22,21 @@
     <p class="text-dim-sm">
       Want to preserve your service record?
       Right-click the above link and choose "Bookmark".
-      Or copy the Link URL to somewhere for safe keeping.
-      (Don't share this with others, though, or they can/will assume your identity if they visit the link!)
+      Or copy/paste the link to somewhere else for safe keeping.
+      <span class="text-dim">(Don't share this with others, though, or they can/will assume your identity if they visit the link!)</span>
     </p>
     <p>
-      You'll need this if you change browsers or clear your cookies, for example.
+      You'll need this link if you change browsers or clear your cookies, for example.
     </p>
   </div>
 
   <div class="space-y-3">
     <h2 class="h5">
       <%= link_to(
-            @view.reset_profile_url,
+            @view.reset_account_url,
             data: {
               turbo_method: :delete,
-              turbo_confirm: t("profile.reset.confirmation"),
+              turbo_confirm: t("account.reset.confirmation"),
             },
             class: "inline-flex gap-x-2 items-center") do %>
         Voluntary Discharge
