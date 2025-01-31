@@ -31,10 +31,11 @@ class Games::Current::Rules
 
   # Games::Current::Rules::Context
   class Context
-    def initialize(context)
-      @context = context
-    end
+    def initialize(context) = @context = context
+    def mobile? = context.mobile?
 
-    def mobile? = @context.mobile?
+    private
+
+    attr_reader :context
   end
 end

@@ -57,11 +57,12 @@ class Home::Roster::SlideMenu
 
   # Home::Roster::SlideMenu::Context
   class Context
-    def initialize(context)
-      @context = context
-    end
+    def initialize(context) = @context = context
+    def cookies = context.cookies
 
-    def cookies = @context.cookies
+    private
+
+    attr_reader :context
   end
 
   # Home::Roster::SlideMenu::OpenButton
