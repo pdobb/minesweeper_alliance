@@ -40,29 +40,33 @@ module Games::Current::Board::Cells::ActionBehaviors
     else
       broadcast_current_game_updates(...)
     end
-
-    respond_with { head(:no_content) }
   end
 
   def broadcast_current_game_updates(updated_cells)
     FleetTracker.activate!(current_user_token)
 
-    WarRoomChannel.broadcast([
+    content = [
       (yield if block_given?), # Cell Action Controller-specific updates.
       Cell::TurboStream::Morph.wrap_and_call(updated_cells, turbo_stream:),
-    ])
+    ].join
+
+    WarRoomChannel.broadcast(content)
+    respond_with { render(turbo_stream: content) }
   end
 
-  def current_user_token = current_context.user_token
+  def current_user_token = context.user_token
 
+  # :reek:TooManyStatements
   def broadcast_just_ended_game_updates
     container = Games::JustEnded::Container.new(game:)
     target = container.turbo_frame_name
     html =
       render_to_string(
         partial: "games/just_ended/container", locals: { container: })
+    content = turbo_stream.replace(target, html:, method: :morph)
 
-    WarRoomChannel.broadcast_replace(target:, html:)
+    WarRoomChannel.broadcast(content)
+    respond_with { render(turbo_stream: content) }
   end
 
   def broadcast_past_games_index_refresh
