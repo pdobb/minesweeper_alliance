@@ -16,7 +16,7 @@ class Home::Show
   def turbo_stream_dom_id = self.class.turbo_stream_dom_id
 
   def welcome_banner(context:)
-    Home::WelcomeBanner.new(context:)
+    Home::WelcomeBanner.new(context: WelcomeBannerContext.new(context))
   end
 
   def container
@@ -38,4 +38,19 @@ class Home::Show
   private
 
   attr_reader :current_game
+
+  # Home::Show::WelcomeBannerContext services the needs of
+  # {Home::WelcomeBanner}.
+  class WelcomeBannerContext
+    def initialize(context) = @context = context
+
+    def current_user = context.current_user
+    def show_welcome_banner? = Home::WelcomeBanner.show?(cookies)
+
+    private
+
+    attr_reader :context
+
+    def cookies = context.cookies
+  end
 end

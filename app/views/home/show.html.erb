@@ -7,11 +7,12 @@
 
 <% @view.welcome_banner(context: layout).tap do |welcome_banner| %>
   <% if welcome_banner.show? %>
-    <%= turbo_frame_tag(
-          welcome_banner.turbo_frame_name,
-          class: "container mx-auto") do %>
+    <div
+      id="<%= welcome_banner.turbo_update_id %>"
+      class="container mx-auto"
+    >
       <%= render("layouts/banner", banner: welcome_banner.banner) %>
-    <% end %>
+    </div>
   <% end %>
 <% end %>
 
