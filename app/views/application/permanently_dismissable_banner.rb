@@ -29,7 +29,7 @@ class Application::PermanentlyDismissableBanner
   #   Application::PermanentlyDismissableBanner.new(
   #     cookie_name: "welcome_banner",
   #     content: { text: "..." },
-  #     context: layout))
+  #     context: [...]PermanentlyDismissableBannerContext.new(layout)))
   def initialize(cookie_name:, content:, context:)
     @content = content.fetch(:text)
     @cookie_name = cookie_name

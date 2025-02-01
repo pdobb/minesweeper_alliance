@@ -13,7 +13,7 @@
 
   <% @view.welcome_banner(context: layout).tap do |welcome_banner| %>
     <% if welcome_banner.show? %>
-      <%= turbo_stream.update(welcome_banner.turbo_frame_name) do %>
+      <%= turbo_stream.update(welcome_banner.turbo_update_id) do %>
         <%= render("layouts/banner", banner: welcome_banner.banner) %>
       <% end %>
     <% end %>

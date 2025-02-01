@@ -20,7 +20,8 @@ class Games::JustEnded::ActiveParticipants::CurrentUser::Update
   end
 
   def welcome_banner(context:)
-    Home::WelcomeBanner.new(context:)
+    Home::WelcomeBanner.new(
+      context: Home::Show::WelcomeBannerContext.new(context))
   end
 
   def new_game_content
