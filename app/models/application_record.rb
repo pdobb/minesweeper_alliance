@@ -14,8 +14,6 @@ class ApplicationRecord < ActiveRecord::Base
 
   scope :by_random, -> { reorder("RANDOM()") }
 
-  def self.largest_id = by_most_recent.pick(:id)
-
   def just_created?
     id_previously_changed?
   end

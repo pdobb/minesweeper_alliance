@@ -166,6 +166,8 @@ class Game < ApplicationRecord # rubocop:disable Metrics/ClassLength
     @display_id_width ||= [largest_id.digits.size, 4].max
   end
 
+  def self.largest_id = @largest_id ||= by_most_recent.pick(:id)
+
   def display_id = "##{id.to_s.rjust(self.class.display_id_width, "0")}"
 
   # :reek:TooManyStatements
