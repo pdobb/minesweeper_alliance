@@ -5,22 +5,30 @@
   data-turbo-prefetch="false"
   class="container mx-auto"
 >
-  <div class="space-y-10">
-    <div class="xl:w-2/3 space-y-6">
-      <h1 class="border-b border-dotted border-dim"><%= title %></h1>
+  <div class="space-y-6">
+    <div class="border-b border-dotted border-dim">
+      <h1
+        class="
+          inline-block ml-6 px-6 pt-4 pb-2
+          border-l border-t border-r border-dim rounded-t-xl
+          text-xl
+        "
+      ><%= title %></h1>
+    </div>
 
-      <p class="flex gap-x-6">
+    <div class="space-y-10">
+      <p class="px-6 flex gap-x-6">
         <span>Enlisted:</span>
         <span><%= @view.enlistment_date %></span>
       </p>
-    </div>
 
-    <div class="flex max-md:flex-col gap-x-24 gap-y-8 items-start">
-      <%= render("service_record", service_record: @view.service_record) %>
-      <%= render("bests", bests: @view.bests) %>
-    </div>
+      <div class="px-6 flex max-md:flex-col gap-x-24 gap-y-8 items-start">
+        <%= render("service_record", service_record: @view.service_record) %>
+        <%= render("bests", bests: @view.bests) %>
+      </div>
 
-    <%= render("display_case", display_case: @view.display_case) %>
+      <%= render("display_case", display_case: @view.display_case) %>
+    </div>
   </div>
 
   <hr>
