@@ -55,22 +55,6 @@ Use debug mode to show mines placement on the Game board, and to enable addition
 DEBUG=1 bin/rails server [...]
 ```
 
-#### Dev Mode
-
-Use dev mode to disable mine density validations, ... Search on `App.dev_mode?`.
-
-```bash
-DEV_MODE=1 bin/rails server [...]
-```
-
-#### Disable Turbo
-
-To temporarily disable Turbo:
-
-```bash
-DISABLE_TURBO=1 bin/rails server [...]
-```
-
 ### Services
 
 - PostgreSQL
