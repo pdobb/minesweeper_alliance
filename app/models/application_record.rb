@@ -14,7 +14,5 @@ class ApplicationRecord < ActiveRecord::Base
 
   scope :by_random, -> { reorder("RANDOM()") }
 
-  def just_created?
-    id_previously_changed?
-  end
+  def just_created? = id_previously_changed?
 end

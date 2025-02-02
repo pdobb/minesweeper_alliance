@@ -26,15 +26,14 @@
 #    lifecycle state of the Game ({Game#status}) to "Standing By" (i.e. awaiting
 #    the first {Cell#reveal} of the Game).
 #
-# Later, when a player clicks to reveal a {Cell} in the first round of the
+# Later, when a {User} clicks to reveal a {Cell}, as the opening "move" of the
 # game:
 #  1. Randomly mark {Cell#mine} = `true` from among the associated Array of
 #     {Board#cells}.
 #    - Note: We ensure that the first-revealed Cell of the game (a.k.a. the
-#      "Seed Cell") is excluded from this mine-placing randomization so that the
-#      first {Cell#reveal} of the Game is, in effect, always safe.º
-#    - The number of mines to be placed comes from the stored {Board#settings},
-#      as may be expected.
+#      "Seed Cell") is excluded from the set so that the first {Cell#reveal} of
+#      the Game is, in effect, always safe.º
+#    - The number of mines to be placed comes from the stored {Board#settings}.
 #  2. Start the Game (i.e. transition to lifecycle state: "Sweep in Progress").
 #  3. Reveal the first-clicked-on {Cell}, following the general rules of
 #     Minesweeper gameplay from there.

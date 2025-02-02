@@ -85,10 +85,6 @@ class User < ApplicationRecord
   scope :for_game_as_active_participant, ->(game) {
     joins(:actively_participated_in_games).merge(Game.for_id(game)).distinct
   }
-  scope :for_prune, -> {
-    where(created_at: ..1.day.ago).
-      where.missing(:active_participant_transactions)
-  }
 
   scope :by_joined_at_asc, -> {
     joins(:games).merge(ParticipantTransaction.by_least_recent)
