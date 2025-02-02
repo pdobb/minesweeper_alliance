@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-# Game::Current::BroadcastFleetRemovalJob
 class Game::Current::BroadcastFleetRemovalJob < ApplicationJob
   queue_as :default
 

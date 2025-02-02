@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-# Game::Current::BroadcastFleetMusteringNotificationJob
 class Game::Current::BroadcastFleetMusteringNotificationJob < ApplicationJob
   queue_as :default
 
