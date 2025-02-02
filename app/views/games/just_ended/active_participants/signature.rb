@@ -26,6 +26,8 @@ class Games::JustEnded::ActiveParticipants::Signature
     Router.edit_just_ended_game_current_user_path(game)
   end
 
+  def signer? = user.signer?
+
   private
 
   attr_reader :game,

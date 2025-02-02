@@ -6,10 +6,10 @@ export default class extends Controller {
   }
 
   #currentUserIsNotASigner() {
-    return document.getElementById("unsignedUserNav")
+    return !document.querySelector('#currentUserNav [data-signer="true"]')
   }
 
   #removeNewCustomGameButton() {
-    this.element.querySelector("#newCustomGameForm").remove()
+    this.element.querySelector("#newCustomGameButton").remove()
   }
 }

@@ -49,7 +49,7 @@ module Games::Current::Board::Cells::ActionBehaviors
 
     turbo_stream_actions <<
       turbo_stream.replace(
-        nav.turbo_update_target,
+        nav.turbo_target,
         method: :morph,
         partial: "current_user/nav",
         locals: { nav: })
@@ -87,7 +87,11 @@ module Games::Current::Board::Cells::ActionBehaviors
     html =
       render_to_string(
         partial: "games/just_ended/container", locals: { container: })
-    content = turbo_stream.replace(target, html:, method: :morph)
+    # Can't use `:morph` here or
+    # app/javascript/controllers/games/just_ended/new_game_content_controller.js
+    # will fail to remove the "Custom" button for non-signers on the 2nd
+    # rendering (from the broadcast).
+    content = turbo_stream.replace(target, html:)
 
     WarRoomChannel.broadcast(content)
     respond_with {
