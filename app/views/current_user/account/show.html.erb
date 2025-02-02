@@ -8,10 +8,13 @@
     </div>
   </div>
 
-  <h1>Account</h1>
+  <div class="space-y-6">
+    <h1>Account</h1>
+    <h2 class="text-xl"><%= @view.display_name %></h2>
+  </div>
 
   <div class="space-y-3">
-    <h2 class="h5">
+    <h3 class="h5">
       <%= link_to(
             @view.authentication_url,
             class: "inline-flex gap-x-2 items-center") do %>
@@ -21,7 +24,7 @@
         </span>
         <%= inline_svg_tag("heroicons/bookmark.svg") %>
       <% end %>
-    </h2>
+    </h3>
     <p>
       Preserve access to your account by right-clicking the above link and choosing "Bookmark".
       Or copy/paste the link to somewhere else for safe keeping.
@@ -33,7 +36,7 @@
   </div>
 
   <div class="space-y-3">
-    <h2 class="h5">
+    <h3 class="h5">
       <%= link_to(
             @view.reset_account_url,
             data: {
@@ -45,7 +48,7 @@
         Voluntary Discharge
         <%= inline_svg_tag("heroicons/arrow-right-start-on-rectangle.svg") %>
       <% end %>
-    </h2>
+    </h3>
     <p>
       Unlink this browser from your service record.
       <span class="text-dim">Consider bookmarking your Authentication Link first (above), so you have the option to recover your identity later.</span>
