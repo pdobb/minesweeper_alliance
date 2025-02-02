@@ -6,11 +6,12 @@ class Games::New::CustomController < ApplicationController
   end
 
   # :reek:TooManyStatements
-  def create
+  def create # rubocop:disable Metrics/MethodLength
     settings = Board::Settings.custom(**settings_params.to_h.symbolize_keys)
 
     if settings.valid?
-      Game::Current.(settings:, user: current_user) {
+      context = GamesController::CurrentGameContext.new(self)
+      Game::Current.(settings:, context:) {
         layout.store_http_cookie(
           Games::New::Custom::Form::COOKIE,
           value: settings.to_json)

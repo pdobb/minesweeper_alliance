@@ -26,8 +26,26 @@ class GamesController < ApplicationController
 
   def create
     settings = Board::Settings.preset(params[:preset])
-    Game::Current.(settings:, user: current_user)
+    Game::Current.(settings:, context: CurrentGameContext.new(self))
 
     redirect_to(root_path)
+  end
+
+  # GamesController::CurrentGameContext services the needs of
+  # {Game::Current} and, by extension, {Game::Current::BeforeCreate}.
+  class CurrentGameContext
+    def initialize(context) = @context = context
+    def layout = context.layout
+
+    def user_agent = layout.user_agent
+    def store_signed_cookie(...) = layout.store_signed_cookie(...)
+    def delete_cookie(...) = layout.cookies.delete(...)
+
+    def user = context.current_user
+    def current_user_will_change = context.current_user_will_change
+
+    private
+
+    attr_reader :context
   end
 end

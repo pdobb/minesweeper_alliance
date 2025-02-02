@@ -11,8 +11,10 @@ class ApplicationController < ActionController::Base
   end
 
   def current_user
-    @current_user ||= User::Current.(context: layout)
+    @current_user ||= User::Current::Find.(context: layout)
   end
+
+  def current_user_will_change = @current_user = nil
 
   private
 

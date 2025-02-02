@@ -11,10 +11,14 @@ class ApplicationCable::Connection < ActionCable::Connection::Base
     logger.add_tags(current_user.identifier) if Rails.env.development?
   end
 
+  def disconnect
+    self.current_user = nil
+  end
+
   private
 
   def find_current_user
-    User::Current.call(context: Context.new(self))
+    User::Current::Find.(context: Context.new(self))
   end
 
   # ApplicationCable::Connection::Context is a proxy for the private

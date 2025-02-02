@@ -2,9 +2,9 @@
 
 require "test_helper"
 
-class User::CurrentTest < ActiveSupport::TestCase
-  describe "User::Current" do
-    let(:unit_class) { User::Current }
+class User::Current::FindTest < ActiveSupport::TestCase
+  describe "User::Current::Find" do
+    let(:unit_class) { User::Current::Find }
 
     let(:user1) { users(:user1) }
 
@@ -12,7 +12,7 @@ class User::CurrentTest < ActiveSupport::TestCase
       context "GIVEN a stored User Token" do
         subject {
           unit_class.new(
-            context: ContextDouble.new(unit_class::COOKIE => user_token))
+            context: ContextDouble.new(User::Current::COOKIE => user_token))
         }
 
         context "GIVEN a User exists for the User Token" do
@@ -26,11 +26,8 @@ class User::CurrentTest < ActiveSupport::TestCase
         context "GIVEN no User exists for the User Token" do
           let(:user_token) { "UNKNOWN_USER_TOKEN" }
 
-          it "creates a new User, and returns it" do
-            result =
-              _(-> { subject.call }).must_change(
-                "User.count", to: User.count.next)
-            _(result).must_be_instance_of(User)
+          it "builds a new Guest, and returns it" do
+            _(subject.call).must_be_instance_of(Guest)
           end
         end
       end
@@ -39,11 +36,8 @@ class User::CurrentTest < ActiveSupport::TestCase
     context "GIVEN no stored User Token" do
       subject { unit_class.new(context: ContextDouble.new) }
 
-      it "creates a new User, and returns it" do
-        result =
-          _(-> { subject.call }).must_change(
-            "User.count", to: User.count.next)
-        _(result).must_be_instance_of(User)
+      it "builds a new Guest, and returns it" do
+        _(subject.call).must_be_instance_of(Guest)
       end
     end
   end

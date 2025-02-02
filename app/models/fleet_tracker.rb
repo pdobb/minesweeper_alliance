@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# FleetTracker keeps track of all {User}s--both active ("Active Participants")
+# FleetTracker accounts for all {User}s--both active ("Active Participants")
 # and passive ("Observers")--currently in the War Room channel. This accounting
 # is {.reset} at the start of each new {Game}.
 #
@@ -27,6 +27,9 @@
 # Activated entries cannot (and should not) be deactivated. Again, the
 # FleetTracker is {.reset} at the start of each new {Game}.
 #
+# FleetTracker only tracks {User}s, not {Guest}s. Guests are "transparent" right
+# up until they actively participate in a {Game}.
+#
 # @see ApplicationCable::Connection
 # @see WarRoomChannel
 # @see https://api.rubyonrails.org/classes/ActiveSupport/Cache/Store.html
@@ -50,7 +53,7 @@ module FleetTracker
   end
 
   def self.add!(token)
-    do_broadcast = registry.new_or_expired_entry?(token)
+    do_broadcast = registry.missing_or_expired?(token)
     add(token)
     broadcast_fleet_addition(token:) if do_broadcast
   end
@@ -76,8 +79,8 @@ module FleetTracker
     }
   end
 
-  def self.expired?(token)
-    registry.expired?(token)
+  def self.missing_or_expired?(token)
+    registry.missing_or_expired?(token)
   end
 
   def self.reset
@@ -117,7 +120,9 @@ module FleetTracker
   end
   private_class_method :broadcast_fleet_participation_status_update
 
-  def self.find_user(token) = User.for_token(token).take!
+  def self.find_user(token)
+    User.find(token)
+  end
   private_class_method :find_user
 
   def self.write
@@ -142,7 +147,7 @@ module FleetTracker
     def size = entries.count(&:not_expired?)
     def tokens = unexpired_sorted_entries.pluck(:token)
 
-    def new_or_expired_entry?(token)
+    def missing_or_expired?(token)
       return true unless (entry = find(token))
 
       entry.expired?

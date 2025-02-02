@@ -4,7 +4,7 @@ class Games::Current::Board::Cells::RevealsController < ApplicationController
   include Games::Current::Board::Cells::ActionBehaviors
 
   def create
-    updated_cells = Cell::Reveal.(current_context).updated_cells
+    updated_cells = Cell::Reveal.(context).updated_cells
 
     broadcast_updates(updated_cells) {
       just_started_game_turbo_stream_updates if game.just_started?

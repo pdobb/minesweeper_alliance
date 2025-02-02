@@ -3,7 +3,8 @@
 class Games::New::RandomController < ApplicationController
   def create
     settings = Board::Settings.random
-    Game::Current.(settings:, user: current_user)
+    context = GamesController::CurrentGameContext.new(self)
+    Game::Current.(settings:, context:)
 
     redirect_to(root_path)
   end

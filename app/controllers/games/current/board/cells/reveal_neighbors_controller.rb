@@ -15,7 +15,7 @@ class Games::Current::Board::Cells::RevealNeighborsController <
     #   update/morph to revert them back to their default state.
     updated_cells =
       if cell.neighboring_flags_count_matches_value?
-        Cell::RevealNeighbors.(current_context).updated_cells
+        Cell::RevealNeighbors.(context).updated_cells
       else
         cell.highlightable_neighbors
       end

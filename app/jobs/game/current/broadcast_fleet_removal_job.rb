@@ -4,7 +4,7 @@ class Game::Current::BroadcastFleetRemovalJob < ApplicationJob
   queue_as :default
 
   def perform(token)
-    return unless FleetTracker.expired?(token)
+    return unless FleetTracker.missing_or_expired?(token)
 
     broadcast_remove_user(token)
     broadcast_fleet_size_update
@@ -18,7 +18,7 @@ class Game::Current::BroadcastFleetRemovalJob < ApplicationJob
     WarRoomChannel.broadcast_remove(target:)
   end
 
-  def find_user(token) = User.for_token(token).take!
+  def find_user(token) = User.find(token)
 
   def broadcast_fleet_size_update
     FleetTracker.broadcast_fleet_size_update

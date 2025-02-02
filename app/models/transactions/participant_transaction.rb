@@ -1,20 +1,35 @@
 # frozen_string_literal: true
 
 # A ParticipantTransaction is a record of
-# - when a {User} joins a {Game}, and
-# - whether or not a {User} is currently considered to be a passive or active
-#   participant in a {Game}.
+# - A {User} having joined in on a {Game}, and
+# - Whether or not the {User} is currently considered to be a passive or an
+#   active participant in the associated {Game}.
 #
-# Upon joining a {Game}, {User}s are considered passive participants.
-# Accordingly, a ParticipantTransaction record should be created in its default
-# state (i.e. {#active} == false)--whether they created the {Game} or not.
+# Creating a {Game} is considered to be active participation in that {Game}.
+# This is because we need a {User} to tie the {Game} creation event to anyway.
+# So, on-{Game}-create:
+# - If the {Game} creator was a {Guest} then a {User} record is created to take
+#   its place,
+# - A {GameCreateTransaction} is created for the {User}, and
+# - An active ParticipantTransaction is created for the {User}.
 #
-# Upon performing their first {Cell} Action for each {Game}, a {User} changes
-# from being a passive participant to being an active participant in that
-# {Game}. Accordingly, the associated ParticipantTransaction record should be
-# updated to be active (i.e. {#active} == true) for that {User} and {Game}.
+# Upon simply joining (visiting) a {Game}:
+# - {Guest}s are left alone, with no transactions being created to tie them to
+#   the {Game} in any way.
+# - {User}s are associated with the {Game} via a new ParticipantTransaction,
+#   created in its default, passive state (i.e. {#active} == false).
+#
+# Otherwise, upon performing their first {Cell} Action for each {Game}:
+# - {Guest}s are converted into {User}s, and
+# - {User}s change from being passive participants to being active participants
+#   in that {Game}. i.e. the ParticipantTransaction record is set to
+#   {#active} == true for that {User} / {Game}.
 #
 # There can only be one ParticipantTransaction per {User} per {Game}.
+#
+# Note: A ParticipantTransaction is like a virtual role object, defining a
+# short-lived "Participant" role that {User}s (but not {Guest}s) take on when
+# participating in a {Game}.
 #
 # @attr user_id [Integer] References the {User} involved in this Transaction.
 # @attr game_id [Integer] References the {Game} involved in this Transaction.
@@ -23,6 +38,10 @@
 # @attr started_actively_participating_at [DateTime] (nil) Timestamp of when
 #   the associated {User} first started actively participating in the associated
 #   {Game} (and {#active} was set to `true`).
+#
+# @see Game::Current::Create
+# @see Game::Current::Join
+# @see Games::Current::Board::Cells::ActionBehaviors::CreateParticipant
 class ParticipantTransaction < ApplicationRecord
   belongs_to :user
   belongs_to :game
@@ -41,8 +60,15 @@ class ParticipantTransaction < ApplicationRecord
 
   def self.create_between(user:, game:)
     # We rely on our uniqueness validation to fail (without raising) if the
-    # given {User} has already joined the given {Game} before.
+    # given {User} has already participated in the given {Game} before.
     user.participant_transactions.create(game:)
+  end
+
+  def self.create_active_between(user:, game:)
+    user.participant_transactions.create(
+      game:,
+      active: true,
+      started_actively_participating_at: Time.current)
   end
 
   def self.activate_between(user:, game:)
@@ -80,6 +106,10 @@ class ParticipantTransaction < ApplicationRecord
         [user.inspect, game.inspect].join(" -> "),
         I18n.l(created_at, format: :debug),
       ].join(" @ ")
+    end
+
+    def inspect_flags
+      active? ? Emoji.ship : Emoji.anchor
     end
   end
 end
