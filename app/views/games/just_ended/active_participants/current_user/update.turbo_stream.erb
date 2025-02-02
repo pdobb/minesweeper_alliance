@@ -6,7 +6,7 @@
 
 <% if @view.signer_status_just_changed? %>
   <% @view.nav.tap do |nav| %>
-    <%= turbo_stream.update(nav.turbo_update_target) do %>
+    <%= turbo_stream.update(nav.turbo_target) do %>
       <%= render("current_user/nav", nav:) %>
     <% end %>
   <% end %>

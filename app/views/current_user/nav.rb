@@ -8,9 +8,10 @@ class CurrentUser::Nav
     @user = user
   end
 
-  def turbo_update_target = "currentUserNav"
+  def turbo_target = "currentUserNav"
 
   def participant? = user.participant?
+  def signer? = user.signer?
 
   def account_url
     Router.current_user_account_path
