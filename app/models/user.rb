@@ -102,7 +102,7 @@ class User < ApplicationRecord
             length: { maximum: USERNAME_MAX_LEGNTH }
 
   def token = id
-  def identifier = username || unique_id
+  def identifier = username || internal_token
 
   def username=(value)
     super(value.to_s.strip.presence)
@@ -115,11 +115,7 @@ class User < ApplicationRecord
     ].tap(&:compact!).join(" ")
   end
 
-  def mms_id = "#{DESIGNATION}-#{unique_id}"
-
-  def unique_id
-    @unique_id ||= created_at.to_i.to_s[TRUNCATED_TOKENS_RANGE]
-  end
+  def mms_id = "#{DESIGNATION}-#{internal_token}"
 
   # Indicates that this not a {Guest} object.
   def participant? = true
@@ -143,6 +139,12 @@ class User < ApplicationRecord
 
   def bests
     @bests ||= Bests.new(self)
+  end
+
+  private
+
+  def internal_token
+    @internal_token ||= created_at.to_i.to_s[TRUNCATED_TOKENS_RANGE]
   end
 
   concerning :ObjectInspection do
