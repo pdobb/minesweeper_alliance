@@ -40,58 +40,6 @@ class AppTest < ActiveSupport::TestCase
       end
     end
 
-    describe ".dev_mode?" do
-      context "GIVEN Rails.configuration.dev_mode = true" do
-        before do
-          MuchStub.tap(Rails, :configuration) { |config|
-            MuchStub.(config, :dev_mode) { true }
-          }
-        end
-
-        it "returns true" do
-          _(subject.dev_mode?).must_equal(true)
-        end
-      end
-
-      context "GIVEN Rails.configuration.dev_mode = false" do
-        before do
-          MuchStub.tap(Rails, :configuration) { |config|
-            MuchStub.(config, :dev_mode) { false }
-          }
-        end
-
-        it "returns false" do
-          _(subject.dev_mode?).must_equal(false)
-        end
-      end
-    end
-
-    describe ".disable_turbo?" do
-      context "GIVEN Rails.configuration.disable_turbo = true" do
-        before do
-          MuchStub.tap(Rails, :configuration) { |config|
-            MuchStub.(config, :disable_turbo) { true }
-          }
-        end
-
-        it "returns true" do
-          _(subject.disable_turbo?).must_equal(true)
-        end
-      end
-
-      context "GIVEN Rails.configuration.disable_turbo = false" do
-        before do
-          MuchStub.tap(Rails, :configuration) { |config|
-            MuchStub.(config, :disable_turbo) { false }
-          }
-        end
-
-        it "returns false" do
-          _(subject.disable_turbo?).must_equal(false)
-        end
-      end
-    end
-
     describe ".development?" do
       context "GIVEN Rails.env.development? = true" do
         before do

@@ -54,9 +54,7 @@ class Board::Settings
               allow_blank: true,
             }
 
-  unless App.dev_mode?
-    validates_with(Board::Settings::MineDensityValidator, if: :custom?)
-  end
+  validates_with(Board::Settings::MineDensityValidator, if: :custom?)
 
   def self.preset(type)
     raise(TypeError, "type can't be blank") if type.blank?
