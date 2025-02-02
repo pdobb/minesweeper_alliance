@@ -3,5 +3,5 @@
 # User::Current holds namespace-level items for {User::Current::Find} and
 # {User::Current::Create}.
 module User::Current
-  COOKIE = "user_token-v2"
+  COOKIE = "user_token"
 end

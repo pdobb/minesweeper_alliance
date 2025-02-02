@@ -8,8 +8,3 @@
 #     command: "SoftDeletedRecord.due.delete_all"
 #     priority: 2
 #     schedule: at 5am every day
-
-production:
-  prune_stale_users:
-    command: "User::Prune.call"
-    schedule: every day
