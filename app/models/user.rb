@@ -2,20 +2,26 @@
 
 # :reek:TooManyMethods
 
-# User represents all of:
-# 1. A simple browser session.
-# 2. A passive participant ("observer") of the current {Game} / War Room.
+# User represents:
+# 1. A passive participant ("observer") of the current {Game} / War Room.
 # 2. An "active participant" of the current {Game} / War Room.
+#
+# Note: Just a simple browser session is likely represented as a {Guest},
+# instead.
 #
 # @attr id [GUID] a.k.a. "User Token"
 # @attr username [String]
-# @attr time_zone [String]
-# @attr user_agent [String] The `request.user_agent` value at User creation.
+# @attr time_zone [String] Comes either, automatically, from browser detection
+#   (via JS) or User selection.
+# @attr user_agent [String] The `request.user_agent` value at time of creation.
 # @attr authentication_token [String<UUID>] (<UUID>) a secret token for
 #   re-authenticating a User after e.g. "signing out", switching browsers, etc.
+#
+# @see User::Guest
 class User < ApplicationRecord
   self.implicit_order_column = "created_at"
 
+  DESIGNATION = "MMS" # Motor MineSweeper
   TRUNCATED_TOKENS_LENGTH = 4
   TRUNCATED_TOKENS_RANGE = (-TRUNCATED_TOKENS_LENGTH..)
   USERNAME_MAX_LEGNTH = 26
@@ -109,16 +115,18 @@ class User < ApplicationRecord
     ].tap(&:compact!).join(" ")
   end
 
-  def mms_id = "MMS-#{unique_id}"
+  def mms_id = "#{DESIGNATION}-#{unique_id}"
 
   def unique_id
     @unique_id ||= created_at.to_i.to_s[TRUNCATED_TOKENS_RANGE]
   end
 
+  # Indicates that this not a {Guest} object.
+  def participant? = true
   def active_participant? = active_participant_transactions.any?
 
   def active_participant_in?(game:)
-    active_participant_transactions.for_game(game).exists?
+    active_participant_transactions.for_game(game).any?
   end
 
   def signer? = username?
@@ -133,11 +141,14 @@ class User < ApplicationRecord
     actively_participated_in_games.for_game_over_statuses.size
   end
 
-  def bests = @bests ||= Bests.new(self)
+  def bests
+    @bests ||= Bests.new(self)
+  end
 
   concerning :ObjectInspection do
     include ObjectInspectionBehaviors
 
+    # rubocop:disable Metrics/AbcSize
     def introspect(limit: 5)
       {
         self => {
@@ -146,10 +157,17 @@ class User < ApplicationRecord
               by_most_recent.
               limit(limit).
               map(&:change_set),
-          games: games.by_most_recent.limit(limit),
+          observed_games: observed_games.by_most_recent.limit(limit),
+          actively_participated_in_games:
+            actively_participated_in_games.by_most_recent.limit(limit),
+          participant_transactions:
+            participant_transactions.by_most_recent.limit(limit),
+          game_transactions: game_transactions.by_most_recent.limit(limit),
+          cell_transactions: cell_transactions.by_most_recent.limit(limit),
         },
       }
     end
+    # rubocop:enable Metrics/AbcSize
 
     private
 

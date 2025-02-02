@@ -46,11 +46,11 @@ class WarRoomChannel < Turbo::StreamsChannel
   def current_user? = !!current_user
 
   def on_subscribe
-    FleetTracker.add!(current_user_token)
+    FleetTracker.add!(current_user_token) if current_user.participant?
   end
 
   def on_unsubscribe
-    FleetTracker.remove!(current_user_token)
+    FleetTracker.remove!(current_user_token) if current_user.participant?
   end
 
   def current_user_token = current_user.token

@@ -381,7 +381,7 @@ class Game < ApplicationRecord # rubocop:disable Metrics/ClassLength
     end
 
     def check_for_current_game
-      current_game = Game::Current.find
+      current_game = Game::Current::Find.call
 
       if current_game && current_game != __model__
         raise(Error, "Can't reset a past Game while a current Game exists.")

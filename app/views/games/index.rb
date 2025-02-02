@@ -11,7 +11,7 @@ class Games::Index
 
   def turbo_stream_name = self.class.turbo_stream_name
 
-  def show_time_zone_form?(user:) = true
+  def show_time_zone_form?(user:) = user.participant?
 
   def time_zone_form(user:)
     Users::TimeZone::Form.new(user:)

@@ -7,9 +7,18 @@ module Games::Current::Board::Cells::ActionBehaviors
 
   included do
     include AllowBrowserBehaviors
+
+    before_action :require_participant
   end
 
   private
+
+  def require_participant
+    return if current_user.participant?
+
+    CreateParticipant.(game:, context: self)
+    generate_user_nav_turbo_stream_update_action
+  end
 
   def game
     @game ||= Game.for_game_on_statuses.for_id(params[:game_id]).take!
@@ -33,6 +42,19 @@ module Games::Current::Board::Cells::ActionBehaviors
     end
   end
 
+  def turbo_stream_actions = @turbo_stream_actions ||= FlatArray.new
+
+  def generate_user_nav_turbo_stream_update_action
+    nav = CurrentUser::Nav.new(user: current_user)
+
+    turbo_stream_actions <<
+      turbo_stream.replace(
+        nav.turbo_update_target,
+        method: :morph,
+        partial: "current_user/nav",
+        locals: { nav: })
+  end
+
   def broadcast_updates(...)
     if game.just_ended?
       broadcast_just_ended_game_updates
@@ -51,7 +73,9 @@ module Games::Current::Board::Cells::ActionBehaviors
     ].join
 
     WarRoomChannel.broadcast(content)
-    respond_with { render(turbo_stream: content) }
+    respond_with {
+      render(turbo_stream: turbo_stream_actions.push(content))
+    }
   end
 
   def current_user_token = context.user_token
@@ -66,7 +90,9 @@ module Games::Current::Board::Cells::ActionBehaviors
     content = turbo_stream.replace(target, html:, method: :morph)
 
     WarRoomChannel.broadcast(content)
-    respond_with { render(turbo_stream: content) }
+    respond_with {
+      render(turbo_stream: turbo_stream_actions.push(content))
+    }
   end
 
   def broadcast_past_games_index_refresh
@@ -81,13 +107,12 @@ module Games::Current::Board::Cells::ActionBehaviors
     end
   end
 
-  def current_context = CurrentContext.new(self)
+  def context = Context.new(self)
 
-  # Games::Current::Board::Cells::ActionBehaviors::CurrentContext
-  class CurrentContext
-    def initialize(context)
-      @context = context
-    end
+  # Games::Current::Board::Cells::ActionBehaviors::Context services the needs
+  # of the controllers that include this module.
+  class Context
+    def initialize(context) = @context = context
 
     def game = context.__send__(:game)
     def board = context.__send__(:board)
@@ -99,5 +124,51 @@ module Games::Current::Board::Cells::ActionBehaviors
     private
 
     attr_reader :context
+  end
+
+  # Games::Current::Board::Cells::ActionBehaviors::CreateParticipant
+  # - Creates the "Current {User}" to which this Cell Action will be associated
+  # - Creates an active {ParticipantTransaction} between the new {User} and the
+  #   passed-in {Game}
+  class CreateParticipant
+    include CallMethodBehaviors
+
+    def initialize(game:, context:)
+      @game = game
+      @context = context
+    end
+
+    def call
+      context.current_user_will_change
+
+      User.transaction do
+        User::Current::Create.(context: CreateUserContext.new(context))
+        ParticipantTransaction.create_active_between(user: current_user, game:)
+        FleetTracker.add!(current_user.token)
+      end
+    end
+
+    private
+
+    attr_reader :game,
+                :context
+
+    def current_user = context.current_user
+    def cookies = context.__send__(:cookies)
+
+    # Games::Current::Board::Cells::ActionBehaviors::CreateParticipant::CreateUserContext
+    # services the needs of {User::Current::Create}.
+    class CreateUserContext
+      def initialize(context) = @context = context
+      def layout = context.layout
+
+      def user_agent = layout.user_agent
+      def store_signed_cookie(...) = layout.store_signed_cookie(...)
+      def delete_cookie(...) = layout.cookies.delete(...)
+
+      private
+
+      attr_reader :context
+    end
   end
 end

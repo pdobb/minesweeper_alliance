@@ -10,7 +10,7 @@ class CurrentUser::Nav
 
   def turbo_update_target = "currentUserNav"
 
-  def participant? = user.active_participant?
+  def participant? = user.participant?
 
   def account_url
     Router.current_user_account_path
