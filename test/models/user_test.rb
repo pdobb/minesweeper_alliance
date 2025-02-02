@@ -80,10 +80,16 @@ class UserTest < ActiveSupport::TestCase
       end
 
       context "GIVEN no #username" do
+        before do
+          MuchStub.(subject, :created_at) {
+            Time.zone.local(2024, 1, 1, 12, 34, 56)
+          }
+        end
+
         subject { user2 }
 
-        it "returns #unique_id" do
-          _(subject.identifier).must_equal(subject.unique_id)
+        it "returns the expected 'internal token' String" do
+          _(subject.identifier).must_equal("4096")
         end
       end
     end
@@ -135,20 +141,6 @@ class UserTest < ActiveSupport::TestCase
 
       it "returns the expected String" do
         _(subject.mms_id).must_equal("MMS-4096")
-      end
-    end
-
-    describe "#unique_id" do
-      before do
-        MuchStub.(subject, :created_at) {
-          Time.zone.local(2024, 1, 1, 12, 34, 56)
-        }
-      end
-
-      subject { user1 }
-
-      it "returns the expected String" do
-        _(subject.unique_id).must_equal("4096")
       end
     end
 
