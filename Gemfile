@@ -40,6 +40,8 @@ gem "kamal", ">= 2.4.0", require: false
 # [https://github.com/basecamp/thruster/]
 gem "thruster", require: false
 
+# App Gems
+
 gem "csv"
 gem "honeybadger"
 gem "inline_svg"
@@ -50,6 +52,7 @@ gem "object_inspector"
 gem "requestjs-rails"
 gem "say", github: "pdobb/say"
 gem "statusable"
+gem "useragent"
 
 group :development, :production_local, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
