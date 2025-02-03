@@ -8,7 +8,7 @@ class Games::JustEnded::Results
   end
 
   def metrics
-    Games::Past::Metrics.new(game:)
+    Games::JustEnded::Metrics.new(game:)
   end
 
   def active_participants_roster

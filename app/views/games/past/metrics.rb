@@ -6,25 +6,16 @@ class Games::Past::Metrics
     @game = game
   end
 
+  def cacheable? = true
   def cache_key = [game, :metrics]
 
-  def show_game_score? = game.ended_in_victory?
+  def show_performance_metrics? = game.ended_in_victory?
 
-  def game_score
-    return Game::MAX_SCORE if _score >= Game::MAX_SCORE
-
-    View.display(_score) { |value| View.round(value) }
+  def performance_metrics
+    Games::Past::PerformanceMetrics.new(game:)
   end
 
-  def bbbv = _bbbv || View.no_value_indicator
-
-  def bbbvps
-    View.display(_bbbvps) { |value| View.round(value) }
-  end
-
-  def efficiency_percentage
-    View.display(_efficiency) { |value| View.percentage(value * 100.0) }
-  end
+  # Activity Metrics
 
   def clicks_count
     View.delimit(game.cell_transactions.size)
@@ -49,9 +40,4 @@ class Games::Past::Metrics
   private
 
   attr_reader :game
-
-  def _score = game.score
-  def _bbbv = game.bbbv
-  def _bbbvps = game.bbbvps
-  def _efficiency = game.efficiency
 end

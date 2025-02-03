@@ -6,6 +6,31 @@
   <h1><%= title %></h1>
 
   <div class="space-y-6">
+    <h2>Colors</h2>
+    <table
+      class="
+        -mx-6 -my-1
+        border-separate border-spacing-x-6 border-spacing-y-1
+        text-left
+      "
+    >
+      <tbody>
+        <tr>
+          <td class="w-14 text-red-600 dark:text-red-600">Red</td>
+          <td><code>text-red-600 dark:text-red-600</code></td>
+        </tr>
+        <tr class="relative">
+          <td class="w-14 text-yellow-400 dark:text-yellow-300">
+            <%= render("application/personal_best") %>
+            Gold
+          </td>
+          <td><code>text-yellow-400 dark:text-yellow-300</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="space-y-6">
     <h2>Emojis</h2>
     <table
       class="
@@ -17,7 +42,7 @@
       <tbody>
         <% (Emoji.methods - Object.methods).sort.each do |method| %>
           <tr>
-            <td><%= Emoji.public_send(method) %></td>
+            <td class="w-14"><%= Emoji.public_send(method) %></td>
             <td><code>Emoji.<%= method %></code></td>
           </tr>
         <% end %>

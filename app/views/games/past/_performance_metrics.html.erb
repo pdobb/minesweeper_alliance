@@ -1,0 +1,22 @@
+<%# locals: (performance_metrics:) %>
+
+<tr>
+  <th><%= render("tooltip", text: "Score") %></th>
+  <td>
+    <time
+      datetime="PT<%= performance_metrics.score %>S"
+    ><%= performance_metrics.score %></time>
+  </td>
+</tr>
+<tr>
+  <th><%= render("tooltip", text: "3BV", term: "bbbv") %></th>
+  <td><%= performance_metrics.bbbv %></td>
+</tr>
+<tr>
+  <th><%= render("tooltip", text: "3BV/s", term: "bbbvps") %></th>
+  <td><%= performance_metrics.bbbvps %></td>
+</tr>
+<tr>
+  <th><%= render("tooltip", text: "Efficiency") %></th>
+  <td><%= performance_metrics.efficiency %></td>
+</tr>

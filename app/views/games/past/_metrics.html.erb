@@ -1,6 +1,6 @@
 <%# locals: (metrics:) %>
 
-<% cache(metrics.cache_key) do %>
+<% cache_if(metrics.cacheable?, metrics.cache_key) do %>
   <h4 class="h3">Metrics</h4>
 
   <table
@@ -11,36 +11,8 @@
     "
   >
     <tbody>
-      <% if metrics.show_game_score? %>
-        <tr>
-          <th>
-            <%= render("tooltip", text: "Score") %>
-          </th>
-          <td>
-            <time
-              datetime="PT<%= metrics.game_score %>S"
-            ><%= metrics.game_score %></time>
-          </td>
-        </tr>
-        <tr>
-          <th>
-            <%= render("tooltip", text: "3BV", term: "bbbv") %>
-          </th>
-          <td><%= metrics.bbbv %></td>
-        </tr>
-        <tr>
-          <th>
-            <%= render("tooltip", text: "3BV/s", term: "bbbvps") %>
-          </th>
-          <td><%= metrics.bbbvps %></td>
-        </tr>
-        <tr>
-          <th>
-            <%= render("tooltip", text: "Efficiency") %>
-          </th>
-          <td><%= metrics.efficiency_percentage %></td>
-        </tr>
-      <% end %>
+      <%= yield %>
+
       <tr>
         <th>Clicks</th>
         <td><%= metrics.clicks_count %></td>

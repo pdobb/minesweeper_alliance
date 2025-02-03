@@ -8,6 +8,7 @@ module Emoji
   def self.clover = "🍀"
   def self.eyes = "👀"
   def self.flag = "🚩"
+  def self.gold_medal = "🥇"
   def self.heart = "❤️"
   def self.hide = "🙈"
   def self.medal = "🎖️"

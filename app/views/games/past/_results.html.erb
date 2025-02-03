@@ -8,7 +8,15 @@
   "
 >
   <div class="md:justify-self-end space-y-3">
-    <%= render("games/past/metrics", metrics: results.metrics) %>
+    <% results.metrics.tap do |metrics| %>
+      <%= render(layout: "games/past/metrics", locals: { metrics: }) do %>
+        <% if metrics.show_performance_metrics? %>
+          <%= render(
+                "games/past/performance_metrics",
+                performance_metrics: metrics.performance_metrics) %>
+        <% end %>
+      <% end %>
+    <% end %>
   </div>
   <div class="space-y-12">
     <%= render(
