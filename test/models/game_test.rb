@@ -504,5 +504,67 @@ class GameTest < ActiveSupport::TestCase
         end
       end
     end
+
+    describe "#bestable_type?" do
+      context "GIVEN a bestable type" do
+        subject {
+          unit_class.build_for(
+            settings: [
+              Board::Settings.beginner,
+              Board::Settings.intermediate,
+              Board::Settings.expert,
+            ].sample)
+        }
+
+        it "returns true" do
+          _(subject.bestable_type?).must_equal(true)
+        end
+      end
+
+      context "GIVEN a non-bestable type" do
+        subject {
+          unit_class.build_for(
+            settings: [
+              Board::Settings.pattern("Test Pattern 1"),
+              Board::Settings.custom,
+            ].sample)
+        }
+
+        it "returns false" do
+          _(subject.bestable_type?).must_equal(false)
+        end
+      end
+    end
+
+    describe "#bests_for" do
+      context "GIVEN a bestable Game type" do
+        subject {
+          unit_class.build_for(
+            settings: [
+              Board::Settings.beginner,
+              Board::Settings.intermediate,
+              Board::Settings.expert,
+            ].sample)
+        }
+
+        it "returns the expected type" do
+          result = subject.bests_for(user: user1)
+          target_types = [
+            User::Bests::Beginner,
+            User::Bests::Intermediate,
+            User::Bests::Expert,
+          ]
+          _(result.class.in?(target_types)).must_equal(true)
+        end
+      end
+
+      context "GIVEN a non-bestable Game type" do
+        subject { win1 }
+
+        it "raises TypeError" do
+          _(-> { subject.bests_for(user: user1) }).must_raise(TypeError)
+        end
+      end
+    end
   end
 end

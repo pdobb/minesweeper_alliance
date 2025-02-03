@@ -65,9 +65,11 @@ class Game < ApplicationRecord # rubocop:disable Metrics/ClassLength
   self.implicit_order_column = "created_at"
 
   ALL_TYPES = [
-    BEGINNER_TYPE = "Beginner",
-    INTERMEDIATE_TYPE = "Intermediate",
-    EXPERT_TYPE = "Expert",
+    *BESTABLE_TYPES = [
+      BEGINNER_TYPE = "Beginner",
+      INTERMEDIATE_TYPE = "Intermediate",
+      EXPERT_TYPE = "Expert",
+    ].freeze,
     CUSTOM_TYPE = "Custom",
     PATTERN_TYPE = "Pattern",
   ].freeze
@@ -228,6 +230,18 @@ class Game < ApplicationRecord # rubocop:disable Metrics/ClassLength
   end
 
   def board_settings = board&.settings
+
+  def bestable_type?
+    type.in?(BESTABLE_TYPES)
+  end
+
+  def bests_for(user:)
+    unless bestable_type?
+      raise(TypeError, "bests not available for Game type #{type}")
+    end
+
+    user.bests.for_type(type)
+  end
 
   private
 

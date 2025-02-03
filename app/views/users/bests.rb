@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-# Users::Bests represents the "Bests" (top scores, 3BV/s's, efficiencies)
-# section on {User} Show pages.
+# Users::Bests represents the "Best Games" (top scoring, lowest 3BV/s, highest
+# efficiency) section on {User} Show pages.
 class Users::Bests
   def initialize(user:)
     @user = user
@@ -68,9 +68,9 @@ class Users::Bests
       View.display(game&.score) { |value| View.round(value) }
     end
 
-    def _beginner = @_beginner ||= user_bests.beginner_score
-    def _intermediate = @_intermediate ||= user_bests.intermediate_score
-    def _expert = @_expert ||= user_bests.expert_score
+    def _beginner = @_beginner ||= user_bests.beginner.score
+    def _intermediate = @_intermediate ||= user_bests.intermediate.score
+    def _expert = @_expert ||= user_bests.expert.score
   end
 
   # Users::Bests::BBBVPS
@@ -95,9 +95,9 @@ class Users::Bests
       View.display(game&.bbbvps) { |value| View.round(value) }
     end
 
-    def _beginner = @_beginner ||= user_bests.beginner_bbbvps
-    def _intermediate = @_intermediate ||= user_bests.intermediate_bbbvps
-    def _expert = @_expert ||= user_bests.expert_bbbvps
+    def _beginner = @_beginner ||= user_bests.beginner.bbbvps
+    def _intermediate = @_intermediate ||= user_bests.intermediate.bbbvps
+    def _expert = @_expert ||= user_bests.expert.bbbvps
   end
 
   # Users::Bests::Efficiency
@@ -122,8 +122,8 @@ class Users::Bests
       View.display(game&.efficiency) { |value| View.percentage(value * 100.0) }
     end
 
-    def _beginner = @_beginner ||= user_bests.beginner_efficiency
-    def _intermediate = @_intermediate ||= user_bests.intermediate_efficiency
-    def _expert = @_expert ||= user_bests.expert_efficiency
+    def _beginner = @_beginner ||= user_bests.beginner.efficiency
+    def _intermediate = @_intermediate ||= user_bests.intermediate.efficiency
+    def _expert = @_expert ||= user_bests.expert.efficiency
   end
 end
