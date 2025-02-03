@@ -29,10 +29,10 @@
 
         if (_shouldBeDarkTheme()) {
           document.documentElement.classList.add("dark")
-          $metaTag.setAttribute("content", "#262626")
+          $metaTag?.setAttribute("content", "#262626")
         } else {
           document.documentElement.classList.remove("dark")
-          $metaTag.setAttribute("content", "#fff")
+          $metaTag?.setAttribute("content", "#fff")
         }
       }
 
