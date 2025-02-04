@@ -3,31 +3,40 @@
 <div
   class="
     print:hidden
-    fixed bottom-1 right-1 z-50
+    fixed bottom-1 left-1 z-50
     px-2 py-1 rounded-md
     bg-gray-200 dark:bg-neutral-900
     font-mono text-xs text-dim
     opacity-60
+    flex gap-x-2
   "
 >
+  <% if App.debug? %>
+    <span title="Debug Mode On">DEBUG</span>
+
+    <button
+      data-controller="dev-flags"
+      data-action="dev-flags#toggleSolve:prevent"
+      class="btn-basic"
+    >
+      <%= Emoji.pencil %>
+    </button>
+  <% end %>
+
+  <% if Rails.root.join("tmp/caching-dev.txt").exist? %>
+    <span title="Caching Enabled">📸</span>
+  <% else %>
+    <span title="Caching Disabled">🙈</span>
+  <% end %>
+
   <%= link_to(
         layout.portal.ui? ? root_path : ui_portal_root_path,
         class: "no-underline flex gap-x-2") do %>
-    <% if App.debug? %>
-      <span title="Debug Mode On">DEBUG</span>
-    <% end %>
-
-    <% if Rails.root.join("tmp/caching-dev.txt").exist? %>
-      <span title="Caching Enabled">📸</span>
-    <% else %>
-      <span title="Caching Disabled">🙈</span>
-    <% end %>
-
-    <div class="hidden max-sm:block">xs</div>
-    <div class="hidden sm:max-md:block">sm</div>
-    <div class="hidden md:max-lg:block">md</div>
-    <div class="hidden lg:max-xl:block">lg</div>
-    <div class="hidden xl:max-2xl:block">xl</div>
-    <div class="hidden 2xl:block">2xl</div>
+    <span class="hidden max-sm:block">xs</span>
+    <span class="hidden sm:max-md:block">sm</span>
+    <span class="hidden md:max-lg:block">md</span>
+    <span class="hidden lg:max-xl:block">lg</span>
+    <span class="hidden xl:max-2xl:block">xl</span>
+    <span class="hidden 2xl:block">2xl</span>
   <% end %>
 </div>
