@@ -208,7 +208,7 @@
     [data-tooltip-target="tooltip"] {
       @apply hidden
         absolute top-0 left-0 z-10
-        mb-1.5 mx-6 p-4 rounded-md
+        p-4 rounded-md
         bg-neutral-900
         font-normal text-base text-neutral-200;
 
@@ -216,7 +216,7 @@
         @apply relative z-10;
       }
       [data-tooltip-target="arrow"] {
-        @apply absolute size-6 -mx-6 rotate-45 bg-neutral-900;
+        @apply absolute size-4 rotate-45 bg-neutral-900;
       }
     }
   }

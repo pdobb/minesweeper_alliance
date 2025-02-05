@@ -72,8 +72,8 @@ export default class extends Controller {
       placement: this.placementValue,
       middleware: [
         offset(this.offsetValue),
-        shift(),
         flip(),
+        shift({ padding: 12 }),
         arrow({ element: this.arrowTarget }),
       ],
     }).then(({ x, y, placement, middlewareData }) => {
@@ -96,7 +96,7 @@ export default class extends Controller {
         top: arrowY != null ? `${arrowY}px` : "",
         right: "",
         bottom: "",
-        [staticSide]: "-4px",
+        [staticSide]: "-7px",
       })
     })
   }
