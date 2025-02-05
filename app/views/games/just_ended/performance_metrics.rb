@@ -51,7 +51,7 @@ class Games::JustEnded::PerformanceMetrics < Games::Past::PerformanceMetrics
   def user_was_an_active_participant? = user.active_participant_in?(game:)
 
   def user_bests
-    @user_bests ||= game.bests_for(user:)
+    @user_bests ||= game.user_bests(user:)
   end
 
   # :reek:ModuleInitialize

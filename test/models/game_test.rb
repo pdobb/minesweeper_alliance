@@ -536,7 +536,7 @@ class GameTest < ActiveSupport::TestCase
       end
     end
 
-    describe "#bests_for" do
+    describe "#user_bests" do
       context "GIVEN a bestable Game type" do
         subject {
           unit_class.build_for(
@@ -548,7 +548,7 @@ class GameTest < ActiveSupport::TestCase
         }
 
         it "returns the expected type" do
-          result = subject.bests_for(user: user1)
+          result = subject.user_bests(user: user1)
           target_types = [
             User::Bests::Beginner,
             User::Bests::Intermediate,
@@ -562,7 +562,7 @@ class GameTest < ActiveSupport::TestCase
         subject { win1 }
 
         it "raises TypeError" do
-          _(-> { subject.bests_for(user: user1) }).must_raise(TypeError)
+          _(-> { subject.user_bests(user: user1) }).must_raise(TypeError)
         end
       end
     end

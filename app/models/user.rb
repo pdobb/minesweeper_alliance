@@ -134,7 +134,7 @@ class User < ApplicationRecord
   end
 
   def bests
-    @bests ||= Bests.new(self)
+    @bests ||= User::Bests.new(self)
   end
 
   private

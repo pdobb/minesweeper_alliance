@@ -235,10 +235,16 @@ class Game < ApplicationRecord # rubocop:disable Metrics/ClassLength
     type.in?(BESTABLE_TYPES)
   end
 
-  def bests_for(user:)
-    unless bestable_type?
-      raise(TypeError, "bests not available for Game type #{type}")
+  def best_categories
+    @best_categories ||= begin
+      validate_bestable_type
+
+      Game::Bests.for_type(type).categories(self)
     end
+  end
+
+  def user_bests(user:)
+    validate_bestable_type
 
     user.bests.for_type(type)
   end
@@ -261,6 +267,12 @@ class Game < ApplicationRecord # rubocop:disable Metrics/ClassLength
 
   def set_stats
     CalcStats.(self)
+  end
+
+  def validate_bestable_type
+    return if bestable_type?
+
+    raise(TypeError, "bests not available for Game type #{type}")
   end
 
   concerning :ObjectInspection do
