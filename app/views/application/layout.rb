@@ -6,14 +6,15 @@
 # For example: It is a great alternative to having {ApplicationController}
 # define helper methods for use in controllers / view templates.
 class Application::Layout
+  def self.turbo_stream_name = "global"
+
   def initialize(context:)
     @context = context
   end
 
   def portal = "application".inquiry # rubocop:disable Rails/Inquiry
-
   def current_user = context.current_user
-
+  def turbo_stream_name = self.class.turbo_stream_name
   def flash = Application::Flash.new(context.flash)
 
   def theme_menu(button_content:)

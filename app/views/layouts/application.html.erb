@@ -55,32 +55,35 @@
     data-controller="theme time-zone page"
     data-theme-active-theme-button-class="text-red-700 dark:text-red-600"
     data-time-zone-update-url-value="<%= current_user_time_zone_update_path %>"
-    class="flex flex-col gap-y-12 h-screen"
   >
-    <%= render("application/flash", flash: layout.flash) %>
+    <%= turbo_stream_from(layout.turbo_stream_name, class: "mt-0") %>
 
-    <header
-      class="
-        px-6 lg:px-12 py-6
-        border-b border-dim
-        <%= "mb-5" if content_for?(:page_nav) %>
-      "
-    >
-      <%= render("nav") %>
-    </header>
+    <div class="flex flex-col gap-y-12 h-screen">
+      <%= render("application/flash", flash: layout.flash) %>
 
-    <main class="relative px-6 lg:px-12">
-      <%= yield %>
-    </main>
+      <header
+        class="
+          px-6 lg:px-12 py-6
+          border-b border-dim
+          <%= "mb-5" if content_for?(:page_nav) %>
+        "
+      >
+        <%= render("nav") %>
+      </header>
 
-    <footer
-      class="
-        mt-auto px-6 lg:px-12 py-6
-        border-t border-dim-lg
-      "
-    >
-      <%= render("footer") %>
-    </footer>
+      <main class="relative px-6 lg:px-12">
+        <%= yield %>
+      </main>
+
+      <footer
+        class="
+          mt-auto px-6 lg:px-12 py-6
+          border-t border-dim-lg
+        "
+      >
+        <%= render("footer") %>
+      </footer>
+    </div>
 
     <%= render("layouts/dev_flags") if App.development? %>
   </body>
