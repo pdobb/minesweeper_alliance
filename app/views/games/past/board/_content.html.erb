@@ -1,12 +1,6 @@
 <%# locals: (content:) %>
 
-<div
-  <% if content.just_ended_game? %>
-    data-controller="scroll-position"
-    data-scroll-position-storage-element-id-value="gameBoardDataStore"
-  <% end %>
-  class="-mx-5 overflow-x-auto scrollbar-hidden"
->
+<div class="-mx-5 overflow-x-auto scrollbar-hidden">
   <table class="mx-auto table-fixed border-double border-4 border-dark">
     <tbody
       class="

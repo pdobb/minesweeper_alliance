@@ -7,8 +7,6 @@ class Games::Past::Board::Content
     @board = board
   end
 
-  def just_ended_game? = game.just_ended?
-
   def rows
     grid.map { |row| Games::Past::Board::Cell.wrap(row, game:) }
   end
