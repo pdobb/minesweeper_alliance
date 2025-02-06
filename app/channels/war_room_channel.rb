@@ -1,23 +1,23 @@
 # frozen_string_literal: true
 
-# WarRoomChannel extends Turbo::StreamsChannel (from the turbo-rails gem;
-# See: https://github.com/hotwired/turbo-rails/tree/v2.0.6)
+# WarRoomChannel extends Turbo::StreamsChannel (from the turbo-rails gem:
+# https://github.com/hotwired/turbo-rails/blob/main/app/channels/turbo/streams_channel.rb)
 #
-# This is an attempt at keeping a count of the number of current subscribers to
-# the :current_game stream, which shall be the only stream on this channel.
+# The primary need for this custom channel is to keep track of current
+# connections to the War Room.
 #
 # NOTE: Subscription tracking for web sockets / streams are (very) often
 # unreliable. We must take pains to attenuate this unreliability, while boosting
-# what we can rely on.
+# what we can rely on. See: {FleetTracker}.
 class WarRoomChannel < Turbo::StreamsChannel
-  STREAM_NAME = :current_game
+  STREAM_NAME = "war_room"
 
   def self.broadcast_refresh = broadcast_refresh_to(STREAM_NAME)
 
-  def self.broadcast_replace(...) = broadcast_replace_to(STREAM_NAME, ...)
-  def self.broadcast_update(...) = broadcast_update_to(STREAM_NAME, ...)
   def self.broadcast_append(...) = broadcast_append_to(STREAM_NAME, ...)
   def self.broadcast_remove(...) = broadcast_remove_to(STREAM_NAME, ...)
+  def self.broadcast_replace(...) = broadcast_replace_to(STREAM_NAME, ...)
+  def self.broadcast_update(...) = broadcast_update_to(STREAM_NAME, ...)
 
   # Broadcast a custom-built Array of `<turbo-stream>...</turbo-stream>`
   # element(s).
