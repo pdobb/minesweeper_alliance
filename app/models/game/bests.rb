@@ -25,7 +25,7 @@ module Game::Bests
     def any?(game) = categories(game).any?
 
     # @example
-    #   Game::Bests.expert.categories(Game.bests_for_expert_type.take)
+    #   Game::Bests.expert.categories(Game.for_bests_of_type_expert.take)
     #   # => ["Score", "Efficiency"]
     def categories(game)
       return [] unless game

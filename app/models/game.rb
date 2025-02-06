@@ -125,10 +125,31 @@ class Game < ApplicationRecord # rubocop:disable Metrics/ClassLength
     "Mines Win",
   ])
 
+  scope :for_beginner_type, -> { for_type(BEGINNER_TYPE) }
+  scope :for_intermediate_type, -> { for_type(INTERMEDIATE_TYPE) }
+  scope :for_expert_type, -> { for_type(EXPERT_TYPE) }
   scope :for_type, ->(type) { where(type:) }
-  scope :for_beginner_type, -> { where(type: BEGINNER_TYPE) }
-  scope :for_intermediate_type, -> { where(type: INTERMEDIATE_TYPE) }
-  scope :for_expert_type, -> { where(type: EXPERT_TYPE) }
+
+  scope :for_bests_of_type_beginner, -> { for_bests_of_type(BEGINNER_TYPE) }
+  scope :for_bests_of_type_intermediate,
+        -> { for_bests_of_type(INTERMEDIATE_TYPE) }
+  scope :for_bests_of_type_expert, -> { for_bests_of_type(EXPERT_TYPE) }
+  scope :for_bests_of_type, ->(type) {
+    # rubocop:disable Layout/LineLength
+    subquery =
+      select(
+        "games.*",
+        "ROW_NUMBER() OVER (PARTITION BY type ORDER BY score ASC) AS rn_score",
+        "ROW_NUMBER() OVER (PARTITION BY type ORDER BY bbbvps DESC) AS rn_bbbvps",
+        "ROW_NUMBER() OVER (PARTITION BY type ORDER BY efficiency DESC) AS rn_efficiency").
+        where.not(score: nil).where.not(bbbvps: nil).where.not(efficiency: nil).
+        for_type(type)
+    # rubocop:enable Layout/LineLength
+
+    from(subquery, :games).
+      where("rn_score = 1 OR rn_bbbvps = 1 OR rn_efficiency = 1")
+  }
+
   scope :for_game_on_statuses, -> {
     for_status([status_standing_by, status_sweep_in_progress])
   }
