@@ -1,22 +1,37 @@
 <%# locals: (performance_metrics:) %>
 
-<tr>
-  <th><%= render("tooltip", text: "Score") %></th>
-  <td>
-    <time
-      datetime="PT<%= performance_metrics.score %>S"
-    ><%= performance_metrics.score %></time>
-  </td>
-</tr>
+<% performance_metrics.score.tap do |score| %>
+  <tr class="<%= class_names(score.css) %>">
+    <th>
+      <%= render("alliance_best") if score.alliance_best? %>
+      <%= render("tooltip", text: "Score") %>
+    </th>
+    <td>
+      <time
+        datetime="PT<%= score %>S"
+      ><%= score.value %></time>
+    </td>
+  </tr>
+<% end %>
 <tr>
   <th><%= render("tooltip", text: "3BV", term: "bbbv") %></th>
   <td><%= performance_metrics.bbbv %></td>
 </tr>
-<tr>
-  <th><%= render("tooltip", text: "3BV/s", term: "bbbvps") %></th>
-  <td><%= performance_metrics.bbbvps %></td>
-</tr>
-<tr>
-  <th><%= render("tooltip", text: "Efficiency") %></th>
-  <td><%= performance_metrics.efficiency %></td>
-</tr>
+<% performance_metrics.bbbvps.tap do |bbbvps| %>
+  <tr class="<%= class_names(bbbvps.css) %>">
+    <th>
+      <%= render("alliance_best") if bbbvps.alliance_best? %>
+      <%= render("tooltip", text: "3BV/s", term: "bbbvps") %>
+    </th>
+    <td><%= bbbvps.value %></td>
+  </tr>
+<% end %>
+<% performance_metrics.efficiency.tap do |efficiency| %>
+  <tr class="<%= class_names(efficiency.css) %>">
+    <th>
+      <%= render("alliance_best") if efficiency.alliance_best? %>
+      <%= render("tooltip", text: "Efficiency") %>
+    </th>
+    <td><%= efficiency.value %></td>
+  </tr>
+<% end %>

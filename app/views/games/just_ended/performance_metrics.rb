@@ -24,9 +24,9 @@ class Games::JustEnded::PerformanceMetrics < Games::Past::PerformanceMetrics
     super(game:)
   end
 
-  def score = build_for(Score, value: super)
-  def bbbvps = build_for(Bbbvps, value: super)
-  def efficiency = build_for(Efficiency, value: super)
+  def score = build_for(Score, value: score_value)
+  def bbbvps = build_for(Bbbvps, value: bbbvps_value)
+  def efficiency = build_for(Efficiency, value: efficiency_value)
 
   private
 
