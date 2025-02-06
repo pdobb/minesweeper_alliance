@@ -2,21 +2,7 @@
 
 <%= turbo_frame_tag(*footer.turbo_frame_name) do %>
   <%= turbo_stream.remove(Home::Show.turbo_stream_dom_id) %>
-
   <%= turbo_stream_from(footer.turbo_stream_name) %>
-  <div
-    id="fleetMusteringNotificationContainer"
-    data-controller="game-notification"
-    data-action="
-      keydown.esc@window->game-notification#close
-      transitionend->game-notification#remove
-    "
-    data-game-notification-hide-class="opacity-0"
-    class="
-      pointer-events-none z-20
-      fixed top-6 left-1/2 -translate-x-1/2
-      transition-opacity ease-in
-    "></div>
 
   <div class="-mt-10 mb-3 min-h-24 flex justify-center items-center">
     <% footer.signature.tap do |signature| %>
