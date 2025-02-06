@@ -2,7 +2,7 @@
 
 # Games::JustEnded::ActiveParticipants::Footer
 class Games::JustEnded::ActiveParticipants::Footer
-  def self.turbo_stream_name = :just_ended_game
+  def self.turbo_stream_name = "just_ended_game-active_participants"
 
   def initialize(game:, user:)
     @game = game

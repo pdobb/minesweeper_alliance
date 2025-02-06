@@ -1,10 +1,13 @@
 <%# locals: (footer:) %>
 
 <%= turbo_frame_tag(*footer.turbo_frame_name) do %>
-  <%= turbo_stream.remove(Home::Show.turbo_stream_dom_id) %>
   <%= turbo_stream_from(footer.turbo_stream_name) %>
 
-  <div class="-mt-10 mb-3 min-h-24 flex justify-center items-center">
+  <div
+    data-controller="turbo-events"
+    data-action="turbo:before-stream-render@window->turbo-events#preventRefresh"
+    class="-mt-10 mb-3 min-h-24 flex justify-center items-center"
+  >
     <% footer.signature.tap do |signature| %>
       <%= turbo_frame_tag(*signature.turbo_frame_name, class: "max-sm:w-full") do %>
         <%= render("games/just_ended/active_participants/signature", signature:) %>
