@@ -12,9 +12,7 @@ class UIPortal::Layout
 
   def portal = "ui".inquiry # rubocop:disable Rails/Inquiry
 
-  def flash_notifications
-    Application::Flash.new(flash).notifications
-  end
+  def flash = Application::Flash.new(context.flash)
 
   def theme_menu(button_content:)
     Application::Footer::ThemeMenu.new(button_content:)
@@ -27,8 +25,6 @@ class UIPortal::Layout
   private
 
   attr_reader :context
-
-  def flash = context.flash
 
   def parsed_user_agent
     # UserAgent comes from the `useragent` gem:

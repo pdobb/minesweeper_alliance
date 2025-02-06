@@ -1,0 +1,39 @@
+<%# locals: (notification:) %>
+
+<div
+  role="alert"
+  data-controller="flash"
+  data-flash-hide-class="opacity-0"
+  <% if notification.timeout? %>
+    data-flash-timeout-value="<%= notification.timeout_in_milliseconds %>"
+  <% end %>
+  data-action="
+    keydown.esc@window->flash#close
+    transitionend->flash#remove
+  "
+  class="
+    pointer-events-auto
+    p-4 rounded-lg
+    transition-opacity ease-in
+    <%= class_names(notification.container_css) %>
+  "
+>
+  <span class="sr-only"><%= notification.type %></span>
+  <div class="flex gap-x-6 items-start">
+    <p><%= notification.content %></p>
+
+    <button
+      type="button"
+      data-action="flash#close"
+      class="
+        -m-1.5 p-2 rounded-lg cursor-pointer
+        focus:ring-2 focus:animate-pulse-fast
+        <%= class_names(notification.button_css) %>
+      "
+      aria-label="Close"
+    >
+      <span class="sr-only">Close</span>
+      <%= inline_svg_tag("heroicons/x-mark.svg", class: "stroke-2") %>
+    </button>
+  </div>
+</div>

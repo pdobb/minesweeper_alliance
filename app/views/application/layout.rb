@@ -14,9 +14,7 @@ class Application::Layout
 
   def current_user = context.current_user
 
-  def flash_notifications
-    Application::Flash.new(flash).notifications
-  end
+  def flash = Application::Flash.new(context.flash)
 
   def theme_menu(button_content:)
     Application::Footer::ThemeMenu.new(button_content:)
@@ -56,7 +54,6 @@ class Application::Layout
   attr_reader :context
 
   def request = context.request
-  def flash = context.flash
 
   def parsed_user_agent
     # UserAgent comes from the `useragent` gem:

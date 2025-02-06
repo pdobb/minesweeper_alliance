@@ -1,7 +1,7 @@
-<%# locals: () %>
+<%# locals: (flash:) %>
 
 <div
-  id="flash"
+  id="<%= flash.turbo_target %>"
   class="
     pointer-events-none z-10
     fixed top-6 left-1/2 -translate-x-1/2
@@ -9,6 +9,6 @@
   "
 >
   <%= render(
-        "layouts/flash/notifications",
-        notifications: layout.flash_notifications) %>
+        partial: "application/flash/notification",
+        collection: flash.notifications) %>
 </div>

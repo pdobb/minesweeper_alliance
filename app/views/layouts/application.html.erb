@@ -57,7 +57,7 @@
     data-time-zone-update-url-value="<%= current_user_time_zone_update_path %>"
     class="flex flex-col gap-y-12 h-screen"
   >
-    <%= render("layouts/flash/container") %>
+    <%= render("application/flash", flash: layout.flash) %>
 
     <header
       class="
