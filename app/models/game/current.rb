@@ -14,6 +14,8 @@
 class Game::Current
   include CallMethodBehaviors
 
+  def self.exists? = Game.for_game_on_statuses.exists?
+
   def initialize(settings:, context:, &after_create_block)
     @settings = settings
     @context = context

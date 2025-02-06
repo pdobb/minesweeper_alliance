@@ -86,6 +86,7 @@ class Game::Current::Create
 
       WarRoomChannel.broadcast_refresh
       broadcast_fleet_mustering_notification
+      broadcast_war_room_activity_indicator_update_job
 
       block&.call
     end
@@ -99,6 +100,10 @@ class Game::Current::Create
           wait: TURBO_STREAM_DISCONNECT_AFFORDANCE_IN_SECONDS)
       Game::Current::BroadcastFleetMusteringNotificationJob.set(wait:).
         perform_later
+    end
+
+    def broadcast_war_room_activity_indicator_update_job
+      Game::Current::BroadcastWarRoomActivityIndicatorUpdateJob.perform_later
     end
   end
 end

@@ -58,7 +58,7 @@ module Games::Current::Board::Cells::ActionBehaviors
   def broadcast_updates(...)
     if game.just_ended?
       broadcast_just_ended_game_updates
-      broadcast_past_games_index_refresh
+      broadcast_general_game_end_updates
     else
       broadcast_current_game_updates(...)
     end
@@ -93,11 +93,11 @@ module Games::Current::Board::Cells::ActionBehaviors
 
     WarRoomChannel.broadcast(content)
     respond_with { render(turbo_stream: turbo_stream_actions.push(content)) }
-
-    Game::JustEnded::BroadcastNewBestsNotificationJob.perform_later(game)
   end
 
-  def broadcast_past_games_index_refresh
+  def broadcast_general_game_end_updates
+    Game::Current::BroadcastWarRoomActivityIndicatorUpdateJob.perform_later
+    Game::JustEnded::BroadcastNewBestsNotificationJob.perform_later(game)
     Turbo::StreamsChannel.broadcast_refresh_later_to(
       Games::Index.turbo_stream_name)
   end

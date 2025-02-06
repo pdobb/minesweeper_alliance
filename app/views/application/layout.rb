@@ -17,6 +17,10 @@ class Application::Layout
   def turbo_stream_name = self.class.turbo_stream_name
   def flash = Application::Flash.new(context.flash)
 
+  def activity_indicator
+    Games::Current::ActivityIndicator.new
+  end
+
   def theme_menu(button_content:)
     Application::Footer::ThemeMenu.new(button_content:)
   end
