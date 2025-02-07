@@ -6,7 +6,8 @@ class Games::Past::Metrics
     @game = game
   end
 
-  def cache_key = [game, :metrics]
+  def cacheable? = !game.bestable_type?
+  def cache_key = [:past_game_container, game, :metrics]
 
   def show_performance_metrics? = game.ended_in_victory?
 

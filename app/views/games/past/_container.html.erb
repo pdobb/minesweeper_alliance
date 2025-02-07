@@ -4,10 +4,10 @@
   <div class="space-y-12">
     <% cache(container.cache_key) do %>
       <%= render("games/past/content", content: container.content) %>
-
-      <div class="container mx-auto">
-        <%= render("games/past/footer", footer: container.footer) %>
-      </div>
     <% end %>
+
+    <div class="container mx-auto">
+      <%= render("games/past/footer", footer: container.footer) %>
+    </div>
   </div>
 <% end %>
