@@ -254,11 +254,13 @@ class Game < ApplicationRecord # rubocop:disable Metrics/ClassLength
     type.in?(BESTABLE_TYPES)
   end
 
-  def best_categories
-    @best_categories ||= begin
+  def best_categories = @best_categories ||= bests.categories
+
+  def bests
+    @bests ||= begin
       validate_bestable_type
 
-      Game::Bests.for_type(type).categories(self)
+      Game::Bests.new(self).for_type(type)
     end
   end
 
