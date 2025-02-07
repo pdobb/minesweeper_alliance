@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 # :reek:TooManyMethods
+# :reek:InstanceVariableAssumption
 
 # User represents:
 # 1. A passive participant ("observer") of the current {Game} / War Room.
@@ -117,8 +118,14 @@ class User < ApplicationRecord
   def participant? = true
   def active_participant? = active_participant_transactions.any?
 
+  # :reek:NilCheck
   def active_participant_in?(game:)
-    active_participant_transactions.for_game(game).any?
+    @active_participant_in ||= {}
+
+    @active_participant_in.fetch(game) {
+      @active_participant_in[game] =
+        active_participant_transactions.for_game(game).any?
+    }
   end
 
   def signer? = username?

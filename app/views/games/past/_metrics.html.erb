@@ -19,28 +19,33 @@
       <% end %>
 
       <tr>
+        <td></td>
         <th>Clicks</th>
         <td><%= metrics.clicks_count %></td>
       </tr>
-      <tr class="*:pl-6">
-        <th>
+      <tr>
+        <td></td>
+        <th class="pl-6">
           <%= render("tooltip", text: "Reveals") %>
         </th>
-        <td><%= metrics.reveals_count %></td>
+        <td class="pl-6"><%= metrics.reveals_count %></td>
       </tr>
-      <tr class="*:pl-6">
-        <th>
+      <tr>
+        <td></td>
+        <th class="pl-6">
           <%= render("tooltip", text: "Chords") %>
         </th>
-        <td><%= metrics.chords_count %></td>
+        <td class="pl-6"><%= metrics.chords_count %></td>
       </tr>
-      <tr class="*:pl-6">
-        <th>Flags Placed</th>
-        <td><%= metrics.flags_count %></td>
+      <tr>
+        <td></td>
+        <th class="pl-6">Flags Placed</th>
+        <td class="pl-6"><%= metrics.flags_count %></td>
       </tr>
-      <tr class="*:pl-6">
-        <th>Flags Removed</th>
-        <td><%= metrics.unflags_count %></td>
+      <tr>
+        <td></td>
+        <th class="pl-6">Flags Removed</th>
+        <td class="pl-6"><%= metrics.unflags_count %></td>
       </tr>
     </tbody>
   </table>

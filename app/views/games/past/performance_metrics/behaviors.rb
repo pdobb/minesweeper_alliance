@@ -34,7 +34,15 @@ module Games::Past::PerformanceMetrics::Behaviors
   attr_reader :game,
               :user
 
-  def type_name = best.type_name
+  def type_name
+    if best.for_the_alliance? && user.active_participant_in?(game:)
+      # If the User was a participant and this was an Alliance Best then it must
+      # also be a Personal Best. No need to go check.
+      "alliance_and_personal"
+    else
+      best.type_name
+    end
+  end
 
   def best
     @best ||= begin

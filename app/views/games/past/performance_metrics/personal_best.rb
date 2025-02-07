@@ -7,6 +7,7 @@ class Games::Past::PerformanceMetrics::PersonalBest
     @query_method = query_method
   end
 
+  def for_the_alliance? = false
   def type_name = "personal"
 
   def presence

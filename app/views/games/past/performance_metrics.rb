@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# :reek:InstanceVariableAssumption
+
 # Games::Past::PerformanceMetrics represents performance-related end-of-{Game}
 # metrics/stats for just-ended/past {Game}s.
 #

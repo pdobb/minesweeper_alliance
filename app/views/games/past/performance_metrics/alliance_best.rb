@@ -7,6 +7,7 @@ class Games::Past::PerformanceMetrics::AllianceBest
     @query_method = query_method
   end
 
+  def for_the_alliance? = true
   def type_name = "alliance"
 
   def presence
