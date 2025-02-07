@@ -9,16 +9,7 @@
   "
 >
   <div class="md:justify-self-end space-y-3">
-    <% results.metrics.tap do |metrics| %>
-      <%= render(layout: "games/past/metrics", locals: { metrics: }) do %>
-        <% if metrics.show_performance_metrics? %>
-          <%= render(
-                "games/just_ended/performance_metrics",
-                performance_metrics:
-                  metrics.performance_metrics(user: current_user)) %>
-        <% end %>
-      <% end %>
-    <% end %>
+    <%= render("games/past/metrics", metrics: results.metrics) %>
   </div>
   <div class="space-y-12">
     <%= render(

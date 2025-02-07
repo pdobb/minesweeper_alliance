@@ -6,13 +6,12 @@ class Games::Past::Metrics
     @game = game
   end
 
-  def cacheable? = true
   def cache_key = [game, :metrics]
 
   def show_performance_metrics? = game.ended_in_victory?
 
-  def performance_metrics
-    Games::Past::PerformanceMetrics.new(game:)
+  def performance_metrics(user:)
+    Games::Past::PerformanceMetrics.new(game:, user:)
   end
 
   # Activity Metrics

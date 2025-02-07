@@ -4,19 +4,12 @@
   data-turbo-prefetch="false"
   class="
     grid md:grid-cols-2
-    gap-x-28 gap-y-8
+    gap-x-28 gap-y-12
+    max-md:ml-6
   "
 >
   <div class="md:justify-self-end space-y-3">
-    <% results.metrics.tap do |metrics| %>
-      <%= render(layout: "games/past/metrics", locals: { metrics: }) do %>
-        <% if metrics.show_performance_metrics? %>
-          <%= render(
-                "games/past/performance_metrics",
-                performance_metrics: metrics.performance_metrics) %>
-        <% end %>
-      <% end %>
-    <% end %>
+    <%= render("games/past/metrics", metrics: results.metrics) %>
   </div>
   <div class="space-y-12">
     <%= render(

@@ -1,6 +1,6 @@
 <%# locals: (metrics:) %>
 
-<% cache_if(metrics.cacheable?, metrics.cache_key) do %>
+<% cache(metrics.cache_key) do %>
   <h4 class="h3">Metrics</h4>
 
   <table
@@ -11,7 +11,12 @@
     "
   >
     <tbody>
-      <%= yield %>
+      <% if metrics.show_performance_metrics? %>
+        <%= render(
+              "games/past/performance_metrics",
+              performance_metrics:
+                metrics.performance_metrics(user: current_user)) %>
+      <% end %>
 
       <tr>
         <th>Clicks</th>
