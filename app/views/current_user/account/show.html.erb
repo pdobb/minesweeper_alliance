@@ -17,7 +17,8 @@
     <h3 class="h5">
       <%= link_to(
             @view.authentication_url,
-            class: "inline-flex gap-x-2 items-center") do %>
+            class: "inline-flex gap-x-2 items-center",
+            data: { turbo_prefetch: false }) do %>
         Authentication Link
         <span class="hidden">
           &gt; <%= @view.display_name %> &mdash; Minesweeper Alliance
