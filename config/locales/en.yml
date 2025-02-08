@@ -100,7 +100,6 @@ en:
     successful_destroy_with_name: "Destroyed %{type} %{name}"
 
   terms:
-    ⛴️: Actively participating minesweepers count.
     bbbv: The 3BV Value (a.k.a. BBBV) of a board represents the minimum number of clicks required to solve it (without placing any flags and without chording). Higher value = greater solve difficulty.
     bbbvps: 3BV/s grades solve speed based on the 3BV (ideal solve) value for a specific board. Higher is better.
     chords: Chords are groups of cells that are automatically revealed by clicking on a previously revealed cell (number) for which the corresponding number of surrounding cells have been flagged.
@@ -108,6 +107,13 @@ en:
     efficiency_html: Efficiency measures the ratio of actual clicks to the ideal/minimal clicks<span class="font-sans">&mdash;</span>as defined by the board's 3BV value. Fewer clicks = higher efficiency. Efficiencies over 100% are possible when chording.
     reveals: Reveals are regular left-clicks on unrevealed cells. Clicking a previously revealed cell doesn't count against total clicks.
     score: Score = solve speed in seconds. Lower is better.
+    metrics:
+      engagements:
+        bests:
+          ⛴️: Actively participating minesweepers count.
+      minesweepers:
+        most_active:
+          count: Engagements count.
 
   site:
     name: Minesweeper Alliance

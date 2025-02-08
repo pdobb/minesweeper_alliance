@@ -7,69 +7,131 @@
 >
   <h1><%= title %></h1>
 
-  <% @view.engagements.tap do |engagements| %>
-    <div class="space-y-10">
-      <h2 class="border-b border-dotted border-dim">Engagements</h2>
+  <div class="space-y-24">
+    <% @view.engagements.tap do |engagements| %>
+      <div class="space-y-10">
+        <h2 class="border-b border-dotted border-dim">Engagements</h2>
 
-      <h3 class="h2">Bests</h3>
+        <h3 class="h2">Bests</h3>
 
-      <% cache(engagements.cache_key) do %>
-        <div
-          data-controller="active-link"
-          data-active-link-active-class="active"
-          data-action="display-case:hide@window->active-link#clear"
-          class="flex max-lg:flex-col gap-x-24 gap-y-6"
-        >
-          <% engagements.bests_per_type.each do |bests| %>
-            <nav class="space-y-3">
-              <h4 class="h3"><%= bests.type %></h4>
+        <% cache(engagements.cache_key) do %>
+          <div
+            data-controller="active-link"
+            data-active-link-active-class="active"
+            data-action="display-case:hide@window->active-link#clear"
+            class="max-w-5xl grid lg:grid-cols-3 gap-x-24 gap-y-6"
+          >
+            <% engagements.bests_per_type.each do |bests| %>
+              <nav class="space-y-3">
+                <h4 class="h3"><%= bests.type %></h4>
 
-              <table
-                class="
-                  -mx-6 -my-2
-                  table-fixed
-                  border-separate border-spacing-x-6 border-spacing-y-2
-                  text-left
-                "
-              >
-                <thead>
-                  <tr>
-                    <th>Rank</th>
-                    <th class="min-w-[100px]">
-                      <%= render("tooltip", text: "Score") %>
-                    </th>
-                    <th>
-                      <%= render("tooltip", text: Emoji.ship) %>
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <% bests.listings.each_with_index do |listing, index| %>
+                <table
+                  class="
+                    -mx-6 -my-2
+                    table-fixed
+                    border-separate border-spacing-x-6 border-spacing-y-2
+                    text-left
+                  "
+                >
+                  <thead>
                     <tr>
-                      <td><%= index.next %></td>
-                      <td class="<%= listing.table_cell_css %>">
-                        <%= link_to_if(
-                              listing.present?,
-                              listing.game_score,
-                              listing.game_url,
-                              data: {
-                                action: listing.link_action,
-                                turbo_frame: listing.turbo_frame_name,
-                              }) %>
-                      </td>
-                      <td class="<%= listing.table_cell_css %>">
-                        <%= listing.fleet_size %>
-                      </td>
+                      <th>Rank</th>
+                      <th class="min-w-[100px]">
+                        <%= render("tooltip", text: "Score") %>
+                      </th>
+                      <th>
+                        <%= render(
+                              "tooltip",
+                              text: Emoji.ship,
+                              term: "metrics.engagements.bests.#{Emoji.ship}") %>
+                      </th>
                     </tr>
-                  <% end %>
-                </tbody>
-              </table>
-            </nav>
-          <% end %>
-        </div>
-      <% end %>
+                  </thead>
+                  <tbody>
+                    <% bests.listings.each_with_index do |listing, index| %>
+                      <tr>
+                        <td><%= index.next %></td>
+                        <td class="<%= listing.table_cell_css %>">
+                          <%= link_to_if(
+                                listing.present?,
+                                listing.game_score,
+                                listing.game_url,
+                                data: {
+                                  action: listing.link_action,
+                                  turbo_frame: listing.turbo_frame_name,
+                                }) %>
+                        </td>
+                        <td class="<%= listing.table_cell_css %>">
+                          <%= listing.fleet_size %>
+                        </td>
+                      </tr>
+                    <% end %>
+                  </tbody>
+                </table>
+              </nav>
+            <% end %>
+          </div>
+        <% end %>
 
-      <%= render("display_case", display_case: engagements.display_case) %>
-    </div>
-  <% end %>
+        <%= render("display_case", display_case: engagements.display_case) %>
+      </div>
+    <% end %>
+
+    <% @view.participants.tap do |participants| %>
+      <div class="space-y-10">
+        <h2 class="border-b border-dotted border-dim">Minesweepers</h2>
+
+        <h3 class="h2">Most Active</h3>
+
+        <% cache(participants.cache_key) do %>
+          <div class="max-w-5xl grid lg:grid-cols-3 gap-x-24 gap-y-6">
+            <% participants.most_actives_per_type.each do |most_actives| %>
+              <nav class="space-y-3">
+                <h4 class="h3"><%= most_actives.type %></h4>
+
+                <table
+                  class="
+                    -mx-6 -my-2
+                    table-fixed
+                    border-separate border-spacing-x-6 border-spacing-y-2
+                    text-left
+                  "
+                >
+                  <thead>
+                    <tr>
+                      <th>Rank</th>
+                      <th class="min-w-[100px]">Name</th>
+                      <th>
+                        <%= render(
+                              "tooltip",
+                              text: "Count",
+                              term: "metrics.minesweepers.most_active.count") %>
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <% most_actives.listings.each_with_index do |listing, index| %>
+                      <tr>
+                        <td><%= index.next %></td>
+                        <td class="<%= listing.table_cell_css %>">
+                          <%= link_to_if(
+                                listing.present?,
+                                listing.username,
+                                listing.user_url,
+                                title: listing.display_name) %>
+                        </td>
+                        <td class="<%= listing.table_cell_css %>">
+                          <%= listing.active_participation_count %>
+                        </td>
+                      </tr>
+                    <% end %>
+                  </tbody>
+                </table>
+              </nav>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
 </div>

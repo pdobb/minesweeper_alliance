@@ -3,8 +3,6 @@
 # Metrics::Engagements::Bests represents top-lists of the best scoring {Game}s
 # per each {Game#type} (Beginner, Intermediate, Expert).
 class Metrics::Engagements::Bests
-  TOP_RECORDS_LIMIT = 3
-
   def self.per_type
     [
       Beginner.new,
@@ -35,7 +33,7 @@ class Metrics::Engagements::Bests
       Game.for_status_alliance_wins.by_score_asc.limit(limit)
     end
 
-    def limit = TOP_RECORDS_LIMIT
+    def limit = Metrics::Show::TOP_RECORDS_LIMIT
 
     # Metrics::Show::Games::Listing
     class Listing

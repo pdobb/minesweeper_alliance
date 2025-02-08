@@ -4,8 +4,9 @@
 class Metrics::Engagements
   def cache_key
     [
+      :metrics,
       :engagements,
-      Game.for_status_alliance_wins.size,
+      Game.for_status_alliance_wins.count,
     ]
   end
 
