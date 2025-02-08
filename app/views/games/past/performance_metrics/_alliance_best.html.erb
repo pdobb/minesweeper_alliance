@@ -1,3 +1,6 @@
 <%# locals: () %>
 
-<span title="Alliance Best!"><%= Emoji.medal %></span>
+<%= tt(
+      Emoji.medal,
+      scope: "games.past.performance_metrics",
+      css: { anchor: "border-none" }) %>

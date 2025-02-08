@@ -36,14 +36,9 @@
                   <thead>
                     <tr>
                       <th>Rank</th>
-                      <th class="min-w-[100px]">
-                        <%= render("tooltip", text: "Score") %>
-                      </th>
+                      <th class="min-w-[100px]"><%= tt("Score") %></th>
                       <th>
-                        <%= render(
-                              "tooltip",
-                              text: Emoji.ship,
-                              term: "metrics.engagements.bests.#{Emoji.ship}") %>
+                        <%= tt(Emoji.ship, scope: "metrics.engagements.bests") %>
                       </th>
                     </tr>
                   </thead>
@@ -102,10 +97,9 @@
                       <th>Rank</th>
                       <th class="min-w-[100px]">Name</th>
                       <th>
-                        <%= render(
-                              "tooltip",
-                              text: "Count",
-                              term: "metrics.minesweepers.most_active.count") %>
+                        <%= tt(
+                              "Count",
+                              scope: "metrics.minesweepers.most_active") %>
                       </th>
                     </tr>
                   </thead>

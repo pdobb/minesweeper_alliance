@@ -43,6 +43,29 @@ module ApplicationHelper
     end
   end
 
+  # rubocop:disable Metrics/ParameterLists
+  def tt(
+        anchor,
+        content: nil,
+        key: anchor.underscore,
+        scope: nil,
+        on: :hover,
+        placement: :top,
+        css: {})
+    tooltip =
+      Application::Tooltip.new(
+        anchor,
+        content:,
+        key:,
+        scope:,
+        type: on,
+        placement:,
+        css:,
+        context: layout)
+    render("application/tooltip", tooltip:)
+  end
+  # rubocop:enable Metrics/ParameterLists
+
   private
 
   def active_link?(url, includes:)

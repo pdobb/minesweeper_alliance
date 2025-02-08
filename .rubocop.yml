@@ -12,8 +12,9 @@ AllCops:
 
 Naming/MethodParameterName:
   AllowedNames:
-    - x
-    - y
+    - "on"
+    - "x"
+    - "y"
 
 Rails/ApplicationController:
   Exclude:

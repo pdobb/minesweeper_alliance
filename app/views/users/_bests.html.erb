@@ -17,9 +17,7 @@
     >
       <tbody>
         <tr>
-          <th colspan="2">
-            <%= render("tooltip", text: "Score") %>
-          </th>
+          <th colspan="2"><%= tt("Score") %></th>
         </tr>
         <% bests.score.tap do |best| %>
           <tr>
@@ -63,9 +61,7 @@
           </tr>
         <% end %>
         <tr>
-          <th colspan="2">
-            <%= render("tooltip", text: "3BV/s", term: "bbbvps") %>
-          </th>
+          <th colspan="2"><%= tt("3BV/s", key: "bbbvps") %></th>
         </tr>
         <% bests.bbbvps.tap do |best| %>
           <tr>
@@ -109,9 +105,7 @@
           </tr>
         <% end %>
         <tr>
-          <th colspan="2">
-            <%= render("tooltip", text: "Efficiency") %>
-          </th>
+          <th colspan="2"><%= tt("Efficiency") %></th>
         </tr>
         <% bests.efficiency.tap do |best| %>
           <tr>

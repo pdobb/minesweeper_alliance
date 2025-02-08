@@ -28,7 +28,7 @@ import {
 //     </dfn>
 //     <div id="<unique_id>" data-tooltip-target="tooltip" role="tooltip">
 //       <div data-tooltip-target="arrow"></div>
-//       <span>...</span>
+//       ...
 //     </div>
 //   </span
 export default class extends Controller {

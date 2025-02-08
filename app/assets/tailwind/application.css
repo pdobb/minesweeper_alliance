@@ -187,7 +187,7 @@
   }
 
   dfn {
-    @apply border-b border-dashed border-gray-500 not-italic;
+    @apply border-b border-dashed border-gray-500 not-italic cursor-default;
   }
 
   code {

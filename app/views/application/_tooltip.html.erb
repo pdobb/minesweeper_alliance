@@ -1,15 +1,13 @@
-<%# locals: (text:, description: nil, term: text.underscore, type: :hover, placement: :top, css: nil) %>
-
-<% aria_id = "tooltip-#{rand(100_000)}" %>
+<%# locals: (tooltip:) %>
 
 <span
   data-controller="tooltip"
-  data-tooltip-placement-value="<%= placement %>"
+  data-tooltip-placement-value="<%= tooltip.placement %>"
   data-action="
-    <% if layout.mobile? %>
+    <% if tooltip.mobile? %>
       click->tooltip#toggle
       mouseout->tooltip#hide
-    <% elsif type == :click %>
+    <% elsif tooltip.click? %>
       click->tooltip#toggle
       keydown.esc@window->tooltip#hide
     <% else %>
@@ -20,21 +18,22 @@
 >
   <dfn
     data-tooltip-target="anchor"
-    aria-describedby="<%= aria_id %>"
+    aria-describedby="<%= tooltip.aria_id %>"
+    class="<%= class_names(tooltip.anchor_css) %>"
   >
-    <%= text %>
+    <%= tooltip.anchor %>
   </dfn>
+
   <div
-    id="<%= aria_id %>"
+    id="<%= tooltip.aria_id %>"
     data-tooltip-target="tooltip"
     role="tooltip"
-    class="<%= css %> min-w-20 max-w-80"
+    class="
+      min-w-20 max-w-80
+      <%= class_names(tooltip.content_css) %>
+    "
   >
     <div data-tooltip-target="arrow"></div>
-    <p>
-      <%=
-        description ||
-          t("terms.#{term}_html", default: [:"terms.#{term}", term.to_sym]) %>
-    </p>
+    <%= tooltip.content %>
   </div>
 </span>

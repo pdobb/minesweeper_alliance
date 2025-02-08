@@ -5,7 +5,7 @@
     <td
       class="md:-ml-14 not-empty:pr-2 flex gap-x-0 justify-end text-xl/5"
     ><%= render(score.partial_path) if score.best? %></td>
-    <th><%= render("tooltip", text: "Score") %></th>
+    <th><%= tt("Score") %></th>
     <td>
       <time datetime="PT<%= score %>S"><%= score %></time>
     </td>
@@ -14,7 +14,7 @@
 
 <tr>
   <td></td>
-  <th><%= render("tooltip", text: "3BV", term: "bbbv") %></th>
+  <th><%= tt("3BV", key: "bbbv") %></th>
   <td><%= performance_metrics.bbbv %></td>
 </tr>
 
@@ -23,7 +23,7 @@
     <td
       class="md:-ml-14 not-empty:pr-2 flex gap-x-0 justify-end text-xl/5"
     ><%= render(bbbvps.partial_path) if bbbvps.best? %></td>
-    <th><%= render("tooltip", text: "3BV/s", term: "bbbvps") %></th>
+    <th><%= tt("3BV/s", key: "bbbvps") %></th>
     <td><%= bbbvps %></td>
   </tr>
 <% end %>
@@ -33,7 +33,7 @@
     <td
       class="md:-ml-14 not-empty:pr-2 flex gap-x-0 justify-end text-xl/5"
     ><%= render(efficiency.partial_path) if efficiency.best? %></td>
-    <th><%= render("tooltip", text: "Efficiency") %></th>
+    <th><%= tt("Efficiency") %></th>
     <td><%= efficiency %></td>
   </tr>
 <% end %>

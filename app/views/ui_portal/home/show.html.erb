@@ -16,14 +16,11 @@
     >
       <tbody>
         <tr>
-          <td class="w-14 text-red-600 dark:text-red-600">Red</td>
+          <th class="w-14 text-red-600 dark:text-red-600">Red</th>
           <td><code>text-red-600 dark:text-red-600</code></td>
         </tr>
-        <tr class="relative">
-          <td class="w-14 text-yellow-400 dark:text-yellow-300">
-            <%= render("games/past/performance_metrics/personal_best") %>
-            Gold
-          </td>
+        <tr>
+          <th class="w-14 text-yellow-400 dark:text-yellow-300">Gold</th>
           <td><code>text-yellow-400 dark:text-yellow-300</code></td>
         </tr>
       </tbody>
@@ -107,13 +104,10 @@
       <tbody>
         <tr>
           <td class="w-14">
-            <%= render(
-                  "application/tooltip",
-                  text: "text",
-                  description: "Huzzah! Tooltip text! 👏") %>
+            <%= tt("text", content: "Huzzah! Tooltip text! 👏") %>
           </td>
           <td>
-            <code>render("tooltip", text: "text", description: "Huzzah! Tooltip text! 👏")</code>
+            <code>tt("text", content: "Huzzah! Tooltip text! 👏")</code>
           </td>
         </tr>
       </tbody>
