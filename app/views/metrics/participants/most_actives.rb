@@ -51,8 +51,9 @@ class Metrics::Participants::MostActives
       def table_cell_css = nil
 
       def display_name = user.display_name
-      def username = user.username
+      def name = user.username || user.mms_id
       def user_url = Router.user_path(user)
+      def show_title? = user.username?
       def active_participation_count = user.active_participation_count
 
       private
@@ -68,8 +69,9 @@ class Metrics::Participants::MostActives
       def present? = false
       def table_cell_css = "text-dim-lg"
       def display_name = nil
-      def username = View.no_value_indicator
+      def name = View.no_value_indicator
       def user_url = nil
+      def show_title? = false
       def active_participation_count = View.no_value_indicator
     end
   end

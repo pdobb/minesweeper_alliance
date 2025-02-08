@@ -19,18 +19,16 @@
             data-controller="active-link"
             data-active-link-active-class="active"
             data-action="display-case:hide@window->active-link#clear"
-            class="max-w-5xl grid lg:grid-cols-3 gap-x-24 gap-y-6"
+            class="max-w-5xl grid lg:grid-cols-3 gap-x-12 gap-y-6"
           >
             <% engagements.bests_per_type.each do |bests| %>
-              <nav class="space-y-3">
+              <div class="space-y-3">
                 <h4 class="h3"><%= bests.type %></h4>
 
                 <table
                   class="
-                    -mx-6 -my-2
-                    table-fixed
-                    border-separate border-spacing-x-6 border-spacing-y-2
-                    text-left
+                    table-fixed text-left
+                    *:*:*:not-last:pr-6 [&_th]:pb-2 [&_tr]:not-last:*:pb-2
                   "
                 >
                   <thead>
@@ -63,7 +61,7 @@
                     <% end %>
                   </tbody>
                 </table>
-              </nav>
+              </div>
             <% end %>
           </div>
         <% end %>
@@ -79,27 +77,23 @@
         <h3 class="h2">Most Active</h3>
 
         <% cache(participants.cache_key) do %>
-          <div class="max-w-5xl grid lg:grid-cols-3 gap-x-24 gap-y-6">
+          <div class="max-w-5xl grid lg:grid-cols-3 gap-x-12 gap-y-6">
             <% participants.most_actives_per_type.each do |most_actives| %>
-              <nav class="space-y-3">
+              <div class="max-w-sm space-y-3">
                 <h4 class="h3"><%= most_actives.type %></h4>
 
                 <table
                   class="
-                    -mx-6 -my-2
-                    table-fixed
-                    border-separate border-spacing-x-6 border-spacing-y-2
-                    text-left
+                    table-fixed w-full text-left
+                    *:*:*:not-last:pr-6 [&_th]:pb-2 [&_tr]:not-last:*:pb-2
                   "
                 >
                   <thead>
                     <tr>
-                      <th>Rank</th>
-                      <th class="min-w-[100px]">Name</th>
-                      <th>
-                        <%= tt(
-                              "Count",
-                              scope: "metrics.minesweepers.most_active") %>
+                      <th class="w-16">Rank</th>
+                      <th class="w-full">Name</th>
+                      <th class="w-8">
+                        <%= tt("#", scope: "metrics.minesweepers.most_active") %>
                       </th>
                     </tr>
                   </thead>
@@ -107,12 +101,12 @@
                     <% most_actives.listings.each_with_index do |listing, index| %>
                       <tr>
                         <td><%= index.next %></td>
-                        <td class="<%= listing.table_cell_css %>">
+                        <td class="truncate <%= listing.table_cell_css %>">
                           <%= link_to_if(
                                 listing.present?,
-                                listing.username,
+                                listing.name,
                                 listing.user_url,
-                                title: listing.display_name) %>
+                                title: (listing.display_name if listing.show_title?)) %>
                         </td>
                         <td class="<%= listing.table_cell_css %>">
                           <%= listing.active_participation_count %>
@@ -121,7 +115,7 @@
                     <% end %>
                   </tbody>
                 </table>
-              </nav>
+              </div>
             <% end %>
           </div>
         <% end %>
