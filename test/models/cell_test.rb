@@ -196,13 +196,13 @@ class CellTest < ActiveSupport::TestCase
       end
     end
 
-    describe "#soft_highlight_neighbors" do
+    describe "#soft_highlight_neighborhood" do
       context "GIVEN an unrevealed Cell" do
         subject { standing_by1_board_cell1 }
 
         it "returns nil" do
           result =
-            _(-> { subject.soft_highlight_neighbors }).wont_change(
+            _(-> { subject.soft_highlight_neighborhood }).wont_change(
               "subject.neighbors.count(&:highlighted?)")
           _(result).must_be_nil
         end
@@ -217,10 +217,12 @@ class CellTest < ActiveSupport::TestCase
 
         it "highlights the expected Cells, and returns them" do
           result =
-            _(-> { subject.soft_highlight_neighbors }).must_change(
-              "subject.neighbors.count(&:highlightable?)",
-              to: 0)
+            _(-> { subject.soft_highlight_neighborhood }).must_change_all([
+              ["subject.highlight_origin?", to: true],
+              ["subject.neighbors.count(&:highlightable?)", to: 0],
+            ])
           _(result).must_match_array([
+            subject,
             standing_by1_board_cell2,
             standing_by1_board_cell4,
             standing_by1_board_cell5,
@@ -229,14 +231,14 @@ class CellTest < ActiveSupport::TestCase
       end
     end
 
-    describe "#highlightable_neighbors" do
+    describe "#highlightable_neighborhood" do
       subject { standing_by1_board_cell1 }
 
       context "GIVEN an unrevealed Cell" do
         subject { standing_by1_board_cell1 }
 
         it "returns nil" do
-          _(subject.highlightable_neighbors).must_be_nil
+          _(subject.highlightable_neighborhood).must_be_nil
         end
       end
 
@@ -248,7 +250,8 @@ class CellTest < ActiveSupport::TestCase
         subject { standing_by1_board_cell1 }
 
         it "returns the expected Array of Cells" do
-          _(subject.highlightable_neighbors).must_match_array([
+          _(subject.highlightable_neighborhood).must_match_array([
+            subject,
             standing_by1_board_cell2,
             standing_by1_board_cell4,
             standing_by1_board_cell5,

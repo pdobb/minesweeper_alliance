@@ -5,7 +5,7 @@ class Games::Current::Board::Cells::DehighlightNeighborsController <
   include Games::Current::Board::Cells::ActionBehaviors
 
   def create
-    updated_cells = cell.highlightable_neighbors
+    updated_cells = cell.highlightable_neighborhood
 
     broadcast_updates(updated_cells)
   end

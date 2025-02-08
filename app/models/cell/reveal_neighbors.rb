@@ -34,11 +34,14 @@ class Cell::RevealNeighbors
     @updated_cells = FlatArray.new
   end
 
+  # :reek:TooManyStatements
+
   def call
     return self if cell.unrevealed?
 
     catch(:return) {
       reveal_neighbors
+      add_self_to_updated_cells_if_any
       end_game_in_victory_if_all_safe_cells_revealed
 
       self
@@ -92,6 +95,10 @@ class Cell::RevealNeighbors
     result = Cell.upsert_all(upsertable_attributes_array)
 
     updated_cells << Cell.for_id(result.pluck("id"))
+  end
+
+  def add_self_to_updated_cells_if_any
+    updated_cells << cell if updated_cells.any?
   end
 
   def end_game_in_victory_if_all_safe_cells_revealed

@@ -22,7 +22,7 @@
 # @attr mine [Boolean] Whether or not this Cell contains a mine.
 # @attr flagged [Boolean] Whether or not this Cell has been flagged.
 # @attr revealed [Boolean] Whether or not this Cell has been revealed.
-class Cell < ApplicationRecord
+class Cell < ApplicationRecord # rubocop:disable Metrics/ClassLength
   self.implicit_order_column = "created_at"
 
   VALUES_RANGE = 0..8
@@ -72,29 +72,34 @@ class Cell < ApplicationRecord
     return if revealed?
 
     self.revealed = true
-    self.highlighted = false # A somewhat superfluous operation.
+    self.highlight_origin = false
+    self.highlighted = false
     self.flagged = false
     self.value = neighboring_mines_count
 
     self
   end
 
-  # Mark all {#highlightable?} neighboring Cells for highlight in the view by
-  # setting virtual attribute: {#soft_highlight} = true.
-  def soft_highlight_neighbors
+  # Like {#soft_highlight_neighbors} but also highlights `self` as the
+  # "higlight_origin" if any {#highlightable_neighbors} were found.
+  def soft_highlight_neighborhood
     return if unrevealed?
 
-    highlightable_neighbors.each(&:soft_highlight)
+    soft_highlight_neighbors.tap { |cells|
+      if cells.any?
+        self.highlight_origin = true
+        cells << self
+      end
+    }
   end
 
-  def highlightable_neighbors
+  # Like {#highlightable_neighbors} but includes `self` if any
+  # {#highlightable_neighbors} were found.
+  def highlightable_neighborhood
     return if unrevealed?
 
-    neighbors.select(&:highlightable?)
+    highlightable_neighbors.tap { |cells| cells << self if cells.any? }
   end
-
-  def soft_highlight = self.highlighted = true
-  def highlighted? = !!@highlighted
 
   def neighboring_flags_count_matches_value?
     neighboring_flags_count == value.to_i
@@ -113,15 +118,19 @@ class Cell < ApplicationRecord
   end
 
   def unrevealed? = !revealed?
-  def incorrectly_flagged? = flagged? && !mine?
+  def soft_highlight = self.highlighted = true
+  def highlight_origin? = !!@highlight_origin
+  def highlighted? = !!@highlighted
+  def highlightable? = !(revealed? || flagged? || highlighted?)
   def blank? = value == BLANK_VALUE
   def safely_revealable? = !(mine? || revealed?)
   def can_be_revealed? = !(revealed? || flagged?)
-  def highlightable? = !(revealed? || flagged? || highlighted?)
+  def incorrectly_flagged? = flagged? && !mine?
 
   private
 
-  attr_writer :highlighted
+  attr_writer :highlight_origin,
+              :highlighted
 
   def neighboring_coordinates = coordinates.neighbors
 
@@ -131,6 +140,20 @@ class Cell < ApplicationRecord
 
   def neighboring_flags_count
     @neighboring_flags_count ||= neighbors.count(&:flagged?)
+  end
+
+  # Mark all {#highlightable?} neighboring Cells for highlight in the view by
+  # setting virtual attribute: {#soft_highlight} = true.
+  def soft_highlight_neighbors
+    return if unrevealed?
+
+    highlightable_neighbors.each(&:soft_highlight)
+  end
+
+  def highlightable_neighbors
+    return if unrevealed?
+
+    neighbors.select(&:highlightable?)
   end
 
   concerning :ObjectInspection do
