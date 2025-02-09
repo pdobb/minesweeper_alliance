@@ -1,9 +1,9 @@
 <%# locals: (roster:) %>
 
-<div class="space-y-3">
-  <h4 class="h3">Observers</h4>
+<% if roster.listings? %>
+  <div class="space-y-3">
+    <h4 class="h3">Observers</h4>
 
-  <% if roster.listings? %>
     <ol class="list-decimal list-inside space-y-2">
       <% roster.listings.each_with_index do |listing, index| %>
         <li>
@@ -18,7 +18,5 @@
         </li>
       <% end %>
     </ol>
-  <% else %>
-    <p><%= View.no_value_indicator %></p>
-  <% end %>
-</div>
+  </div>
+<% end %>
