@@ -10,11 +10,12 @@ class Cell {
   static domIdRegex = /^cell_/
   static cellIdUrlRegex = /cells\/(\d+)\//
   static loadingIndicatorClass = "animate-pulse-fast"
-  static errorIndicatorClasses = [
-    "bg-red-600",
-    "dark:bg-red-900",
-    "animate-pulse-fast",
+  static warningIndicatorClasses = [
+    "light:text-black",
+    "bg-orange-500",
+    "dark:bg-orange-700",
   ]
+  static errorIndicatorClasses = ["bg-red-600", "dark:bg-red-900"]
 
   constructor(element) {
     this.element = element
@@ -91,10 +92,8 @@ class Cell {
 
     post(targetUrl, { responseKind: "turbo-stream" }).then((response) => {
       this.#hideLoadingIndicator()
-      if (!response.ok) {
-        this.#showErrorIndicator() // TODO: Remove?
-        Turbo.visit(window.location.href, { action: "replace" })
-      }
+
+      if (!response.ok) this.#handleSubmitError(response)
     })
   }
 
@@ -106,8 +105,30 @@ class Cell {
     this.element.classList.remove(Cell.loadingIndicatorClass)
   }
 
+  #handleSubmitError(response) {
+    switch (response.statusCode) {
+      // TooManyRequests (from our Rate Limiter on Cell Actions)
+      case 429:
+        this.#showWarningIndicator()
+        break
+      default:
+        this.#showErrorIndicator()
+        Turbo.visit(window.location.href, { action: "replace" })
+    }
+  }
+
+  #showWarningIndicator(duration = 500) {
+    clearTimeout(this.warningIndicatorTimer)
+
+    this.element.classList.add(...Cell.warningIndicatorClasses)
+
+    this.warningIndicatorTimer = setTimeout(() => {
+      this.element.classList.remove(...Cell.warningIndicatorClasses)
+    }, duration)
+  }
+
   #showErrorIndicator() {
-    this.element.className = Cell.errorIndicatorClasses.join(" ")
+    this.element.classList.add(...Cell.errorIndicatorClasses)
   }
 }
 

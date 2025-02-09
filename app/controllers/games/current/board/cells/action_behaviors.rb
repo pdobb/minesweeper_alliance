@@ -8,6 +8,8 @@ module Games::Current::Board::Cells::ActionBehaviors
   included do
     include AllowBrowserBehaviors
 
+    rate_limit to: 4, within: 2.seconds
+
     before_action :require_participant
   end
 
