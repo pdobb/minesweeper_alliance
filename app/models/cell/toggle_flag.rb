@@ -36,6 +36,6 @@ class Cell::ToggleFlag
   end
 
   def transaction_class
-    cell.flagged? ? CellFlagTransaction : CellUnflagTransaction
+    cell.flagged? ? CellUnflagTransaction : CellFlagTransaction
   end
 end
