@@ -21,22 +21,16 @@ export default class extends Controller {
     revealNeighborsUrl: String,
   }
 
-  static highlightNeighborsDelay = 100 // ms
-
   dispatchMousedown(event) {
     if (!mouse(event).actsAsLeftClick()) return
 
     this.mousedownTarget = event.target
 
-    this.highlightNeighborsTimer = setTimeout(() => {
-      cell(event.target).highlightNeighbors(this.highlightNeighborsUrlValue)
-    }, this.constructor.highlightNeighborsDelay)
+    cell(event.target).highlightNeighbors(this.highlightNeighborsUrlValue)
   }
 
   dispatchMouseup(event) {
     if (mouse(event).actsAsRightClick()) return
-
-    clearTimeout(this.highlightNeighborsTimer)
 
     if (this.mousedownTarget && event.target != this.mousedownTarget) {
       cell(this.mousedownTarget).dehighlightNeighbors(
