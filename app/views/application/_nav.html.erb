@@ -3,7 +3,7 @@
 <nav class="relative container mx-auto flex justify-between">
   <ul class="flex gap-x-6 md:gap-x-10 lg:gap-x-12">
     <li class="relative">
-      <%= active_link_to("War Room", root_path) %>
+      <%= active_link_to("War Room", root_path, data: { turbo_prefetch: false }) %>
       <%= render(
             "games/current/activity_indicator",
             activity_indicator: layout.activity_indicator) %>
