@@ -157,7 +157,9 @@ Notes:
 
 ### Users
 
-Visiting the site for the first time automatically creates a new User entry in the database. The primary key for this entry is a UUID. The UUID is stored in an HTTP cookie for re-identification of the current User in the future. It is easily possible to create multiple User records per actual user (e.g. by visiting on different browsers or computers), but this is an acceptable price to pay versus the pain of requiring explicitly registered Users (+ credentials) for such a simple site. This is also reminiscent of arcade games: just enter your username after finishing a game and that's trustworthy enough.
+Users are automatically created upon first interaction with a Game. New User creation generates a User entry in the database, for which the primary key is a UUID. This UUID is then stored in an HTTP cookie for re-identification of the current User in the future. It is easily possible to create multiple User records per actual user (e.g. by visiting on different browsers or computers), but this is an acceptable price to pay versus the pain of requiring explicitly registered Users (+ credentials) for such a simple site. This is also reminiscent of arcade games: just enter your username after finishing a game and that's trustworthy enough.
+
+That said, one can also save their account as a bookmark/link by visiting their Account page (by clicking on their username in the top-right corner). Re-visiting this link will reset the current User cookie to the database ID for the linked account/User.
 
 #### Usernames / Signing
 
