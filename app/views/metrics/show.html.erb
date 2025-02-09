@@ -33,7 +33,7 @@
                 >
                   <thead>
                     <tr>
-                      <th>Rank</th>
+                      <th class="w-16">Rank</th>
                       <th class="min-w-[100px]"><%= tt("Score") %></th>
                       <th>
                         <%= tt(Emoji.ship, scope: "metrics.engagements.bests") %>
@@ -91,25 +91,25 @@
                   <thead>
                     <tr>
                       <th class="w-16">Rank</th>
-                      <th class="w-full">Name</th>
-                      <th class="w-8">
-                        <%= tt("#", scope: "metrics.minesweepers.most_active") %>
+                      <th class="w-16">
+                        <%= tt("Count", scope: "metrics.minesweepers.most_active") %>
                       </th>
+                      <th class="w-full">Name</th>
                     </tr>
                   </thead>
                   <tbody>
                     <% most_actives.listings.each_with_index do |listing, index| %>
                       <tr>
                         <td><%= index.next %></td>
+                        <td class="<%= listing.table_cell_css %>">
+                          <%= listing.active_participation_count %>
+                        </td>
                         <td class="truncate <%= listing.table_cell_css %>">
                           <%= link_to_if(
                                 listing.present?,
                                 listing.name,
                                 listing.user_url,
                                 title: (listing.display_name if listing.show_title?)) %>
-                        </td>
-                        <td class="<%= listing.table_cell_css %>">
-                          <%= listing.active_participation_count %>
                         </td>
                       </tr>
                     <% end %>

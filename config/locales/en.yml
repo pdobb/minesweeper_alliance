@@ -118,7 +118,7 @@ en:
           ⛴️: Actively participating minesweepers count.
       minesweepers:
         most_active:
-          "#": Engagements count.
+          count: Engagements count.
 
   site:
     name: Minesweeper Alliance
