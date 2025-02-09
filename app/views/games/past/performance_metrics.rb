@@ -23,7 +23,7 @@ class Games::Past::PerformanceMetrics
 
   def score = build_type(Score, value: score_value)
   def bbbv = game_bbbv
-  def bbbvps = build_type(Bbbvps, value: bbbvps_value)
+  def bbbvps = build_type(BBBVPS, value: bbbvps_value)
   def efficiency = build_type(Efficiency, value: efficiency_value)
 
   private

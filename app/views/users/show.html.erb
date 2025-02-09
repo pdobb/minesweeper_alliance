@@ -23,8 +23,8 @@
       </p>
 
       <div class="px-6 flex max-md:flex-col gap-x-24 gap-y-8 items-start">
-        <%= render("service_record", service_record: @view.service_record) %>
-        <%= render("bests", bests: @view.bests) %>
+        <%= render("users/service_record", service_record: @view.service_record) %>
+        <%= render("users/bests", bests: @view.bests) %>
       </div>
 
       <%= render("display_case", display_case: @view.display_case) %>
@@ -36,7 +36,7 @@
   <div class="space-y-12">
     <% @view.games.tap do |games| %>
       <div class="space-y-8">
-        <h2>Past Engagements</h2>
+        <h2>Engagements</h2>
 
         <h3 class="text-center">
           <%= render(

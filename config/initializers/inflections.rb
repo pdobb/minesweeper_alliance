@@ -14,5 +14,6 @@
 
 ActiveSupport::Inflector.inflections(:en) do |inflect|
   inflect.acronym "3BV"
+  inflect.acronym "BBBVPS"
   inflect.acronym "UI"
 end

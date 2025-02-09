@@ -1,0 +1,39 @@
+<tr>
+  <th class="pl-6">Beginner</th>
+  <td>
+    <%= link_to_if(
+          metric.beginner_value?,
+          metric.beginner_value,
+          metric.beginner_url,
+          data: {
+            action: metric.link_action,
+            turbo_frame: metric.turbo_frame_name,
+          }) %>
+  </td>
+</tr>
+<tr>
+  <th class="pl-6">Intermediate</th>
+  <td>
+    <%= link_to_if(
+          metric.intermediate_value?,
+          metric.intermediate_value,
+          metric.intermediate_url,
+          data: {
+            action: metric.link_action,
+            turbo_frame: metric.turbo_frame_name,
+          }) %>
+  </td>
+</tr>
+<tr>
+  <th class="pl-6">Expert</th>
+  <td>
+    <%= link_to_if(
+          metric.expert_value?,
+          metric.expert_value,
+          metric.expert_url,
+          data: {
+            action: metric.link_action,
+            turbo_frame: metric.turbo_frame_name,
+          }) %>
+  </td>
+</tr>

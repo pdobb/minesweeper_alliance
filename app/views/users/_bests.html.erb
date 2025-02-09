@@ -19,135 +19,17 @@
         <tr>
           <th colspan="2"><%= tt("Score") %></th>
         </tr>
-        <% bests.score.tap do |best| %>
-          <tr>
-            <th class="pl-6">Beginner</th>
-            <td>
-              <%= link_to_if(
-                    best.beginner_score?,
-                    best.beginner_score,
-                    best.beginner_score_url,
-                    data: {
-                      action: best.link_action,
-                      turbo_frame: best.turbo_frame_name,
-                    }) %>
-            </td>
-          </tr>
-          <tr>
-            <th class="pl-6">Intermediate</th>
-            <td>
-              <%= link_to_if(
-                    best.intermediate_score?,
-                    best.intermediate_score,
-                    best.intermediate_score_url,
-                    data: {
-                      action: best.link_action,
-                      turbo_frame: best.turbo_frame_name,
-                    }) %>
-            </td>
-          </tr>
-          <tr>
-            <th class="pl-6">Expert</th>
-            <td>
-              <%= link_to_if(
-                    best.expert_score?,
-                    best.expert_score,
-                    best.expert_score_url,
-                    data: {
-                      action: best.link_action,
-                      turbo_frame: best.turbo_frame_name,
-                    }) %>
-            </td>
-          </tr>
-        <% end %>
+        <%= render("users/bests/metric", metric: bests.score) %>
+
         <tr>
           <th colspan="2"><%= tt("3BV/s", key: "bbbvps") %></th>
         </tr>
-        <% bests.bbbvps.tap do |best| %>
-          <tr>
-            <th class="pl-6">Beginner</th>
-            <td>
-              <%= link_to_if(
-                    best.beginner_bbbvps?,
-                    best.beginner_bbbvps,
-                    best.beginner_bbbvps_url,
-                    data: {
-                      action: best.link_action,
-                      turbo_frame: best.turbo_frame_name,
-                    }) %>
-            </td>
-          </tr>
-          <tr>
-            <th class="pl-6">Intermediate</th>
-            <td>
-              <%= link_to_if(
-                    best.intermediate_bbbvps?,
-                    best.intermediate_bbbvps,
-                    best.intermediate_bbbvps_url,
-                    data: {
-                      action: best.link_action,
-                      turbo_frame: best.turbo_frame_name,
-                    }) %>
-            </td>
-          </tr>
-          <tr>
-            <th class="pl-6">Expert</th>
-            <td>
-              <%= link_to_if(
-                    best.expert_bbbvps?,
-                    best.expert_bbbvps,
-                    best.expert_bbbvps_url,
-                    data: {
-                      action: best.link_action,
-                      turbo_frame: best.turbo_frame_name,
-                    }) %>
-            </td>
-          </tr>
-        <% end %>
+        <%= render("users/bests/metric", metric: bests.bbbvps) %>
+
         <tr>
           <th colspan="2"><%= tt("Efficiency") %></th>
         </tr>
-        <% bests.efficiency.tap do |best| %>
-          <tr>
-            <th class="pl-6">Beginner</th>
-            <td>
-              <%= link_to_if(
-                    best.beginner_efficiency?,
-                    best.beginner_efficiency,
-                    best.beginner_efficiency_url,
-                    data: {
-                      action: best.link_action,
-                      turbo_frame: best.turbo_frame_name,
-                    }) %>
-            </td>
-          </tr>
-          <tr>
-            <th class="pl-6">Intermediate</th>
-            <td>
-              <%= link_to_if(
-                    best.intermediate_efficiency?,
-                    best.intermediate_efficiency,
-                    best.intermediate_efficiency_url,
-                    data: {
-                      action: best.link_action,
-                      turbo_frame: best.turbo_frame_name,
-                    }) %>
-            </td>
-          </tr>
-          <tr>
-            <th class="pl-6">Expert</th>
-            <td>
-              <%= link_to_if(
-                    best.expert_efficiency?,
-                    best.expert_efficiency,
-                    best.expert_efficiency_url,
-                    data: {
-                      action: best.link_action,
-                      turbo_frame: best.turbo_frame_name,
-                    }) %>
-            </td>
-          </tr>
-        <% end %>
+        <%= render("users/bests/metric", metric: bests.efficiency) %>
       </tbody>
     </table>
   </nav>
