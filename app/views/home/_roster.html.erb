@@ -10,7 +10,7 @@
     id="<%= roster.turbo_target %>"
     class="flex flex-col items-end gap-y-2 whitespace-nowrap"
   >
-    <li class="hidden only:block"><%= View.no_value_indicator %></li>
+    <li class="hidden only:block text-dim-lg"><%= View.no_value_indicator %></li>
 
     <% roster.listings.each_with_index do |listing, index| %>
       <%= render("home/roster/listing", listing:) %>
