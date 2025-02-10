@@ -1,13 +1,23 @@
 <%# locals: (listing:) %>
 
-<li id="<%= listing.turbo_target %>">
+<li
+  id="<%= listing.turbo_target %>"
+  <% if listing.expired? %>
+    class="text-dim-lg"
+  <% end %>
+>
   <%= link_to(
         listing.name,
         listing.show_user_url,
         class: listing.username_turbo_target,
         data: { turbo_frame: :_top }) %>
 
-  <span id="<%= listing.participation_status_turbo_target %>">
+  <span
+    title="<%= listing.participation_status_title %>"
+    <% if listing.expired? %>
+      class="opacity-50"
+    <% end %>
+  >
     <%= listing.participation_status_emoji %>
   </span>
 </li>

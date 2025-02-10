@@ -10,28 +10,26 @@
 class Home::Roster::Listing
   include WrapMethodBehaviors
 
-  def self.turbo_target(user:) = View.dom_id(user, :home_roster_listing)
+  def self.turbo_target(entry:) = "home_roster_listing-#{entry.token}"
 
-  def self.participation_status_turbo_target(user:)
-    View.dom_id(user, :participation_status)
+  # @attr entry [FleetTracker::Registry::Entry]
+  def initialize(entry)
+    @entry = entry
   end
 
-  # :reek:BooleanParameter
-  def initialize(user:, active:)
-    @user = user
-    @active = active
-  end
+  def turbo_target = self.class.turbo_target(entry:)
 
-  def turbo_target = self.class.turbo_target(user:)
-  def username_turbo_target = View.dom_id(user)
+  def expired? = entry.expired?
   def name = user.display_name
 
   def show_user_url
     Router.user_path(user)
   end
 
-  def participation_status_turbo_target
-    self.class.participation_status_turbo_target(user:)
+  def username_turbo_target = View.dom_id(user)
+
+  def participation_status_title
+    active? ? "Active Participant" : "Observer"
   end
 
   def participation_status_emoji
@@ -40,7 +38,9 @@ class Home::Roster::Listing
 
   private
 
-  attr_reader :user
+  attr_reader :entry
 
-  def active? = !!@active
+  def user = @user ||= User.find(token)
+  def token = entry.token
+  def active? = entry.active?
 end

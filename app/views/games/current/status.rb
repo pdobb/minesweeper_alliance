@@ -20,7 +20,7 @@ class Games::Current::Status
 
   def fleet_size_turbo_update_target = self.class.fleet_size_turbo_update_target
 
-  def fleet_size = FleetTracker.count
+  def fleet_size = FleetTracker.size
 
   private
 

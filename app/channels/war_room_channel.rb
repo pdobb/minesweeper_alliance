@@ -50,7 +50,7 @@ class WarRoomChannel < Turbo::StreamsChannel
   end
 
   def on_unsubscribe
-    FleetTracker.remove!(current_user_token) if current_user.participant?
+    FleetTracker.expire!(current_user_token) if current_user.participant?
   end
 
   def current_user_token = current_user.token
