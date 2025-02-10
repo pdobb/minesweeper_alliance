@@ -32,10 +32,12 @@ class Metrics::Participants::MostActives
     def base_arel
       User.select(
         "users.*",
-        "COUNT(participant_transactions.id) AS active_participation_count").
-        group("users.id").
+        "COUNT(participant_transactions.id) AS active_participation_count",
+        "MAX(participant_transactions.created_at) AS most_recent_transaction").
         joins(:active_participant_transactions).
-        order(active_participation_count: :desc)
+        group("users.id").
+        order(active_participation_count: :desc).
+        order(:most_recent_transaction)
     end
 
     def limit = Metrics::Show::TOP_RECORDS_LIMIT
