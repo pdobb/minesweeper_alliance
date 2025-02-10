@@ -15,16 +15,22 @@
 
   <div class="space-y-3">
     <h3 class="h5">
-      <%= link_to(
-            @view.authentication_url,
-            class: "inline-flex gap-x-2 items-center",
-            data: { turbo_prefetch: false }) do %>
-        Authentication Link
-        <span class="hidden">
-          &gt; <%= @view.display_name %> &mdash; Minesweeper Alliance
-        </span>
-        <%= inline_svg_tag("heroicons/bookmark.svg") %>
-      <% end %>
+      <%=
+        content = safe_join([
+          "Authentication Link",
+          tag.span(
+            " > #{@view.display_name} — Minesweeper Alliance",
+            class: "hidden"),
+          inline_svg_tag("heroicons/bookmark.svg"),
+        ])
+
+        link_to(
+          content,
+          @view.authentication_url,
+          title: @view.display_name,
+          data: { turbo_prefetch: false },
+          class: "inline-flex gap-x-2 items-center")
+      %>
     </h3>
     <p>
       Preserve access to your account by right-clicking the above link and choosing "Bookmark".

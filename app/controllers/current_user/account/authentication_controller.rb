@@ -2,7 +2,7 @@
 
 class CurrentUser::Account::AuthenticationController < ApplicationController
   # We must use a GET request for this action so that users may authenticate
-  # via a bookmarked link.
+  # via a bookmarked link or a copy-pasted URL.
   def show
     user = User::Authentication.(token: params[:token], context: layout)
 
