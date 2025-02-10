@@ -11,7 +11,7 @@ class UIPortal::Layout
   end
 
   def portal = "ui".inquiry # rubocop:disable Rails/Inquiry
-  def turbo_stream_name = Application::Layout.turbo_stream_name
+  def to_param = Application::Layout.turbo_stream_name
   def flash = Application::Flash.new(context.flash)
 
   def theme_menu(button_content:)

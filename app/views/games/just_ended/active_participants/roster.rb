@@ -11,7 +11,7 @@ class Games::JustEnded::ActiveParticipants::Roster
     @game = game
   end
 
-  def turbo_stream_name = self.class.turbo_stream_name(game)
+  def to_param = self.class.turbo_stream_name(game)
 
   def listings
     Listing.wrap(sorted_users, game:)

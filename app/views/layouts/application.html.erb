@@ -56,7 +56,7 @@
     data-theme-active-theme-button-class="text-red-700 dark:text-red-600"
     data-time-zone-update-url-value="<%= current_user_time_zone_update_path %>"
   >
-    <%= turbo_stream_from(layout.turbo_stream_name, class: "mt-0") %>
+    <%= turbo_stream_from(layout, class: "mt-0") %>
 
     <div class="flex flex-col gap-y-12 h-screen">
       <%= render("application/flash", flash: layout.flash) %>

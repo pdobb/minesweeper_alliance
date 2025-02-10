@@ -9,7 +9,7 @@ class Games::Index
     @context = context
   end
 
-  def turbo_stream_name = self.class.turbo_stream_name
+  def to_param = self.class.turbo_stream_name
 
   def show_time_zone_form?(user:) = user.participant?
 

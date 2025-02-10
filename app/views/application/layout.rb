@@ -14,7 +14,7 @@ class Application::Layout
 
   def portal = "application".inquiry # rubocop:disable Rails/Inquiry
   def current_user = context.current_user
-  def turbo_stream_name = self.class.turbo_stream_name
+  def to_param = self.class.turbo_stream_name
   def flash = Application::Flash.new(context.flash)
 
   def activity_indicator

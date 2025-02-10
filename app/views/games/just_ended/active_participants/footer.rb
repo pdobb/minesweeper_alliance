@@ -9,8 +9,8 @@ class Games::JustEnded::ActiveParticipants::Footer
     @user = user
   end
 
+  def to_param = self.class.turbo_stream_name
   def turbo_frame_name = Games::JustEnded::Footer.turbo_frame_name(game)
-  def turbo_stream_name = self.class.turbo_stream_name
 
   def signature
     Games::JustEnded::ActiveParticipants::Signature.new(game:, user:)
