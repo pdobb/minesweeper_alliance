@@ -11,6 +11,8 @@ class Games::Past::PerformanceMetrics::PersonalBest
   def type_name = "personal"
 
   def presence
+    return false unless user.participant?
+
     self if present?
   end
 
@@ -23,4 +25,5 @@ class Games::Past::PerformanceMetrics::PersonalBest
 
   def bests = context.user_bests
   def game = context.game
+  def user = context.user
 end

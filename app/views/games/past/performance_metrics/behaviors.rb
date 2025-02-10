@@ -58,7 +58,8 @@ module Games::Past::PerformanceMetrics::Behaviors
   # Games::Past::PerformanceMetrics::Behaviors::BestContext services the needs
   # of the "Best" types ("AllianceBest", "PersonalBest").
   class BestContext
-    attr_reader :game
+    attr_reader :game,
+                :user
 
     def initialize(game:, user:)
       @game = game
@@ -72,10 +73,6 @@ module Games::Past::PerformanceMetrics::Behaviors
     def user_bests
       @user_bests ||= game.user_bests(user:)
     end
-
-    private
-
-    attr_reader :user
   end
 
   # Games::Past::PerformanceMetrics::Behaviors::NullBest stands in when the
