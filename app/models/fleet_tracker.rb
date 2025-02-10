@@ -41,8 +41,6 @@
 # @see https://api.rubyonrails.org/classes/ActiveSupport/Cache/Store.html
 # @see https://api.rubyonrails.org/classes/ActiveSupport/Cache/MemoryStore.html
 module FleetTracker
-  CACHE_KEY = :fleet_tracker
-
   REMOVAL_DELAY_SECONDS = 2.seconds
   REMOVAL_BROADCAST_DELAY_SECONDS = REMOVAL_DELAY_SECONDS + 1
 
@@ -61,9 +59,7 @@ module FleetTracker
     broadcast_fleet_entry_update(entry:) if is_expired
   end
 
-  def self.add(token)
-    write { registry.add(token) }
-  end
+  def self.add(token) = registry.add(token)
 
   def self.activate!(token)
     return if registry.active?(token)
@@ -72,9 +68,7 @@ module FleetTracker
     broadcast_fleet_entry_update(entry:)
   end
 
-  def self.activate(token)
-    write { registry.activate(token) }
-  end
+  def self.activate(token) = registry.activate(token)
 
   def self.expire!(token)
     if (entry = expire(token))
@@ -86,14 +80,12 @@ module FleetTracker
   def self.expire(token)
     return if registry.missing_or_expired?(token)
 
-    write { registry.expire(token) }
+    registry.expire(token)
   end
 
-  def self.reset = cache.delete(CACHE_KEY)
+  def self.reset = registry.reset
 
-  def self.registry
-    Registry.new(cache.fetch(CACHE_KEY) { [] })
-  end
+  def self.registry = Registry.new
   private_class_method :registry
 
   def self.broadcast_fleet_size_update
@@ -129,29 +121,18 @@ module FleetTracker
   end
   private_class_method :enqueue_fleet_entry_expiration_job
 
-  def self.write
-    # { registry:, entry: }
-    result = yield
-
-    cache.write(CACHE_KEY, result.fetch(:registry).to_a)
-
-    result.fetch(:entry)
-  end
-  private_class_method :write
-
-  def self.cache = Rails.cache
-  private_class_method :cache
-
   # FleetTracker::Registry is a collection of {FleetTracker::Registry::Entry}s.
   class Registry
+    CACHE_KEY = :fleet_tracker
+
     attr_reader :entries
 
     def initialize(array = [])
+      array = cache.fetch(CACHE_KEY) { array }
       @entries = Entry.wrap(array)
     end
 
     def to_a = entries.map(&:to_h)
-    def count = entries.count
     def size = entries.count(&:unexpired?)
     def find(token) = entries.detect { |entry| entry.token?(token) }
     def active?(token) = !!find(token)&.active?
@@ -167,22 +148,25 @@ module FleetTracker
         entries << entry
       end
 
-      { registry: self, entry: }
+      save
+      entry
     end
 
     def activate(token)
-      entry = find_or_add(token)
-      entry.activate
-
-      { registry: self, entry: }
+      find_or_add(token).tap { |entry|
+        entry.activate
+        save
+      }
     end
 
     def expire(token)
-      entry = find(token)
-      entry&.expire
-
-      { registry: self, entry: }
+      find(token).tap { |entry|
+        entry&.expire
+        save
+      }
     end
+
+    def reset = cache.delete(CACHE_KEY)
 
     private
 
@@ -190,6 +174,9 @@ module FleetTracker
       add(token)
       find(token)
     end
+
+    def save = cache.write(CACHE_KEY, to_a)
+    def cache = Rails.cache
 
     # FleetTracker::Registry::Entry represents a {User}'s presence and status in
     # the Fleet Roster--represented in the UI by {Home::Roster::Listing}s.
@@ -249,7 +236,7 @@ module FleetTracker
         def inspect_flags(scope:)
           scope.join_flags([
             active? ? Emoji.ship : Emoji.anchor,
-            expired? ? Emoji.hide : Emoji.eyes,
+            ("EXPIRED" if expired?),
           ])
         end
       end
