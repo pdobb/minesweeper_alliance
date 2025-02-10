@@ -25,6 +25,10 @@ module View
     helpers.number_to_percentage(value, precision:)
   end
 
+  def self.pluralize(count, singular, ...)
+    helpers.pluralize(count, singular, ...)
+  end
+
   def self.helpers = ActionController::Base.helpers
   private_class_method :helpers
 end

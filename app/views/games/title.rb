@@ -16,17 +16,35 @@ class Games::Title
     Router.game_path(game)
   end
 
-  def game_engagement_date
-    I18n.l(game_ended_at.to_date, format: :weekday_comma_date)
+  def engagement_date
+    I18n.l(game_started_at.to_date, format: :weekday_comma_date)
   end
 
-  def game_engagement_time_range
+  def engagement_time_range
     View.safe_join(
       [
         I18n.l(game_started_at, format: :hours_minutes_seconds),
         I18n.l(game_ended_at, format: :hours_minutes_seconds),
-      ],
-      "&ndash;".html_safe)
+      ], "–")
+  end
+
+  def engagement_date_range_increment?
+    engagement_date_range_increment.positive?
+  end
+
+  def engagement_date_range_increment
+    @engagement_date_range_increment ||=
+      (game_ended_at.to_date - game_started_at.to_date).to_i
+  end
+
+  def engagement_date_range_increment_title
+    View.safe_join(
+      [
+        "Ended",
+        I18n.l(game_ended_at, format: :weekday_comma_date),
+        "(#{View.pluralize(engagement_date_range_increment, "day")}",
+        "after start).",
+      ], " ")
   end
 
   private

@@ -38,6 +38,7 @@ en:
     formats:
       default: "%d %^b %y %H%M %Z" # 22 AUG 24 1516 -05:00
       debug: "%m/%d/%Y %-l:%M:%S.%6N %p %Z" # 08/22/2024 3:16:46 PM -05:00
+      weekday_comma_date: "%^a, %d %^b %y" # THU, 22 AUG 24
       date: "%d %^b %y" # 22 AUG 24
       time: "%H:%M" # 01:02
       hours_minutes_seconds: "%H:%M:%S" # 01:02:03

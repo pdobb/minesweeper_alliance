@@ -24,13 +24,19 @@
   </span>
 
   <span aria-label="Engagement Date">
-    <%= title.game_engagement_date %>
+    <%= title.engagement_date %>
   </span>
 
   <span
     aria-label="Engagement Time Range"
-    class="text-dim font-normal max-sm:hidden"
+    class="relative text-dim font-normal max-sm:hidden"
   >
-    <%= title.game_engagement_time_range %>
+    <%= title.engagement_time_range %>
+    <% if title.engagement_date_range_increment? %>
+      <span
+        title="<%= title.engagement_date_range_increment_title %>"
+        class="absolute -right-11 bottom-0 text-base text-dim-xl"
+      >(+<%= title.engagement_date_range_increment %>)</span>
+    <% end %>
   </span>
 </h3>
