@@ -10,6 +10,10 @@ class CurrentUser::Account::Show
 
   def personnel_file_url(current_user:) = Router.user_path(current_user)
 
+  def username
+    CurrentUser::Account::Username.new(user:)
+  end
+
   def authentication_url
     Router.current_user_account_authentication_path(token:)
   end

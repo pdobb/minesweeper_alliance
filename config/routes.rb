@@ -51,6 +51,7 @@ Rails.application.routes.draw do
     scope module: :current_user do
       resource :account, controller: :account, only: %i[show destroy] do
         scope module: :account do
+          resource :username, controller: :username, only: %i[show edit update]
           resource :authentication, controller: :authentication, only: :show
         end
       end

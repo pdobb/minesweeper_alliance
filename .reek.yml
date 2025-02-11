@@ -29,6 +29,8 @@ directories:
       enabled: false
     InstanceVariableAssumption:
       enabled: false
+    TooManyStatements:
+      enabled: false
   app/helpers:
     IrresponsibleModule:
       enabled: false

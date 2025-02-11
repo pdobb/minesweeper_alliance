@@ -1,19 +1,12 @@
 # frozen_string_literal: true
 
-class Games::JustEnded::ActiveParticipants::CurrentUserController <
-        ApplicationController
-  before_action :require_game
-
+class CurrentUser::Account::UsernameController < ApplicationController
   def show
-    @view =
-      Games::JustEnded::ActiveParticipants::CurrentUser::Show.new(
-        game: @game, user: current_user)
+    @show = CurrentUser::Account::Username::Show.new(user: current_user)
   end
 
   def edit
-    @view =
-      Games::JustEnded::ActiveParticipants::CurrentUser::Edit.new(
-        game: @game, user: current_user)
+    @edit = CurrentUser::Account::Username::Edit.new(user: current_user)
   end
 
   def update # rubocop:disable Metrics/AbcSize
@@ -30,9 +23,13 @@ class Games::JustEnded::ActiveParticipants::CurrentUserController <
                 to: current_user.display_name))
         end
         format.turbo_stream {
-          @view =
-            Games::JustEnded::ActiveParticipants::CurrentUser::Update.new(
-              game: @game, user: current_user)
+          username = CurrentUser::Account::Username.new(user: current_user)
+          render(
+            turbo_stream:
+              turbo_stream.update(
+                username.turbo_frame_name,
+                partial: "current_user/account/username",
+                locals: { username: }))
         }
       end
     else
@@ -42,10 +39,6 @@ class Games::JustEnded::ActiveParticipants::CurrentUserController <
   end
 
   private
-
-  def require_game
-    @game = Game.find(params[:game_id])
-  end
 
   def update_params
     params.expect(user: %i[username])

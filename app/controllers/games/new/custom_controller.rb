@@ -5,8 +5,7 @@ class Games::New::CustomController < ApplicationController
     @view = Games::New::Custom::New.new
   end
 
-  # :reek:TooManyStatements
-  def create # rubocop:disable Metrics/MethodLength
+  def create
     settings = Board::Settings.custom(**settings_params.to_h.symbolize_keys)
 
     if settings.valid?

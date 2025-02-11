@@ -1,0 +1,34 @@
+<%# locals: (form:) %>
+
+<%= turbo_frame_tag(*form.turbo_frame_name) do %>
+  <div
+    data-controller="inline-edit"
+    data-action="keydown.esc@window->inline-edit#cancel"
+  >
+    <%= form_with(model: form.to_model, url: form.update_url) do |f| %>
+      <div class="flex flex-col gap-y-2">
+        <div class="inline-flex items-center gap-x-3">
+          <%= f.text_field(
+                :username,
+                autocomplete: :off,
+                autofocus: true,
+                onfocus: "this.select()",
+                placeholder: "Username",
+                data: { "1p-ignore": true },
+                class: "form-input w-full sm:w-70") %>
+
+          <%= f.submit(Emoji.check, class: "btn-basic text-xl") %>
+          <%= link_to(
+                Emoji.hide,
+                form.cancel_url,
+                class: "no-underline text-xl",
+                data: {
+                  inline_edit_target: "cancel",
+                  turbo_stream: true,
+                }) %>
+        </div>
+        <p class="form-error"><%= f.object.errors[:username].join(", ") %></p>
+      </div>
+    <% end %>
+  </div>
+<% end %>

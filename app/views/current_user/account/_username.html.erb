@@ -1,0 +1,12 @@
+<%# locals: (username:) %>
+
+<%= turbo_frame_tag(*username.turbo_frame_name, class: "block w-full") do %>
+  <% if username.editable? %>
+    <%= link_to(
+          username.link_content,
+          username.edit_url,
+          data: { turbo_stream: true }) %>
+  <% else %>
+    <%= username.updateable_display_name %>
+  <% end %>
+<% end %>

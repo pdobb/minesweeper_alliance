@@ -10,7 +10,15 @@
 
   <div class="space-y-6">
     <h1>Account</h1>
-    <h2 class="text-xl"><%= @view.display_name %></h2>
+
+    <h2 class="h4 flex max-sm:flex-col sm:items-center gap-x-6">
+      Username:
+      <div class="min-h-13 flex items-center font-normal text-base">
+        <%= render(
+              "current_user/account/username",
+              username: @view.username) %>
+      </div>
+    </h2>
   </div>
 
   <div class="space-y-3">
