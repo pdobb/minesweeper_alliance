@@ -25,14 +25,15 @@ class ViewTest < ActiveSupport::TestCase
       context "GIVEN a blank value" do
         it "returns the expected value" do
           result = subject.display(nil) { |_value| "RESULT" }
-          _(result).must_equal("—")
+          _(result).must_equal(%(<span class="text-dim-lg">—</span>))
         end
       end
     end
 
-    describe ".no_value_indicator" do
+    describe ".no_value_indicator_tag" do
       it "returns the expected String" do
-        _(subject.no_value_indicator).must_equal("—")
+        _(subject.no_value_indicator_tag).must_equal(
+          %(<span class="text-dim-lg">—</span>))
       end
     end
 

@@ -50,31 +50,31 @@ class Metrics::Participants::MostActives
         @user = user
       end
 
-      def table_cell_css = nil
-
-      def display_name = user.display_name
-      def name = user.username || user.mms_id
-      def user_url = Router.user_path(user)
-      def show_title? = user.username?
       def active_participation_count = user.active_participation_count
+
+      def name = username || mms_id
+      def user_url = Router.user_path(user)
+
+      def title? = username?
+      def title = user.display_name
 
       private
 
       attr_reader :user
 
-      def _score = user.score
+      def username? = user.username?
+      def username = user.username
+      def mms_id = user.mms_id
     end
 
     # Metrics::Show::Games::NullListing implements the Null Pattern for
     # {Metrics::Show::Games::Listing} view models.
     class NullListing
+      def active_participation_count = View.no_value_indicator_tag
       def present? = false
-      def table_cell_css = "text-dim-lg"
-      def display_name = nil
-      def name = View.no_value_indicator
+      def name = View.no_value_indicator_tag
       def user_url = nil
-      def show_title? = false
-      def active_participation_count = View.no_value_indicator
+      def title? = false
     end
   end
 

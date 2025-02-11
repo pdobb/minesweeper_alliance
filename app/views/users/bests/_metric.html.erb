@@ -1,6 +1,6 @@
 <tr>
   <th class="pl-6">Beginner</th>
-  <td class="<%= metric.beginner_table_cell_css %>">
+  <td>
     <%= link_to_if(
           metric.beginner_value?,
           metric.beginner_value,
@@ -13,7 +13,7 @@
 </tr>
 <tr>
   <th class="pl-6">Intermediate</th>
-  <td class="<%= metric.intermediate_table_cell_css %>">
+  <td>
     <%= link_to_if(
           metric.intermediate_value?,
           metric.intermediate_value,
@@ -26,7 +26,7 @@
 </tr>
 <tr>
   <th class="pl-6">Expert</th>
-  <td class="<%= metric.expert_table_cell_css %>">
+  <td>
     <%= link_to_if(
           metric.expert_value?,
           metric.expert_value,

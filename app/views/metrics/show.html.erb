@@ -44,7 +44,7 @@
                     <% bests.listings.each_with_index do |listing, index| %>
                       <tr>
                         <td><%= index.next %></td>
-                        <td class="<%= listing.table_cell_css %>">
+                        <td>
                           <%= link_to_if(
                                 listing.present?,
                                 listing.game_score,
@@ -54,9 +54,7 @@
                                   turbo_frame: listing.turbo_frame_name,
                                 }) %>
                         </td>
-                        <td class="<%= listing.table_cell_css %>">
-                          <%= listing.fleet_size %>
-                        </td>
+                        <td><%= listing.fleet_size %></td>
                       </tr>
                     <% end %>
                   </tbody>
@@ -101,15 +99,13 @@
                     <% most_actives.listings.each_with_index do |listing, index| %>
                       <tr>
                         <td><%= index.next %></td>
-                        <td class="<%= listing.table_cell_css %>">
-                          <%= listing.active_participation_count %>
-                        </td>
-                        <td class="truncate <%= listing.table_cell_css %>">
+                        <td><%= listing.active_participation_count %></td>
+                        <td class="truncate">
                           <%= link_to_if(
                                 listing.present?,
                                 listing.name,
                                 listing.user_url,
-                                title: (listing.display_name if listing.show_title?)) %>
+                                title: (listing.title if listing.title?)) %>
                         </td>
                       </tr>
                     <% end %>

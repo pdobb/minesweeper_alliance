@@ -6,10 +6,12 @@ module View
   def self.dom_id(...) = helpers.dom_id(...)
 
   def self.display(value)
-    value.present? ? yield(value) : no_value_indicator
+    value.present? ? yield(value) : no_value_indicator_tag
   end
 
-  def self.no_value_indicator = "—"
+  def self.no_value_indicator_tag
+    helpers.tag.span("—", class: "text-dim-lg")
+  end
 
   def self.safe_join(...)
     helpers.safe_join(...)

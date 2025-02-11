@@ -44,8 +44,6 @@ class Metrics::Engagements::Bests
         @game = game
       end
 
-      def table_cell_css = nil
-
       def game_score
         return Game::MAX_SCORE if _score >= Game::MAX_SCORE
 
@@ -66,9 +64,8 @@ class Metrics::Engagements::Bests
     # {Metrics::Show::Games::Listing} view models.
     class NullListing
       def present? = false
-      def table_cell_css = "text-dim-lg"
-      def game_score = View.no_value_indicator
-      def fleet_size = View.no_value_indicator
+      def game_score = View.no_value_indicator_tag
+      def fleet_size = View.no_value_indicator_tag
       def game_url = nil
       def link_action = nil
       def turbo_frame_name = nil
