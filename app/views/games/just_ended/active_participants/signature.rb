@@ -18,8 +18,10 @@ class Games::JustEnded::ActiveParticipants::Signature
   end
 
   def attribution_link_content
-    base = user.signer? ? user.display_name : "Sign your name?"
-    "#{base} #{Emoji.pencil}"
+    View.safe_join([
+      user.signer? ? user.display_name : "Sign your name?",
+      Emoji.pencil,
+    ], " ")
   end
 
   def attribution_link_url

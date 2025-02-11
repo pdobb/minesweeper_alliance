@@ -21,11 +21,10 @@ class Games::Title
   end
 
   def engagement_time_range
-    View.safe_join(
-      [
-        I18n.l(game_started_at, format: :hours_minutes_seconds),
-        I18n.l(game_ended_at, format: :hours_minutes_seconds),
-      ], "–")
+    View.safe_join([
+      I18n.l(game_started_at, format: :hours_minutes_seconds),
+      I18n.l(game_ended_at, format: :hours_minutes_seconds),
+    ], "–")
   end
 
   def engagement_date_range_increment?
@@ -38,13 +37,12 @@ class Games::Title
   end
 
   def engagement_date_range_increment_title
-    View.safe_join(
-      [
-        "Ended",
-        I18n.l(game_ended_at, format: :weekday_comma_date),
-        "(#{View.pluralize(engagement_date_range_increment, "day")}",
-        "after start).",
-      ], " ")
+    View.safe_join([
+      "Ended",
+      I18n.l(game_ended_at, format: :weekday_comma_date),
+      "(#{View.pluralize(engagement_date_range_increment, "day")}",
+      "after start).",
+    ], " ")
   end
 
   private

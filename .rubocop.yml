@@ -10,6 +10,11 @@ inherit_gem:
 AllCops:
   TargetRubyVersion: 3.4
 
+Layout/FirstMethodArgumentLineBreak:
+  AllowedMethods:
+    - t
+    - safe_join
+
 Naming/MethodParameterName:
   AllowedNames:
     - "on"
