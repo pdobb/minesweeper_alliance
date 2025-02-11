@@ -20,7 +20,7 @@ class Games::JustEnded::ActiveParticipants::CurrentUserController <
 
   def update # rubocop:disable Metrics/MethodLength
     if User::Update.(current_user, attributes: update_params)
-      broadcast_update(game: @game)
+      User::Update::Broadcast.(user: current_user, turbo_stream:)
 
       respond_to do |format|
         format.html do
@@ -51,17 +51,5 @@ class Games::JustEnded::ActiveParticipants::CurrentUserController <
 
   def update_params
     params.expect(user: %i[username])
-  end
-
-  # :reek:FeatureEnvy
-  def broadcast_update(game:)
-    active_participants_roster_listing =
-      Games::JustEnded::ActiveParticipants::Roster::Listing.new(
-        current_user, game:)
-
-    Turbo::StreamsChannel.broadcast_update_to(
-      Games::JustEnded::ActiveParticipants::Roster.turbo_stream_name(game),
-      targets: active_participants_roster_listing.turbo_update_target,
-      html: active_participants_roster_listing.name)
   end
 end

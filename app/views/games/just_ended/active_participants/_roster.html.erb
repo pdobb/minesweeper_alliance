@@ -1,6 +1,6 @@
 <%# locals: (roster:) %>
 
-<div> <%# Because turbo-cable-stream-source is a block-level element ... %>
+<div> <%# Because turbo-cable-stream-source is a block-level element. %>
   <%= turbo_stream_from(*roster) %>
 
   <div class="space-y-3">
@@ -14,9 +14,8 @@
           <% end %>
 
           <%= link_to(
-                listing.name,
+                listing.updateable_display_name,
                 listing.show_user_url,
-                class: listing.turbo_update_id,
                 data: { turbo_frame: :_top }) %>
         </li>
       <% end %>

@@ -30,7 +30,7 @@ class Games::Past::ActiveParticipants::Roster
       @game = game
     end
 
-    def name = user.display_name
+    def updateable_display_name = View.updateable_display_name(user:)
 
     def show_user_url
       Router.user_path(user)

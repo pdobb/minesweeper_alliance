@@ -19,7 +19,7 @@ class Games::JustEnded::ActiveParticipants::Signature
 
   def attribution_link_content
     View.safe_join([
-      user.signer? ? user.display_name : "Sign your name?",
+      user.signer? ? View.updateable_display_name(user:) : "Sign your name?",
       Emoji.pencil,
     ], " ")
   end

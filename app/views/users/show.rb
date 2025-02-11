@@ -8,6 +8,7 @@ class Users::Show
   end
 
   def display_name = user.display_name
+  def updateable_display_name = View.updateable_display_name(user:)
   def enlistment_date = I18n.l(user.created_at.to_date)
 
   def service_record

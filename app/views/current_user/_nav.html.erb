@@ -7,9 +7,9 @@
           data: { turbo_frame: :_top }) do %>
       <span
         data-signer="<%= nav.signer? %>"
-        class="max-md:hidden <%= nav.turbo_update_id %>"
+        class="max-md:hidden"
       >
-        <%= nav.display_name %>
+        <%= nav.updateable_display_name %>
       </span>
       <span class="text-xl/5 relative top-0.5"><%= Emoji.medal %></span>
     <% end %>

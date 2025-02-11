@@ -8,7 +8,7 @@ class Users::Games::Nav
     @user = user
   end
 
-  def breadcrumb_name = user.display_name
+  def breadcrumb_name = View.updateable_display_name(user:)
 
   def show_close_button? = true
   def close_game_url = Router.user_path(user)

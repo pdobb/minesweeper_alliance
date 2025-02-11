@@ -17,8 +17,7 @@ class CurrentUser::Nav
     Router.current_user_account_path
   end
 
-  def turbo_update_id = View.dom_id(user)
-  def display_name = user.display_name
+  def updateable_display_name = View.updateable_display_name(user:)
 
   private
 

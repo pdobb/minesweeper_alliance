@@ -7,7 +7,7 @@
   <% end %>
 >
   <%= link_to(
-        listing.name,
+        listing.updateable_display_name,
         listing.show_user_url,
         class: listing.username_turbo_target,
         data: { turbo_frame: :_top }) %>
