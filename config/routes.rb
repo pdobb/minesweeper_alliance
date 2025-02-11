@@ -62,6 +62,13 @@ Rails.application.routes.draw do
   resource :about, controller: :about, only: :show
 
   if App.development?
+    namespace :dev_portal, path: :dev do
+      resource(
+        :toggle_dev_caching,
+        controller: :toggle_dev_caching,
+        only: :create)
+    end
+
     namespace :ui_portal, path: :ui do
       root "home#show"
 

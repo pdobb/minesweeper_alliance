@@ -1,0 +1,63 @@
+<%# locals: () %>
+
+<div
+  data-controller="dev-portal--dev-overlay"
+  data-action="
+    mouseover->dev-portal--dev-overlay#reveal
+    mouseout->dev-portal--dev-overlay#collapse
+  "
+  data-dev-portal--dev-overlay-collapse-class="max-w-7.5 opacity-60 text-xs"
+  data-turbo-prefetch="false"
+  class="
+    print:hidden
+    fixed bottom-1 right-1 z-50
+    px-2 py-1 rounded-md
+    bg-gray-200 dark:bg-neutral-900
+    font-mono text-xs text-dim
+    flex justify-end gap-x-3
+    max-w-7.5 overflow-hidden opacity-60
+  "
+>
+  <% if App.debug? %>
+    DEBUG=1
+    <button
+      data-controller="dev-flags"
+      data-action="dev-flags#toggleSolve:prevent"
+      class="btn-basic"
+    >
+      <%= Emoji.pencil %>
+    </button>
+
+    <span class="text-dim-lg">|</span>
+  <% else %>
+    DEBUG=0
+    <span class="text-dim-lg">|</span>
+  <% end %>
+
+  <%= button_to(
+        dev_portal_toggle_dev_caching_path,
+        data: { turbo: false },
+        class: "btn-basic") do %>
+    <% if Pathname(Rails::DevCaching.singleton_class::FILE).exist? %>
+      <span title="Caching Enabled">📸</span>
+    <% else %>
+      <span title="Caching Disabled">🙈</span>
+    <% end %>
+  <% end %>
+
+  <span class="text-dim-lg">|</span>
+
+  <%= link_to(
+        "UI",
+        layout.portal.ui? ? root_path : ui_portal_root_path,
+        class: "no-underline flex gap-x-2") %>
+
+  <span class="text-dim-lg">|</span>
+
+  <span class="hidden max-sm:block">xs</span>
+  <span class="hidden sm:max-md:block">sm</span>
+  <span class="hidden md:max-lg:block">md</span>
+  <span class="hidden lg:max-xl:block">lg</span>
+  <span class="hidden xl:max-2xl:block">xl</span>
+  <span class="hidden 2xl:block">2xl</span>
+</div>
