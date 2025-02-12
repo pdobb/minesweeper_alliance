@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-# UIPortal::Patterns::New is a View Model for servicing the
+# DevPortal::Patterns::New is a View Model for servicing the
 # UI Portal - Patterns - New page.
-class UIPortal::Patterns::New
+class DevPortal::Patterns::New
   def initialize(pattern = Pattern.new, context:)
     @pattern = pattern
     @context = context
@@ -26,7 +26,7 @@ class UIPortal::Patterns::New
 
   attr_reader :context
 
-  # UIPortal::Patterns::New::SettingsForm
+  # DevPortal::Patterns::New::SettingsForm
   class SettingsForm
     COOKIE = :pattern_settings
 

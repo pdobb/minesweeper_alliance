@@ -2,19 +2,19 @@
 
 require "csv"
 
-class UIPortal::Patterns::ImportController < UIPortal::BaseController
-  include UIPortal::Patterns::ActionBehaviors
+class DevPortal::Patterns::ImportController < DevPortal::BaseController
+  include DevPortal::Patterns::ActionBehaviors
 
   def new
-    @form = UIPortal::Patterns::Import::Form.new
+    @form = DevPortal::Patterns::Import::Form.new
   end
 
   def create
     form =
-      UIPortal::Patterns::Import::Form.new(file: form_params[:file])
+      DevPortal::Patterns::Import::Form.new(file: form_params[:file])
 
     if form.import
-      url = ui_portal_pattern_path(form.new_pattern)
+      url = dev_portal_pattern_path(form.new_pattern)
       respond_to do |format|
         format.html { redirect_to(url) }
         format.turbo_stream do
@@ -30,8 +30,8 @@ class UIPortal::Patterns::ImportController < UIPortal::BaseController
   private
 
   def form_params
-    return {} unless params.key?(:ui_portal_patterns_import_form)
+    return {} unless params.key?(:dev_portal_patterns_import_form)
 
-    params.expect(ui_portal_patterns_import_form: %i[file])
+    params.expect(dev_portal_patterns_import_form: %i[file])
   end
 end

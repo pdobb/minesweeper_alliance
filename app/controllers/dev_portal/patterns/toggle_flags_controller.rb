@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-class UIPortal::Patterns::ToggleFlagsController < UIPortal::BaseController
-  include UIPortal::Patterns::ActionBehaviors
+class DevPortal::Patterns::ToggleFlagsController < DevPortal::BaseController
+  include DevPortal::Patterns::ActionBehaviors
 
   def create
     coordinates = Conversions.Coordinates(coordinates_params.to_h)

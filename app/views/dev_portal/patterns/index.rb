@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-# UIPortal::Patterns::Index is a View Model for displaying the
+# DevPortal::Patterns::Index is a View Model for displaying the
 # UI Portal - Patterns - Index page.
-class UIPortal::Patterns::Index
+class DevPortal::Patterns::Index
   attr_reader :base_arel
 
   def initialize(base_arel:)
@@ -10,11 +10,11 @@ class UIPortal::Patterns::Index
   end
 
   def new_pattern_url
-    Router.new_ui_portal_pattern_path
+    Router.new_dev_portal_pattern_path
   end
 
   def new_import_pattern_url
-    Router.new_ui_portal_patterns_import_path
+    Router.new_dev_portal_patterns_import_path
   end
 
   def any_listings? = base_arel.any?
@@ -23,7 +23,7 @@ class UIPortal::Patterns::Index
     Listing.wrap(base_arel)
   end
 
-  # UIPortal::Patterns::Index::Listing
+  # DevPortal::Patterns::Index::Listing
   class Listing
     include WrapMethodBehaviors
 
@@ -36,11 +36,11 @@ class UIPortal::Patterns::Index
     def name = pattern.name
 
     def show_pattern_url
-      Router.ui_portal_pattern_path(pattern)
+      Router.dev_portal_pattern_path(pattern)
     end
 
     def destroy_pattern_url
-      Router.ui_portal_pattern_path(pattern)
+      Router.dev_portal_pattern_path(pattern)
     end
 
     def timestamp

@@ -27,11 +27,8 @@
     >
       <%= Emoji.pencil %>
     </button>
-
-    <span class="text-dim-lg">|</span>
   <% else %>
     DEBUG=0
-    <span class="text-dim-lg">|</span>
   <% end %>
 
   <%= button_to(
@@ -47,10 +44,8 @@
 
   <span class="text-dim-lg">|</span>
 
-  <%= link_to(
-        "UI",
-        layout.portal.ui? ? root_path : ui_portal_root_path,
-        class: "no-underline flex gap-x-2") %>
+  <%= link_to("Dev", dev_portal_root_path) %>
+  <%= link_to("UI", ui_portal_root_path) %>
 
   <span class="text-dim-lg">|</span>
 

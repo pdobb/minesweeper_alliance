@@ -7,7 +7,7 @@
   >
     <%= form_with(
           model: pattern,
-          url: ui_portal_pattern_path(pattern),
+          url: dev_portal_pattern_path(pattern),
           html: { novalidate: true }) do |f| %>
       <div class="flex items-baseline gap-x-3">
         <%= f.label(:name, "Name:", class: "max-md:min-w-20") %>
@@ -22,7 +22,7 @@
         <%= f.submit("Update", class: "btn-primary") %>
         <%= link_to(
               Emoji.hide,
-              ui_portal_pattern_path,
+              dev_portal_pattern_path,
               class: "no-underline text-xl",
               data: {
                 inline_edit_target: "cancel",

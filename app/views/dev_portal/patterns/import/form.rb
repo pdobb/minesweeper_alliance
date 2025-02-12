@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
-# UIPortal::Patterns::Import::Form represents the inline for for Pattern Import.
-class UIPortal::Patterns::Import::Form
+# DevPortal::Patterns::Import::Form represents the inline for for Pattern
+# Import.
+class DevPortal::Patterns::Import::Form
   include ActiveModel::Model
   include ActiveModel::Attributes
 

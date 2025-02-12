@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-# UIPortal::Patterns::Show
-class UIPortal::Patterns::Show
+# DevPortal::Patterns::Show
+class DevPortal::Patterns::Show
   def initialize(pattern)
     @pattern = pattern
   end
@@ -13,27 +13,27 @@ class UIPortal::Patterns::Show
   end
 
   def edit_pattern_url
-    Router.edit_ui_portal_pattern_path(pattern)
+    Router.edit_dev_portal_pattern_path(pattern)
   end
 
   def destroy_pattern_url
-    Router.ui_portal_pattern_path(pattern)
+    Router.dev_portal_pattern_path(pattern)
   end
 
   def toggle_flag_url
-    Router.ui_portal_pattern_toggle_flag_path(pattern)
+    Router.dev_portal_pattern_toggle_flag_path(pattern)
   end
 
   def pattern_reset_url
-    Router.ui_portal_pattern_resets_path(pattern)
+    Router.dev_portal_pattern_resets_path(pattern)
   end
 
   def pattern_export_url
-    Router.ui_portal_pattern_exports_path(pattern)
+    Router.dev_portal_pattern_exports_path(pattern)
   end
 
   def pattern_import_url
-    Router.new_ui_portal_pattern_import_path(pattern)
+    Router.new_dev_portal_pattern_import_path(pattern)
   end
 
   def dimensions = pattern.dimensions
@@ -55,7 +55,7 @@ class UIPortal::Patterns::Show
   def grid = pattern.grid
   def flag_density = pattern.flag_density
 
-  # UIPortal::Patterns::Show::Cell is a View Model for displaying virtual
+  # DevPortal::Patterns::Show::Cell is a View Model for displaying virtual
   # {Pattern} "Cells".
   class Cell
     include WrapMethodBehaviors

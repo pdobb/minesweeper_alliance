@@ -64,21 +64,12 @@ Rails.application.routes.draw do
 
   if App.development?
     namespace :dev_portal, path: :dev do
+      root "home#show"
+
       resource(
         :toggle_dev_caching,
         controller: :toggle_dev_caching,
         only: :create)
-    end
-
-    namespace :ui_portal, path: :ui do
-      root "home#show"
-
-      resource :flash_notifications, only: :show
-      resource :error_pages, only: :show
-      resource(
-        :unsupported_browser_test,
-        controller: :unsupported_browser_test,
-        only: :show)
 
       resources :patterns do
         scope module: :patterns do
@@ -91,6 +82,17 @@ Rails.application.routes.draw do
       namespace :patterns do
         resource :import, controller: :import, only: %i[new create]
       end
+    end
+
+    namespace :ui_portal, path: :ui do
+      root "home#show"
+
+      resource :flash_notifications, only: :show
+      resource :error_pages, only: :show
+      resource(
+        :unsupported_browser_test,
+        controller: :unsupported_browser_test,
+        only: :show)
     end
   end
 

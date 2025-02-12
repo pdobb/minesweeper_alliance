@@ -2,19 +2,19 @@
 
 # :reek:InstanceVariableAssumption
 
-class UIPortal::PatternsController < UIPortal::BaseController
+class DevPortal::PatternsController < DevPortal::BaseController
   before_action :require_pattern, only: %i[show edit update destroy]
 
   def index
-    @index = UIPortal::Patterns::Index.new(base_arel: Pattern.by_most_recent)
+    @index = DevPortal::Patterns::Index.new(base_arel: Pattern.by_most_recent)
   end
 
   def show
-    @show = UIPortal::Patterns::Show.new(@pattern)
+    @show = DevPortal::Patterns::Show.new(@pattern)
   end
 
   def new
-    @new = UIPortal::Patterns::New.new(context: layout)
+    @new = DevPortal::Patterns::New.new(context: layout)
   end
 
   def create # rubocop:disable Metrics/AbcSize
@@ -29,11 +29,11 @@ class UIPortal::PatternsController < UIPortal::BaseController
         format.turbo_stream do
           render(
             turbo_stream:
-              turbo_stream.action(:redirect, ui_portal_pattern_path(pattern)))
+              turbo_stream.action(:redirect, dev_portal_pattern_path(pattern)))
         end
       end
     else
-      @new = UIPortal::Patterns::New.new(pattern, context: layout)
+      @new = DevPortal::Patterns::New.new(pattern, context: layout)
       render(:new, status: :unprocessable_entity)
     end
   end
@@ -62,7 +62,7 @@ class UIPortal::PatternsController < UIPortal::BaseController
         # Not sure of a good way around this hack... But we want to use a Turbo
         # Stream for destruction from the Index page, while using redirect for
         # destruction from the Show page.
-        if request.referer.include?(ui_portal_pattern_path(@pattern))
+        if request.referer.include?(dev_portal_pattern_path(@pattern))
           redirect_to_index_after_destroy(@pattern)
         else # Index page
           render(turbo_stream: turbo_stream.remove(@pattern))
@@ -96,7 +96,7 @@ class UIPortal::PatternsController < UIPortal::BaseController
 
   def store_pattern_settings(settings)
     layout.store_http_cookie(
-      UIPortal::Patterns::New::SettingsForm::COOKIE,
+      DevPortal::Patterns::New::SettingsForm::COOKIE,
       value: settings.to_json)
   end
 

@@ -7,7 +7,7 @@
   >
     <%= form_with(
           model: new_form.to_model,
-          url: ui_portal_patterns_path,
+          url: dev_portal_patterns_path,
           html: { novalidate: true }) do |f| %>
       <div
         class="
@@ -54,7 +54,7 @@
           <%= f.submit("Create", class: "btn-primary") %>
           <%= link_to(
                 Emoji.hide,
-                ui_portal_patterns_path,
+                dev_portal_patterns_path,
                 class: "no-underline text-xl",
                 data: {
                   inline_edit_target: "cancel",
