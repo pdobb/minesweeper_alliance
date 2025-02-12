@@ -2,7 +2,7 @@
 
 [![CI](https://github.com/pdobb/minesweeper_alliance/actions/workflows/ci.yml/badge.svg)](https://github.com/pdobb/minesweeper_alliance/actions/workflows/ci.yml)
 
-Welcome to [Minesweeper Alliance](https://minesweeperalliance.net), an open-multiplayer riff on the classic Minesweeper game. Join forces with your fellow allies to sweep mines in real-time!
+Welcome to [Minesweeper Alliance](https://minesweeperalliance.net), an open-multiplayer riff on the classic Minesweeper game. Join forces with your fellow allies to sweep mines in real time!
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="https://github.com/pdobb/minesweeper_alliance/blob/main/public/screenshots/expert-dark.webp?raw=true">
