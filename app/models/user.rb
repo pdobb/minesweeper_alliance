@@ -129,6 +129,7 @@ class User < ApplicationRecord
   end
 
   def signer? = username?
+  def past_signer? = user_update_transactions.has_key_username.any?
 
   # :reek:NilCheck
 
@@ -158,10 +159,8 @@ class User < ApplicationRecord
       {
         self => {
           profile_updates:
-            user_update_transactions.
-              by_most_recent.
-              limit(limit).
-              map(&:change_set),
+            user_update_transactions.by_most_recent.limit(limit).
+              pluck(:change_set),
           observed_games: observed_games.by_most_recent.limit(limit),
           actively_participated_in_games:
             actively_participated_in_games.by_most_recent.limit(limit),

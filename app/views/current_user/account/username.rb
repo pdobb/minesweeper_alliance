@@ -8,7 +8,7 @@ class CurrentUser::Account::Username
     @user = user
   end
 
-  def editable? = user.signer?
+  def editable? = user.signer? || user.past_signer?
 
   def turbo_frame_name = self.class.turbo_frame_name(user:)
 

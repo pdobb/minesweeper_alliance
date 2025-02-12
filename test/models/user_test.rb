@@ -200,6 +200,34 @@ class UserTest < ActiveSupport::TestCase
       end
     end
 
+    describe "#past_signer?" do
+      context "GIVEN User#signer? = true" do
+        subject { user1 }
+
+        it "returns true" do
+          _(subject.past_signer?).must_equal(true)
+        end
+      end
+
+      context "GIVEN User#signer? = false" do
+        context "AND has never signed their name in the past" do
+          subject { observer1 }
+
+          it "returns false" do
+            _(subject.past_signer?).must_equal(false)
+          end
+        end
+
+        context "BUT has signed their name in the past" do
+          subject { user2 }
+
+          it "returns true" do
+            _(subject.past_signer?).must_equal(true)
+          end
+        end
+      end
+    end
+
     describe "#signer_status_just_changed?" do
       context "GIVEN a User that has just signed their name" do
         before do

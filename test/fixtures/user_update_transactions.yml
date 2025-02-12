@@ -1,0 +1,10 @@
+user1_user_update_transaction1:
+  user: user1
+  change_set: <%= { "username" => { "new" => "User1", "old" => nil } }.to_json %>
+
+user2_user_update_transaction1:
+  user: user2
+  change_set: <%= { "username" => { "new" => "User2", "old" => nil } }.to_json %>
+user2_user_update_transaction2:
+  user: user2
+  change_set: <%= { "username" => { "new" => nil, "old" => "User2" } }.to_json %>

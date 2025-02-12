@@ -17,6 +17,9 @@ class UserUpdateTransaction < ApplicationRecord
 
   validates :change_set, presence: true
 
+  scope :has_key_username, -> { has_key("username") }
+  scope :has_key, ->(key) { where("change_set ? :key", key:) }
+
   def self.create_for(user:, change_set:)
     user.user_update_transactions.create!(change_set:)
   end
