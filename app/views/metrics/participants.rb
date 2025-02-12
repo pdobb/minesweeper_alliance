@@ -10,5 +10,5 @@ class Metrics::Participants
     ]
   end
 
-  def most_actives_per_type = Metrics::Participants::MostActives.per_type
+  def most_active_per_type = Metrics::Participants::MostActive.per_type
 end

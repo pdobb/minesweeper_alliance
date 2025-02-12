@@ -1,0 +1,49 @@
+<%# locals: (participants:) %>
+
+<div class="space-y-10">
+  <h2 class="border-b border-dotted border-dim">Minesweepers</h2>
+
+  <h3 class="h2">Most Active</h3>
+
+  <% cache(participants.cache_key) do %>
+    <div class="max-w-5xl grid lg:grid-cols-3 gap-x-12 gap-y-6">
+      <% participants.most_active_per_type.each do |most_active| %>
+        <div class="space-y-3">
+          <h4 class="h3"><%= most_active.type %></h4>
+
+          <table
+            class="
+              table-fixed w-full text-left
+              *:*:*:not-last:pr-6 [&_th]:pb-2 [&_tr]:not-last:*:pb-2
+            "
+          >
+            <thead>
+              <tr>
+                <th class="w-16">Rank</th>
+                <th class="w-16">
+                  <%= tt("Count", scope: "metrics.minesweepers.most_active") %>
+                </th>
+                <th class="w-full">Name</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% most_active.listings.each_with_index do |listing, index| %>
+                <tr>
+                  <td><%= index.next %></td>
+                  <td><%= listing.active_participation_count %></td>
+                  <td class="truncate">
+                    <%= link_to_if(
+                          listing.present?,
+                          listing.name,
+                          listing.user_url,
+                          title: (listing.title if listing.title?)) %>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+</div>

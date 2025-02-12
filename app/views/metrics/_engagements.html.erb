@@ -1,0 +1,59 @@
+<%# locals: (engagements:) %>
+
+<div class="space-y-10">
+  <h2 class="border-b border-dotted border-dim">Engagements</h2>
+
+  <h3 class="h2">Best Scores</h3>
+
+  <% cache(engagements.cache_key) do %>
+    <div
+      data-controller="active-link"
+      data-active-link-active-class="active"
+      data-action="display-case:hide@window->active-link#clear"
+      class="max-w-5xl grid lg:grid-cols-3 gap-x-12 gap-y-6"
+    >
+      <% engagements.bests_per_type.each do |bests| %>
+        <div class="space-y-3">
+          <h4 class="h3"><%= bests.type %></h4>
+
+          <table
+            class="
+              table-fixed text-left
+              *:*:*:not-last:pr-6 [&_th]:pb-2 [&_tr]:not-last:*:pb-2
+            "
+          >
+            <thead>
+              <tr>
+                <th class="w-16">Rank</th>
+                <th class="min-w-[100px]"><%= tt("Score") %></th>
+                <th>
+                  <%= tt(Emoji.ship, scope: "metrics.engagements.bests") %>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <% bests.listings.each_with_index do |listing, index| %>
+                <tr>
+                  <td><%= index.next %></td>
+                  <td>
+                    <%= link_to_if(
+                          listing.present?,
+                          listing.game_score,
+                          listing.game_url,
+                          data: {
+                            action: listing.link_action,
+                            turbo_frame: listing.turbo_frame_name,
+                          }) %>
+                  </td>
+                  <td><%= listing.fleet_size %></td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+
+  <%= render("display_case", display_case: engagements.display_case) %>
+</div>
