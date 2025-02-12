@@ -1,9 +1,0 @@
-<%= turbo_stream.update(@view.turbo_frame_name) do %>
-  <div
-    data-controller="inline-edit"
-    data-action="keydown.esc@window->inline-edit#cancel"
-  >
-    <%= render("games/new/custom/form", form: @view.form(context: layout)) %>
-  </div>
-<% end %>
-

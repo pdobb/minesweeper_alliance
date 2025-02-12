@@ -2,10 +2,10 @@
 
 class Games::New::CustomController < ApplicationController
   def new
-    @view = Games::New::Custom::New.new
+    @new = Games::New::Custom::New.new
   end
 
-  def create
+  def create # rubocop:disable Metrics/AbcSize
     settings = Board::Settings.custom(**settings_params.to_h.symbolize_keys)
 
     if settings.valid?
@@ -16,9 +16,14 @@ class Games::New::CustomController < ApplicationController
           value: settings.to_json)
       }
 
-      redirect_to(root_path)
+      respond_to do |format|
+        format.html { redirect_to(root_path) }
+        format.turbo_stream do
+          render(turbo_stream: turbo_stream.action(:redirect, root_path))
+        end
+      end
     else
-      @view = Games::New::Custom::New.new(settings:)
+      @new = Games::New::Custom::New.new(settings:)
       render(:new, status: :unprocessable_entity)
     end
   end

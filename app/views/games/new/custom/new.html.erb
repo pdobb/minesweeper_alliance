@@ -3,7 +3,5 @@
 <div class="container mx-auto space-y-16">
   <h1><%= title %></h1>
 
-  <%= turbo_frame_tag(@view.turbo_frame_name) do %>
-    <%= render("form", form: @view.form(context: layout)) %>
-  <% end %>
+  <%= render("form", form: @new.form(context: layout)) %>
 </div>

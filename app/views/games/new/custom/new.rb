@@ -6,8 +6,6 @@ class Games::New::Custom::New
     @settings = settings
   end
 
-  def turbo_frame_name = Games::New::Content.turbo_frame_name
-
   def new_game_content
     Games::New::Content.new
   end

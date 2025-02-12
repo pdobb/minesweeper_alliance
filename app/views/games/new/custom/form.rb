@@ -9,6 +9,10 @@ class Games::New::Custom::Form
     @context = context
   end
 
+  def turbo_frame_name
+    Games::New::Content.turbo_frame_name
+  end
+
   def dom_id = Games::New::Content.turbo_frame_name
 
   def to_model = @settings
