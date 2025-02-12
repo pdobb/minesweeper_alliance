@@ -2,6 +2,7 @@
 
 # Games::Current::Board::Cell represents {Cell}s for the current {Game}.
 class Games::Current::Board::Cell
+  FOCUS_COLOR = "text-blue-500"
   BG_HIGHLIGHTED_COLOR = %w[bg-slate-300 dark:bg-neutral-500].freeze
   HIGHLIGHTED_ANIMATION = "animate-pulse-fast"
   BG_UNREVEALED_MINE_COLOR = %w[bg-slate-500 dark:bg-neutral-900].freeze
@@ -25,7 +26,9 @@ class Games::Current::Board::Cell
   def dom_id = View.dom_id(cell)
 
   def css
-    return if revealed?
+    if revealed?
+      return focused? ? FOCUS_COLOR : nil
+    end
 
     if highlighted?
       [*BG_HIGHLIGHTED_COLOR, HIGHLIGHTED_ANIMATION]
@@ -40,5 +43,6 @@ class Games::Current::Board::Cell
 
   attr_reader :cell
 
+  def focused? = cell.focused?
   def highlighted? = cell.highlighted?
 end

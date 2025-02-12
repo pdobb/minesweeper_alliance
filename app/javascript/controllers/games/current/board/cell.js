@@ -9,6 +9,7 @@ import { post } from "@rails/request.js"
 class Cell {
   static domIdRegex = /^cell_/
   static cellIdUrlRegex = /cells\/(\d+)\//
+  static focusClass = "text-blue-500"
   static loadingIndicatorClass = "animate-pulse-fast"
   static warningIndicatorClasses = [
     "light:text-black",
@@ -38,6 +39,10 @@ class Cell {
     this.#submit(url)
   }
 
+  updateFocus(url) {
+    this.#submit(url)
+  }
+
   revealNeighbors(url) {
     if (this.isNotRevealed || this.isBlank) return
 
@@ -60,6 +65,13 @@ class Cell {
   }
   get isNotRevealed() {
     return this.element.dataset.revealed === "false"
+  }
+
+  get isFocusable() {
+    return !this.isNotTableCell && !this.isBlank && !this.isFocused
+  }
+  get isFocused() {
+    return this.element.classList.contains(Cell.focusClass)
   }
 
   get isFlaggable() {

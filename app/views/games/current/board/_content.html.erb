@@ -26,6 +26,8 @@
         <% controller = "games--current--board--desktop" %>
         data-controller="<%= controller %>"
         data-<%= controller %>-reveal-url-value="<%= content.reveal_url %>"
+        data-<%= controller %>-focus-url-value="<%= content.focus_url %>"
+        data-<%= controller %>-unfocus-url-value="<%= content.unfocus_url %>"
         data-<%= controller %>-toggle-flag-url-value="<%= content.toggle_flag_url %>"
         data-<%= controller %>-highlight-neighbors-url-value="<%= content.highlight_neighbors_url %>"
         data-<%= controller %>-dehighlight-neighbors-url-value="<%= content.dehighlight_neighbors_url %>"
@@ -33,6 +35,8 @@
         data-action="
           mousedown-><%= controller %>#dispatchMousedown
           mouseup-><%= controller %>#dispatchMouseup
+          mouseover-><%= controller %>#dispatchMouseOver
+          mouseout-><%= controller %>#dispatchMouseOut
           contextmenu-><%= controller %>#dispatchContextmenu:prevent
           click-><%= controller %>#dispatchClick
         "

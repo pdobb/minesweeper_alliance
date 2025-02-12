@@ -72,12 +72,17 @@ class Cell < ApplicationRecord
     return if revealed?
 
     self.revealed = true
-    self.highlighted = false # A somewhat superfluous operation.
+    self.focused = false
+    self.highlighted = false
     self.flagged = false
     self.value = neighboring_mines_count
 
     self
   end
+
+  def focus = @focused = true
+  def unfocus = @focused = false
+  def focused? = !!@focused
 
   # Mark all {#highlightable?} neighboring Cells for highlight in the view by
   # setting virtual attribute: {#soft_highlight} = true.
@@ -95,6 +100,7 @@ class Cell < ApplicationRecord
 
   def soft_highlight = self.highlighted = true
   def highlighted? = !!@highlighted
+  def highlightable? = !(revealed? || flagged? || highlighted?)
 
   def neighboring_flags_count_matches_value?
     neighboring_flags_count == value.to_i
@@ -113,15 +119,15 @@ class Cell < ApplicationRecord
   end
 
   def unrevealed? = !revealed?
-  def incorrectly_flagged? = flagged? && !mine?
   def blank? = value == BLANK_VALUE
   def safely_revealable? = !(mine? || revealed?)
   def can_be_revealed? = !(revealed? || flagged?)
-  def highlightable? = !(revealed? || flagged? || highlighted?)
+  def incorrectly_flagged? = flagged? && !mine?
 
   private
 
-  attr_writer :highlighted
+  attr_writer :focused,
+              :highlighted
 
   def neighboring_coordinates = coordinates.neighbors
 

@@ -13,6 +13,14 @@ class Games::Current::Board::Content
     Router.game_board_cell_reveal_path(game, NULL_CELL_ID)
   end
 
+  def focus_url
+    Router.game_board_cell_focus_path(game, NULL_CELL_ID)
+  end
+
+  def unfocus_url
+    Router.game_board_cell_unfocus_path(game, NULL_CELL_ID)
+  end
+
   def toggle_flag_url
     Router.game_board_cell_toggle_flag_path(game, NULL_CELL_ID)
   end
