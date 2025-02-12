@@ -4,12 +4,12 @@
   <div class="space-y-6">
     <h1><%= title %></h1>
 
-    <%= render("ui_portal/patterns/index_actions", view: @view) %>
+    <%= render("ui_portal/patterns/index_actions", view: @index) %>
   </div>
 
   <div class="space-y-6">
-    <% if @view.any_listings? %>
-      <% @view.listings.each do |listing| %>
+    <% if @index.any_listings? %>
+      <% @index.listings.each do |listing| %>
         <div
           id="<%= listing.dom_id %>"
           class="

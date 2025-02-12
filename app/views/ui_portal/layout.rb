@@ -18,6 +18,10 @@ class UIPortal::Layout
     Application::Footer::ThemeMenu.new(button_content:)
   end
 
+  def store_http_cookie(name, value:)
+    cookies.permanent[name] = { value:, httponly: true }
+  end
+
   def cookies = context.__send__(:cookies)
 
   def mobile? = parsed_user_agent.mobile?

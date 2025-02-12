@@ -1,29 +1,34 @@
 <%# locals: (pattern:) %>
 
 <%= turbo_frame_tag(:edit_pattern) do %>
-  <%= form_with(
-        model: pattern,
-        url: ui_portal_pattern_path(pattern),
-        html: { novalidate: true }) do |f| %>
-    <div class="flex items-baseline gap-x-3">
-      <%= f.label(:name, "Name:", class: "max-md:min-w-20") %>
-      <%= f.text_field(
-            :name,
-            autocomplete: :off,
-            autofocus: true,
-            onfocus: "this.select()",
-            data: { "1p-ignore": true },
-            class: "form-input w-48 p-1") %>
+  <div
+    data-controller="inline-edit"
+    data-action="keydown.esc@window->inline-edit#cancel"
+  >
+    <%= form_with(
+          model: pattern,
+          url: ui_portal_pattern_path(pattern),
+          html: { novalidate: true }) do |f| %>
+      <div class="flex items-baseline gap-x-3">
+        <%= f.label(:name, "Name:", class: "max-md:min-w-20") %>
+        <%= f.text_field(
+              :name,
+              autocomplete: :off,
+              autofocus: true,
+              onfocus: "this.select()",
+              data: { "1p-ignore": true },
+              class: "form-input w-48 p-1") %>
 
-      <%= f.submit("Update", class: "btn-primary") %>
-      <%= link_to(
-            Emoji.hide,
-            ui_portal_pattern_path,
-            class: "no-underline text-xl",
-            data: {
-              inline_edit_target: "cancel",
-              turbo_stream: true,
-            }) %>
-    </div>
-  <% end %>
+        <%= f.submit("Update", class: "btn-primary") %>
+        <%= link_to(
+              Emoji.hide,
+              ui_portal_pattern_path,
+              class: "no-underline text-xl",
+              data: {
+                inline_edit_target: "cancel",
+                turbo_stream: true,
+              }) %>
+      </div>
+    <% end %>
+  </div>
 <% end %>

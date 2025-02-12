@@ -1,26 +1,26 @@
-<% title("Pattern: #{@view.name}") %>
+<% title("Pattern: #{@show.name}") %>
 
 <div class="space-y-12">
   <div class="container mx-auto space-y-6">
     <h1>Pattern</h1>
 
     <div class="flex items-center min-h-10">
-      <%= render("show_heading_with_controls", view: @view) %>
+      <%= render("show_heading_with_controls", view: @show) %>
     </div>
   </div>
 
-  <%= render("grid", view: @view) %>
+  <%= render("grid", view: @show) %>
 
   <div class="container mx-auto text-center">
     <div class="flex justify-center items-center gap-6">
       <%= button_to(
             "Reset",
-            @view.pattern_reset_url,
+            @show.pattern_reset_url,
             data: { turbo_confirm: "Really reset?" },
             class: "btn-primary") %>
       <%= button_to(
             "Export",
-            @view.pattern_export_url,
+            @show.pattern_export_url,
             class: "btn-primary",
             data: { turbo_frame: :_top }) %>
     </div>

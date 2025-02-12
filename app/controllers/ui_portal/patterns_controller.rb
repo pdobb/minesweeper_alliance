@@ -6,27 +6,34 @@ class UIPortal::PatternsController < UIPortal::BaseController
   before_action :require_pattern, only: %i[show edit update destroy]
 
   def index
-    @view = UIPortal::Patterns::Index.new(base_arel: Pattern.by_most_recent)
+    @index = UIPortal::Patterns::Index.new(base_arel: Pattern.by_most_recent)
   end
 
   def show
-    @view = UIPortal::Patterns::Show.new(@pattern)
+    @show = UIPortal::Patterns::Show.new(@pattern)
   end
 
   def new
-    @view = UIPortal::Patterns::New.new(context: layout)
+    @new = UIPortal::Patterns::New.new(context: layout)
   end
 
-  # :reek:TooManyStatements
-  def create
+  def create # rubocop:disable Metrics/AbcSize
     settings = Pattern::Settings.new(new_pattern_params[:settings])
     pattern = Pattern.new(name: new_pattern_params[:name], settings:)
 
     if pattern.save
       store_pattern_settings(settings)
-      redirect_to({ action: :show, id: pattern })
+
+      respond_to do |format|
+        format.html { redirect_to(root_path) }
+        format.turbo_stream do
+          render(
+            turbo_stream:
+              turbo_stream.action(:redirect, ui_portal_pattern_path(pattern)))
+        end
+      end
     else
-      @view = UIPortal::Patterns::New.new(pattern, context: layout)
+      @new = UIPortal::Patterns::New.new(pattern, context: layout)
       render(:new, status: :unprocessable_entity)
     end
   end

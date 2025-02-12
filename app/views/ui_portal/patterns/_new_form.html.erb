@@ -1,69 +1,73 @@
-<%# locals: (view:) %>
+<%# locals: (new_form:) %>
 
 <%= turbo_frame_tag(:index_actions) do %>
-  <%= form_with(
-        model: view.to_model,
-        url: ui_portal_patterns_path,
-        data: { turbo_frame: :_top },
-        html: { novalidate: true }) do |f| %>
-    <div
-      class="
-        flex max-md:flex-col
-        items-center md:items-baseline
-        gap-y-6 gap-x-12
-      "
-    >
-      <div class="flex items-baseline gap-x-3">
-        <%= f.label(:name, "Name:", class: "max-md:min-w-20") %>
-        <%= f.text_field(
-              :name,
-              autocomplete: :off,
-              autofocus: true,
-              onfocus: "this.select()",
-              data: { "1p-ignore": true },
-              class: "form-input w-32 p-1") %>
+  <div
+    data-controller="inline-edit"
+    data-action="keydown.esc@window->inline-edit#cancel"
+  >
+    <%= form_with(
+          model: new_form.to_model,
+          url: ui_portal_patterns_path,
+          html: { novalidate: true }) do |f| %>
+      <div
+        class="
+          flex max-md:flex-col
+          items-center md:items-baseline
+          gap-y-6 gap-x-12
+        "
+      >
+        <div class="flex items-baseline gap-x-3">
+          <%= f.label(:name, "Name:", class: "max-md:min-w-20") %>
+          <%= f.text_field(
+                :name,
+                autocomplete: :off,
+                autofocus: true,
+                onfocus: "this.select()",
+                data: { "1p-ignore": true },
+                class: "form-input w-32 p-1") %>
+        </div>
+
+        <%= f.fields_for(:settings, new_form.settings_form) do |sf| %>
+          <div class="flex items-baseline gap-x-3">
+            <%= sf.label(:width, "Width:", class: "max-md:min-w-20") %>
+            <%= sf.number_field(
+                  :width,
+                  value: sf.object.value(:width),
+                  in: sf.object.ranges(:width),
+                  class: "form-input w-[72px] p-1",
+                  inputmode: "numeric",
+                  pattern: "[0-9]{1,2}") %>
+          </div>
+          <div class="flex items-baseline gap-x-3">
+            <%= sf.label(:height, "Height:", class: "max-md:min-w-20") %>
+            <%= sf.number_field(
+                  :height,
+                  value: sf.object.value(:height),
+                  in: sf.object.ranges(:height),
+                  class: "form-input w-[72px] p-1",
+                  inputmode: "numeric",
+                  pattern: "[0-9]{1,2}") %>
+          </div>
+        <% end %>
+
+        <div class="inline-flex items-center gap-x-6">
+          <%= f.submit("Create", class: "btn-primary") %>
+          <%= link_to(
+                Emoji.hide,
+                ui_portal_patterns_path,
+                class: "no-underline text-xl",
+                data: {
+                  inline_edit_target: "cancel",
+                  turbo_stream: true,
+                }) %>
+        </div>
       </div>
 
-      <%= f.fields_for(:settings, view.settings_form) do |sf| %>
-        <div class="flex items-baseline gap-x-3">
-          <%= sf.label(:width, "Width:", class: "max-md:min-w-20") %>
-          <%= sf.number_field(
-                :width,
-                value: sf.object.value(:width),
-                in: sf.object.ranges(:width),
-                class: "form-input w-[72px] p-1",
-                inputmode: "numeric",
-                pattern: "[0-9]{1,2}") %>
-        </div>
-        <div class="flex items-baseline gap-x-3">
-          <%= sf.label(:height, "Height:", class: "max-md:min-w-20") %>
-          <%= sf.number_field(
-                :height,
-                value: sf.object.value(:height),
-                in: sf.object.ranges(:height),
-                class: "form-input w-[72px] p-1",
-                inputmode: "numeric",
-                pattern: "[0-9]{1,2}") %>
+      <% if new_form.any_errors? %>
+        <div class="mt-6 form-error text-left">
+          <%= new_form.display_errors %>
         </div>
       <% end %>
-
-      <div class="inline-flex items-center gap-x-6">
-        <%= f.submit("Create", class: "btn-primary") %>
-        <%= link_to(
-              Emoji.hide,
-              ui_portal_patterns_path,
-              class: "no-underline text-xl",
-              data: {
-                inline_edit_target: "cancel",
-                turbo_stream: true,
-              }) %>
-      </div>
-    </div>
-
-    <% if view.any_errors? %>
-      <div class="mt-6 form-error text-left">
-        <%= view.display_errors %>
-      </div>
     <% end %>
-  <% end %>
+  </div>
 <% end %>

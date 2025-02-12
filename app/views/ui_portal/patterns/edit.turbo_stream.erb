@@ -1,8 +1,0 @@
-<%= turbo_stream.update(:edit_pattern) do %>
-  <div
-    data-controller="inline-edit"
-    data-action="keydown.esc@window->inline-edit#cancel"
-  >
-    <%= render("ui_portal/patterns/edit_form", pattern: @pattern) %>
-  </div>
-<% end %>
