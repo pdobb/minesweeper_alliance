@@ -1,6 +1,9 @@
 <%# locals: (nav:) %>
 
-<div id="<%= nav.turbo_target %>">
+<div
+  id="<%= nav.turbo_target %>"
+  class="md:max-lg:max-w-75 flex justify-end truncate"
+>
   <% if nav.participant? %>
     <%= active_link_to(
           nav.account_url,
