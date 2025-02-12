@@ -11,13 +11,13 @@ class Games::Current::Board::Cells::RevealNeighborsController <
     # - If neighbors are revealed, {Cell#reveal} takes care of the
     #   de-highlighting of those {Cell}s for us.
     # - Else, we must take care of this here ourselves by including the
-    #   {Cell#highlightable_neighborhood} in the response--for the Turbo Stream
+    #   {Cell#highlightable_neighbors} in the response--for the Turbo Stream
     #   update/morph to revert them back to their default state.
     updated_cells =
       if cell.neighboring_flags_count_matches_value?
         Cell::RevealNeighbors.(context).updated_cells
       else
-        cell.highlightable_neighborhood
+        cell.highlightable_neighbors
       end
 
     broadcast_updates(updated_cells)
