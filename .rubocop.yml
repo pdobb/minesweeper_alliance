@@ -10,18 +10,6 @@ inherit_gem:
 AllCops:
   TargetRubyVersion: 3.4
 
-Layout/FirstMethodArgumentLineBreak:
-  AllowedMethods:
-    - t
-    - safe_join
-
-Metrics/MethodLength:
-  AllowedMethods:
-    - create
-    - update
-  Exclude:
-    - db/migrate/*.rb
-
 Naming/MethodParameterName:
   AllowedNames:
     - "on"
