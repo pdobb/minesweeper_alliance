@@ -89,7 +89,7 @@ Rails.application.routes.draw do
         end
       end
       namespace :patterns do
-        resources :imports, only: %i[new create]
+        resource :import, controller: :import, only: %i[new create]
       end
     end
   end

@@ -1,8 +1,0 @@
-<%= turbo_stream.update(:index_actions) do %>
-  <div
-    data-controller="inline-edit"
-    data-action="keydown.esc@window->inline-edit#cancel"
-  >
-    <%= render("ui_portal/patterns/imports/form", import_form: @import_form) %>
-  </div>
-<% end %>

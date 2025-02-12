@@ -84,6 +84,22 @@
   }
 }
 
+@utility form-file {
+  @apply cursor-pointer
+    file:border file:border-2 file:border-gray-800 dark:file:border-gray-400
+    file:mr-6 file:px-4 file:py-1;
+
+  &:hover,
+  &:disabled {
+    @apply file:ring-1
+        file:ring-red-700 dark:file:ring-red-600
+        file:border-red-700 dark:file:border-red-600;
+  }
+  &:disabled {
+    @apply text-red-600 dark:text-red-600;
+  }
+}
+
 @utility form-select {
   @apply bg-transparent focus:ring-0;
 
