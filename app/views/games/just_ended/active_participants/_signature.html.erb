@@ -1,10 +1,12 @@
 <%# locals: (signature:) %>
 
-<div class="flex justify-center items-center gap-x-3">
-  <%= signature.attribution_prefix %>
+<%= turbo_frame_tag(*signature.turbo_frame_name, class: "max-sm:w-full") do %>
+  <div class="flex justify-center items-center gap-x-3">
+    <%= signature.attribution_prefix %>
 
-  <%= link_to(
-        signature.attribution_link_content,
-        signature.attribution_link_url,
-        data: { turbo_stream: true }) %>
-</div>
+    <%= link_to(
+          signature.link_content,
+          signature.edit_url,
+          data: { turbo_stream: true }) %>
+  </div>
+<% end %>

@@ -5,13 +5,13 @@ class Games::JustEnded::ActiveParticipants::CurrentUserController <
   before_action :require_game
 
   def show
-    @view =
+    @show =
       Games::JustEnded::ActiveParticipants::CurrentUser::Show.new(
         game: @game, user: current_user)
   end
 
   def edit
-    @view =
+    @edit =
       Games::JustEnded::ActiveParticipants::CurrentUser::Edit.new(
         game: @game, user: current_user)
   end
@@ -30,7 +30,7 @@ class Games::JustEnded::ActiveParticipants::CurrentUserController <
                 to: current_user.display_name))
         end
         format.turbo_stream {
-          @view =
+          @update =
             Games::JustEnded::ActiveParticipants::CurrentUser::Update.new(
               game: @game, user: current_user)
         }

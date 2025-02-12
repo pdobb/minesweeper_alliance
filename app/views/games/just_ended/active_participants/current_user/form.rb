@@ -8,9 +8,13 @@ class Games::JustEnded::ActiveParticipants::CurrentUser::Form
     @user = user
   end
 
+  def turbo_frame_name
+    Games::JustEnded::ActiveParticipants::Signature.turbo_frame_name(user:)
+  end
+
   def to_model = user
 
-  def post_url = Router.just_ended_game_current_user_path(game)
+  def update_url = Router.just_ended_game_current_user_path(game)
   def cancel_url = Router.just_ended_game_current_user_path(game)
 
   private

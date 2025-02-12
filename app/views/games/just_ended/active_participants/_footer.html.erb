@@ -8,11 +8,9 @@
     data-action="turbo:before-stream-render@window->turbo-events#preventRefresh"
     class="-mt-10 mb-3 min-h-24 flex justify-center items-center"
   >
-    <% footer.signature.tap do |signature| %>
-      <%= turbo_frame_tag(*signature.turbo_frame_name, class: "max-sm:w-full") do %>
-        <%= render("games/just_ended/active_participants/signature", signature:) %>
-      <% end %>
-    <% end %>
+    <%= render(
+          "games/just_ended/active_participants/signature",
+          signature: footer.signature) %>
   </div>
 
   <%= render("games/just_ended/results", results: footer.results) %>

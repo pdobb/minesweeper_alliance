@@ -8,13 +8,6 @@ class Games::JustEnded::ActiveParticipants::CurrentUser::Edit
     @user = user
   end
 
-  def turbo_frame_name = signature.turbo_frame_name
-
-  def signature
-    @signature ||=
-      Games::JustEnded::ActiveParticipants::Signature.new(game:, user:)
-  end
-
   def form
     Games::JustEnded::ActiveParticipants::CurrentUser::Form.new(game:, user:)
   end

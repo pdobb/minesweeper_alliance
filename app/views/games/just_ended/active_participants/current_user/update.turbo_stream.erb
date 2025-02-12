@@ -1,17 +1,17 @@
-<% @view.signature.tap do |signature| %>
+<% @update.signature.tap do |signature| %>
   <%= turbo_stream.update(signature.turbo_frame_name) do %>
     <%= render("games/just_ended/active_participants/signature", signature:) %>
   <% end %>
 <% end %>
 
-<% if @view.signer_status_just_changed? %>
-  <% @view.nav.tap do |nav| %>
+<% if @update.signer_status_just_changed? %>
+  <% @update.nav.tap do |nav| %>
     <%= turbo_stream.update(nav.turbo_target) do %>
       <%= render("current_user/nav", nav:) %>
     <% end %>
   <% end %>
 
-  <% @view.welcome_banner(context: layout).tap do |welcome_banner| %>
+  <% @update.welcome_banner(context: layout).tap do |welcome_banner| %>
     <% if welcome_banner.show? %>
       <%= turbo_stream.update(welcome_banner.turbo_update_id) do %>
         <%= render("layouts/banner", banner: welcome_banner.banner) %>
@@ -19,7 +19,7 @@
     <% end %>
   <% end %>
 
-  <% @view.new_game_content.tap do |content| %>
+  <% @update.new_game_content.tap do |content| %>
     <%= turbo_stream.update(content.turbo_frame_name) do %>
       <%= render("games/new/content", content:) %>
     <% end %>
