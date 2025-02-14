@@ -74,6 +74,7 @@ group :development do
   gem "web-console"
 
   gem "amazing_print"
+  gem "erb_lint", require: false
   gem "rubocop-rails", require: false
 end
 

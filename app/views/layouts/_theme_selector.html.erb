@@ -22,7 +22,7 @@
           class: "absolute inset-0 size-full opacity-0",
           data: {
             action: "theme#switchToTheme",
-            theme_target: "themeSelectorDropdown"
+            theme_target: "themeSelectorDropdown",
           }) %>
   </div>
 </div>
@@ -37,7 +37,8 @@
   <%= render(
         layout: "application/menu",
         locals: {
-          menu: layout.theme_menu(button_content: content_for(:theme_menu_button))
+          menu:
+            layout.theme_menu(button_content: content_for(:theme_menu_button)),
         }) do %>
     <ul
       role="listbox"

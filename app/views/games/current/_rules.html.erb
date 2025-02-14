@@ -3,7 +3,7 @@
 <%= render(
       layout: "collapse_container",
       locals: {
-        collapse_container: rules.collapse_container(context: layout)
+        collapse_container: rules.collapse_container(context: layout),
       }) do %>
   <ol class="space-y-2 list-decimal ml-7">
     <li>
@@ -16,7 +16,8 @@
       </p>
     </li>
     <li>
-      <strong><%= rules.flag_method_descriptor %></strong> a cell to flag (<%= Emoji.flag %>) it as a suspected mine (<%= Emoji.mine %>).
+      <strong><%= rules.flag_method_descriptor %></strong>
+      a cell to flag (<%= Emoji.flag %>) it as a suspected mine (<%= Emoji.mine %>).
     </li>
     <li>
       <strong><%= rules.reveal_neighbors_method_descriptor %></strong>
@@ -25,7 +26,8 @@
         &ndash; Possible only after the correct number of surrounding cells have been flagged.
       </p>
       <p class="text-dim">
-        &ndash; Be careful! This does not protect against mistaken flag (<%= Emoji.flag %>) placements.
+        &ndash; Be careful!
+        This does not protect against mistaken flag (<%= Emoji.flag %>) placements.
       </p>
     </li>
     <li>

@@ -57,7 +57,8 @@
             data: {
               turbo_method: :delete,
               turbo_confirm:
-                t("account.reset.confirmation", name: current_user.display_name),
+                t("account.reset.confirmation",
+                  name: current_user.display_name),
             },
             class: "inline-flex gap-x-2 items-center") do %>
         Voluntary Discharge

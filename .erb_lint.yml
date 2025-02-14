@@ -1,0 +1,39 @@
+EnableDefaultLinters: true
+linters:
+  DeprecatedClasses:
+    enabled: false
+  ErbSafety:
+    enabled: true
+  HardCodedString:
+    enabled: false
+  PartialInstanceVariable:
+    enabled: true
+  Rubocop:
+    enabled: true
+    rubocop_config:
+      inherit_from:
+        - .rubocop.yml
+      Layout/InitialIndentation:
+        Enabled: false
+      Layout/LeadingEmptyLines:
+        Enabled: false
+      Layout/LineLength:
+        Exclude:
+          - app/views/games/current/board/_content.html.erb
+          - app/views/layouts/_banner.html.erb
+      Layout/MultilineArrayLineBreaks:
+        Enabled: false
+      Layout/TrailingEmptyLines:
+        Enabled: false
+      Layout/TrailingWhitespace:
+        Enabled: false
+      Lint/UselessAssignment:
+        Enabled: false
+      Style/FrozenStringLiteralComment:
+        Enabled: false
+  RequireScriptNonce:
+    enabled: false
+  SpaceInHtmlTag:
+    enabled: false
+  StrictLocals:
+    enabled: true
