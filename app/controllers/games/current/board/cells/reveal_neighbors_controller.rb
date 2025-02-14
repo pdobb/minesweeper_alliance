@@ -4,8 +4,6 @@ class Games::Current::Board::Cells::RevealNeighborsController <
         ApplicationController
   include Games::Current::Board::Cells::ActionBehaviors
 
-  skip_before_action :require_participant
-
   def create
     # We must always dehighlight any highlighted {Cell}s, as per our game play
     # rules.

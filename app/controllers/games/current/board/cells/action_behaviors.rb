@@ -5,21 +5,13 @@
 module Games::Current::Board::Cells::ActionBehaviors
   extend ActiveSupport::Concern
 
-  included do
-    include AllowBrowserBehaviors
-
-    rate_limit to: 6, within: 2.seconds unless App.debug?
-
-    before_action :require_participant
-  end
-
   private
 
   def require_participant
     return if current_user.participant?
 
     CreateParticipant.(game:, context: self)
-    generate_user_nav_turbo_stream_update_action
+    turbo_stream_actions << generate_user_nav_turbo_stream_update_action
   end
 
   def game
@@ -49,12 +41,11 @@ module Games::Current::Board::Cells::ActionBehaviors
   def generate_user_nav_turbo_stream_update_action
     nav = CurrentUser::Nav.new(user: current_user)
 
-    turbo_stream_actions <<
-      turbo_stream.replace(
-        nav.turbo_target,
-        method: :morph,
-        partial: "current_user/nav",
-        locals: { nav: })
+    turbo_stream.replace(
+      nav.turbo_target,
+      method: :morph,
+      partial: "current_user/nav",
+      locals: { nav: })
   end
 
   def broadcast_updates(...)

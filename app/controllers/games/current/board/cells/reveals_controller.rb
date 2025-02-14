@@ -3,6 +3,8 @@
 class Games::Current::Board::Cells::RevealsController < ApplicationController
   include Games::Current::Board::Cells::ActionBehaviors
 
+  before_action :require_participant
+
   def create
     updated_cells = Cell::Reveal.(context).updated_cells
 
