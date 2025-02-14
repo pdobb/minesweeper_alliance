@@ -4,22 +4,26 @@ class Games::Current::Board::Cells::RevealNeighborsController <
         ApplicationController
   include Games::Current::Board::Cells::ActionBehaviors
 
-  def create
-    # Whether we end up revealing any neighboring {Cell}s or not, we will always
-    # need to dehighlight any highlighted neighboring {Cell}s as per our game
-    # play rules.
-    # - If neighbors are revealed, {Cell#reveal} takes care of the
-    #   de-highlighting of those {Cell}s for us.
-    # - Else, we must take care of this here ourselves by including the
-    #   {Cell#highlightable_neighborhood} in the response--for the Turbo Stream
-    #   update/morph to revert them back to their default state.
-    updated_cells =
-      if cell.neighboring_flags_count_matches_value?
-        Cell::RevealNeighbors.(context).updated_cells
-      else
-        cell.highlightable_neighborhood
-      end
+  skip_before_action :require_participant
 
-    broadcast_updates(updated_cells)
+  def create
+    # We must always dehighlight any highlighted {Cell}s, as per our game play
+    # rules.
+    # - If neighbors are being revealed here, {Cell#reveal} takes care of this.
+    # - Else, we appeal to {Games::Current::Board::Cells::DehighlightNeighbors}
+    #   to revert any highlighted {Cell}s back to their default state.
+    if cell.neighboring_flags_count_matches_value?
+      require_participant
+
+      updated_cells = Cell::RevealNeighbors.(context).updated_cells
+      broadcast_updates(updated_cells)
+    else
+      cell = Cell.find(params[:cell_id])
+      updated_cells = cell.highlightable_neighborhood
+      turbo_stream_actions =
+        Cell::TurboStream::Morph.wrap_and_call(updated_cells, turbo_stream:)
+
+      WarRoom::Responder.new(context: self).(turbo_stream_actions:)
+    end
   end
 end

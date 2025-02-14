@@ -2,11 +2,17 @@
 
 class Games::Current::Board::Cells::HighlightNeighborsController <
         ApplicationController
-  include Games::Current::Board::Cells::ActionBehaviors
+  rate_limit to: 3, within: 1.second
 
   def create
     updated_cells = cell.soft_highlight_neighborhood
+    turbo_stream_actions =
+      Cell::TurboStream::Morph.wrap_and_call(updated_cells, turbo_stream:)
 
-    broadcast_updates(updated_cells)
+    WarRoom::Responder.new(context: self).(turbo_stream_actions:)
   end
+
+  private
+
+  def cell = Cell.find(params[:cell_id])
 end
