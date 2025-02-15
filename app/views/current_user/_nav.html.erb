@@ -1,22 +1,28 @@
 <%# locals: (nav:) %>
 
-<div
+<ul
   id="<%= nav.turbo_target %>"
-  class="md:max-lg:max-w-75 flex justify-end truncate"
+  class="
+    md:max-lg:max-w-75
+    flex justify-end
+    whitespace-nowrap overflow-hidden
+  "
 >
-  <% if nav.participant? %>
-    <%= active_link_to(
-          nav.account_url,
-          data: { turbo_frame: :_top }) do %>
-      <span
-        data-signer="<%= nav.signer? %>"
-        class="max-md:hidden"
-      >
-        <%= nav.updateable_display_name %>
-      </span>
-      <span class="text-xl/5 relative top-0.5"><%= Emoji.medal %></span>
+  <li>
+    <% if nav.participant? %>
+      <%= active_link_to(
+            nav.account_url,
+            data: { turbo_frame: :_top }) do %>
+        <span
+          data-signer="<%= nav.signer? %>"
+          class="max-md:hidden"
+        >
+          <%= nav.updateable_display_name %>
+        </span>
+        <span class="text-xl/5 relative top-0.5"><%= Emoji.medal %></span>
+      <% end %>
+    <% else %>
+      <span class="max-md:hidden"><%= t("site.name") %></span>
     <% end %>
-  <% else %>
-    <span class="max-md:hidden"><%= t("site.name") %></span>
-  <% end %>
-</div>
+  </li>
+</ul>
