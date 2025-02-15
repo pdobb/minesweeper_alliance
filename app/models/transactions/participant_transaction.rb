@@ -41,7 +41,7 @@
 #
 # @see Game::Current::Create
 # @see Game::Current::Join
-# @see Games::Current::Board::Cells::ActionBehaviors::CreateParticipant
+# @see Games::Current::CreateParticipant
 class ParticipantTransaction < ApplicationRecord
   belongs_to :user
   belongs_to :game

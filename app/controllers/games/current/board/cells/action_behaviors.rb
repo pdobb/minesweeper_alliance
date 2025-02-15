@@ -10,7 +10,7 @@ module Games::Current::Board::Cells::ActionBehaviors
   def require_participant
     return if current_user.participant?
 
-    CreateParticipant.(game:, context: self)
+    Games::Current::CreateParticipant.(game:, context: self)
     turbo_stream_actions << generate_user_nav_turbo_stream_update_action
   end
 
@@ -119,51 +119,5 @@ module Games::Current::Board::Cells::ActionBehaviors
     private
 
     attr_reader :context
-  end
-
-  # Games::Current::Board::Cells::ActionBehaviors::CreateParticipant
-  # - Creates the "Current {User}" to which this Cell Action will be associated
-  # - Creates an active {ParticipantTransaction} between the new {User} and the
-  #   passed-in {Game}
-  class CreateParticipant
-    include CallMethodBehaviors
-
-    def initialize(game:, context:)
-      @game = game
-      @context = context
-    end
-
-    def call
-      context.current_user_will_change
-
-      User.transaction do
-        User::Current::Create.(context: CreateUserContext.new(context))
-        ParticipantTransaction.create_active_between(user: current_user, game:)
-        FleetTracker.add!(current_user.token)
-      end
-    end
-
-    private
-
-    attr_reader :game,
-                :context
-
-    def current_user = context.current_user
-    def cookies = context.__send__(:cookies)
-
-    # Games::Current::Board::Cells::ActionBehaviors::CreateParticipant::CreateUserContext
-    # services the needs of {User::Current::Create}.
-    class CreateUserContext
-      def initialize(context) = @context = context
-      def layout = context.layout
-
-      def user_agent = layout.user_agent
-      def store_signed_cookie(...) = layout.store_signed_cookie(...)
-      def delete_cookie(...) = layout.cookies.delete(...)
-
-      private
-
-      attr_reader :context
-    end
   end
 end
