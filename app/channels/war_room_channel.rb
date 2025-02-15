@@ -22,7 +22,6 @@ class WarRoomChannel < Turbo::StreamsChannel
   # Broadcast a custom-built Array of `<turbo-stream>...</turbo-stream>`
   # element(s).
   def self.broadcast(content, ...)
-    content = Array.wrap(content).join
     ActionCable.server.broadcast(STREAM_NAME, content, ...)
   end
 

@@ -39,6 +39,19 @@ class FlatArrayTest < ActiveSupport::TestCase
         subject << %w[TEST2 TEST3]
         _(subject.to_a).must_equal(%w[TEST1 TEST2 TEST3])
       end
+
+      context "GIVEN an Array of Arrays" do
+        it "flat pushes items on" do
+          subject << "TEST1"
+          subject << ["TEST2", %w[TEST3 TEST4]]
+          _(subject.to_a).must_equal(%w[TEST1 TEST2 TEST3 TEST4])
+        end
+
+        it "doesn't affect the original item" do
+          item = ["TEST1", %w[TEST2 TEST3]]
+          _(-> { subject << item }).wont_change(item)
+        end
+      end
     end
 
     describe "#push" do
@@ -49,6 +62,44 @@ class FlatArrayTest < ActiveSupport::TestCase
         subject.push(%w[TEST2 TEST3])
         _(subject.to_a).must_equal(%w[TEST1 TEST2 TEST3])
       end
+
+      context "GIVEN an Array of Arrays" do
+        it "flat pushes items on" do
+          subject.push("TEST1")
+          subject.push(["TEST2", %w[TEST3 TEST4]])
+          _(subject.to_a).must_equal(%w[TEST1 TEST2 TEST3 TEST4])
+        end
+
+        it "doesn't affect the original item" do
+          item = ["TEST1", %w[TEST2 TEST3]]
+          _(-> { subject.push(item) }).wont_change(item)
+        end
+      end
+    end
+
+    describe "#concat" do
+      subject { unit_class.new }
+
+      # rubocop:disable Style/ConcatArrayLiterals
+      it "flat concatenates items on" do
+        subject.concat("TEST1")
+        subject.concat(%w[TEST2 TEST3])
+        _(subject.to_a).must_equal(%w[TEST1 TEST2 TEST3])
+      end
+
+      context "GIVEN an Array of Arrays" do
+        it "flat concatenates items on" do
+          subject.concat("TEST1")
+          subject.concat(["TEST2", %w[TEST3 TEST4]])
+          _(subject.to_a).must_equal(%w[TEST1 TEST2 TEST3 TEST4])
+        end
+
+        it "doesn't affect the original item" do
+          item = ["TEST1", %w[TEST2 TEST3]]
+          _(-> { subject.concat(item) }).wont_change(item)
+        end
+      end
+      # rubocop:enable Style/ConcatArrayLiterals
     end
 
     describe "[<FlatArray>]#flatten" do

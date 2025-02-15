@@ -50,29 +50,26 @@ module Games::Current::Board::Cells::ActionBehaviors
 
   def broadcast_updates(...)
     if game.just_ended?
-      broadcast_just_ended_game_updates
-      broadcast_general_game_end_updates
+      turbo_stream_actions << generate_just_ended_game_update_action
+      enqueue_game_end_update_jobs
     else
-      broadcast_current_game_updates(...)
+      FleetTracker.activate!(current_user_token)
+      turbo_stream_actions << generate_current_game_update_actions(...)
     end
+
+    WarRoom::Responder.new(context: self).(turbo_stream_actions:)
   end
 
-  def broadcast_current_game_updates(updated_cells)
-    FleetTracker.activate!(current_user_token)
-
-    content = [
+  def generate_current_game_update_actions(updated_cells)
+    [
       (yield if block_given?), # Cell Action Controller-specific updates.
       Cell::TurboStream::Morph.wrap_and_call(updated_cells, turbo_stream:),
-    ].join
-
-    WarRoomChannel.broadcast(content)
-    respond_with { render(turbo_stream: turbo_stream_actions.push(content)) }
+    ]
   end
 
   def current_user_token = context.user_token
 
-  # :reek:TooManyStatements
-  def broadcast_just_ended_game_updates
+  def generate_just_ended_game_update_action
     container = Games::JustEnded::Container.new(game:)
     target = container.turbo_frame_name
     html =
@@ -81,25 +78,16 @@ module Games::Current::Board::Cells::ActionBehaviors
     # Can't use `:morph` here or
     # app/javascript/controllers/games/just_ended/new_game_content_controller.js
     # will fail to remove the "Custom" button for non-signers on the 2nd
-    # rendering (from the broadcast).
-    content = turbo_stream.replace(target, html:)
+    # rendering--as a result of the broadcast.
 
-    WarRoomChannel.broadcast(content)
-    respond_with { render(turbo_stream: turbo_stream_actions.push(content)) }
+    turbo_stream.replace(target, html:)
   end
 
-  def broadcast_general_game_end_updates
+  def enqueue_game_end_update_jobs
     Game::Current::BroadcastWarRoomActivityIndicatorUpdateJob.perform_later
     Game::JustEnded::BroadcastNewBestsNotificationJob.perform_later(game)
     Turbo::StreamsChannel.broadcast_refresh_later_to(
       Games::Index.turbo_stream_name)
-  end
-
-  def respond_with(&)
-    respond_to do |format|
-      format.html { redirect_to(root_path) }
-      format.turbo_stream(&)
-    end
   end
 
   def context = Context.new(self)

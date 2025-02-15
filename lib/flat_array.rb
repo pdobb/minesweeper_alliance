@@ -2,9 +2,8 @@
 
 require "forwardable"
 
-# FlatArray is an Array that presents a friendly interface for ensuring single
-# or multiple-object pushes are always nicely concatenated on, instead of
-# creating an Array of Arrays. It should otherwise act like an Array, as needed.
+# FlatArray is an Array-like object that automatically concatenates and/or
+# flattens whatever is added to it. It otherwise acts like an Array, as needed.
 class FlatArray
   extend Forwardable
 
@@ -12,7 +11,7 @@ class FlatArray
 
   def_delegators(
     :array,
-    :[], :[]=, :concat, :each, :first, :join, :last, :size, :sort, :sort!,
+    :[], :[]=, :each, :first, :join, :last, :size, :sort, :sort!,
     :to_a, :to_ary, :uniq!)
 
   def self.[](*) = new(*)
@@ -23,12 +22,13 @@ class FlatArray
 
   def <<(item) = add(item)
   def push(item) = add(item)
+  def concat(item) = add(item)
 
   private
 
   attr_reader :array
 
   def add(item)
-    concat(Array.wrap(item))
+    array.concat(Array.wrap(item).flatten)
   end
 end
