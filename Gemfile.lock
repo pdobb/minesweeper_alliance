@@ -150,7 +150,7 @@ GEM
     fugit (1.11.1)
       et-orbi (~> 1, >= 1.2.11)
       raabro (~> 1.4)
-    gemwork (0.7.9)
+    gemwork (0.7.11)
       debug
       irb
       minitest
@@ -195,6 +195,7 @@ GEM
       thor (~> 1.3)
       zeitwerk (>= 2.6.18, < 3.0)
     language_server-protocol (3.17.0.4)
+    lint_roller (1.1.0)
     logger (1.6.6)
     loofah (2.24.0)
       crass (~> 1.0.2)
@@ -339,9 +340,10 @@ GEM
     requestjs-rails (0.0.12)
       railties (>= 6.1.0)
     rexml (3.4.0)
-    rubocop (1.71.2)
+    rubocop (1.72.1)
       json (~> 2.3)
-      language_server-protocol (>= 3.17.0)
+      language_server-protocol (~> 3.17.0.2)
+      lint_roller (~> 1.1.0)
       parallel (~> 1.10)
       parser (>= 3.3.0.2)
       rainbow (>= 2.2.2, < 4.0)
@@ -351,19 +353,23 @@ GEM
       unicode-display_width (>= 2.4.0, < 4.0)
     rubocop-ast (1.38.0)
       parser (>= 3.3.1.0)
-    rubocop-minitest (0.36.0)
-      rubocop (>= 1.61, < 2.0)
-      rubocop-ast (>= 1.31.1, < 2.0)
-    rubocop-performance (1.23.1)
-      rubocop (>= 1.48.1, < 2.0)
-      rubocop-ast (>= 1.31.1, < 2.0)
-    rubocop-rails (2.29.1)
+    rubocop-minitest (0.37.1)
+      lint_roller (~> 1.1)
+      rubocop (>= 1.72.1, < 2.0)
+      rubocop-ast (>= 1.38.0, < 2.0)
+    rubocop-performance (1.24.0)
+      lint_roller (~> 1.1)
+      rubocop (>= 1.72.1, < 2.0)
+      rubocop-ast (>= 1.38.0, < 2.0)
+    rubocop-rails (2.30.0)
       activesupport (>= 4.2.0)
+      lint_roller (~> 1.1)
       rack (>= 1.1)
-      rubocop (>= 1.52.0, < 2.0)
-      rubocop-ast (>= 1.31.1, < 2.0)
-    rubocop-rake (0.6.0)
-      rubocop (~> 1.0)
+      rubocop (>= 1.72.1, < 2.0)
+      rubocop-ast (>= 1.38.0, < 2.0)
+    rubocop-rake (0.7.0)
+      lint_roller (~> 1.1)
+      rubocop (>= 1.72.1)
     ruby-progressbar (1.13.0)
     securerandom (0.4.1)
     simplecov (0.22.0)
@@ -400,7 +406,7 @@ GEM
       rails (>= 6)
     stimulus-rails (1.3.4)
       railties (>= 6.0.0)
-    stringio (3.1.2)
+    stringio (3.1.3)
     tailwindcss-rails (4.0.0)
       railties (>= 7.0.0)
       tailwindcss-ruby (~> 4.0)
@@ -534,7 +540,7 @@ CHECKSUMS
   erubi (1.13.1) sha256=a082103b0885dbc5ecf1172fede897f9ebdb745a4b97a5e8dc63953db1ee4ad9
   et-orbi (1.2.11) sha256=d26e868cc21db88280a9ec1a50aa3da5d267eb9b2037ba7b831d6c2731f5df64
   fugit (1.11.1) sha256=e89485e7be22226d8e9c6da411664d0660284b4b1c08cacb540f505907869868
-  gemwork (0.7.9) sha256=13db33a3c975cebc226c1d1a8459338b0b833739a55e8c3d506c4d54054a360c
+  gemwork (0.7.11) sha256=6ffcd7bd045c9c532b69d532e14c09746e12375ebb5dbe8d735ad406b630bf28
   globalid (1.2.1) sha256=70bf76711871f843dbba72beb8613229a49429d1866828476f9c9d6ccc327ce9
   honeybadger (5.26.3) sha256=4992c85937aaa07f0f52b6730b494ddef564013a062162a935d0007ca018448b
   i18n (1.14.7) sha256=ceba573f8138ff2c0915427f1fc5bdf4aa3ab8ae88c8ce255eb3ecf0a11a5d0f
@@ -545,6 +551,7 @@ CHECKSUMS
   json (2.10.1) sha256=ddc88ad91a1baf3f0038c174f253af3b086d30dc74db17ca4259bbde982f94dc
   kamal (2.5.2) sha256=5e48a73c8f150143717f7602ef1b513ba9bc1417e498b4000470fbdfe595e18d
   language_server-protocol (3.17.0.4) sha256=c484626478664fd13482d8180947c50a8590484b1258b99b7aedb3b69df89669
+  lint_roller (1.1.0) sha256=2c0c845b632a7d172cb849cc90c1bce937a28c5c8ccccb50dfd46a485003cc87
   logger (1.6.6) sha256=dd618d24e637715472732e7eed02e33cfbdf56deaad225edd0f1f89d38024017
   loofah (2.24.0) sha256=61e6a710883abb8210887f3dc868cf3ed66594c509d9ff6987621efa6651ee1e
   mail (2.8.1) sha256=ec3b9fadcf2b3755c78785cb17bc9a0ca9ee9857108a64b6f5cfc9c0b5bfc9ad
@@ -603,12 +610,12 @@ CHECKSUMS
   reline (0.6.0) sha256=57620375dcbe56ec09bac7192bfb7460c716bbf0054dc94345ecaa5438e539d2
   requestjs-rails (0.0.12) sha256=d3f863b16ae3469b2ebb83110b9831d74375f44e06b1194b5052a997fc2c48e7
   rexml (3.4.0) sha256=efbea1efba7fa151158e0ee1e643525834da2d8eb4cf744aa68f6480bc9804b2
-  rubocop (1.71.2) sha256=9a7b7501aac661a338ed7ff2a5eba78e581759e1f0d3c82362b2ca217ed3f97f
+  rubocop (1.72.1) sha256=4306ae64c6e7e1026d2a90ed755a113c7b9bf0ac21037b8046fbc826a87daaa5
   rubocop-ast (1.38.0) sha256=4fdf6792fe443a9a18acb12dbc8225d0d64cd1654e41fedb30e79c18edbb26ae
-  rubocop-minitest (0.36.0) sha256=1d15850849c685ff4b6d64dd801ec2d13eb2fe56b6f7ce9aab93d1b0508e7b9f
-  rubocop-performance (1.23.1) sha256=f22f86a795f5e6a6180aac2c6fc172534b173a068d6ed3396d6460523e051b82
-  rubocop-rails (2.29.1) sha256=41c2fcf48d5d62f4a5f574d5f1c97bbaf4cba88ee367936c98b3422d047b17aa
-  rubocop-rake (0.6.0) sha256=56b6f22189af4b33d4f4e490a555c09f1281b02f4d48c3a61f6e8fe5f401d8db
+  rubocop-minitest (0.37.1) sha256=dcdcc2c835a859193e50bc67296daaf95ac99f6410838119374df31490460d36
+  rubocop-performance (1.24.0) sha256=e5bd39ff3e368395b9af886927cc37f5892f43db4bd6c8526594352d5b4440b5
+  rubocop-rails (2.30.0) sha256=37d475c2cab768d1dfb07bee908ebdbc4814cfaa62f906d3e7adbcd7be01a33d
+  rubocop-rake (0.7.0) sha256=b26fe80bb7d51a2cc0ec1708d8ca97f9e329be0721c30263b79ba44dfafe8ada
   ruby-progressbar (1.13.0) sha256=80fc9c47a9b640d6834e0dc7b3c94c9df37f08cb072b7761e4a71e22cff29b33
   say (0.7.0)
   securerandom (0.4.1) sha256=cc5193d414a4341b6e225f0cb4446aceca8e50d5e1888743fac16987638ea0b1
@@ -622,7 +629,7 @@ CHECKSUMS
   sshkit (1.24.0) sha256=9597c1f984778ae9742f2dc839778d57a6a2efb868107046575c52ac7c628e6c
   statusable (0.5.0) sha256=d0d88fe4efa701ff90e76636b3a31d9fea156733250e2c33445de84b4311204d
   stimulus-rails (1.3.4) sha256=765676ffa1f33af64ce026d26b48e8ffb2e0b94e0f50e9119e11d6107d67cb06
-  stringio (3.1.2) sha256=204f1828f85cdb39d57cac4abc6dc44b04505a223f131587f2e20ae3729ba131
+  stringio (3.1.3) sha256=1eedb8369ee99a9a0edfdacea95c72d647feb8ce844427c150bd641e1797abc8
   tailwindcss-rails (4.0.0) sha256=19c871a71eaf24477a480e07fb4481e4293fe33290096305a96f2f0d3ced053a
   tailwindcss-ruby (4.0.6) sha256=5d4ab8db3467d157c587a78333c98750cd6017ed9d8ef55a770b50ab031f90a2
   tailwindcss-ruby (4.0.6-aarch64-linux-gnu) sha256=9558dae615484964f9616a805dba67220003b16ac1bf86f255d73fc03edb6501
@@ -651,7 +658,7 @@ CHECKSUMS
   zeitwerk (2.7.1) sha256=0945986050e4907140895378e74df1fe882a2271ed087cc6c6d6b00d415a2756
 
 RUBY VERSION
-   ruby 3.4.1p0
+   ruby 3.4.2p28
 
 BUNDLED WITH
    2.6.3
