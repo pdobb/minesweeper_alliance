@@ -3,8 +3,14 @@
 # Games::Current::Board::Header represents the {Board} header for the current
 # {Game}.
 class Games::Current::Board::Header
+  def self.placed_flags_count_turbo_target = "placedFlagsCount"
+
   def initialize(board:)
     @board = board
+  end
+
+  def placed_flags_count_turbo_target
+    self.class.placed_flags_count_turbo_target
   end
 
   def flags_count = board.flags_count
