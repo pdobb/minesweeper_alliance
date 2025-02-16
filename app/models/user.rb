@@ -72,12 +72,8 @@ class User < ApplicationRecord
            source: :cell
 
   scope :for_token, ->(token) { where(id: token) }
-  scope :for_tokenish, ->(token) { where("id::text LIKE ?", "%#{token}") }
   scope :for_authentication_token, ->(authentication_token) {
     where(authentication_token:)
-  }
-  scope :for_username, ->(username) {
-    where("username LIKE ?", "%#{username}%")
   }
   scope :for_game, ->(game) { joins(:games).merge(Game.for_id(game)) }
   scope :for_game_as_observer, ->(game) {
@@ -178,6 +174,41 @@ class User < ApplicationRecord
     def inspect_identification = identify(:truncated_id)
     def truncated_id = id[TRUNCATED_TOKENS_RANGE]
 
-    def inspect_info = time_zone
+    def inspect_info = time_zone || "NO_TIME_ZONE"
+  end
+
+  # User::Console acts like a {User} but otherwise handles IRB Console-specific
+  # methods/logic.
+  class Console
+    include ConsoleObjectBehaviors
+
+    TRUNCATED_TOKENS_REGEX = /\A\d{#{TRUNCATED_TOKENS_LENGTH}}\z/
+
+    scope :for_mms_id, ->(mms_id) {
+      mms_id = mms_id.to_s.delete_prefix("#{DESIGNATION}-")
+      return none unless mms_id.match?(TRUNCATED_TOKENS_REGEX)
+
+      where("FLOOR(EXTRACT(EPOCH FROM created_at))::int % 10000 = ?", mms_id)
+    }
+    scope :like_token, ->(token) { where("id::text LIKE ?", "%#{token}") }
+    scope :like_username, ->(username) {
+      where("username LIKE ?", "%#{username}%")
+    }
+
+    def self.recover(value = nil)
+      users =
+        __class__.
+          for_mms_id(value).
+          or(like_token(value)).
+          or(like_username(value))
+
+      users.map { |user|
+        {
+          user.identify(:mms_id, :username, :token) =>
+            Router.current_user_account_authentication_url(
+              token: user.authentication_token),
+        }
+      }
+    end
   end
 end
