@@ -7,10 +7,10 @@
 class Cell::ToggleFlag
   include CallMethodBehaviors
 
-  def initialize(cell:, user:, game:)
-    @cell = cell
-    @user = user
-    @game = game
+  def initialize(context:)
+    @game = context.game
+    @cell = context.cell
+    @user = context.user
   end
 
   def call
@@ -18,17 +18,21 @@ class Cell::ToggleFlag
       create_transaction_records
       toggle_flag
     end
+
+    self
+  end
+
+  def updated_cells
+    cell
   end
 
   private
 
-  attr_reader :cell,
-              :user,
-              :game
+  attr_reader :game,
+              :cell,
+              :user
 
-  def toggle_flag
-    cell.toggle_flag
-  end
+  def toggle_flag = cell.toggle_flag
 
   def create_transaction_records
     transaction_class.create_between(user:, cell:)

@@ -5,16 +5,19 @@ class Games::Current::Board::Cells::HighlightNeighborsController <
   rate_limit to: 3, within: 1.second
 
   def create
-    response_generator << cell.soft_highlight_neighborhood
-    response_generator.call
+    dispatch_effect.call { |dispatch| dispatch.(perform_effect) }
   end
 
   private
 
   def cell = Cell.find(params[:cell_id])
 
-  def response_generator
-    @response_generator ||=
-      Games::Current::Board::Cells::GeneratePassiveResponse.new(context: self)
+  def dispatch_effect
+    @dispatch_effect ||=
+      Games::Current::Board::Cells::DispatchEffect.new(context: self)
+  end
+
+  def perform_effect
+    cell.soft_highlight_neighborhood
   end
 end

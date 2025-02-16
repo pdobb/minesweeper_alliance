@@ -38,7 +38,7 @@ class Cell::RevealTest < ActiveSupport::TestCase
       end
 
       context "GIVEN an unrevealed Cell" do
-        subject { unit_class.new(context1) }
+        subject { unit_class.new(context: context1) }
 
         it "orchestrates Game state checks and Cell reveal as expected, "\
            "and returns self" do
@@ -76,7 +76,7 @@ class Cell::RevealTest < ActiveSupport::TestCase
           standing_by1_board_cell1.reveal
         end
 
-        subject { unit_class.new(context1) }
+        subject { unit_class.new(context: context1) }
 
         it "doesn't orchestrate any changes, and returns self" do
           result =

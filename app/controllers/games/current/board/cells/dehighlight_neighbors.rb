@@ -9,8 +9,7 @@ class Games::Current::Board::Cells::DehighlightNeighbors
   end
 
   def call
-    passive_response_generator << cell.highlightable_neighborhood
-    passive_response_generator.call
+    dispatch_effect.call { |dispatch| dispatch.(perform_effect) }
   end
 
   private
@@ -21,8 +20,12 @@ class Games::Current::Board::Cells::DehighlightNeighbors
 
   def cell = Cell.find(params[:cell_id])
 
-  def passive_response_generator
-    @passive_response_generator ||=
-      Games::Current::Board::Cells::GeneratePassiveResponse.new(context:)
+  def dispatch_effect
+    @dispatch_effect ||=
+      Games::Current::Board::Cells::DispatchEffect.new(context:)
+  end
+
+  def perform_effect
+    cell.highlightable_neighborhood
   end
 end

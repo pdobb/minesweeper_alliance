@@ -17,7 +17,7 @@ class Cell::Reveal
 
   attr_reader :updated_cells
 
-  def initialize(context)
+  def initialize(context:)
     @game = context.game
     @board = context.board
     @cell = context.cell
