@@ -5,14 +5,16 @@ class Games::Current::Board::Cells::HighlightNeighborsController <
   rate_limit to: 3, within: 1.second
 
   def create
-    updated_cells = cell.soft_highlight_neighborhood
-    turbo_stream_actions =
-      Cell::TurboStream::Morph.wrap_and_call(updated_cells, turbo_stream:)
-
-    WarRoom::Responder.new(context: self).(turbo_stream_actions:)
+    response_generator << cell.soft_highlight_neighborhood
+    response_generator.call
   end
 
   private
 
   def cell = Cell.find(params[:cell_id])
+
+  def response_generator
+    @response_generator ||=
+      Games::Current::Board::Cells::GeneratePassiveResponse.new(context: self)
+  end
 end
