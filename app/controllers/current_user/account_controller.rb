@@ -8,6 +8,7 @@ class CurrentUser::AccountController < ApplicationController
   end
 
   def destroy
+    FleetTracker.expire!(current_user.token)
     ActionCable.server.remote_connections.where(current_user:).
       disconnect(reconnect: false)
 
