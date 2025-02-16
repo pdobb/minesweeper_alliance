@@ -6,7 +6,10 @@ module Games::Current::Board::Cells::ActionBehaviors
   private
 
   def game
-    @game ||= Game.for_game_on_statuses.for_id(params[:game_id]).take!
+    @game ||=
+      Game.for_game_on_statuses.for_id(params[:game_id]).
+        eager_load(:board).
+        take!
   end
 
   def board
