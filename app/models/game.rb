@@ -251,10 +251,7 @@ class Game < ApplicationRecord # rubocop:disable Metrics/ClassLength
 
   def board_settings = board&.settings
 
-  def bestable_type?
-    type.in?(BESTABLE_TYPES)
-  end
-
+  def bestable_type? = type.in?(BESTABLE_TYPES)
   def best_categories = @best_categories ||= bests.categories
 
   def bests

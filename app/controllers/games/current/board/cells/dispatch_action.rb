@@ -140,7 +140,11 @@ class Games::Current::Board::Cells::DispatchAction
 
     def enqueue_game_end_update_jobs
       Game::Current::BroadcastWarRoomActivityIndicatorUpdateJob.perform_later
-      Game::JustEnded::BroadcastNewBestsNotificationJob.perform_later(game)
+
+      if game.bestable_type?
+        Game::JustEnded::BroadcastNewBestsNotificationJob.perform_later(game)
+      end
+
       Turbo::StreamsChannel.broadcast_refresh_later_to(
         Games::Index.turbo_stream_name)
     end

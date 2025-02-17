@@ -4,7 +4,7 @@ class Game::JustEnded::BroadcastNewBestsNotificationJob < ApplicationJob
   queue_as :default
 
   def perform(game)
-    return if (collection = notifications_for(game)).blank?
+    return if (collection = notifications_for(game)).none?
 
     Turbo::StreamsChannel.broadcast_prepend_to(
       Application::Layout.turbo_stream_name,
@@ -17,9 +17,7 @@ class Game::JustEnded::BroadcastNewBestsNotificationJob < ApplicationJob
 
   def notifications_for(game)
     game.best_categories.map { |category|
-      message = random_message_for(game:, category:)
-      text = message.html_safe # rubocop:disable Rails/OutputSafety
-
+      text = random_message_for(game:, category:)
       build_notification(text:)
     }
   end
@@ -27,7 +25,7 @@ class Game::JustEnded::BroadcastNewBestsNotificationJob < ApplicationJob
   def random_message_for(game:, category:)
     url = Router.game_path(game)
     type = game.type
-    I18n.t("flash.new_best_game_html", url:, type:, category:).sample
+    I18n.t("flash.new_best_game_html", url:, type:, category:).sample.html_safe
   end
 
   def build_notification(text:)
