@@ -5,9 +5,9 @@
 class Metrics::Engagements::Bests::Expert
   include Metrics::Engagements::Bests::TypeBehaviors
 
-  def type = Game::INTERMEDIATE_TYPE
+  def type = Game::EXPERT_TYPE
 
   private
 
-  def arel = base_arel.for_intermediate_type
+  def arel = base_arel.for_expert_type
 end
