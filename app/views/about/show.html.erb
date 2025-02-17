@@ -6,7 +6,7 @@
 
   <p><%= t("site.description_html") %></p>
 
-  <div class="space-y-6">
+  <div class="space-y-3">
     <h2 class="h4">What is a Minesweeper?</h2>
     <ul class="space-y-3 list-[circle] ml-7">
       <li>
@@ -18,14 +18,14 @@
     </ul>
   </div>
 
-  <div class="space-y-6">
-    <h2 class="h4">What is MMS-#### (e.g. <%= current_user.mms_id %>)?</h2>
+  <div class="space-y-3">
+    <h2 class="h4">What is "MMS-####" (e.g. <%= current_user.mms_id %>)?</h2>
     <ul class="space-y-3 list-[circle] ml-7">
       <li>
-        Players are uniquely identified by a Motor Mine Sweeper (MMS) designation (+ username).
+        Players are assigned an "MMS-####" designation to uniquely identify their account. Signatures (usernames) are not enough since they (1) are not required and (2) need not be unique.
       </li>
       <li>
-        MMS is a nod to the Royal Navy's wooden
+        "MMS", or Motor Minesweeper, is a nod to the Royal Navy's wooden
         <%= external_link_to(
               "MMS-class Minesweeper",
               "https://en.wikipedia.org/wiki/MMS-class_minesweeper") %>
@@ -34,35 +34,35 @@
     </ul>
   </div>
 
-  <div class="space-y-6">
+  <div class="space-y-3">
     <h2 class="h4">This game is:</h2>
     <ul class="space-y-3 list-[circle] ml-7">
       <li>
-        A mentor/mentee collaboration, started during our
-        <%= external_link_to("First Ruby Friend", "https://firstrubyfriend.org") %> sessions
+        A mentor/mentee collaboration, kicked off during our
+        <%= external_link_to("First Ruby Friend", "https://firstrubyfriend.org") %> sessions.
       </li>
       <li>
         Heavily inspired by Radan Skorić's
         <%= external_link_to("article", "https://radanskoric.com/experiments/multiplayer-minesweeper-with-rails-and-hotwire") %>
         on
-        <%= external_link_to("Mines vs Humanity", "https://minesvshumanity.com") %>
+        <%= external_link_to("Mines vs Humanity", "https://minesvshumanity.com") %>.
       </li>
       <li>
         Written in
         <%= external_link_to("Ruby on Rails", "https://rubyonrails.org/") %>,
         using
         <%= external_link_to("HOTW⚡️RE", "https://hotwired.dev") %>
-        for real-time collaboration
+        for real-time collaboration.
       </li>
       <li>
         Styled with
-        <%= external_link_to("Tailwind CSS", "https://tailwindcss.com") %>
+        <%= external_link_to("Tailwind CSS", "https://tailwindcss.com") %>.
       </li>
       <li>
-        Released as open source software on
+        Open-source software; available on
         <%= external_link_to(
               "GitHub",
-              "https://github.com/pdobb/minesweeper_alliance") %>
+              "https://github.com/pdobb/minesweeper_alliance") %>.
       </li>
     </ul>
   </div>
