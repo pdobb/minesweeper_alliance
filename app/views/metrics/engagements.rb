@@ -6,7 +6,7 @@ class Metrics::Engagements
     [
       :metrics,
       :engagements,
-      Game.for_status_alliance_wins.count,
+      Game.for_bestable_type.for_status_alliance_wins.count,
     ]
   end
 

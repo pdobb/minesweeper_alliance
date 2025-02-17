@@ -128,6 +128,7 @@ class Game < ApplicationRecord # rubocop:disable Metrics/ClassLength
   scope :for_beginner_type, -> { for_type(BEGINNER_TYPE) }
   scope :for_intermediate_type, -> { for_type(INTERMEDIATE_TYPE) }
   scope :for_expert_type, -> { for_type(EXPERT_TYPE) }
+  scope :for_bestable_type, -> { where(type: BESTABLE_TYPES) }
   scope :for_type, ->(type) { where(type:) }
 
   scope :for_bests_of_type_beginner, -> { for_bests_of_type(BEGINNER_TYPE) }
