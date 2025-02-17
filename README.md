@@ -1,6 +1,7 @@
 # Minesweeper Alliance
 
 [![CI](https://github.com/pdobb/minesweeper_alliance/actions/workflows/ci.yml/badge.svg)](https://github.com/pdobb/minesweeper_alliance/actions/workflows/ci.yml)
+[![Ruby Style Guide](https://img.shields.io/badge/code_style-rubocop-brightgreen.svg)](https://github.com/rubocop/rubocop)
 
 Welcome to [Minesweeper Alliance](https://minesweeperalliance.net), an open-multiplayer riff on the classic Minesweeper game. Join forces with your fellow allies to sweep mines in real time!
 
@@ -64,13 +65,18 @@ DEBUG=1 bin/rails server [...]
 ```bash
 # Unit tests
 bin/rails test
+
+# Or
+rake test
 ```
 
-Or, run test, rubocop, reek, and test:system all at once:
+Or, run all checks at once. Currently: `test`, `rubocop`, `erb_lint`, `reek`, `eslint`, `prettier`, `brakeman`, and `validate_env`.
 
 ```bash
 rake
 ```
+
+If a failure occurs during one of the checks, the rest will be halted.
 
 ## Web App
 
@@ -80,16 +86,17 @@ rake
   <img alt="Game Board" src="https://github.com/pdobb/minesweeper_alliance/blob/main/public/screenshots/erd-dark.webp?raw=true">
 </picture>
 
-Note: Much of the complexity in this app comes from the Home page (a.k.a. the War Room) acting as a one-stop shop for all Game play needs. i.e. it dynamically adjusts to the current Game state by:
+Note: Much of the complexity in this app lies in the Home page (a.k.a. the War Room), which dynamically adjusts its content based on the Current Game state by:
 
-1. Showing the "New Game" content when no current Game exists,
-2. Showing the "Current Game" content when a current Game exists,
+1. Showing the "New Game" content when no Current Game exists, or
+1. Showing the "Current Game" content when a Current Game does exist.
 
 Plus, there are various ways of displaying past Games:
 
-1. Sweep Ops Archive
-2. Metrics
-3. User context
+1. Just-Ended Games,
+1. By Sweep Ops Archive context,
+1. Via a "display case" under Metrics, or
+1. By User context.
 
 The overall structure of the view templates and [View Models](#view-models) to support this looks like:
 
@@ -138,50 +145,61 @@ New Game:
 
 ### View Models
 
-View Models are POROs that:
+View Models are Plain Old Ruby Objects (POROs) that:
 
 - Insulate view templates from ActiveRecord Models,
-- Handle view-specific logic ("display" versions of Model attributes, conditionals, etc.),
+- Handle view-specific logic ("display" of Model attributes, conditionals, etc.),
 - Live alongside the view templates/partials they support, and
-- Are easily unit testable (though there are currently very few View Model tests in this project).
+- Are easily unit testable (where view template are not).
 
-View Models are like service objects for view templates. They can be thought of as somewhat similar to, yet much simpler than, GitHub's ViewComponent pattern/gem. Notably different: they make no attempt to intervene in the rendering stack or to add a custom DSL. Again, View Models are just POROs, so the only thing to learn about them is when and how best to use them.
+View Models are can be thought of as somewhat similar to, yet much simpler than, GitHub's ViewComponent pattern/gem. Notably different: they make no attempt to intervene in the rendering stack or to provide a custom DSL.
 
-Generally speaking, a View Model should be used any time a view template would otherwise need to interact with your ActiveRecord models or implement any kind of ERB logic/conditionals.
+Again, View Models are just POROs, so the only thing to learn about them is when/where/how to apply them. Generally speaking, a View Model should be used any time a view template would otherwise need to interact with your ActiveRecord models or implement any kind of ERB logic/conditionals.
 
 Notes:
 
-- View Models exist because view templates should not have direct access to your ActiveRecord models. This is a slippery slope to the needs of view templates shaping the design of or even inserting view logic into your ActiveRecord models.
+- View Models exist because view templates should not have direct access to your ActiveRecord models. This is a slippery slope towards view templates shaping the design of or even inserting logic into your ActiveRecord models.
 - View models should not be used for generating HTML. View templates should still render all of their own HTML while appealing to View Models for any non-static rendering logic.
-- Using view models generally means there is no need for Rails' view helpers outside of a few high-level, if not Application-level, helpers.
+- Using view models generally means there is no need for Rails' Helper modules outside of a few Application-level helpers.
 
 ### Users
 
-Users are automatically created upon first interaction with a Game. New User creation generates a User entry in the database, for which the primary key is a UUID. This UUID is then stored in an HTTP cookie for re-identification of the current User in the future. It is easily possible to create multiple User records per actual user (e.g. by visiting on different browsers or computers), but this is an acceptable price to pay versus the pain of requiring explicitly registered Users (+ credentials) for such a simple site. This is also reminiscent of arcade games: just enter your username after finishing a game and that's trustworthy enough.
+Upon first visiting the site, users are represented by the Guest (non-participant) model. Users (participants) are automatically created upon first active participation with a Game.
 
-That said, one can also save their account as a bookmark/link by visiting their Account page (by clicking on their username in the top-right corner). Re-visiting this link will reset the current User cookie to the database ID for the linked account/User.
+New User creation generates a User record in the database, for which the primary key is a UUID. This UUID is then stored in an HTTP cookie for re-identification of the Current User in the future.
 
-#### Usernames / Signing
+It is easily possible to create multiple User records per actual user (e.g. by visiting on different browsers or computers), but this is an acceptable price to pay for such a simple app... versus the pain of having to explicitly register as a User and then maintain credentials like every other site out there. The model here is that of arcade games: just enter your username after finishing a game and that's authentication enough.
 
-At the end of any game, an option is presented for signing one's username (for all active participants). This not only captures a point of pride, but it also unlocks additional functionality. For example:
+That said, access to one's account may be shared or preserved by copying or bookmarking the "Authentication Link" on the Account page (accessed by clicking on one's username in the top-right corner). Re-visiting the linked URL later on will re-authenticate the User account by resetting the "Current User" cookie token.
 
-- The ability to permanently hide the welcome banner at the top of the War Room page
-- A "New Custom Game" button/option for defining custom Game board settings
-- Direct access to User-specific "Best" Games and stats
+#### Usernames / Signatures
+
+At the end of any game, an option is presented for signing one's username (for all active participants). This may not only capture a point of pride, but will also unlock additional functionality on the site. For example:
+
+- The ability to permanently hide the welcome banner at the top of the War Room page,
+- A "New Custom Game" button/option for defining custom Game board settings,
+- Direct access to User-specific "Best" Games and stats,
+- And more...
 
 #### Time Zone
 
-The default Time Zone for this app is `Central Time (US & Canada)`. However, JavaScript is used to detect the current user's local time. This is then used to set the current Time Zone for the duration of each request.
+The default Time Zone for this app is `Central Time (US & Canada)`. However, JavaScript is used to detect the Current User's local time zone. This is then used to set the current Time Zone for the duration of each request.
 
-### UI Portal
+## UI Portal
 
 Visit `/ui` while in the development environment to access the UI Portal. This portal acts as a playground / test bed when developing new UI/UX features.
 
-#### Patterns
+## Dev Portal
 
-Currently, a bit lumped into the UI Portal at `/ui/patterns`, is the Patterns tool--for creating a set of Game boards with admin-specified mine patterns. These boards/patterns are selected by random luck (as an Easter egg) when staring a new "Random" game.
+Visit `/dev` while in the development environment to access the Dev Portal. This portal acts like an Admin Portal, except that is only available within the development environment.
 
-Patterns may be imported/exported as CSV. The mere presence of a Pattern in the database makes it eligible for being randomly selected for game play.
+### Patterns
+
+Within the Dev Portal is the Patterns tool--used for creating pre-determined mine patterns on custom-sized Game boards. These patterns / Game Boards are selected by random luck when staring a new "Random" game.
+
+Patterns may be imported/exported as CSV.
+
+The mere presence of a Pattern in the database makes it eligible for being randomly selected for game play.
 
 ## Deploys
 
@@ -193,7 +211,7 @@ git push origin main
 
 Next, deploy using Kamal: `kamal deploy`.
 
-Note: This process can only be completed by me (@pdobb) at current, as the server is hosted on a machine in my local network.
+Note: Deploys require that the 1Password and Docker Desktop apps at least be running in the background. Deploy credentials are pulled from specifically-named 1Password entries and Docker Desktop manages building and uploading of containers.
 
 ## Contributing
 
