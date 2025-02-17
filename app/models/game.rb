@@ -189,6 +189,10 @@ class Game < ApplicationRecord # rubocop:disable Metrics/ClassLength
 
   def self.largest_id = @largest_id ||= by_most_recent.pick(:id)
 
+  def self.prune_fleet_tracker
+    FleetTracker.purge_deeply_expired_entries! if last&.ended_a_while_ago?
+  end
+
   def display_id = "##{id.to_s.rjust(self.class.display_id_width, "0")}"
 
   # :reek:TooManyStatements
@@ -247,6 +251,12 @@ class Game < ApplicationRecord # rubocop:disable Metrics/ClassLength
 
   def duration
     ended_at - started_at if over?
+  end
+
+  def ended_a_while_ago?(minutes: FleetTracker::DEEP_EXPIRATION_MINUTES)
+    return false unless ended_at?
+
+    ended_at + minutes <= Time.current
   end
 
   def board_settings = board&.settings

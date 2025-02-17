@@ -9,7 +9,7 @@
 # time proximity in that:
 # - {.add} simply unions in new entries into the registry (by the given `token`
 #   value), so that repeated {.add}s aren't double-counted.
-# - {.expire} marks an entry as expired, future-dated by {REMOVAL_DELAY_SECONDS}
+# - {.expire} marks an entry as expired, future-dated by {EXPIRATION_SECONDS}
 #   seconds, so that e.g. page reloads don't show a {User} quickly jumping out
 #   of and then immediately back into the Fleet Roster.
 #   - By just expiring and not actually removing entries, we also allow for:
@@ -41,8 +41,8 @@
 # @see https://api.rubyonrails.org/classes/ActiveSupport/Cache/Store.html
 # @see https://api.rubyonrails.org/classes/ActiveSupport/Cache/MemoryStore.html
 module FleetTracker
-  REMOVAL_DELAY_SECONDS = 2.seconds
-  REMOVAL_BROADCAST_DELAY_SECONDS = REMOVAL_DELAY_SECONDS + 1
+  EXPIRATION_SECONDS = 2.seconds
+  DEEP_EXPIRATION_MINUTES = 3.minutes
 
   def self.to_a = registry.to_a
   def self.entries = registry.entries
@@ -72,8 +72,7 @@ module FleetTracker
 
   def self.expire!(token)
     if (entry = expire(token))
-      enqueue_fleet_entry_expiration_job(
-        entry:, wait: REMOVAL_BROADCAST_DELAY_SECONDS)
+      enqueue_fleet_entry_expiration_job(entry:, wait: EXPIRATION_SECONDS)
     end
   end
 
@@ -81,6 +80,14 @@ module FleetTracker
     return if registry.missing_or_expired?(token)
 
     registry.expire(token)
+  end
+
+  def self.purge_deeply_expired_entries = registry.purge_deeply_expired_entries
+
+  def self.purge_deeply_expired_entries!
+    purge_deeply_expired_entries.each do |entry|
+      broadcast_fleet_entry_removal(entry:)
+    end
   end
 
   def self.reset = registry.reset
@@ -120,6 +127,14 @@ module FleetTracker
       entry.token)
   end
   private_class_method :enqueue_fleet_entry_expiration_job
+
+  def self.broadcast_fleet_entry_removal(entry:)
+    WarRoomChannel.broadcast_remove(
+      target: Home::Roster::Listing.turbo_target(entry:))
+  end
+  private_class_method :broadcast_fleet_entry_removal
+
+  # :reek:TooManyMethods
 
   # FleetTracker::Registry is a collection of {FleetTracker::Registry::Entry}s.
   class Registry
@@ -164,6 +179,16 @@ module FleetTracker
         entry&.expire
         save
       }
+    end
+
+    def purge_deeply_expired_entries
+      deeply_expired_entries = entries.select(&:deeply_expired?)
+      return [] if deeply_expired_entries.none?
+
+      entries.reject!(&:expired?)
+      save
+
+      deeply_expired_entries
     end
 
     def reset = cache.delete(CACHE_KEY)
@@ -211,7 +236,7 @@ module FleetTracker
       def activate = self.active = true
       def active? = !!active
 
-      def expire = self.expires_at = REMOVAL_DELAY_SECONDS.from_now
+      def expire = self.expires_at = EXPIRATION_SECONDS.from_now
       def unexpire = self.expires_at = nil
       def unexpired? = !expired?
 
@@ -219,6 +244,12 @@ module FleetTracker
         return false unless expires_at
 
         expires_at <= Time.current
+      end
+
+      def deeply_expired?(minutes: DEEP_EXPIRATION_MINUTES)
+        return false unless expires_at
+
+        expires_at + minutes <= Time.current
       end
 
       private

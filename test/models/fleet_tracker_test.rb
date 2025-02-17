@@ -32,6 +32,8 @@ class FleetTrackerTest < ActiveSupport::TestCase
     let(:user2_token) { users(:user2).token }
 
     let(:expires_at) { nil }
+    let(:expiration_seconds) { 2.seconds }
+    let(:deep_expiration_minutes) { 3.minutes }
 
     describe ".registry" do
       context "GIVEN a cache miss" do
@@ -203,7 +205,7 @@ class FleetTrackerTest < ActiveSupport::TestCase
     end
 
     describe ".expire" do
-      context "GIVEN a cache miss" do
+      context "GIVEN no entries" do
         subject { empty1 }
 
         it "returns the expected collection" do
@@ -223,7 +225,7 @@ class FleetTrackerTest < ActiveSupport::TestCase
               {
                 token: user1_token,
                 active: false,
-                expires_at: 2.seconds.from_now,
+                expires_at: expiration_seconds.from_now,
               },
             ])
           end
@@ -240,7 +242,7 @@ class FleetTrackerTest < ActiveSupport::TestCase
               {
                 token: user2_token,
                 active: false,
-                expires_at: 2.seconds.from_now,
+                expires_at: expiration_seconds.from_now,
               },
             ])
           end
@@ -276,9 +278,76 @@ class FleetTrackerTest < ActiveSupport::TestCase
       it "calls Game::Current::BroadcastFleetRemovalJob, as expected" do
         subject.expire!(user1_token)
 
-        _(@query_spy.set_last_called_with.pargs).must_equal([wait: 3.seconds])
+        _(@query_spy.set_last_called_with.pargs).must_equal(
+          [wait: expiration_seconds])
         _(@query_spy.perform_later_last_called_with.args).must_equal(
           [user1_token])
+      end
+    end
+
+    describe ".purge_deeply_expired_entries" do
+      context "GIVEN no entries present" do
+        subject { empty1 }
+
+        it "returns an empty Array" do
+          result = subject.purge_deeply_expired_entries
+          _(result).must_equal([])
+        end
+      end
+
+      context "GIVEN no expired entries present" do
+        before do
+          subject.expire(user1_token)
+          travel_to(
+            (deep_expiration_minutes + expiration_seconds - 1.second).from_now)
+        end
+
+        subject { two_player_registry1 }
+
+        it "returns an empty Array" do
+          result = subject.purge_deeply_expired_entries
+          _(result).must_equal([])
+        end
+      end
+
+      context "GIVEN a deeply expired entry is present" do
+        before do
+          subject.expire(user1_token)
+          travel_to((expiration_seconds + deep_expiration_minutes).from_now)
+        end
+
+        subject { two_player_registry1 }
+
+        it "removes the entry" do
+          result = subject.purge_deeply_expired_entries
+          _(result.sample).must_be_instance_of(unit_class::Registry::Entry)
+          _(result.map(&:to_h)).must_equal([
+            {
+              token: user1_token,
+              active: false,
+              expires_at: deep_expiration_minutes.ago,
+            },
+          ])
+        end
+      end
+    end
+
+    describe ".purge_deeply_expired_entries!" do
+      before do
+        MuchStub.on_call(WarRoomChannel, :broadcast_remove) { |call|
+          @broadcast_remove_call = call
+        }
+
+        subject.expire(user1_token)
+        travel_to((expiration_seconds + deep_expiration_minutes).from_now)
+      end
+
+      subject { two_player_registry1 }
+
+      it "calls Game::Current::BroadcastFleetRemovalJob, as expected" do
+        subject.purge_deeply_expired_entries!
+        _(@broadcast_remove_call.kargs[:target]).must_equal(
+          "home_roster_listing-7fff4b12-83c2-50b2-845f-52ae10a9aeee")
       end
     end
 

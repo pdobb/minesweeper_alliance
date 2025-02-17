@@ -487,6 +487,38 @@ class GameTest < ActiveSupport::TestCase
       end
     end
 
+    describe "#ended_a_while_ago?" do
+      let(:deep_expiration_minutes) { 3.minutes }
+
+      context "GIVEN Game#on?" do
+        subject { standing_by1.start(seed_cell: nil, user: user1) }
+
+        it "returns false" do
+          _(subject.ended_a_while_ago?).must_equal(false)
+        end
+      end
+
+      context "GIVEN Game#over?" do
+        subject { win1 }
+
+        context "GIVEN a recent Game#ended_at" do
+          it "returns true" do
+            travel_to((deep_expiration_minutes - 1.second).from_now) do
+              _(subject.ended_a_while_ago?).must_equal(true)
+            end
+          end
+        end
+
+        context "GIVEN a distant Game#ended_at" do
+          it "returns true" do
+            travel_to(deep_expiration_minutes.from_now) do
+              _(subject.ended_a_while_ago?).must_equal(true)
+            end
+          end
+        end
+      end
+    end
+
     describe "#board_settings" do
       context "GIVEN #board = nil" do
         subject { new_game }
