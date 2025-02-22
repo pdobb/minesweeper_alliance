@@ -8,6 +8,7 @@ class Application::Flash::Notification
   DEFAULT_TIMEOUT_IN_SECONDS = 10.seconds
 
   attr_reader :type,
+              :id,
               :content,
               :timeout
 
@@ -82,6 +83,7 @@ class Application::Flash::Notification
     if content.is_a?(Hash)
       @content = content.fetch(:text)
       @timeout = content.fetch(:timeout) { DEFAULT_TIMEOUT_IN_SECONDS }
+      @id = content[:id]
     else
       @content = content
       @timeout = DEFAULT_TIMEOUT_IN_SECONDS

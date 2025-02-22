@@ -14,8 +14,14 @@ class Game::Current::BroadcastFleetMusteringNotificationJob < ApplicationJob
   private
 
   def notification
+    text = I18n.t("flash.fleet_mustering_notification_html").html_safe
+
     Application::Flash::Notification.new(
       type: :info,
-      content: I18n.t("flash.fleet_mustering_notification_html").html_safe)
+      content: {
+        id: "fleetMusteringNotification",
+        text:,
+        timeout: false,
+      })
   end
 end
