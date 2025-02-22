@@ -9,12 +9,10 @@ class Board::PlaceMines
   # Board::PlaceMines processing.
   Error = Class.new(StandardError)
 
-  attr_reader :board,
-              :coordinates_array
-
-  def initialize(board:, coordinates_array:)
+  def initialize(board:, coordinates_array:, seed_cell:)
     @board = board
     @coordinates_array = coordinates_array
+    @seed_cell = seed_cell
   end
 
   def call
@@ -29,6 +27,10 @@ class Board::PlaceMines
 
   private
 
+  attr_reader :board,
+              :coordinates_array,
+              :seed_cell
+
   def new_record? = board.new_record?
   def cells = @cells ||= board.cells
   def mines_placed? = board.mines_placed?
@@ -39,7 +41,7 @@ class Board::PlaceMines
   end
 
   def eligible_cells
-    board.cells_at(coordinates_array)
+    board.cells_at(coordinates_array).excluding(seed_cell)
   end
 
   def save_mines_placement(mine_cells)

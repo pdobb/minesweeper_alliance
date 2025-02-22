@@ -9,9 +9,6 @@ class Board::RandomlyPlaceMines
   # Board::RandomlyPlaceMines processing.
   Error = Class.new(StandardError)
 
-  attr_reader :board,
-              :seed_cell
-
   def initialize(board:, seed_cell:)
     @board = board
     @seed_cell = seed_cell
@@ -28,6 +25,9 @@ class Board::RandomlyPlaceMines
   end
 
   private
+
+  attr_reader :board,
+              :seed_cell
 
   def new_record? = board.new_record?
   def cells = @cells ||= board.cells

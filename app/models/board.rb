@@ -38,16 +38,15 @@ class Board < ApplicationRecord
 
   def generate_cells
     Generate.(board: self)
-
-    if pattern? # rubocop:disable Style/GuardClause
-      PlaceMines.(board: self, coordinates_array: pattern.coordinates_array)
-    end
   end
 
   def place_mines(seed_cell:)
-    return if pattern?
-
-    RandomlyPlaceMines.(board: self, seed_cell:)
+    if pattern?
+      coordinates_array = pattern.coordinates_array
+      PlaceMines.(board: self, coordinates_array:, seed_cell:)
+    else
+      RandomlyPlaceMines.(board: self, seed_cell:)
+    end
   end
 
   def settings
