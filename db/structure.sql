@@ -518,7 +518,7 @@ CREATE INDEX index_cell_transactions_on_cell_id ON public.cell_transactions USIN
 -- Name: index_cell_transactions_on_cell_id_and_type; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE UNIQUE INDEX index_cell_transactions_on_cell_id_and_type ON public.cell_transactions USING btree (cell_id, type) WHERE ((type)::text = ANY ((ARRAY['CellChordTransaction'::character varying, 'CellRevealTransaction'::character varying])::text[]));
+CREATE UNIQUE INDEX index_cell_transactions_on_cell_id_and_type ON public.cell_transactions USING btree (cell_id, type) WHERE ((type)::text = ANY (ARRAY[('CellChordTransaction'::character varying)::text, ('CellRevealTransaction'::character varying)::text]));
 
 
 --
@@ -665,7 +665,7 @@ CREATE INDEX index_games_on_score ON public.games USING btree (score);
 -- Name: index_games_on_status; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE UNIQUE INDEX index_games_on_status ON public.games USING btree (status) WHERE ((status)::text = ANY ((ARRAY['Standing By'::character varying, 'Sweep in Progress'::character varying])::text[]));
+CREATE UNIQUE INDEX index_games_on_status ON public.games USING btree (status) WHERE ((status)::text = ANY (ARRAY[('Standing By'::character varying)::text, ('Sweep in Progress'::character varying)::text]));
 
 
 --
