@@ -70,5 +70,37 @@ class ViewTest < ActiveSupport::TestCase
         end
       end
     end
+
+    describe ".pluralize" do
+      context "GIVEN a pluralizable count" do
+        it "returns the expected String" do
+          result = subject.pluralize("test", count: 12_345)
+          _(result).must_equal("12345 tests")
+        end
+      end
+
+      context "GIVEN a non-pluralizable count" do
+        it "returns the expected String" do
+          result = subject.pluralize("test", count: 1)
+          _(result).must_equal("1 test")
+        end
+      end
+    end
+
+    describe ".delimited_pluralize" do
+      context "GIVEN a pluralizable count" do
+        it "returns the expected String" do
+          result = subject.delimited_pluralize("test", count: 12_345)
+          _(result).must_equal("12,345 tests")
+        end
+      end
+
+      context "GIVEN a non-pluralizable count" do
+        it "returns the expected String" do
+          result = subject.delimited_pluralize("test", count: 1)
+          _(result).must_equal("1 test")
+        end
+      end
+    end
   end
 end

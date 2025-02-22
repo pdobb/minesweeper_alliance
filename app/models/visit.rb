@@ -22,7 +22,7 @@ class Visit < ApplicationRecord
   scope :by_path, -> { order(:path) }
 
   def to_s
-    "#{View.pluralize(count, "Visit")}: #{path}"
+    "#{View.delimited_pluralize("Visit", count:)}: #{path}"
   end
 
   concerning :ObjectInspection do

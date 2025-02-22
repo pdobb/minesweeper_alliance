@@ -23,7 +23,7 @@ class Interaction < ApplicationRecord
   scope :by_name, -> { order(:name) }
 
   def to_s
-    "#{View.pluralize(count, "Interaction")}: #{name}"
+    "#{View.delimited_pluralize("Interaction", count:)}: #{name}"
   end
 
   concerning :ObjectInspection do

@@ -37,8 +37,21 @@ module View
     helpers.number_to_percentage(value, precision:)
   end
 
-  def self.pluralize(count, singular, ...)
-    helpers.pluralize(count, singular, ...)
+  # :reek:ControlParameter
+
+  # Simplifies Rails 8's `pluralize` helper.
+  # @see https://github.com/rails/rails/blob/main/actionview/lib/action_view/helpers/text_helper.rb#L290
+  def self.pluralize(word, count:)
+    word = word.pluralize unless count == 1
+    "#{count || 0} #{word}"
+  end
+
+  # Simplifies and combines Rails 8's `pluralize` and `delimit` helpers.
+  def self.delimited_pluralize(word, count:)
+    word = word.pluralize unless count == 1
+    count = count ? delimit(count) : 0
+
+    "#{count} #{word}"
   end
 
   def self.helpers = ActionController::Base.helpers

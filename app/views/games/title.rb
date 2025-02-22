@@ -40,7 +40,7 @@ class Games::Title
     View.safe_join([
       "Ended",
       I18n.l(game_ended_at, format: :weekday_comma_date),
-      "(#{View.pluralize(engagement_date_range_increment, "day")}",
+      "(#{View.pluralize("day", count: engagement_date_range_increment)}",
       "after start).",
     ], " ")
   end
