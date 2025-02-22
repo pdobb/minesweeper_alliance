@@ -25,9 +25,10 @@
     <%= collapse_container.button_text %>
     <%= inline_svg_tag(
           "heroicons/chevron-down.svg",
-          class:
-            "stroke-2 transition-transform "\
-            "#{class_names(collapse_container.icon_css)}",
+          class: [
+            %w[btn-basic stroke-2 transition-transform],
+            collapse_container.icon_css,
+          ],
           data: { collapse_target: "icon" }) %>
   </button>
 
