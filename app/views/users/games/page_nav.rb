@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-# Users::Games::Nav aides in page-level navigation between each of a {User}'s
+# Users::Games::PageNav handles page-level navigation between each of a {User}'s
 # past {Game}s.
-class Users::Games::Nav
+class Users::Games::PageNav
   def initialize(game:, user:)
     @game = game
     @user = user

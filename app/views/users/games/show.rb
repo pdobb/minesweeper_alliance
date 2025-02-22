@@ -11,8 +11,8 @@ class Users::Games::Show
   def display_name = user.display_name
   def game_number = game.display_id
 
-  def nav
-    Users::Games::Nav.new(game:, user:)
+  def page_nav
+    Users::Games::PageNav.new(game:, user:)
   end
 
   def container
