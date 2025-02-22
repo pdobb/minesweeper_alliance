@@ -3,6 +3,8 @@
 class HomeController < ApplicationController
   include AllowBrowserBehaviors
 
+  after_action RecordVisit
+
   def show
     @view = Home::Show.new(current_game:)
 

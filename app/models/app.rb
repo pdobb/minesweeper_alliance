@@ -15,6 +15,7 @@ module App
       env: Rails.env.to_s,
       debug_mode: debug?,
       interactions: Interaction.by_name.map(&:to_s),
+      visits: Visit.by_path.map(&:to_s),
     }
   end
 end

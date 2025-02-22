@@ -3,6 +3,8 @@
 class CurrentUser::AccountController < ApplicationController
   before_action :require_participant
 
+  after_action RecordVisit
+
   def show
     @view = CurrentUser::Account::Show.new(user: current_user)
   end

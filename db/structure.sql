@@ -376,6 +376,38 @@ CREATE TABLE public.users (
 
 
 --
+-- Name: visits; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.visits (
+    id bigint NOT NULL,
+    path text NOT NULL,
+    count integer DEFAULT 0 NOT NULL,
+    created_at timestamp(6) with time zone NOT NULL,
+    updated_at timestamp(6) with time zone NOT NULL
+);
+
+
+--
+-- Name: visits_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.visits_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: visits_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.visits_id_seq OWNED BY public.visits.id;
+
+
+--
 -- Name: boards id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -436,6 +468,13 @@ ALTER TABLE ONLY public.patterns ALTER COLUMN id SET DEFAULT nextval('public.pat
 --
 
 ALTER TABLE ONLY public.user_update_transactions ALTER COLUMN id SET DEFAULT nextval('public.user_update_transactions_id_seq'::regclass);
+
+
+--
+-- Name: visits id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.visits ALTER COLUMN id SET DEFAULT nextval('public.visits_id_seq'::regclass);
 
 
 --
@@ -532,6 +571,14 @@ ALTER TABLE ONLY public.user_update_transactions
 
 ALTER TABLE ONLY public.users
     ADD CONSTRAINT users_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: visits visits_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.visits
+    ADD CONSTRAINT visits_pkey PRIMARY KEY (id);
 
 
 --
@@ -794,6 +841,13 @@ CREATE INDEX index_users_on_username ON public.users USING btree (username);
 
 
 --
+-- Name: index_visits_on_path; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_visits_on_path ON public.visits USING btree (path);
+
+
+--
 -- Name: unique_coordinates_per_board_index; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -888,6 +942,7 @@ SET search_path TO "$user", public;
 INSERT INTO "schema_migrations" (version) VALUES
 ('20250222173153'),
 ('20250221231704'),
+('20250221001444'),
 ('20250130002840'),
 ('20250127005408'),
 ('20250124190315'),

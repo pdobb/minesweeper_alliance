@@ -3,6 +3,8 @@
 class GamesController < ApplicationController
   include AllowBrowserBehaviors
 
+  after_action RecordVisit, only: %i[index create]
+
   def index
     @view =
       Games::Index.new(

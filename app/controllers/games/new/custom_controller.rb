@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Games::New::CustomController < ApplicationController
+  after_action RecordVisit
+
   def new
     @new = Games::New::Custom::New.new
   end

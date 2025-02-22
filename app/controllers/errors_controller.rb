@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class ErrorsController < ApplicationController
+  after_action RecordVisit
+
   # 400
   def bad_request
     render(status: :bad_request)
