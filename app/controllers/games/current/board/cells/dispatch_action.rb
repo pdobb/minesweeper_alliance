@@ -126,15 +126,15 @@ class Games::Current::Board::Cells::DispatchAction
     end
 
     def generate_just_ended_game_update_action
-      container = Games::JustEnded::Container.new(game:)
-      target = container.turbo_frame_name
       html =
         render_to_string(
-          partial: "games/just_ended/container", locals: { container: })
+          partial: "games/just_ended/container",
+          locals: { container: Games::JustEnded::Container.new(game:) })
+
       # Can't use `:morph` here or our stimulus controller
       # (new_game_content_controller.js) will fail to remove the "Custom" button
       # for non-signers on the 2nd rendering--as a result of the broadcast.
-
+      target = Games::Current::Container.turbo_frame_name
       turbo_stream_actions << turbo_stream.replace(target, html:)
     end
 

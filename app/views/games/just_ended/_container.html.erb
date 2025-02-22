@@ -1,19 +1,17 @@
 <%# locals: (container:) %>
 
-<%= turbo_frame_tag(container.turbo_frame_name) do %>
-  <div class="space-y-12">
-    <%= render("games/just_ended/content", content: container.content) %>
+<div class="space-y-12">
+  <%= render("games/just_ended/content", content: container.content) %>
 
-    <div class="container mx-auto">
-      <hr>
+  <div class="container mx-auto">
+    <hr>
 
-      <%= turbo_frame_tag(
-            *container.footer_turbo_frame_name,
-            src: container.footer_source_url) do %>
-        <div class="h-24 flex justify-center items-center">
-          <%= inline_svg_tag("spinner.svg") %>
-        </div>
-      <% end %>
-    </div>
+    <%= turbo_frame_tag(
+          *container.footer_turbo_frame_name,
+          src: container.footer_source_url) do %>
+      <div class="h-24 flex justify-center items-center">
+        <%= inline_svg_tag("spinner.svg") %>
+      </div>
+    <% end %>
   </div>
-<% end %>
+</div>

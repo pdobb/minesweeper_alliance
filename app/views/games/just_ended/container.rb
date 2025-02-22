@@ -7,8 +7,6 @@ class Games::JustEnded::Container
     @game = game
   end
 
-  def turbo_frame_name = Games::Current::Container.turbo_frame_name
-
   def content
     Games::JustEnded::Content.new(game:)
   end
