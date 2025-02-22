@@ -157,17 +157,25 @@ en:
   game:
     new_html:
       - Do you have what it takes?
+      - Do you have what it takes?
+      - Do you have what it takes?
       - For The Alliance!
     victory:
       restart_html:
         - <span class="tracking-emojis">♠️♥️♣️</span> Aced it! Go again?
         - Huzzah! Keep it up! <span class="tracking-emojis">👍🙏🏻</span>
         - Sweep on! <span class="tracking-emojis">⛴️🎉</span>
+        - Luck? What do you mean luck? 😎
+        - Victory is mine(sweeper)! <span class="tracking-emojis">🏆🎊</span>
+        - <span class="tracking-emojis">💯</span> Mine-free and fabulous! 💅
     defeat:
       restart_html:
         - Ups! Wellp<span class="font-sans">&hellip;</span>
         - Oh noes! Uhm<span class="font-sans">&hellip;</span> Ok. Back at it! 😅
         - <span class="tracking-emojis">😳😳😳</span> Again!
+        - Argh! 😧 Whhhyyyyyy?!
+        - Ugh! I 🚩 meant 🚩 to 🚩 put 🚩 a 🚩 flag! 😭
+        - Well, that escalated quickly<span class="font-sans">&hellip;</span> 😬
     board:
       header:
         counts:
