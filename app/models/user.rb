@@ -71,6 +71,8 @@ class User < ApplicationRecord
            through: :cell_reveal_transactions,
            source: :cell
 
+  scope :is_dev, -> { where(dev: true) }
+
   scope :for_token, ->(token) { where(id: token) }
   scope :for_authentication_token, ->(authentication_token) {
     where(authentication_token:)
@@ -173,6 +175,10 @@ class User < ApplicationRecord
 
     def inspect_identification = identify(:truncated_id)
     def truncated_id = id[TRUNCATED_TOKENS_RANGE]
+
+    def inspect_flags
+      Emoji.dev if dev?
+    end
 
     def inspect_info = time_zone || "NO_TIME_ZONE"
   end

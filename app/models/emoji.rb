@@ -6,6 +6,7 @@ module Emoji
   def self.cell = "⬜️"
   def self.check = "✅"
   def self.clover = "🍀"
+  def self.dev = "🧑‍💻"
   def self.eyes = "👀"
   def self.flag = "🚩"
   def self.gold_medal = "🥇"

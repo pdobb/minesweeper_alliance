@@ -337,7 +337,8 @@ CREATE TABLE public.users (
     created_at timestamp(6) with time zone NOT NULL,
     updated_at timestamp(6) with time zone NOT NULL,
     user_agent character varying,
-    authentication_token uuid DEFAULT public.uuid_generate_v4() NOT NULL
+    authentication_token uuid DEFAULT public.uuid_generate_v4() NOT NULL,
+    dev boolean DEFAULT false NOT NULL
 );
 
 
@@ -724,6 +725,13 @@ CREATE UNIQUE INDEX index_users_on_authentication_token ON public.users USING bt
 
 
 --
+-- Name: index_users_on_dev; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_users_on_dev ON public.users USING btree (dev);
+
+
+--
 -- Name: index_users_on_username; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -823,6 +831,7 @@ ALTER TABLE ONLY public.cells
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20250222173153'),
 ('20250130002840'),
 ('20250127005408'),
 ('20250124190315'),
