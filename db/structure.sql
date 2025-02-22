@@ -220,6 +220,39 @@ ALTER SEQUENCE public.games_id_seq OWNED BY public.games.id;
 
 
 --
+-- Name: interactions; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.interactions (
+    id bigint NOT NULL,
+    name character varying NOT NULL,
+    description text,
+    count integer DEFAULT 0 NOT NULL,
+    created_at timestamp(6) with time zone NOT NULL,
+    updated_at timestamp(6) with time zone NOT NULL
+);
+
+
+--
+-- Name: interactions_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.interactions_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: interactions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.interactions_id_seq OWNED BY public.interactions.id;
+
+
+--
 -- Name: participant_transactions; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -378,6 +411,13 @@ ALTER TABLE ONLY public.games ALTER COLUMN id SET DEFAULT nextval('public.games_
 
 
 --
+-- Name: interactions id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.interactions ALTER COLUMN id SET DEFAULT nextval('public.interactions_id_seq'::regclass);
+
+
+--
 -- Name: participant_transactions id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -444,6 +484,14 @@ ALTER TABLE ONLY public.game_transactions
 
 ALTER TABLE ONLY public.games
     ADD CONSTRAINT games_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: interactions interactions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.interactions
+    ADD CONSTRAINT interactions_pkey PRIMARY KEY (id);
 
 
 --
@@ -669,6 +717,13 @@ CREATE UNIQUE INDEX index_games_on_status ON public.games USING btree (status) W
 
 
 --
+-- Name: index_interactions_on_name; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_interactions_on_name ON public.interactions USING btree (name);
+
+
+--
 -- Name: index_participant_transactions_on_game_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -832,6 +887,7 @@ SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
 ('20250222173153'),
+('20250221231704'),
 ('20250130002840'),
 ('20250127005408'),
 ('20250124190315'),

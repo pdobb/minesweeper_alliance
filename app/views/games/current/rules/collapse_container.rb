@@ -10,6 +10,9 @@ class Games::Current::Rules::CollapseContainer
 
   def cookie_name = COOKIE
 
+  def record_interaction? = true
+  def interaction_data = "Toggle Rules of Engagement"
+
   def button_id = @button_id ||= "rules_button-#{Time.new.to_i}"
   def content_id = @content_id ||= "rules_content-#{Time.new.to_i}"
 

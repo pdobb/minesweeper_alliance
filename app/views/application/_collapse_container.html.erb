@@ -12,7 +12,15 @@
   <button
     id="<%= collapse_container.button_id %>"
     data-collapse-target="button"
-    data-action="collapse#toggle"
+    data-action="
+      collapse#toggle
+      <% if collapse_container.record_interaction? %>
+        page#recordInteraction
+      <% end %>
+    "
+    <% if collapse_container.record_interaction? %>
+      data-interaction-name="<%= collapse_container.interaction_data %>"
+    <% end %>
     aria-controls="<%= collapse_container.content_id %>"
     aria-label="Toggle <%= collapse_container.button_text %>"
     aria-haspopup="true"

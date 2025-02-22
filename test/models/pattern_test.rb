@@ -11,7 +11,7 @@ class PatternTest < ActiveSupport::TestCase
 
     describe "#validate" do
       describe "#name" do
-        context "GIVEN #name = nil" do
+        context "GIVEN #name == nil" do
           subject { unit_class.new }
 
           it "fails validation" do
