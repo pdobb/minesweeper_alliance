@@ -17,6 +17,14 @@
         class: "btn-primary",
         data: { turbo_frame: :_top }) %>
 
+  <% if App.debug? %>
+    <%= button_to(
+          "Random Pattern",
+          content.random_pattern_game_post_url,
+          class: "btn-primary",
+          data: { turbo_frame: :_top }) %>
+  <% end %>
+
   <% if content.show_new_custom_game_button?(current_user) %>
     <%= button_to(
           "Custom",

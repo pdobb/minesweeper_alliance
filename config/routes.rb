@@ -9,6 +9,9 @@ Rails.application.routes.draw do
   namespace :games do
     scope module: :new do
       resource :random, controller: :random, only: :create
+      if App.debug?
+        resource :random_pattern, controller: :random_pattern, only: :create
+      end
       resource :custom, controller: :custom, only: %i[new create]
     end
   end
