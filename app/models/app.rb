@@ -9,4 +9,11 @@ module App
   def self.test? = Rails.env.test?
   def self.development? = Rails.env.development?
   def self.production? = Rails.env.production?
+
+  def self.introspect
+    {
+      env: Rails.env.to_s,
+      debug_mode: debug?,
+    }
+  end
 end
