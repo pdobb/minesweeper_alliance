@@ -1,7 +1,7 @@
 <% title("Sweep Ops Archive") %>
 <% description(t("games.meta_description")) %>
 
-<%= turbo_stream_from(@view) %>
+<%= turbo_stream_from(@index) %>
 
 <div
   data-turbo-prefetch="false"
@@ -10,12 +10,12 @@
   <div class="flex max-lg:flex-col justify-between gap-y-6">
     <h1><%= title %></h1>
 
-    <% if @view.show_time_zone_form?(user: current_user) %>
+    <% if @index.show_time_zone_form?(user: current_user) %>
       <%= render(
             "users/time_zone/form",
-            form: @view.time_zone_form(user: current_user)) %>
+            form: @index.time_zone_form(user: current_user)) %>
     <% else %>
-      <%= @view.current_time_zone_description %>
+      <%= @index.current_time_zone_description %>
     <% end %>
   </div>
 
@@ -26,7 +26,7 @@
         gap-x-12 gap-y-3
       "
     >
-      <% @view.types.each do |type| %>
+      <% @index.types.each do |type| %>
         <li>
           <%= link_to(
                 type.filter_name,
@@ -43,8 +43,8 @@
   <h2 class="h3 text-center">
     <%= render(
           "games/past/engagement_tally",
-          engagement_tally: @view.engagement_tally) %>
+          engagement_tally: @index.engagement_tally) %>
   </h2>
 
-  <%= render("listings", listings: @view.listings) %>
+  <%= render("listings", listings: @index.listings) %>
 </div>

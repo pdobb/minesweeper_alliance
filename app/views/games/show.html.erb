@@ -1,10 +1,10 @@
-<% title("Game #{@view.game_number}") %>
+<% title("Game #{@show.game_number}") %>
 <% set_meta_tags(canonical: games_path) %>
 
 <% content_for(:page_nav) do %>
   <%= render(
         "games/past/page_nav",
-        page_nav: @view.page_nav(context: layout)) %>
+        page_nav: @show.page_nav(context: layout)) %>
 <% end %>
 
-<%= render("games/past/container", container: @view.container) %>
+<%= render("games/past/container", container: @show.container) %>

@@ -6,7 +6,7 @@ class CurrentUser::AccountController < ApplicationController
   after_action RecordVisit
 
   def show
-    @view = CurrentUser::Account::Show.new(user: current_user)
+    @show = CurrentUser::Account::Show.new(user: current_user)
   end
 
   def destroy

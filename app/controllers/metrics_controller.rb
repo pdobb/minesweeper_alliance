@@ -4,6 +4,6 @@ class MetricsController < ApplicationController
   include AllowBrowserBehaviors
 
   def show
-    @view = Metrics::Show.new
+    @show = Metrics::Show.new
   end
 end

@@ -1,4 +1,4 @@
-<% title(@view.display_name) %>
+<% title(@show.display_name) %>
 <% description(t("user.meta_description")) %>
 
 <div
@@ -14,8 +14,8 @@
           text-xl
         "
       >
-        <%= @view.updateable_display_name %>
-        <% if @view.dev? %>
+        <%= @show.updateable_display_name %>
+        <% if @show.dev? %>
           <span title="App Developer" class="ml-1"><%= Emoji.dev %></span>
         <% end %>
       </h1>
@@ -24,22 +24,22 @@
     <div class="space-y-10">
       <p class="px-6 flex gap-x-6">
         <span>Enlisted:</span>
-        <span><%= @view.enlistment_date %></span>
+        <span><%= @show.enlistment_date %></span>
       </p>
 
       <div class="px-6 flex max-md:flex-col gap-x-24 gap-y-8 items-start">
-        <%= render("users/service_record", service_record: @view.service_record) %>
-        <%= render("users/bests", bests: @view.bests) %>
+        <%= render("users/service_record", service_record: @show.service_record) %>
+        <%= render("users/bests", bests: @show.bests) %>
       </div>
 
-      <%= render("display_case", display_case: @view.display_case) %>
+      <%= render("display_case", display_case: @show.display_case) %>
     </div>
   </div>
 
   <hr>
 
   <div class="space-y-12">
-    <% @view.games.tap do |games| %>
+    <% @show.games.tap do |games| %>
       <div class="space-y-8">
         <h2>Engagements</h2>
 

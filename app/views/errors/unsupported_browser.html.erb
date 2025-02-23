@@ -14,12 +14,12 @@
   </h2>
 
   <div class="space-y-10">
-    <p><%= @view.browser_description %> is not supported.</p>
+    <p><%= @unsupported_browser.browser_description %> is not supported.</p>
     <p>Please upgrade to a modern browser version to continue:</p>
 
     <div class="flex justify-center">
       <ul class="">
-        <% @view.modern_browser_versions_list.each do |listing| %>
+        <% @unsupported_browser.modern_browser_versions_list.each do |listing| %>
           <li><%= listing %></li>
         <% end %>
       </ul>

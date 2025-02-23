@@ -1,10 +1,8 @@
 <% title("War Room") %>
 
-<%= turbo_stream_from(
-      @view,
-      channel: @view.turbo_stream_channel) %>
+<%= turbo_stream_from(@show, channel: @show.turbo_stream_channel) %>
 
-<% @view.welcome_banner(context: layout).tap do |welcome_banner| %>
+<% @show.welcome_banner(context: layout).tap do |welcome_banner| %>
   <% if welcome_banner.show? %>
     <div
       id="<%= welcome_banner.turbo_update_id %>"
@@ -17,12 +15,12 @@
 
 <div id="gameBoardDataStore"></div>
 
-<% @view.container.tap do |container| %>
+<% @show.container.tap do |container| %>
   <%= render(container.partial_path, container:) %>
 <% end %>
 
 <%= render(
       layout: "slide_menu",
-      locals: { slide_menu: @view.slide_menu(context: layout) }) do %>
-  <%= render("home/roster", roster: @view.roster) %>
+      locals: { slide_menu: @show.slide_menu(context: layout) }) do %>
+  <%= render("home/roster", roster: @show.roster) %>
 <% end %>

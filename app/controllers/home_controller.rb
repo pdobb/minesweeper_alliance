@@ -6,7 +6,7 @@ class HomeController < ApplicationController
   after_action RecordVisit
 
   def show
-    @view = Home::Show.new(current_game:)
+    @show = Home::Show.new(current_game:)
 
     Game::Current::Join.(user: current_user, game: current_game) if current_game
   end
