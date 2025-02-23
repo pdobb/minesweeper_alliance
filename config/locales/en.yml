@@ -82,7 +82,7 @@ en:
            class="relative no-underline inline-flex items-center gap-x-2"
         >
           Reload
-          <span class="inline-block text-[22px] rotate-45">↻</span>
+          <span class="inline-block text-[22px]/5 rotate-45">↻</span>
           <span class="absolute bottom-1 inset-x-0 h-px bg-current"></span>
         </a>
         to join in.
