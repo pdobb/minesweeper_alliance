@@ -10,10 +10,10 @@
   <% end %>
   data-action="
     keydown.esc@window->flash#close
-    transitionend->flash#remove
+    transitionend->flash#remove:self
   "
   class="
-    pointer-events-auto
+    relative pointer-events-auto group
     p-4 rounded-lg
     transition-opacity ease-in
     <%= class_names(notification.container_css) %>
@@ -27,8 +27,12 @@
       type="button"
       data-action="flash#close"
       class="
-        -m-1.5 p-2 rounded-lg cursor-pointer
-        focus:ring-2 focus:animate-pulse-fast
+        absolute top-0 right-0 translate-x-1/4 -translate-y-1/4
+        transition-opacity duration-200
+        desktop:opacity-0 group-hover:opacity-100
+        p-1 rounded-lg cursor-pointer
+        dark:hover:ring-2 dark:hover:ring-neutral-900
+        focus:ring-2
         <%= class_names(notification.button_css) %>
       "
       aria-label="Close"

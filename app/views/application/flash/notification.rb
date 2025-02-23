@@ -24,7 +24,7 @@ class Application::Flash::Notification
           bg-green-50 dark:bg-neutral-900
           hover:bg-green-200 dark:hover:bg-neutral-800
           text-green-500 dark:text-green-400
-          focus:ring-green-400
+          focus:ring-green-400 dark:focus:ring-green-400
         ],
       },
       alert: {
@@ -36,7 +36,7 @@ class Application::Flash::Notification
           bg-red-50 dark:bg-neutral-900
           hover:bg-red-200 dark:hover:bg-neutral-800
           text-red-500 dark:text-red-400
-          focus:ring-red-400
+          focus:ring-red-400 dark:focus:ring-red-400
         ],
       },
       info: {
@@ -48,7 +48,7 @@ class Application::Flash::Notification
           bg-blue-50 dark:bg-neutral-900
           hover:bg-blue-200 dark:hover:bg-neutral-800
           text-blue-500 dark:text-blue-400
-          focus:ring-blue-400
+          focus:ring-blue-400 dark:focus:ring-blue-400
         ],
       },
       warning: {
@@ -60,7 +60,7 @@ class Application::Flash::Notification
           bg-yellow-50 dark:bg-neutral-900
           hover:bg-yellow-200 dark:hover:bg-neutral-800
           text-yellow-500 dark:text-yellow-400
-          focus:ring-yellow-400
+          focus:ring-yellow-400 dark:focus:ring-yellow-400
         ],
       },
     }.with_indifferent_access.freeze
