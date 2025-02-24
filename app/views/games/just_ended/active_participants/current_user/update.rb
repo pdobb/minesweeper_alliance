@@ -19,9 +19,8 @@ class Games::JustEnded::ActiveParticipants::CurrentUser::Update
     CurrentUser::Nav.new(user:)
   end
 
-  def welcome_banner(context:)
-    Home::WelcomeBanner.new(
-      context: Home::Show::WelcomeBannerContext.new(context))
+  def welcome_banner_turbo_target
+    Home::WelcomeBanner.turbo_target
   end
 
   def new_game_content

@@ -1,35 +1,6 @@
 <%# locals: (banner:) %>
 
-<div
-  data-controller="banner"
-  data-action="transitionend->banner#remove"
-  <% if banner.permanently_dismissable? %>
-    data-banner-permanently-dismissable-value="<%= banner.permanently_dismissable? %>"
-    data-banner-cookie-name-value="<%= banner.cookie_name %>"
-  <% end %>
-  data-banner-hide-class="opacity-0"
+<p
   role="banner"
-  class="
-    mx-auto mb-12 max-w-4xl
-    flex gap-x-6 items-baseline justify-center
-    transition-opacity ease-in
-  "
->
-  <p class="text-center text-balance"><%= banner.content %></p>
-
-  <% if banner.show_dismissal_button? %>
-    <button
-      type="button"
-      data-action="banner#dismiss"
-      class="
-        -m-1.5 p-2 rounded-lg cursor-pointer
-        hover:bg-gray-200 dark:hover:bg-neutral-700
-        focus:ring-2 focus:ring-gray-400 focus:animate-pulse-fast
-        text-dim
-      "
-      aria-label="Dismiss"
-    >
-      <%= inline_svg_tag("heroicons/x-mark.svg", class: "stroke-2") %>
-    </button>
-  <% end %>
-</div>
+  class="mb-12 mx-3 text-center text-balance"
+><%= banner.content %></p>

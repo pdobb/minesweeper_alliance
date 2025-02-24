@@ -11,13 +11,7 @@
     <% end %>
   <% end %>
 
-  <% @update.welcome_banner(context: layout).tap do |welcome_banner| %>
-    <% if welcome_banner.show? %>
-      <%= turbo_stream.update(welcome_banner.turbo_update_id) do %>
-        <%= render("layouts/banner", banner: welcome_banner.banner) %>
-      <% end %>
-    <% end %>
-  <% end %>
+  <%= turbo_stream.remove(@update.welcome_banner_turbo_target) %>
 
   <% @update.new_game_content.tap do |content| %>
     <%= turbo_stream.update(content.turbo_frame_name) do %>

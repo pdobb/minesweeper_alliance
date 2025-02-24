@@ -128,6 +128,7 @@ class User < ApplicationRecord
 
   def signer? = username?
   def past_signer? = user_update_transactions.has_key_username.any?
+  def ever_signed? = signer? || past_signer?
 
   # :reek:NilCheck
 
