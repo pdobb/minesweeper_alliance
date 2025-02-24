@@ -5,7 +5,7 @@ class Home::Roster::Listing::BroadcastEntryExpirationJob < ApplicationJob
 
   def perform(token)
     entry = find_entry(token)
-    return unless entry.expired?
+    return unless entry&.expired?
 
     FleetTracker.broadcast_fleet_entry_update(entry:)
   end
