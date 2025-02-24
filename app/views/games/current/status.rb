@@ -3,8 +3,8 @@
 # Games::Current::Status represents the current status ("Standing By" vs
 # "Sweep In Progress") for the current {Game}.
 class Games::Current::Status
-  def self.game_status_turbo_update_target = "currentGameStatus"
-  def self.fleet_size_turbo_update_target = "fleetSize"
+  def self.game_status_turbo_target = "currentGameStatus"
+  def self.fleet_size_turbo_target = "fleetSize"
 
   def initialize(game:)
     @game = game
@@ -14,11 +14,11 @@ class Games::Current::Status
     "#{game_status} #{game_status_emoji}"
   end
 
-  def game_status_turbo_update_target
-    self.class.game_status_turbo_update_target
+  def game_status_turbo_target
+    self.class.game_status_turbo_target
   end
 
-  def fleet_size_turbo_update_target = self.class.fleet_size_turbo_update_target
+  def fleet_size_turbo_target = self.class.fleet_size_turbo_target
 
   def fleet_size = FleetTracker.size
 
