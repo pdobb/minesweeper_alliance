@@ -23,7 +23,7 @@ class Games::New::Content
   end
 
   def show_new_custom_game_button?(current_user)
-    current_user.signer?
+    current_user.ever_signed?
   end
 
   def new_custom_game_url

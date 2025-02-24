@@ -42,13 +42,12 @@ class Home::Show
   class WelcomeBannerContext
     def initialize(context) = @context = context
 
-    def current_user = context.current_user
-    def show_welcome_banner? = Home::WelcomeBanner.show?(cookies)
+    def show_welcome_banner? = !current_user.ever_signed?
 
     private
 
     attr_reader :context
 
-    def cookies = context.cookies
+    def current_user = context.current_user
   end
 end

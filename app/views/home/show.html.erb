@@ -5,7 +5,7 @@
 <% @show.welcome_banner(context: layout).tap do |welcome_banner| %>
   <% if welcome_banner.show? %>
     <div
-      id="<%= welcome_banner.turbo_update_id %>"
+      id="<%= welcome_banner.turbo_target %>"
       class="container mx-auto"
     >
       <%= render("layouts/banner", banner: welcome_banner.banner) %>
