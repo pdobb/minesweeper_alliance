@@ -97,7 +97,7 @@ module FleetTracker
 
   def self.broadcast_fleet_size_update
     WarRoomChannel.broadcast_update(
-      target: Games::Current::Status.fleet_size_turbo_update_target,
+      target: Games::Current::Status.fleet_size_turbo_target,
       html: FleetTracker.size)
   end
   private_class_method :broadcast_fleet_size_update

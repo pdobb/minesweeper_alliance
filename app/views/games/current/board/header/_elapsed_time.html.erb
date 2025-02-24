@@ -1,7 +1,7 @@
 <%# locals: (elapsed_time:) %>
 
 <time
-  id="<%= Games::Board::ElapsedTime.turbo_update_target %>"
+  id="<%= Games::Board::ElapsedTime.turbo_target %>"
   <% if elapsed_time.sweep_in_progress? %>
     data-controller="elapsed-time"
     data-elapsed-time-start-value="<%= elapsed_time.to_i %>"
