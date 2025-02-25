@@ -11,7 +11,10 @@ class Games::Current::Board::Cells::RevealNeighborsController <
     # - Else, we appeal to {Games::Current::Board::Cells::DehighlightNeighbors}
     #   to revert any highlighted {Cell}s back to their default state.
     if cell.neighboring_flags_count_matches_value?
-      dispatch_action.call { |dispatch| dispatch.(perform_action) }
+      dispatch_action.call { |dispatch|
+        perform_action
+        dispatch.call
+      }
     else
       Games::Current::Board::Cells::DehighlightNeighbors.(context: self)
     end

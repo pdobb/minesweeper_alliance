@@ -64,6 +64,8 @@ class Games::Current::Board::Cells::DispatchAction
     FleetTracker.activate!(current_user_token)
   end
 
+  # :reek:TooManyMethods
+
   # Games::Current::Board::Cells::DispatchAction::Dispatch is a yielded object
   # the collects / bundles together the Turbo Stream Actions produced by the
   # actual Cell Action being performed by the Controller based on the associated
@@ -87,13 +89,13 @@ class Games::Current::Board::Cells::DispatchAction
       @on_game_end_block = block
     end
 
-    def call(result)
+    def call
       if game_just_started?
-        dispatch_game_start(result:)
+        dispatch_game_start
       elsif game_just_ended?
         dispatch_game_end
       else
-        capture(result:)
+        dispatch_game_action
       end
     end
 
@@ -109,14 +111,30 @@ class Games::Current::Board::Cells::DispatchAction
                 :on_game_end_block
 
     def game = context.__send__(:game)
+    def board = context.__send__(:board)
     def game_just_started? = game.just_started?
     def game_just_ended? = game.just_ended?
     def turbo_stream = context.__send__(:turbo_stream)
     def render_to_string(...) = context.render_to_string(...)
 
-    def dispatch_game_start(result:)
+    def dispatch_game_start
       turbo_stream_actions << on_game_start_block.call
-      capture(result:)
+      generate_game_update_action
+    end
+
+    def dispatch_game_action
+      generate_game_update_action
+    end
+
+    def generate_game_update_action
+      content = Games::Current::Board::Content.new(board:)
+      html =
+        render_to_string(
+          partial: "games/current/board/content",
+          locals: { content: })
+
+      turbo_stream_actions <<
+        turbo_stream.replace(content.turbo_target, method: :morph, html:)
     end
 
     def dispatch_game_end
@@ -147,13 +165,6 @@ class Games::Current::Board::Cells::DispatchAction
 
       Turbo::StreamsChannel.broadcast_refresh_later_to(
         Games::Index.turbo_stream_name)
-    end
-
-    def capture(result:)
-      turbo_stream_actions <<
-        Cell::TurboStream::Morph.wrap_and_call(
-          result.updated_cells,
-          turbo_stream:)
     end
   end
 end

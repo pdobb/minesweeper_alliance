@@ -6,7 +6,8 @@ class Games::Current::Board::Cells::RevealsController < ApplicationController
   def create
     dispatch_action.call { |dispatch|
       dispatch.on_game_start { generate_just_started_game_turbo_stream_updates }
-      dispatch.(perform_action)
+      perform_action
+      dispatch.call
     }
   end
 

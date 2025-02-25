@@ -8,7 +8,8 @@ class Games::Current::Board::Cells::ToggleFlagsController <
 
   def create
     dispatch_action.call { |dispatch|
-      dispatch.(perform_action)
+      perform_action
+      dispatch.call
       dispatch << generate_placed_flags_count_turbo_stream_update
     }
   end
