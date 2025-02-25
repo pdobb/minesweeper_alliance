@@ -5,9 +5,13 @@
 class Games::Current::Board::Content
   NULL_CELL_ID = 0
 
+  def self.turbo_target = "gameBoard"
+
   def initialize(board:)
     @board = board
   end
+
+  def turbo_target = self.class.turbo_target
 
   def reveal_url
     Router.game_board_cell_reveal_path(game, NULL_CELL_ID)

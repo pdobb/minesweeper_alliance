@@ -1,8 +1,8 @@
-<%# locals: () %>
+<%# locals: (target: Games::Current::Board::Content.turbo_target) %>
 
 <div
   data-controller="games--current--board--actions"
-  data-games--current--board--actions-board-id-value="gameBoard"
+  data-games--current--board--actions-board-id-value="<%= target %>"
   class="container mx-auto text-center"
 >
   <%= button_to(
