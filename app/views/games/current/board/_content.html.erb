@@ -1,60 +1,53 @@
 <%# locals: (content:) %>
 
-<div
-  data-controller="scroll-position"
-  data-scroll-position-storage-element-id-value="gameBoardDataStore"
-  data-action="scroll->scroll-position#save"
-  class="-mx-5 overflow-x-auto scrollbar-hidden"
+<table
+  id="<%= content.turbo_target %>"
+  class="mx-auto table-fixed border-double border-4 border-dark"
 >
-  <table
-    id="<%= content.turbo_target %>"
-    class="mx-auto table-fixed border-double border-4 border-dark"
-  >
-    <tbody
-      <% if content.mobile?(layout) %>
-        <% controller = "games--current--board--mobile" %>
-        data-controller="<%= controller %>"
-        data-<%= controller %>-reveal-url-value="<%= content.reveal_url %>"
-        data-<%= controller %>-toggle-flag-url-value="<%= content.toggle_flag_url %>"
-        data-<%= controller %>-reveal-neighbors-url-value="<%= content.reveal_neighbors_url %>"
-        data-action="
-          touchstart-><%= controller %>#dispatchTouchStart
-          touchmove-><%= controller %>#dispatchTouchMove
-          touchend-><%= controller %>#dispatchTouchEnd
-        "
-      <% else # Desktop %>
-        <% controller = "games--current--board--desktop" %>
-        data-controller="<%= controller %>"
-        data-<%= controller %>-reveal-url-value="<%= content.reveal_url %>"
-        data-<%= controller %>-toggle-flag-url-value="<%= content.toggle_flag_url %>"
-        data-<%= controller %>-highlight-neighbors-url-value="<%= content.highlight_neighbors_url %>"
-        data-<%= controller %>-dehighlight-neighbors-url-value="<%= content.dehighlight_neighbors_url %>"
-        data-<%= controller %>-reveal-neighbors-url-value="<%= content.reveal_neighbors_url %>"
-        data-action="
-          mousedown-><%= controller %>#dispatchMousedown
-          mouseup-><%= controller %>#dispatchMouseup
-          contextmenu-><%= controller %>#dispatchContextmenu:prevent
-          click-><%= controller %>#dispatchClick
-        "
-      <% end %>
-      class="
-        text-center
-
-        <%# Cells %>
-        *:*:size-8 *:*:min-w-8 *:*:min-h-8 *:*:p-0 *:*:text-lg
-        *:*:border *:*:border-dark
-        *:*:data-[revealed=false]:cursor-cell
-        *:*:data-revealed:cursor-default
+  <tbody
+    <% if content.mobile?(layout) %>
+      <% controller = "games--current--board--mobile" %>
+      data-controller="<%= controller %>"
+      data-<%= controller %>-reveal-url-value="<%= content.reveal_url %>"
+      data-<%= controller %>-toggle-flag-url-value="<%= content.toggle_flag_url %>"
+      data-<%= controller %>-reveal-neighbors-url-value="<%= content.reveal_neighbors_url %>"
+      data-action="
+        touchstart-><%= controller %>#dispatchTouchStart
+        touchmove-><%= controller %>#dispatchTouchMove
+        touchend-><%= controller %>#dispatchTouchEnd
       "
-    >
-      <% content.rows.each do |row| %>
-        <tr>
-          <%= render(
-                partial: "games/current/board/cell",
-                collection: row,
-                as: :cell) %>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
-</div>
+    <% else # Desktop %>
+      <% controller = "games--current--board--desktop" %>
+      data-controller="<%= controller %>"
+      data-<%= controller %>-reveal-url-value="<%= content.reveal_url %>"
+      data-<%= controller %>-toggle-flag-url-value="<%= content.toggle_flag_url %>"
+      data-<%= controller %>-highlight-neighbors-url-value="<%= content.highlight_neighbors_url %>"
+      data-<%= controller %>-dehighlight-neighbors-url-value="<%= content.dehighlight_neighbors_url %>"
+      data-<%= controller %>-reveal-neighbors-url-value="<%= content.reveal_neighbors_url %>"
+      data-action="
+        mousedown-><%= controller %>#dispatchMousedown
+        mouseup-><%= controller %>#dispatchMouseup
+        contextmenu-><%= controller %>#dispatchContextmenu:prevent
+        click-><%= controller %>#dispatchClick
+      "
+    <% end %>
+    class="
+      text-center
+
+      <%# Cells %>
+      *:*:size-8 *:*:min-w-8 *:*:min-h-8 *:*:p-0 *:*:text-lg
+      *:*:border *:*:border-dark
+      *:*:data-[revealed=false]:cursor-cell
+      *:*:data-revealed:cursor-default
+    "
+  >
+    <% content.rows.each do |row| %>
+      <tr>
+        <%= render(
+              partial: "games/current/board/cell",
+              collection: row,
+              as: :cell) %>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

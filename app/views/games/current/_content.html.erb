@@ -2,7 +2,14 @@
 
 <%= turbo_frame_tag(content.turbo_frame_name, class: "block") do %>
   <div class="space-y-6 lg:space-y-12 select-none">
-    <%= render("games/current/board", board: content.board) %>
+    <div
+      data-controller="scroll-position"
+      data-scroll-position-storage-element-id-value="gameBoardDataStore"
+      data-action="scroll->scroll-position#save"
+      class="-mx-5 overflow-x-auto scrollbar-hidden"
+    >
+      <%= render("games/current/board", board: content.board) %>
+    </div>
     <%= render("games/current/actions") %>
   </div>
 <% end %>
