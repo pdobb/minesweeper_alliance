@@ -19,7 +19,7 @@ class Games::Current::Board::Cells::RevealsController < ApplicationController
   end
 
   def perform_action
-    Cell::Reveal.(context:)
+    Cell::Reveal.(context: action_context)
   end
 
   def generate_just_started_game_turbo_stream_updates

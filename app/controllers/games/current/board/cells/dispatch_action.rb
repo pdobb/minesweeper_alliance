@@ -72,6 +72,7 @@ class Games::Current::Board::Cells::DispatchAction
   # {Game#status}.
   class Dispatch
     include CallMethodBehaviors
+    include Games::Current::Board::Cells::DispatchBehaviors
 
     # :reek:DuplicateMethodCall
     def initialize(turbo_stream_actions:, context:)
@@ -124,17 +125,6 @@ class Games::Current::Board::Cells::DispatchAction
 
     def dispatch_game_action
       generate_game_update_action
-    end
-
-    def generate_game_update_action
-      content = Games::Current::Board::Content.new(board:)
-      html =
-        render_to_string(
-          partial: "games/current/board/content",
-          locals: { content: })
-
-      turbo_stream_actions <<
-        turbo_stream.replace(content.turbo_target, method: :morph, html:)
     end
 
     def dispatch_game_end

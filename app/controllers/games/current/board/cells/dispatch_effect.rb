@@ -38,6 +38,7 @@ class Games::Current::Board::Cells::DispatchEffect
   # actual Cell Action being performed by the Controller.
   class Dispatch
     include CallMethodBehaviors
+    include Games::Current::Board::Cells::DispatchBehaviors
 
     # :reek:DuplicateMethodCall
     def initialize(turbo_stream_actions:, context:)
@@ -45,8 +46,8 @@ class Games::Current::Board::Cells::DispatchEffect
       @context = context
     end
 
-    def call(updated_cells)
-      capture(updated_cells:)
+    def call
+      generate_game_update_action
       turbo_stream_actions << yield if block_given?
     end
 
@@ -55,11 +56,9 @@ class Games::Current::Board::Cells::DispatchEffect
     attr_reader :turbo_stream_actions,
                 :context
 
-    def turbo_stream = context.__send__(:turbo_stream)
+    def board = context.__send__(:board)
+    def render_to_string(...) = context.render_to_string(...)
 
-    def capture(updated_cells:)
-      turbo_stream_actions <<
-        Cell::TurboStream::Morph.wrap_and_call(updated_cells, turbo_stream:)
-    end
+    def turbo_stream = context.__send__(:turbo_stream)
   end
 end

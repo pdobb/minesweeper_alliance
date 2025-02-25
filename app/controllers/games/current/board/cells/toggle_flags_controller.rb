@@ -22,7 +22,7 @@ class Games::Current::Board::Cells::ToggleFlagsController <
   end
 
   def perform_action
-    Cell::ToggleFlag.(context:)
+    Cell::ToggleFlag.(context: action_context)
   end
 
   def generate_placed_flags_count_turbo_stream_update

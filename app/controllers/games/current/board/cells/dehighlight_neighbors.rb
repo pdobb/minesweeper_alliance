@@ -9,7 +9,10 @@ class Games::Current::Board::Cells::DehighlightNeighbors
   end
 
   def call
-    dispatch_effect.call { |dispatch| dispatch.(perform_effect) }
+    dispatch_effect.call { |dispatch|
+      perform_effect
+      dispatch.call
+    }
   end
 
   private
@@ -17,8 +20,7 @@ class Games::Current::Board::Cells::DehighlightNeighbors
   attr_reader :context
 
   def params = context.params
-
-  def cell = Cell.find(params[:cell_id])
+  def cell = context.__send__(:cell)
 
   def dispatch_effect
     @dispatch_effect ||=
