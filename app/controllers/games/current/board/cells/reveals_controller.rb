@@ -26,7 +26,6 @@ class Games::Current::Board::Cells::RevealsController < ApplicationController
     [
       generate_game_status_turbo_stream_update,
       generate_elapsed_time_turbo_stream_update,
-      (generate_mine_cell_indicators_turbo_stream_updates if App.debug?),
     ]
   end
 
@@ -44,9 +43,5 @@ class Games::Current::Board::Cells::RevealsController < ApplicationController
         elapsed_time: Games::Board::ElapsedTime.new(game:),
       },
       method: :morph)
-  end
-
-  def generate_mine_cell_indicators_turbo_stream_updates
-    Cell::TurboStream::Morph.wrap_and_call(board.mine_cells, turbo_stream:)
   end
 end
