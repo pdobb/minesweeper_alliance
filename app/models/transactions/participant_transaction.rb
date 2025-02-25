@@ -1,17 +1,18 @@
 # frozen_string_literal: true
 
-# A ParticipantTransaction is a record of
+# A ParticipantTransaction records:
 # - A {User} having joined in on a {Game}, and
-# - Whether or not the {User} is currently considered to be a passive or an
-#   active participant in the associated {Game}.
+# - Whether or not the {User} is currently considered to be a
+#   "passive participant" or an "active participant" in the {Game}.
 #
 # Creating a {Game} is considered to be active participation in that {Game}.
-# This is because we need a {User} to tie the {Game} creation event to anyway.
+# This is partly just because it makes sense that this is an "active" action,
+# but, also, it affords us a {User} to tie the {Game} creation event to.
 # So, on-{Game}-create:
-# - If the {Game} creator was a {Guest} then a {User} record is created to take
-#   its place,
-# - A {GameCreateTransaction} is created for the {User}, and
-# - An active ParticipantTransaction is created for the {User}.
+# 1. If the {Game} creator was a {Guest}, then a {User} record is created to
+#    take its place,
+# 2. A {GameCreateTransaction} is created for the {User}, and
+# 3. An active ParticipantTransaction is created for the {User}.
 #
 # Upon simply joining (visiting) a {Game}:
 # - {Guest}s are left alone, with no transactions being created to tie them to
