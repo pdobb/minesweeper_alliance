@@ -14,6 +14,10 @@ module Games::Current::Board::Cells::DispatchBehaviors
         locals: { content: })
 
     turbo_stream_actions <<
-      turbo_stream.replace(content.turbo_target, method: :morph, html:)
+      turbo_stream.action(
+        :versioned_replace,
+        content.turbo_target,
+        html,
+        method: :morph)
   end
 end

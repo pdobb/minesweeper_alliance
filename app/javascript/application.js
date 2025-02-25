@@ -9,3 +9,12 @@ window.TIME_ZONE_COOKIE = "time_zone"
 Turbo.StreamActions.redirect = function () {
   Turbo.visit(this.target)
 }
+
+Turbo.StreamActions.versioned_replace = function () {
+  const currentVersion = parseFloat(this.targetElements[0].dataset.version)
+  const payloadVersion = parseFloat(
+    this.templateContent.children[0].dataset.version,
+  )
+
+  if (payloadVersion > currentVersion) Turbo.StreamActions.replace.call(this)
+}
