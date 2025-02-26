@@ -11,12 +11,14 @@ class FlatArrayTest < ActiveSupport::TestCase
 
       it "builds an empty FlatArray" do
         result = subject.new
+        _(result).must_be_instance_of(unit_class)
         _(result.to_a).must_equal([])
       end
 
       context "GIVEN items" do
         it "builds a new FlatArray out of them items" do
           result = subject.new(1, 2, 3)
+          _(result).must_be_instance_of(unit_class)
           _(result.to_a).must_equal([1, 2, 3])
         end
       end
@@ -27,6 +29,7 @@ class FlatArrayTest < ActiveSupport::TestCase
 
       it "builds a new FlatArray" do
         result = subject[1, 2, 3]
+        _(result).must_be_instance_of(unit_class)
         _(result.to_a).must_equal([1, 2, 3])
       end
     end
