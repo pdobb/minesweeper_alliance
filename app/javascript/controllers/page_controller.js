@@ -11,7 +11,9 @@ export default class extends Controller {
 
   recordInteraction(event) {
     post(this.interactionsUrlValue, {
-      body: { interaction: { name: event.target.dataset.interactionName } },
+      body: {
+        interaction: { name: event.currentTarget.dataset.interactionName },
+      },
     })
   }
 }
