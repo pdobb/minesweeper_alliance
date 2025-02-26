@@ -1,25 +1,23 @@
 <%# locals: (content:) %>
 
-<div class="-mx-5 overflow-x-auto scrollbar-hidden">
-  <table class="mx-auto table-fixed border-double border-4 border-dark">
-    <tbody
-      class="
-        text-center cursor-default
+<table class="mx-auto table-fixed border-double border-4 border-dark">
+  <tbody
+    class="
+      text-center cursor-default
 
-        <%# Cells %>
-        *:*:size-8 *:*:min-w-8 *:*:min-h-8 *:*:p-0 *:*:text-lg
-        *:*:border *:*:border-dark
-      "
-    >
-      <% content.rows.each do |row| %>
-        <tr>
-          <% row.each do |cell| %>
-            <td class="<%= class_names(cell.css) %>">
-              <%= cell %>
-            </td>
-          <% end %>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
-</div>
+      <%# Cells %>
+      *:*:size-8 *:*:min-w-8 *:*:min-h-8 *:*:p-0 *:*:text-lg
+      *:*:border *:*:border-dark
+    "
+  >
+    <% content.rows.each do |row| %>
+      <tr>
+        <% row.each do |cell| %>
+          <td class="<%= class_names(cell.css) %>">
+            <%= cell %>
+          </td>
+        <% end %>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

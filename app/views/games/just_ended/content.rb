@@ -16,7 +16,7 @@ class Games::JustEnded::Content
   end
 
   def board
-    Games::Past::Board.new(board: game.board)
+    Games::JustEnded::Board.new(board: game.board)
   end
 
   def actions
