@@ -21,6 +21,6 @@ class Games::Current::Board::Cells::HighlightNeighborsController <
   end
 
   def perform_effect
-    cell.soft_highlight_neighborhood
+    cell.highlight_neighborhood
   end
 end

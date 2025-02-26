@@ -41,7 +41,6 @@ class Cell::RevealNeighbors
 
     catch(:return) {
       reveal_neighbors
-      add_self_to_updated_cells_if_any
       end_game_in_victory_if_all_safe_cells_revealed
 
       self
@@ -63,14 +62,20 @@ class Cell::RevealNeighbors
       CellChordTransaction.create_between(user:, cell:)
       ParticipantTransaction.activate_between(user:, game:)
 
+      unset_highlight_origin
       revealable_neighboring_cells.each do |neighboring_cell|
         reveal_neighbor(neighboring_cell)
       end
     end
   end
 
+  def unset_highlight_origin
+    cell.unset_highlight_origin
+    updated_cells << cell
+  end
+
   def revealable_neighboring_cells
-    cell.neighbors.select(&:can_be_revealed?)
+    @revealable_neighboring_cells ||= cell.revealable_neighbors
   end
 
   def reveal_neighbor(neighboring_cell)
@@ -95,10 +100,6 @@ class Cell::RevealNeighbors
     result = Cell.upsert_all(upsertable_attributes_array)
 
     updated_cells << Cell.for_id(result.pluck("id"))
-  end
-
-  def add_self_to_updated_cells_if_any
-    updated_cells << cell if updated_cells.any?
   end
 
   def end_game_in_victory_if_all_safe_cells_revealed

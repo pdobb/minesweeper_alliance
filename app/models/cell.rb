@@ -22,6 +22,10 @@
 # @attr mine [Boolean] Whether or not this Cell contains a mine.
 # @attr flagged [Boolean] Whether or not this Cell has been flagged.
 # @attr revealed [Boolean] Whether or not this Cell has been revealed.
+# @attr highlight_origin [Boolean] Whether or not this Cell is currently the
+#   origin of neighboring Cell highlights.
+# @attr highlighted [Boolean] Whether or not this Cell is currently being
+#   highlighted.
 class Cell < ApplicationRecord # rubocop:disable Metrics/ClassLength
   self.implicit_order_column = "created_at"
 
@@ -72,7 +76,6 @@ class Cell < ApplicationRecord # rubocop:disable Metrics/ClassLength
     return if revealed?
 
     self.revealed = true
-    self.highlight_origin = false
     self.highlighted = false
     self.flagged = false
     self.value = neighboring_mines_count
@@ -80,30 +83,30 @@ class Cell < ApplicationRecord # rubocop:disable Metrics/ClassLength
     self
   end
 
-  # Like {#soft_highlight_neighbors} but also highlights `self` as the
-  # "higlight_origin" if any {#highlightable_neighbors} were found.
-  def soft_highlight_neighborhood
-    return if unrevealed?
+  def highlight_neighborhood
+    return unless revealed?
 
-    soft_highlight_neighbors.tap { |cells|
-      if cells.any?
-        self.highlight_origin = true
-        cells << self
-      end
-    }
+    set_highlight_origin
+    { self => highlight_neighbors }
   end
 
-  # Like {#highlightable_neighbors} but includes `self` if any
-  # {#highlightable_neighbors} were found.
-  def highlightable_neighborhood
-    return if unrevealed?
+  def set_highlight_origin = update_column(:highlight_origin, true)
 
-    highlightable_neighbors.tap { |cells| cells << self if cells.any? }
+  def dehighlight_neighborhood
+    return unless revealed?
+
+    unset_highlight_origin
+    { self => dehighlight_neighbors }
   end
+
+  def unset_highlight_origin = update_column(:highlight_origin, false)
 
   def neighboring_flags_count_matches_value?
     neighboring_flags_count == value.to_i
   end
+
+  def revealable_neighbors = neighbors.select(&:revealable?)
+  def any_revealable_neighbors? = neighbors.any?(&:revealable?)
 
   def neighbors
     @neighbors ||= board&.cells_at(neighboring_coordinates).to_a
@@ -118,19 +121,14 @@ class Cell < ApplicationRecord # rubocop:disable Metrics/ClassLength
   end
 
   def unrevealed? = !revealed?
-  def soft_highlight = self.highlighted = true
-  def highlight_origin? = !!@highlight_origin
-  def highlighted? = !!@highlighted
-  def highlightable? = !(revealed? || flagged? || highlighted?)
-  def blank? = value == BLANK_VALUE
+  def revealable? = !(revealed? || flagged?)
   def safely_revealable? = !(mine? || revealed?)
-  def can_be_revealed? = !(revealed? || flagged?)
   def incorrectly_flagged? = flagged? && !mine?
+  def highlightable? = !(revealed? || flagged? || highlighted?)
+  def dehighlightable? = highlighted?
+  def blank? = value == BLANK_VALUE
 
   private
-
-  attr_writer :highlight_origin,
-              :highlighted
 
   def neighboring_coordinates = coordinates.neighbors
 
@@ -142,18 +140,31 @@ class Cell < ApplicationRecord # rubocop:disable Metrics/ClassLength
     @neighboring_flags_count ||= neighbors.count(&:flagged?)
   end
 
-  # Mark all {#highlightable?} neighboring Cells for highlight in the view by
-  # setting virtual attribute: {#soft_highlight} = true.
-  def soft_highlight_neighbors
-    return if unrevealed?
-
-    highlightable_neighbors.each(&:soft_highlight)
+  # @return [Array<Cell>] The Cells that were just highlighted.
+  def highlight_neighbors
+    neighbors.each_with_object(CompactArray.new) { |neighboring_cell, acc|
+      acc << neighboring_cell.__send__(:highlight)
+    }.to_a
   end
 
-  def highlightable_neighbors
-    return if unrevealed?
+  def highlight
+    return unless highlightable?
 
-    neighbors.select(&:highlightable?)
+    update_column(:highlighted, true)
+    self
+  end
+
+  def dehighlight_neighbors
+    neighbors.each_with_object(CompactArray.new) { |neighboring_cell, acc|
+      acc << neighboring_cell.__send__(:dehighlight)
+    }.to_a
+  end
+
+  def dehighlight
+    return unless dehighlightable?
+
+    update_column(:highlighted, false)
+    self
   end
 
   concerning :ObjectInspection do
@@ -172,6 +183,7 @@ class Cell < ApplicationRecord # rubocop:disable Metrics/ClassLength
         (revealed? ? Emoji.revealed_cell : Emoji.cell),
         (Emoji.flag if flagged?),
         (Emoji.mine if mine?),
+        ("👁️" if highlight_origin?),
         (Emoji.eyes if highlighted?),
       ])
     end
@@ -201,9 +213,11 @@ class Cell < ApplicationRecord # rubocop:disable Metrics/ClassLength
 
     def current_state
       if revealed?
-        " #{value}"
+        highlight_origin? ? "👁️" : " #{value}"
       elsif flagged?
         Emoji.flag
+      elsif highlighted?
+        Emoji.eyes
       else
         Emoji.cell
       end

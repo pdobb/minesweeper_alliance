@@ -10,7 +10,8 @@ class Games::Current::Board::Cells::RevealNeighborsController <
     # - If neighbors are being revealed here, {Cell#reveal} takes care of this.
     # - Else, we appeal to {Games::Current::Board::Cells::DehighlightNeighbors}
     #   to revert any highlighted {Cell}s back to their default state.
-    if cell.neighboring_flags_count_matches_value?
+    if cell.any_revealable_neighbors? &&
+         cell.neighboring_flags_count_matches_value?
       dispatch_action.call { |dispatch|
         perform_action
         dispatch.call

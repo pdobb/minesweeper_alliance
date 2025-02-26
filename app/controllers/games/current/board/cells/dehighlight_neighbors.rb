@@ -28,6 +28,6 @@ class Games::Current::Board::Cells::DehighlightNeighbors
   end
 
   def perform_effect
-    cell.highlightable_neighborhood
+    cell.dehighlight_neighborhood
   end
 end

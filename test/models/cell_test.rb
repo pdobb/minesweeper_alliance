@@ -167,7 +167,8 @@ class CellTest < ActiveSupport::TestCase
         it "returns nil" do
           result =
             _(-> { subject.reveal }).wont_change_all([
-              ["subject.highlighted?"],
+              ["subject.revealed"],
+              ["subject.highlighted"],
               ["subject.flagged"],
               ["subject.value"],
             ])
@@ -175,10 +176,9 @@ class CellTest < ActiveSupport::TestCase
         end
       end
 
-      context "GIVEN an unrevealed, highlighted, and flagged Cell" do
+      context "GIVEN an unrevealed, flagged Cell" do
         before do
-          subject.update!(flagged: true)
-          subject.soft_highlight
+          subject.update_column(:flagged, true)
         end
 
         subject { standing_by1_board_cell1 }
@@ -187,8 +187,25 @@ class CellTest < ActiveSupport::TestCase
           result =
             _(-> { subject.reveal }).must_change_all([
               ["subject.revealed", to: true],
-              ["subject.highlighted?", to: false],
               ["subject.flagged", to: false],
+              ["subject.value"],
+            ])
+          _(result).must_be_same_as(subject)
+        end
+      end
+
+      context "GIVEN an unrevealed, highlighted Cell" do
+        before do
+          subject.update_column(:highlighted, true)
+        end
+
+        subject { standing_by1_board_cell1 }
+
+        it "updates itself as expected, and returns self" do
+          result =
+            _(-> { subject.reveal }).must_change_all([
+              ["subject.revealed", to: true],
+              ["subject.highlighted", to: false],
               ["subject.value"],
             ])
           _(result).must_be_same_as(subject)
@@ -196,13 +213,13 @@ class CellTest < ActiveSupport::TestCase
       end
     end
 
-    describe "#soft_highlight_neighborhood" do
+    describe "#highlight_neighborhood" do
       context "GIVEN an unrevealed Cell" do
         subject { standing_by1_board_cell1 }
 
         it "returns nil" do
           result =
-            _(-> { subject.soft_highlight_neighborhood }).wont_change(
+            _(-> { subject.highlight_neighborhood }).wont_change(
               "subject.neighbors.count(&:highlighted?)")
           _(result).must_be_nil
         end
@@ -217,12 +234,14 @@ class CellTest < ActiveSupport::TestCase
 
         it "highlights the expected Cells, and returns them" do
           result =
-            _(-> { subject.soft_highlight_neighborhood }).must_change_all([
+            _(-> { subject.highlight_neighborhood }).must_change_all([
               ["subject.highlight_origin?", to: true],
-              ["subject.neighbors.count(&:highlightable?)", to: 0],
+              ["subject.neighbors.count(&:highlighted?)", from: 0, to: 3],
             ])
-          _(result).must_match_array([
-            subject,
+
+          origin, neighbors = result.to_a.first
+          _(origin).must_be_same_as(subject)
+          _(neighbors).must_match_array([
             standing_by1_board_cell2,
             standing_by1_board_cell4,
             standing_by1_board_cell5,
@@ -231,41 +250,40 @@ class CellTest < ActiveSupport::TestCase
       end
     end
 
-    describe "#highlightable_neighborhood" do
+    describe "#dehighlight_neighborhood" do
       subject { standing_by1_board_cell1 }
 
       context "GIVEN an unrevealed Cell" do
         subject { standing_by1_board_cell1 }
 
         it "returns nil" do
-          _(subject.highlightable_neighborhood).must_be_nil
+          _(subject.dehighlight_neighborhood).must_be_nil
         end
       end
 
       context "GIVEN a revealed Cell" do
         before do
           subject.reveal
+          subject.highlight_neighborhood
         end
 
         subject { standing_by1_board_cell1 }
 
-        it "returns the expected Array of Cells" do
-          _(subject.highlightable_neighborhood).must_match_array([
-            subject,
+        it "dehighlights the expected Cells, and returns them" do
+          result =
+            _(-> { subject.dehighlight_neighborhood }).must_change_all([
+              ["subject.highlight_origin?", to: false],
+              ["subject.neighbors.count(&:highlighted?)", from: 3, to: 0],
+            ])
+
+          origin, neighbors = result.to_a.first
+          _(origin).must_be_same_as(subject)
+          _(neighbors).must_match_array([
             standing_by1_board_cell2,
             standing_by1_board_cell4,
             standing_by1_board_cell5,
           ])
         end
-      end
-    end
-
-    describe "#soft_highlight" do
-      subject { standing_by1_board_cell1 }
-
-      it "sets #highlighted? = true" do
-        _(-> { subject.soft_highlight }).must_change(
-          "subject.highlighted?", from: false, to: true)
       end
     end
 
@@ -361,6 +379,66 @@ class CellTest < ActiveSupport::TestCase
 
         it "returns false" do
           _(subject.unrevealed?).must_equal(false)
+        end
+      end
+    end
+
+    describe "#highlightable?" do
+      subject { standing_by1_board_cell1 }
+
+      context "GIVEN #revealed? == #flagged? == #highlighted? == false" do
+        it "returns true" do
+          _(subject.highlightable?).must_equal(true)
+        end
+      end
+
+      context "GIVEN #revealed? == true" do
+        before do
+          subject.update_column(:revealed, true)
+        end
+
+        it "returns false" do
+          _(subject.highlightable?).must_equal(false)
+        end
+      end
+
+      context "GIVEN #flagged? == true" do
+        before do
+          subject.update_column(:flagged, true)
+        end
+
+        it "returns false" do
+          _(subject.highlightable?).must_equal(false)
+        end
+      end
+
+      context "GIVEN #highlighted? == true" do
+        before do
+          subject.update_column(:highlighted, true)
+        end
+
+        it "returns false" do
+          _(subject.highlightable?).must_equal(false)
+        end
+      end
+    end
+
+    describe "#dehighlightable?" do
+      subject { standing_by1_board_cell1 }
+
+      context "GIVEN #highlighted? == true" do
+        before do
+          subject.update_column(:highlighted, true)
+        end
+
+        it "returns true" do
+          _(subject.dehighlightable?).must_equal(true)
+        end
+      end
+
+      context "GIVEN #highlighted? == false" do
+        it "returns false" do
+          _(subject.dehighlightable?).must_equal(false)
         end
       end
     end

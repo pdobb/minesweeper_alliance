@@ -126,7 +126,9 @@ CREATE TABLE public.cells (
     revealed boolean DEFAULT false NOT NULL,
     value integer,
     created_at timestamp(6) with time zone NOT NULL,
-    updated_at timestamp(6) with time zone NOT NULL
+    updated_at timestamp(6) with time zone NOT NULL,
+    highlight_origin boolean DEFAULT false NOT NULL,
+    highlighted boolean DEFAULT false NOT NULL
 );
 
 
@@ -940,6 +942,7 @@ ALTER TABLE ONLY public.cells
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20250226045424'),
 ('20250222173153'),
 ('20250221231704'),
 ('20250221001444'),
