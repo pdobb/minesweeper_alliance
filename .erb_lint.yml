@@ -18,9 +18,7 @@ linters:
       Layout/LeadingEmptyLines:
         Enabled: false
       Layout/LineLength:
-        Exclude:
-          - app/views/games/current/board/_content.html.erb
-          - app/views/layouts/_banner.html.erb
+        Enabled: false
       Layout/MultilineArrayLineBreaks:
         Enabled: false
       Layout/TrailingEmptyLines:
