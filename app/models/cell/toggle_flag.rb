@@ -22,10 +22,6 @@ class Cell::ToggleFlag
     self
   end
 
-  def updated_cells
-    cell
-  end
-
   private
 
   attr_reader :game,

@@ -15,14 +15,11 @@
 class Cell::Reveal
   include CallMethodBehaviors
 
-  attr_reader :updated_cells
-
   def initialize(context:)
     @game = context.game
     @board = context.board
     @cell = context.cell
     @user = context.user
-    @updated_cells = FlatArray.new
   end
 
   # :reek:TooManyStatements
@@ -62,7 +59,7 @@ class Cell::Reveal
     cell.transaction do
       CellRevealTransaction.create_between(user:, cell:)
       ParticipantTransaction.activate_between(user:, game:)
-      updated_cells << cell.reveal
+      cell.reveal
     end
   end
 
@@ -77,9 +74,7 @@ class Cell::Reveal
     return unless cell.blank? # rubocop:disable all
 
     upsertable_attributes_array = Cell::RecursiveReveal.(cell)
-    result = Cell.upsert_all(upsertable_attributes_array)
-
-    updated_cells << Cell.for_id(result.pluck("id"))
+    Cell.upsert_all(upsertable_attributes_array)
   end
 
   def end_game_in_victory_if_all_safe_cells_revealed

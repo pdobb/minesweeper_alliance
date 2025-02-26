@@ -24,14 +24,11 @@
 class Cell::RevealNeighbors
   include CallMethodBehaviors
 
-  attr_reader :updated_cells
-
   def initialize(context:)
     @game = context.game
     @board = context.board
     @cell = context.cell
     @user = context.user
-    @updated_cells = FlatArray.new
   end
 
   # :reek:TooManyStatements
@@ -71,7 +68,6 @@ class Cell::RevealNeighbors
 
   def unset_highlight_origin
     cell.unset_highlight_origin
-    updated_cells << cell
   end
 
   def revealable_neighboring_cells
@@ -85,7 +81,7 @@ class Cell::RevealNeighbors
 
   # :reek:FeatureEnvy
   def reveal(neighboring_cell)
-    updated_cells << neighboring_cell.reveal
+    neighboring_cell.reveal
 
     end_in_defeat(user:) if neighboring_cell.mine?
   end
@@ -97,9 +93,7 @@ class Cell::RevealNeighbors
 
   def recursively_reveal_neighbors(neighboring_cell)
     upsertable_attributes_array = Cell::RecursiveReveal.(neighboring_cell)
-    result = Cell.upsert_all(upsertable_attributes_array)
-
-    updated_cells << Cell.for_id(result.pluck("id"))
+    Cell.upsert_all(upsertable_attributes_array)
   end
 
   def end_game_in_victory_if_all_safe_cells_revealed
