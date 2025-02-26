@@ -10,6 +10,8 @@ class Games::Current::Board
     Games::Current::Board::Header.new(board:)
   end
 
+  def scroll_position_storage_key = Home::Show.game_board_storage_key
+
   def content
     Games::Current::Board::Content.new(board:)
   end

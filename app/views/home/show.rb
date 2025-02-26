@@ -4,6 +4,7 @@
 class Home::Show
   def self.turbo_stream_name = WarRoomChannel::STREAM_NAME
   def self.turbo_stream_channel = WarRoomChannel
+  def self.game_board_storage_key = "gameBoardDataStore"
 
   # @param current_game [Game, NilClass]
   def initialize(current_game:)
@@ -16,6 +17,8 @@ class Home::Show
   def welcome_banner(context:)
     Home::WelcomeBanner.new(context: WelcomeBannerContext.new(context))
   end
+
+  def game_board_storage_key = self.class.game_board_storage_key
 
   def container
     if current_game

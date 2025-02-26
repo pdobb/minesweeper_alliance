@@ -2,6 +2,15 @@
 
 <div class="mx-auto md:w-fit md:max-w-full space-y-2">
   <%= render("games/current/board/header", header: board.header) %>
-  <%= render("games/current/board/content", content: board.content) %>
+
+  <div
+    data-controller="scroll-position"
+    data-scroll-position-storage-element-id-value="<%= board.scroll_position_storage_key %>"
+    data-action="scroll->scroll-position#save"
+    class="-mx-5 overflow-x-auto scrollbar-hidden"
+  >
+    <%= render("games/current/board/content", content: board.content) %>
+  </div>
+
   <%= render("games/board/footer", footer: board.footer) %>
 </div>
