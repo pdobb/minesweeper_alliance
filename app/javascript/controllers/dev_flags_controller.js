@@ -6,7 +6,7 @@ export default class extends Controller {
   connect() {
     this.table = document.querySelector("table")
     this.isSolving = false
-    this.firstIteration = true
+    this.clickEvent = new MouseEvent("click", { bubbles: true })
   }
 
   toggleSolve() {
@@ -30,9 +30,11 @@ export default class extends Controller {
     if (!this.table || !this.isSolving) return
 
     if (this.#isLagging()) {
-      this.#wait()
+      this.#iterateAfterDelay()
     } else {
+      this.unrevealedCells = this.#findUnrevealedCells()
       this.#clickRandomCell()
+      this.#iterateAfterDelay()
     }
   }
 
@@ -40,16 +42,7 @@ export default class extends Controller {
     return this.table.querySelector(".animate-pulse-fast") !== null
   }
 
-  #clickRandomCell() {
-    const cells = this.#findRandomCell()
-    const randomCell = cells[Math.floor(Math.random() * cells.length)]
-
-    randomCell.dispatchEvent(new MouseEvent("click", { bubbles: true }))
-
-    this.#wait()
-  }
-
-  #findRandomCell() {
+  #findUnrevealedCells() {
     return Array.from(
       this.table.querySelectorAll(
         'td[data-revealed="false"][data-flagged="false"]:not(.bg-slate-500)',
@@ -57,16 +50,18 @@ export default class extends Controller {
     )
   }
 
-  #wait() {
-    const cells = this.#findRandomCell()
-    let delay = this.delayValue
+  #clickRandomCell() {
+    const randomCell =
+      this.unrevealedCells[
+        Math.floor(Math.random() * this.unrevealedCells.length)
+      ]
 
-    if (this.firstIteration) {
-      this.firstIteration = false
-      delay = 200
-    } else if (cells.length <= 2) {
-      delay = 200
-    }
+    randomCell.dispatchEvent(this.clickEvent)
+  }
+
+  #iterateAfterDelay() {
+    let delay = this.delayValue
+    if (this.unrevealedCells.length <= 2) delay *= 2
 
     if (this.isSolving) setTimeout(() => this.#solve(), delay)
   }
