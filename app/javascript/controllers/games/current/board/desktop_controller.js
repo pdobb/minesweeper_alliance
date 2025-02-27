@@ -30,13 +30,15 @@ export default class extends Controller {
   }
 
   dispatchMouseup(event) {
-    if (mouse(event).actsAsRightClick()) return
+    if (!this.mousedownTarget || mouse(event).actsAsRightClick()) return
 
-    if (this.mousedownTarget && event.target != this.mousedownTarget) {
+    if (event.target != this.mousedownTarget) {
       cell(this.mousedownTarget).dehighlightNeighbors(
         this.dehighlightNeighborsUrlValue,
       )
     }
+
+    this.mousedownTarget = null
   }
 
   dispatchContextmenu(event) {
