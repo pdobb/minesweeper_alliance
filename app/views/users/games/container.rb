@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-# Users::Games::Container represents past {Game}s in the context of a
-# participating player ({User}).
+# Users::Games::Container represents the entire view context surrounding a past
+# {Game} in the context of a participating player ({User}).
 class Users::Games::Container
   def self.cache_key(game:) = [:external_container, game]
 

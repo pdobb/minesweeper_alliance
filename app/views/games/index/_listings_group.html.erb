@@ -1,0 +1,20 @@
+<%# locals: (listings_group:) %>
+
+<div class="space-y-3">
+  <h3><%= listings_group %></h3>
+  <h4 class="h5 text-dim-sm">
+    <%= render(
+          "games/index/listings_group/engagement_tally",
+          engagement_tally: listings_group.engagement_tally) %>
+  </h4>
+  <div
+    class="
+      grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 3xl:grid-cols-6
+      gap-y-1
+    "
+  >
+    <%= render(
+          partial: "games/index/listings_group/listing",
+          collection: listings_group.listings) %>
+  </div>
+</div>

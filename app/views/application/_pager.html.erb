@@ -1,0 +1,10 @@
+<%# locals: (pager:) %>
+
+<% return if pager.empty? %>
+
+<%= turbo_frame_tag(
+      pager.turbo_target,
+      src: pager.next_page_url,
+      loading: :lazy) do %>
+  <%= inline_svg_tag("spinner.svg") %>
+<% end %>

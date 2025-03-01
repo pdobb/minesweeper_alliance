@@ -8,7 +8,7 @@ class GamesController < ApplicationController
   def index
     @index =
       Games::Index.new(
-        base_arel: Game.for_game_over_statuses.by_most_recently_ended,
+        base_arel: Game.for_game_over_statuses,
         context: layout)
   end
 

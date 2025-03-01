@@ -1,0 +1,13 @@
+<% @index.paginated_listings_groups.tap do |paginated_listings_groups| %>
+  <%= turbo_stream.append(
+        paginated_listings_groups.turbo_target,
+        partial: "games/index/listings_group",
+        collection: paginated_listings_groups.listings_groups) %>
+
+  <% paginated_listings_groups.pager.tap do |pager| %>
+    <%= turbo_stream.replace(
+          pager.turbo_target,
+          partial: "pager",
+          locals: { pager: }) %>
+  <% end %>
+<% end %>

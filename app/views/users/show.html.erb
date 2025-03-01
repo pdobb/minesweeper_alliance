@@ -46,19 +46,21 @@
 
   <hr>
 
-  <div class="space-y-12">
-    <% @show.games.tap do |games| %>
+  <% @show.games_index(context: layout).tap do |games_index| %>
+    <div class="space-y-12">
       <div class="space-y-8">
         <h2>Engagements</h2>
 
         <h3 class="text-center">
           <%= render(
                 "games/past/engagement_tally",
-                engagement_tally: games.engagement_tally) %>
+                engagement_tally: games_index.engagement_tally) %>
         </h3>
       </div>
 
-      <%= render("games/listings", listings: games.listings) %>
-    <% end %>
-  </div>
+      <%= render(
+            "games/index/paginated_listings_groups",
+            paginated_listings_groups: games_index.paginated_listings_groups) %>
+    </div>
+  <% end %>
 </div>

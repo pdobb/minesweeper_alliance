@@ -155,7 +155,20 @@ class Game < ApplicationRecord # rubocop:disable Metrics/ClassLength
         -> { for_status([status_standing_by, status_sweep_in_progress]) }
   scope :for_game_over_statuses,
         -> { for_status([status_alliance_wins, status_mines_win]) }
-  scope :for_ended_at, ->(time_range) { where(ended_at: time_range) }
+  scope :for_ended_at, ->(ended_at) { where(ended_at:) }
+  scope :for_end_date, ->(date, time_zone = Time.zone.tzinfo.name) {
+    where(
+      Arel.sql("DATE(ended_at AT TIME ZONE :time_zone) = :date"),
+      time_zone:,
+      date:)
+  }
+  scope :for_end_date_on_or_before,
+        ->(date, time_zone = Time.zone.tzinfo.name) {
+          where(
+            Arel.sql("DATE(ended_at AT TIME ZONE :time_zone) <= :date"),
+            time_zone:,
+            date:)
+        }
 
   scope :by_most_recently_ended, -> { order(ended_at: :desc) }
   scope :by_score_asc, -> { where.not(score: nil).order(score: :asc) }

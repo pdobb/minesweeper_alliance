@@ -48,7 +48,7 @@ Rails.application.routes.draw do
   end
 
   resources :users, only: :show do
-    resources :games, only: :show, module: :users
+    resources :games, only: %i[index show], module: :users
   end
   resource :current_user, only: [] do
     scope module: :current_user do

@@ -29,14 +29,11 @@ class Users::Show
     DisplayCase.new
   end
 
-  def games
-    Users::Games.new(
-      base_arel:
-        user.
-          actively_participated_in_games.
-          for_game_over_statuses.
-          by_most_recently_ended,
-      user:)
+  def games_index(context:)
+    Users::Games::Index.new(
+      base_arel: user.actively_participated_in_games.for_game_over_statuses,
+      user:,
+      context:)
   end
 
   private

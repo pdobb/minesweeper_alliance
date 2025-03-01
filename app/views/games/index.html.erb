@@ -46,5 +46,7 @@
           engagement_tally: @index.engagement_tally) %>
   </h2>
 
-  <%= render("listings", listings: @index.listings) %>
+  <%= render(
+        "games/index/paginated_listings_groups",
+        paginated_listings_groups: @index.paginated_listings_groups) %>
 </div>

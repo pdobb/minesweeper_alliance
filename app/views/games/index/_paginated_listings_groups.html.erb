@@ -1,0 +1,22 @@
+<%# locals: (paginated_listings_groups:) %>
+
+<div id="<%= paginated_listings_groups.turbo_target %>" class="space-y-6">
+  <div
+    class="
+      hidden only:block
+      mt-12 p-12
+      text-center italic text-dim
+      border border-dashed border-dim
+    "
+  >
+    No
+    <%= paginated_listings_groups.try(:type) %>
+    engagement records found.
+  </div>
+
+  <%= render(
+        partial: "games/index/listings_group",
+        collection: paginated_listings_groups.listings_groups) %>
+</div>
+
+<%= render("pager", pager: paginated_listings_groups.pager) %>
