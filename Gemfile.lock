@@ -150,7 +150,7 @@ GEM
     fugit (1.11.1)
       et-orbi (~> 1, >= 1.2.11)
       raabro (~> 1.4)
-    gemwork (0.7.11)
+    gemwork (0.7.12)
       debug
       irb
       minitest
@@ -183,7 +183,7 @@ GEM
       rdoc (>= 4.0.0)
       reline (>= 0.4.2)
     json (2.10.1)
-    kamal (2.5.2)
+    kamal (2.5.3)
       activesupport (>= 7.0)
       base64 (~> 0.2)
       bcrypt_pbkdf (~> 1.0)
@@ -341,7 +341,7 @@ GEM
     requestjs-rails (0.0.12)
       railties (>= 6.1.0)
     rexml (3.4.1)
-    rubocop (1.72.2)
+    rubocop (1.73.1)
       json (~> 2.3)
       language_server-protocol (~> 3.17.0.2)
       lint_roller (~> 1.1.0)
@@ -411,13 +411,13 @@ GEM
     tailwindcss-rails (4.1.0)
       railties (>= 7.0.0)
       tailwindcss-ruby (~> 4.0)
-    tailwindcss-ruby (4.0.8)
-    tailwindcss-ruby (4.0.8-aarch64-linux-gnu)
-    tailwindcss-ruby (4.0.8-aarch64-linux-musl)
-    tailwindcss-ruby (4.0.8-arm64-darwin)
-    tailwindcss-ruby (4.0.8-x86_64-darwin)
-    tailwindcss-ruby (4.0.8-x86_64-linux-gnu)
-    tailwindcss-ruby (4.0.8-x86_64-linux-musl)
+    tailwindcss-ruby (4.0.9)
+    tailwindcss-ruby (4.0.9-aarch64-linux-gnu)
+    tailwindcss-ruby (4.0.9-aarch64-linux-musl)
+    tailwindcss-ruby (4.0.9-arm64-darwin)
+    tailwindcss-ruby (4.0.9-x86_64-darwin)
+    tailwindcss-ruby (4.0.9-x86_64-linux-gnu)
+    tailwindcss-ruby (4.0.9-x86_64-linux-musl)
     thor (1.3.2)
     thruster (0.1.11)
     thruster (0.1.11-aarch64-linux)
@@ -433,7 +433,7 @@ GEM
     unicode-display_width (3.1.4)
       unicode-emoji (~> 4.0, >= 4.0.4)
     unicode-emoji (4.0.4)
-    uri (1.0.2)
+    uri (1.0.3)
     useragent (0.16.11)
     web-console (4.2.1)
       actionview (>= 6.0.0)
@@ -542,7 +542,7 @@ CHECKSUMS
   erubi (1.13.1) sha256=a082103b0885dbc5ecf1172fede897f9ebdb745a4b97a5e8dc63953db1ee4ad9
   et-orbi (1.2.11) sha256=d26e868cc21db88280a9ec1a50aa3da5d267eb9b2037ba7b831d6c2731f5df64
   fugit (1.11.1) sha256=e89485e7be22226d8e9c6da411664d0660284b4b1c08cacb540f505907869868
-  gemwork (0.7.11) sha256=6ffcd7bd045c9c532b69d532e14c09746e12375ebb5dbe8d735ad406b630bf28
+  gemwork (0.7.12) sha256=f60f6b7a2dafb680a740fdcdff5371698e9027977459783a127e0eed09f46f13
   globalid (1.2.1) sha256=70bf76711871f843dbba72beb8613229a49429d1866828476f9c9d6ccc327ce9
   honeybadger (5.26.4) sha256=ff4a99d039ddefbb0805080fe9078bbf8d7e70dd6d8f5ad040e23eb12b69e540
   i18n (1.14.7) sha256=ceba573f8138ff2c0915427f1fc5bdf4aa3ab8ae88c8ce255eb3ecf0a11a5d0f
@@ -551,7 +551,7 @@ CHECKSUMS
   io-console (0.8.0) sha256=cd6a9facbc69871d69b2cb8b926fc6ea7ef06f06e505e81a64f14a470fddefa2
   irb (1.15.1) sha256=d9bca745ac4207a8b728a52b98b766ca909b86ff1a504bcde3d6f8c84faae890
   json (2.10.1) sha256=ddc88ad91a1baf3f0038c174f253af3b086d30dc74db17ca4259bbde982f94dc
-  kamal (2.5.2) sha256=5e48a73c8f150143717f7602ef1b513ba9bc1417e498b4000470fbdfe595e18d
+  kamal (2.5.3) sha256=06f9e5536e710045da73cee5f0d8b088fd40d5613cbb36abcaa88d4c8fe23a6c
   language_server-protocol (3.17.0.4) sha256=c484626478664fd13482d8180947c50a8590484b1258b99b7aedb3b69df89669
   lint_roller (1.1.0) sha256=2c0c845b632a7d172cb849cc90c1bce937a28c5c8ccccb50dfd46a485003cc87
   logger (1.6.6) sha256=dd618d24e637715472732e7eed02e33cfbdf56deaad225edd0f1f89d38024017
@@ -613,7 +613,7 @@ CHECKSUMS
   reline (0.6.0) sha256=57620375dcbe56ec09bac7192bfb7460c716bbf0054dc94345ecaa5438e539d2
   requestjs-rails (0.0.12) sha256=d3f863b16ae3469b2ebb83110b9831d74375f44e06b1194b5052a997fc2c48e7
   rexml (3.4.1) sha256=c74527a9a0a04b4ec31dbe0dc4ed6004b960af943d8db42e539edde3a871abca
-  rubocop (1.72.2) sha256=0259a32d89fee60882bf4c4d8847e696357719c9db4971839da742bf053ae96b
+  rubocop (1.73.1) sha256=2528ac42743491feb996ebdf2babe645df46d2e50e1ee2858fedb10c0d24da17
   rubocop-ast (1.38.1) sha256=80ecbe2ac9bb26693cab9405bf72b41b85a1f909f20f021b983c32c2e7d857fe
   rubocop-minitest (0.37.1) sha256=dcdcc2c835a859193e50bc67296daaf95ac99f6410838119374df31490460d36
   rubocop-performance (1.24.0) sha256=e5bd39ff3e368395b9af886927cc37f5892f43db4bd6c8526594352d5b4440b5
@@ -634,13 +634,13 @@ CHECKSUMS
   stimulus-rails (1.3.4) sha256=765676ffa1f33af64ce026d26b48e8ffb2e0b94e0f50e9119e11d6107d67cb06
   stringio (3.1.5) sha256=bca92461515a131535743bc81d5559fa1de7d80cff9a654d6c0af6f9f27e35c8
   tailwindcss-rails (4.1.0) sha256=a6d0dda17f4ca3c5fa958ffd5aeb67303583fdb086bc9c303011843b0e13f24e
-  tailwindcss-ruby (4.0.8) sha256=5b87f8707a09fb8f0dec08ccd30911948dfc280b356ff1c939e356c0ae6c0ab7
-  tailwindcss-ruby (4.0.8-aarch64-linux-gnu) sha256=3d8bfc44c74e377e6152a2f547dbfa074437ea8be7eb21c5c23b872464812cbc
-  tailwindcss-ruby (4.0.8-aarch64-linux-musl) sha256=bb85971632cdd7cb51250baeddd903aed5aa1a446bef61dfa2cd08e317ce102c
-  tailwindcss-ruby (4.0.8-arm64-darwin) sha256=3023822c6a8436f48ab83e5f8705bbaafd6ee08c3cfd20a3ea6b4c48ffd5d569
-  tailwindcss-ruby (4.0.8-x86_64-darwin) sha256=697b284f46f9bb0866f006de609683c46714f474d591aae49967b84ab206df1e
-  tailwindcss-ruby (4.0.8-x86_64-linux-gnu) sha256=3a3813a34bffe5a71fb112f738ba67657e0684d7aea2e78b108b4acf0b675b48
-  tailwindcss-ruby (4.0.8-x86_64-linux-musl) sha256=766b0142ed1018b51fde3744af94b4d6b8e2db32853b00e00167d87b476caf2f
+  tailwindcss-ruby (4.0.9) sha256=d942204812efbed706b9ab0d183563e653ed76f6b92c7037c668628b93bc6065
+  tailwindcss-ruby (4.0.9-aarch64-linux-gnu) sha256=0ee2e63a2d13389d6d048ae8626d1241b8bf10c5328ec3a023db26ae3fd0e6ee
+  tailwindcss-ruby (4.0.9-aarch64-linux-musl) sha256=3f9bd2da333bebe09f2ad1e793580a9ce6c528a4a80f0426635623ccd9353360
+  tailwindcss-ruby (4.0.9-arm64-darwin) sha256=42590164f5e8be306849ad68b81f767bd1fc4979c48313dbece7acf8f41c400f
+  tailwindcss-ruby (4.0.9-x86_64-darwin) sha256=e042c28d9f097d20e0fab57412b1fb5e1e2442405f69377f0502dcc5fc0467ef
+  tailwindcss-ruby (4.0.9-x86_64-linux-gnu) sha256=942d00507409171472b72a8b908c5c45029881fb3411ba3c6ade6c84c9c60c87
+  tailwindcss-ruby (4.0.9-x86_64-linux-musl) sha256=e9ac9d8e94e952e36aff6612d232c1f1f4d0fcc059d5802b24bfd8141009cfcd
   thor (1.3.2) sha256=eef0293b9e24158ccad7ab383ae83534b7ad4ed99c09f96f1a6b036550abbeda
   thruster (0.1.11) sha256=ee21374777c4da0aa24e19c17269e80c35e4ab361899d5bfc7965c0615ae6fee
   thruster (0.1.11-aarch64-linux) sha256=1f53747ad2875a56e9b54a467913598e2fe4ccbcdac3a14303df92238ff43436
@@ -652,7 +652,7 @@ CHECKSUMS
   tzinfo (2.0.6) sha256=8daf828cc77bcf7d63b0e3bdb6caa47e2272dcfaf4fbfe46f8c3a9df087a829b
   unicode-display_width (3.1.4) sha256=8caf2af1c0f2f07ec89ef9e18c7d88c2790e217c482bfc78aaa65eadd5415ac1
   unicode-emoji (4.0.4) sha256=2c2c4ef7f353e5809497126285a50b23056cc6e61b64433764a35eff6c36532a
-  uri (1.0.2) sha256=b303504ceb7e5905771fa7fa14b649652fa949df18b5880d69cfb12494791e27
+  uri (1.0.3) sha256=e9f2244608eea2f7bc357d954c65c910ce0399ca5e18a7a29207ac22d8767011
   useragent (0.16.11) sha256=700e6413ad4bb954bb63547fa098dddf7b0ebe75b40cc6f93b8d54255b173844
   web-console (4.2.1) sha256=e7bcf37a10ea2b4ec4281649d1cee461b32232d0a447e82c786e6841fd22fe20
   websocket-driver (0.7.7) sha256=056d99f2cd545712cfb1291650fde7478e4f2661dc1db6a0fa3b966231a146b4
