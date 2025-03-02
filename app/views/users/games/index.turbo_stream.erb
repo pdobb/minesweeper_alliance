@@ -10,7 +10,4 @@
           partial: "pager",
           locals: { pager: }) %>
   <% end %>
-
-  <%# Prevent new Game completions from messing up our paging position. %>
-  <%= turbo_stream.remove(@index.turbo_stream_dom_id) %>
 <% end %>

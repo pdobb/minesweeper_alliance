@@ -3,6 +3,7 @@
 # Games::Index represents the Games Index page.
 class Games::Index
   def self.turbo_stream_name = :sweep_ops_archive
+  def self.turbo_stream_dom_id = "#{turbo_stream_name}_turbo_stream"
 
   def initialize(base_arel:, context:)
     @base_arel = base_arel
@@ -10,6 +11,7 @@ class Games::Index
   end
 
   def to_param = self.class.turbo_stream_name
+  def turbo_stream_dom_id = self.class.turbo_stream_dom_id
 
   def show_time_zone_form?(user:) = user.participant?
 

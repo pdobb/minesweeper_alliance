@@ -1,7 +1,7 @@
 <% title("Sweep Ops Archive") %>
 <% description(t("games.meta_description")) %>
 
-<%= turbo_stream_from(@index) %>
+<%= turbo_stream_from(@index, id: @index.turbo_stream_dom_id) %>
 
 <div
   data-turbo-prefetch="false"

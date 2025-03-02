@@ -9,10 +9,6 @@ class Users::GamesController < ApplicationController
   def index
     show = Users::Show.new(user:)
     @index = show.games_index(context: layout)
-
-    respond_to do |format|
-      format.turbo_stream { render(template: "games/index") }
-    end
   end
 
   def show
