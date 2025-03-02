@@ -2,7 +2,7 @@
 
 # App is utility module specific to this Rails Application and its environment.
 module App
-  def self.created_at = Time.zone.local(2024)
+  def self.created_at = Time.zone.local(2024, 8, 9)
 
   def self.debug? = Rails.configuration.debug
 
@@ -12,6 +12,8 @@ module App
 
   def self.introspect
     {
+      name: I18n.t("site.name"),
+      created_at:,
       env: Rails.env.to_s,
       debug_mode: debug?,
       interactions: Interaction.by_name.map(&:to_s),

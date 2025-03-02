@@ -10,7 +10,10 @@ class AppTest < ActiveSupport::TestCase
 
     describe ".created_at" do
       it "returns the expected Time" do
-        _(unit_class.created_at.year).must_equal(2024)
+        result = unit_class.created_at
+        _(result.year).must_equal(2024)
+        _(result.month).must_equal(8)
+        _(result.day).must_equal(9)
       end
     end
 
