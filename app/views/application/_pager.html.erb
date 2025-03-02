@@ -5,6 +5,8 @@
 <%= turbo_frame_tag(
       pager.turbo_target,
       src: pager.next_page_url,
-      loading: :lazy) do %>
+      loading: :lazy,
+      data: { controller: "prefetch-lazy-frame" },
+      class: "block h-[1000px]") do %>
   <%= inline_svg_tag("spinner.svg") %>
 <% end %>
