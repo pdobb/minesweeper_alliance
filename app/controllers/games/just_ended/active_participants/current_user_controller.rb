@@ -7,13 +7,13 @@ class Games::JustEnded::ActiveParticipants::CurrentUserController <
   def show
     @show =
       Games::JustEnded::ActiveParticipants::CurrentUser::Show.new(
-        game: @game, user: current_user)
+        game:, user: current_user)
   end
 
   def edit
     @edit =
       Games::JustEnded::ActiveParticipants::CurrentUser::Edit.new(
-        game: @game, user: current_user)
+        game:, user: current_user)
   end
 
   def update # rubocop:disable Metrics/AbcSize
@@ -32,7 +32,7 @@ class Games::JustEnded::ActiveParticipants::CurrentUserController <
         format.turbo_stream {
           @update =
             Games::JustEnded::ActiveParticipants::CurrentUser::Update.new(
-              game: @game, user: current_user)
+              game:, user: current_user)
         }
       end
     else
@@ -43,8 +43,10 @@ class Games::JustEnded::ActiveParticipants::CurrentUserController <
 
   private
 
+  attr_accessor :game
+
   def require_game
-    @game = Game.find(params[:game_id])
+    self.game = Game.find(params[:game_id])
   end
 
   def update_params

@@ -10,7 +10,7 @@ class DevPortal::PatternsController < DevPortal::BaseController
   end
 
   def show
-    @show = DevPortal::Patterns::Show.new(@pattern)
+    @show = DevPortal::Patterns::Show.new(pattern)
   end
 
   def new
@@ -42,30 +42,29 @@ class DevPortal::PatternsController < DevPortal::BaseController
   end
 
   def update
-    @pattern.attributes = edit_pattern_params
-    if @pattern.save
-      redirect_to({ action: :show, id: @pattern })
+    pattern.attributes = edit_pattern_params
+    if pattern.save
+      redirect_to({ action: :show, id: pattern })
     else
       render(:edit)
     end
   end
 
-  # :reek:TooManyStatements
   # :reek:DuplicateMethodCall
 
-  def destroy # rubocop:disable Metrics/MethodLength
-    @pattern.destroy
+  def destroy # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
+    pattern.destroy
 
     respond_to do |format|
-      format.html { redirect_to_index_after_destroy(@pattern) }
+      format.html { redirect_to_index_after_destroy(pattern) }
       format.turbo_stream {
         # Not sure of a good way around this hack... But we want to use a Turbo
         # Stream for destruction from the Index page, while using redirect for
         # destruction from the Show page.
-        if request.referer.include?(dev_portal_pattern_path(@pattern))
-          redirect_to_index_after_destroy(@pattern)
+        if request.referer.include?(dev_portal_pattern_path(pattern))
+          redirect_to_index_after_destroy(pattern)
         else # Index page
-          render(turbo_stream: turbo_stream.remove(@pattern))
+          render(turbo_stream: turbo_stream.remove(pattern))
         end
       }
     end
@@ -73,9 +72,11 @@ class DevPortal::PatternsController < DevPortal::BaseController
 
   private
 
+  attr_accessor :pattern
+
   def require_pattern
     if (pattern = Pattern.for_id(params[:id]).take)
-      @pattern = pattern
+      self.pattern = pattern
     else
       redirect_to(
         { action: :index }, alert: t("flash.not_found", type: "Pattern"))
