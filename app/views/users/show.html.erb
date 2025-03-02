@@ -22,10 +22,18 @@
     </div>
 
     <div class="space-y-10">
-      <p class="px-6 flex gap-x-6">
-        <span>Enlisted:</span>
-        <span><%= @show.enlistment_date %></span>
-      </p>
+      <table class="border-separate border-spacing-y-3 border-spacing-x-6">
+        <tbody>
+          <tr>
+            <td>Enlisted:</td>
+            <td><%= @show.enlistment_date %></td>
+          </tr>
+          <tr>
+            <td>Time Zone:</td>
+            <td><%= @show.time_zone %></td>
+          </tr>
+        </tbody>
+      </table>
 
       <div class="px-6 flex max-md:flex-col gap-x-24 gap-y-8 items-start">
         <%= render("users/service_record", service_record: @show.service_record) %>

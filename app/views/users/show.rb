@@ -15,6 +15,7 @@ class Users::Show
   end
 
   def enlistment_date = I18n.l(user.created_at.to_date)
+  def time_zone = user.time_zone || View.no_value_indicator_tag
 
   def service_record
     Users::ServiceRecord.new(user:)
