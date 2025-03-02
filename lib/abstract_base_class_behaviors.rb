@@ -7,28 +7,32 @@
 #   class MyBaseClass
 #     include AbstractBaseClassBehaviors
 #
-#     as_abstract_class
+#     as_abstract_base_class
 #   end
 module AbstractBaseClassBehaviors
   extend ActiveSupport::Concern
 
   class_methods do
-    def as_abstract_class
+    def as_abstract_base_class
       @abstract_class = self
 
-      define_singleton_method(:new) do |*args, &block|
-        if as_abstract_class?
+      # def self.new(*args, **kwargs, &block)
+      #   ...
+      #   super(*args, **kwargs, &block)
+      # end
+      define_singleton_method(:new) do |*args, **kwargs, &block|
+        if abstract_base_class?
           raise(
             NotImplementedError,
-            "#{self} is an abstract class and cannot be instantiated.")
+            "#{self} is an abstract base class and cannot be instantiated.")
         end
 
-        super(*args, &block)
+        super(*args, **kwargs, &block)
       end
     end
 
-    def as_abstract_class?
-      !!(@abstract_class == self)
+    def abstract_base_class?
+      @abstract_class == self
     end
   end
 end
