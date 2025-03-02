@@ -9,9 +9,7 @@ module ObjectInspectionBehaviors
   included do
     alias_method :original_inspect, :inspect
 
-    unless App.debug? # rubocop:disable Style/IfUnlessModifier
-      include ObjectInspector::InspectorsHelper
-    end
+    include ObjectInspector::InspectorsHelper
   end
 
   def introspect
