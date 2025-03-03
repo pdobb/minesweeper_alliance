@@ -46,7 +46,7 @@ module MinesweeperAlliance # rubocop:disable Style/ClassAndModuleChildren
 
     # Custom Configuration
 
-    config.debug = ENV["DEBUG"] == "1"
+    Say.info("DEBUG MODE") if (config.debug = ENV["DEBUG"] == "1")
 
     config.x.notify.reraise =
       ActiveModel::Type::Boolean.new.cast(ENV.fetch("RERAISE_ON_NOTIFY", false))
