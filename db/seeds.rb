@@ -15,7 +15,7 @@ def report(record)
     else
       "Maintained"
     end
-  puts(" -> #{action} #{record.inspect}")
+  Say.("#{action} #{record.inspect}")
 end
 
 Pattern.find_or_create_by!(name: "Ruby") { |new_pattern|

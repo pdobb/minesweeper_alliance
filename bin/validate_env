@@ -3,7 +3,7 @@ set -e
 
 echo "Validating autoload environment..."
 bin/rails runner -e production_local '
-  puts " -> Successfully validated autoloading via #{Rails.env} env."
+  Say.("Successfully validated autoloading via #{Rails.env} env.")
 
   exit
 '
