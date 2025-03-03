@@ -89,15 +89,10 @@ class Games::Current::Board::Cells::DispatchAction
       @turbo_stream_actions = turbo_stream_actions
       @context = context
       @on_game_start_block = -> {}
-      @on_game_end_block = -> {}
     end
 
     def on_game_start(&block)
       @on_game_start_block = block
-    end
-
-    def on_game_end(&block)
-      @on_game_end_block = block
     end
 
     def call
@@ -118,8 +113,7 @@ class Games::Current::Board::Cells::DispatchAction
 
     attr_reader :turbo_stream_actions,
                 :context,
-                :on_game_start_block,
-                :on_game_end_block
+                :on_game_start_block
 
     def game = context.__send__(:game)
     def board = context.__send__(:board)
@@ -138,19 +132,12 @@ class Games::Current::Board::Cells::DispatchAction
     end
 
     def dispatch_game_end
-      turbo_stream_actions << on_game_end_block.call
       generate_just_ended_game_update_action
       enqueue_game_end_update_jobs
     end
 
     def generate_just_ended_game_update_action
-      html =
-        render_to_string(
-          partial: "games/just_ended/container",
-          locals: { container: Games::JustEnded::Container.new(game:) })
-
-      target = Games::Current::Container.turbo_frame_name
-      turbo_stream_actions << turbo_stream.replace(target, html, method: :morph)
+      turbo_stream_actions << turbo_stream.refresh(request_id: nil)
     end
 
     def enqueue_game_end_update_jobs

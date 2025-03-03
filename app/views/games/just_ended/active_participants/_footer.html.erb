@@ -1,17 +1,15 @@
 <%# locals: (footer:) %>
 
-<%= turbo_frame_tag(*footer.turbo_frame_name) do %>
-  <%= turbo_stream_from(footer) %>
+<%= turbo_stream_from(footer) %>
 
-  <div
-    data-controller="turbo-events"
-    data-action="turbo:before-stream-render@window->turbo-events#preventRefresh"
-    class="-mt-10 mb-3 min-h-24 flex justify-center items-center"
-  >
-    <%= render(
-          "games/just_ended/active_participants/signature",
-          signature: footer.signature) %>
-  </div>
+<div
+  data-controller="turbo-events"
+  data-action="turbo:before-stream-render@window->turbo-events#preventRefresh"
+  class="-mt-10 mb-3 min-h-24 flex justify-center items-center"
+>
+  <%= render(
+        "games/just_ended/active_participants/signature",
+        signature: footer.signature) %>
+</div>
 
-  <%= render("games/just_ended/results", results: footer.results) %>
-<% end %>
+<%= render("games/just_ended/results", results: footer.results) %>

@@ -7,8 +7,6 @@ class Games::JustEnded::Observers::Footer
     @user = user
   end
 
-  def turbo_frame_name = Games::JustEnded::Footer.turbo_frame_name(game)
-
   def results
     Games::JustEnded::Results.new(game:)
   end

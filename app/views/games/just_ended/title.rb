@@ -21,8 +21,6 @@ class Games::JustEnded::Title
     I18n.l(game_started_at.to_date, format: :weekday_comma_date)
   end
 
-  def show_plus_timestamp? = !game_just_ended?
-
   def time_ago_in_words
     View.precise_time_ago_in_words(game_ended_at)
   end
@@ -37,7 +35,5 @@ class Games::JustEnded::Title
   attr_reader :game
 
   def game_started_at = game.started_at
-
-  def game_just_ended? = game.just_ended?
   def game_ended_at = game.ended_at
 end

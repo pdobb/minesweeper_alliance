@@ -38,7 +38,6 @@ Rails.application.routes.draw do
             controller: :current_user,
             only: %i[show edit update])
         end
-        resource :footer, controller: :footer, only: :show
       end
     end
   end

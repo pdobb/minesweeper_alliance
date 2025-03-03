@@ -1,5 +1,3 @@
 <%# locals: (footer:) %>
 
-<%= turbo_frame_tag(*footer.turbo_frame_name) do %>
-  <%= render("games/just_ended/results", results: footer.results) %>
-<% end %>
+<%= render("games/just_ended/results", results: footer.results) %>

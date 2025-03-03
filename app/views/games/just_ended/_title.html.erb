@@ -27,16 +27,14 @@
     <%= title.engagement_date %>
   </span>
 
-  <% if title.show_plus_timestamp? %>
-    <span
-      aria-label="Engagement Ended At"
-      title="Engagement ended <%= title.time_ago_in_words %> ago"
-      class="
-        max-sm:hidden
-        font-normal text-base text-dim normal-case
-      "
-    >
-      T+<%= title.plus_timestamp %>
-    </span>
-  <% end %>
+  <span
+    aria-label="Engagement Ended At"
+    title="Engagement ended <%= title.time_ago_in_words %> ago"
+    class="
+      max-sm:hidden
+      font-normal text-base text-dim normal-case
+    "
+  >
+    T+<%= title.plus_timestamp %>
+  </span>
 </h3>

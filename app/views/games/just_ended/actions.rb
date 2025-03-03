@@ -16,7 +16,7 @@ class Games::JustEnded::Actions
   end
 
   def new_game_content
-    Games::JustEnded::NewGameContent.new
+    Games::New::Content.new
   end
 
   private

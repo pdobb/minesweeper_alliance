@@ -15,12 +15,8 @@ class Games::JustEnded::Container
     Games::JustEnded::Content.new(game:)
   end
 
-  def footer_turbo_frame_name
-    Games::JustEnded::Footer.turbo_frame_name(game)
-  end
-
-  def footer_source_url
-    Router.just_ended_game_footer_path(game)
+  def footer_partial_options(user:)
+    Games::JustEnded::FooterPartialOptions.(game:, user:)
   end
 
   private
