@@ -6,32 +6,28 @@
   data-version="<%= content.version %>"
 >
   <tbody
-    <% if content.mobile?(layout) %>
-      <% controller = "games--current--board--mobile" %>
-      data-controller="<%= controller %>"
-      data-<%= controller %>-reveal-url-value="<%= content.reveal_url %>"
-      data-<%= controller %>-toggle-flag-url-value="<%= content.toggle_flag_url %>"
-      data-<%= controller %>-reveal-neighbors-url-value="<%= content.reveal_neighbors_url %>"
-      data-action="
-        touchstart-><%= controller %>#dispatchTouchStart
-        touchmove-><%= controller %>#dispatchTouchMove
-        touchend-><%= controller %>#dispatchTouchEnd
-      "
-    <% else # Desktop %>
-      <% controller = "games--current--board--desktop" %>
-      data-controller="<%= controller %>"
-      data-<%= controller %>-reveal-url-value="<%= content.reveal_url %>"
-      data-<%= controller %>-toggle-flag-url-value="<%= content.toggle_flag_url %>"
-      data-<%= controller %>-highlight-neighbors-url-value="<%= content.highlight_neighbors_url %>"
-      data-<%= controller %>-dehighlight-neighbors-url-value="<%= content.dehighlight_neighbors_url %>"
-      data-<%= controller %>-reveal-neighbors-url-value="<%= content.reveal_neighbors_url %>"
-      data-action="
-        mousedown-><%= controller %>#dispatchMousedown
-        mouseup@window-><%= controller %>#dispatchMouseup
-        contextmenu-><%= controller %>#dispatchContextmenu:prevent
-        click-><%= controller %>#dispatchClick
-      "
-    <% end %>
+    data-controller="games--current--board"
+    data-games--current--board-reveal-url-value=
+      "<%= content.reveal_url %>"
+    data-games--current--board-toggle-flag-url-value=
+      "<%= content.toggle_flag_url %>"
+    data-games--current--board-highlight-neighbors-url-value=
+      "<%= content.highlight_neighbors_url %>"
+    data-games--current--board-dehighlight-neighbors-url-value=
+      "<%= content.dehighlight_neighbors_url %>"
+    data-games--current--board-reveal-neighbors-url-value=
+      "<%= content.reveal_neighbors_url %>"
+    data-action="
+      <%# Desktop %>
+      mousedown->games--current--board#dispatchMousedown
+      mouseup@window->games--current--board#dispatchMouseup
+      contextmenu->games--current--board#dispatchContextmenu:prevent
+      click->games--current--board#dispatchClick
+      <%# Mobile %>
+      touchstart->games--current--board#dispatchTouchStart
+      touchmove->games--current--board#dispatchTouchMove
+      touchend->games--current--board#dispatchTouchEnd
+    "
     class="
       text-center
 

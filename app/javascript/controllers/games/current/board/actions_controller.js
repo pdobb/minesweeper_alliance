@@ -1,4 +1,5 @@
 import { Controller } from "@hotwired/stimulus"
+import { isMobile } from "touch"
 
 // Games::Current::Board::ActionsController is responsible for managing clicks
 // on Buttons that cause actions on the Game board. e.g. The "Reveal Random"
@@ -7,6 +8,10 @@ export default class extends Controller {
   static values = { boardId: String }
 
   static revealableCellsSelector = `td[data-revealed="false"][data-flagged="false"]`
+
+  connect() {
+    this.isMobile = isMobile()
+  }
 
   // Clicking on the "Reveal Random" button randomly picks an eligible Table
   // Cell and calls `click()` on it.
@@ -46,9 +51,5 @@ export default class extends Controller {
     } else {
       $cell.click()
     }
-  }
-
-  get isMobile() {
-    return navigator.maxTouchPoints > 0
   }
 }

@@ -23,3 +23,9 @@ class Touch {
 }
 
 export const touch = (event) => new Touch(event)
+
+export const isMobile = () => {
+  const hasTouch = "ontouchstart" in window || navigator.maxTouchPoints > 0
+  const hasCoarsePointer = window.matchMedia("(pointer: coarse)").matches
+  return hasTouch && hasCoarsePointer
+}
