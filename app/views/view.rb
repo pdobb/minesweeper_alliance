@@ -54,6 +54,10 @@ module View
     "#{count} #{word}"
   end
 
+  def self.precise_time_ago_in_words(timestamp)
+    Duration.new(timestamp..).to_s
+  end
+
   def self.helpers = ActionController::Base.helpers
   private_class_method :helpers
 end

@@ -25,6 +25,20 @@ class Duration
 
   def to_i = duration.to_i
 
+  # Return an hours/minutes/seconds-accurate representation of the duration,
+  # since the beginning of the current day. Falls apart for durations >= 24
+  # hours. Useful for `T+HH:MM:SS` designations.
+  #
+  # @return [Time]
+  #
+  # @example
+  #   timestamp = Duration.new(94.seconds.ago..).to_plus_timestamp
+  #   "T+#{timestamp.strftime("%H:%M:%S")}"
+  #   # => "T+00:01:34"
+  def to_plus_timestamp
+    Time.current.at_beginning_of_day + duration_in_seconds
+  end
+
   private
 
   attr_reader :duration_builder

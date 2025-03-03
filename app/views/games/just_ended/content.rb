@@ -8,7 +8,7 @@ class Games::JustEnded::Content
   end
 
   def title
-    Games::Title.new(game:)
+    Games::JustEnded::Title.new(game:)
   end
 
   def status
