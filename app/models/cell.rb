@@ -58,6 +58,8 @@ class Cell < ApplicationRecord # rubocop:disable Metrics/ClassLength
   validates :value,
             numericality: { integer: true, in: VALUES_RANGE, allow_blank: true }
 
+  def id?(value) = to_param == value.to_s
+
   def toggle_flag
     toggle!(:flagged)
 

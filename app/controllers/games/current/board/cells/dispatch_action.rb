@@ -14,10 +14,16 @@
 # {Game} play history. For passive Cell Actions, use
 # {Games::Current::Board::Cells::DispatchEffect} instead.
 class Games::Current::Board::Cells::DispatchAction
+  # Games::Current::Board::Cells::DispatchAction::Error represents any
+  # StandardError related to Games::Current::Board::Cells::DispatchAction
+  # processing.
+  Error = Class.new(StandardError)
+
   def initialize(context:)
     @context = context
     @turbo_stream_actions = FlatArray.new
 
+    require_game_on
     require_participant
   end
 
@@ -37,6 +43,10 @@ class Games::Current::Board::Cells::DispatchAction
   def current_user = context.current_user
   def current_user_token = current_user.token
   def turbo_stream = context.__send__(:turbo_stream)
+
+  def require_game_on
+    raise(Error, "Game is over: #{game.status.inspect}") if game.over?
+  end
 
   def require_participant
     return if current_user.participant?

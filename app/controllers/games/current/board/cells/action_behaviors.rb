@@ -3,7 +3,7 @@
 # Games::Current::Board::Cells::ActionBehaviors abstracts the basic contextual
 # methods used by the various Cell Action controllers.
 module Games::Current::Board::Cells::ActionBehaviors
-  include Games::Current::Board::Cells::EffectBehaviors
+  include Games::Current::Board::Cells::Behaviors
 
   private
 
