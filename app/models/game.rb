@@ -64,6 +64,8 @@ class Game < ApplicationRecord # rubocop:disable Metrics/ClassLength
   self.inheritance_column = nil
   self.implicit_order_column = "created_at"
 
+  RECENTLY_ENDED_DURATION = 3.minutes
+
   ALL_TYPES = [
     *BESTABLE_TYPES = [
       BEGINNER_TYPE = "Beginner",
@@ -151,6 +153,12 @@ class Game < ApplicationRecord # rubocop:disable Metrics/ClassLength
       where("rn_score = 1 OR rn_bbbvps = 1 OR rn_efficiency = 1")
   }
 
+  scope :for_current_or_recently_ended, ->(duration = RECENTLY_ENDED_DURATION) {
+    for_game_on_statuses.or(for_recently_ended(duration))
+  }
+  scope :for_recently_ended, ->(duration = RECENTLY_ENDED_DURATION) {
+    for_game_over_statuses.for_ended_at(duration.ago..)
+  }
   scope :for_game_on_statuses,
         -> { for_status([status_standing_by, status_sweep_in_progress]) }
   scope :for_game_over_statuses,

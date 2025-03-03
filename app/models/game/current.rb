@@ -37,7 +37,7 @@ class Game::Current
               :after_create_block
 
   def find
-    Find.call
+    Game.for_game_on_statuses.take
   end
 
   def create

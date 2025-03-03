@@ -21,10 +21,12 @@ class Home::Show
   def game_board_storage_key = self.class.game_board_storage_key
 
   def container
-    if current_game
+    return Games::New::Container.new unless current_game
+
+    if current_game.on?
       Games::Current::Container.new(game: current_game)
     else
-      Games::New::Container.new
+      Games::JustEnded::Container.new(game: current_game)
     end
   end
 

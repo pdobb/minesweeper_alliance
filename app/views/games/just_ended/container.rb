@@ -7,6 +7,10 @@ class Games::JustEnded::Container
     @game = game
   end
 
+  def partial_path
+    "games/just_ended/container"
+  end
+
   def content
     Games::JustEnded::Content.new(game:)
   end

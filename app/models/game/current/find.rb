@@ -2,5 +2,7 @@
 
 # Game::Current::Find handles finding the "Current {Game}".
 module Game::Current::Find
-  def self.call = Game.for_game_on_statuses.take
+  def self.call
+    Game.for_current_or_recently_ended.last
+  end
 end

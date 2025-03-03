@@ -42,6 +42,7 @@
 # @see https://api.rubyonrails.org/classes/ActiveSupport/Cache/MemoryStore.html
 module FleetTracker
   EXPIRATION_SECONDS = 2.seconds
+  # Meant to be similar to Game::RECENTLY_ENDED_DURATION
   DEEP_EXPIRATION_MINUTES = 3.minutes
 
   def self.to_a = registry.to_a
