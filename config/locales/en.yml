@@ -125,14 +125,11 @@ en:
     name: Minesweeper Alliance
     short_name: MA
     meta_description: Minesweeper Alliance is an open-multiplayer riff on the classic Minesweeper game. Join forces with your fellow minesweepers to take on the mines in real time!
-    description:
+    welcome: |
       Welcome to Minesweeper Alliance, an open-multiplayer riff on the classic Minesweeper game.
       Join forces with your fellow minesweepers to take on the mines in real time!
-      But be warned...
-      We've got our work cut out for us!
-      The mines are randomly placed, and the game is not won without clear strategy and a dash of luck 🍀.
     description_html: |
-      Welcome to Minesweeper Alliance, an open-multiplayer riff on the classic
+      Minesweeper Alliance is an open-multiplayer riff on the classic
       <a
         href="https://en.wikipedia.org/wiki/Minesweeper_(video_game)"
         target="_blank"
@@ -144,9 +141,10 @@ en:
         </svg>
       </a> game.
       Join forces with your fellow minesweepers to take on the mines in real time!
-      But be warned<span class="font-sans">&hellip;</span>
-      We've got our work cut out for us!
-      The mines are randomly placed, and the game is not won without clear strategy and a dash of luck 🍀.
+    description_addendum_html: |
+      But be warned<span class="font-sans">&hellip;</span> we've got our work cut out for us!
+      Mines are randomly placed and the day is not won without strategy and a dash of <span class="whitespace-nowrap">luck 🍀</span>.
+    learn_more_link_html: Would you like to know <a href="/about">more?</a>
 
   about:
     meta_description: About Minesweeper Alliance, an open-multiplayer riff on the classic Minesweeper game.

@@ -2,10 +2,18 @@
 
 class UIPortal::HomeController < UIPortal::BaseController
   def show
-    @banner = Application::Banner.new(text:)
+    @banner = Banner.new
   end
 
-  private
-
-  def text = I18n.t("site.description_html").html_safe
+  # UIPortal::HomeController::Banner
+  class Banner
+    # :reek:UtilityFunction
+    def text
+      View.safe_join([
+        I18n.t("site.welcome").html_safe,
+        I18n.t("site.description_addendum_html").html_safe,
+        I18n.t("site.learn_more_link_html").html_safe,
+      ], " ")
+    end
+  end
 end

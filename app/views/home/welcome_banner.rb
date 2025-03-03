@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-# Home::WelcomeBanner is an {Application::Banner} that is shown based on the
-# given {#context}.
+# Home::WelcomeBanner represents a "Site Welcome" banner/text that is shown
+# based on the given {#context}.
 class Home::WelcomeBanner
   def self.turbo_target = "welcomeBanner"
 
@@ -13,13 +13,14 @@ class Home::WelcomeBanner
 
   def show? = context.show_welcome_banner?
 
-  def banner
-    Application::Banner.new(text:)
+  def text
+    View.safe_join([
+      I18n.t("site.welcome").html_safe,
+      I18n.t("site.learn_more_link_html").html_safe,
+    ], " ")
   end
 
   private
 
   attr_reader :context
-
-  def text = I18n.t("site.description_html").html_safe
 end
