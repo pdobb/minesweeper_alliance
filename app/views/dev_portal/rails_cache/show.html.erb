@@ -1,0 +1,19 @@
+<% title("Rails.cache") %>
+
+<div class="container mx-auto space-y-12">
+  <h1>Rails.cache</h1>
+
+  <div class="space-y-8">
+    <h2>Entries</h2>
+
+    <% @show.entries.each do |entry| %>
+      <div class="space-y-2">
+        <h3 class="h5"><%= entry.display_key %></h3>
+        <p>Expiry: <%= entry.display_expires_at %></p>
+        <code class="block whitespace-normal max-h-80 overflow-y-scroll">
+          <%= entry.display_value %>
+        </code>
+      </div>
+    <% end %>
+  </div>
+</div>

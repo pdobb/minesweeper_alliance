@@ -28,6 +28,27 @@ module WrapMethodBehaviors
       }
     end
 
+    # @example
+    #   class Dog
+    #     include WrapMethodBehaviors
+    #
+    #     def initialize(name, attributes)
+    #       @name = name
+    #       @attributes = attributes
+    #     end
+    #   end
+    #
+    #   Dog.wrap_hash({ "Spot" => { age: 5 }, "Max" => { age: 10 } })
+    #   # => [
+    #     #<Dog @name="Spot", @attributes={age: 5}>,
+    #     #<Dog @name="Max", @attributes={age: 10}>
+    #   ]
+    def wrap_hash(hash, ...)
+      hash.map { |key, value|
+        new(key, value, ...)
+      }
+    end
+
     # :reek:LongParameterList
 
     # @example

@@ -68,6 +68,8 @@ Rails.application.routes.draw do
     namespace :dev_portal, path: :dev do
       root "home#show"
 
+      resource :rails_cache, controller: :rails_cache, only: :show
+
       resource(
         :toggle_dev_caching,
         controller: :toggle_dev_caching,

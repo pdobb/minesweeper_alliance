@@ -4,7 +4,7 @@ require "test_helper"
 
 class WrapMethodBehaviorsTest < ActiveSupport::TestCase
   describe "WrapMethodBehaviors" do
-    let(:unit_class) {
+    let(:unit_class1) {
       Class.new do
         include WrapMethodBehaviors
 
@@ -13,6 +13,21 @@ class WrapMethodBehaviorsTest < ActiveSupport::TestCase
 
         def initialize(object, **object_kwargs)
           @object = object
+          @object_kwargs = object_kwargs
+        end
+      end
+    }
+    let(:unit_class2) {
+      Class.new do
+        include WrapMethodBehaviors
+
+        attr_reader :key,
+                    :value,
+                    :object_kwargs
+
+        def initialize(key, value, **object_kwargs)
+          @key = key
+          @value = value
           @object_kwargs = object_kwargs
         end
       end
@@ -30,7 +45,7 @@ class WrapMethodBehaviorsTest < ActiveSupport::TestCase
     }
 
     describe ".wrap" do
-      subject { unit_class }
+      subject { unit_class1 }
 
       it "calls #new on each object" do
         wrapped_objects = subject.wrap(objects, **object_kwargs)
@@ -59,8 +74,28 @@ class WrapMethodBehaviorsTest < ActiveSupport::TestCase
       end
     end
 
+    describe ".wrap_hash" do
+      let(:hash1) {
+        { "key1" => objects, "key2" => objects }
+      }
+
+      subject { unit_class2 }
+
+      it "calls #new on each object" do
+        result = subject.wrap_hash(hash1, **object_kwargs)
+
+        _(result.size).must_equal(objects.size)
+        result.each_with_index do |wrapped_object, index|
+          _(wrapped_object).must_be_instance_of(subject)
+          _(wrapped_object.key).must_equal(hash1.keys[index])
+          _(wrapped_object.value).must_equal(hash1.values[index])
+          _(wrapped_object.object_kwargs).must_equal(object_kwargs)
+        end
+      end
+    end
+
     describe ".wrap_upto" do
-      subject { unit_class }
+      subject { unit_class1 }
 
       context "GIVEN limit < objects.size" do
         let(:limit) { 1 }
