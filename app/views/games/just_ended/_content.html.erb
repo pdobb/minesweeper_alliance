@@ -2,9 +2,11 @@
 
 <%= render("games/just_ended/title", title: content.title) %>
 
-<div class="space-y-6">
-  <%= render("games/past/status", status: content.status) %>
-  <%= render("games/just_ended/board", board: content.board) %>
-</div>
+<% cache(content.cache_key, expires_in: content.cache_expires_in) do %>
+  <div class="space-y-6">
+    <%= render("games/past/status", status: content.status) %>
+    <%= render("games/just_ended/board", board: content.board) %>
+  </div>
 
-<%= render("games/just_ended/actions", actions: content.actions) %>
+  <%= render("games/just_ended/actions", actions: content.actions) %>
+<% end %>

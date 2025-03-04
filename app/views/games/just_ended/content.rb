@@ -7,6 +7,9 @@ class Games::JustEnded::Content
     @game = game
   end
 
+  def cache_key = [:just_ended, game, :content]
+  def cache_expires_in = Game::RECENTLY_ENDED_DURATION
+
   def title
     Games::JustEnded::Title.new(game:)
   end
