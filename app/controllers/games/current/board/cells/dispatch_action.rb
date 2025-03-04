@@ -21,7 +21,7 @@ class Games::Current::Board::Cells::DispatchAction
 
   def initialize(context:)
     @context = context
-    @turbo_stream_actions = FlatArray.new
+    @turbo_stream_actions = TurboStreamActions.new
 
     require_game_on
     require_participant
@@ -67,7 +67,7 @@ class Games::Current::Board::Cells::DispatchAction
   end
 
   def generate_response
-    WarRoom::Responder.new(context:).(turbo_stream_actions:)
+    WarRoom::Responder.(turbo_stream_actions:, context:)
   end
 
   def activate_participant
@@ -137,7 +137,18 @@ class Games::Current::Board::Cells::DispatchAction
     end
 
     def generate_just_ended_game_update_action
-      turbo_stream_actions << turbo_stream.refresh(request_id: nil)
+      # Just for the current user session:
+      html =
+        render_to_string(
+          partial: "games/just_ended/container",
+          locals: { container: Games::JustEnded::Container.new(game:) })
+
+      target = Games::Current::Container.turbo_frame_name
+      turbo_stream_actions.response <<
+        turbo_stream.replace(target, html, method: :morph)
+
+      # Just for other user sessions:
+      turbo_stream_actions.broadcast << turbo_stream.refresh
     end
 
     def enqueue_game_end_update_jobs

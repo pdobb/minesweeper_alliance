@@ -13,7 +13,7 @@
 class Games::Current::Board::Cells::DispatchEffect
   def initialize(context:)
     @context = context
-    @turbo_stream_actions = FlatArray.new
+    @turbo_stream_actions = TurboStreamActions.new
   end
 
   def call
@@ -30,7 +30,7 @@ class Games::Current::Board::Cells::DispatchEffect
   def turbo_stream = context.__send__(:turbo_stream)
 
   def generate_response
-    WarRoom::Responder.new(context:).(turbo_stream_actions:)
+    WarRoom::Responder.(turbo_stream_actions:, context:)
   end
 
   # Games::Current::Board::Cells::DispatchEffect::Dispatch is a yielded object
