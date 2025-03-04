@@ -1,0 +1,39 @@
+<% title("Rails.cache") %>
+
+<div class="container mx-auto space-y-12">
+  <h1>Rails.cache</h1>
+
+  <div class="space-y-8">
+    <h2>Entries</h2>
+
+    <% Rails.cache.instance_variable_get(:@data).each do |key, entry| %>
+      <div class="space-y-2">
+        <div class="font-bold"><%= key %></div>
+        <code class="block whitespace-normal max-h-80 overflow-y-scroll">
+          <%=
+            value = entry.value
+            if value.is_a?(String) && value.encoding == Encoding::BINARY
+              begin
+                Marshal.load(value).inspect
+              rescue
+                "[Binary Data: #{value.unpack1('H*')[0..50]}...]"
+              end
+            else
+              value.inspect
+            end
+          %>
+        </code>
+        <div>
+          <% if entry.expires_at %>
+            <% remaining_seconds = (entry.expires_at - Time.now.to_f).to_i %>
+            <%= remaining_seconds.positive? ? "Expires In:" : "Expired:" %>
+            <%= number_with_delimiter(remaining_seconds) %>s
+            <%= "ago" unless remaining_seconds.positive? %>
+          <% else %>
+            Expires: Never
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
