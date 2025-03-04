@@ -1,7 +1,15 @@
 import { Controller } from "@hotwired/stimulus"
 
+// AutoSolveController toggle a simple auto-solve process that works only when
+// the server is in DEBUG mode--which reveals mine Cells.
 export default class extends Controller {
   static values = { delay: { type: Number, default: 100 } }
+
+  static REVEALABLE_CELL_SELECTOR =
+    'td[data-revealed="false"][data-flagged="false"]'
+  static HIDDEN_MINE_SELECTOR = "td.bg-slate-500"
+  static SAFELY_REVEALABLE_CELL_SELECTOR = `${this.REVEALABLE_CELL_SELECTOR}:not(${this.HIDDEN_MINE_SELECTOR})`
+  static CELL_LOADING_SELECTOR = "td.animate-pulse-fast"
 
   connect() {
     this.table = document.querySelector("table")
@@ -39,13 +47,15 @@ export default class extends Controller {
   }
 
   #isLagging() {
-    return this.table.querySelector(".animate-pulse-fast") !== null
+    return (
+      this.table.querySelector(this.constructor.CELL_LOADING_SELECTOR) !== null
+    )
   }
 
   #findUnrevealedCells() {
     return Array.from(
       this.table.querySelectorAll(
-        'td[data-revealed="false"][data-flagged="false"]:not(.bg-slate-500)',
+        this.constructor.SAFELY_REVEALABLE_CELL_SELECTOR,
       ),
     )
   }
@@ -59,10 +69,8 @@ export default class extends Controller {
     randomCell.dispatchEvent(this.clickEvent)
   }
 
+  // Wait for the server to catch up.
   #iterateAfterDelay() {
-    let delay = this.delayValue
-    if (this.unrevealedCells.length <= 2) delay *= 2
-
-    if (this.isSolving) setTimeout(() => this.#solve(), delay)
+    if (this.isSolving) setTimeout(() => this.#solve(), this.delayValue)
   }
 }
