@@ -5,6 +5,7 @@
 module Games::Past::EngagementTallyBehaviors
   def wins_count = engagement_tally.wins_count
   def losses_count = engagement_tally.losses_count
+  def total_count = engagement_tally.total_count
   def alliance_leads? = engagement_tally.alliance_leads?
   def mines_lead? = engagement_tally.mines_lead?
 

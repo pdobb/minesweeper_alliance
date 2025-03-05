@@ -32,6 +32,8 @@ class Game::EngagementTally
     @losses_count ||= arel.rewhere(status: Game.status_mines_win).count
   end
 
+  def total_count = @total_count ||= wins_count + losses_count
+
   def alliance_leads?
     wins_count > losses_count
   end
