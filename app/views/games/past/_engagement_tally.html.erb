@@ -1,6 +1,16 @@
 <%# locals: (engagement_tally:) %>
 
-<span class="<%= class_names(engagement_tally.alliance_ranking_css) %>">
-  Alliance: <%= engagement_tally.wins_count %>
-</span>
-/ Mines: <%= engagement_tally.losses_count %>
+<div class="inline-flex flex-wrap justify-center gap-x-6 gap-y-2">
+  <span class="whitespace-nowrap">
+    <span class="<%= class_names(engagement_tally.alliance_ranking_css) %>">
+      Alliance: <%= engagement_tally.wins_count %>
+    </span>
+    /
+    Mines: <%= engagement_tally.losses_count %>
+  </span>
+
+  <span class="whitespace-nowrap text-dim-lg font-normal">
+    <span title="Total: <%= engagement_tally.total_count %>">Σ</span>
+    <%= engagement_tally.total_count %>
+  </span>
+</div>
