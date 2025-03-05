@@ -21,13 +21,8 @@ class Games::JustEnded::Title
     I18n.l(game_started_at.to_date, format: :weekday_comma_date)
   end
 
-  def time_ago_in_words
-    View.precise_time_ago_in_words(game_ended_at)
-  end
-
-  def plus_timestamp
-    timestamp = Duration.new(game_ended_at..).to_plus_timestamp
-    I18n.l(timestamp, format: :minutes_seconds)
+  def elapsed_time
+    Games::JustEnded::ElapsedTime.new(ended_at: game_ended_at)
   end
 
   private

@@ -27,14 +27,19 @@
     <%= title.engagement_date %>
   </span>
 
-  <span
-    aria-label="Engagement Ended At"
-    title="Engagement ended <%= title.time_ago_in_words %> ago"
-    class="
-      max-sm:hidden
-      font-normal text-base text-dim normal-case
-    "
-  >
-    T+<%= title.plus_timestamp %>
-  </span>
+  <% title.elapsed_time.tap do |elapsed_time| %>
+    <span class="max-sm:hidden font-normal text-base text-dim normal-case">
+      T+
+      <time
+        data-controller="elapsed-time"
+        data-elapsed-time-start-value="<%= elapsed_time.to_i %>"
+        data-elapsed-time-format-value="MM:SS"
+        data-elapsed-time-max-seconds-value="3599"
+        data-elapsed-time-max-time-string-value="59:59+"
+        title="Engagement ended ... ago"
+        datetime="PT<%= elapsed_time.to_i %>S"
+        class="-ml-2"
+      ><%= elapsed_time %></time>
+    </span>
+  <% end %>
 </h3>

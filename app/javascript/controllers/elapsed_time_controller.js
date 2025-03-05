@@ -3,20 +3,33 @@ import ParseTime from "parse_time"
 
 // ElapsedTimeController is responsible for displaying time-elapsed in minutes
 // and seconds, given an optional start value (in seconds).
+//
+// ElapsedTimeController has 2 distinct modalities:
+// 1. Formatted Output: Zero-pads hours, minutes, and seconds, as needed, to
+//    match the provided format: `HH:MM:SS`, `MM:SS`, or `SS`.
+// 2. Compact Output: Display only the minimal information needed--only seconds;
+//    only minutes and seconds; or all of: hours, minutes, and seconds--to
+//    succinctly convey the elapsed time.
+// The default is "Compact Output" mode.
+//  -> To switch to "Formatted Output" mode, supply a `format` String.
 export default class extends Controller {
   static values = {
     start: { type: Number, default: 0 },
-    interval: { type: Number, default: 1000 },
+    interval: { type: Number, default: 1_000 }, // ms
+    format: String, // `HH:MM:SS`, `MM:SS`, `SS`, or N/A.
+    maxSeconds: { type: Number, default: 86_400 },
+    maxTimeString: { type: String, default: "23:59:59+" },
   }
 
-  static secondsPerDay = 86_400
-  static maxTimeDisplayString = "23:59:59+"
+  static hoursMinutesSecondsFormat = "HH:MM:SS"
+  static minutesSecondsFormat = "MM:SS"
+  static secondsFormat = "SS"
   static timeDigitLength = 2
 
   connect() {
     this.startTimestamp = Date.now() - this.startValue * 1000
 
-    if (!this.#isOverADay()) {
+    if (!this.#isMaxedOut()) {
       this.intervalId = setInterval(this.#update.bind(this), this.intervalValue)
     }
   }
@@ -35,11 +48,11 @@ export default class extends Controller {
   #update() {
     const elapsedSeconds = this.#determineElapsedSeconds()
 
-    if (this.#isOverADay(elapsedSeconds)) {
+    if (this.#isMaxedOut(elapsedSeconds)) {
       this.#stop()
-      this.#updateUi(this.constructor.maxTimeDisplayString, elapsedSeconds)
+      this.#updateUi(this.maxTimeStringValue, elapsedSeconds)
     } else {
-      this.#updateUi(this.#formatTime(elapsedSeconds), elapsedSeconds)
+      this.#updateUi(this.#format(elapsedSeconds), elapsedSeconds)
     }
   }
 
@@ -48,8 +61,8 @@ export default class extends Controller {
     return Math.floor(elapsedMilliseconds / 1000)
   }
 
-  #isOverADay(elapsedSeconds) {
-    return elapsedSeconds >= this.constructor.secondsPerDay
+  #isMaxedOut(elapsedSeconds) {
+    return elapsedSeconds >= this.maxSecondsValue
   }
 
   #updateUi(value, elapsedSeconds) {
@@ -57,16 +70,24 @@ export default class extends Controller {
     this.element.setAttribute("datetime", `PT${elapsedSeconds}S`)
   }
 
-  #formatTime(elapsedSeconds) {
-    return this.#buildTimestamp(...this.#parseTime(elapsedSeconds))
+  #format(elapsedSeconds) {
+    return this.#buildTimestamp(this.#parse(elapsedSeconds))
   }
 
   // Returns: [[[hours, ][minutes, ]]<seconds>]
-  #parseTime(elapsedSeconds) {
+  #parse(elapsedSeconds) {
     return new ParseTime().call(elapsedSeconds)
   }
 
-  #buildTimestamp(hours, minutes, seconds) {
+  #buildTimestamp(hoursMinutesSecondsArray) {
+    if (this.hasFormatValue) {
+      return this.#buildFormattedTimestamp(...hoursMinutesSecondsArray)
+    } else {
+      return this.#buildCompactTimestamp(...hoursMinutesSecondsArray)
+    }
+  }
+
+  #buildCompactTimestamp(hours, minutes, seconds) {
     const parts = []
 
     if (hours > 0) {
@@ -75,6 +96,20 @@ export default class extends Controller {
       parts.push(this.#pad(minutes))
     }
     parts.push(this.#pad(seconds))
+
+    return parts.join(":")
+  }
+
+  #buildFormattedTimestamp(hours, minutes, seconds) {
+    const parts = []
+
+    if (this.formatValue === this.constructor.hoursMinutesSecondsFormat) {
+      parts.push(this.#pad(hours), this.#pad(minutes), this.#pad(seconds))
+    } else if (this.formatValue === this.constructor.minutesSecondsFormat) {
+      parts.push(this.#pad(minutes), this.#pad(seconds))
+    } else if (this.formatValue === this.constructor.secondsFormat) {
+      parts.push(this.#pad(seconds))
+    }
 
     return parts.join(":")
   }
