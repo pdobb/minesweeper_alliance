@@ -8,7 +8,7 @@ class GamesController < ApplicationController
   def index
     @index =
       Games::Index.new(
-        base_arel: Game.for_game_over_statuses,
+        base_arel: Game.for_game_over_statuses.is_not_spam,
         context: layout)
   end
 

@@ -198,7 +198,8 @@ CREATE TABLE public.games (
     bbbvps double precision,
     efficiency double precision,
     created_at timestamp(6) with time zone NOT NULL,
-    updated_at timestamp(6) with time zone NOT NULL
+    updated_at timestamp(6) with time zone NOT NULL,
+    spam boolean DEFAULT false NOT NULL
 );
 
 
@@ -759,6 +760,13 @@ CREATE INDEX index_games_on_score ON public.games USING btree (score);
 
 
 --
+-- Name: index_games_on_spam; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_games_on_spam ON public.games USING btree (spam);
+
+
+--
 -- Name: index_games_on_status; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -942,6 +950,7 @@ ALTER TABLE ONLY public.cells
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20250305200048'),
 ('20250226045424'),
 ('20250222173153'),
 ('20250221231704'),

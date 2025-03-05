@@ -60,6 +60,8 @@
 # @attr bbbvps [Float] The 3BV/s rating of a solved {Board}.
 # @attr efficiency [Float] The ratio of actual clicks vs necessary clicks (3BV)
 #   used to solve the associated {Board}.
+# @attr spam [Boolean] Designates that this Game was not a valid attempt at
+#   completing the Game. Spam Games are excluded from tallies, etc.
 class Game < ApplicationRecord # rubocop:disable Metrics/ClassLength
   self.inheritance_column = nil
   self.implicit_order_column = "created_at"
@@ -126,6 +128,9 @@ class Game < ApplicationRecord # rubocop:disable Metrics/ClassLength
     "Alliance Wins",
     "Mines Win",
   ])
+
+  scope :is_spam, -> { where(spam: true) }
+  scope :is_not_spam, -> { where(spam: false) }
 
   scope :for_beginner_type, -> { for_type(BEGINNER_TYPE) }
   scope :for_intermediate_type, -> { for_type(INTERMEDIATE_TYPE) }
@@ -353,6 +358,10 @@ class Game < ApplicationRecord # rubocop:disable Metrics/ClassLength
       ])
     end
 
+    def inspect_issues
+      "SPAM" if spam?
+    end
+
     def inspect_name = display_id
   end
 
@@ -429,6 +438,9 @@ class Game < ApplicationRecord # rubocop:disable Metrics/ClassLength
         board.reset!
       }
     end
+
+    def mark_as_spam = update_column(:spam, true)
+    def unmark_as_spam = update_column(:spam, false)
 
     private
 
