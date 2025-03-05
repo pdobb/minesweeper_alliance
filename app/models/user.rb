@@ -12,8 +12,8 @@
 #
 # @attr id [GUID] a.k.a. "User Token"
 # @attr username [String]
-# @attr time_zone [String] Comes either, automatically, from browser detection
-#   (via JS) or User selection.
+# @attr time_zone [String] Sourced either automatically (browser detection / JS)
+#   or manually (User selection).
 # @attr user_agent [String] The `request.user_agent` value at time of creation.
 # @attr authentication_token [String<UUID>] (<UUID>) a secret token for
 #   re-authenticating a User after e.g. "signing out", switching browsers, etc.
