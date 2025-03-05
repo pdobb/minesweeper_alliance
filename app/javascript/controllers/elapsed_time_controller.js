@@ -1,8 +1,10 @@
 import { Controller } from "@hotwired/stimulus"
 import ParseTime from "parse_time"
 
-// ElapsedTimeController is responsible for displaying time-elapsed in minutes
-// and seconds, given an optional start value (in seconds).
+// ElapsedTimeController is responsible for displaying the hours, minutes, and
+// seconds elapsed since the start value. The expected start value format is: a
+// Unix timestamp (the number of seconds since the Unix Epoch) representing the
+// game's start time.
 //
 // ElapsedTimeController has 2 distinct modalities:
 // 1. Formatted Output: Zero-pads hours, minutes, and seconds, as needed, to
@@ -14,9 +16,9 @@ import ParseTime from "parse_time"
 //  -> To switch to "Formatted Output" mode, supply a `format` String.
 export default class extends Controller {
   static values = {
-    start: { type: Number, default: 0 },
+    start: Number,
+    format: String, // `HH:MM:SS`, `MM:SS`, `SS`, or <none>.
     interval: { type: Number, default: 1_000 }, // ms
-    format: String, // `HH:MM:SS`, `MM:SS`, `SS`, or N/A.
     maxSeconds: { type: Number, default: 86_400 },
     maxTimeString: { type: String, default: "23:59:59+" },
   }
@@ -27,11 +29,10 @@ export default class extends Controller {
   static timeDigitLength = 2
 
   connect() {
-    this.startTimestamp = Date.now() - this.startValue * 1000
+    this.startTimestamp = this.startValue * 1000
 
-    if (!this.#isMaxedOut()) {
-      this.intervalId = setInterval(this.#update.bind(this), this.intervalValue)
-    }
+    this.#update()
+    this.intervalId = setInterval(this.#update.bind(this), this.intervalValue)
   }
 
   disconnect() {

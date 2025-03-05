@@ -13,7 +13,8 @@ class Games::Board::ElapsedTime
 
   def turbo_target = self.class.turbo_target
 
-  def sweep_in_progress? = game.status_sweep_in_progress?
+  def run? = game.status_sweep_in_progress?
+  def started_at = game.started_at
 
   # "Total Seconds"
   def to_i

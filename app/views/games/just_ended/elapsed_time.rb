@@ -7,6 +7,8 @@ class Games::JustEnded::ElapsedTime
     @ended_at = ended_at
   end
 
+  def started_at = ended_at
+
   # "Total Seconds"
   def to_i
     @to_i ||= elapsed_time.to_i
