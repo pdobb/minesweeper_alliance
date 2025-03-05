@@ -7,7 +7,8 @@ import { isMobile } from "touch"
 export default class extends Controller {
   static values = { boardId: String }
 
-  static revealableCellsSelector = `td[data-revealed="false"][data-flagged="false"]`
+  static REVEALABLE_CELL_SELECTOR =
+    'td[data-revealed="false"][data-flagged="false"]'
 
   connect() {
     this.isMobile = isMobile()
@@ -17,29 +18,30 @@ export default class extends Controller {
   // Cell and calls `click()` on it.
   revealRandom(event) {
     event.target.disabled = true
-    this.#submit(this.#getCellForRandomReveal())
+    this.#submit(this.#getRandomUnrevealedCell())
     event.target.disabled = false
   }
 
-  #getCellForRandomReveal() {
-    const $cells = this.#getCells()
-    const randomIndex = Math.floor(Math.random() * $cells.length)
+  #getRandomUnrevealedCell() {
+    const cells = this.#unrevealedCells
+    const randomIndex = Math.floor(Math.random() * cells.length)
 
-    return $cells[randomIndex]
+    return cells[randomIndex]
   }
 
-  #getCells() {
-    const $board = this.#getBoard()
-    return $board.querySelectorAll(this.constructor.revealableCellsSelector)
+  get #unrevealedCells() {
+    return this.#board.querySelectorAll(
+      this.constructor.REVEALABLE_CELL_SELECTOR,
+    )
   }
 
-  #getBoard() {
+  get #board() {
     return document.getElementById(this.boardIdValue)
   }
 
   #submit($cell) {
-    // If e.g. all unrevealed Cells have been Flagged, #getCellForRandomReveal()
-    // returns `null`.
+    // If e.g. all unrevealed Cells have been Flagged,
+    // #getRandomUnrevealedCell() returns `null`.
     if (!$cell) return
 
     if (this.isMobile) {

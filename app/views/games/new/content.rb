@@ -18,6 +18,16 @@ class Games::New::Content
     Router.games_random_path
   end
 
+  def debug_mode_data_attributes
+    return {} unless App.debug?
+
+    {
+      controller: "form",
+      form_alternate_url_value: random_pattern_game_post_url,
+      action: "contextmenu->form#alternateSubmit:prevent",
+    }
+  end
+
   def random_pattern_game_post_url
     Router.games_random_pattern_path
   end
