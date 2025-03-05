@@ -8,7 +8,7 @@ class Games::JustEnded::Actions
   end
 
   def game_over_message
-    if game_ended_in_victory?
+    if ended_in_victory?
       I18n.t("game.victory.restart_html").sample
     else # game_ended_in_defeat?
       I18n.t("game.defeat.restart_html").sample
@@ -23,5 +23,5 @@ class Games::JustEnded::Actions
 
   attr_reader :game
 
-  def game_ended_in_victory? = game.ended_in_victory?
+  def ended_in_victory? = game.ended_in_victory?
 end
