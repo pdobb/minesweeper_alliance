@@ -22,19 +22,20 @@ class Games::Index::ListingsGroup::Listing
   def type = game.type
   def type_indicator = type[0]
 
-  def show_game_score? = !!_game_score
-  def game_score = View.round(_game_score, precision: 0)
+  def show_score? = !!game_score
+  def score = View.round(game_score, precision: 0)
 
-  def game_status_mojis = past_game.status_mojis
+  def statusmojis = past_game_view.statusmojis
+  def outcome = past_game_view.outcome
 
   private
 
   attr_reader :game,
               :context
 
-  def past_game = @past_game ||= Games::Past.new(game:)
+  def past_game_view = @past_game_view ||= Games::Past.new(game:)
 
-  def _game_score = game.score
+  def game_score = game.score
 
   def filter_params
     return {} unless context

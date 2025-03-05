@@ -10,8 +10,8 @@ class Games::Current::Status
     @game = game
   end
 
-  def game_status_with_emoji
-    "#{game_status} #{game_status_emoji}"
+  def to_s
+    "#{game_status} #{statusmoji}"
   end
 
   def game_status_turbo_target
@@ -28,9 +28,9 @@ class Games::Current::Status
 
   def game_status = game.status
 
-  def game_status_emoji
-    game_standing_by? ? Emoji.anchor : Emoji.ship
+  def statusmoji
+    standing_by? ? Emoji.anchor : Emoji.ship
   end
 
-  def game_standing_by? = game.status_standing_by?
+  def standing_by? = game.status_standing_by?
 end

@@ -2,10 +2,7 @@
 
 <div class="container mx-auto">
   <h2 class="text-center select-auto">
-    <span class="<%= class_names(status.game_status_css) %>">
-      <%= status.game_status %>
-    </span>
-
-    <span class="tracking-emojis"><%= status.game_status_mojis %></span>
+    <span class="<%= class_names(status.css) %>"><%= status %></span>
+    <span class="tracking-emojis"><%= status.statusmojis %></span>
   </h2>
 </div>

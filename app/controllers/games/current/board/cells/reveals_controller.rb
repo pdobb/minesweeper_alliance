@@ -32,7 +32,7 @@ class Games::Current::Board::Cells::RevealsController < ApplicationController
   def generate_game_status_turbo_stream_update
     turbo_stream.replace(
       Games::Current::Status.game_status_turbo_target,
-      html: Games::Current::Status.new(game:).game_status_with_emoji)
+      html: Games::Current::Status.new(game:).to_s)
   end
 
   def generate_elapsed_time_turbo_stream_update
