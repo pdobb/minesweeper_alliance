@@ -101,13 +101,24 @@ en:
     successful_destroy_with_name: "Destroyed %{type} %{name}"
 
   tooltips:
-    bbbv: The 3BV Value (a.k.a. BBBV) of a board represents the minimum number of clicks required to solve it (without placing any flags and without chording). Higher value = greater solve difficulty.
-    bbbvps: 3BV/s grades solve speed based on the 3BV (ideal solve) value for a specific board. Higher is better.
-    chords: Chords are groups of cells that are automatically revealed by clicking on a previously revealed cell (number) for which the corresponding number of surrounding cells have been flagged.
-    clicks: Clicks = Reveals + Chords + Flags Placed + Flags Removed
-    efficiency_html: Efficiency measures the ratio of actual clicks to the ideal/minimal clicks<span class="font-sans">&mdash;</span>as defined by the board's 3BV value. Fewer clicks = higher efficiency. Efficiencies over 100% are possible when chording.
-    reveals: Reveals are regular left-clicks on unrevealed cells. Clicking a previously revealed cell doesn't count against total clicks.
-    score: Score = solve speed in seconds. Lower is better.
+    bbbv_html: |
+      The 3BV Value (a.k.a. BBBV) of a board represents the minimum number of reveals required to solve it (without placing any flags and without chording).<br>
+      <span class="text-dim">- Higher value = greater solve difficulty.</span>
+    bbbvps_html: |
+      3BV/s grades solve speed based on the 3BV (ideal solve value) for a specific board.<br>
+      <span class="text-dim">- Higher is better.</span>
+    chords_html: |
+      Chords are groups of cells that are automatically revealed by clicking on a numbered Cell.<br>
+      <span class="text-dim">- Available only after the corresponding number of surrounding cells have been flagged--whether correctly or not.</span>
+    efficiency_html: |
+      Efficiency measures the ratio of actual clicks to the ideal/minimal clicks<span class="font-sans">&mdash;</span>as defined by the board's 3BV value.<br>
+      <span class="text-dim">- Fewer clicks = higher efficiency.</span><br>
+      <span class="text-dim">- Efficiencies over 100% are possible when chording.</span>
+    reveals: |
+      Reveals are regular <span class="whitespace-nowrap">clicks/taps</span> on perviously <strong>unrevealed</strong> cells.<br>
+    score_html: |
+      Score = solve speed in seconds.<br>
+      <span class="text-dim">- Lower is better.</span>
     games:
       past:
         performance_metrics:
