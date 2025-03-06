@@ -154,7 +154,7 @@
   header,
   footer {
     nav a {
-      @apply py-2 no-underline;
+      @apply pb-2 no-underline;
     }
   }
   nav a {
