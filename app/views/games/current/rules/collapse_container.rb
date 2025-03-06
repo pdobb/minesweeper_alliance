@@ -5,43 +5,24 @@ class Games::Current::Rules::CollapseContainer
   COOKIE = "rules"
 
   def initialize(context:)
-    @context = Context.new(context)
+    @context = context
   end
 
+  def cookie_store? = true
   def cookie_name = COOKIE
 
   def record_interaction? = true
   def interaction_data = "Toggle Rules of Engagement"
 
-  def button_id = @button_id ||= "rules_button-#{Time.new.to_i}"
-  def content_id = @content_id ||= "rules_content-#{Time.new.to_i}"
-
-  def button_text = "Rules of Engagement"
-
-  def button_css
-    [
-      %w[h4 transition-colors],
-      { collapsed_button_css => collapsed? },
-    ]
-  end
-
-  def collapsed_button_css = "text-dim-lg"
-
-  def icon_css
-    collapsed_icon_css if collapsed?
-  end
-
-  def collapsed_icon_css = "-rotate-90"
-
-  def section_css
-    [
-      "space-y-10",
-      { hidden: collapsed? },
-    ]
-  end
-
   def open? = !collapsed?
   def collapsed? = cookies[cookie_name].present?
+
+  def button_id = "rules_button-#{unique_id}"
+  def button_text = "Rules of Engagement"
+  def button_css = "h4"
+
+  def content_id = "rules_content-#{unique_id}"
+  def content_css = "space-y-10"
 
   private
 
@@ -49,15 +30,5 @@ class Games::Current::Rules::CollapseContainer
 
   def cookies = context.cookies
 
-  def collapsed_section_css = "hidden"
-
-  # Games::Current::Rules::CollapseContainer::Context
-  class Context
-    def initialize(context) = @context = context
-    def cookies = context.cookies
-
-    private
-
-    attr_reader :context
-  end
+  def unique_id = @unique_id ||= Time.new.to_i
 end

@@ -3,48 +3,43 @@ import { toggle } from "el-transition"
 import { cookies } from "cookies"
 
 export default class extends Controller {
-  static targets = ["button", "icon", "section"]
+  static targets = ["button", "content"]
   static values = {
     cookieName: String,
     collapsedState: { type: String, default: "collapsed" },
   }
-  static classes = ["buttonToggle", "iconToggle"]
+  static classes = ["open"]
 
   toggle() {
-    this.#setCookie()
-    this.toggleButtonState()
-    toggle(this.sectionTarget)
-    this.#updateAriaAttributes()
+    if (this.hasCookieNameValue) this.#setCookie()
+    this.#toggleOpenState()
+    toggle(this.contentTarget)
+    this.#toggleAriaAttributes()
   }
 
   #setCookie() {
-    if (!this.hasCookieNameValue) return
-
-    if (this.#sectionIsHidden()) {
-      // -> Visible
-      cookies.delete(this.cookieNameValue)
-    } else {
-      // -> Hidden
+    if (this.#isOpen) {
       cookies.permanent.set(this.cookieNameValue, this.collapsedStateValue)
+    } else {
+      cookies.delete(this.cookieNameValue)
     }
   }
 
-  #sectionIsHidden() {
-    return this.sectionTarget.classList.contains("hidden")
+  get #isOpen() {
+    return this.element.classList.contains(this.openClass)
   }
 
-  toggleButtonState() {
-    this.buttonTarget.classList.toggle(this.buttonToggleClass)
-    this.iconTarget.classList.toggle(this.iconToggleClass)
+  #toggleOpenState() {
+    this.element.classList.toggle(this.openClass)
   }
 
-  #updateAriaAttributes() {
-    if (this.sectionTarget.getAttribute("aria-hidden") === "true") {
-      this.sectionTarget.setAttribute("aria-hidden", "false")
-      this.buttonTarget.setAttribute("aria-expanded", "true")
-    } else {
-      this.sectionTarget.setAttribute("aria-hidden", "true")
+  #toggleAriaAttributes() {
+    if (this.#isOpen) {
+      this.contentTarget.setAttribute("aria-hidden", "true")
       this.buttonTarget.setAttribute("aria-expanded", "false")
+    } else {
+      this.contentTarget.setAttribute("aria-hidden", "false")
+      this.buttonTarget.setAttribute("aria-expanded", "true")
     }
   }
 }

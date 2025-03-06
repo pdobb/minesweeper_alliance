@@ -2,12 +2,14 @@
 
 <div
   data-controller="collapse"
-  data-collapse-button-toggle-class="<%= collapse_container.collapsed_button_css %>"
-  data-collapse-icon-toggle-class="<%= collapse_container.collapsed_icon_css %>"
-  <% if collapse_container.respond_to?(:cookie_name) %>
+  data-collapse-open-class="open"
+  <% if collapse_container.cookie_store? %>
     data-collapse-cookie-name-value="<%= collapse_container.cookie_name %>"
   <% end %>
-  class="space-y-6"
+  class="
+    group space-y-6
+    <%= "open" if collapse_container.open? %>
+  "
 >
   <button
     id="<%= collapse_container.button_id %>"
@@ -26,23 +28,23 @@
     aria-haspopup="true"
     aria-expanded="<%= collapse_container.open? %>"
     class="
-      flex items-center gap-x-3 cursor-pointer
+      group-[.open]:btn-basic not-group-[.open]:text-dim-lg
+      flex items-center gap-x-3
+      cursor-pointer transition-colors
       <%= class_names(collapse_container.button_css) %>
     "
   >
     <%= collapse_container.button_text %>
     <%= inline_svg_tag(
           "heroicons/chevron-down.svg",
-          class: [
-            %w[btn-basic stroke-2 transition-transform],
-            collapse_container.icon_css,
-          ],
-          data: { collapse_target: "icon" }) %>
+          class: %w[
+            stroke-2 transition-transform not-group-[.open]:-rotate-90
+          ]) %>
   </button>
 
   <div
     id="<%= collapse_container.content_id %>"
-    data-collapse-target="section"
+    data-collapse-target="content"
     data-transition-enter="transition ease-out duration-100"
     data-transition-enter-start="transform opacity-0 scale-95"
     data-transition-enter-end="transform opacity-100 scale-100"
@@ -52,7 +54,10 @@
     role="region"
     aria-labelledby="<%= collapse_container.button_id %>"
     aria-hidden="<%= collapse_container.collapsed? %>"
-    class="<%= class_names(collapse_container.section_css) %>"
+    class="
+      <%= "hidden" if collapse_container.collapsed? %>
+      <%= class_names(collapse_container.content_css) %>
+    "
   >
     <%= yield %>
   </div>
