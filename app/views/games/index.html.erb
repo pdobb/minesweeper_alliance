@@ -10,13 +10,15 @@
   <div class="flex max-lg:flex-col justify-between gap-y-6">
     <h1><%= title %></h1>
 
-    <% if @index.show_time_zone_form?(user: current_user) %>
-      <%= render(
-            "users/time_zone/form",
-            form: @index.time_zone_form(user: current_user)) %>
-    <% else %>
-      <%= @index.current_time_zone_description %>
-    <% end %>
+    <div class="text-dim">
+      <% if @index.show_time_zone_form?(user: current_user) %>
+        <%= render(
+              "users/time_zone/form",
+              form: @index.time_zone_form(user: current_user)) %>
+      <% else %>
+        <%= @index.current_time_zone_description %>
+      <% end %>
+    </div>
   </div>
 
   <nav class="py-6 border-y border-dim">

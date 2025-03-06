@@ -14,6 +14,10 @@ class CurrentUser::Account::Show
     CurrentUser::Account::Username.new(user:)
   end
 
+  def time_zone_form
+    Users::TimeZone::Form.new(user:)
+  end
+
   def authentication_url
     Router.current_user_account_authentication_path(token:)
   end
