@@ -10,14 +10,15 @@
       separator: "—",
       reverse: true,
       index: true,
-      image_src: "https://github.com/pdobb/minesweeper_alliance/blob/main/public/screenshots/minesweeper_alliance.png?raw=true",
+      image_src: "https://raw.githubusercontent.com/pdobb/minesweeper_alliance/main/public/screenshots/minesweeper_alliance.png",
       og: {
         site_name: :site,
         title: :full_title,
         description: t("site.meta_description"),
         type: "website",
         image: :image_src,
+        url: request.original_url,
       },
       twitter: {
-        card: "summary",
+        card: "summary_large_image",
       }) %>

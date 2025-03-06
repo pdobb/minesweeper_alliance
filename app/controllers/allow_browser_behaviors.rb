@@ -12,6 +12,10 @@ module AllowBrowserBehaviors
     # import maps, CSS nesting, and CSS :has.
     allow_browser(
       versions: :modern,
-      block: -> { redirect_to(unsupported_browser_path) }) # Custom Error Page
+      block: -> { redirect_to(unsupported_browser_path) }, # Custom Error Page
+      unless: -> {
+        request.user_agent&.match?(
+          /Twitterbot|facebookexternalhit|Googlebot|Pinterestbot|redditbot/i)
+      })
   end
 end
