@@ -32,7 +32,7 @@ class Home::Roster::Listing
     active? ? "Active Participant" : "Observer"
   end
 
-  def participation_status_emoji
+  def participation_statusmoji
     active? ? Emoji.ship : Emoji.anchor
   end
 
