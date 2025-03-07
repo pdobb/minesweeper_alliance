@@ -9,7 +9,8 @@ class Home::Roster::SlideMenu
     @css ||= {
       menu: %w[
         absolute -top-12 right-0 z-10 text-right
-        min-w-40 max-w-64 min-h-28
+        min-w-48 max-w-64 hover:max-w-full min-h-28
+        transition-width duration-750 ease-in-out
         border-l
       ],
       open_button: %w[

@@ -41,8 +41,9 @@
     tabindex="0"
     class="
       <%= "hidden" if slide_menu.closed? %>
-      <%= class_names(slide_menu.css) %> border-dim
+      <%= class_names(slide_menu.css) %>
       p-6 bg-white dark:bg-neutral-800
+      border-dim
     "
   >
     <% slide_menu.close_button.tap do |close_button| %>
