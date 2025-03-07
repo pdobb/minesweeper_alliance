@@ -6,7 +6,7 @@
   <h3 class="h2">Best Scores</h3>
 
   <% cache(engagements.cache_key) do %>
-    <div
+    <nav
       data-controller="active-link"
       data-active-link-active-class="active"
       data-action="display-case:hide@window->active-link#clear"
@@ -52,7 +52,7 @@
           </table>
         </div>
       <% end %>
-    </div>
+    </nav>
   <% end %>
 
   <%= render("display_case", display_case: engagements.display_case) %>
