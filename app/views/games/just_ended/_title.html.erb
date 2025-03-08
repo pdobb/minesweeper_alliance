@@ -28,7 +28,12 @@
   </span>
 
   <% title.elapsed_time.tap do |elapsed_time| %>
-    <span class="max-sm:hidden font-normal text-base text-dim normal-case">
+    <span
+      class="
+        max-sm:hidden inline-flex
+        font-normal text-base text-dim normal-case
+      "
+    >
       T+
       <time
         data-controller="elapsed-time"
@@ -38,7 +43,6 @@
         data-elapsed-time-max-time-string-value="59:59+"
         title="Engagement ended ... ago"
         datetime="PT<%= elapsed_time.to_i %>S"
-        class="-ml-2"
       ><%= elapsed_time %></time>
     </span>
   <% end %>
