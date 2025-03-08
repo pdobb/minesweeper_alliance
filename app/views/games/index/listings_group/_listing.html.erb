@@ -6,16 +6,18 @@
       title="Game Number"
     ><%= listing.game_number %></abbr>
 
-    <abbr
-      title="<%= listing.type %>"
-    ><%= listing.type_indicator %></abbr>
-
-    <% if listing.show_score? %>
+    <span class="inline-flex">
       <abbr
-        title="Score (lower is better)"
-        class="-ml-2 before:content-[':']"
-      ><%= listing.score %></abbr>
-    <% end %>
+        title="<%= listing.type %>"
+      ><%= listing.type_indicator %></abbr>
+
+      <% if listing.show_score? %>
+        <abbr
+          title="Score (lower is better)"
+          class="before:content-[':']"
+        ><%= listing.score %></abbr>
+      <% end %>
+    </span>
 
     <span
       title="<%= listing.outcome %>"
