@@ -11,25 +11,39 @@
   <div class="space-y-6">
     <h1>Account</h1>
 
-    <div class="max-sm:space-y-6">
-      <h2 class="h4 flex max-sm:flex-col sm:items-center gap-x-6">
-        Username:
-        <div class="min-h-13 flex items-center font-normal text-base">
-          <%= render(
-                "current_user/account/username",
-                username: @show.username) %>
-        </div>
-      </h2>
-
-      <div class="h4 flex max-sm:flex-col sm:items-center gap-x-4 gap-y-2">
-        Timezone:
-        <div class="font-normal">
-          <%= render(
-                "users/time_zone/form",
-                form: @show.time_zone_form) %>
-        </div>
-      </div>
-    </div>
+    <table
+      class="
+        -mx-6 -mt-6.5
+        border-separate border-spacing-y-3 border-spacing-x-6
+      "
+    >
+      <tbody
+        class="
+          max-sm:flex max-sm:flex-col max-sm:gap-y-3
+          *:max-sm:flex *:max-sm:flex-col *:max-sm:gap-y-2
+          text-left
+        "
+      >
+        <tr>
+          <th class="align-middle">Username:</th>
+          <td class="h-13 align-middle">
+            <%= render(
+                  "current_user/account/username",
+                  username: @show.username) %>
+          </td>
+        </tr>
+        <tr>
+          <th class="align-top">Time Zone:</th>
+          <td class="align-top">
+            <div class="sm:-ml-2 -my-1">
+              <%= render(
+                    "users/time_zone/form",
+                    form: @show.time_zone_form) %>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 
   <div class="space-y-3">
