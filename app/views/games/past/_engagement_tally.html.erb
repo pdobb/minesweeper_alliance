@@ -9,8 +9,10 @@
     Mines: <%= engagement_tally.losses_count %>
   </span>
 
-  <span class="whitespace-nowrap text-dim-lg font-normal">
-    <span title="Total: <%= engagement_tally.total_count %>">Σ</span>
-    <%= engagement_tally.total_count %>
+  <span
+    title="Total (Victories + Defeats)"
+    class="inline-flex gap-x-1 whitespace-nowrap text-dim-lg font-normal"
+  >
+    <span>Σ</span> = <span><%= engagement_tally.total_count %></span>
   </span>
 </div>
