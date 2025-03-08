@@ -41,6 +41,7 @@ en:
       weekday_comma_date: "%^a, %d %^b %y" # THU, 22 AUG 24
       date: "%d %^b %y" # 22 AUG 24
       time: "%H:%M" # 01:02
+      weekday_hours_minutes: "%^a, %H:%M" # THU, 01:02
       hours_minutes_seconds: "%H:%M:%S" # 01:02:03
       minutes_seconds: "%M:%S" # 02:03
       seconds: "%S" # 03

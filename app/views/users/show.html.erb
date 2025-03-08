@@ -23,14 +23,24 @@
 
     <div class="space-y-10">
       <table class="border-separate border-spacing-y-3 border-spacing-x-6">
-        <tbody>
+        <tbody class="text-left *:*:align-top">
           <tr>
-            <td>Enlisted:</td>
+            <th>Enlisted:</th>
             <td><%= @show.enlistment_date %></td>
           </tr>
           <tr>
-            <td>Time Zone:</td>
-            <td><%= @show.time_zone %></td>
+            <th class="whitespace-nowrap">Local Time:</th>
+            <td class="flex flex-col flex-wrap gap-y-2">
+              <time datetime="<%= @show.local_time %>">
+                <%= @show.display_local_time %>
+              </time>
+            </td>
+          </tr>
+          <tr class="text-dim">
+            <th>Time Zone:</th>
+            <td>
+              <%= @show.time_zone %>
+            </td>
           </tr>
         </tbody>
       </table>
