@@ -45,13 +45,15 @@ module ApplicationHelper
 
   # rubocop:disable Metrics/ParameterLists
   def tt(
-        anchor,
+        anchor = nil,
         content: nil,
         key: anchor.underscore,
         scope: nil,
         on: :hover,
         placement: :top,
-        css: {})
+        css: {},
+        &block)
+    anchor = capture(&block) if block
     tooltip =
       Application::Tooltip.new(
         anchor,
