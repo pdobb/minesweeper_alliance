@@ -28,6 +28,8 @@ class Cell {
   }
 
   dehighlightNeighbors(url) {
+    if (this.isNotRevealed || this.isBlank) return
+
     this.#submit(url)
   }
 

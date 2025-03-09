@@ -90,6 +90,8 @@ export default class extends Controller {
     if (this.isDesktop) return
     this.longPressExecuted = this.touchMoveDetected = false
 
+    cell(event.target).highlightNeighbors(this.highlightNeighborsUrlValue)
+
     this.longPressTimer = touch(event).onLongPress(() => {
       this.longPressExecuted = true
       this.#longPress(event)
@@ -104,7 +106,10 @@ export default class extends Controller {
 
   dispatchTouchEnd(event) {
     if (this.isDesktop) return
-    if (this.touchMoveDetected || this.longPressExecuted) return
+    if (this.touchMoveDetected || this.longPressExecuted) {
+      cell(event.target).dehighlightNeighbors(this.dehighlightNeighborsUrlValue)
+      return
+    }
 
     clearTimeout(this.longPressTimer)
     this.#tap(event)
