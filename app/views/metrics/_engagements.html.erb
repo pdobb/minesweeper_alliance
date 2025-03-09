@@ -27,7 +27,10 @@
                 <th class="w-16">Rank</th>
                 <th class="min-w-[100px]"><%= tt("Score") %></th>
                 <th>
-                  <%= tt(Emoji.ship, scope: "metrics.engagements.bests") %>
+                  <%= tt(
+                        Emoji.ship,
+                        scope: "metrics.engagements.bests",
+                        css: { content: "w-64" }) %>
                 </th>
               </tr>
             </thead>
