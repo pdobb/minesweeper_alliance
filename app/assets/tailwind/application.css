@@ -51,6 +51,11 @@
   @apply text-gray-300 dark:text-neutral-600;
 }
 
+@utility icon-link {
+  @apply border-b-0 underline underline-offset-4
+    inline-flex gap-x-2 items-center;
+}
+
 @utility btn-basic {
   @apply cursor-pointer no-underline hover:opacity-80;
 }

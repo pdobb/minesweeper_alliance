@@ -14,7 +14,6 @@ module Emoji
   def self.hide = "🙈"
   def self.medal = "🎖️"
   def self.mine = "💣"
-  def self.pencil = "✏️"
   def self.revealed_cell = "☑️"
   def self.ship = "⛴️"
   def self.trash = "🗑️"

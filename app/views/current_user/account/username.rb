@@ -13,10 +13,7 @@ class CurrentUser::Account::Username
   def turbo_frame_name = self.class.turbo_frame_name(user:)
 
   def link_content
-    View.safe_join([
-      View.updateable_display_name(user:),
-      Emoji.pencil,
-    ], " ")
+    View.updateable_display_name(user:)
   end
 
   def edit_url

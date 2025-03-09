@@ -3,9 +3,12 @@
 <%= turbo_frame_tag(*username.turbo_frame_name, class: "block w-full") do %>
   <% if username.editable? %>
     <%= link_to(
-          username.link_content,
           username.edit_url,
-          data: { turbo_stream: true }) %>
+          data: { turbo_stream: true },
+          class: "icon-link") do %>
+      <%= username.link_content %>
+      <%= inline_svg_tag("heroicons/pencil-square.svg") %>
+    <% end %>
   <% else %>
     <%= username.updateable_display_name %>
   <% end %>

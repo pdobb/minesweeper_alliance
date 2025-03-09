@@ -5,8 +5,11 @@
     <%= signature.attribution_prefix %>
 
     <%= link_to(
-          signature.link_content,
           signature.edit_url,
-          data: { turbo_stream: true }) %>
+          data: { turbo_stream: true },
+          class: "icon-link") do %>
+      <%= signature.link_content %>
+      <%= inline_svg_tag("heroicons/pencil-square.svg") %>
+    <% end %>
   </div>
 <% end %>
