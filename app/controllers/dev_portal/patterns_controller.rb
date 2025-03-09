@@ -75,12 +75,10 @@ class DevPortal::PatternsController < DevPortal::BaseController
   attr_accessor :pattern
 
   def require_pattern
-    if (pattern = Pattern.for_id(params[:id]).take)
-      self.pattern = pattern
-    else
-      redirect_to(
-        { action: :index }, alert: t("flash.not_found", type: "Pattern"))
-    end
+    return if (self.pattern = Pattern.for_id(params[:id]).take)
+
+    redirect_to(
+      { action: :index }, alert: t("flash.not_found", type: "Pattern"))
   end
 
   def new_pattern_params

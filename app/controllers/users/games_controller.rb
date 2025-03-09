@@ -21,16 +21,15 @@ class Users::GamesController < ApplicationController
                 :game
 
   def require_user
-    if (user = User.find_by(id: params[:user_id]))
-      self.user = user
-    else
-      redirect_to(root_path, alert: t("flash.not_found", type: "User"))
-    end
+    return if (self.user = User.find_by(id: params[:user_id]))
+
+    redirect_to(root_path, alert: t("flash.not_found", type: "User"))
   end
 
+  # :reek:DuplicateMethodCall
   def require_game
     if (game = Game.find_by(id: params[:id]))
-      redirect_to(root_path) and return if game.on?
+      redirect_to(user_path(user)) and return if game.on?
 
       self.game = game
     else

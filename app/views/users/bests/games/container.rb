@@ -1,9 +1,10 @@
 # frozen_string_literal: true
 
-# Users::Games::Container represents the entire view context surrounding a past
-# {Game} in the context of a participating player ({User}).
-class Users::Games::Container
-  def self.cache_key(game:) = [:users, game]
+# Users::Bests::Games::Container represents the entire view context surrounding
+# a past{Game} in the context of a participating player's ({User}'s) "Bests"
+# ({Game}s).
+class Users::Bests::Games::Container
+  def self.cache_key(game:) = [:user_bests_display_case, game]
 
   def initialize(game:, user:)
     @game = game
@@ -14,7 +15,7 @@ class Users::Games::Container
   def cache_key = self.class.cache_key(game:)
 
   def content
-    Users::Games::Content.new(game:, user:)
+    Users::Bests::Games::Content.new(game:, user:)
   end
 
   def results

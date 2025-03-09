@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-# Users::Games::Content represents {Game} content for past {Game}s in the
-# context of a {User}.
-class Users::Games::Content
+# Users::Bests::Games::Content represents {Game} content for past {Game}s in the
+# context of a participating player's ({User}'s) "Bests" ({Game}s).
+class Users::Bests::Games::Content
   def initialize(game:, user:)
     @game = game
     @user = user
@@ -10,10 +10,6 @@ class Users::Games::Content
 
   def title
     Users::Games::Title.new(game:, user:)
-  end
-
-  def status
-    Games::Past::Status.new(game:)
   end
 
   def board

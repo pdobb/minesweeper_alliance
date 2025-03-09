@@ -17,6 +17,6 @@ module Users::Bests::Metrics::Behaviors
               :user_bests
 
   def url_for(game)
-    Router.user_game_path(user, game) if game
+    Router.user_bests_game_path(user, game) if game
   end
 end
