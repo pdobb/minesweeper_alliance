@@ -1,27 +1,14 @@
 <%# locals: (title:) %>
 
 <h3 class="flex justify-center items-baseline gap-x-8">
-  <span
-    data-controller="clipboard"
-    data-clipboard-source-value="<%= title.game_absolute_url %>"
-    data-clipboard-highlight-class="
-      text-green-500 animate-ping-once origin-center
-    "
-    class="flex gap-x-2 items-center"
-  >
+  <%= render(
+        layout: "copy_button",
+        locals: { value: title.game_absolute_url, title: title.title_text }) do %>
     <%= link_to(
           title.game_number,
           title.game_url,
           data: { turbo_frame: :_top }) %>
-    <%= inline_svg_tag(
-          "heroicons/clipboard-document.svg",
-          class: "btn-basic",
-          data: {
-            action:
-              "click->clipboard#copy "\
-              "animationend->clipboard#dehighlight",
-          }) %>
-  </span>
+  <% end %>
 
   <span aria-label="Engagement Date">
     <%= title.engagement_date %>

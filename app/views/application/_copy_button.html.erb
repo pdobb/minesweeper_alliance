@@ -1,0 +1,20 @@
+<%# locals: (value:, title: "Copy to Clipboard") %>
+
+<span
+  data-controller="clipboard"
+  data-clipboard-source-value="<%= value %>"
+  data-clipboard-highlight-class="text-green-500 animate-ping-once origin-center"
+  class="flex gap-x-2 items-center"
+>
+  <%= yield %>
+
+  <%= inline_svg_tag(
+        "heroicons/clipboard-document.svg",
+        title:,
+        data: {
+          action:
+            "click->clipboard#copy "\
+            "animationend->clipboard#dehighlight",
+        },
+        class: "btn-basic") %>
+</span>

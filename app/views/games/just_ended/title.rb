@@ -7,11 +7,13 @@ class Games::JustEnded::Title
     @game = game
   end
 
-  def game_number = game.display_id
-
   def game_absolute_url
     Router.game_url(game)
   end
+
+  def title_text = "Copy URL to Clipboard"
+
+  def game_number = game.display_id
 
   def game_url
     Router.game_path(game)
