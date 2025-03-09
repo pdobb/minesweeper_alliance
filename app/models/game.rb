@@ -62,6 +62,10 @@
 #   used to solve the associated {Board}.
 # @attr spam [Boolean] Designates that this Game was not a valid attempt at
 #   completing the Game. Spam Games are excluded from tallies, etc.
+# @attr active_participants_count [Integer] A counter-cache of
+#   `game.active_participant_transactions.count`. Maintained by
+#   {ParticipantTransaction.create_active_between} and
+#   {ParticipantTransaction.activate_between}.
 class Game < ApplicationRecord # rubocop:disable Metrics/ClassLength
   self.inheritance_column = nil
   self.implicit_order_column = "created_at"
@@ -90,7 +94,7 @@ class Game < ApplicationRecord # rubocop:disable Metrics/ClassLength
 
   # Users that joined in on this Game--in any fashion.
   # (Whether or not they were active participants in this Game).
-  has_many :participant_transactions
+  has_many :participant_transactions, dependent: :restrict_with_exception
   has_many :users, through: :participant_transactions
 
   # Users that joined in on, but never actively participated in this Game.

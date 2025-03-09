@@ -66,18 +66,24 @@ class ParticipantTransaction < ApplicationRecord
   end
 
   def self.create_active_between(user:, game:)
-    user.participant_transactions.create(
-      game:,
-      active: true,
-      started_actively_participating_at: Time.current)
+    game.with_lock do
+      user.participant_transactions.create(
+        game:,
+        active: true,
+        started_actively_participating_at: Time.current)
+      game.increment!(:active_participants_count)
+    end
   end
 
   def self.activate_between(user:, game:)
     find_between!(user:, game:).tap { |transaction|
       unless transaction.active?
-        transaction.update!(
-          active: true,
-          started_actively_participating_at: Time.current)
+        game.with_lock do
+          transaction.update!(
+            active: true,
+            started_actively_participating_at: Time.current)
+          game.increment!(:active_participants_count)
+        end
       end
     }
   end

@@ -199,7 +199,8 @@ CREATE TABLE public.games (
     efficiency double precision,
     created_at timestamp(6) with time zone NOT NULL,
     updated_at timestamp(6) with time zone NOT NULL,
-    spam boolean DEFAULT false NOT NULL
+    spam boolean DEFAULT false NOT NULL,
+    active_participants_count integer DEFAULT 0 NOT NULL
 );
 
 
@@ -718,6 +719,13 @@ CREATE INDEX index_game_transactions_on_user_id ON public.game_transactions USIN
 
 
 --
+-- Name: index_games_on_active_participants_count; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_games_on_active_participants_count ON public.games USING btree (active_participants_count);
+
+
+--
 -- Name: index_games_on_bbbv; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -950,6 +958,7 @@ ALTER TABLE ONLY public.cells
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20250308230756'),
 ('20250305200048'),
 ('20250226045424'),
 ('20250222173153'),
