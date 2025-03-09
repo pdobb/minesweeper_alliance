@@ -211,7 +211,7 @@ class User < ApplicationRecord
 
       users.map { |user|
         {
-          user.identify(:mms_id, :username, :token) =>
+          user.identify(:mms_id, :username, :id) =>
             Router.current_user_account_authentication_url(
               token: user.authentication_token),
         }
