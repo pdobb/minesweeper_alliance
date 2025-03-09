@@ -3,13 +3,13 @@
     {
       "warning_type": "Cross-Site Scripting",
       "warning_code": 4,
-      "fingerprint": "bf6249f6e5c1ac0ec4043e26d1d70040c38483d3fba1c11b7bac1401f7e56dee",
+      "fingerprint": "129d059fd8db711914fa72868de9e1ef1dda1431dca136f62b4110aae691fd9f",
       "check_name": "LinkToHref",
       "message": "Potentially unsafe model attribute in `link_to` href",
       "file": "app/views/games/index/listings_group/_listing.html.erb",
-      "line": 5,
+      "line": 4,
       "link": "https://brakemanscanner.org/docs/warning_types/link_to_href",
-      "code": "link_to((Unresolved Model).new.game_url, :class => \"no-underline border-b-[0.5px] whitespace-nowrap\")",
+      "code": "link_to((Unresolved Model).new.game_url, :class => \"whitespace-nowrap\")",
       "render_path": [
         {
           "type": "controller",
@@ -25,7 +25,7 @@
         {
           "type": "template",
           "name": "games/index",
-          "line": 51,
+          "line": 52,
           "file": "app/views/games/index.html.erb",
           "rendered": {
             "name": "games/index/_paginated_listings_groups",

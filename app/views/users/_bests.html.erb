@@ -1,10 +1,11 @@
 <%# locals: (bests:) %>
 
 <% cache(bests.cache_key) do %>
-  <nav
+  <div
     data-controller="active-link"
     data-active-link-active-class="active"
     data-action="display-case:hide@window->active-link#clear"
+    class="active-nav"
   >
     <h2 class="h3 mb-6">Bests</h2>
 
@@ -32,5 +33,5 @@
         <%= render("users/bests/metric", metric: bests.efficiency) %>
       </tbody>
     </table>
-  </nav>
+  </div>
 <% end %>

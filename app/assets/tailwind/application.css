@@ -57,11 +57,11 @@
 }
 
 @utility btn-basic {
-  @apply cursor-pointer no-underline hover:opacity-80;
+  @apply cursor-pointer border-b-0 hover:opacity-80;
 }
 
 @utility btn-primary {
-  @apply cursor-pointer select-none no-underline whitespace-nowrap
+  @apply cursor-pointer select-none whitespace-nowrap
       border border-2
       border-gray-800 dark:border-gray-400
       px-4 py-1;
@@ -150,28 +150,26 @@
     @apply dark:bg-neutral-800 dark:text-neutral-200;
   }
 
-  a,
-  .a {
-    @apply underline underline-offset-4
+  a {
+    @apply border-b-[0.5px]
       hover:text-red-700 dark:hover:text-red-600;
   }
 
   header,
   footer {
-    nav a {
-      @apply pb-2 no-underline;
+    nav a:not(.inactive-nav a) {
+      @apply pb-2;
     }
   }
   nav a {
-    @apply border-b-2 border-transparent;
-
+    @apply border-b-0;
+  }
+  nav a:not(.inactive-nav a),
+  .active-nav a {
     &.active,
     &:hover {
-      @apply no-underline border-b-red-700 dark:border-b-red-600;
+      @apply border-b-2 border-b-red-700 dark:border-b-red-600;
     }
-  }
-  nav .no-active-links a {
-    @apply border-none;
   }
 
   h1,

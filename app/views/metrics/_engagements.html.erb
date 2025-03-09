@@ -6,11 +6,11 @@
   <h3 class="h2">Best Scores</h3>
 
   <% cache(engagements.cache_key) do %>
-    <nav
+    <div
       data-controller="active-link"
       data-active-link-active-class="active"
       data-action="display-case:hide@window->active-link#clear"
-      class="max-w-5xl grid lg:grid-cols-3 gap-x-12 gap-y-6"
+      class="active-nav max-w-5xl grid lg:grid-cols-3 gap-x-12 gap-y-6"
     >
       <% engagements.bests_per_type.each do |bests| %>
         <div class="space-y-3">
@@ -55,7 +55,7 @@
           </table>
         </div>
       <% end %>
-    </nav>
+    </div>
   <% end %>
 
   <%= render("display_case", display_case: engagements.display_case) %>

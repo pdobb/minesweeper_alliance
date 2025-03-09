@@ -1,9 +1,7 @@
 <%# locals: (listing:) %>
 
 <div>
-  <%= link_to(
-        listing.game_url,
-        class: "no-underline border-b-[0.5px] whitespace-nowrap") do %>
+  <%= link_to(listing.game_url, class: "whitespace-nowrap") do %>
     <span
       title="Game Number"
     ><%= listing.game_number %></span>
