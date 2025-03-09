@@ -14,14 +14,18 @@
 
   <div class="space-y-3">
     <h2 class="h4">What is a Minesweeper?</h2>
-    <ul class="space-y-3 list-[circle] ml-7">
-      <li>
-        A minesweeper is a small warship designed to remove or detonate naval mines
-        (<%= external_link_to(
-               "Minesweeper (wiki)",
-               "https://en.wikipedia.org/wiki/Minesweeper") %>).
-      </li>
-    </ul>
+    <%
+      external_link_to(
+        "Minesweeper (wiki)",
+        "https://en.wikipedia.org/wiki/Minesweeper").tap do |link_html|
+    %>
+      <ul class="space-y-3 list-[circle] ml-7">
+        <li>
+          A minesweeper is a small warship designed to remove or detonate naval mines
+          <span class="whitespace-nowrap">(<%= link_html %>)</span>.
+        </li>
+      </ul>
+    <% end %>
   </div>
 
   <div class="space-y-3">
