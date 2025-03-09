@@ -51,15 +51,15 @@ class Games::Past::PerformanceMetrics
   def score_value
     return Game::MAX_SCORE if game_score >= Game::MAX_SCORE
 
-    View.display(game_score) { |value| View.round(value) }
+    View.display(game_score) { View.round(it) }
   end
 
   def bbbvps_value
-    View.display(game_bbbvps) { |value| View.round(value) }
+    View.display(game_bbbvps) { View.round(it) }
   end
 
   def efficiency_value
-    View.display(game_efficiency) { |value| View.percentage(value * 100.0) }
+    View.display(game_efficiency) { View.percentage(it * 100.0) }
   end
 
   def game_score = game.score
