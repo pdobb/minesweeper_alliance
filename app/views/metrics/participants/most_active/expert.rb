@@ -11,6 +11,6 @@ class Metrics::Participants::MostActive::Expert
 
   def arel
     base_arel.merge(
-      ParticipantTransaction.joins(:game).merge(Game.for_expert_type))
+      ParticipantTransaction.joins(:game).merge(base_game_arel.for_expert_type))
   end
 end

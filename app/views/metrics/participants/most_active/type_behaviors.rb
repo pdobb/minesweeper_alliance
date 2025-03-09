@@ -28,5 +28,9 @@ module Metrics::Participants::MostActive::TypeBehaviors
       order(:most_recent_transaction)
   end
 
+  def base_game_arel
+    Game.is_not_spam
+  end
+
   def limit = Metrics::Show::TOP_RECORDS_LIMIT
 end
