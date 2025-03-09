@@ -9,26 +9,25 @@
     ><%= listing.game_number %></span>
 
     <span
+      title="<%= listing.type %>"
+    ><%= listing.type_indicator %></span>
+
+    <span
       title="<%= listing.outcome %>"
       class="tracking-emojis -mr-2"
     ><%= listing.statusmoji %></span>
 
-    <span class="inline-flex">
-      <abbr
-        title="<%= listing.type %>"
-      ><%= listing.type_indicator %></abbr>
-
-      <% if listing.show_score? %>
-        <span
-          title="Score (lower is better)"
-          class="before:content-[':']"
-        ><%= listing.score %></span>
-      <% end %>
-    </span>
+    <% if listing.show_score? %>
+      <span title="Score (lower is better)"><%= listing.score %></span>
+    <% end %>
 
     <% if listing.show_active_participation_count? %>
       <span title="Active Fleet Size">
-        <%= Emoji.ship %><span class="mx-1">x</span><%= listing.active_participants_count %>
+        <%= safe_join([
+              Emoji.ship,
+              tag.span("x", class: "mx-1"),
+              listing.active_participants_count,
+            ]) %>
       </span>
     <% end %>
   <% end %>

@@ -7,6 +7,8 @@
 # allows the filter(s) to carry forward. e.g. for stepping through the
 # previous/next {Game}s within the same, filtered context.
 class Games::Index::ListingsGroup::Listing
+  SCORE_FORMAT = "%03d"
+
   include WrapMethodBehaviors
 
   def initialize(game, context: nil)
@@ -23,7 +25,7 @@ class Games::Index::ListingsGroup::Listing
   def type_indicator = type[0]
 
   def show_score? = !!game_score
-  def score = View.round(game_score, precision: 0)
+  def score = SCORE_FORMAT % View.round(game_score, precision: 0)
 
   def show_active_participation_count? = game.many_active_participants?
   def active_participants_count = game.active_participants_count
