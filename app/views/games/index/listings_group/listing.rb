@@ -25,7 +25,9 @@ class Games::Index::ListingsGroup::Listing
   def show_score? = !!game_score
   def score = View.round(game_score, precision: 0)
 
-  def statusmojis = past_game_view.statusmojis
+  def show_active_participation_count? = game.many_active_participants?
+  def active_participants_count = game.active_participants_count
+  def statusmoji = past_game_view.statusmoji
   def outcome = past_game_view.outcome
 
   private

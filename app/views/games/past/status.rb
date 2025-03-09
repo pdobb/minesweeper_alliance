@@ -19,7 +19,8 @@ class Games::Past::Status
     game.status
   end
 
-  def statusmojis = past_game_view.statusmojis
+  def active_participants_count = game.active_participants_count
+  def statusmoji = past_game_view.statusmoji
 
   private
 

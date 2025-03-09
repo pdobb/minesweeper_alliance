@@ -1,8 +1,18 @@
 <%# locals: (status:) %>
 
 <div class="container mx-auto">
-  <h2 class="text-center select-auto">
+  <h2 class="flex gap-x-6 justify-center select-auto">
     <span class="<%= class_names(status.css) %>"><%= status %></span>
-    <span class="tracking-emojis"><%= status.statusmojis %></span>
+
+    <%= status.statusmoji %>
+
+    <span
+      title="Active Fleet Size"
+      class="inline-flex gap-x-1 items-baseline"
+    >
+      <span class="text-2xl"><%= Emoji.ship %></span>
+      <span class="text-[17px] text-dim-sm">x</span>
+      <small><%= status.active_participants_count %></small>
+    </span>
   </h2>
 </div>

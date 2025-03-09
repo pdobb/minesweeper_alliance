@@ -308,6 +308,8 @@ class Game < ApplicationRecord # rubocop:disable Metrics/ClassLength
     user.bests.for_type(type)
   end
 
+  def many_active_participants? = active_participants_count > 1
+
   private
 
   attr_accessor :just_started,

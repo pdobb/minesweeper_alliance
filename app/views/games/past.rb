@@ -9,19 +9,19 @@ class Games::Past
     @game = game
   end
 
-  def statusmojis
-    if ended_in_defeat?
+  def statusmoji
+    if ended_in_victory?
+      Emoji.victory
+    elsif ended_in_defeat?
       Emoji.mine
-    elsif ended_in_victory?
-      "#{Emoji.ship}#{Emoji.victory}"
     end
   end
 
   def outcome
-    if ended_in_defeat?
-      "Mines win"
-    elsif ended_in_victory?
+    if ended_in_victory?
       "Alliance wins!"
+    elsif ended_in_defeat?
+      "Mines win"
     end
   end
 
