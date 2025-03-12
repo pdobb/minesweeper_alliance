@@ -9,7 +9,7 @@
     <ol class="list-decimal list-inside space-y-2">
       <% roster.listings.each_with_index do |listing, index| %>
         <li>
-          <% if listing.user?(current_user) %>
+          <% if listing.show_current_user_indicator?(current_user) %>
             <span title="Me"><%= Emoji.eyes %></span>
           <% end %>
 

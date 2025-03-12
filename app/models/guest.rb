@@ -32,6 +32,7 @@ class Guest
   def participant? = false
 
   def active_participant_in?(*) = false
+  def not_a_signer? = true
   def ever_signed? = false
 
   private

@@ -127,6 +127,7 @@ class User < ApplicationRecord
   end
 
   def signer? = username?
+  def not_a_signer? = !signer?
   def past_signer? = user_update_transactions.has_key_username.any?
   def ever_signed? = signer? || past_signer?
 
