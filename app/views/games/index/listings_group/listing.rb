@@ -25,7 +25,10 @@ class Games::Index::ListingsGroup::Listing
   def type_indicator = type[0]
 
   def show_score? = !!game_score
-  def score = SCORE_FORMAT % View.round(game_score, precision: 0)
+
+  def score
+    SCORE_FORMAT % game_score.to_i # Truncate the decimal.
+  end
 
   def show_active_participation_count? = game.many_active_participants?
   def active_participants_count = game.active_participants_count

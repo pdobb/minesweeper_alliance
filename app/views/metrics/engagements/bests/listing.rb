@@ -9,10 +9,10 @@ class Metrics::Engagements::Bests::Listing
     @game = game
   end
 
-  def game_score
-    return Game::MAX_SCORE if _score >= Game::MAX_SCORE
+  def score
+    return Game::MAX_SCORE if game_score >= Game::MAX_SCORE
 
-    View.round(_score)
+    View.round(game_score)
   end
 
   def fleet_size = game.active_participants.size
@@ -22,5 +22,5 @@ class Metrics::Engagements::Bests::Listing
 
   attr_reader :game
 
-  def _score = game.score
+  def game_score = game.score
 end

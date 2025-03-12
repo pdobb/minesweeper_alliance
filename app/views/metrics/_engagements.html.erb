@@ -41,7 +41,7 @@
                   <td>
                     <%= link_to_if(
                           listing.present?,
-                          listing.game_score,
+                          listing.score,
                           listing.game_url,
                           data: {
                             action: listing.link_action,

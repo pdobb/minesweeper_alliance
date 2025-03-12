@@ -4,7 +4,7 @@
 # {Metrics::Engagements::Bests::Listing} view models.
 class Metrics::Engagements::Bests::NullListing
   def present? = false
-  def game_score = View.no_value_indicator_tag
+  def score = View.no_value_indicator_tag
   def fleet_size = View.no_value_indicator_tag
   def game_url = nil
   def link_action = nil
