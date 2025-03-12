@@ -17,6 +17,16 @@
                 listing.updateable_display_name,
                 listing.show_user_url,
                 data: { turbo_frame: :_top }) %>
+
+          <% if listing.tripped_mine? %>
+            <span title="<%= t("game.results.duty_roster.game_loser") %>">
+              <%= Emoji.mine %>
+            </span>
+          <% elsif listing.cleared_board? %>
+            <span title="<%= t("game.results.duty_roster.game_winner") %>">
+              <%= Emoji.victory %>
+            </span>
+          <% end %>
         </li>
       <% end %>
     </ol>

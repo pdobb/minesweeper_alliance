@@ -202,6 +202,10 @@ en:
           title: Placed Flags vs Total Mines
         timer:
           title: Game Timer
+    results:
+      duty_roster:
+        game_winner: Landed the Game-Winning Sweep!
+        game_loser: Boom! Tripped the Game-Ending Mine.
 
   metrics:
     meta_description: View historical stats across all players and past Sweep Ops.
