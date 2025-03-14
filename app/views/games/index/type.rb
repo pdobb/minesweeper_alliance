@@ -37,7 +37,7 @@ class Games::Index::Type
   attr_reader :name,
               :type_filter
 
-  def base_arel = Game.for_game_over_statuses
+  def base_arel = Game.for_game_over_statuses.is_not_spam
 
   def filter_active?
     type_filter&.include?(name)
