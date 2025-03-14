@@ -7,13 +7,13 @@
 #   class MyBaseClass
 #     include AbstractBaseClassBehaviors
 #
-#     as_abstract_base_class
+#     abstract_base_class
 #   end
 module AbstractBaseClassBehaviors
   extend ActiveSupport::Concern
 
   class_methods do
-    def as_abstract_base_class
+    def abstract_base_class
       @abstract_class = self
 
       # def self.new(*args, **kwargs, &block)

@@ -14,7 +14,7 @@ class GameTransaction < ApplicationRecord
 
   include AbstractBaseClassBehaviors
 
-  as_abstract_base_class
+  abstract_base_class
 
   belongs_to :user
   belongs_to :game
