@@ -17,7 +17,7 @@
 class Pattern < ApplicationRecord
   self.implicit_order_column = "created_at"
 
-  attribute :coordinates_array, Type::CoordinatesArray.new
+  attribute :coordinates_array, CoordinatesArrayType.new
 
   validates :name,
             presence: true,

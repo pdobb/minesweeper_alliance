@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# Type::CoordinatesArray is a custom ActiveModel "attributes API" type. It
+# CoordinatesArrayType is a custom ActiveModel "attributes API" type. It
 # allows for:
 # - serializing Arrays of {Coordinates} objects to JSON
 # - casting Arrays of {Coordinates}, Hash, and String objects to a
@@ -8,12 +8,12 @@
 # - casting unknown types to an empty Array object
 #
 # @example
-#   attribute :coordinates_array, Type::CoordinatesArray.new
+#   attribute :coordinates_array, CoordinatesArrayType.new
 #
 # @see
 #  - https://api.rubyonrails.org/classes/ActiveModel/Type/Value.html
 #  - https://michaeljherold.com/articles/extending-activerecord-with-custom-types
-class Type::CoordinatesArray < ActiveModel::Type::Value
+class CoordinatesArrayType < ActiveModel::Type::Value
   # Can be used to register this type with the ActiveModel::Type registry,
   # though we opt out to be more explicit/transparent.
   def type

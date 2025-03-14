@@ -2,14 +2,14 @@
 
 require "test_helper"
 
-class Type::CoordinatesArrayTest < ActiveSupport::TestCase
-  describe "Type::CoordinatesArray" do
-    let(:unit_class) { Type::CoordinatesArray }
+class CoordinatesArrayTypeTest < ActiveSupport::TestCase
+  describe "CoordinatesArrayType" do
+    let(:unit_class) { CoordinatesArrayType }
 
     let(:coordinates_array1) { CoordinatesArray.new(coordinates1) }
     let(:coordinates1) { Coordinates[9, 9] }
 
-    subject { Type::CoordinatesArray.new }
+    subject { CoordinatesArrayType.new }
 
     describe "#type" do
       it "returns :coordinates" do

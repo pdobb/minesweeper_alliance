@@ -1,18 +1,18 @@
 # frozen_string_literal: true
 
-# Type::Coordinates is a custom ActiveModel "attributes API" type. It allows
+# CoordinatesType is a custom ActiveModel "attributes API" type. It allows
 # for:
 # - serializing {Coordinates} objects to JSON
 # - casting {Coordinates}, Hash, and String objects to a {Coordinates} object
 # - casting unknown types to a {NullCoordinates} object
 #
 # @example
-#   attribute :coordinates, Type::Coordinates.new
+#   attribute :coordinates, CoordinatesType.new
 #
 # @see
 #  - https://api.rubyonrails.org/classes/ActiveModel/Type/Value.html
 #  - https://michaeljherold.com/articles/extending-activerecord-with-custom-types
-class Type::Coordinates < ActiveModel::Type::Value
+class CoordinatesType < ActiveModel::Type::Value
   # Can be used to register this type with the ActiveModel::Type registry,
   # though we opt out to be more explicit/transparent.
   def type

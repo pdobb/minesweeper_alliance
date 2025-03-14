@@ -35,8 +35,8 @@ class Duration
   #   timestamp = Duration.new(94.seconds.ago..).to_plus_timestamp
   #   "T+#{timestamp.strftime("%H:%M:%S")}"
   #   # => "T+00:01:34"
-  def to_plus_timestamp
-    Time.current.at_beginning_of_day + duration_in_seconds
+  def to_plus_timestamp(since: Time.current.at_beginning_of_day)
+    since + duration_in_seconds
   end
 
   private

@@ -2,11 +2,11 @@
 
 require "test_helper"
 
-class Type::CoordinatesTest < ActiveSupport::TestCase
-  describe "Type::Coordinates" do
-    let(:unit_class) { Type::Coordinates }
+class CoordinatesTestType < ActiveSupport::TestCase
+  describe "CoordinatesType" do
+    let(:unit_class) { CoordinatesType }
 
-    subject { Type::Coordinates.new }
+    subject { CoordinatesType.new }
 
     describe "#type" do
       it "returns :coordinates" do

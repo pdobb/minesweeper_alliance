@@ -43,7 +43,7 @@ class Cell < ApplicationRecord # rubocop:disable Metrics/ClassLength
   has_many :cell_flag_transactions
   has_many :cell_unflag_transactions
 
-  attribute :coordinates, Type::Coordinates.new
+  attribute :coordinates, CoordinatesType.new
   def x = coordinates.x
   def y = coordinates.y
 
