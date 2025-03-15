@@ -3,9 +3,10 @@
 class Game::Current::BroadcastFleetMusteringNotificationJob < ApplicationJob
   queue_as :default
 
-  def perform
+  def perform(previous_game:)
     Turbo::StreamsChannel.broadcast_prepend_to(
-      Games::JustEnded::ActiveParticipants::Footer.turbo_stream_name,
+      Games::JustEnded::ActiveParticipants::Footer.turbo_stream_name(
+        game: previous_game),
       target: Application::Flash.turbo_target,
       partial: "application/flash/notification",
       locals: { notification: })
