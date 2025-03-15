@@ -5,13 +5,9 @@
 #
 # @see Games::Past::ActiveParticipants::Roster
 class Games::JustEnded::ActiveParticipants::Roster
-  def self.turbo_stream_name(game) = [game, :active_participants_roster]
-
   def initialize(game:)
     @game = game
   end
-
-  def to_param = self.class.turbo_stream_name(game)
 
   def listings
     Listing.wrap(sorted_users, game:, game_ender:)
