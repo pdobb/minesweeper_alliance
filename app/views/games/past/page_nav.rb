@@ -28,18 +28,11 @@ class Games::Past::PageNav
   attr_reader :game,
               :context
 
-  def previous_game
-    @previous_game ||=
-      base_arel.for_created_at(..game.created_at).by_most_recent.take
-  end
-
-  def next_game
-    @next_game ||=
-      base_arel.for_created_at(game.created_at..).by_least_recent.take
-  end
+  def previous_game = Game::Navigator.previous(game:, base_arel:)
+  def next_game = Game::Navigator.next(game:, base_arel:)
 
   def base_arel
-    arel = Game.excluding(game)
+    arel = Game
     arel = arel.for_type(type_filter) if type_filter_params?
     arel
   end

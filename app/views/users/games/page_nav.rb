@@ -24,17 +24,8 @@ class Users::Games::PageNav
   attr_reader :game,
               :user
 
-  def previous_game
-    @previous_game ||=
-      base_arel.for_created_at(..game.created_at).by_most_recent.take
-  end
+  def previous_game = Game::Navigator.previous(game:, base_arel:)
+  def next_game = Game::Navigator.next(game:, base_arel:)
 
-  def next_game
-    @next_game ||=
-      base_arel.for_created_at(game.created_at..).by_least_recent.take
-  end
-
-  def base_arel
-    user.actively_participated_in_games.excluding(game)
-  end
+  def base_arel = user.actively_participated_in_games
 end
