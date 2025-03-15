@@ -17,23 +17,24 @@ class CompactArray
   def_delegators(
     :array,
     :[], :[]=, :concat, :each, :first, :join, :last, :size, :sort, :sort!,
-    :to_a, :to_ary, :uniq!)
+    :to_a, :to_ary, :uniq!, :include?)
 
   def self.[](*) = new(*)
 
   def initialize(*items)
-    @array = items
+    @array = items.compact
   end
 
   def <<(item) = add(item)
-  def push(item) = add(item)
+  def push(*items) = add(items)
+
+  def sort = self.class.new(*array.sort)
 
   private
 
   attr_reader :array
 
-  # :reek:NilCheck
   def add(item)
-    array << item unless item.nil?
+    array.concat(Array.wrap(item).compact)
   end
 end

@@ -17,7 +17,7 @@ class FlatArrayTest < ActiveSupport::TestCase
 
       context "GIVEN items" do
         it "builds a new FlatArray out of them items" do
-          result = subject.new(1, 2, 3)
+          result = subject.new(1, [2, 3])
           _(result).must_be_instance_of(unit_class)
           _(result.to_a).must_equal([1, 2, 3])
         end
@@ -28,7 +28,7 @@ class FlatArrayTest < ActiveSupport::TestCase
       subject { unit_class }
 
       it "builds a new FlatArray" do
-        result = subject[1, 2, 3]
+        result = subject[1, [2, 3]]
         _(result).must_be_instance_of(unit_class)
         _(result.to_a).must_equal([1, 2, 3])
       end
@@ -62,8 +62,9 @@ class FlatArrayTest < ActiveSupport::TestCase
 
       it "flat pushes items on" do
         subject.push("TEST1")
-        subject.push(%w[TEST2 TEST3])
-        _(subject.to_a).must_equal(%w[TEST1 TEST2 TEST3])
+        subject.push("TEST2", "TEST3")
+        subject.push(%w[TEST4 TEST5])
+        _(subject.to_a).must_equal(%w[TEST1 TEST2 TEST3 TEST4 TEST5])
       end
 
       context "GIVEN an Array of Arrays" do
@@ -111,6 +112,16 @@ class FlatArrayTest < ActiveSupport::TestCase
       it "splats itself as needed" do
         result = [1, 2, 3, subject].flatten
         _(result).must_equal([1, 2, 3, 4, 5, 6])
+      end
+    end
+
+    describe "#sort" do
+      subject { unit_class.new([3, 1, [4, 2]]) }
+
+      it "returns a sorted FlatArray" do
+        result = subject.sort
+        _(result).must_be_instance_of(unit_class)
+        _(result.to_a).must_equal([1, 2, 3, 4])
       end
     end
   end

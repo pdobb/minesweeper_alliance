@@ -16,24 +16,26 @@ class FlatArray
 
   def_delegators(
     :array,
-    :[], :[]=, :each, :first, :join, :last, :size, :sort, :sort!,
-    :to_a, :to_ary, :uniq!)
+    :[], :[]=, :each, :first, :join, :last, :size, :sort!,
+    :to_a, :to_ary, :uniq!, :include?)
 
   def self.[](*) = new(*)
 
   def initialize(*items)
-    @array = items
+    @array = items.flatten
   end
 
   def <<(item) = add(item)
-  def push(item) = add(item)
-  def concat(item) = add(item)
+  def push(*items) = add(items)
+  def concat(items) = add(items)
+
+  def sort = self.class.new(array.sort)
 
   private
 
   attr_reader :array
 
-  def add(item)
-    array.concat(Array.wrap(item).flatten)
+  def add(items)
+    array.concat(Array.wrap(items).flatten)
   end
 end
