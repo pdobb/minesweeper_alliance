@@ -21,11 +21,11 @@ module Metrics::Participants::MostActive::TypeBehaviors
     User.select(
       "users.*",
       "COUNT(participant_transactions.id) AS active_participation_count",
-      "MAX(participant_transactions.created_at) AS most_recent_transaction").
-      joins(:active_participant_transactions).
-      group("users.id").
-      order(active_participation_count: :desc).
-      order(:most_recent_transaction)
+      "MAX(participant_transactions.created_at) AS most_recent_transaction")
+      .joins(:active_participant_transactions)
+      .group("users.id")
+      .order(active_participation_count: :desc)
+      .order(:most_recent_transaction)
   end
 
   def base_game_arel

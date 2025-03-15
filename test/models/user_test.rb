@@ -176,8 +176,8 @@ class UserTest < ActiveSupport::TestCase
 
       context "GIVEN a Game the User didn't actively participate in" do
         it "returns false" do
-          _(subject.active_participant_in?(game: standing_by1)).
-            must_equal(false)
+          _(subject.active_participant_in?(game: standing_by1))
+            .must_equal(false)
         end
       end
     end

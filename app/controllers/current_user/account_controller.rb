@@ -11,8 +11,8 @@ class CurrentUser::AccountController < ApplicationController
 
   def destroy
     FleetTracker.expire!(current_user.token)
-    ActionCable.server.remote_connections.where(current_user:).
-      disconnect(reconnect: false)
+    ActionCable.server.remote_connections.where(current_user:)
+      .disconnect(reconnect: false)
 
     current_user_will_change
     clear_all_cookies

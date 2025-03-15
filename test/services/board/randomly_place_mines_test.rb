@@ -52,8 +52,8 @@ class Board::RandomlyPlaceMinesTest < ActiveSupport::TestCase
           end
 
           it "doesn't place a mine in the seed Cell" do
-            standing_by1_board.cells.excluding(standing_by1_board_cell1).
-              delete_all
+            standing_by1_board.cells.excluding(standing_by1_board_cell1)
+              .delete_all
             _(standing_by1_board.cells.size).must_equal(1)
 
             _(-> { subject.call }).wont_change(

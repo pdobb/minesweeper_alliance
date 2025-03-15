@@ -153,13 +153,13 @@ class Game < ApplicationRecord # rubocop:disable Metrics/ClassLength
         "games.*",
         "ROW_NUMBER() OVER (PARTITION BY type ORDER BY score ASC) AS rn_score",
         "ROW_NUMBER() OVER (PARTITION BY type ORDER BY bbbvps DESC) AS rn_bbbvps",
-        "ROW_NUMBER() OVER (PARTITION BY type ORDER BY efficiency DESC) AS rn_efficiency").
-        where.not(score: nil).where.not(bbbvps: nil).where.not(efficiency: nil).
-        for_type(type)
+        "ROW_NUMBER() OVER (PARTITION BY type ORDER BY efficiency DESC) AS rn_efficiency")
+        .where.not(score: nil).where.not(bbbvps: nil).where.not(efficiency: nil)
+        .for_type(type)
     # rubocop:enable Layout/LineLength
 
-    from(subquery, :games).
-      where("rn_score = 1 OR rn_bbbvps = 1 OR rn_efficiency = 1")
+    from(subquery, :games)
+      .where("rn_score = 1 OR rn_bbbvps = 1 OR rn_efficiency = 1")
   }
 
   scope :for_current_or_recently_ended, ->(duration = RECENTLY_ENDED_DURATION) {

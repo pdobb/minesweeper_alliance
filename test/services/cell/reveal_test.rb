@@ -57,8 +57,8 @@ class Cell::RevealTest < ActiveSupport::TestCase
               [
                 -> {
                   ParticipantTransaction.find_between!(
-                    user: user2, game: standing_by1).
-                    active?
+                    user: user2, game: standing_by1)
+                    .active?
                 },
                 to: true,
               ],
@@ -93,8 +93,8 @@ class Cell::RevealTest < ActiveSupport::TestCase
               [
                 -> {
                   ParticipantTransaction.find_between!(
-                    user: user2, game: standing_by1).
-                    active?
+                    user: user2, game: standing_by1)
+                    .active?
                 },
               ],
             ])

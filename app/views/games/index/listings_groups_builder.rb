@@ -43,10 +43,10 @@ class Games::Index::ListingsGroupsBuilder
     date_expression =
       Arel.sql("DATE(ended_at AT TIME ZONE :time_zone)", time_zone:)
 
-    base_arel.
-      select(date_expression.as("end_date")).
-      group(date_expression).
-      order(date_expression.desc)
+    base_arel
+      .select(date_expression.as("end_date"))
+      .group(date_expression)
+      .order(date_expression.desc)
   end
 
   def cursor

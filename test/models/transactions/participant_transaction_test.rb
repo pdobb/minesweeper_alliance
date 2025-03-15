@@ -102,8 +102,8 @@ class ParticipantTransactionTest < ActiveSupport::TestCase
 
       context "GIVEN a non-existent pair" do
         it "raises ActiveRecord::RecordNotFound" do
-          _(-> { subject.activate_between(user: user2, game: win1) }).
-            must_raise(ActiveRecord::RecordNotFound)
+          _(-> { subject.activate_between(user: user2, game: win1) })
+            .must_raise(ActiveRecord::RecordNotFound)
         end
       end
     end

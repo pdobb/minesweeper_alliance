@@ -20,7 +20,7 @@ class CreateCellTransactions < ActiveRecord::Migration[7.2]
       %i[cell_id type],
       unique: true,
       where:
-        CellTransaction.arel_table[:type].in(CellTransaction::UNIQUE_TYPES).
-          to_sql)
+        CellTransaction.arel_table[:type].in(CellTransaction::UNIQUE_TYPES)
+          .to_sql)
   end
 end

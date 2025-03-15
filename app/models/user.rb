@@ -89,8 +89,8 @@ class User < ApplicationRecord
     joins(:games).merge(ParticipantTransaction.by_least_recent)
   }
   scope :by_participated_at_asc, -> {
-    joins(:actively_participated_in_games).
-      merge(ParticipantTransaction.by_started_actively_participating_at_asc)
+    joins(:actively_participated_in_games)
+      .merge(ParticipantTransaction.by_started_actively_participating_at_asc)
   }
 
   validates :username,
@@ -159,8 +159,8 @@ class User < ApplicationRecord
       {
         self => {
           profile_updates:
-            user_update_transactions.by_most_recent.limit(limit).
-              pluck(:change_set),
+            user_update_transactions.by_most_recent.limit(limit)
+              .pluck(:change_set),
           observed_games: observed_games.by_most_recent.limit(limit),
           actively_participated_in_games:
             actively_participated_in_games.by_most_recent.limit(limit),
@@ -205,10 +205,10 @@ class User < ApplicationRecord
 
     def self.recover(value = nil)
       users =
-        __class__.
-          for_mms_id(value).
-          or(like_token(value)).
-          or(like_username(value))
+        __class__
+          .for_mms_id(value)
+          .or(like_token(value))
+          .or(like_username(value))
 
       users.map { |user|
         {

@@ -18,9 +18,9 @@ class Duration
   def to_s
     return "#{duration_in_seconds}s" if less_than_a_minute?
 
-    parts.
-      map { |unit, value| "#{value}#{unit.to_s.first}" }.
-      join(" ")
+    parts
+      .map { |unit, value| "#{value}#{unit.to_s.first}" }
+      .join(" ")
   end
 
   def to_i = duration.to_i

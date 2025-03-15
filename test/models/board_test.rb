@@ -214,8 +214,8 @@ class BoardTest < ActiveSupport::TestCase
 
       context "GIVEN an Array of Coordinates" do
         it "returns the expected Array" do
-          _(subject.cells_at([Coordinates[0, 0], Coordinates[1, 0]])).
-            must_equal([standing_by1_board_cell1, standing_by1_board_cell2])
+          _(subject.cells_at([Coordinates[0, 0], Coordinates[1, 0]]))
+            .must_equal([standing_by1_board_cell1, standing_by1_board_cell2])
         end
       end
     end

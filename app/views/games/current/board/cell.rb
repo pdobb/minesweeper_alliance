@@ -11,10 +11,10 @@ class Games::Current::Board::Cell
 
   def self.partial_path
     @partial_path ||=
-      Pathname.new(__FILE__).
-        relative_path_from(Rails.root.join("app/views")).
-        sub_ext("").
-        to_s
+      Pathname.new(__FILE__)
+        .relative_path_from(Rails.root.join("app/views"))
+        .sub_ext("")
+        .to_s
   end
 
   def initialize(cell)
