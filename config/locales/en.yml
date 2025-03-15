@@ -104,15 +104,15 @@ en:
   tooltips:
     roster_html: |
       <div class="space-y-3">
-        <p>The Fleet Roster lists current minesweepers (participants).</p>
+        <p>The Fleet Roster lists current minesweepers (participants) in the War Room.</p>
         <p>
           <span>⛴️ = Active Participant</span><br>
           <span>⚓️ = Observer</span><br>
           <span><span class="text-dim">Grayed-out</span> = Away</span>
         </p>
         <hr class="my-6">
-        <p class="text-dim">Entries are persisted indefinitely during an engagement, timing out at ~T+03:00 (about 3 minutes after an engagement ends).</p>
-        <p class="text-dim">Regardless, the Roster is reset at the beginning of each new engagement.</p>
+        <p class="text-dim">Entries are persisted indefinitely during an engagement, timing out "away" participants at ~T+03:00 (about 3 minutes after an engagement ends).</p>
+        <p class="text-dim">The Fleet Roster is reset at the beginning of each new engagement.</p>
       </div>
     bbbv_html: |
       The 3BV Value (a.k.a. BBBV) of a board represents the minimum number of reveals required to solve it (without placing any flags and without chording).<br>
