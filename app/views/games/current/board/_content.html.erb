@@ -39,12 +39,7 @@
     "
   >
     <% content.rows.each do |row| %>
-      <tr>
-        <%= render(
-              partial: "games/current/board/cell",
-              collection: row,
-              as: :cell) %>
-      </tr>
+      <tr><%= render(row) %></tr>
     <% end %>
   </tbody>
 </table>

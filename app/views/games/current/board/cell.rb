@@ -21,6 +21,7 @@ class Games::Current::Board::Cell
     @cell = cell
   end
 
+  # Make this view model directly "renderable". e.g. `render(cell)`.
   def to_partial_path = self.class.partial_path
 
   def dom_id = View.dom_id(cell)
@@ -31,7 +32,7 @@ class Games::Current::Board::Cell
 
     if highlighted?
       [*BG_HIGHLIGHTED_COLOR, HIGHLIGHTED_ANIMATION]
-    elsif mine? && App.debug?
+    elsif mine? && show_unrevealed_mine_hints?
       BG_UNREVEALED_MINE_COLOR
     else
       BG_UNREVEALED_CELL_COLOR
@@ -44,4 +45,5 @@ class Games::Current::Board::Cell
 
   def highlighted? = cell.highlighted?
   def highlight_origin? = cell.highlight_origin?
+  def show_unrevealed_mine_hints? = App.debug?
 end
