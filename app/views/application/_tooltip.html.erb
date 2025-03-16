@@ -15,11 +15,15 @@
       mouseout->tooltip#hide
     <% end %>
   "
+  class="inline-block p-2 -m-2"
 >
   <dfn
     data-tooltip-target="anchor"
     aria-describedby="<%= tooltip.aria_id %>"
-    class="<%= class_names(tooltip.anchor_css) %>"
+    class="
+      pointer-events-none
+      <%= class_names(tooltip.anchor_css) %>
+    "
   >
     <%= tooltip.anchor %>
   </dfn>
