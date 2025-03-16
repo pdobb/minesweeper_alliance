@@ -1,0 +1,37 @@
+<% title("Cookies") %>
+
+<div class="container mx-auto space-y-12">
+  <h1><%= title %></h1>
+
+  <div>
+    <table class="table-basic">
+      <tbody>
+        <tr>
+          <th><code>Rails.application.secret_key_base:</code></th>
+          <td><%= @show.secret_key_base_from_config %></td>
+        </tr>
+        <tr>
+          <th><code>Rails.application.credentials.secret_key_base:</code></th>
+          <td><%= @show.secret_key_base_from_credentials %></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="space-y-8">
+    <% @show.entries.each do |entry| %>
+      <div>
+        <strong><%= entry.key %></strong>
+        <code
+          class="block whitespace-normal max-h-80 overflow-y-scroll"
+        ><%= entry.value %></code>
+        <% if entry.signed_value? %>
+          Decoded:
+          <code
+            class="block whitespace-normal max-h-80 overflow-y-scroll"
+          ><%= entry.signed_value %></code>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+</div>

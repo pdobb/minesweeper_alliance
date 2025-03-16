@@ -3,6 +3,11 @@
 <div class="container mx-auto space-y-12">
   <h1>Dev Home</h1>
 
+  <p>
+    <strong>Rails Version:</strong>
+    <%= Rails.version %>
+  </p>
+
   <div class="space-y-6 overflow-x-auto overflow-y-hidden">
     <h2>App</h2>
     <%= ap(App.introspect) %>

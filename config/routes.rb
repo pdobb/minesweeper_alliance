@@ -73,6 +73,7 @@ Rails.application.routes.draw do
     namespace :dev_portal, path: :dev do
       root "home#show"
 
+      resource :cookies, only: :show
       resource :rails_cache, controller: :rails_cache, only: :show
 
       resource(
