@@ -24,15 +24,17 @@ class Cell::Reveal
 
   # :reek:TooManyStatements
 
-  def call
+  def call # rubocop:disable Metrics/MethodLength
     return self if already_revealed?
 
     catch(:return) {
       start_game_if_standing_by
-      reveal_cell
-      end_game_in_defeat_if_mine_revealed
-      recursively_reveal_neighbors_if_revealed_cell_was_blank
-      end_game_in_victory_if_all_safe_cells_revealed
+      game.with_lock do
+        reveal_cell
+        end_game_in_defeat_if_mine_revealed
+        recursively_reveal_neighbors_if_revealed_cell_was_blank
+        end_game_in_victory_if_all_safe_cells_revealed
+      end
 
       self
     }

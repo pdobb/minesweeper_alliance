@@ -21,6 +21,8 @@ class Games::Current::Board::Cells::HighlightNeighborsController <
   end
 
   def perform_effect
-    cell.highlight_neighborhood
+    game.with_lock do
+      cell.highlight_neighborhood
+    end
   end
 end

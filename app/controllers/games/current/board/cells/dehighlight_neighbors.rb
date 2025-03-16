@@ -20,6 +20,7 @@ class Games::Current::Board::Cells::DehighlightNeighbors
   attr_reader :context
 
   def params = context.params
+  def game = context.__send__(:game)
   def cell = context.__send__(:cell)
 
   def dispatch_effect
@@ -28,6 +29,8 @@ class Games::Current::Board::Cells::DehighlightNeighbors
   end
 
   def perform_effect
-    cell.dehighlight_neighborhood
+    game.with_lock do
+      cell.dehighlight_neighborhood
+    end
   end
 end

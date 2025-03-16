@@ -37,8 +37,10 @@ class Cell::RevealNeighbors
     return self if cell.unrevealed?
 
     catch(:return) {
-      reveal_neighbors
-      end_game_in_victory_if_all_safe_cells_revealed
+      game.with_lock do
+        reveal_neighbors
+        end_game_in_victory_if_all_safe_cells_revealed
+      end
 
       self
     }

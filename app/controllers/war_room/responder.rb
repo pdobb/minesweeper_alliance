@@ -33,7 +33,7 @@ class WarRoom::Responder
 
   def respond_with(html)
     respond_to do |format|
-      format.html { redirect_to(root_path) }
+      format.html { redirect_to(Router.root_path) }
       format.turbo_stream { render(turbo_stream: html) }
     end
   end

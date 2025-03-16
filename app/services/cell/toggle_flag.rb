@@ -14,7 +14,7 @@ class Cell::ToggleFlag
   end
 
   def call
-    cell.transaction do
+    game.with_lock do
       create_transaction_records
       toggle_flag
     end
