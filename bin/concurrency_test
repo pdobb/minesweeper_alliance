@@ -1,0 +1,44 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require_relative "../config/environment"
+require "net/http"
+require "uri"
+
+DEFAULT_THREAD_COUNT = ENV.fetch("RAILS_MAX_THREADS", 3).to_i
+
+# This script invokes multiples of the same request at (essentially) the same
+# time--by spawning multiple threads. This allows for basic concurrency
+# testing. e.g. for behavior comparison with vs without pessimistic locks in
+# place.
+#
+# The current approach is overly simplistic: We find the last {Cell} of the
+# current {Game}, then we send multiple "Reveal" requests to that same Cell at
+# (essentially) the same time. Behavior verification is then left up to the
+# invoker, e.g. by inspecting the Rails server log, or however.
+#
+# Must temporarily add this to RevealsController for this script to work:
+# `skip_before_action :verify_authenticity_token, only: :create`
+
+def invoke(threads:, url:, interval:)
+  Array.new(threads) {
+    interval.update
+
+    Thread.new {
+      http = Net::HTTP.new(url.host, url.port)
+      request = Net::HTTP::Post.new(url)
+      response = http.request(request)
+
+      interval.say(response.inspect)
+    }
+  }.each(&:join)
+end
+
+game = Game::Current::Find.take!
+cell = game.cells.last
+
+url = URI(Router.game_board_cell_reveal_url(game, cell))
+
+Say.progress do |interval|
+  invoke(threads: DEFAULT_THREAD_COUNT, url:, interval:)
+end
