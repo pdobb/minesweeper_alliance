@@ -9,7 +9,7 @@ export default class extends Controller {
     'td[data-revealed="false"][data-flagged="false"]'
   static HIDDEN_MINE_SELECTOR = "td.bg-slate-500"
   static SAFELY_REVEALABLE_CELL_SELECTOR = `${this.REVEALABLE_CELL_SELECTOR}:not(${this.HIDDEN_MINE_SELECTOR})`
-  static CELL_LOADING_SELECTOR = "td.animate-pulse-fast"
+  static CELL_LOADING_SELECTOR = "td.animate-pulse-fast:not(.bg-slate-300)"
 
   connect() {
     this.table = document.querySelector("table")
