@@ -7,13 +7,7 @@
 
   <div class="space-y-6">
     <h2>Colors</h2>
-    <table
-      class="
-        -mx-6 -my-1
-        border-separate border-spacing-x-6 border-spacing-y-1
-        text-left
-      "
-    >
+    <table class="table-basic">
       <tbody>
         <tr>
           <th class="w-14 text-red-600 dark:text-red-600">Red</th>
@@ -29,13 +23,7 @@
 
   <div class="space-y-6">
     <h2>Emojis</h2>
-    <table
-      class="
-        -mx-6 -my-1
-        border-separate border-spacing-x-6 border-spacing-y-1
-        text-left
-      "
-    >
+    <table class="table-basic">
       <tbody>
         <% (Emoji.methods - Object.methods).sort.each do |method| %>
           <tr>
@@ -49,13 +37,7 @@
 
   <div class="space-y-6 overflow-x-auto overflow-y-hidden">
     <h2><%= external_link_to("Heroicons", "https://heroicons.com/") %></h2>
-    <table
-      class="
-        table-fixed -mx-6 -my-1
-        border-separate border-spacing-x-6 border-spacing-y-1
-        text-left
-      "
-    >
+    <table class="table-basic table-fixed">
       <tbody>
         <% Dir.glob("app/assets/images/heroicons/*.svg").each do |path| %>
           <%
@@ -75,13 +57,7 @@
   <div class="space-y-6">
     <h2>Spinner</h2>
 
-    <table
-      class="
-        table-fixed -mx-6 -my-1
-        border-separate border-spacing-x-6 border-spacing-y-1
-        text-left
-      "
-    >
+    <table class="table-basic table-fixed">
       <tbody>
         <tr>
           <td class="w-14"><%= inline_svg_tag("spinner.svg") %></td>
@@ -94,13 +70,7 @@
   <div class="space-y-6 overflow-x-auto overflow-y-hidden">
     <h2>Tooltips</h2>
 
-    <table
-      class="
-        table-fixed -mx-6 -my-1
-        border-separate border-spacing-x-6 border-spacing-y-1
-        text-left
-      "
-    >
+    <table class="table-basic table-fixed">
       <tbody>
         <tr>
           <td class="w-14">

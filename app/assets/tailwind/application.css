@@ -77,6 +77,13 @@
   }
 }
 
+@utility table-basic {
+  @apply [--cell-px:--spacing(6)] [--cell-py:--spacing(2)]
+    -mx-(--cell-px) -my-(--cell-py)
+    border-separate border-spacing-x-(--cell-px) border-spacing-y-(--cell-py)
+    text-left;
+}
+
 @utility form-input {
   @apply bg-transparent focus:ring-0;
 
