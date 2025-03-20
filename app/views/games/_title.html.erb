@@ -4,6 +4,7 @@
   <%= render(
         layout: "copy_button",
         locals: { value: title.game_absolute_url, title: title.title_text }) do %>
+    <%= tag.span("S", class: "text-dim font-normal") if title.spam? %>
     <%= link_to(
           title.game_number,
           title.game_url,

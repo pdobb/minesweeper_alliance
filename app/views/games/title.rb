@@ -12,6 +12,7 @@ class Games::Title
 
   def title_text = "Copy URL to Clipboard"
 
+  def spam? = game.spam?
   def game_number = game.display_id
 
   def game_url
