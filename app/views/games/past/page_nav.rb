@@ -32,7 +32,7 @@ class Games::Past::PageNav
   def next_game = Game::Navigator.next(game:, base_arel:)
 
   def base_arel
-    arel = Game
+    arel = Game.is_not_spam
     arel = arel.for_type(type_filter) if type_filter_params?
     arel
   end
