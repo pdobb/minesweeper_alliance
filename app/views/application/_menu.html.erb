@@ -12,10 +12,10 @@
     type="button"
     data-menu-target="button"
     data-action="menu#toggle"
+    <%= tag.attributes(menu.button_attributes) %>
     aria-label="<%= menu.title %>"
     aria-haspopup="true"
     aria-expanded="false"
-    <%= tag.attributes(menu.button_attributes) %>
     class="
       flex items-center
       <%= class_names(menu.button_css) %>

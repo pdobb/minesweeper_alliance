@@ -10,9 +10,26 @@ export default class extends Controller {
   }
 
   recordInteraction(event) {
+    const element = event.currentTarget
+    const interactionName = element.dataset.interactionName
+
     post(this.interactionsUrlValue, {
       body: {
-        interaction: { name: event.currentTarget.dataset.interactionName },
+        interaction: { name: interactionName },
+      },
+    })
+  }
+
+  recordSelectInteraction(event) {
+    const element = event.currentTarget
+    const interactionName = element.dataset.interactionName
+    const selectValue = element.value
+
+    const combinedInteractionName = `${interactionName} (${selectValue})`
+
+    post(this.interactionsUrlValue, {
+      body: {
+        interaction: { name: combinedInteractionName },
       },
     })
   }

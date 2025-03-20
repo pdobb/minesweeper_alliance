@@ -21,8 +21,11 @@
           options_for_select(%w[Light Dark System]),
           class: "absolute inset-0 size-full opacity-0",
           data: {
-            action: "theme#switchToTheme",
+            action:
+              "theme#switchToTheme "\
+              "page#recordSelectInteraction",
             theme_target: "themeSelectorDropdown",
+            interaction_name: "Set Mobile Theme",
           }) %>
   </div>
 </div>
@@ -52,8 +55,12 @@
     >
       <li
         role="option"
-        data-action="click->theme#switchToLightTheme"
+        data-action="
+          click->theme#switchToLightTheme
+          click->page#recordInteraction
+        "
         data-theme-target="lightThemeButton"
+        data-interaction-name="Set Desktop Theme (Light)"
         aria-selected="false"
         tabindex="-1"
       >
@@ -61,8 +68,12 @@
       </li>
       <li
         role="option"
-        data-action="click->theme#switchToDarkTheme"
+        data-action="
+          click->theme#switchToDarkTheme
+          click->page#recordInteraction
+        "
         data-theme-target="darkThemeButton"
+        data-interaction-name="Set Desktop Theme (Dark)"
         tabindex="-1"
         aria-selected="false"
       >
@@ -70,8 +81,12 @@
       </li>
       <li
         role="option"
-        data-action="click->theme#switchToSystemTheme"
+        data-action="
+          click->theme#switchToSystemTheme
+          click->page#recordInteraction
+        "
         data-theme-target="systemThemeButton"
+        data-interaction-name="Set Desktop Theme (System)"
         tabindex="-1"
         aria-selected="false"
       >
