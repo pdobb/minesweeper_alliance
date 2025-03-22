@@ -16,6 +16,7 @@ module Emoji
   def self.mine = "💣"
   def self.revealed_cell = "☑️"
   def self.ship = "⛴️"
+  def self.timer = "⏳"
   def self.trash = "🗑️"
   def self.victory = "🎉"
 end

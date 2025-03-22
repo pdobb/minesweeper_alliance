@@ -3,24 +3,10 @@
 <div class="space-y-3">
   <h4 class="h3">Duty Roster</h4>
 
-  <ol class="list-decimal list-inside space-y-2">
-    <% roster.listings.each_with_index do |listing, index| %>
-      <li>
-        <%= link_to(
-              listing.updateable_display_name,
-              listing.show_user_url,
-              data: { turbo_frame: :_top }) %>
-
-        <% if listing.tripped_mine? %>
-          <span title="<%= t("game.results.duty_roster.game_loser") %>">
-            <%= Emoji.mine %>
-          </span>
-        <% elsif listing.cleared_board? %>
-          <span title="<%= t("game.results.duty_roster.game_winner") %>">
-            <%= Emoji.victory %>
-          </span>
-        <% end %>
-      </li>
-    <% end %>
+  <ol class="list-decimal list-outside ml-8.5 space-y-2">
+    <%= render(
+          partial: "games/past/active_participants/roster/listing",
+          collection: roster.listings,
+          as: :listing) %>
   </ol>
 </div>
