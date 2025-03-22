@@ -6,10 +6,15 @@
   class="container mx-auto"
 >
   <div class="space-y-6">
-    <div class="-ml-3 border-b border-dotted border-dim">
+    <div
+      class="
+        [--tab-ml:--spacing(3)]
+        -ml-(--tab-ml) border-b border-dotted border-dim
+      "
+    >
       <h1
         class="
-          inline-block ml-3 px-6 pt-2 pb-1
+          inline-block ml-(--tab-ml) px-6 pt-2 pb-1
           border-l border-t border-r border-dim rounded-t-xl
           text-xl
         "
@@ -23,7 +28,7 @@
     </div>
 
     <div class="space-y-10">
-      <table class="border-separate border-spacing-y-3 border-spacing-x-6">
+      <table class="border-separate border-spacing-x-6 border-spacing-y-3">
         <tbody
           class="
             max-sm:flex max-sm:flex-col max-sm:gap-y-6

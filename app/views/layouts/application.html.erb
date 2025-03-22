@@ -59,12 +59,17 @@
   >
     <%= turbo_stream_from(layout, class: "mt-0") %>
 
-    <div class="flex flex-col gap-y-12 h-screen">
+    <div
+      class="
+        [--page-px:--spacing(6)] lg:[--page-px:--spacing(6)]
+        flex flex-col gap-y-12 h-screen
+      "
+    >
       <%= render("application/flash", flash: layout.flash) %>
 
       <header
         class="
-          px-6 lg:px-12 py-6
+          px-(--page-px) py-6
           border-b border-dim
           <%= "mb-5" if content_for?(:page_nav) %>
         "
@@ -72,13 +77,13 @@
         <%= render("nav") %>
       </header>
 
-      <main class="relative px-6 lg:px-12">
+      <main class="relative px-(--page-px)">
         <%= yield %>
       </main>
 
       <footer
         class="
-          mt-auto px-6 lg:px-12 py-6
+          mt-auto px-(--page-px) py-6
           border-t border-dim-lg
         "
       >

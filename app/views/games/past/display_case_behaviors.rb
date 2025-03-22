@@ -8,7 +8,7 @@ module Games::Past::DisplayCaseBehaviors
   end
 
   def container_css
-    "px-6 py-12 -mx-3"
+    "px-(--page-px) py-12 -mx-3"
   end
 
   def turbo_frame_name

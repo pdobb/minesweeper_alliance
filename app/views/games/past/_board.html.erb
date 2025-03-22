@@ -2,7 +2,7 @@
 
 <div class="mx-auto md:w-fit md:max-w-full space-y-2">
   <%= render("games/past/board/header", header: board.header) %>
-  <div class="-mx-5 overflow-x-auto scrollbar-hidden">
+  <div class="-mx-(--negative-board-mx) overflow-x-auto scrollbar-hidden">
     <%= render("games/past/board/content", content: board.content) %>
   </div>
   <%= render("games/board/footer", footer: board.footer) %>

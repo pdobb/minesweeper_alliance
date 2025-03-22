@@ -7,7 +7,7 @@
     data-controller="scroll-position"
     data-scroll-position-storage-element-id-value="<%= board.scroll_position_storage_key %>"
     data-action="scroll->scroll-position#save"
-    class="-mx-5 overflow-x-auto scrollbar-hidden"
+    class="-mx-(--negative-board-mx) overflow-x-auto scrollbar-hidden"
   >
     <%= render("games/current/board/content", content: board.content) %>
   </div>
