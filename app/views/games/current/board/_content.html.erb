@@ -31,11 +31,11 @@
     class="
       text-center
 
-      <%# Cells %>
-      *:*:size-8 *:*:min-w-8 *:*:min-h-8 *:*:p-0 *:*:text-lg
-      *:*:border *:*:border-dark
-      *:*:data-[revealed=false]:cursor-cell
-      *:*:data-revealed:cursor-default
+      [&_td]:size-8 [&_td]:min-w-8 [&_td]:min-h-8 [&_td]:p-0
+      [&_td]:border [&_td]:border-dark
+      [&_td]:data-[revealed=false]:cursor-cell
+      [&_td]:data-revealed:cursor-default
+      [&_td]:text-lg
     "
   >
     <% content.rows.each do |row| %>
