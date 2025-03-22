@@ -7,4 +7,6 @@
         page_nav: @show.page_nav(context: layout)) %>
 <% end %>
 
-<%= render("games/past/container", container: @show.container) %>
+<div class="[--negative-board-mx:calc(var(--page-px)---spacing(2))]">
+  <%= render("games/past/container", container: @show.container) %>
+</div>

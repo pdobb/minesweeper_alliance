@@ -1,7 +1,7 @@
 <%# locals: (view:) %>
 
 <div id="pattern_container" class="mx-auto w-fit max-w-full space-y-2">
-  <div class="-mx-5 select-none">
+  <div class="-mx-(--negative-board-mx) select-none">
     <table class="mx-auto table-fixed border-double border-4 border-dark">
       <tbody
         data-controller="pattern"
@@ -30,7 +30,13 @@
     </table>
   </div>
 
-  <ul class="-mx-5 flex justify-center gap-x-6 text-dim-lg">
+  <ul
+    class="
+      -mx-(--negative-board-mx)
+      flex justify-center gap-x-6
+      text-dim-lg
+    "
+  >
     <li>Dimensions: <%= view.dimensions %></li>
     <li>|</li>
     <li>
