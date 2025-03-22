@@ -4,44 +4,42 @@
   <div>
     <h2 class="h3 mb-6">Service Record</h2>
 
-    <table class="table-basic">
-      <tbody>
-        <tr>
-          <th>Engagements</th>
-          <td><%= service_record.games_count %></td>
-        </tr>
-        <tr>
-          <th>Victories</th>
-          <td><%= service_record.winning_games_count %></td>
-        </tr>
-        <tr>
-          <th>Defeats</th>
-          <td><%= service_record.losing_games_count %></td>
-        </tr>
+    <div class="dl-basic">
+      <dl>
+        <dt>Engagements</dt>
+        <dd><%= service_record.games_count %></dd>
+      </dl>
+      <dl>
+        <dt>Victories</dt>
+        <dd><%= service_record.winning_games_count %></dd>
+      </dl>
+      <dl>
+        <dt>Defeats</dt>
+        <dd><%= service_record.losing_games_count %></dd>
+      </dl>
 
-        <tr><td colspan="2" class="select-none">&nbsp;</td></tr>
+      <dl class="h-3"></dl>
 
-        <tr>
-          <th>Cells Revealed</th>
-          <td><%= service_record.reveals_count %></td>
-        </tr>
-        <tr>
-          <th><%= tt("Chords") %></th>
-          <td><%= service_record.chords_count %></td>
-        </tr>
-        <tr>
-          <th>Flags Placed</th>
-          <td><%= service_record.flags_count %></td>
-        </tr>
-        <tr>
-          <th>Flags Removed</th>
-          <td><%= service_record.unflags_count %></td>
-        </tr>
-        <tr>
-          <th>Mines Tripped</th>
-          <td><%= service_record.tripped_mines_count %></td>
-        </tr>
-      </tbody>
-    </table>
+      <dl>
+        <dt>Cells Revealed</dt>
+        <dd><%= service_record.reveals_count %></dd>
+      </dl>
+      <dl>
+        <dt><%= tt("Chords") %></dt>
+        <dd><%= service_record.chords_count %></dd>
+      </dl>
+      <dl>
+        <dt>Flags Placed</dt>
+        <dd><%= service_record.flags_count %></dd>
+      </dl>
+      <dl>
+        <dt>Flags Removed</dt>
+        <dd><%= service_record.unflags_count %></dd>
+      </dl>
+      <dl>
+        <dt>Mines Tripped</dt>
+        <dd><%= service_record.tripped_mines_count %></dd>
+      </dl>
+    </div>
   </div>
 <% end %>

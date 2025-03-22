@@ -28,34 +28,24 @@
     </div>
 
     <div class="space-y-10">
-      <table class="border-separate border-spacing-x-6 border-spacing-y-3">
-        <tbody
-          class="
-            max-sm:flex max-sm:flex-col max-sm:gap-y-6
-            *:max-sm:flex *:max-sm:flex-col *:max-sm:gap-y-2
-            text-left
-          "
-        >
-          <tr>
-            <th>Enlisted:</th>
-            <td><%= @show.enlistment_date %></td>
-          </tr>
-          <tr>
-            <th class="whitespace-nowrap">Local Time:</th>
-            <td>
-              <time datetime="<%= @show.local_time %>">
-                <%= @show.display_local_time %>
-              </time>
-            </td>
-          </tr>
-          <tr class="text-dim">
-            <th>Time Zone:</th>
-            <td>
-              <%= @show.time_zone %>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+      <div class="mx-(--page-px) dl-collapsible">
+        <dl>
+          <dt>Enlisted:</dt>
+          <dd><%= @show.enlistment_date %></dd>
+        </dl>
+        <dl>
+          <dt>Local Time:</dt>
+          <dd>
+            <time datetime="<%= @show.local_time %>">
+              <%= @show.display_local_time %>
+            </time>
+          </dd>
+        </dl>
+        <dl class="text-dim">
+          <dt>Time Zone:</dt>
+          <dd><%= @show.time_zone %></dd>
+        </dl>
+      </div>
 
       <div class="px-6 flex max-md:flex-col gap-x-24 gap-y-8 items-start">
         <%= render("users/service_record", service_record: @show.service_record) %>

@@ -11,40 +11,20 @@
   <div class="space-y-6">
     <h1>Account</h1>
 
-    <table
-      class="
-        [--cell-px:--spacing(6)]
-        -mx-(--cell-px) -mt-6.5
-        border-separate border-spacing-y-3 border-spacing-x-(--cell-px)
-      "
-    >
-      <tbody
-        class="
-          max-sm:flex max-sm:flex-col max-sm:gap-y-3
-          *:max-sm:flex *:max-sm:flex-col *:max-sm:gap-y-2
-          text-left
-        "
-      >
-        <tr>
-          <th class="align-middle">Username:</th>
-          <td class="h-13 align-middle">
-            <%= render(
-                  "current_user/account/username",
-                  username: @show.username) %>
-          </td>
-        </tr>
-        <tr>
-          <th class="align-top">Time Zone:</th>
-          <td class="align-top">
-            <div class="sm:-ml-2 -my-1">
-              <%= render(
-                    "users/time_zone/form",
-                    form: @show.time_zone_form) %>
-            </div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="dl-collapsible">
+      <dl>
+        <dt>Username:</dt>
+        <dd class="sm:h-4 flex items-center">
+          <%= render("current_user/account/username", username: @show.username) %>
+        </dd>
+      </dl>
+      <dl class="text-dim">
+        <dt>Time Zone:</dt>
+        <dd class="max-sm:-my-1 sm:-ml-2">
+          <%= render("users/time_zone/form", form: @show.time_zone_form) %>
+        </dd>
+      </dl>
+    </div>
   </div>
 
   <div class="space-y-3">

@@ -84,6 +84,23 @@
     text-left;
 }
 
+@utility dl-basic {
+  @apply grid
+    sm:grid-cols-[minmax(0,max-content)_minmax(0,max-content)]
+    gap-x-6 gap-y-3
+    [&_dl]:grid [&>*]:col-span-2 [&_dl]:items-center [&_dl]:gap-y-2
+    [&_dl]:grid-cols-subgrid
+    [&_dt]:font-bold;
+}
+@utility dl-collapsible {
+  @apply grid
+    sm:grid-cols-[minmax(0,max-content)_minmax(0,max-content)]
+    gap-x-6 gap-y-3 max-sm:gap-y-6
+    [&_dl]:grid [&>*]:sm:col-span-2 [&_dl]:items-center [&_dl]:gap-y-2
+    [&_dl]:grid-cols-subgrid
+    [&_dt]:font-bold;
+}
+
 @utility form-input {
   @apply bg-transparent focus:ring-0;
 
