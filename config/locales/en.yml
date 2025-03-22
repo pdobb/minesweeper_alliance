@@ -204,8 +204,10 @@ en:
           title: Game Timer
     results:
       duty_roster:
+        game_creator: Kicked Off the Engagement
+        game_starter: Made the First Reveal
         game_winner: Landed the Game-Winning Sweep!
-        game_loser: Boom! Tripped the Game-Ending Mine.
+        game_loser: Boom! Tripped the Game-Ending Mine
 
   metrics:
     meta_description: View historical stats across all players and past Sweep Ops.

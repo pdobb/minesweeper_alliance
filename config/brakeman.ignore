@@ -12,17 +12,6 @@
       "code": "link_to((Unresolved Model).new.game_url, :class => \"whitespace-nowrap\")",
       "render_path": [
         {
-          "type": "controller",
-          "class": "GamesController",
-          "method": "index",
-          "line": 10,
-          "file": "app/controllers/games_controller.rb",
-          "rendered": {
-            "name": "games/index",
-            "file": "app/views/games/index.html.erb"
-          }
-        },
-        {
           "type": "template",
           "name": "games/index",
           "line": 52,
@@ -58,6 +47,112 @@
         "template": "games/index/listings_group/_listing"
       },
       "user_input": "(Unresolved Model).new.game_url",
+      "confidence": "Weak",
+      "cwe_id": [
+        79
+      ],
+      "note": ""
+    },
+    {
+      "warning_type": "Cross-Site Scripting",
+      "warning_code": 4,
+      "fingerprint": "54bdf7bfc70b4e14f2af0c4f937326a18b375a529ef2678aa9925f88e32fe3bd",
+      "check_name": "LinkToHref",
+      "message": "Potentially unsafe model attribute in `link_to` href",
+      "file": "app/views/games/past/active_participants/roster/_listing.html.erb",
+      "line": 6,
+      "link": "https://brakemanscanner.org/docs/warning_types/link_to_href",
+      "code": "link_to((Unresolved Model).new.updateable_display_name, (Unresolved Model).new.show_user_url, :data => ({ :turbo_frame => :_top }))",
+      "render_path": [
+        {
+          "type": "template",
+          "name": "games/past/_container",
+          "line": 10,
+          "file": "app/views/games/past/_container.html.erb",
+          "rendered": {
+            "name": "games/past/_footer",
+            "file": "app/views/games/past/_footer.html.erb"
+          }
+        },
+        {
+          "type": "template",
+          "name": "games/past/_footer",
+          "line": 3,
+          "file": "app/views/games/past/_footer.html.erb",
+          "rendered": {
+            "name": "games/past/_results",
+            "file": "app/views/games/past/_results.html.erb"
+          }
+        },
+        {
+          "type": "template",
+          "name": "games/past/_results",
+          "line": 14,
+          "file": "app/views/games/past/_results.html.erb",
+          "rendered": {
+            "name": "games/past/active_participants/_roster",
+            "file": "app/views/games/past/active_participants/_roster.html.erb"
+          }
+        },
+        {
+          "type": "template",
+          "name": "games/past/active_participants/_roster",
+          "line": 7,
+          "file": "app/views/games/past/active_participants/_roster.html.erb",
+          "rendered": {
+            "name": "games/past/active_participants/roster/_listing",
+            "file": "app/views/games/past/active_participants/roster/_listing.html.erb"
+          }
+        }
+      ],
+      "location": {
+        "type": "template",
+        "template": "games/past/active_participants/roster/_listing"
+      },
+      "user_input": "(Unresolved Model).new.show_user_url",
+      "confidence": "Weak",
+      "cwe_id": [
+        79
+      ],
+      "note": ""
+    },
+    {
+      "warning_type": "Cross-Site Scripting",
+      "warning_code": 4,
+      "fingerprint": "d07f277aa68ad50be2f2655e8de9b79776589484747f60e05921d092a39aa6f4",
+      "check_name": "LinkToHref",
+      "message": "Potentially unsafe model attribute in `link_to` href",
+      "file": "app/views/games/just_ended/active_participants/roster/_listing.html.erb",
+      "line": 10,
+      "link": "https://brakemanscanner.org/docs/warning_types/link_to_href",
+      "code": "link_to((Unresolved Model).new.updateable_display_name, (Unresolved Model).new.show_user_url, :data => ({ :turbo_frame => :_top }))",
+      "render_path": [
+        {
+          "type": "template",
+          "name": "games/just_ended/_results",
+          "line": 15,
+          "file": "app/views/games/just_ended/_results.html.erb",
+          "rendered": {
+            "name": "games/just_ended/active_participants/_roster",
+            "file": "app/views/games/just_ended/active_participants/_roster.html.erb"
+          }
+        },
+        {
+          "type": "template",
+          "name": "games/just_ended/active_participants/_roster",
+          "line": 9,
+          "file": "app/views/games/just_ended/active_participants/_roster.html.erb",
+          "rendered": {
+            "name": "games/just_ended/active_participants/roster/_listing",
+            "file": "app/views/games/just_ended/active_participants/roster/_listing.html.erb"
+          }
+        }
+      ],
+      "location": {
+        "type": "template",
+        "template": "games/just_ended/active_participants/roster/_listing"
+      },
+      "user_input": "(Unresolved Model).new.show_user_url",
       "confidence": "Weak",
       "cwe_id": [
         79

@@ -1,0 +1,25 @@
+<%# locals: (listing:) %>
+
+<span class="whitespace-nowrap">
+  <% if listing.created_game? %>
+    <span title="<%= t("game.results.duty_roster.game_creator") %>">
+      <%= Emoji.ship %>
+    </span>
+  <% end %>
+
+  <% if listing.started_game? %>
+    <span title="<%= t("game.results.duty_roster.game_starter") %>">
+      <%= Emoji.timer %>
+    </span>
+  <% end %>
+
+  <% if listing.tripped_mine? %>
+    <span title="<%= t("game.results.duty_roster.game_loser") %>">
+      <%= Emoji.mine %>
+    </span>
+  <% elsif listing.cleared_board? %>
+    <span title="<%= t("game.results.duty_roster.game_winner") %>">
+      <%= Emoji.victory %>
+    </span>
+  <% end %>
+</span>
