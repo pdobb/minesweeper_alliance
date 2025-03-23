@@ -154,7 +154,7 @@ class Board::Calc3BV
 
       private
 
-      def inspect_identification = identify(:grid, klass: __class__)
+      def inspect_identification = identify(:grid, class: __class__)
     end
   end
 end
