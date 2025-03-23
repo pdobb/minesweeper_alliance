@@ -5,9 +5,7 @@
 class RecordInteraction
   include CallMethodBehaviors
 
-  def self.record?(current_user:)
-    !User::Current.dev?(current_user)
-  end
+  def self.record?(current_user:) = User::Type.non_dev?(current_user)
 
   def initialize(name:)
     @name = name

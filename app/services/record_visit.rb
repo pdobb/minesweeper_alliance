@@ -14,7 +14,7 @@ class RecordVisit
   end
 
   def self.record?(current_user:)
-    current_user.participant? && !User::Current.dev?(current_user)
+    current_user.participant? && User::Type.non_dev?(current_user)
   end
   private_class_method :record?
 

@@ -26,7 +26,6 @@ class User < ApplicationRecord
   TRUNCATED_TOKENS_LENGTH = 4
   TRUNCATED_TOKENS_RANGE = (-TRUNCATED_TOKENS_LENGTH..)
   USERNAME_MAX_LEGNTH = 26
-  SPAMMER_GAMES_COUNT_THRESHOLD = 10
 
   include ConsoleBehaviors
 
@@ -146,12 +145,6 @@ class User < ApplicationRecord
     @bests ||= User::Bests.new(self)
   end
 
-  def spammer?(threshold: SPAMMER_GAMES_COUNT_THRESHOLD)
-    return false if User::Current.dev?(self)
-
-    actively_participated_in_games.is_spam.count > threshold
-  end
-
   private
 
   def internal_token
@@ -190,7 +183,7 @@ class User < ApplicationRecord
     end
 
     def inspect_issues(scope:)
-      scope.complex? { "SPAMMER" if spammer? }
+      scope.complex? { "SPAMMER" if User::Type.spammer?(self) }
     end
 
     def inspect_info = time_zone || "NO_TIME_ZONE"
