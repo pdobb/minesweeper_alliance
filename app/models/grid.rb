@@ -90,17 +90,15 @@ class Grid
 
     private
 
-    # rubocop:disable Rails/Output
     def render_row(y:, row:)
-      print "#{pad(y)}: "
+      print("#{pad(y)}: ")
 
       row.each do |cell|
-        print cell.console.render(cells_count:), " "
+        print(cell.console.render(cells_count:), " ")
       end
 
-      print "\n"
+      print("\n")
     end
-    # rubocop:enable Rails/Output
 
     def pad(value)
       value.to_s.rjust(2, " ")

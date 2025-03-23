@@ -24,6 +24,6 @@ module CallMethodBehaviors
   end
 
   def call
-    raise NotImplementedError
+    raise(NotImplementedError)
   end
 end

@@ -51,7 +51,7 @@ gem "object_identifier"
 gem "object_inspector"
 gem "permessage_deflate"
 gem "requestjs-rails"
-gem "say", github: "pdobb/say"
+gem "say", github: "pdobb/say" # Not published to RubyGems.
 gem "statusable"
 gem "useragent"
 

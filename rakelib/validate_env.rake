@@ -6,7 +6,7 @@ task :validate_env do # rubocop:disable Rails/RakeEnvironment
   success = system(command)
 
   unless success
-    puts "\e[31mvalidation failed\e[0m"
-    exit 1
+    puts("\e[31mvalidation failed\e[0m")
+    abort
   end
 end

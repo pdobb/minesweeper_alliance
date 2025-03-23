@@ -8,6 +8,6 @@ hosts = ENV["KAMAL_HOSTS"].split(",")
 
 hosts.each do |ip|
   destination = "root@#{ip}"
-  puts "Creating a Docker network \"kamal\" on #{destination}"
+  puts("Creating a Docker network \"kamal\" on #{destination}")
   `ssh #{destination} docker network create kamal`
 end

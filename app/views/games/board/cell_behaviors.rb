@@ -13,7 +13,7 @@ module Games::Board::CellBehaviors
   def flagged? = cell.flagged?
 
   def css
-    raise NotImplementedError
+    raise(NotImplementedError)
   end
 
   def to_s

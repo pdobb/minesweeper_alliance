@@ -134,7 +134,7 @@ class Board::Calc3BV
 
     def process_cells
       super.tap {
-        pp render
+        pp(render)
       }
     end
 

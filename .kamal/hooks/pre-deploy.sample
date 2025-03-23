@@ -35,8 +35,8 @@ MAX_ATTEMPTS = 72
 ATTEMPTS_GAP = 10
 
 def exit_with_error(message)
-  $stderr.puts message
-  exit 1
+  $stderr.puts(message)
+  abort
 end
 
 class GithubStatusChecks
@@ -82,7 +82,7 @@ end
 
 $stdout.sync = true
 
-puts "Checking build status..."
+puts("Checking build status...")
 attempts = 0
 checks = GithubStatusChecks.new
 
@@ -90,7 +90,7 @@ begin
   loop do
     case checks.state
     when "success"
-      puts "Checks passed, see #{checks.first_status_url}"
+      puts("Checks passed, see #{checks.first_status_url}")
       exit 0
     when "failure"
       exit_with_error "Checks failed, see #{checks.first_status_url}"
@@ -100,7 +100,7 @@ begin
 
     exit_with_error "Checks are still pending, gave up after #{MAX_ATTEMPTS * ATTEMPTS_GAP} seconds" if attempts == MAX_ATTEMPTS
 
-    puts checks.current_status
+    puts(checks.current_status)
     sleep(ATTEMPTS_GAP)
     checks.refresh!
   end

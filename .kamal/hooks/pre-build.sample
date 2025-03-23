@@ -19,33 +19,33 @@
 if [ -n "$(git status --porcelain)" ]; then
   echo "Git checkout is not clean, aborting..." >&2
   git status --porcelain >&2
-  exit 1
+  abort
 fi
 
 first_remote=$(git remote)
 
 if [ -z "$first_remote" ]; then
   echo "No git remote set, aborting..." >&2
-  exit 1
+  abort
 fi
 
 current_branch=$(git branch --show-current)
 
 if [ -z "$current_branch" ]; then
   echo "Not on a git branch, aborting..." >&2
-  exit 1
+  abort
 fi
 
 remote_head=$(git ls-remote $first_remote --tags $current_branch | cut -f1)
 
 if [ -z "$remote_head" ]; then
   echo "Branch not pushed to remote, aborting..." >&2
-  exit 1
+  abort
 fi
 
 if [ "$KAMAL_VERSION" != "$remote_head" ]; then
   echo "Version ($KAMAL_VERSION) does not match remote HEAD ($remote_head), aborting..." >&2
-  exit 1
+  abort
 fi
 
 exit 0

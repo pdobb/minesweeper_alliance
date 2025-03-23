@@ -421,7 +421,7 @@ class Game < ApplicationRecord # rubocop:disable Metrics/ClassLength
     include ConsoleObjectBehaviors
 
     def render
-      puts inspect # rubocop:disable Rails/Output
+      puts(inspect)
       board.render
     end
 
