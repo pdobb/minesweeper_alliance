@@ -8,39 +8,6 @@
   </div>
 
   <div class="space-y-6">
-    <% if @index.any_listings? %>
-      <% @index.listings.each do |listing| %>
-        <div
-          id="<%= listing.dom_id %>"
-          class="
-            flex-col space-y-3
-            p-3 md:max-w-lg
-            border border-dim
-          "
-        >
-          <div class="flex gap-x-3">
-            <span class="text-dim">#<%= listing.id %></span>
-
-            <div class="flex justify-between w-full">
-              <%= link_to(listing.name, listing.show_pattern_url) %>
-
-              <%= button_to(
-                    Emoji.trash,
-                    listing.destroy_pattern_url,
-                    method: :delete,
-                    data: {
-                      turbo_confirm: "Really delete #{listing.name.inspect}?",
-                      turbo_stream: true,
-                    },
-                    class: "btn-basic") %>
-            </div>
-          </div>
-
-          <p class="text-dim"><%= listing.timestamp %></p>
-        </div>
-      <% end %>
-    <% end %>
-
     <div
       class="
         hidden only:block
@@ -51,5 +18,36 @@
     >
       No Patterns found.
     </div>
+
+    <% @index.listings.each do |listing| %>
+      <div
+        id="<%= listing.dom_id %>"
+        class="
+          flex-col space-y-3
+          p-3 md:max-w-lg
+          border border-dim
+        "
+      >
+        <div class="flex gap-x-3">
+          <span class="text-dim">#<%= listing.id %></span>
+
+          <div class="flex justify-between w-full">
+            <%= link_to(listing.name, listing.show_pattern_url) %>
+
+            <%= button_to(
+                  Emoji.trash,
+                  listing.destroy_pattern_url,
+                  method: :delete,
+                  data: {
+                    turbo_confirm: "Really delete #{listing.name.inspect}?",
+                    turbo_stream: true,
+                  },
+                  class: "btn-basic") %>
+          </div>
+        </div>
+
+        <p class="text-dim"><%= listing.timestamp %></p>
+      </div>
+    <% end %>
   </div>
 </div>

@@ -5,7 +5,7 @@
     <h4 class="h3">Observers</h4>
 
     <ol class="list-decimal list-inside space-y-2">
-      <% roster.listings.each_with_index do |listing, index| %>
+      <% roster.listings.each do |listing| %>
         <li>
           <%= link_to(
                 listing.updateable_display_name,

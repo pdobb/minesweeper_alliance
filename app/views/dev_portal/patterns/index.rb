@@ -17,8 +17,6 @@ class DevPortal::Patterns::Index
     Router.new_dev_portal_patterns_import_path
   end
 
-  def any_listings? = base_arel.any?
-
   def listings
     Listing.wrap(base_arel)
   end

@@ -19,7 +19,7 @@
   >
     <li class="hidden only:block"><%= View.no_value_indicator_tag %></li>
 
-    <% roster.listings.each_with_index do |listing, index| %>
+    <% roster.listings.each do |listing| %>
       <%= render("home/roster/listing", listing:) %>
     <% end %>
   </ul>
