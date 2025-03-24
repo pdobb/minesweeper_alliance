@@ -14,7 +14,7 @@ class UserUpdateTransactionTest < ActiveSupport::TestCase
 
   describe "#validate" do
     describe "#change_set" do
-      context "GIVEN a #change_set" do
+      given "a #change_set" do
         subject { unit_class.new(change_set: valid_change_set1) }
 
         it "passes validation" do
@@ -23,7 +23,7 @@ class UserUpdateTransactionTest < ActiveSupport::TestCase
         end
       end
 
-      context "GIVEN no #change_set" do
+      given "no #change_set" do
         subject { unit_class.new(change_set: empty_change_set1) }
 
         it "fails validation" do

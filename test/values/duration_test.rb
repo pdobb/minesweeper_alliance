@@ -6,7 +6,7 @@ class DurationTest < ActiveSupport::TestCase
   let(:unit_class) { Duration }
 
   describe "#to_s" do
-    context "GIVEN a duration of < 1 minute" do
+    given "a duration of < 1 minute" do
       subject { unit_class.new(9.seconds.ago..) }
 
       it "returns the expected String" do
@@ -14,7 +14,7 @@ class DurationTest < ActiveSupport::TestCase
       end
     end
 
-    context "GIVEN a duration of < 1 hour" do
+    given "a duration of < 1 hour" do
       context "WHERE duration is an even minute" do
         subject { unit_class.new(9.minutes.ago..) }
 
@@ -32,7 +32,7 @@ class DurationTest < ActiveSupport::TestCase
       end
     end
 
-    context "GIVEN a large duration" do
+    given "a large duration" do
       let(:now) { Time.zone.local(2024, 9, 1, 12, 0, 0) }
 
       subject {

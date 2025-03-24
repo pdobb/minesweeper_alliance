@@ -35,14 +35,14 @@ class BoardTest < ActiveSupport::TestCase
       let(:height1) { 6 }
       let(:mines1) { 4 }
 
-      context "GIVEN a valid #width value" do
+      given "a valid #width value" do
         it "passes validation" do
           subject.validate
           _(subject.errors[:mines]).must_be_empty
         end
       end
 
-      context "GIVEN an out-of-range #width value" do
+      given "an out-of-range #width value" do
         let(:width1) { [5, 31].sample }
 
         it "fails validation" do
@@ -52,14 +52,14 @@ class BoardTest < ActiveSupport::TestCase
         end
       end
 
-      context "GIVEN a valid #height value" do
+      given "a valid #height value" do
         it "passes validation" do
           subject.validate
           _(subject.errors[:mines]).must_be_empty
         end
       end
 
-      context "GIVEN an out-of-range #height value" do
+      given "an out-of-range #height value" do
         let(:height1) { [5, 31].sample }
 
         it "fails validation" do
@@ -69,14 +69,14 @@ class BoardTest < ActiveSupport::TestCase
         end
       end
 
-      context "GIVEN a valid #mines value" do
+      given "a valid #mines value" do
         it "passes validation" do
           subject.validate
           _(subject.errors[:mines]).must_be_empty
         end
       end
 
-      context "GIVEN an out-of-range #mines value" do
+      given "an out-of-range #mines value" do
         let(:mines1) { [3, 300].sample }
 
         it "fails validation" do
@@ -86,7 +86,7 @@ class BoardTest < ActiveSupport::TestCase
         end
       end
 
-      context "GIVEN a valid #mines value" do
+      given "a valid #mines value" do
         let(:mines1) { [4, 12].sample }
 
         it "passes validation" do
@@ -95,7 +95,7 @@ class BoardTest < ActiveSupport::TestCase
         end
       end
 
-      context "GIVEN too many #mines" do
+      given "too many #mines" do
         let(:mines1) { 13 }
 
         it "fails validation" do
@@ -105,7 +105,7 @@ class BoardTest < ActiveSupport::TestCase
         end
       end
 
-      context "GIVEN too few #mines" do
+      given "too few #mines" do
         let(:width1) { 9 }
         let(:height1) { 9 }
 
@@ -128,7 +128,7 @@ class BoardTest < ActiveSupport::TestCase
   end
 
   describe "#pattern" do
-    context "GIVEN Board#pattern? = false" do
+    given "Board#pattern? = false" do
       subject { win1_board }
 
       it "raises ActiveRecord::RecordNotFound" do
@@ -138,7 +138,7 @@ class BoardTest < ActiveSupport::TestCase
   end
 
   describe "#pattern_name" do
-    context "GIVEN Board#pattern? = false" do
+    given "Board#pattern? = false" do
       subject { win1_board }
 
       it "returns nil" do
@@ -154,7 +154,7 @@ class BoardTest < ActiveSupport::TestCase
       }
     end
 
-    context "GIVEN the associated Game#status_sweep_in_progress? = false" do
+    given "the associated Game#status_sweep_in_progress? = false" do
       subject { [standing_by1_board, win1_board, loss1_board].sample }
 
       it "doesn't orchestrate any changes, and returns nil" do
@@ -164,8 +164,8 @@ class BoardTest < ActiveSupport::TestCase
       end
     end
 
-    context "GIVEN the associated Game#status_sweep_in_progress? = true" do
-      context "GIVEN the Board is not yet in a victorious state" do
+    given "the associated Game#status_sweep_in_progress? = true" do
+      given "the Board is not yet in a victorious state" do
         before do
           subject.game.start(seed_cell: nil, user: user1)
         end
@@ -179,7 +179,7 @@ class BoardTest < ActiveSupport::TestCase
         end
       end
 
-      context "GIVEN the Board is in a victorious state" do
+      given "the Board is in a victorious state" do
         before do
           subject.game.start(seed_cell: nil, user: user1)
           subject.cells.is_not_mine.update_all(revealed: true)
@@ -203,7 +203,7 @@ class BoardTest < ActiveSupport::TestCase
 
     subject { standing_by1_board }
 
-    context "GIVEN a Coordinates" do
+    given "a Coordinates" do
       it "returns the expected Array" do
         _(subject.cells_at(Coordinates[0, 0])).must_equal([
           standing_by1_board_cell1,
@@ -211,7 +211,7 @@ class BoardTest < ActiveSupport::TestCase
       end
     end
 
-    context "GIVEN an Array of Coordinates" do
+    given "an Array of Coordinates" do
       it "returns the expected Array" do
         _(subject.cells_at([Coordinates[0, 0], Coordinates[1, 0]]))
           .must_equal([standing_by1_board_cell1, standing_by1_board_cell2])
@@ -228,7 +228,7 @@ class BoardTest < ActiveSupport::TestCase
   end
 
   describe "#mines_placed?" do
-    context "GIVEN mines present" do
+    given "mines present" do
       subject { win1_board }
 
       it "returns true" do
@@ -236,7 +236,7 @@ class BoardTest < ActiveSupport::TestCase
       end
     end
 
-    context "GIVEN no mines present" do
+    given "no mines present" do
       subject { standing_by1_board }
 
       it "returns false" do

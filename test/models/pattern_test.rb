@@ -10,7 +10,7 @@ class PatternTest < ActiveSupport::TestCase
 
   describe "#validate" do
     describe "#name" do
-      context "GIVEN #name == nil" do
+      given "#name == nil" do
         subject { unit_class.new }
 
         it "fails validation" do
@@ -19,8 +19,8 @@ class PatternTest < ActiveSupport::TestCase
         end
       end
 
-      context "GIVEN #name != nil" do
-        context "GIVEN #name is unique" do
+      given "#name != nil" do
+        given "#name is unique" do
           subject { unit_class.new(name: "UNIQUE NAME") }
 
           it "passes validation" do
@@ -29,7 +29,7 @@ class PatternTest < ActiveSupport::TestCase
           end
         end
 
-        context "GIVEN #name is not unique" do
+        given "#name is not unique" do
           subject { unit_class.new(name: pattern1.name) }
 
           it "fails validation" do
@@ -41,7 +41,7 @@ class PatternTest < ActiveSupport::TestCase
     end
 
     describe "#settings" do
-      context "GIVEN #settings != nil" do
+      given "#settings != nil" do
         subject { unit_class.new(settings: { width: 9, height: 9 }) }
 
         it "passes validation" do
@@ -50,7 +50,7 @@ class PatternTest < ActiveSupport::TestCase
         end
       end
 
-      context "GIVEN #settings that are invalid, per Pattern::Settings" do
+      given "#settings that are invalid, per Pattern::Settings" do
         subject { unit_class.new(settings: { width: 0 }) }
 
         it "fails validation" do
@@ -138,7 +138,7 @@ class PatternTest < ActiveSupport::TestCase
   end
 
   describe "#flag_density" do
-    context "GIVEN no flags" do
+    given "no flags" do
       subject { unit_class.new }
 
       it "returns the expected Float" do
@@ -146,7 +146,7 @@ class PatternTest < ActiveSupport::TestCase
       end
     end
 
-    context "GIVEN flags" do
+    given "flags" do
       subject { unit_class.new(coordinates_array: coordinates_array1) }
 
       it "returns the expected Float" do
@@ -156,7 +156,7 @@ class PatternTest < ActiveSupport::TestCase
   end
 
   describe "#flags_count" do
-    context "GIVEN no flags" do
+    given "no flags" do
       subject { unit_class.new }
 
       it "returns the expected Integer" do
@@ -164,7 +164,7 @@ class PatternTest < ActiveSupport::TestCase
       end
     end
 
-    context "GIVEN flags" do
+    given "flags" do
       subject { unit_class.new(coordinates_array: coordinates_array1) }
 
       it "returns the expected Integer" do
@@ -174,7 +174,7 @@ class PatternTest < ActiveSupport::TestCase
   end
 
   describe "#mines" do
-    context "GIVEN no flags" do
+    given "no flags" do
       subject { unit_class.new }
 
       it "returns the expected Integer" do
@@ -182,7 +182,7 @@ class PatternTest < ActiveSupport::TestCase
       end
     end
 
-    context "GIVEN flags" do
+    given "flags" do
       subject { unit_class.new(coordinates_array: coordinates_array1) }
 
       it "returns the expected Integer" do
@@ -194,13 +194,13 @@ class PatternTest < ActiveSupport::TestCase
   describe "#flagged?" do
     subject { unit_class.new(coordinates_array: coordinates_array1) }
 
-    context "GIVEN an included Coordinates" do
+    given "an included Coordinates" do
       it "returns true" do
         _(subject.flagged?(Coordinates[0, 0])).must_equal(true)
       end
     end
 
-    context "GIVEN an excluded Coordinates" do
+    given "an excluded Coordinates" do
       it "returns false" do
         _(subject.flagged?(Coordinates[9, 9])).must_equal(false)
       end

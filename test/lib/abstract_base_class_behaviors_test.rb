@@ -19,7 +19,7 @@ class AbstractBaseClassBehaviorsTest < ActiveSupport::TestCase
   describe ".new" do
     subject { unit_class }
 
-    context "GIVEN an AbstractBassClassBehaviors" do
+    given "an AbstractBassClassBehaviors" do
       subject { abstract_base_class1 }
 
       it "raises NotImplementedError" do
@@ -33,7 +33,7 @@ class AbstractBaseClassBehaviorsTest < ActiveSupport::TestCase
       end
     end
 
-    context "GIVEN a non-AbstractBassClassBehaviors" do
+    given "a non-AbstractBassClassBehaviors" do
       subject { non_abstract_base_class1 }
 
       it "returns the expected instance" do
@@ -43,7 +43,7 @@ class AbstractBaseClassBehaviorsTest < ActiveSupport::TestCase
   end
 
   describe ".abstract_base_class?" do
-    context "GIVEN an AbstractBassClassBehaviors" do
+    given "an AbstractBassClassBehaviors" do
       subject { abstract_base_class1 }
 
       it "returns true" do
@@ -51,7 +51,7 @@ class AbstractBaseClassBehaviorsTest < ActiveSupport::TestCase
       end
     end
 
-    context "GIVEN a non-AbstractBassClassBehaviors" do
+    given "a non-AbstractBassClassBehaviors" do
       subject { non_abstract_base_class1 }
 
       it "returns false" do

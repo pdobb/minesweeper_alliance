@@ -21,7 +21,7 @@ class UserTest < ActiveSupport::TestCase
     describe "#username" do
       subject { unit_class.new(username: username1) }
 
-      context "GIVEN no #username" do
+      given "no #username" do
         let(:username1) { nil }
 
         it "passes validation" do
@@ -30,7 +30,7 @@ class UserTest < ActiveSupport::TestCase
         end
       end
 
-      context "GIVEN #username < max length" do
+      given "#username < max length" do
         let(:username1) { "TEST" }
 
         it "passes validation" do
@@ -39,7 +39,7 @@ class UserTest < ActiveSupport::TestCase
         end
       end
 
-      context "GIVEN #username > max length" do
+      given "#username > max length" do
         let(:username1) { "T" * max_length.next }
         let(:max_length) { unit_class::USERNAME_MAX_LEGNTH }
 
@@ -70,7 +70,7 @@ class UserTest < ActiveSupport::TestCase
   end
 
   describe "#identifier" do
-    context "GIVEN a #username" do
+    given "a #username" do
       subject { user1 }
 
       it "returns #username" do
@@ -78,7 +78,7 @@ class UserTest < ActiveSupport::TestCase
       end
     end
 
-    context "GIVEN no #username" do
+    given "no #username" do
       before do
         MuchStub.(subject, :created_at) {
           Time.zone.local(2024, 1, 1, 12, 34, 56)
@@ -96,14 +96,14 @@ class UserTest < ActiveSupport::TestCase
   describe "#username=" do
     subject { user1 }
 
-    context "GIVEN just white-space" do
+    given "just white-space" do
       it "sets #username to nil" do
         subject.username = " "
         _(subject.username).must_be_nil
       end
     end
 
-    context "GIVEN white-space before or after the given value" do
+    given "white-space before or after the given value" do
       it "sets the expected String" do
         subject.username = " TEST "
         _(subject.username).must_equal("TEST")
@@ -112,7 +112,7 @@ class UserTest < ActiveSupport::TestCase
   end
 
   describe "#display_name" do
-    context "GIVEN #username.present? = true" do
+    given "#username.present? = true" do
       subject { user1 }
 
       it "returns the expected String" do
@@ -120,7 +120,7 @@ class UserTest < ActiveSupport::TestCase
       end
     end
 
-    context "GIVEN #username.blank? = true" do
+    given "#username.blank? = true" do
       subject { user2 }
 
       it "returns the expected String" do
@@ -144,7 +144,7 @@ class UserTest < ActiveSupport::TestCase
   end
 
   describe "#active_participant?" do
-    context "GIVEN a User that has actively participated in a Game(s)" do
+    given "a User that has actively participated in a Game(s)" do
       subject { user1 }
 
       it "returns true" do
@@ -152,7 +152,7 @@ class UserTest < ActiveSupport::TestCase
       end
     end
 
-    context "GIVEN a User that has actively participated in a Game(s)" do
+    given "a User that has actively participated in a Game(s)" do
       subject { observer1 }
 
       it "returns false" do
@@ -167,13 +167,13 @@ class UserTest < ActiveSupport::TestCase
 
     subject { user1 }
 
-    context "GIVEN a Game the User actively participated in" do
+    given "a Game the User actively participated in" do
       it "returns true" do
         _(subject.active_participant_in?(game: win1)).must_equal(true)
       end
     end
 
-    context "GIVEN a Game the User didn't actively participate in" do
+    given "a Game the User didn't actively participate in" do
       it "returns false" do
         _(subject.active_participant_in?(game: standing_by1))
           .must_equal(false)
@@ -182,7 +182,7 @@ class UserTest < ActiveSupport::TestCase
   end
 
   describe "#signer?" do
-    context "GIVEN a User that has signed their name" do
+    given "a User that has signed their name" do
       subject { user1 }
 
       it "returns true" do
@@ -190,7 +190,7 @@ class UserTest < ActiveSupport::TestCase
       end
     end
 
-    context "GIVEN a User that has not signed their name" do
+    given "a User that has not signed their name" do
       subject { user2 }
 
       it "returns false" do
@@ -200,7 +200,7 @@ class UserTest < ActiveSupport::TestCase
   end
 
   describe "#past_signer?" do
-    context "GIVEN User#signer? = true" do
+    given "User#signer? = true" do
       subject { user1 }
 
       it "returns true" do
@@ -208,7 +208,7 @@ class UserTest < ActiveSupport::TestCase
       end
     end
 
-    context "GIVEN User#signer? = false" do
+    given "User#signer? = false" do
       context "AND has never signed their name in the past" do
         subject { observer1 }
 
@@ -228,7 +228,7 @@ class UserTest < ActiveSupport::TestCase
   end
 
   describe "#signer_status_just_changed?" do
-    context "GIVEN a User that has just signed their name" do
+    given "a User that has just signed their name" do
       before do
         subject.update(username: "NEW USERNAME")
       end
@@ -240,7 +240,7 @@ class UserTest < ActiveSupport::TestCase
       end
     end
 
-    context "GIVEN a User that has just un-signed their name" do
+    given "a User that has just un-signed their name" do
       before do
         subject.update(username: nil)
       end
@@ -252,7 +252,7 @@ class UserTest < ActiveSupport::TestCase
       end
     end
 
-    context "GIVEN a User that has just changed their name" do
+    given "a User that has just changed their name" do
       before do
         subject.update(username: "NEW USERNAME")
       end

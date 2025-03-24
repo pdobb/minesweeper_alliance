@@ -13,7 +13,7 @@ class GameStartTransactionTest < ActiveSupport::TestCase
   describe ".create_between" do
     subject { unit_class }
 
-    context "GIVEN a new, unique Game (regardless of what User)" do
+    given "a new, unique Game (regardless of what User)" do
       it "creates the expected record, and returns it" do
         result =
           _(-> {
@@ -33,7 +33,7 @@ class GameStartTransactionTest < ActiveSupport::TestCase
       end
     end
 
-    context "GIVEN an existing, non-unique Game (regardless of what User)" do
+    given "an existing, non-unique Game (regardless of what User)" do
       it "raises ActiveRecord::RecordInvalid" do
         exception =
           _(-> {

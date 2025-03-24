@@ -15,7 +15,7 @@ class Board::Calc3BVTest < ActiveSupport::TestCase
   describe ".call" do
     subject { unit_class }
 
-    context "GIVEN a simplistic board" do
+    given "a simplistic board" do
       it "returns the expected Integer" do
         result = subject.call(win1_board.grid)
         _(result).must_equal(1)

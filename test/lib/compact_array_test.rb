@@ -14,7 +14,7 @@ class CompactArrayTest < ActiveSupport::TestCase
       _(result.to_a).must_equal([])
     end
 
-    context "GIVEN items" do
+    given "items" do
       it "builds a new CompactArray out of them items" do
         result = subject.new(1, 2, nil, 3)
         _(result).must_be_instance_of(unit_class)

@@ -11,7 +11,6 @@ class ConfigurationBehaviorsTest < ActiveSupport::TestCase
     end
   end
 
-
   let(:unit_class) { ConfigurableDouble }
 
   subject { unit_class }
@@ -21,7 +20,7 @@ class ConfigurationBehaviorsTest < ActiveSupport::TestCase
       _(subject.configuration).must_be_instance_of(subject::Configuration)
     end
 
-    context "GIVEN applied configuration settings" do
+    given "applied configuration settings" do
       before do
         subject.configure do |config|
           config.value1 = "TEST_VALUE1"

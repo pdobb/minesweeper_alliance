@@ -18,7 +18,7 @@ class CellTest < ActiveSupport::TestCase
     describe "#coordinates" do
       subject { unit_class.new(board: win1_board, coordinates: coordinates1) }
 
-      context "GIVEN valid, unique #coordinates" do
+      given "valid, unique #coordinates" do
         let(:coordinates1) { Coordinates[9, 9] }
 
         it "passes validation" do
@@ -27,7 +27,7 @@ class CellTest < ActiveSupport::TestCase
         end
       end
 
-      context "GIVEN no #coordinates" do
+      given "no #coordinates" do
         let(:coordinates1) { nil }
 
         it "fails validation" do
@@ -37,7 +37,7 @@ class CellTest < ActiveSupport::TestCase
         end
       end
 
-      context "GIVEN non-unique #coordinates" do
+      given "non-unique #coordinates" do
         let(:coordinates1) { win1_board_cell1.coordinates }
 
         it "fails validation" do
@@ -51,7 +51,7 @@ class CellTest < ActiveSupport::TestCase
     describe "#value" do
       subject { unit_class.new(value: value1) }
 
-      context "GIVEN a valid #value" do
+      given "a valid #value" do
         let(:value1) { Cell::VALUES_RANGE.to_a.sample }
 
         it "passes validation" do
@@ -60,7 +60,7 @@ class CellTest < ActiveSupport::TestCase
         end
       end
 
-      context "GIVEN a non-numeric #value" do
+      given "a non-numeric #value" do
         let(:value1) { "IVNALID" }
 
         it "fails validation" do
@@ -69,7 +69,7 @@ class CellTest < ActiveSupport::TestCase
         end
       end
 
-      context "GIVEN an invalid Integer #value" do
+      given "an invalid Integer #value" do
         let(:value1) { [-1, 9].sample }
 
         it "fails validation" do
@@ -106,7 +106,7 @@ class CellTest < ActiveSupport::TestCase
   end
 
   describe "#value" do
-    context "GIVEN an unrevealed Cell" do
+    given "an unrevealed Cell" do
       subject { standing_by1_board_cell1 }
 
       it "returns nil" do
@@ -114,7 +114,7 @@ class CellTest < ActiveSupport::TestCase
       end
     end
 
-    context "GIVEN a revealed Cell" do
+    given "a revealed Cell" do
       subject { win1_board_cell2 }
 
       it "returns the expected Integer" do
@@ -122,7 +122,7 @@ class CellTest < ActiveSupport::TestCase
       end
     end
 
-    context "GIVEN a flagged Cell" do
+    given "a flagged Cell" do
       subject { win1_board_cell1 }
 
       it "returns nil" do
@@ -132,7 +132,7 @@ class CellTest < ActiveSupport::TestCase
   end
 
   describe "#toggle_flag" do
-    context "GIVEN #flagged was previously falsey" do
+    given "#flagged was previously falsey" do
       subject { standing_by1_board_cell1 }
 
       it "sets #flagged to true" do
@@ -141,7 +141,7 @@ class CellTest < ActiveSupport::TestCase
       end
     end
 
-    context "GIVEN #flagged was previously truthy" do
+    given "#flagged was previously truthy" do
       before do
         subject.update!(flagged: true)
       end
@@ -156,7 +156,7 @@ class CellTest < ActiveSupport::TestCase
   end
 
   describe "#reveal" do
-    context "GIVEN an already revealed Cell" do
+    given "an already revealed Cell" do
       before do
         standing_by1_board_cell1.reveal
       end
@@ -175,7 +175,7 @@ class CellTest < ActiveSupport::TestCase
       end
     end
 
-    context "GIVEN an unrevealed, flagged Cell" do
+    given "an unrevealed, flagged Cell" do
       before do
         subject.update_column(:flagged, true)
       end
@@ -193,7 +193,7 @@ class CellTest < ActiveSupport::TestCase
       end
     end
 
-    context "GIVEN an unrevealed, highlighted Cell" do
+    given "an unrevealed, highlighted Cell" do
       before do
         subject.update_column(:highlighted, true)
       end
@@ -213,7 +213,7 @@ class CellTest < ActiveSupport::TestCase
   end
 
   describe "#highlight_neighborhood" do
-    context "GIVEN an unrevealed Cell" do
+    given "an unrevealed Cell" do
       subject { standing_by1_board_cell1 }
 
       it "returns nil" do
@@ -224,7 +224,7 @@ class CellTest < ActiveSupport::TestCase
       end
     end
 
-    context "GIVEN a revealed Cell with unhighlighted neighbors" do
+    given "a revealed Cell with unhighlighted neighbors" do
       before do
         subject.reveal
       end
@@ -252,7 +252,7 @@ class CellTest < ActiveSupport::TestCase
   describe "#dehighlight_neighborhood" do
     subject { standing_by1_board_cell1 }
 
-    context "GIVEN an unrevealed Cell" do
+    given "an unrevealed Cell" do
       subject { standing_by1_board_cell1 }
 
       it "returns nil" do
@@ -260,7 +260,7 @@ class CellTest < ActiveSupport::TestCase
       end
     end
 
-    context "GIVEN a revealed Cell" do
+    given "a revealed Cell" do
       before do
         subject.reveal
         subject.highlight_neighborhood
@@ -287,16 +287,16 @@ class CellTest < ActiveSupport::TestCase
   end
 
   describe "#neighboring_flags_count_matches_value?" do
-    context "GIVEN neighboring_flags_count == value" do
+    given "neighboring_flags_count == value" do
       subject { standing_by1_board_cell1 }
 
-      context "GIVEN #value == nil" do
+      given "#value == nil" do
         it "returns true" do
           _(subject.neighboring_flags_count_matches_value?).must_equal(true)
         end
       end
 
-      context "GIVEN #value != nil" do
+      given "#value != nil" do
         before do
           subject.update!(value: 0)
         end
@@ -307,7 +307,7 @@ class CellTest < ActiveSupport::TestCase
       end
     end
 
-    context "GIVEN neighboring_flags_count != value" do
+    given "neighboring_flags_count != value" do
       before do
         standing_by1_board_cell2.update!(flagged: true)
       end
@@ -321,7 +321,7 @@ class CellTest < ActiveSupport::TestCase
   end
 
   describe "#neighbors" do
-    context "GIVEN no associated Board" do
+    given "no associated Board" do
       subject { unit_class.new }
 
       it "returns an empty Array" do
@@ -330,7 +330,7 @@ class CellTest < ActiveSupport::TestCase
       end
     end
 
-    context "GIVEN an associated Board" do
+    given "an associated Board" do
       subject { standing_by1_board_cell1 }
 
       it "returns the expected Array of Cells" do
@@ -354,7 +354,7 @@ class CellTest < ActiveSupport::TestCase
   end
 
   describe "#place_mine" do
-    context "GIVEN #mine = false" do
+    given "#mine = false" do
       subject { unit_class.new }
 
       it "sets #mine = true" do
@@ -365,7 +365,7 @@ class CellTest < ActiveSupport::TestCase
   end
 
   describe "#unrevealed?" do
-    context "GIVEN #revealed? == false" do
+    given "#revealed? == false" do
       subject { win1_board_cell1 }
 
       it "returns true" do
@@ -373,7 +373,7 @@ class CellTest < ActiveSupport::TestCase
       end
     end
 
-    context "GIVEN #revealed? == true" do
+    given "#revealed? == true" do
       subject { win1_board_cell2 }
 
       it "returns false" do
@@ -385,13 +385,13 @@ class CellTest < ActiveSupport::TestCase
   describe "#highlightable?" do
     subject { standing_by1_board_cell1 }
 
-    context "GIVEN #revealed? == #flagged? == #highlighted? == false" do
+    given "#revealed? == #flagged? == #highlighted? == false" do
       it "returns true" do
         _(subject.highlightable?).must_equal(true)
       end
     end
 
-    context "GIVEN #revealed? == true" do
+    given "#revealed? == true" do
       before do
         subject.update_column(:revealed, true)
       end
@@ -401,7 +401,7 @@ class CellTest < ActiveSupport::TestCase
       end
     end
 
-    context "GIVEN #flagged? == true" do
+    given "#flagged? == true" do
       before do
         subject.update_column(:flagged, true)
       end
@@ -411,7 +411,7 @@ class CellTest < ActiveSupport::TestCase
       end
     end
 
-    context "GIVEN #highlighted? == true" do
+    given "#highlighted? == true" do
       before do
         subject.update_column(:highlighted, true)
       end
@@ -425,7 +425,7 @@ class CellTest < ActiveSupport::TestCase
   describe "#dehighlightable?" do
     subject { standing_by1_board_cell1 }
 
-    context "GIVEN #highlighted? == true" do
+    given "#highlighted? == true" do
       before do
         subject.update_column(:highlighted, true)
       end
@@ -435,7 +435,7 @@ class CellTest < ActiveSupport::TestCase
       end
     end
 
-    context "GIVEN #highlighted? == false" do
+    given "#highlighted? == false" do
       it "returns false" do
         _(subject.dehighlightable?).must_equal(false)
       end
@@ -443,7 +443,7 @@ class CellTest < ActiveSupport::TestCase
   end
 
   describe "#blank?" do
-    context "GIVEN #value == '0'" do
+    given "#value == '0'" do
       subject { win1_board_cell3 }
 
       it "returns true" do
@@ -451,7 +451,7 @@ class CellTest < ActiveSupport::TestCase
       end
     end
 
-    context "GIVEN #value != '0'" do
+    given "#value != '0'" do
       subject { win1_board_cell2 }
 
       it "returns false" do
@@ -459,7 +459,7 @@ class CellTest < ActiveSupport::TestCase
       end
     end
 
-    context "GIVEN #value == nil" do
+    given "#value == nil" do
       subject { standing_by1_board_cell1 }
 
       it "returns false" do
@@ -469,16 +469,16 @@ class CellTest < ActiveSupport::TestCase
   end
 
   describe "#incorrectly_flagged?" do
-    context "GIVEN #flagged? = true" do
+    given "#flagged? = true" do
       subject { win1_board_cell1 }
 
-      context "GIVEN #mine? = true" do
+      given "#mine? = true" do
         it "returns false" do
           _(subject.incorrectly_flagged?).must_equal(false)
         end
       end
 
-      context "GIVEN #mine? = false" do
+      given "#mine? = false" do
         before do
           subject.update!(mine: false)
         end
@@ -489,7 +489,7 @@ class CellTest < ActiveSupport::TestCase
       end
     end
 
-    context "GIVEN #flagged? = false" do
+    given "#flagged? = false" do
       subject { win1_board_cell2 }
 
       it "returns false" do

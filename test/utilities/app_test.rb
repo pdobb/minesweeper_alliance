@@ -17,7 +17,7 @@ class AppTest < ActiveSupport::TestCase
   end
 
   describe ".debug?" do
-    context "GIVEN Rails.configuration.debug = true" do
+    given "Rails.configuration.debug = true" do
       before do
         MuchStub.tap(Rails, :configuration) { |config|
           MuchStub.(config, :debug) { true }
@@ -29,7 +29,7 @@ class AppTest < ActiveSupport::TestCase
       end
     end
 
-    context "GIVEN Rails.configuration.debug = false" do
+    given "Rails.configuration.debug = false" do
       before do
         MuchStub.tap(Rails, :configuration) { |config|
           MuchStub.(config, :debug) { false }
@@ -43,7 +43,7 @@ class AppTest < ActiveSupport::TestCase
   end
 
   describe ".development?" do
-    context "GIVEN Rails.env.development? = true" do
+    given "Rails.env.development? = true" do
       before do
         MuchStub.tap(Rails, :env) { |env|
           MuchStub.(env, :development?) { true }
@@ -55,7 +55,7 @@ class AppTest < ActiveSupport::TestCase
       end
     end
 
-    context "GIVEN Rails.env.development? = false" do
+    given "Rails.env.development? = false" do
       before do
         MuchStub.tap(Rails, :env) { |env|
           MuchStub.(env, :development?) { false }
@@ -69,7 +69,7 @@ class AppTest < ActiveSupport::TestCase
   end
 
   describe ".production?" do
-    context "GIVEN Rails.env.production? = true" do
+    given "Rails.env.production? = true" do
       before do
         MuchStub.tap(Rails, :env) { |env|
           MuchStub.(env, :production?) { true }
@@ -81,7 +81,7 @@ class AppTest < ActiveSupport::TestCase
       end
     end
 
-    context "GIVEN Rails.env.production? = false" do
+    given "Rails.env.production? = false" do
       before do
         MuchStub.tap(Rails, :env) { |env|
           MuchStub.(env, :production?) { false }

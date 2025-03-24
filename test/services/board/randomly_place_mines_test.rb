@@ -13,7 +13,7 @@ class Board::RandomlyPlaceMinesTest < ActiveSupport::TestCase
   let(:standing_by1_board_cell1) { cells(:standing_by1_board_cell1) }
 
   describe "#call" do
-    context "GIVEN Board#new_record? = true" do
+    given "Board#new_record? = true" do
       subject { unit_class.new(board: new_board1, seed_cell: nil) }
 
       it "raises Board::RandomlyPlaceMines::Error" do
@@ -24,8 +24,8 @@ class Board::RandomlyPlaceMinesTest < ActiveSupport::TestCase
       end
     end
 
-    context "GIVEN Board#new_record? = false" do
-      context "GIVEN mines have already been placed" do
+    given "Board#new_record? = false" do
+      given "mines have already been placed" do
         subject { unit_class.new(board: win1_board, seed_cell: nil) }
 
         it "raises Board::RandomlyPlaceMines::Error" do
@@ -36,7 +36,7 @@ class Board::RandomlyPlaceMinesTest < ActiveSupport::TestCase
         end
       end
 
-      context "GIVEN mines have not yet been placed" do
+      given "mines have not yet been placed" do
         subject {
           unit_class.new(
             board: standing_by1_board,

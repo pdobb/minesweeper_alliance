@@ -38,7 +38,7 @@ class Cell::RevealTest < ActiveSupport::TestCase
       }
     end
 
-    context "GIVEN an unrevealed Cell" do
+    given "an unrevealed Cell" do
       subject { unit_class.new(context: context1) }
 
       it "orchestrates Game state checks and Cell reveal as expected, "\
@@ -72,7 +72,7 @@ class Cell::RevealTest < ActiveSupport::TestCase
       end
     end
 
-    context "GIVEN a previously revealed Cell" do
+    given "a previously revealed Cell" do
       before do
         standing_by1_board_cell1.reveal
       end

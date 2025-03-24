@@ -30,7 +30,7 @@ class CellTransactionTest < ActiveSupport::TestCase
   end
 
   describe ".create_between" do
-    context "GIVEN a new, unique pair" do
+    given "a new, unique pair" do
       subject { CellRevealTransaction }
 
       it "creates the expected CellTransaction record, and returns it" do
@@ -45,7 +45,7 @@ class CellTransactionTest < ActiveSupport::TestCase
       end
     end
 
-    context "GIVEN an existing, non-unique pair" do
+    given "an existing, non-unique pair" do
       subject { CellRevealTransaction }
 
       it "raises ActiveRecord::RecordInvalid" do
@@ -63,7 +63,7 @@ class CellTransactionTest < ActiveSupport::TestCase
   describe ".exists_between?" do
     subject { unit_class }
 
-    context "GIVEN an existing CellTransaction" do
+    given "an existing CellTransaction" do
       let(:win1_board_cell2) { cells(:win1_board_cell2) }
 
       it "returns true" do
@@ -72,7 +72,7 @@ class CellTransactionTest < ActiveSupport::TestCase
       end
     end
 
-    context "GIVEN no existing CellTransaction" do
+    given "no existing CellTransaction" do
       it "returns false" do
         result =
           subject.exists_between?(user: user1, cell: standing_by1_board_cell1)

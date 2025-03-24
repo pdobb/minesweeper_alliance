@@ -9,7 +9,7 @@ class VisitTest < ActiveSupport::TestCase
 
   describe "#validate" do
     describe "#path" do
-      context "GIVEN #path == nil" do
+      given "#path == nil" do
         subject { unit_class.new }
 
         it "fails validation" do
@@ -18,8 +18,8 @@ class VisitTest < ActiveSupport::TestCase
         end
       end
 
-      context "GIVEN #path != nil" do
-        context "GIVEN #path is unique" do
+      given "#path != nil" do
+        given "#path is unique" do
           subject { unit_class.new(path: "UNIQUE NAME") }
 
           it "passes validation" do
@@ -28,7 +28,7 @@ class VisitTest < ActiveSupport::TestCase
           end
         end
 
-        context "GIVEN #path is not unique" do
+        given "#path is not unique" do
           subject { unit_class.new(path: visit1.path) }
 
           it "fails validation" do
@@ -42,7 +42,7 @@ class VisitTest < ActiveSupport::TestCase
     describe "#count" do
       subject { unit_class.new(count: count1) }
 
-      context "GIVEN a valid #count" do
+      given "a valid #count" do
         let(:count1) { 1 }
 
         it "passes validation" do
@@ -51,7 +51,7 @@ class VisitTest < ActiveSupport::TestCase
         end
       end
 
-      context "GIVEN a non-numeric #count" do
+      given "a non-numeric #count" do
         let(:count1) { "IVNALID" }
 
         it "fails validation" do
@@ -60,7 +60,7 @@ class VisitTest < ActiveSupport::TestCase
         end
       end
 
-      context "GIVEN an invalid Integer #count" do
+      given "an invalid Integer #count" do
         let(:count1) { -1 }
 
         it "fails validation" do

@@ -100,7 +100,7 @@ class CoordinatesArrayTest < ActiveSupport::TestCase
       _(subject.sort.to_a).must_equal([coordinates1, coordinates2])
     end
 
-    context "GIVEN a non-Coordinates comparison object" do
+    given "a non-Coordinates comparison object" do
       it "raises TypeError" do
         exception = _(-> { subject <=> Object.new }).must_raise(TypeError)
         _(exception.message).must_equal(

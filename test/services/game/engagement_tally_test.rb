@@ -5,11 +5,11 @@ require "test_helper"
 class Game::EngagementTallyTest < ActiveSupport::TestCase
   let(:unit_class) { Game::EngagementTally }
 
-  context "GIVEN no arguments" do
+  given "no arguments" do
     subject { unit_class.new }
 
     describe "#start_time" do
-      context "GIVEN no Time range" do
+      given "no Time range" do
         subject { unit_class.new }
 
         let(:now) { Time.zone.local(2024, 9, 1, 12, 0, 0) }
@@ -21,7 +21,7 @@ class Game::EngagementTallyTest < ActiveSupport::TestCase
         end
       end
 
-      context "GIVEN a Time range" do
+      given "a Time range" do
         let(:start_time) { Time.zone.local(2024, 9, 1, 12, 0, 0) }
 
         subject { unit_class.new(start_time..) }
@@ -35,7 +35,7 @@ class Game::EngagementTallyTest < ActiveSupport::TestCase
     end
 
     describe "#end_time" do
-      context "GIVEN no Time range" do
+      given "no Time range" do
         subject { unit_class.new }
 
         let(:now) { Time.zone.local(2024, 9, 1, 12, 0, 0) }
@@ -47,7 +47,7 @@ class Game::EngagementTallyTest < ActiveSupport::TestCase
         end
       end
 
-      context "GIVEN a Time range" do
+      given "a Time range" do
         let(:end_time) { Time.zone.local(2024, 9, 1, 12, 0, 0) }
 
         subject { unit_class.new(..end_time) }
@@ -97,7 +97,7 @@ class Game::EngagementTallyTest < ActiveSupport::TestCase
     end
   end
 
-  context "GIVEN a narrow `between` Time range argument" do
+  given "a narrow `between` Time range argument" do
     subject { unit_class.new(15.seconds.ago..) }
 
     describe "#to_h" do

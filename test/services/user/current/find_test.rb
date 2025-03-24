@@ -8,13 +8,13 @@ class User::Current::FindTest < ActiveSupport::TestCase
   let(:user1) { users(:user1) }
 
   describe "#call" do
-    context "GIVEN a stored User Token" do
+    given "a stored User Token" do
       subject {
         unit_class.new(
           context: ContextDouble.new(User::Current::COOKIE => user_token))
       }
 
-      context "GIVEN a User exists for the User Token" do
+      given "a User exists for the User Token" do
         let(:user_token) { user1.id }
 
         it "returns the expected User" do
@@ -22,7 +22,7 @@ class User::Current::FindTest < ActiveSupport::TestCase
         end
       end
 
-      context "GIVEN no User exists for the User Token" do
+      given "no User exists for the User Token" do
         let(:user_token) { "UNKNOWN_USER_TOKEN" }
 
         it "builds a new Guest, and returns it" do
@@ -32,7 +32,7 @@ class User::Current::FindTest < ActiveSupport::TestCase
     end
   end
 
-  context "GIVEN no stored User Token" do
+  given "no stored User Token" do
     subject { unit_class.new(context: ContextDouble.new) }
 
     it "builds a new Guest, and returns it" do

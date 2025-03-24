@@ -57,7 +57,7 @@ class WrapMethodBehaviorsTest < ActiveSupport::TestCase
       end
     end
 
-    context "GIVEN a non-flat Array" do
+    given "a non-flat Array" do
       let(:objects) { [object1, [object2]] }
 
       it "flattens the Array and calls #new on each object" do
@@ -96,7 +96,7 @@ class WrapMethodBehaviorsTest < ActiveSupport::TestCase
   describe ".wrap_upto" do
     subject { unit_class1 }
 
-    context "GIVEN limit < objects.size" do
+    given "limit < objects.size" do
       let(:limit) { 1 }
 
       it "wraps and returns the objects, up to limit" do
@@ -111,7 +111,7 @@ class WrapMethodBehaviorsTest < ActiveSupport::TestCase
       end
     end
 
-    context "GIVEN limit > objects.size" do
+    given "limit > objects.size" do
       let(:limit) { 3 }
 
       it "wraps/returns the objects, filled with `nil`s up to the limit" do
@@ -121,7 +121,7 @@ class WrapMethodBehaviorsTest < ActiveSupport::TestCase
         _(wrapped_objects[limit.pred]).must_be_nil
       end
 
-      context "GIVEN a fill object" do
+      given "a fill object" do
         it "wraps/returns the objects, filled with the given fill object, "\
            "up to the limit" do
           wrapped_objects =
@@ -133,7 +133,7 @@ class WrapMethodBehaviorsTest < ActiveSupport::TestCase
         end
       end
 
-      context "GIVEN a non-flat Array" do
+      given "a non-flat Array" do
         let(:objects) { [object1, [object2]] }
 
         it "wraps/returns the objects, filled with `nil`s up to the limit" do

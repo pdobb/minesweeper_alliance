@@ -8,7 +8,7 @@ class Application::FlashTest < ActiveSupport::TestCase
   let(:flash_hash) { ActionDispatch::Flash::FlashHash.new }
 
   describe "#notifications" do
-    context "GIVEN an unknown type" do
+    given "an unknown type" do
       subject {
         flash_hash.now[:unknown] = "Unknown Type Test notice."
         unit_class.new(flash_hash)
@@ -20,7 +20,7 @@ class Application::FlashTest < ActiveSupport::TestCase
       end
     end
 
-    context "GIVEN a single, simple flash notification" do
+    given "a single, simple flash notification" do
       subject {
         flash_hash.now[:notice] = "Test notice."
         unit_class.new(flash_hash)
@@ -34,7 +34,7 @@ class Application::FlashTest < ActiveSupport::TestCase
       end
     end
 
-    context "GIVEN multiple, simple flash notification" do
+    given "multiple, simple flash notification" do
       subject {
         flash_hash.now[:notice] = ["Test notice 1.", "Test notice 2."]
         unit_class.new(flash_hash)
@@ -48,7 +48,7 @@ class Application::FlashTest < ActiveSupport::TestCase
       end
     end
 
-    context "GIVEN multiple, complex flash notification" do
+    given "multiple, complex flash notification" do
       subject {
         flash_hash.now[:notice] = [
           { text: "Test notice 1.", timeout: 3 },
@@ -83,7 +83,7 @@ class Application::FlashTest < ActiveSupport::TestCase
     }
 
     describe "#container_css" do
-      context "GIVEN type = :notice" do
+      given "type = :notice" do
         subject { notice_notification1 }
 
         it "returns the expected String" do
@@ -91,7 +91,7 @@ class Application::FlashTest < ActiveSupport::TestCase
         end
       end
 
-      context "GIVEN type = :alert" do
+      given "type = :alert" do
         subject { alert_notification1 }
 
         it "returns the expected String" do
@@ -99,7 +99,7 @@ class Application::FlashTest < ActiveSupport::TestCase
         end
       end
 
-      context "GIVEN type = :info" do
+      given "type = :info" do
         subject { info_notification1 }
 
         it "returns the expected String" do
@@ -107,7 +107,7 @@ class Application::FlashTest < ActiveSupport::TestCase
         end
       end
 
-      context "GIVEN type = :warning" do
+      given "type = :warning" do
         subject { warning_notification1 }
 
         it "returns the expected String" do
@@ -117,7 +117,7 @@ class Application::FlashTest < ActiveSupport::TestCase
     end
 
     describe "#button_css" do
-      context "GIVEN type = :notice" do
+      given "type = :notice" do
         subject { notice_notification1 }
 
         it "returns the expected String" do
@@ -125,7 +125,7 @@ class Application::FlashTest < ActiveSupport::TestCase
         end
       end
 
-      context "GIVEN type = :alert" do
+      given "type = :alert" do
         subject { alert_notification1 }
 
         it "returns the expected String" do
@@ -133,7 +133,7 @@ class Application::FlashTest < ActiveSupport::TestCase
         end
       end
 
-      context "GIVEN type = :info" do
+      given "type = :info" do
         subject { info_notification1 }
 
         it "returns the expected String" do
@@ -141,7 +141,7 @@ class Application::FlashTest < ActiveSupport::TestCase
         end
       end
 
-      context "GIVEN type = :warning" do
+      given "type = :warning" do
         subject { warning_notification1 }
 
         it "returns the expected String" do
@@ -151,7 +151,7 @@ class Application::FlashTest < ActiveSupport::TestCase
     end
 
     describe "#timeout_in_milliseconds" do
-      context "GIVEN no timeout value (using defaults)" do
+      given "no timeout value (using defaults)" do
         subject { notice_notification1 }
 
         it "returns the expected Integer" do
@@ -159,7 +159,7 @@ class Application::FlashTest < ActiveSupport::TestCase
         end
       end
 
-      context "GIVEN a timeout value" do
+      given "a timeout value" do
         subject {
           unit_class.new(
             type: :notice,
@@ -171,7 +171,7 @@ class Application::FlashTest < ActiveSupport::TestCase
         end
       end
 
-      context "GIVEN a falsy timeout value" do
+      given "a falsy timeout value" do
         subject {
           unit_class.new(
             type: :notice,
@@ -187,7 +187,7 @@ class Application::FlashTest < ActiveSupport::TestCase
     end
 
     describe "#timeout?" do
-      context "GIVEN no timeout value (using defaults)" do
+      given "no timeout value (using defaults)" do
         subject { notice_notification1 }
 
         it "returns true" do
@@ -195,7 +195,7 @@ class Application::FlashTest < ActiveSupport::TestCase
         end
       end
 
-      context "GIVEN a timeout value" do
+      given "a timeout value" do
         subject {
           unit_class.new(
             type: :notice,
@@ -209,7 +209,7 @@ class Application::FlashTest < ActiveSupport::TestCase
         end
       end
 
-      context "GIVEN a falsy timeout value" do
+      given "a falsy timeout value" do
         subject {
           unit_class.new(
             type: :notice,

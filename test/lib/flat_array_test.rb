@@ -14,7 +14,7 @@ class FlatArrayTest < ActiveSupport::TestCase
       _(result.to_a).must_equal([])
     end
 
-    context "GIVEN items" do
+    given "items" do
       it "builds a new FlatArray out of them items" do
         result = subject.new(1, [2, 3])
         _(result).must_be_instance_of(unit_class)
@@ -42,7 +42,7 @@ class FlatArrayTest < ActiveSupport::TestCase
       _(subject.to_a).must_equal(%w[TEST1 TEST2 TEST3])
     end
 
-    context "GIVEN an Array of Arrays" do
+    given "an Array of Arrays" do
       it "flat pushes items on" do
         subject << "TEST1"
         subject << ["TEST2", %w[TEST3 TEST4]]
@@ -66,7 +66,7 @@ class FlatArrayTest < ActiveSupport::TestCase
       _(subject.to_a).must_equal(%w[TEST1 TEST2 TEST3 TEST4 TEST5])
     end
 
-    context "GIVEN an Array of Arrays" do
+    given "an Array of Arrays" do
       it "flat pushes items on" do
         subject.push("TEST1")
         subject.push(["TEST2", %w[TEST3 TEST4]])
@@ -90,7 +90,7 @@ class FlatArrayTest < ActiveSupport::TestCase
       _(subject.to_a).must_equal(%w[TEST1 TEST2 TEST3])
     end
 
-    context "GIVEN an Array of Arrays" do
+    given "an Array of Arrays" do
       it "flat concatenates items on" do
         subject.concat("TEST1")
         subject.concat(["TEST2", %w[TEST3 TEST4]])

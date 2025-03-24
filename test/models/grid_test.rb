@@ -9,7 +9,7 @@ class GridTest < ActiveSupport::TestCase
   let(:coordinates1) { Coordinates[9, 9] }
 
   describe "#cells" do
-    context "GIVEN a Cell" do
+    given "a Cell" do
       subject { unit_class.new(coordinates1) }
 
       it "returns the expected Array" do
@@ -17,7 +17,7 @@ class GridTest < ActiveSupport::TestCase
       end
     end
 
-    context "GIVEN an Array of Cells" do
+    given "an Array of Cells" do
       subject { unit_class.new(cells_array1) }
 
       it "returns the expected Array" do
@@ -43,7 +43,7 @@ class GridTest < ActiveSupport::TestCase
   end
 
   describe "#to_h" do
-    context "GIVEN Cell#y is not nil" do
+    given "Cell#y is not nil" do
       subject { unit_class.new([coordinates1]) }
 
       it "returns the expected Hash" do
@@ -51,7 +51,7 @@ class GridTest < ActiveSupport::TestCase
       end
     end
 
-    context "GIVEN Cell#y is nil" do
+    given "Cell#y is nil" do
       subject { unit_class.new([Coordinates[nil, nil]]) }
 
       it "returns the expected Hash" do

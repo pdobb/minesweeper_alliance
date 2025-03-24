@@ -16,7 +16,7 @@ class Board::PlaceMinesTest < ActiveSupport::TestCase
   let(:custom_settings1) { Board::Settings[4, 4, 1] }
 
   describe "#call" do
-    context "GIVEN Board#new_record? = true" do
+    given "Board#new_record? = true" do
       subject {
         unit_class.new(
           board: new_board1,
@@ -32,8 +32,8 @@ class Board::PlaceMinesTest < ActiveSupport::TestCase
       end
     end
 
-    context "GIVEN Board#new_record? = false" do
-      context "GIVEN mines have already been placed" do
+    given "Board#new_record? = false" do
+      given "mines have already been placed" do
         subject {
           unit_class.new(
             board: win1_board,
@@ -48,7 +48,7 @@ class Board::PlaceMinesTest < ActiveSupport::TestCase
         end
       end
 
-      context "GIVEN mines have not yet been placed" do
+      given "mines have not yet been placed" do
         subject {
           unit_class.new(
             board: standing_by1_board,
@@ -56,7 +56,7 @@ class Board::PlaceMinesTest < ActiveSupport::TestCase
             seed_cell: seed_cell1)
         }
 
-        context "GIVEN no mine/seed_cell collision" do
+        given "no mine/seed_cell collision" do
           let(:seed_cell1) { standing_by1_board_cell4 }
 
           context "Given an Array of Coordinates" do
@@ -74,7 +74,7 @@ class Board::PlaceMinesTest < ActiveSupport::TestCase
             end
           end
 
-          context "GIVEN an actual CoordinatesArray" do
+          given "an actual CoordinatesArray" do
             let(:coordinates_array1) {
               CoordinatesArray.new([Coordinates[0, 0], Coordinates[2, 2]])
             }
@@ -90,7 +90,7 @@ class Board::PlaceMinesTest < ActiveSupport::TestCase
           end
         end
 
-        context "GIVEN a mine/seed_cell collision" do
+        given "a mine/seed_cell collision" do
           let(:seed_cell1) { standing_by1_board_cell9 }
           let(:coordinates_array1) { [Coordinates[0, 0], Coordinates[2, 2]] }
 

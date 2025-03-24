@@ -35,7 +35,7 @@ class FleetTrackerTest < ActiveSupport::TestCase
   let(:deep_expiration_minutes) { 3.minutes }
 
   describe ".registry" do
-    context "GIVEN a cache miss" do
+    given "a cache miss" do
       subject { empty1 }
 
       it "returns an empty Array" do
@@ -43,7 +43,7 @@ class FleetTrackerTest < ActiveSupport::TestCase
       end
     end
 
-    context "GIVEN a cache hit" do
+    given "a cache hit" do
       subject { single_player_registry1 }
 
       it "returns the expected collection" do
@@ -55,7 +55,7 @@ class FleetTrackerTest < ActiveSupport::TestCase
   end
 
   describe ".size" do
-    context "GIVEN a cache miss" do
+    given "a cache miss" do
       subject { empty1 }
 
       it "returns 0" do
@@ -63,8 +63,8 @@ class FleetTrackerTest < ActiveSupport::TestCase
       end
     end
 
-    context "GIVEN a cache hit" do
-      context "GIVEN a single registry entry" do
+    given "a cache hit" do
+      given "a single registry entry" do
         subject { single_player_registry1 }
 
         it "returns the expected Integer" do
@@ -72,7 +72,7 @@ class FleetTrackerTest < ActiveSupport::TestCase
         end
       end
 
-      context "GIVEN multiple registry entries" do
+      given "multiple registry entries" do
         subject { two_player_registry1 }
 
         it "returns the expected Integer" do
@@ -83,7 +83,7 @@ class FleetTrackerTest < ActiveSupport::TestCase
   end
 
   describe ".add" do
-    context "GIVEN a cache miss" do
+    given "a cache miss" do
       subject { empty1 }
 
       it "adds a new entry for the given token" do
@@ -95,8 +95,8 @@ class FleetTrackerTest < ActiveSupport::TestCase
       end
     end
 
-    context "GIVEN a cache hit" do
-      context "GIVEN a repeat token" do
+    given "a cache hit" do
+      given "a repeat token" do
         subject { single_player_registry1 }
 
         it "doesn't add a new entry for the given token" do
@@ -105,7 +105,7 @@ class FleetTrackerTest < ActiveSupport::TestCase
         end
       end
 
-      context "GIVEN a new registry entry" do
+      given "a new registry entry" do
         subject { single_player_registry1 }
 
         it "adds a new token" do
@@ -138,7 +138,7 @@ class FleetTrackerTest < ActiveSupport::TestCase
   end
 
   describe ".activate" do
-    context "GIVEN a new token" do
+    given "a new token" do
       let(:new_token1) { "NEW_TOKEN1" }
 
       subject { empty1 }
@@ -151,7 +151,7 @@ class FleetTrackerTest < ActiveSupport::TestCase
       end
     end
 
-    context "GIVEN an existing token" do
+    given "an existing token" do
       subject { single_player_registry1 }
 
       it "activates the entry for the given token" do
@@ -179,7 +179,7 @@ class FleetTrackerTest < ActiveSupport::TestCase
 
     subject { single_player_registry1 }
 
-    context "GIVEN an inactive entry" do
+    given "an inactive entry" do
       it "broadcasts the expected update" do
         subject.activate!(user1_token)
         _(@broadcast_update_call.kargs).must_equal(
@@ -189,7 +189,7 @@ class FleetTrackerTest < ActiveSupport::TestCase
       end
     end
 
-    context "GIVEN an active entry" do
+    given "an active entry" do
       before do
         subject.activate(user1_token)
       end
@@ -204,7 +204,7 @@ class FleetTrackerTest < ActiveSupport::TestCase
   end
 
   describe ".expire" do
-    context "GIVEN no entries" do
+    given "no entries" do
       subject { empty1 }
 
       it "returns the expected collection" do
@@ -213,8 +213,8 @@ class FleetTrackerTest < ActiveSupport::TestCase
       end
     end
 
-    context "GIVEN a cache hit" do
-      context "GIVEN a single registry entry" do
+    given "a cache hit" do
+      given "a single registry entry" do
         subject { single_player_registry1 }
 
         it "expires the entry" do
@@ -230,7 +230,7 @@ class FleetTrackerTest < ActiveSupport::TestCase
         end
       end
 
-      context "GIVEN multiple registry entries" do
+      given "multiple registry entries" do
         subject { two_player_registry1 }
 
         it "expires the expected entry" do
@@ -248,7 +248,7 @@ class FleetTrackerTest < ActiveSupport::TestCase
       end
     end
 
-    context "GIVEN #add is called again within the expiration period" do
+    given "#add is called again within the expiration period" do
       subject { single_player_registry1 }
 
       it "resets the expiration timer" do
@@ -285,7 +285,7 @@ class FleetTrackerTest < ActiveSupport::TestCase
   end
 
   describe ".purge_deeply_expired_entries" do
-    context "GIVEN no entries present" do
+    given "no entries present" do
       subject { empty1 }
 
       it "returns an empty Array" do
@@ -294,7 +294,7 @@ class FleetTrackerTest < ActiveSupport::TestCase
       end
     end
 
-    context "GIVEN no expired entries present" do
+    given "no expired entries present" do
       before do
         subject.expire(user1_token)
         travel_to(
@@ -309,7 +309,7 @@ class FleetTrackerTest < ActiveSupport::TestCase
       end
     end
 
-    context "GIVEN a deeply expired entry is present" do
+    given "a deeply expired entry is present" do
       before do
         subject.expire(user1_token)
         travel_to((expiration_seconds + deep_expiration_minutes).from_now)

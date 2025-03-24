@@ -9,7 +9,7 @@ class CoordinatesTest < ActiveSupport::TestCase
     # rubocop:disable Layout/ExtraSpacing
     # rubocop:disable Layout/MultilineArrayLineBreaks
     # rubocop:disable Style/TrailingCommaInArrayLiteral
-    context "GIVEN an upper-left Coordinates" do
+    given "an upper-left Coordinates" do
       subject { unit_class[0, 0] }
 
       it "returns the expected Array" do
@@ -21,7 +21,7 @@ class CoordinatesTest < ActiveSupport::TestCase
       end
     end
 
-    context "GIVEN a middle Coordinates" do
+    given "a middle Coordinates" do
       subject { unit_class[1, 1] }
 
       it "returns the expected Array" do
@@ -33,7 +33,7 @@ class CoordinatesTest < ActiveSupport::TestCase
       end
     end
 
-    context "GIVEN a lower-right Coordinates" do
+    given "a lower-right Coordinates" do
       subject { unit_class[2, 2] }
 
       it "returns the expected Array" do
@@ -59,7 +59,7 @@ class CoordinatesTest < ActiveSupport::TestCase
         [unit_class[0, 1], unit_class[1, 1], unit_class[0, 2]])
     end
 
-    context "GIVEN a non-Coordinates comparison object" do
+    given "a non-Coordinates comparison object" do
       subject { unit_class[0, 0] }
 
       it "raises TypeError" do

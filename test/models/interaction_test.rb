@@ -9,7 +9,7 @@ class InteractionTest < ActiveSupport::TestCase
 
   describe "#validate" do
     describe "#name" do
-      context "GIVEN #name == nil" do
+      given "#name == nil" do
         subject { unit_class.new }
 
         it "fails validation" do
@@ -18,8 +18,8 @@ class InteractionTest < ActiveSupport::TestCase
         end
       end
 
-      context "GIVEN #name != nil" do
-        context "GIVEN #name is unique" do
+      given "#name != nil" do
+        given "#name is unique" do
           subject { unit_class.new(name: "UNIQUE NAME") }
 
           it "passes validation" do
@@ -28,7 +28,7 @@ class InteractionTest < ActiveSupport::TestCase
           end
         end
 
-        context "GIVEN #name is not unique" do
+        given "#name is not unique" do
           subject { unit_class.new(name: interaction1.name) }
 
           it "fails validation" do
@@ -42,7 +42,7 @@ class InteractionTest < ActiveSupport::TestCase
     describe "#count" do
       subject { unit_class.new(count: count1) }
 
-      context "GIVEN a valid #count" do
+      given "a valid #count" do
         let(:count1) { 1 }
 
         it "passes validation" do
@@ -51,7 +51,7 @@ class InteractionTest < ActiveSupport::TestCase
         end
       end
 
-      context "GIVEN a non-numeric #count" do
+      given "a non-numeric #count" do
         let(:count1) { "IVNALID" }
 
         it "fails validation" do
@@ -60,7 +60,7 @@ class InteractionTest < ActiveSupport::TestCase
         end
       end
 
-      context "GIVEN an invalid Integer #count" do
+      given "an invalid Integer #count" do
         let(:count1) { -1 }
 
         it "fails validation" do

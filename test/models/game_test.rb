@@ -20,7 +20,7 @@ class GameTest < ActiveSupport::TestCase
     subject { unit_class }
 
     describe ".create_for" do
-      context "GIVEN a current Game already exists" do
+      given "a current Game already exists" do
         it "raises ActiveRecord::RecordNotUnique" do
           _(-> {
             subject.create_for(settings: custom_settings1)
@@ -28,7 +28,7 @@ class GameTest < ActiveSupport::TestCase
         end
       end
 
-      context "GIVEN no current Game" do
+      given "no current Game" do
         before { standing_by1.delete }
 
         it "returns a persisted Game with the expected attributes" do
@@ -41,8 +41,8 @@ class GameTest < ActiveSupport::TestCase
           _(result.board.cells.sample).must_be_instance_of(Cell)
         end
 
-        context "GIVEN an unexpected failure between Game/Board Save and "\
-                "Cells insertion" do
+        given "an unexpected failure between Game/Board Save and "\
+              "Cells insertion" do
           before do
             MuchStub.(Board::Generate, :new) {
               raise(ErrorDouble, "Simulated Error for Test Example")
@@ -77,7 +77,7 @@ class GameTest < ActiveSupport::TestCase
         unit_class.instance_variable_set(:@display_id_width, nil)
       end
 
-      context "GIVEN largest_id < 4 digits" do
+      given "largest_id < 4 digits" do
         before do
           MuchStub.(subject, :largest_id) { 1 }
         end
@@ -87,7 +87,7 @@ class GameTest < ActiveSupport::TestCase
         end
       end
 
-      context "GIVEN largest_id > 4 digits" do
+      given "largest_id > 4 digits" do
         before do
           MuchStub.(subject, :largest_id) { 12_345 }
         end
@@ -103,7 +103,7 @@ class GameTest < ActiveSupport::TestCase
     describe "#type" do
       subject { unit_class.new(type: type1) }
 
-      context "GIVEN valid, unique #type" do
+      given "valid, unique #type" do
         let(:type1) { unit_class::ALL_TYPES.sample }
 
         it "passes validation" do
@@ -112,7 +112,7 @@ class GameTest < ActiveSupport::TestCase
         end
       end
 
-      context "GIVEN no #type" do
+      given "no #type" do
         let(:type1) { nil }
 
         it "fails validation" do
@@ -138,7 +138,7 @@ class GameTest < ActiveSupport::TestCase
   end
 
   describe "#type" do
-    context "GIVEN a standard Difficulty Level" do
+    given "a standard Difficulty Level" do
       subject {
         unit_class.build_for(settings: preset_settings1)
       }
@@ -148,7 +148,7 @@ class GameTest < ActiveSupport::TestCase
       end
     end
 
-    context "GIVEN a custom Difficulty Level" do
+    given "a custom Difficulty Level" do
       subject {
         unit_class.build_for(settings: custom_settings1)
       }
@@ -166,7 +166,7 @@ class GameTest < ActiveSupport::TestCase
       }
     end
 
-    context "GIVEN Game#status_standing_by? = true" do
+    given "Game#status_standing_by? = true" do
       subject { standing_by1 }
 
       it "orchestrates the expected updates and returns the Game" do
@@ -186,7 +186,7 @@ class GameTest < ActiveSupport::TestCase
       end
     end
 
-    context "GIVEN Game#status_standing_by? = false" do
+    given "Game#status_standing_by? = false" do
       subject { win1 }
 
       it "returns the Game without orchestrating any changes" do
@@ -204,7 +204,7 @@ class GameTest < ActiveSupport::TestCase
   end
 
   describe "#end_in_victory" do
-    context "GIVEN a Game that's still on" do
+    given "a Game that's still on" do
       subject { standing_by1.start(seed_cell: nil, user: user1) }
 
       it "updates Game#ended_at" do
@@ -229,7 +229,7 @@ class GameTest < ActiveSupport::TestCase
       end
     end
 
-    context "GIVEN a Game that's already over" do
+    given "a Game that's already over" do
       before do
         MuchStub.on_call(subject, :touch) { |call|
           @touch_call = call
@@ -247,7 +247,7 @@ class GameTest < ActiveSupport::TestCase
   end
 
   describe "#end_in_defeat" do
-    context "GIVEN a Game that's still on" do
+    given "a Game that's still on" do
       subject { standing_by1.start(seed_cell: nil, user: user1) }
 
       it "updates Game#ended_at" do
@@ -272,7 +272,7 @@ class GameTest < ActiveSupport::TestCase
       end
     end
 
-    context "GIVEN a Game that's already over" do
+    given "a Game that's already over" do
       before do
         MuchStub.on_call(subject, :touch) { |call|
           @touch_call = call
@@ -316,7 +316,7 @@ class GameTest < ActiveSupport::TestCase
   end
 
   describe "#on?" do
-    context "GIVEN Game#status_standing_by? = true" do
+    given "Game#status_standing_by? = true" do
       subject { new_game }
 
       it "returns true" do
@@ -324,7 +324,7 @@ class GameTest < ActiveSupport::TestCase
       end
     end
 
-    context "GIVEN Game#status_sweep_in_progress? = true" do
+    given "Game#status_sweep_in_progress? = true" do
       subject { new_game.set_status_sweep_in_progress }
 
       it "returns true" do
@@ -332,7 +332,7 @@ class GameTest < ActiveSupport::TestCase
       end
     end
 
-    context "GIVEN Game#status_alliance_wins? = true" do
+    given "Game#status_alliance_wins? = true" do
       subject { new_game.set_status_alliance_wins }
 
       it "returns false" do
@@ -340,7 +340,7 @@ class GameTest < ActiveSupport::TestCase
       end
     end
 
-    context "GIVEN Game#status_mines_win? = true" do
+    given "Game#status_mines_win? = true" do
       subject { new_game.set_status_mines_win }
 
       it "returns false" do
@@ -350,7 +350,7 @@ class GameTest < ActiveSupport::TestCase
   end
 
   describe "#over?" do
-    context "GIVEN Game#status_standing_by? = true" do
+    given "Game#status_standing_by? = true" do
       subject { new_game }
 
       it "returns false" do
@@ -358,7 +358,7 @@ class GameTest < ActiveSupport::TestCase
       end
     end
 
-    context "GIVEN Game#status_sweep_in_progress? = true" do
+    given "Game#status_sweep_in_progress? = true" do
       subject { new_game.set_status_sweep_in_progress }
 
       it "returns false" do
@@ -366,7 +366,7 @@ class GameTest < ActiveSupport::TestCase
       end
     end
 
-    context "GIVEN Game#status_alliance_wins? = true" do
+    given "Game#status_alliance_wins? = true" do
       subject { new_game.set_status_alliance_wins }
 
       it "returns true" do
@@ -374,7 +374,7 @@ class GameTest < ActiveSupport::TestCase
       end
     end
 
-    context "GIVEN Game#status_mines_win? = true" do
+    given "Game#status_mines_win? = true" do
       subject { new_game.set_status_mines_win }
 
       it "returns true" do
@@ -384,7 +384,7 @@ class GameTest < ActiveSupport::TestCase
   end
 
   describe "#just_ended?" do
-    context "GIVEN Game#ended_at = nil" do
+    given "Game#ended_at = nil" do
       subject { new_game }
 
       it "returns false" do
@@ -392,7 +392,7 @@ class GameTest < ActiveSupport::TestCase
       end
     end
 
-    context "GIVEN Game#ended_at was not just set" do
+    given "Game#ended_at was not just set" do
       subject { win1 }
 
       it "returns false" do
@@ -400,7 +400,7 @@ class GameTest < ActiveSupport::TestCase
       end
     end
 
-    context "GIVEN Game#ended_at was just set/saved" do
+    given "Game#ended_at was just set/saved" do
       subject {
         standing_by1.start(seed_cell: nil, user: user1)
         standing_by1.end_in_victory(user: user1)
@@ -413,7 +413,7 @@ class GameTest < ActiveSupport::TestCase
   end
 
   describe "#ended_in_victory?" do
-    context "GIVEN Game#status_alliance_wins? = true" do
+    given "Game#status_alliance_wins? = true" do
       subject { win1 }
 
       it "returns true" do
@@ -421,7 +421,7 @@ class GameTest < ActiveSupport::TestCase
       end
     end
 
-    context "GIVEN Game#status_alliance_wins? = false'" do
+    given "Game#status_alliance_wins? = false'" do
       subject { [loss1, standing_by1].sample }
 
       it "returns false" do
@@ -431,7 +431,7 @@ class GameTest < ActiveSupport::TestCase
   end
 
   describe "#ended_in_defeat?" do
-    context "GIVEN Game#status_mines_win? = true" do
+    given "Game#status_mines_win? = true" do
       subject { loss1 }
 
       it "returns true" do
@@ -439,7 +439,7 @@ class GameTest < ActiveSupport::TestCase
       end
     end
 
-    context "GIVEN Game#status_mines_win? = false" do
+    given "Game#status_mines_win? = false" do
       subject { [win1, standing_by1].sample }
 
       it "returns false" do
@@ -449,7 +449,7 @@ class GameTest < ActiveSupport::TestCase
   end
 
   describe "#engagement_time_range" do
-    context "GIVEN Game#on?" do
+    given "Game#on?" do
       subject { standing_by1 }
 
       it "returns the expected Time Range" do
@@ -458,7 +458,7 @@ class GameTest < ActiveSupport::TestCase
       end
     end
 
-    context "GIVEN Game#over?" do
+    given "Game#over?" do
       subject { win1 }
 
       it "returns the expected Time Range" do
@@ -469,7 +469,7 @@ class GameTest < ActiveSupport::TestCase
   end
 
   describe "#duration" do
-    context "GIVEN Game#on?" do
+    given "Game#on?" do
       subject { standing_by1.start(seed_cell: nil, user: user1) }
 
       it "returns nil" do
@@ -477,7 +477,7 @@ class GameTest < ActiveSupport::TestCase
       end
     end
 
-    context "GIVEN Game#over?" do
+    given "Game#over?" do
       subject { win1 }
 
       it "returns the expected Time range" do
@@ -489,7 +489,7 @@ class GameTest < ActiveSupport::TestCase
   describe "#ended_a_while_ago?" do
     let(:deep_expiration_minutes) { 3.minutes }
 
-    context "GIVEN Game#on?" do
+    given "Game#on?" do
       subject { standing_by1.start(seed_cell: nil, user: user1) }
 
       it "returns false" do
@@ -497,10 +497,10 @@ class GameTest < ActiveSupport::TestCase
       end
     end
 
-    context "GIVEN Game#over?" do
+    given "Game#over?" do
       subject { win1 }
 
-      context "GIVEN a recent Game#ended_at" do
+      given "a recent Game#ended_at" do
         it "returns true" do
           travel_to((deep_expiration_minutes - 1.second).from_now) do
             _(subject.ended_a_while_ago?).must_equal(true)
@@ -508,7 +508,7 @@ class GameTest < ActiveSupport::TestCase
         end
       end
 
-      context "GIVEN a distant Game#ended_at" do
+      given "a distant Game#ended_at" do
         it "returns true" do
           travel_to(deep_expiration_minutes.from_now) do
             _(subject.ended_a_while_ago?).must_equal(true)
@@ -519,7 +519,7 @@ class GameTest < ActiveSupport::TestCase
   end
 
   describe "#board_settings" do
-    context "GIVEN #board = nil" do
+    given "#board = nil" do
       subject { new_game }
 
       it "returns the expected Time Range" do
@@ -527,7 +527,7 @@ class GameTest < ActiveSupport::TestCase
       end
     end
 
-    context "GIVEN #board != nil" do
+    given "#board != nil" do
       subject { win1 }
 
       it "returns the expected Time Range" do
@@ -537,7 +537,7 @@ class GameTest < ActiveSupport::TestCase
   end
 
   describe "#bestable_type?" do
-    context "GIVEN a bestable type" do
+    given "a bestable type" do
       subject {
         unit_class.build_for(
           settings: [
@@ -552,7 +552,7 @@ class GameTest < ActiveSupport::TestCase
       end
     end
 
-    context "GIVEN a non-bestable type" do
+    given "a non-bestable type" do
       subject {
         unit_class.build_for(
           settings: [
@@ -568,7 +568,7 @@ class GameTest < ActiveSupport::TestCase
   end
 
   describe "#user_bests" do
-    context "GIVEN a bestable Game type" do
+    given "a bestable Game type" do
       subject {
         unit_class.build_for(
           settings: [
@@ -589,7 +589,7 @@ class GameTest < ActiveSupport::TestCase
       end
     end
 
-    context "GIVEN a non-bestable Game type" do
+    given "a non-bestable Game type" do
       subject { win1 }
 
       it "raises TypeError" do

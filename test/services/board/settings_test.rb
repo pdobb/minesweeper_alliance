@@ -9,7 +9,7 @@ class Board::SettingsTest < ActiveSupport::TestCase
     subject { unit_class }
 
     describe ".preset" do
-      context "GIVEN a valid type" do
+      given "a valid type" do
         let(:type1) { ["Beginner", "intermediate", :expert].sample }
 
         it "returns the expected instance" do
@@ -19,14 +19,14 @@ class Board::SettingsTest < ActiveSupport::TestCase
         end
       end
 
-      context "GIVEN an unknown type" do
+      given "an unknown type" do
         it "raises KeyError" do
           exception = _(-> { subject.preset("UNKNOWN") }).must_raise(KeyError)
           _(exception.message).must_equal('key not found: "Unknown"')
         end
       end
 
-      context "GIVEN type = nil" do
+      given "type = nil" do
         it "raises TypeError" do
           exception = _(-> { subject.preset(nil) }).must_raise(TypeError)
           _(exception.message).must_equal("type can't be blank")
@@ -57,7 +57,7 @@ class Board::SettingsTest < ActiveSupport::TestCase
     end
 
     describe ".random" do
-      context "GIVEN no Patterns" do
+      given "no Patterns" do
         before do
           Pattern.delete_all
         end
@@ -69,8 +69,8 @@ class Board::SettingsTest < ActiveSupport::TestCase
         end
       end
 
-      context "GIVEN Patterns exist" do
-        context "GIVEN PercentChange.call returns true" do
+      given "Patterns exist" do
+        given "PercentChange.call returns true" do
           before do
             MuchStub.(PercentChance, :call) { true }
           end
@@ -83,7 +83,7 @@ class Board::SettingsTest < ActiveSupport::TestCase
           end
         end
 
-        context "GIVEN PercentChange.call returns false" do
+        given "PercentChange.call returns false" do
           before do
             MuchStub.(PercentChance, :call) { false }
           end
@@ -101,7 +101,7 @@ class Board::SettingsTest < ActiveSupport::TestCase
 
   describe "#validate" do
     describe "#type" do
-      context "GIVEN a #type" do
+      given "a #type" do
         subject { unit_class.new(type: "Custom") }
 
         it "passes validation" do
@@ -110,7 +110,7 @@ class Board::SettingsTest < ActiveSupport::TestCase
         end
       end
 
-      context "GIVEN no #type" do
+      given "no #type" do
         subject { unit_class.new }
 
         it "fails validation" do
@@ -123,8 +123,8 @@ class Board::SettingsTest < ActiveSupport::TestCase
     describe "#name" do
       subject { unit_class.new(type: "Pattern", name: name1) }
 
-      context "GIVEN #type = Pattern" do
-        context "GIVEN a #name" do
+      given "#type = Pattern" do
+        given "a #name" do
           let(:name1) { "Test" }
 
           it "passes validation" do
@@ -133,7 +133,7 @@ class Board::SettingsTest < ActiveSupport::TestCase
           end
         end
 
-        context "GIVEN no #name" do
+        given "no #name" do
           let(:name1) { nil }
 
           it "fails validation" do
@@ -143,7 +143,7 @@ class Board::SettingsTest < ActiveSupport::TestCase
         end
       end
 
-      context "GIVEN #type != Pattern" do
+      given "#type != Pattern" do
         subject { unit_class.new }
 
         it "passes validation, GIVEN no #name" do
@@ -156,7 +156,7 @@ class Board::SettingsTest < ActiveSupport::TestCase
     describe "#width" do
       subject { unit_class[width1, 9, 4] }
 
-      context "GIVEN a valid #width" do
+      given "a valid #width" do
         let(:width1) { 9 }
 
         it "passes validation" do
@@ -165,7 +165,7 @@ class Board::SettingsTest < ActiveSupport::TestCase
         end
       end
 
-      context "GIVEN #width is not in the expected range" do
+      given "#width is not in the expected range" do
         let(:width1) { [2, 31].sample }
 
         it "fails validation" do
@@ -174,7 +174,7 @@ class Board::SettingsTest < ActiveSupport::TestCase
         end
       end
 
-      context "GIVEN #width is nil" do
+      given "#width is nil" do
         let(:width1) { nil }
 
         it "fails validation" do
@@ -187,7 +187,7 @@ class Board::SettingsTest < ActiveSupport::TestCase
     describe "#height" do
       subject { unit_class[9, height1, 4] }
 
-      context "GIVEN a valid #height" do
+      given "a valid #height" do
         let(:height1) { 9 }
 
         it "passes validation" do
@@ -196,7 +196,7 @@ class Board::SettingsTest < ActiveSupport::TestCase
         end
       end
 
-      context "GIVEN #height is not in the expected range" do
+      given "#height is not in the expected range" do
         let(:height1) { [2, 31].sample }
 
         it "fails validation" do
@@ -205,7 +205,7 @@ class Board::SettingsTest < ActiveSupport::TestCase
         end
       end
 
-      context "GIVEN #height is nil" do
+      given "#height is nil" do
         let(:height1) { nil }
 
         it "fails validation" do
@@ -218,7 +218,7 @@ class Board::SettingsTest < ActiveSupport::TestCase
     describe "#mines" do
       subject { unit_class[9, 9, mines1] }
 
-      context "GIVEN a valid #mines" do
+      given "a valid #mines" do
         let(:mines1) { 10 }
 
         it "passes validation" do
@@ -227,7 +227,7 @@ class Board::SettingsTest < ActiveSupport::TestCase
         end
       end
 
-      context "GIVEN #mines is not in expected range" do
+      given "#mines is not in expected range" do
         let(:mines1) { [3, 300].sample }
 
         it "fails validation" do
@@ -236,7 +236,7 @@ class Board::SettingsTest < ActiveSupport::TestCase
         end
       end
 
-      context "GIVEN #mines is nil" do
+      given "#mines is nil" do
         let(:mines1) { nil }
 
         it "fails validation" do
@@ -245,10 +245,10 @@ class Board::SettingsTest < ActiveSupport::TestCase
         end
       end
 
-      context "GIVEN other validation errors present" do
+      given "other validation errors present" do
         subject { unit_class[-1, 9, mines1] }
 
-        context "GIVEN too many #mines" do
+        given "too many #mines" do
           let(:mines1) { 99 }
 
           it "fails validation, but not due to density" do
@@ -258,7 +258,7 @@ class Board::SettingsTest < ActiveSupport::TestCase
           end
         end
 
-        context "GIVEN too few #mines" do
+        given "too few #mines" do
           let(:mines1) { 3 }
 
           it "fails validation, but not due to sparseness" do
@@ -269,10 +269,10 @@ class Board::SettingsTest < ActiveSupport::TestCase
         end
       end
 
-      context "GIVEN no other validation errors present" do
+      given "no other validation errors present" do
         subject { unit_class[9, 9, mines1] }
 
-        context "GIVEN too many #mines" do
+        given "too many #mines" do
           let(:mines1) { 99 }
 
           it "fails validation" do
@@ -282,7 +282,7 @@ class Board::SettingsTest < ActiveSupport::TestCase
           end
         end
 
-        context "GIVEN too few #mines" do
+        given "too few #mines" do
           let(:mines1) { 4 }
 
           it "fails validation" do
@@ -296,7 +296,7 @@ class Board::SettingsTest < ActiveSupport::TestCase
   end
 
   describe "#type" do
-    context "GIVEN a preset" do
+    given "a preset" do
       subject { unit_class.beginner }
 
       it "returns the expected String" do
@@ -304,7 +304,7 @@ class Board::SettingsTest < ActiveSupport::TestCase
       end
     end
 
-    context "GIVEN custom attributes" do
+    given "custom attributes" do
       subject { unit_class[6, 6, 9] }
 
       describe "#type" do
@@ -318,7 +318,7 @@ class Board::SettingsTest < ActiveSupport::TestCase
   describe "#name" do
     subject { unit_class.beginner }
 
-    context "GIVEN a preset" do
+    given "a preset" do
       subject { unit_class.beginner }
 
       it "returns nil" do
@@ -326,7 +326,7 @@ class Board::SettingsTest < ActiveSupport::TestCase
       end
     end
 
-    context "GIVEN a pattern" do
+    given "a pattern" do
       subject { unit_class.pattern("Test Pattern 1") }
 
       it "returns the expected String" do
@@ -362,7 +362,7 @@ class Board::SettingsTest < ActiveSupport::TestCase
   end
 
   describe "#custom?" do
-    context "GIVEN a preset" do
+    given "a preset" do
       subject { unit_class.beginner }
 
       it "returns false" do
@@ -370,7 +370,7 @@ class Board::SettingsTest < ActiveSupport::TestCase
       end
     end
 
-    context "GIVEN custom attributes" do
+    given "custom attributes" do
       subject { unit_class[6, 6, 9] }
 
       it "returns true" do
@@ -380,7 +380,7 @@ class Board::SettingsTest < ActiveSupport::TestCase
   end
 
   describe "#pattern?" do
-    context "GIVEN a preset" do
+    given "a preset" do
       subject { unit_class.beginner }
 
       it "returns false" do
@@ -388,7 +388,7 @@ class Board::SettingsTest < ActiveSupport::TestCase
       end
     end
 
-    context "GIVEN a pattern" do
+    given "a pattern" do
       subject { unit_class.pattern("Test Pattern 1") }
 
       it "returns true" do
@@ -398,7 +398,7 @@ class Board::SettingsTest < ActiveSupport::TestCase
   end
 
   describe "#to_s" do
-    context "GIVEN a preset" do
+    given "a preset" do
       subject { unit_class.beginner }
 
       it "returns the expected String" do
@@ -406,7 +406,7 @@ class Board::SettingsTest < ActiveSupport::TestCase
       end
     end
 
-    context "GIVEN custom attributes" do
+    given "custom attributes" do
       subject { unit_class[6, 6, 9] }
 
       it "returns the expected String" do
@@ -416,7 +416,7 @@ class Board::SettingsTest < ActiveSupport::TestCase
   end
 
   describe "#to_h" do
-    context "GIVEN a preset" do
+    given "a preset" do
       subject { unit_class.beginner }
 
       it "returns the expected Hash" do
@@ -425,7 +425,7 @@ class Board::SettingsTest < ActiveSupport::TestCase
       end
     end
 
-    context "GIVEN custom attributes" do
+    given "custom attributes" do
       subject { unit_class[6, 6, 9] }
 
       describe "#to_h" do

@@ -37,7 +37,7 @@ class ParticipantTransactionTest < ActiveSupport::TestCase
   describe ".create_between" do
     subject { unit_class }
 
-    context "GIVEN a new, unique User + Game pair" do
+    given "a new, unique User + Game pair" do
       it "creates the expected record, and returns it" do
         result =
           _(-> {
@@ -49,7 +49,7 @@ class ParticipantTransactionTest < ActiveSupport::TestCase
       end
     end
 
-    context "GIVEN an existing, non-unique User + Game pair" do
+    given "an existing, non-unique User + Game pair" do
       it "fails validation" do
         result =
           _(-> {
@@ -64,8 +64,8 @@ class ParticipantTransactionTest < ActiveSupport::TestCase
   describe ".activate_between" do
     subject { unit_class }
 
-    context "GIVEN an existing pair" do
-      context "GIVEN #active == false" do
+    given "an existing pair" do
+      given "#active == false" do
         it "sets #active = true" do
           freeze_time do
             _(-> {
@@ -89,7 +89,7 @@ class ParticipantTransactionTest < ActiveSupport::TestCase
         end
       end
 
-      context "GIVEN #active == true" do
+      given "#active == true" do
         it "doesn't update" do
           _(-> {
             subject.activate_between(user: user1, game: win1)
@@ -99,7 +99,7 @@ class ParticipantTransactionTest < ActiveSupport::TestCase
       end
     end
 
-    context "GIVEN a non-existent pair" do
+    given "a non-existent pair" do
       it "raises ActiveRecord::RecordNotFound" do
         _(-> { subject.activate_between(user: user2, game: win1) })
           .must_raise(ActiveRecord::RecordNotFound)
@@ -110,14 +110,14 @@ class ParticipantTransactionTest < ActiveSupport::TestCase
   describe ".find_between!" do
     subject { unit_class }
 
-    context "GIVEN an existing pair" do
+    given "an existing pair" do
       it "returns the expected record" do
         result = subject.find_between!(user: user1, game: win1)
         _(result).must_equal(win1_participant_transaction_user1)
       end
     end
 
-    context "GIVEN a non-existent pair" do
+    given "a non-existent pair" do
       it "raises ActiveRecord::RecordNotFound" do
         _(-> { subject.find_between!(user: user2, game: win1) }).must_raise(
           ActiveRecord::RecordNotFound)

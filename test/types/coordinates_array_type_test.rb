@@ -17,21 +17,21 @@ class CoordinatesArrayTypeTest < ActiveSupport::TestCase
   end
 
   describe "#cast" do
-    context "GIVEN a CoordinatesArray" do
+    given "a CoordinatesArray" do
       it "returns the expected value" do
         result = subject.cast(coordinates_array1)
         _(result).must_equal(coordinates_array1)
       end
     end
 
-    context "GIVEN a Array" do
+    given "a Array" do
       it "returns the expected value" do
         result = subject.cast([coordinates1])
         _(result).must_equal(coordinates_array1)
       end
     end
 
-    context "GIVEN a validly formatted String" do
+    given "a validly formatted String" do
       it "returns the expected value" do
         result =
           subject.cast(ActiveSupport::JSON.encode([coordinates1]))
@@ -39,14 +39,14 @@ class CoordinatesArrayTypeTest < ActiveSupport::TestCase
       end
     end
 
-    context "GIVEN an invalidly formatted String" do
+    given "an invalidly formatted String" do
       it "returns the expected value" do
         result = subject.cast("INVALID")
         _(result).must_equal([])
       end
     end
 
-    context "GIVEN an unexpected type" do
+    given "an unexpected type" do
       it "returns NullCoordinates" do
         result = subject.cast(Object.new)
         _(result).must_equal([])
@@ -55,14 +55,14 @@ class CoordinatesArrayTypeTest < ActiveSupport::TestCase
   end
 
   describe "#serialize" do
-    context "GIVEN a CoordinatesArray" do
+    given "a CoordinatesArray" do
       it "returns the CoordinatesArray, formatted as JSON" do
         result = subject.serialize(coordinates_array1)
         _(result).must_equal(ActiveSupport::JSON.encode([coordinates1]))
       end
     end
 
-    context "GIVEN nil" do
+    given "nil" do
       it "returns an empty JSON object" do
         result = subject.serialize(nil)
         _(result).must_equal("[]")
