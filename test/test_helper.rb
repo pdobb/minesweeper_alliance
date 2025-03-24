@@ -11,7 +11,7 @@ require "gemwork/test/support/much_stub-rails"
 require "gemwork/test/support/reporters"
 require "gemwork/test/support/spec_dsl"
 
-require "support/custom_assertions"
+require "support/assertions"
 require "support/validation_error"
 
 module ActiveSupport

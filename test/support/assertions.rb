@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
-# ActiveSupport::Testing::Assertions overrides.
+# This module adds additional functionality / overrides to
+# ActiveSupport::Testing::Assertions.
 #
 # @see https://github.com/rails/rails/blob/main/activesupport/lib/active_support/testing/assertions.rb
 module ActiveSupport::Testing::Assertions # rubocop:disable Metrics/ModuleLength
@@ -9,9 +10,7 @@ module ActiveSupport::Testing::Assertions # rubocop:disable Metrics/ModuleLength
   #
   # @example
   #   assert_matched_arrays(array1, array2)
-  #   value(array2).must_match_array(array1)
-  # TODO: this fails for arrays of arrays with the error:
-  # ArgumentError: comparison of Array with Array failed.
+  #   _(array2).must_match_array(array1)
   def assert_matched_arrays(array1, array2)
     assert_kind_of(Array, (array1 = array1.to_ary.sort))
     assert_kind_of(Array, (array2 = array2.to_ary.sort))
@@ -21,7 +20,7 @@ module ActiveSupport::Testing::Assertions # rubocop:disable Metrics/ModuleLength
   # Run multiple `assert_changes` assertions at once.
   #
   # Notes:
-  # - This code is highly borrowed from Rails 7.2's `assert_changes` method.
+  # - This code is highly borrowed from Rails 8's `assert_changes` method.
   # - The block will only be called once regardless of how many change sets
   #   are passed in. So this is also an optimization technique over using
   #   multiple `must_change` calls.
@@ -29,7 +28,7 @@ module ActiveSupport::Testing::Assertions # rubocop:disable Metrics/ModuleLength
   #   Rails version as possible.
   #
   # @example
-  #   value(-> {
+  #   _(-> {
   #     subject.validate
   #   }).must_change_all([
   #     ["subject.attribute1", from: nil, to: 9],
@@ -39,7 +38,7 @@ module ActiveSupport::Testing::Assertions # rubocop:disable Metrics/ModuleLength
   # @param change_sets [Array] the `expression`, `message` (Optional), and
   #   options hash that the core `assert_changes` method would normally receive.
   #
-  # @see https://github.com/rails/rails/blob/df4386a5d1e591e059116561b41fb2f59eb05f7e/activesupport/lib/active_support/testing/assertions.rb#L195
+  # @see https://github.com/rails/rails/blob/main/activesupport/lib/active_support/testing/assertions.rb#L207
   #
   # rubocop:disable all
   def assert_changes_to_all(change_sets, &block)
@@ -73,8 +72,9 @@ module ActiveSupport::Testing::Assertions # rubocop:disable Metrics/ModuleLength
       unless from == UNTRACKED
         rich_message = -> {
           code_string = __callable_to_source_string(expression)
-          error = "Expected #{code_string.inspect} to change "\
-                  "from #{from.inspect}, got #{before.inspect}"
+          error =
+            "Expected #{code_string.inspect} to change from #{from.inspect}, "\
+            "got #{before.inspect}"
           error = "#{message}.\n#{error}" if message
           error
         }
@@ -96,8 +96,9 @@ module ActiveSupport::Testing::Assertions # rubocop:disable Metrics/ModuleLength
       unless to == UNTRACKED
         rich_message = -> {
           code_string = __callable_to_source_string(expression)
-          error = "Expected #{code_string.inspect} to change "\
-                  "to #{to.inspect}, got #{after.inspect}"
+          error =
+            "Expected #{code_string.inspect} to change to #{to.inspect}, "\
+            "got #{after.inspect}"
           error = "#{message}.\n#{error}" if message
           error
         }
@@ -112,7 +113,7 @@ module ActiveSupport::Testing::Assertions # rubocop:disable Metrics/ModuleLength
   # Run multiple `assert_no_changes` assertions at once.
   #
   # Notes:
-  # - This code is highly borrowed from Rails 7.2's `assert_no_changes` method.
+  # - This code is highly borrowed from Rails 8's `assert_no_changes` method.
   # - The block will only be called once regardless of how many change sets
   #   are passed in. So this is also an optimization technique over using
   #   multiple `wont_change` calls.
@@ -120,7 +121,7 @@ module ActiveSupport::Testing::Assertions # rubocop:disable Metrics/ModuleLength
   #   Rails version as possible.
   #
   # @example
-  #   value(-> {
+  #   _(-> {
   #     subject.validate
   #   }).wont_change_all([
   #     ["subject.attribute1"],
@@ -130,7 +131,7 @@ module ActiveSupport::Testing::Assertions # rubocop:disable Metrics/ModuleLength
   # @param change_sets [Array<Array>] the `expression` and `message` (Optional)
   #   that the core `assert_no_changes` method would normally receive.
   #
-  # @see https://github.com/rails/rails/blob/df4386a5d1e591e059116561b41fb2f59eb05f7e/activesupport/lib/active_support/testing/assertions.rb#L252
+  # @see https://github.com/rails/rails/blob/main/activesupport/lib/active_support/testing/assertions.rb#L276
   #
   # rubocop:disable all
   def assert_no_changes_to_all(change_sets, &block)
@@ -163,8 +164,9 @@ module ActiveSupport::Testing::Assertions # rubocop:disable Metrics/ModuleLength
       unless from == UNTRACKED
         rich_message = -> {
           code_string = __callable_to_source_string(expression)
-          error = "Expected #{code_string.inspect} to have an initial value "\
-                  "of #{from.inspect}, got #{before.inspect}"
+          error =
+            "Expected #{code_string.inspect} to have an initial value "\
+            "of #{from.inspect}, got #{before.inspect}"
           error = "#{message}.\n#{error}" if message
           error
         }
@@ -197,7 +199,7 @@ module ActiveSupport::Testing::Assertions # rubocop:disable Metrics/ModuleLength
 
   # Extracted (and cleaned up) from the first line of Rails 8's `assert_changes`
   # and `assert_no_changes` methods.
-  # See: https://github.com/rails/rails/blob/df4386a5d1e591e059116561b41fb2f59eb05f7e/activesupport/lib/active_support/testing/assertions.rb#L196
+  # See: https://github.com/rails/rails/blob/main/activesupport/lib/active_support/testing/assertions.rb#L207
   def to_expression(value, &block)
     if value.respond_to?(:call)
       value
@@ -208,7 +210,7 @@ module ActiveSupport::Testing::Assertions # rubocop:disable Metrics/ModuleLength
 
   # This is an improvement on calling Rails 8's `_callable_to_source_string`
   # method.
-  # See: https://github.com/rails/rails/blob/df4386a5d1e591e059116561b41fb2f59eb05f7e/activesupport/lib/active_support/testing/assertions.rb#L301
+  # See: https://github.com/rails/rails/blob/main/activesupport/lib/active_support/testing/assertions.rb#L325
   def __callable_to_source_string(expression)
     if expression.respond_to?(:call)
       _callable_to_source_string(expression)
