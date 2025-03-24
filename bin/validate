@@ -1,0 +1,11 @@
+#!/bin/sh
+set -e
+
+echo "Validating code autoloading..."
+bin/rails zeitwerk:check
+
+echo "\nValidating app bootup..."
+bin/rails runner -e production_local '
+  Say.("Successfully booted app in #{Rails.env} env.")
+  exit
+'

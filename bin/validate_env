@@ -1,9 +1,0 @@
-#!/bin/sh
-set -e
-
-echo "Validating env..."
-bin/rails zeitwerk:check &&
-  bin/rails runner -e production_local '
-    Say.("Successfully booted app in #{Rails.env} env.")
-    exit
-  '

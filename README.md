@@ -70,7 +70,7 @@ bin/rails test
 rake test
 ```
 
-Or, run all checks at once. Currently: `test`, `rubocop`, `erb_lint`, `reek`, `eslint`, `prettier`, `brakeman`, and `validate_env`.
+Or, run all checks at once. Currently: `test`, `rubocop`, `erb_lint`, `reek`, `eslint`, `prettier`, `brakeman`, and `validate`.
 
 ```bash
 rake

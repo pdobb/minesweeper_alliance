@@ -24,6 +24,6 @@ task :default do
     eslint
     prettier
     brakeman
-    validate_env
+    validate
   ])
 end
