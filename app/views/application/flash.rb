@@ -1,12 +1,11 @@
 # frozen_string_literal: true
 
-# Application::Flash represents the Rails `flash` hash (collection)
-# (ActionDispatch::Flash::FlashHash). It exists mainly just to pull together an
-# Array of {Application::Flash::Notification} objects for display.
+# Application::Flash wraps Rails' flash hash (ActionDispatch::Flash::FlashHash)
+# to pull together an Array of {Application::Flash::Notification} objects--for
+# display in the view layout.
 #
-# Note: We only pay attention to {.notification_types} types. This way, the
-# ActionDispatch::Flash::FlashHash can still be used for other things as well,
-# as it is designed.
+# Note: We only wrap up flash has types from {.notification_types}. This way, we
+# can still use Rails' flash hash for other things as well.
 class Application::Flash
   def self.notification_types
     @notification_types ||= %w[alert notice info warning].freeze
@@ -14,25 +13,21 @@ class Application::Flash
 
   def self.turbo_target = "flash"
 
-  def initialize(collection)
-    @collection = collection
+  def initialize(flash_hashes)
+    @flash_hashes = flash_hashes
   end
 
   def turbo_target = self.class.turbo_target
 
   def notifications
-    collection.flat_map { |type, content|
+    flash_hashes.flat_map { |type, hashes|
       next unless type.in?(self.class.notification_types)
 
-      notifications_for(type:, content:)
+      Notification.wrap(hashes, type:)
     }.tap(&:compact!)
   end
 
   private
 
-  attr_reader :collection
-
-  def notifications_for(type:, content:)
-    Array.wrap(content).map { Notification.new(type:, content: it) }
-  end
+  attr_reader :flash_hashes
 end

@@ -8,9 +8,9 @@ class Application::Flash::Notification
   DEFAULT_TIMEOUT_IN_SECONDS = 10.seconds
 
   attr_reader :type,
-              :id,
               :content,
-              :timeout
+              :timeout,
+              :id
 
   def self.css_map
     # rubocop:disable Layout/MultilineArrayLineBreaks
@@ -67,6 +67,10 @@ class Application::Flash::Notification
     # rubocop:enable Layout/MultilineArrayLineBreaks
   end
 
+  def self.wrap(...)
+    KeywordWrap.new(self, as: :content).call(...)
+  end
+
   # @param type [Symbol]
   # @param content [String, Hash]
   #
@@ -90,13 +94,8 @@ class Application::Flash::Notification
     end
   end
 
-  def container_css
-    Array.wrap(css.fetch(:container))
-  end
-
-  def button_css
-    Array.wrap(css.fetch(:button))
-  end
+  def container_css = Array.wrap(css.fetch(:container))
+  def button_css = Array.wrap(css.fetch(:button))
 
   def timeout_in_milliseconds
     return unless timeout?
@@ -104,13 +103,9 @@ class Application::Flash::Notification
     timeout.to_i * 1_000
   end
 
-  def timeout?
-    timeout.present?
-  end
+  def timeout? = timeout.present?
 
   private
 
-  def css
-    self.class.css_map.fetch(type)
-  end
+  def css = self.class.css_map.fetch(type)
 end
