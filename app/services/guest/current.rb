@@ -9,7 +9,7 @@ class Guest::Current
   COOKIE = "guest_token"
   COOKIE_EXPIRATION_PERIOD = 2.weeks
 
-  include CallMethodBehaviors
+  def self.call(...) = new(...).call
 
   def initialize(context:) = @context = context
 

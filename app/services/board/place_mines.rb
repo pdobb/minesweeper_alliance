@@ -3,11 +3,11 @@
 # Board::PlaceMines is a Service Object that handles placing mines in {Cell}s at
 # the given {Coordinates}.
 class Board::PlaceMines
-  include CallMethodBehaviors
-
   # Board::PlaceMines::Error represents any StandardError related to
   # Board::PlaceMines processing.
   Error = Class.new(StandardError)
+
+  def self.call(...) = new(...).call
 
   def initialize(board:, coordinates_array:, seed_cell:)
     @board = board

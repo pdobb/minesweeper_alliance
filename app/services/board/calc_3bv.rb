@@ -11,10 +11,11 @@
 #
 # @see https://minesweepergame.com/statistics.php
 class Board::Calc3BV
-  include CallMethodBehaviors
   include ConsoleBehaviors
 
   attr_reader :grid
+
+  def self.call(...) = new(...).call
 
   def initialize(grid)
     @grid = grid

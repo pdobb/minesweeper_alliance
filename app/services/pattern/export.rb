@@ -8,10 +8,10 @@ class Pattern::Export
   DIMENSIONS_KEY = "Dimensions"
   META_DATA_LINES_COUNT = 2
 
-  include CallMethodBehaviors
-
   attr_reader :pattern,
               :path
+
+  def self.call(...) = new(...).call
 
   def initialize(pattern:)
     @pattern = pattern

@@ -2,7 +2,7 @@
 
 # User::Update is responsible for {User} attribute updates.
 class User::Update
-  include CallMethodBehaviors
+  def self.call(...) = new(...).call
 
   def initialize(user, attributes:)
     @user = user

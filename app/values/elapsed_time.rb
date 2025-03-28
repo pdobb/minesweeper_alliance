@@ -49,9 +49,9 @@ class ElapsedTime
     SECONDS_PER_HOUR = 1.hour.to_i
     SECONDS_PER_MINUTE = 1.minute.to_i
 
-    include CallMethodBehaviors
-
     attr_reader :total_seconds
+
+    def self.call(...) = new(...).call
 
     def initialize(total_seconds)
       @total_seconds = total_seconds

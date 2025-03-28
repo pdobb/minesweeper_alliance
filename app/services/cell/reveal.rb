@@ -13,7 +13,7 @@
 # - "Ending" the {Game} in victory if all safe {Cell}s on the {Board} have
 #   now/just been revealed.
 class Cell::Reveal
-  include CallMethodBehaviors
+  def self.call(...) = new(...).call
 
   def initialize(context:)
     @game = context.game

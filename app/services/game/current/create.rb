@@ -14,7 +14,7 @@
 # like resetting the {FleetTracker} and broadcasting notifications to other
 # players.
 class Game::Current::Create
-  include CallMethodBehaviors
+  def self.call(...) = new(...).call
 
   def initialize(settings:, context:, &after_create_block)
     @settings = settings
@@ -48,7 +48,7 @@ class Game::Current::Create
   # Game::Current::Create::BeforeCreate executes preparatory tasks before a new
   # "Current {Game}" is created.
   class BeforeCreate
-    include CallMethodBehaviors
+    def self.call(...) = new(...).call
 
     def initialize(context:)
       @context = context
@@ -74,7 +74,7 @@ class Game::Current::Create
   class AfterCreate
     TURBO_STREAM_DISCONNECT_AFFORDANCE_IN_SECONDS = 0.25.seconds
 
-    include CallMethodBehaviors
+    def self.call(...) = new(...).call
 
     def initialize(game:, &block)
       @game = game

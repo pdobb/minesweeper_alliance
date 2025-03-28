@@ -37,8 +37,9 @@ class Games::Current::Board::Cells::DispatchEffect
   # the collects / bundles together the Turbo Stream Actions produced by the
   # actual Cell Action being performed by the Controller.
   class Dispatch
-    include CallMethodBehaviors
     include Games::Current::Board::Cells::DispatchBehaviors
+
+    def self.call(...) = new(...).call
 
     # :reek:DuplicateMethodCall
     def initialize(turbo_stream_actions:, context:)

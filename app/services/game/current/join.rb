@@ -14,7 +14,7 @@
 # {Game}. Therefore, if the given user is actually a {Guest}, we just abort
 # early-- before creating a {ParticipantTransaction} record.
 class Game::Current::Join
-  include CallMethodBehaviors
+  def self.call(...) = new(...).call
 
   def initialize(user:, game:)
     @user = user

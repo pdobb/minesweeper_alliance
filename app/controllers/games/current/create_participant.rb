@@ -5,7 +5,7 @@
 # - Creates an active {ParticipantTransaction} between the new {User} and the
 #   passed-in {Game}
 class Games::Current::CreateParticipant
-  include CallMethodBehaviors
+  def self.call(...) = new(...).call
 
   def initialize(game:, context:)
     @game = game

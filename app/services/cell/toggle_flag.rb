@@ -5,7 +5,7 @@
 # - and then broadcasting the necessary CSS/content updates to the associated
 #   Cell object in the view.
 class Cell::ToggleFlag
-  include CallMethodBehaviors
+  def self.call(...) = new(...).call
 
   def initialize(context:)
     @game = context.game

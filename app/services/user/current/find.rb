@@ -6,7 +6,7 @@
 # Lookup is performed via the "User Token" stored in the cookie identified by
 # {User::Current::COOKIE}.
 class User::Current::Find
-  include CallMethodBehaviors
+  def self.call(...) = new(...).call
 
   def initialize(context:) = @context = context
 

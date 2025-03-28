@@ -3,7 +3,7 @@
 # Pattern::GenerateCells generates an in-memory array of "Cells"--used as a
 # virtual {Grid} for flagging {Coordinates}.
 class Pattern::GenerateCells
-  include CallMethodBehaviors
+  def self.call(...) = new(...).call
 
   def initialize(pattern:)
     @pattern = pattern

@@ -2,7 +2,7 @@
 
 # Games::Current::Board::Cells::DehighlightNeighbors
 class Games::Current::Board::Cells::DehighlightNeighbors
-  include CallMethodBehaviors
+  def self.call(...) = new(...).call
 
   def initialize(context:)
     @context = context

@@ -9,7 +9,7 @@ class Board::Generate
 
   ONE_MICROSECOND = 0.00001r
 
-  include CallMethodBehaviors
+  def self.call(...) = new(...).call
 
   def initialize(board:)
     raise(Error, "board can't be a new record") unless board.persisted?

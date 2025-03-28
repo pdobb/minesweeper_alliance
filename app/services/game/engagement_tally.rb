@@ -4,7 +4,7 @@
 # wins vs losses over a given time period. The period defaults to "today"
 # (start of day in Central Time, up until now).
 class Game::EngagementTally
-  include CallMethodBehaviors
+  def self.call(...) = new(...).call
 
   attr_reader :start_time,
               :end_time

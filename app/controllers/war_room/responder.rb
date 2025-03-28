@@ -5,7 +5,7 @@
 # 2. Responding with
 # ... the given `html` entries (Turbo Stream Templates).
 class WarRoom::Responder
-  include CallMethodBehaviors
+  def self.call(...) = new(...).call
 
   # @param trubo_stream_actions [TurboStreamActions]
   def initialize(turbo_stream_actions:, context:)

@@ -6,7 +6,7 @@
 class User::Update::Broadcast
   STREAM_NAME = Application::Layout.turbo_stream_name
 
-  include CallMethodBehaviors
+  def self.call(...) = new(...).call
 
   def initialize(user:, turbo_stream:)
     @user = user

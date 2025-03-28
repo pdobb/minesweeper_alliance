@@ -16,7 +16,7 @@
 class Log::Alert
   BELL_EMOJI = "🔔"
 
-  include CallMethodBehaviors
+  def self.call(...) = new(...).call
 
   def self.log_level = :info
 

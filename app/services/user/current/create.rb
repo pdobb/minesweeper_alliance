@@ -7,7 +7,7 @@
 # "permanently" stored into `cookies.signed[User::Current::COOKIE]` for future
 # lookup of the "Current {User}".
 class User::Current::Create
-  include CallMethodBehaviors
+  def self.call(...) = new(...).call
 
   def initialize(context:) = @context = context
 

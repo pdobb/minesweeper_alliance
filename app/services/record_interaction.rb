@@ -3,7 +3,7 @@
 # RecordInteraction coordinates with {Interaction} to record a count of
 # interactions with the named element, link, resource ...
 class RecordInteraction
-  include CallMethodBehaviors
+  def self.call(...) = new(...).call
 
   def self.record?(current_user:) = User::Type.non_dev?(current_user)
 

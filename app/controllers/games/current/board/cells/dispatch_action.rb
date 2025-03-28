@@ -81,8 +81,9 @@ class Games::Current::Board::Cells::DispatchAction
   # actual Cell Action being performed by the Controller based on the associated
   # {Game#status}.
   class Dispatch
-    include CallMethodBehaviors
     include Games::Current::Board::Cells::DispatchBehaviors
+
+    def self.call(...) = new(...).call
 
     # :reek:DuplicateMethodCall
     def initialize(turbo_stream_actions:, context:)

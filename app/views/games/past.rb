@@ -3,7 +3,7 @@
 # Games::Past is a View Model meant for servicing general
 # "Past Game"-based needs for other, more specific View Models.
 class Games::Past
-  include CallMethodBehaviors
+  def self.call(...) = new(...).call
 
   def initialize(game:)
     @game = game

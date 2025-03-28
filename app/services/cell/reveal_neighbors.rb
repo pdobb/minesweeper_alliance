@@ -22,7 +22,7 @@
 #
 # @see Cell::RecursiveReveal
 class Cell::RevealNeighbors
-  include CallMethodBehaviors
+  def self.call(...) = new(...).call
 
   def initialize(context:)
     @game = context.game

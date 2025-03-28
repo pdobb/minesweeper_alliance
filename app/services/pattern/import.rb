@@ -4,9 +4,9 @@ require "csv"
 
 # Pattern::Import is a Service Object for importing {Pattern}s from CSV.
 class Pattern::Import
-  include CallMethodBehaviors
-
   attr_reader :path
+
+  def self.call(...) = new(...).call
 
   def initialize(path:)
     @path = path
@@ -40,10 +40,10 @@ class Pattern::Import
   # CSV data processing for the given {#path} based on the given (expected)
   # {#header}.
   class ProcessCSV
-    include CallMethodBehaviors
-
     attr_reader :path,
                 :header
+
+    def self.call(...) = new(...).call
 
     def initialize(path:, header:)
       @path = path

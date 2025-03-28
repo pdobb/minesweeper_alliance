@@ -11,7 +11,7 @@ class Board::Settings::MineDensityValidator < ActiveModel::Validator
   # Board::Settings::MineDensityValidator::Validate performs the actual
   # Validation for {Board::Settings::MineDensityValidator}.
   class Validate
-    include CallMethodBehaviors
+    def self.call(...) = new(...).call
 
     def initialize(settings)
       @settings = settings

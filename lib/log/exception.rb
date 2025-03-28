@@ -14,7 +14,7 @@
 #   Log::Exception.(ex, message: "Oh, no! The thing happened!")
 #   Log::Exception.(ex, backtrace_cleaner: Rails.backtrace_cleaner)
 class Log::Exception
-  include CallMethodBehaviors
+  def self.call(...) = new(...).call
 
   def self.log_level = :error
 
@@ -73,7 +73,7 @@ class Log::Exception
   class Detail
     SEPARATOR = "\n - "
 
-    include CallMethodBehaviors
+    def self.call(...) = new(...).call
 
     def initialize(exception, backtrace_cleaner:)
       @exception = exception

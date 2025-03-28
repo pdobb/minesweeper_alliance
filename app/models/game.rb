@@ -374,7 +374,7 @@ class Game < ApplicationRecord # rubocop:disable Metrics/ClassLength
   # Game::CalcStats determines and updates the given {Game} object with relevant
   # statistical values (on {Game} end).
   class CalcStats
-    include CallMethodBehaviors
+    def self.call(...) = new(...).call
 
     def initialize(game)
       @game = game

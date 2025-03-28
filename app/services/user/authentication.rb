@@ -5,7 +5,7 @@
 # changing browsers--by making a bookmark of the "permanent link" that contains
 # their {User#authentication_token}.
 class User::Authentication
-  include CallMethodBehaviors
+  def self.call(...) = new(...).call
 
   def initialize(token:, context:)
     @token = token

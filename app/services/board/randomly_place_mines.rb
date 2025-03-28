@@ -3,11 +3,11 @@
 # Board::RandomlyPlaceMines is a Service Object that handles placing mines in
 # {Cell}s at random.
 class Board::RandomlyPlaceMines
-  include CallMethodBehaviors
-
   # Board::RandomlyPlaceMines::Error represents any StandardError related to
   # Board::RandomlyPlaceMines processing.
   Error = Class.new(StandardError)
+
+  def self.call(...) = new(...).call
 
   def initialize(board:, seed_cell:)
     @board = board

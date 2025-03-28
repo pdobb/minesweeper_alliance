@@ -77,9 +77,9 @@ class Games::Index::ListingsGroupsBuilder
   # on page 1, and then must be continued for the remaining games for that date
   # on page 2.
   class Games::Index::ListingsGroupsBuilder::Paginate
-    include CallMethodBehaviors
-
     attr_reader :cursor
+
+    def self.call(...) = new(...).call
 
     def initialize(base_arel, per_page:, cursor:)
       @base_arel = base_arel

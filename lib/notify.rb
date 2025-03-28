@@ -28,9 +28,10 @@
 #   Notify.(ex, reraise: true)
 #   Notify.(ex, logger: MyLogger.new)
 class Notify
-  include CallMethodBehaviors
   include ConfigurationBehaviors
   include ObjectInspector::InspectorsHelper
+
+  def self.call(...) = new(...).call
 
   def self.reraise? = !!configuration.reraise
   def self.external_services = configuration.external_services
@@ -99,7 +100,7 @@ class Notify
     #
     # @see https://app.honeybadger.io/projects
     class Honeybadger
-      include CallMethodBehaviors
+      def self.call(...) = new(...).call
 
       def initialize(exception, context:)
         @exception = exception

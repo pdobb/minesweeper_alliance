@@ -12,7 +12,7 @@
 # found or if a new record will need to be created. We rely on the database to
 # determine as it can change from sub-second to sub-second!
 class Game::Current
-  include CallMethodBehaviors
+  def self.call(...) = new(...).call
 
   def self.exists? = Game.for_game_on_statuses.exists?
 

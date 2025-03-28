@@ -4,7 +4,7 @@
 # partial's rendering options based on whether or not the passed-in
 # {User} participated in, or was just a spectator of, the passed-in{Game}.
 class Games::JustEnded::FooterPartialOptions
-  include CallMethodBehaviors
+  def self.call(...) = new(...).call
 
   def initialize(game:, user:)
     @game = game
