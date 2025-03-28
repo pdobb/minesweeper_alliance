@@ -8,6 +8,8 @@ module WrapMethodBehaviors
   extend ActiveSupport::Concern
 
   class_methods do
+    # DEPRECATED in favor of {Wrap}. See also: {KeywordWrap}.
+    #
     # @example
     #   class Dog
     #     include WrapMethodBehaviors

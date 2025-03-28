@@ -12,6 +12,7 @@ AllCops:
 
 Naming/MethodParameterName:
   AllowedNames:
+    - as
     - "on"
     - "x"
     - "y"
