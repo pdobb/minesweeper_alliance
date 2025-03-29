@@ -73,11 +73,9 @@ class Game < ApplicationRecord # rubocop:disable Metrics/ClassLength
   RECENTLY_ENDED_DURATION = 3.minutes
 
   ALL_TYPES = [
-    *BESTABLE_TYPES = [
-      BEGINNER_TYPE = "Beginner",
-      INTERMEDIATE_TYPE = "Intermediate",
-      EXPERT_TYPE = "Expert",
-    ].freeze,
+    BEGINNER_TYPE = "Beginner",
+    INTERMEDIATE_TYPE = "Intermediate",
+    EXPERT_TYPE = "Expert",
     CUSTOM_TYPE = "Custom",
     PATTERN_TYPE = "Pattern",
   ].freeze
@@ -139,7 +137,7 @@ class Game < ApplicationRecord # rubocop:disable Metrics/ClassLength
   scope :for_beginner_type, -> { for_type(BEGINNER_TYPE) }
   scope :for_intermediate_type, -> { for_type(INTERMEDIATE_TYPE) }
   scope :for_expert_type, -> { for_type(EXPERT_TYPE) }
-  scope :for_bestable_type, -> { where(type: BESTABLE_TYPES) }
+  scope :for_bestable_type, -> { where(type: Game::Type::BESTABLE_TYPES) }
   scope :for_type, ->(type) { where(type:) }
 
   scope :for_bests_of_type_beginner, -> { for_bests_of_type(BEGINNER_TYPE) }
@@ -291,19 +289,12 @@ class Game < ApplicationRecord # rubocop:disable Metrics/ClassLength
 
   def board_settings = board&.settings
 
-  def bestable_type? = type.in?(BESTABLE_TYPES)
-  def best_categories = @best_categories ||= bests.categories
-
-  def bests
-    @bests ||= begin
-      validate_bestable_type
-
-      Game::Bests.new(self).for_type(type)
-    end
+  def best_categories
+    @best_categories ||= Game::Bests.build_for(game: self).categories
   end
 
   def user_bests(user:)
-    validate_bestable_type
+    Game::Type.validate_bestable(type)
 
     user.bests.for_type(type)
   end
@@ -328,12 +319,6 @@ class Game < ApplicationRecord # rubocop:disable Metrics/ClassLength
 
   def set_stats
     CalcStats.(self)
-  end
-
-  def validate_bestable_type
-    return if bestable_type?
-
-    raise(TypeError, "bests not available for Game type #{type}")
   end
 
   concerning :ObjectInspection do

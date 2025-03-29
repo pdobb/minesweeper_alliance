@@ -42,7 +42,7 @@ class Games::Past::PerformanceMetrics
   # :reek:NilCheck
   def bestable?
     if @bestable.nil?
-      @bestable = game.bestable_type?
+      @bestable = Game::Type.bestable?(game_type)
     else
       @bestable
     end
@@ -62,6 +62,7 @@ class Games::Past::PerformanceMetrics
     View.display(game_efficiency) { View.percentage(it * 100.0) }
   end
 
+  def game_type = game.type
   def game_score = game.score
   def game_bbbv = game.bbbv
   def game_bbbvps = game.bbbvps

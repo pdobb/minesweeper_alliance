@@ -4,8 +4,8 @@
 # 3BV/s, highest efficiency) that a {User} has actively participated in. And/or
 # identifying *if* the given {Game} is a "Best Game".
 #
-# User::Bests are bucketed by {Game::BESTABLE_TYPES}, accessed via corresponding
-# method names.
+# User::Bests are bucketed by {Game::Type::BESTABLE_TYPES}, accessed via
+# corresponding method names.
 class User::Bests
   def initialize(user)
     @user = user

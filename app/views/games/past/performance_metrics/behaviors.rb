@@ -67,7 +67,7 @@ module Games::Past::PerformanceMetrics::Behaviors
     end
 
     def game_bests
-      @game_bests ||= game.bests
+      @game_bests ||= Game::Bests.build_for(game:)
     end
 
     def user_bests

@@ -3,9 +3,15 @@
 # Game::Bests provides methods for determining if the given {Game} is the "Best"
 # of any of the "Bestable" types (Score, 3BV/s, Efficiency).
 #
-# The given {Game}'s {Game#type} must be in {Game::BESTABLE_TYPES} to work here.
-# Ensuring this is left up to the caller. (See {Game#bests}.)
+# We defer to {Game::Type.validate_bestable} to validate that the given {Game}
+# is a Bestable type.
 class Game::Bests
+  def self.build_for(game:)
+    Game::Type.validate_bestable(type = game.type)
+
+    new(game).for_type(type)
+  end
+
   def initialize(game)
     @game = game
   end

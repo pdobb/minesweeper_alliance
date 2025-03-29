@@ -536,37 +536,6 @@ class GameTest < ActiveSupport::TestCase
     end
   end
 
-  describe "#bestable_type?" do
-    given "a bestable type" do
-      subject {
-        unit_class.build_for(
-          settings: [
-            Board::Settings.beginner,
-            Board::Settings.intermediate,
-            Board::Settings.expert,
-          ].sample)
-      }
-
-      it "returns true" do
-        _(subject.bestable_type?).must_equal(true)
-      end
-    end
-
-    given "a non-bestable type" do
-      subject {
-        unit_class.build_for(
-          settings: [
-            Board::Settings.pattern("Test Pattern 1"),
-            Board::Settings.custom,
-          ].sample)
-      }
-
-      it "returns false" do
-        _(subject.bestable_type?).must_equal(false)
-      end
-    end
-  end
-
   describe "#user_bests" do
     given "a bestable Game type" do
       subject {
