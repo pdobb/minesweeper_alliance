@@ -33,6 +33,7 @@ en:
       default: "%d %^b %y" # 22 AUG 24
       debug: "%m/%d/%Y" # 08/22/2024
       weekday_comma_date: "%^a, %d %^b %y" # THU, 22 AUG 24
+      iso8601: "%Y-%m-%d" # 2024-08-22
 
   time:
     formats:

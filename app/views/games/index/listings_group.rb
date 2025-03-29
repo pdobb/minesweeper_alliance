@@ -11,6 +11,10 @@ class Games::Index::ListingsGroup
     @context = context
   end
 
+  def datetime_attribute
+    I18n.l(date, format: :iso8601)
+  end
+
   def to_s
     I18n.l(date, format: :weekday_comma_date)
   end
