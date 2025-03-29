@@ -16,14 +16,16 @@ end
 # Redefine the default `rake` task.
 Rake::Task["default"].clear
 task :default do
-  run_tasks(%i[
-    test
-    rubocop
-    erb_lint
-    reek
-    eslint
-    prettier
-    brakeman
-    validate
-  ])
+  tasks =
+    ARGV[1..].presence || %i[
+      test
+      rubocop
+      erb_lint
+      reek
+      eslint
+      prettier
+      brakeman
+      validate
+    ]
+  run_tasks(tasks)
 end
