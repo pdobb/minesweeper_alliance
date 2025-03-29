@@ -3,13 +3,17 @@ import { Controller } from "@hotwired/stimulus"
 // AutoSolveController toggle a simple auto-solve process that works only when
 // the server is in DEBUG mode--which reveals mine Cells.
 export default class extends Controller {
-  static values = { delay: { type: Number, default: 100 } }
+  static values = { delay: { type: Number, default: 20 } }
 
   static REVEALABLE_CELL_SELECTOR =
     'td[data-revealed="false"][data-flagged="false"]'
   static HIDDEN_MINE_SELECTOR = "td.bg-slate-500"
-  static SAFELY_REVEALABLE_CELL_SELECTOR = `${this.REVEALABLE_CELL_SELECTOR}:not(${this.HIDDEN_MINE_SELECTOR})`
-  static CELL_LOADING_SELECTOR = "td.animate-pulse-fast:not(.bg-slate-300)"
+  static SAFELY_REVEALABLE_CELL_SELECTOR =
+    `${this.REVEALABLE_CELL_SELECTOR}` +
+    `:not(${this.HIDDEN_MINE_SELECTOR})` +
+    `:not(${this.CELL_LOADING_SELECTOR})`
+  static CELL_LOADING_SELECTOR = `td.animate-pulse-fast:not(${this.HIGHLIGHTED_CELL_SELECTOR})`
+  static HIGHLIGHTED_CELL_SELECTOR = "td.bg-slate-300"
 
   connect() {
     this.table = document.querySelector("table")
