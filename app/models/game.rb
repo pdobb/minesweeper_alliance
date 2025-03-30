@@ -239,7 +239,7 @@ class Game < ApplicationRecord # rubocop:disable Metrics/ClassLength
   def end_in_victory(user:)
     end_game(user:) {
       set_status_alliance_wins!
-      set_stats
+      Stats::Calculate.(self)
     }
   end
 
@@ -308,10 +308,6 @@ class Game < ApplicationRecord # rubocop:disable Metrics/ClassLength
     self
   end
 
-  def set_stats
-    CalcStats.(self)
-  end
-
   concerning :ObjectInspection do
     include ObjectInspectionBehaviors
 
@@ -345,50 +341,6 @@ class Game < ApplicationRecord # rubocop:disable Metrics/ClassLength
     end
 
     def inspect_name = display_id
-  end
-
-  # Game::CalcStats determines and updates the given {Game} object with relevant
-  # statistical values (on {Game} end).
-  class CalcStats
-    def self.call(...) = new(...).call
-
-    def initialize(game)
-      @game = game
-    end
-
-    def call
-      game.update(
-        score:,
-        bbbv:,
-        bbbvps:,
-        efficiency:)
-    end
-
-    private
-
-    attr_reader :game
-
-    def score
-      [duration, MAX_SCORE].min
-    end
-
-    def duration = Game::Stats.duration(game)
-
-    def bbbv
-      @bbbv ||= Board::Calc3BV.(grid)
-    end
-
-    def grid = game.board.grid
-
-    def bbbvps
-      bbbv / score.to_f
-    end
-
-    def efficiency
-      bbbv / clicks_count.to_f
-    end
-
-    def clicks_count = game.cell_transactions.size
   end
 
   # Game::Console acts like a {Game} but otherwise handles IRB Console-specific
