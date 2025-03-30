@@ -1,12 +1,12 @@
 import { Controller } from "@hotwired/stimulus"
 import ParseTime from "parse_time"
 
-// ElapsedTimeController is responsible for displaying the hours, minutes, and
-// seconds elapsed since the start value. The expected start value format is: a
-// Unix timestamp (the number of seconds since the Unix Epoch) representing the
+// TimerController is responsible for displaying the hours, minutes, and seconds
+// elapsed since the start value. The expected start value format is: a Unix
+// timestamp (the number of seconds since the Unix Epoch) representing the
 // game's start time.
 //
-// ElapsedTimeController has 2 distinct modalities:
+// TimerController has 2 distinct modalities:
 // 1. Formatted Output: Zero-pads hours, minutes, and seconds, as needed, to
 //    match the provided format: `HH:MM:SS`, `MM:SS`, or `SS`.
 // 2. Compact Output: Display only the minimal information needed--only seconds;
