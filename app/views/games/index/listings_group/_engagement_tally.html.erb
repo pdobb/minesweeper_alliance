@@ -1,4 +1,19 @@
 <%# locals: (engagement_tally:) %>
 
-<span class="text-dim">#</span>
-<%= render("games/past/engagement_tally", engagement_tally:) %>
+<%= Emoji.tally %>
+
+<div class="inline-flex gap-x-3">
+  <span title="Total (Victories + Defeats)">
+    <%= engagement_tally.total_count %>
+  </span>
+
+  <span class="text-dim-lg">&ndash;</span>
+
+  <span class="whitespace-nowrap">
+    <span class="<%= class_names(engagement_tally.alliance_ranking_css) %>">
+      Alliance: <%= engagement_tally.wins_count %>
+    </span>
+    <span class="text-dim">/</span>
+    Mines: <%= engagement_tally.losses_count %>
+  </span>
+</div>
