@@ -13,10 +13,7 @@
   <% end %>
 <% end %>
 
-<div
-  id="<%= @show.game_board_storage_key %>"
-  class="[--negative-board-mx:calc(var(--page-px)---spacing(2))]"
->
+<div id="<%= @show.game_board_storage_key %>">
   <% @show.container.tap do |container| %>
     <%= render(container.partial_path, container:) %>
   <% end %>

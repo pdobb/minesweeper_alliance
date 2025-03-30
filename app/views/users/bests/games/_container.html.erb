@@ -1,7 +1,7 @@
 <%# locals: (container:) %>
 
 <%= turbo_frame_tag(container.turbo_frame_name) do %>
-  <div class="space-y-12">
+  <div class="max-sm:px-3 md:max-lg:px-6 space-y-12">
     <% cache(container.cache_key) do %>
       <%= render("users/bests/games/content", content: container.content) %>
     <% end %>
