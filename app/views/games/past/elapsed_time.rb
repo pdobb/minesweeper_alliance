@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-# Games::JustEnded::ElapsedTime is a view wrapper around {::ElapsedTime}, for
-# displaying elapsed time details for just-ended {Game}s.
-class Games::JustEnded::ElapsedTime
+# Games::Past::ElapsedTime is a view wrapper around {::ElapsedTime}, for
+# displaying elapsed time details for just-ended/past {Game}s.
+class Games::Past::ElapsedTime
   def initialize(ended_at:)
     @ended_at = ended_at
   end

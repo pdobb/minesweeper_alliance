@@ -23,6 +23,14 @@ class Games::Title
     I18n.l(game_started_at.to_date, format: :weekday_comma_date)
   end
 
+  def game_ended_today?
+    Date.current.at_beginning_of_day <= game_ended_at
+  end
+
+  def elapsed_time
+    Games::Past::ElapsedTime.new(ended_at: game_ended_at)
+  end
+
   def engagement_time_range
     View.safe_join([
       I18n.l(game_started_at, format: :hours_minutes_seconds),
