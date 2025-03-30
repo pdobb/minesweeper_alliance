@@ -32,5 +32,5 @@ module Games::Board::CellBehaviors
 
   def value = cell.value
   def mine? = cell.mine?
-  def blank? = cell.blank?
+  def blank? = Cell::State.blank?(cell)
 end

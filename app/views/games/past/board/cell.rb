@@ -48,5 +48,5 @@ class Games::Past::Board::Cell
               :game
 
   def game_ended_in_victory? = game.ended_in_victory?
-  def incorrectly_flagged? = cell.incorrectly_flagged?
+  def incorrectly_flagged? = Cell::State.incorrectly_flagged?(cell)
 end

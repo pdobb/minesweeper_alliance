@@ -34,7 +34,7 @@ class Cell::RevealNeighbors
   # :reek:TooManyStatements
 
   def call
-    return self if cell.unrevealed?
+    return self if Cell::State.unrevealed?(cell)
 
     catch(:return) {
       game.with_lock do
@@ -78,7 +78,9 @@ class Cell::RevealNeighbors
 
   def reveal_neighbor(neighboring_cell)
     reveal(neighboring_cell)
-    recursively_reveal_neighbors(neighboring_cell) if neighboring_cell.blank?
+    return unless Cell::State.blank?(neighboring_cell) # rubocop:disable all
+
+    recursively_reveal_neighbors(neighboring_cell)
   end
 
   # :reek:FeatureEnvy

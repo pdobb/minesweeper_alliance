@@ -92,7 +92,7 @@ class Board::Calc3BV
       mark_as_click_needed
     end
 
-    def blank? = value == ::Cell::BLANK_VALUE
+    def blank? = ::Cell::State.blank?(self)
     def mark_as_visited = @visited = true
     def visited? = !!@visited
     def mark_as_click_needed = @count = 1

@@ -2,7 +2,6 @@
 
 # :reek:TooManyMethods
 # :reek:RepeatedConditional
-# :reek:InstanceVariableAssumption
 
 # Cell represents a clickable position on the {Board}. Cells:
 # - may secretly contain a mine
@@ -30,7 +29,6 @@ class Cell < ApplicationRecord # rubocop:disable Metrics/ClassLength
   self.implicit_order_column = "created_at"
 
   VALUES_RANGE = 0..8
-  BLANK_VALUE = 0
 
   include ConsoleBehaviors
 
@@ -107,8 +105,13 @@ class Cell < ApplicationRecord # rubocop:disable Metrics/ClassLength
     neighboring_flags_count == value.to_i
   end
 
-  def revealable_neighbors = neighbors.select(&:revealable?)
-  def any_revealable_neighbors? = neighbors.any?(&:revealable?)
+  def revealable_neighbors
+    neighbors.select { Cell::State.revealable?(it) }
+  end
+
+  def any_revealable_neighbors?
+    neighbors.any? { Cell::State.revealable?(it) }
+  end
 
   def neighbors
     @neighbors ||= board&.cells_at(neighboring_coordinates).to_a
@@ -121,14 +124,6 @@ class Cell < ApplicationRecord # rubocop:disable Metrics/ClassLength
   def place_mine
     self.mine = true
   end
-
-  def unrevealed? = !revealed?
-  def revealable? = !(revealed? || flagged?)
-  def safely_revealable? = !(mine? || revealed?)
-  def incorrectly_flagged? = flagged? && !mine?
-  def highlightable? = !(revealed? || flagged? || highlighted?)
-  def dehighlightable? = highlighted?
-  def blank? = value == BLANK_VALUE
 
   private
 
@@ -150,7 +145,7 @@ class Cell < ApplicationRecord # rubocop:disable Metrics/ClassLength
   end
 
   def highlight
-    return unless highlightable?
+    return unless Cell::State.highlightable?(self)
 
     update_column(:highlighted, true)
     self
@@ -163,7 +158,7 @@ class Cell < ApplicationRecord # rubocop:disable Metrics/ClassLength
   end
 
   def dehighlight
-    return unless dehighlightable?
+    return unless Cell::State.dehighlightable?(self)
 
     update_column(:highlighted, false)
     self
@@ -191,7 +186,7 @@ class Cell < ApplicationRecord # rubocop:disable Metrics/ClassLength
     end
 
     def inspect_issues
-      if incorrectly_flagged?
+      if Cell::State.incorrectly_flagged?(self)
         "INCORRECTLY_FLAGGED"
       elsif revealed? && mine?
         "MINE_DETONATED"

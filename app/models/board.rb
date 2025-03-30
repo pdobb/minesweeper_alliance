@@ -94,7 +94,7 @@ class Board < ApplicationRecord
   private
 
   def all_safe_cells_have_been_revealed?
-    cells.none?(&:safely_revealable?)
+    cells.none? { Cell::State.safely_revealable?(it) }
   end
 
   def validate_settings

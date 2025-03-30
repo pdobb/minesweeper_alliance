@@ -2,7 +2,7 @@
 
 # Cell::RecursiveReveal is a Service Module for revealing the given {Cell} and
 # then recursively revealing neighboring {Cell}s--if the just-revealed {Cell}
-# was Blank (see {Cell#blank?}).
+# was Blank (see {Cell::State.blank?}).
 #
 # While {Cell#reveal} is called on every Cell, what's returned from this service
 # is just the Set of {Cell}s where {Cell#revealed?} actually changed to `true`.
@@ -20,7 +20,7 @@ module Cell::RecursiveReveal
       next acc unless (revealed_cell = neighboring_cell.soft_reveal)
 
       acc << revealed_cell.upsertable_attributes
-      acc |= call(revealed_cell) if revealed_cell.blank?
+      acc |= call(revealed_cell) if Cell::State.blank?(revealed_cell)
       acc
     }
   end

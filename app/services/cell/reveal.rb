@@ -73,7 +73,7 @@ class Cell::Reveal
   end
 
   def recursively_reveal_neighbors_if_revealed_cell_was_blank
-    return unless cell.blank? # rubocop:disable all
+    return unless Cell::State.blank?(cell) # rubocop:disable all
 
     upsertable_attributes_array = Cell::RecursiveReveal.(cell)
     Cell.upsert_all(upsertable_attributes_array)
