@@ -39,7 +39,16 @@
     "
   >
     <% content.rows.each do |row| %>
-      <tr><%= render(row) %></tr>
+      <tr>
+        <% row.each do |cell| %>
+          <td
+            id="<%= cell.dom_id %>"
+            data-revealed="<%= cell.revealed? %>"
+            data-flagged="<%= cell.flagged? %>"
+            class="<%= class_names(cell.css) %>"
+          ><%= cell %></td>
+        <% end %>
+      </tr>
     <% end %>
   </tbody>
 </table>
