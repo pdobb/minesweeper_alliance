@@ -2,7 +2,6 @@
 
 # :reek:TooManyConstants
 # :reek:TooManyMethods
-# :reek:RepeatedConditional (#over?)
 
 # Game represents a game of Minesweeper Alliance. Game play is kept as close to
 # that of the original Microsoft Minesweeper game as possible, while adding a
@@ -273,14 +272,6 @@ class Game < ApplicationRecord # rubocop:disable Metrics/ClassLength
   def ended_in_victory? = status_alliance_wins?
   def ended_in_defeat? = status_mines_win?
 
-  def engagement_time_range
-    started_at..(ended_at if over?)
-  end
-
-  def duration
-    ended_at - started_at if over?
-  end
-
   def ended_a_while_ago?(minutes: FleetTracker::DEEP_EXPIRATION_MINUTES)
     return false unless ended_at?
 
@@ -381,7 +372,7 @@ class Game < ApplicationRecord # rubocop:disable Metrics/ClassLength
       [duration, MAX_SCORE].min
     end
 
-    def duration = game.duration
+    def duration = Game::Stats.duration(game)
 
     def bbbv
       @bbbv ||= Board::Calc3BV.(grid)

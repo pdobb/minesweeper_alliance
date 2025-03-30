@@ -34,8 +34,10 @@ class Games::Board::ElapsedTime
   attr_reader :game
 
   def elapsed_time
-    @elapsed_time ||= ::ElapsedTime.new(game.engagement_time_range)
+    @elapsed_time ||= ::ElapsedTime.new(engagement_time_range)
   end
+
+  def engagement_time_range = Game::Stats.engagement_time_range(game)
 
   def over_a_day? = elapsed_time.over_a_day?
 

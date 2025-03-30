@@ -448,44 +448,6 @@ class GameTest < ActiveSupport::TestCase
     end
   end
 
-  describe "#engagement_time_range" do
-    given "Game#on?" do
-      subject { standing_by1 }
-
-      it "returns the expected Time Range" do
-        _(subject.engagement_time_range).must_equal(
-          subject.started_at..)
-      end
-    end
-
-    given "Game#over?" do
-      subject { win1 }
-
-      it "returns the expected Time Range" do
-        _(subject.engagement_time_range).must_equal(
-          subject.started_at..subject.ended_at)
-      end
-    end
-  end
-
-  describe "#duration" do
-    given "Game#on?" do
-      subject { standing_by1.start(seed_cell: nil, user: user1) }
-
-      it "returns nil" do
-        _(subject.duration).must_be_nil
-      end
-    end
-
-    given "Game#over?" do
-      subject { win1 }
-
-      it "returns the expected Time range" do
-        _(subject.duration).must_equal(30.0)
-      end
-    end
-  end
-
   describe "#ended_a_while_ago?" do
     let(:deep_expiration_minutes) { 3.minutes }
 
