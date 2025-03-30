@@ -4,18 +4,16 @@
   id="<%= notification.id %>"
   role="alert"
   data-controller="flash"
-  data-flash-hide-class="opacity-0"
   <% if notification.timeout? %>
     data-flash-timeout-value="<%= notification.timeout_in_milliseconds %>"
   <% end %>
-  data-action="
-    keydown.esc@window->flash#close
-    transitionend->flash#remove:self
-  "
+  data-action="keydown.esc@window->flash#close"
+  data-transition-leave="transition ease-in duration-300"
+  data-transition-leave-start="opacity-100"
+  data-transition-leave-end="opacity-0"
   class="
-    relative pointer-events-auto group
+    group relative pointer-events-auto
     p-4 rounded-lg
-    transition-opacity ease-in
     <%= class_names(notification.container_css) %>
   "
 >
