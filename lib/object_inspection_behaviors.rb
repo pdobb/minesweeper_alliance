@@ -7,7 +7,7 @@ module ObjectInspectionBehaviors
   extend ActiveSupport::Concern
 
   included do
-    alias_method :original_inspect, :inspect
+    alias_method :__inspect__, :inspect
 
     include ObjectInspector::InspectorsHelper
   end
