@@ -7,9 +7,6 @@ plugins:
 inherit_gem:
   gemwork: lib/rubocop/.rubocop-rails.yml
 
-AllCops:
-  TargetRubyVersion: 3.4
-
 Naming/MethodParameterName:
   AllowedNames:
     - as
