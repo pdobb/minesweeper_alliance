@@ -15,19 +15,12 @@ module ConsoleBehaviors
     # :reek:ManualDispatch
     # :reek:TooManyStatements
 
-    # @example Given: A single method.
-    #   Cell.cons("all")
-    #   # => [<Cell[2](◻️) (1, 0) :: nil>, ...]
+    # @example Usage with: A single method.
+    #   MyModel.cons("my_method")
     #
-    # @example Given: A method chain.
-    #   Cell.cons("is_not_flagged.is_not_revealed")
-    #   # => [<Cell[2](◻️) (1, 0) :: nil>, ...]
-    #
-    #   Cell.cons(%i[is_not_flagged is_not_revealed])
-    #   # => [<Cell[2](◻️) (1, 0) :: nil>, ...]
-    #
-    #   Cell.cons("first")
-    #   # => <Cell[2](◻️) (0, 0) :: nil>
+    # @example Usage with: A method chain.
+    #   MyModel.cons("my_method_1.my_method2")
+    #   MyModel.cons(%i[my_method_1 my_method2])
     def console(method_chain, context: self)
       result = call_method_chain(method_chain, context:)
       array =
@@ -52,26 +45,19 @@ module ConsoleBehaviors
   end
 
   # @example
-  #   Cell.first.cons
-  #   # => <Cell[1](◻️ / 💣) (0, 0) :: nil>
+  #   MyModel.first.cons
+  #   # => <MyModel[1](...) :: ...>
   #
-  # @example Given: A single method.
-  #   Cell.first.cons("neighbors")
-  #   # => [<Cell[2](◻️) (1, 0) :: nil>, ...]
+  # @example Usage with: A single method.
+  #   MyModel.first.cons("my_method")
   #
-  # @example Given: A method chain.
-  #   Cell.first.cons("neighbors.is_not_revealed")
-  #   # => [<Cell[2](◻️) (1, 0) :: nil>, ...]
+  # @example Usage with: A method chain.
+  #   MyModel.first.cons("my_method1.my_method2")
+  #   MyModel.first.cons(%i[my_method1 my_method2])
+  #   MyModel.first.cons("my_method1.my_method2.my_method_3")
   #
-  #   Cell.first.cons(%i[neighbors is_not_revealed])
-  #   # => [<Cell[2](◻️) (1, 0) :: nil>, ...]
-  #
-  #   Cell.first.cons("neighbors.is_not_revealed.first")
-  #   # => <Cell[2](◻️) (1, 0) :: nil>
-  #
-  # @example Given: A private method.
-  #   Cell.first.cons("neighboring_mines_count")
-  #   # => 0
+  # @example Usage with: A private method.
+  #   MyModel.first.cons("my_private_method")
   def console(method_chain = nil)
     if method_chain
       self.class.console(method_chain, context: self)
