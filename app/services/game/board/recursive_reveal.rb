@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-# Cell::RecursiveReveal is a Service Module for revealing the given {Cell} and
-# then recursively revealing neighboring {Cell}s--if the just-revealed {Cell}
-# was Blank (see {Cell::State.blank?}).
+# Game::Board::RecursiveReveal is a Service Module for revealing the given
+# {Cell} and then recursively revealing neighboring {Cell}s--if the
+# just-revealed {Cell} was Blank (see {Cell::State.blank?}).
 #
 # While {Cell#reveal} is called on every Cell, what's returned from this service
 # is just the Set of {Cell}s where {Cell#revealed?} actually changed to `true`.
@@ -14,7 +14,7 @@
 #   neighbors on.
 # - We purposefully use a module instead of a class because this is recursion
 #   and, so, it's actually worth trimming down the size of the call stack.
-module Cell::RecursiveReveal
+module Game::Board::RecursiveReveal
   def self.call(cell)
     unrevealed_neighboring_cells(cell).inject(Set.new) { |acc, neighboring_cell|
       next acc unless (revealed_cell = neighboring_cell.soft_reveal)

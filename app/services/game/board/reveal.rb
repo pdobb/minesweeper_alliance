@@ -2,8 +2,8 @@
 
 # :reek:TooManyInstanceVariables
 
-# Cell::Reveal is a Service Object for collaborating with a {Game}, {Board}, and
-# {Cell} to process a {Cell} "Reveal" event. This involves:
+# Game::Board::Reveal is a Service Object for collaborating with a {Game},
+# {Board}, and {Cell} to process a {Cell} "Reveal" event. This involves:
 # - "Starting" the {Game} (if it hasn't already been started),
 # - Actually calling {Cell#reveal} (of course),
 # - "Ending" the {Game} early / in defeat--if the just-revealed {Cell} was a
@@ -12,7 +12,7 @@
 #   Blank, and
 # - "Ending" the {Game} in victory if all safe {Cell}s on the {Board} have
 #   now/just been revealed.
-class Cell::Reveal
+class Game::Board::Reveal
   def self.call(...) = new(...).call
 
   def initialize(context:)
@@ -75,7 +75,7 @@ class Cell::Reveal
   def recursively_reveal_neighbors_if_revealed_cell_was_blank
     return unless Cell::State.blank?(cell) # rubocop:disable all
 
-    upsertable_attributes_array = Cell::RecursiveReveal.(cell)
+    upsertable_attributes_array = Game::Board::RecursiveReveal.(cell)
     Cell.upsert_all(upsertable_attributes_array)
   end
 

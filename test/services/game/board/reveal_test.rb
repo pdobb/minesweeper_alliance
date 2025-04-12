@@ -2,10 +2,10 @@
 
 require "test_helper"
 
-class Cell::RevealTest < ActiveSupport::TestCase
+class Game::Board::RevealTest < ActiveSupport::TestCase
   CurrentContextDouble = Class.new(Struct.new(:game, :board, :cell, :user))
 
-  let(:unit_class) { Cell::Reveal }
+  let(:unit_class) { Game::Board::Reveal }
 
   let(:context1) {
     CurrentContextDouble.new(
@@ -25,7 +25,7 @@ class Cell::RevealTest < ActiveSupport::TestCase
       MuchStub.on_call(Board::RandomlyPlaceMines, :call) { |call|
         @board_randomly_place_mines_call = call
       }
-      MuchStub.on_call(Cell::RecursiveReveal, :call) { |call|
+      MuchStub.on_call(Game::Board::RecursiveReveal, :call) { |call|
         @cell_recursive_reveal_call_call = call
         -> {}
       }

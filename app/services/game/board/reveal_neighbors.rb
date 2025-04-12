@@ -2,9 +2,9 @@
 
 # :reek:TooManyInstanceVariables
 
-# Cell::RevealNeighbors is a Service Object for collaborating with a {Game},
-# {Board}, and {Cell} to process a {Cell} "Reveal Neighbors" event (a.k.a.
-# "chording"). Prerequisites for processing:
+# Game::Board::RevealNeighbors is a Service Object for collaborating with a
+# {Game}, {Board}, and {Cell} to process a {Cell} "Reveal Neighbors" event
+# (a.k.a. "chording"). Prerequisites for processing:
 # - The given, originating {Cell} must have been previously revealed, and
 # - The number of flagged neighboring {Cell}s must match the given {Cell}'s
 #   {Cell#value}.
@@ -20,8 +20,8 @@
 # - Revealing neighbors doesn't guarantee success. If any of the flags are
 #   incorrectly placed a mine could still go off!
 #
-# @see Cell::RecursiveReveal
-class Cell::RevealNeighbors
+# @see Game::Board::RecursiveReveal
+class Game::Board::RevealNeighbors
   def self.call(...) = new(...).call
 
   def initialize(context:)
@@ -98,7 +98,8 @@ class Cell::RevealNeighbors
   end
 
   def recursively_reveal_neighbors(neighboring_cell)
-    upsertable_attributes_array = Cell::RecursiveReveal.(neighboring_cell)
+    upsertable_attributes_array =
+      Game::Board::RecursiveReveal.(neighboring_cell)
     Cell.upsert_all(upsertable_attributes_array)
   end
 

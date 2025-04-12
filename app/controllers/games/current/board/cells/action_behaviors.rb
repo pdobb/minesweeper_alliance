@@ -11,7 +11,8 @@ module Games::Current::Board::Cells::ActionBehaviors
 
   # Games::Current::Board::Cells::ActionBehaviors::ActionContext services the
   # needs of the Cell Action service objects called by including controllers.
-  # i.e. {Cell::Reveal}, {Cell::RevealNeighbors}, and {Cell::ToggleFlag}.
+  # i.e. {Game::Board::Reveal}, {Game::Board::RevealNeighbors}, and
+  # {Game::Board::ToggleFlag}.
   class ActionContext
     def initialize(context) = @context = context
 

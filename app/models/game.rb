@@ -84,7 +84,7 @@ class Game < ApplicationRecord # rubocop:disable Metrics/ClassLength
   include ConsoleBehaviors
   include Statusable::HasStatuses
 
-  has_one :board, dependent: :delete
+  has_one :board, dependent: :delete, class_name: "::Board"
   validates_associated :board, on: :create
 
   has_many :cells, through: :board

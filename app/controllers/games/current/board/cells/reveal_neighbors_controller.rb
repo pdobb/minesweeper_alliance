@@ -28,6 +28,6 @@ class Games::Current::Board::Cells::RevealNeighborsController <
   end
 
   def perform_action
-    Cell::RevealNeighbors.(context: action_context)
+    Game::Board::RevealNeighbors.(context: action_context)
   end
 end

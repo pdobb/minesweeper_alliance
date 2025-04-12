@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
-# Cell::ToggleFlag is a Service Object for coordinating:
+# Game::Board::ToggleFlag is a Service Object for coordinating:
 # - Calling of {Cell#toggle_flag} for the passed-in {Cell},
 # - and then broadcasting the necessary CSS/content updates to the associated
 #   Cell object in the view.
-class Cell::ToggleFlag
+class Game::Board::ToggleFlag
   def self.call(...) = new(...).call
 
   def initialize(context:)
