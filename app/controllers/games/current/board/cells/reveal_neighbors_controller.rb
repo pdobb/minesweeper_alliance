@@ -6,12 +6,9 @@ class Games::Current::Board::Cells::RevealNeighborsController <
 
   def create
     # We must always dehighlight any highlighted {Cell}s, as per our game play
-    # rules.
-    # - If neighbors are being revealed here, {Cell#reveal} takes care of this.
-    # - Else, we appeal to {Games::Current::Board::Cells::DehighlightNeighbors}
-    #   to revert any highlighted {Cell}s back to their default state.
-    if cell.any_revealable_neighbors? &&
-         cell.neighboring_flags_count_matches_value?
+    # rules. So if we can't reveal neighbors (which also dehighlights), then we
+    # must manually dehighlight neighbors.
+    if neighbors.revealable?
       dispatch_action.call { |dispatch|
         perform_action
         dispatch.call
@@ -22,6 +19,8 @@ class Games::Current::Board::Cells::RevealNeighborsController <
   end
 
   private
+
+  def neighbors = Cell::Neighbors.new(cell:)
 
   def dispatch_action
     @dispatch_action ||=

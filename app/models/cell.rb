@@ -25,7 +25,7 @@
 #   origin of neighboring Cell highlights.
 # @attr highlighted [Boolean] Whether or not this Cell is currently being
 #   highlighted.
-class Cell < ApplicationRecord # rubocop:disable Metrics/ClassLength
+class Cell < ApplicationRecord
   self.implicit_order_column = "created_at"
 
   VALUES_RANGE = 0..8
@@ -78,7 +78,7 @@ class Cell < ApplicationRecord # rubocop:disable Metrics/ClassLength
     self.revealed = true
     self.highlighted = false
     self.flagged = false
-    self.value = neighboring_mines_count
+    self.value = neighbors.mines_count
 
     self
   end
@@ -101,21 +101,7 @@ class Cell < ApplicationRecord # rubocop:disable Metrics/ClassLength
 
   def unset_highlight_origin = update_column(:highlight_origin, false)
 
-  def neighboring_flags_count_matches_value?
-    neighboring_flags_count == value.to_i
-  end
-
-  def revealable_neighbors
-    neighbors.select { Cell::State.revealable?(it) }
-  end
-
-  def any_revealable_neighbors?
-    neighbors.any? { Cell::State.revealable?(it) }
-  end
-
-  def neighbors
-    @neighbors ||= board&.cells_at(neighboring_coordinates).to_a
-  end
+  def neighbors = Cell::Neighbors.new(cell: self)
 
   def upsertable_attributes
     attributes.except("updated_at")
@@ -126,16 +112,6 @@ class Cell < ApplicationRecord # rubocop:disable Metrics/ClassLength
   end
 
   private
-
-  def neighboring_coordinates = coordinates.neighbors
-
-  def neighboring_mines_count
-    @neighboring_mines_count ||= neighbors.count(&:mine?)
-  end
-
-  def neighboring_flags_count
-    @neighboring_flags_count ||= neighbors.count(&:flagged?)
-  end
 
   # @return [Array<Cell>] The Cells that were just highlighted.
   def highlight_neighbors

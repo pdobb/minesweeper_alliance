@@ -73,8 +73,10 @@ class Cell::RevealNeighbors
   end
 
   def revealable_neighboring_cells
-    @revealable_neighboring_cells ||= cell.revealable_neighbors
+    @revealable_neighboring_cells ||= neighbors.revealable_cells
   end
+
+  def neighbors = @neighbors ||= Cell::Neighbors.new(cell:)
 
   def reveal_neighbor(neighboring_cell)
     reveal(neighboring_cell)

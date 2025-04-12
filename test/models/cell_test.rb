@@ -218,7 +218,7 @@ class CellTest < ActiveSupport::TestCase
       it "returns nil" do
         result =
           _(-> { subject.highlight_neighborhood }).wont_change(
-            "subject.neighbors.count(&:highlighted?)")
+            "subject.neighbors.highlighted_count")
         _(result).must_be_nil
       end
     end
@@ -234,7 +234,7 @@ class CellTest < ActiveSupport::TestCase
         result =
           _(-> { subject.highlight_neighborhood }).must_change_all([
             ["subject.highlight_origin?", to: true],
-            ["subject.neighbors.count(&:highlighted?)", from: 0, to: 3],
+            ["subject.neighbors.highlighted_count", from: 0, to: 3],
           ])
 
         origin, neighbors = result.to_a.first
@@ -271,7 +271,7 @@ class CellTest < ActiveSupport::TestCase
         result =
           _(-> { subject.dehighlight_neighborhood }).must_change_all([
             ["subject.highlight_origin?", to: false],
-            ["subject.neighbors.count(&:highlighted?)", from: 3, to: 0],
+            ["subject.neighbors.highlighted_count", from: 3, to: 0],
           ])
 
         origin, neighbors = result.to_a.first
@@ -285,45 +285,11 @@ class CellTest < ActiveSupport::TestCase
     end
   end
 
-  describe "#neighboring_flags_count_matches_value?" do
-    given "neighboring_flags_count == value" do
-      subject { standing_by1_board_cell1 }
-
-      given "#value == nil" do
-        it "returns true" do
-          _(subject.neighboring_flags_count_matches_value?).must_equal(true)
-        end
-      end
-
-      given "#value != nil" do
-        before do
-          subject.update!(value: 0)
-        end
-
-        it "returns true" do
-          _(subject.neighboring_flags_count_matches_value?).must_equal(true)
-        end
-      end
-    end
-
-    given "neighboring_flags_count != value" do
-      before do
-        standing_by1_board_cell2.update!(flagged: true)
-      end
-
-      subject { standing_by1_board_cell1 }
-
-      it "returns false" do
-        _(subject.neighboring_flags_count_matches_value?).must_equal(false)
-      end
-    end
-  end
-
   describe "#neighbors" do
     given "no associated Board" do
       subject { unit_class.new }
 
-      it "returns an empty Array" do
+      it "returns an empty collection" do
         result = subject.neighbors
         _(result).must_be_empty
       end
@@ -332,10 +298,9 @@ class CellTest < ActiveSupport::TestCase
     given "an associated Board" do
       subject { standing_by1_board_cell1 }
 
-      it "returns the expected Array of Cells" do
+      it "returns the expected collection of Cells" do
         result = subject.neighbors
-
-        _(result).must_equal([
+        _(result).must_match_array([
           cells(:standing_by1_board_cell2),
           cells(:standing_by1_board_cell4),
           cells(:standing_by1_board_cell5),
