@@ -17,7 +17,7 @@
 module Game::Board::RecursiveReveal
   def self.call(cell)
     unrevealed_neighboring_cells(cell).inject(Set.new) { |acc, neighboring_cell|
-      next acc unless (revealed_cell = neighboring_cell.soft_reveal)
+      next acc unless (revealed_cell = Cell::SoftReveal.(neighboring_cell))
 
       acc << revealed_cell.upsertable_attributes
       acc |= call(revealed_cell) if Cell::State.blank?(revealed_cell)

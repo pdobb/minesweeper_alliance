@@ -67,20 +67,7 @@ class Cell < ApplicationRecord
   def reveal
     return if revealed?
 
-    soft_reveal.tap(&:save!)
-  end
-
-  # :reek:TooManyStatements
-
-  def soft_reveal
-    return if revealed?
-
-    self.revealed = true
-    self.highlighted = false
-    self.flagged = false
-    self.value = neighbors.mines_count
-
-    self
+    Cell::SoftReveal.(self).tap(&:save!)
   end
 
   def highlight_neighborhood
