@@ -16,8 +16,22 @@ class FlatArray
 
   def_delegators(
     :array,
-    :[], :[]=, :each, :first, :join, :last, :size, :sort!,
-    :to_a, :to_ary, :uniq!, :include?)
+    *%i[
+      []
+      []=
+      concat
+      each
+      first
+      include?
+      join
+      last
+      size
+      sort
+      sort!
+      to_a
+      to_ary
+      uniq!
+    ])
 
   def self.[](*) = new(*)
 

@@ -9,17 +9,20 @@ class CoordinatesArray
   include Enumerable
   include Comparable
 
-  def_delegators :array,
-                 :<<,
-                 :delete,
-                 :each,
-                 :include?,
-                 :size,
-                 :sort!,
-                 :sort,
-                 :to_a,
-                 :to_json,
-                 :uniq!
+  def_delegators(
+    :array,
+    *%i[
+      <<
+      delete
+      each
+      include?
+      size
+      sort
+      sort!
+      to_a
+      to_json
+      uniq!
+    ])
 
   def initialize(coordinates_array = [])
     @array =
