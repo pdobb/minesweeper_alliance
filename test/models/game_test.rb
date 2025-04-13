@@ -3,8 +3,6 @@
 require "test_helper"
 
 class GameTest < ActiveSupport::TestCase
-  ErrorDouble = Class.new(StandardError)
-
   let(:win1) { games(:win1) }
   let(:loss1) { games(:loss1) }
   let(:standing_by1) { games(:standing_by1) }
@@ -14,85 +12,30 @@ class GameTest < ActiveSupport::TestCase
 
   let(:user1) { users(:user1) }
 
-  context "Class Methods" do
+  describe ".display_id_width" do
+    before do
+      subject.instance_variable_set(:@display_id_width, nil)
+    end
+
     subject { Game }
 
-    describe ".create_for" do
-      given "a current Game already exists" do
-        it "raises ActiveRecord::RecordNotUnique" do
-          _(-> {
-            subject.create_for(settings: custom_settings1)
-          }).must_raise(ActiveRecord::RecordNotUnique)
-        end
-      end
-
-      given "no current Game" do
-        before { standing_by1.delete }
-
-        it "returns a persisted Game with the expected attributes" do
-          result =
-            subject.create_for(settings: custom_settings1)
-          _(result).must_be_instance_of(Game)
-          _(result.persisted?).must_equal(true)
-          _(result.status_standing_by?).must_equal(true)
-          _(result.board).must_be_instance_of(Board)
-          _(result.board.cells.sample).must_be_instance_of(Cell)
-        end
-
-        given "an unexpected failure between Game/Board Save and "\
-              "Cells insertion" do
-          before do
-            MuchStub.(Board::Generate, :new) {
-              raise(ErrorDouble, "Simulated Error for Test Example")
-            }
-          end
-
-          it "doesn't persist the Game/Board/Cells" do
-            _(-> {
-              _(-> {
-                subject.create_for(settings: custom_settings1)
-              }).must_raise(ErrorDouble)
-            }).wont_change_all([
-              ["Game.count"], ["Board.count"], ["Cell.count"]
-            ])
-          end
-        end
-      end
-    end
-
-    describe ".build_for" do
-      it "orchestrates building of the expected object graph and returns "\
-         "the new Game" do
-        result = subject.build_for(settings: custom_settings1)
-        _(result).must_be_instance_of(Game)
-        _(result.board).must_be_instance_of(Board)
-        _(result.board.cells).must_be_empty
-      end
-    end
-
-    describe ".display_id_width" do
+    given "largest_id < 4 digits" do
       before do
-        Game.instance_variable_set(:@display_id_width, nil)
+        MuchStub.(subject, :largest_id) { 1 }
       end
 
-      given "largest_id < 4 digits" do
-        before do
-          MuchStub.(subject, :largest_id) { 1 }
-        end
+      it "returns the expected String" do
+        _(subject.display_id_width).must_equal(4)
+      end
+    end
 
-        it "returns the expected String" do
-          _(subject.display_id_width).must_equal(4)
-        end
+    given "largest_id > 4 digits" do
+      before do
+        MuchStub.(subject, :largest_id) { 12_345 }
       end
 
-      given "largest_id > 4 digits" do
-        before do
-          MuchStub.(subject, :largest_id) { 12_345 }
-        end
-
-        it "returns the expected String" do
-          _(subject.display_id_width).must_equal(5)
-        end
+      it "returns the expected String" do
+        _(subject.display_id_width).must_equal(5)
       end
     end
   end
@@ -138,7 +81,7 @@ class GameTest < ActiveSupport::TestCase
   describe "#type" do
     given "a standard Difficulty Level" do
       subject {
-        Game.build_for(settings: preset_settings1)
+        Game::Factory.build_for(settings: preset_settings1)
       }
 
       it "returns the expected String" do
@@ -148,7 +91,7 @@ class GameTest < ActiveSupport::TestCase
 
     given "a custom Difficulty Level" do
       subject {
-        Game.build_for(settings: custom_settings1)
+        Game::Factory.build_for(settings: custom_settings1)
       }
 
       it "returns the expected String" do
@@ -499,7 +442,7 @@ class GameTest < ActiveSupport::TestCase
   describe "#user_bests" do
     given "a bestable Game type" do
       subject {
-        Game.build_for(
+        Game::Factory.build_for(
           settings: [
             Board::Settings.beginner,
             Board::Settings.intermediate,

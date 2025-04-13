@@ -15,7 +15,7 @@
 # - "Alliance Wins" or "Mines Win"
 #
 # Typical flow for Game creation/start is:
-# 1. Build a new Game (`Game.build_for(settings: <Board::Settings>)`),
+# 1. Build a new Game (`Game::Factory.build_for(settings: <Board::Settings>)`),
 # 2. Which builds an associated {Board} (storing off the given {Board::Settings}
 #    object into {Board#settings} as a serialized Hash).
 # 3. Generate an associated 1-dimensional Array of {Cell}s of length
@@ -192,23 +192,6 @@ class Game < ApplicationRecord # rubocop:disable Metrics/ClassLength
   }
 
   validates :type, presence: true
-
-  def self.create_for(...)
-    build_for(...).tap { |new_game|
-      transaction do
-        new_game.save!
-        yield(new_game) if block_given?
-        new_game.board.generate_cells
-      end
-    }
-  end
-
-  # @attr settings [Board::Settings]
-  def self.build_for(settings:)
-    new(type: settings.type).tap { |new_game|
-      new_game.build_board(settings:)
-    }
-  end
 
   def self.display_id_width
     @display_id_width ||= [largest_id.digits.size, 4].max

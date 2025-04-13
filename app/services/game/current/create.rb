@@ -38,7 +38,7 @@ class Game::Current::Create
   def layout = context.layout
 
   def do_create
-    Game.create_for(settings:) { |new_game|
+    Game::Factory.create_for(settings:) { |new_game|
       GameCreateTransaction.create_between(user:, game: new_game)
       ParticipantTransaction.create_active_between(user:, game: new_game)
       FleetTracker.add!(user.token)

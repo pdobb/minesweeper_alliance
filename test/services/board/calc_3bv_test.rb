@@ -7,7 +7,8 @@ class Board::Calc3BVTest < ActiveSupport::TestCase
 
   let(:custom_game1_board) { custom_game1.board }
   let(:custom_game1) {
-    Game.create_for(settings: Board::Settings.pattern("3BV Test Pattern 1"))
+    Game::Factory.create_for(
+      settings: Board::Settings.pattern("3BV Test Pattern 1"))
   }
 
   describe ".call" do
