@@ -100,53 +100,11 @@ class GameTest < ActiveSupport::TestCase
     end
   end
 
-  describe "#start" do
-    before do
-      MuchStub.on_call(Board::RandomlyPlaceMines, :call) { |call|
-        @randomly_place_mines_call = call
-      }
-    end
-
-    given "Game#status_standing_by? = true" do
-      subject { standing_by1 }
-
-      it "orchestrates the expected updates and returns the Game" do
-        result =
-          _(-> {
-            subject.start(seed_cell: nil, user: user1)
-          }).must_change_all([
-            ["subject.started_at"],
-            [
-              "subject.status",
-              from: subject.status_standing_by,
-              to: subject.status_sweep_in_progress,
-            ],
-          ])
-        _(result).must_be_same_as(subject)
-        _(@randomly_place_mines_call.kargs.fetch(:seed_cell)).must_be_nil
-      end
-    end
-
-    given "Game#status_standing_by? = false" do
-      subject { win1 }
-
-      it "returns the Game without orchestrating any changes" do
-        result =
-          _(-> {
-            subject.start(seed_cell: nil, user: user1)
-          }).wont_change_all([
-            ["subject.started_at"],
-            ["subject.status"],
-          ])
-        _(result).must_be_same_as(subject)
-        _(@randomly_place_mines_call).must_be_nil
-      end
-    end
-  end
-
   describe "#end_in_victory" do
     given "a Game that's still on" do
-      subject { standing_by1.start(seed_cell: nil, user: user1) }
+      subject {
+        Game::Start.(game: standing_by1, user: user1, seed_cell: nil)
+      }
 
       it "updates Game#ended_at" do
         _(-> { subject.end_in_victory(user: user1) }).must_change(
@@ -189,7 +147,9 @@ class GameTest < ActiveSupport::TestCase
 
   describe "#end_in_defeat" do
     given "a Game that's still on" do
-      subject { standing_by1.start(seed_cell: nil, user: user1) }
+      subject {
+        Game::Start.(game: standing_by1, user: user1, seed_cell: nil)
+      }
 
       it "updates Game#ended_at" do
         _(-> { subject.end_in_defeat(user: user1) }).must_change(
@@ -343,7 +303,7 @@ class GameTest < ActiveSupport::TestCase
 
     given "Game#ended_at was just set/saved" do
       subject {
-        standing_by1.start(seed_cell: nil, user: user1)
+        Game::Start.(game: standing_by1, user: user1, seed_cell: nil)
         standing_by1.end_in_victory(user: user1)
       }
 
@@ -393,7 +353,9 @@ class GameTest < ActiveSupport::TestCase
     let(:deep_expiration_minutes) { 3.minutes }
 
     given "Game#on?" do
-      subject { standing_by1.start(seed_cell: nil, user: user1) }
+      subject {
+        Game::Start.(game: standing_by1, user: user1, seed_cell: nil)
+      }
 
       it "returns false" do
         _(subject.ended_a_while_ago?).must_equal(false)

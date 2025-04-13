@@ -54,7 +54,7 @@ class Game::Board::Reveal
   def start_game_if_standing_by
     return unless game.status_standing_by?
 
-    game.start(seed_cell: cell, user:)
+    Game::Start.(game:, seed_cell: cell, user:)
   end
 
   def reveal_cell

@@ -12,7 +12,9 @@ class Game::StatsTest < ActiveSupport::TestCase
     subject { Game::Stats }
 
     given "Game#on?" do
-      before { standing_by1.start(seed_cell: nil, user: user1) }
+      before do
+        Game::Start.(game: standing_by1, user: user1, seed_cell: nil)
+      end
 
       it "returns nil" do
         _(subject.duration(standing_by1)).must_be_nil

@@ -167,7 +167,7 @@ class BoardTest < ActiveSupport::TestCase
     given "the associated Game#status_sweep_in_progress? = true" do
       given "the Board is not yet in a victorious state" do
         before do
-          subject.game.start(seed_cell: nil, user: user1)
+          Game::Start.(game: subject.game, user: user1, seed_cell: nil)
         end
 
         subject { standing_by1_board }
@@ -181,7 +181,7 @@ class BoardTest < ActiveSupport::TestCase
 
       given "the Board is in a victorious state" do
         before do
-          subject.game.start(seed_cell: nil, user: user1)
+          Game::Start.(game: subject.game, user: user1, seed_cell: nil)
           subject.cells.is_not_mine.update_all(revealed: true)
           subject.cells.reload
         end

@@ -205,20 +205,6 @@ class Game < ApplicationRecord # rubocop:disable Metrics/ClassLength
 
   def display_id = "##{id.to_s.rjust(self.class.display_id_width, "0")}"
 
-  # :reek:TooManyStatements
-
-  def start(seed_cell:, user:)
-    return self unless status_standing_by?
-
-    transaction do
-      GameStartTransaction.create_between(user:, game: self)
-      board.place_mines(seed_cell:)
-      set_status_sweep_in_progress!
-    end
-
-    self
-  end
-
   def end_in_victory(user:)
     end_game(user:) {
       set_status_alliance_wins!
