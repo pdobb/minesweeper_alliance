@@ -147,56 +147,6 @@ class BoardTest < ActiveSupport::TestCase
     end
   end
 
-  describe "#check_for_victory" do
-    before do
-      MuchStub.tap_on_call(Game::EndInVictory, :call) { |call|
-        @game_end_in_victory_call = call
-      }
-    end
-
-    given "the associated Game#status_sweep_in_progress? = false" do
-      subject { [standing_by1_board, win1_board, loss1_board].sample }
-
-      it "doesn't orchestrate any changes, and returns nil" do
-        result = subject.check_for_victory(user: user1)
-        _(result).must_be_nil
-        _(@game_end_in_victory_call).must_be_nil
-      end
-    end
-
-    given "the associated Game#status_sweep_in_progress? = true" do
-      given "the Board is not yet in a victorious state" do
-        before do
-          Game::Start.(game: subject.game, user: user1, seed_cell: nil)
-        end
-
-        subject { standing_by1_board }
-
-        it "doesn't call Game#end_in_vicotry, and returns false" do
-          result = subject.check_for_victory(user: user1)
-          _(result).must_equal(false)
-          _(@game_end_in_victory_call).must_be_nil
-        end
-      end
-
-      given "the Board is in a victorious state" do
-        before do
-          Game::Start.(game: subject.game, user: user1, seed_cell: nil)
-          subject.cells.is_not_mine.update_all(revealed: true)
-          subject.cells.reload
-        end
-
-        subject { standing_by1_board }
-
-        it "calls Game#end_in_vicotry, and returns the Game" do
-          result = subject.check_for_victory(user: user1)
-          _(result).must_be_same_as(subject.game)
-          _(@game_end_in_victory_call).wont_be_nil
-        end
-      end
-    end
-  end
-
   describe "#cells_at" do
     let(:standing_by1_board_cell1) { cells(:standing_by1_board_cell1) }
     let(:standing_by1_board_cell2) { cells(:standing_by1_board_cell2) }

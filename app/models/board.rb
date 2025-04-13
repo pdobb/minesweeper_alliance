@@ -71,12 +71,6 @@ class Board < ApplicationRecord
     settings.name if pattern?
   end
 
-  def check_for_victory(user:)
-    return unless game.status_sweep_in_progress?
-
-    all_safe_cells_have_been_revealed? and Game::EndInVictory.(game:, user:)
-  end
-
   def cells_at(coordinates_array)
     coordinates_array = Array.wrap(coordinates_array)
     cells.select { |cell| coordinates_array.include?(cell.coordinates) }
@@ -90,10 +84,6 @@ class Board < ApplicationRecord
   end
 
   private
-
-  def all_safe_cells_have_been_revealed?
-    cells.none? { Cell::State.safely_revealable?(it) }
-  end
 
   def validate_settings
     return if settings.valid?

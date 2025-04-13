@@ -102,6 +102,6 @@ class Game::Board::RevealNeighbors
   end
 
   def end_game_in_victory_if_all_safe_cells_revealed
-    board.check_for_victory(user:)
+    Board::CheckForVictory.(board:, user:)
   end
 end

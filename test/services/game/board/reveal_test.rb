@@ -31,7 +31,7 @@ class Game::Board::RevealTest < ActiveSupport::TestCase
         @cell_upsert_call = call
         Class.new { def pluck(*) = 9 }.new # standing_by1_board_cell1.id
       }
-      MuchStub.on_call(standing_by1_board, :check_for_victory) { |call|
+      MuchStub.on_call(Board::CheckForVictory, :call) { |call|
         @board_check_for_victory_call = call
       }
     end
