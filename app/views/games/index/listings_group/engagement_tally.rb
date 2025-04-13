@@ -17,10 +17,14 @@ class Games::Index::ListingsGroup::EngagementTally
               :base_arel
 
   def start_at
-    date.in_time_zone.at_beginning_of_day
+    all_day.begin
   end
 
   def end_at
-    date.in_time_zone.at_end_of_day
+    all_day.end
+  end
+
+  def all_day
+    @all_day ||= date.in_time_zone.all_day
   end
 end
