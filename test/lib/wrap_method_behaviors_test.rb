@@ -15,7 +15,7 @@ class WrapMethodBehaviorsTest < ActiveSupport::TestCase
   }
 
   describe ".wrap" do
-    subject { Wrapper1 }
+    subject { TestDouble1 }
 
     it "calls #new on each object" do
       wrapped_objects = subject.wrap(objects, **object_kwargs)
@@ -49,7 +49,7 @@ class WrapMethodBehaviorsTest < ActiveSupport::TestCase
       { "key1" => objects, "key2" => objects }
     }
 
-    subject { Wrapper2 }
+    subject { TestDouble2 }
 
     it "calls #new on each object" do
       result = subject.wrap_hash(hash1, **object_kwargs)
@@ -65,7 +65,7 @@ class WrapMethodBehaviorsTest < ActiveSupport::TestCase
   end
 
   describe ".wrap_upto" do
-    subject { Wrapper1 }
+    subject { TestDouble1 }
 
     given "limit < objects.size" do
       let(:limit) { 1 }
@@ -118,7 +118,7 @@ class WrapMethodBehaviorsTest < ActiveSupport::TestCase
     end
   end
 
-  class Wrapper1
+  class TestDouble1
     include WrapMethodBehaviors
 
     attr_reader :object,
@@ -130,7 +130,7 @@ class WrapMethodBehaviorsTest < ActiveSupport::TestCase
     end
   end
 
-  class Wrapper2
+  class TestDouble2
     include WrapMethodBehaviors
 
     attr_reader :key,
