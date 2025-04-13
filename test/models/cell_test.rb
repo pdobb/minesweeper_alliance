@@ -130,30 +130,6 @@ class CellTest < ActiveSupport::TestCase
     end
   end
 
-  describe "#toggle_flag" do
-    given "#flagged was previously falsey" do
-      subject { standing_by1_board_cell1 }
-
-      it "sets #flagged to true" do
-        _(-> { subject.toggle_flag }).must_change(
-          "subject.flagged?", to: true)
-      end
-    end
-
-    given "#flagged was previously truthy" do
-      before do
-        subject.update!(flagged: true)
-      end
-
-      subject { standing_by1_board_cell1 }
-
-      it "sets #flagged to false" do
-        _(-> { subject.toggle_flag }).must_change(
-          "subject.flagged?", to: false)
-      end
-    end
-  end
-
   describe "#highlight_neighborhood" do
     given "an unrevealed Cell" do
       subject { standing_by1_board_cell1 }

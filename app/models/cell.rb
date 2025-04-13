@@ -58,12 +58,6 @@ class Cell < ApplicationRecord
 
   def id?(value) = to_param == value.to_s
 
-  def toggle_flag
-    toggle!(:flagged)
-
-    self
-  end
-
   def highlight_neighborhood
     return unless revealed?
 

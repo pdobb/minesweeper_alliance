@@ -28,11 +28,13 @@ class Game::Board::ToggleFlag
               :cell,
               :user
 
-  def toggle_flag = cell.toggle_flag
-
   def create_transaction_records
     transaction_class.create_between(user:, cell:)
     ParticipantTransaction.activate_between(user:, game:)
+  end
+
+  def toggle_flag
+    Cell::ToggleFlag.(cell)
   end
 
   def transaction_class
