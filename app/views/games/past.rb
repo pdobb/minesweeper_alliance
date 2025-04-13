@@ -29,6 +29,6 @@ class Games::Past
 
   attr_reader :game
 
-  def ended_in_defeat? = game.ended_in_defeat?
-  def ended_in_victory? = game.ended_in_victory?
+  def ended_in_victory? = Game::Status.ended_in_victory?(game)
+  def ended_in_defeat? = Game::Status.ended_in_defeat?(game)
 end

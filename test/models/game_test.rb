@@ -155,42 +155,6 @@ class GameTest < ActiveSupport::TestCase
     end
   end
 
-  describe "#ended_in_victory?" do
-    given "Game#status_alliance_wins? = true" do
-      subject { win1 }
-
-      it "returns true" do
-        _(subject.ended_in_victory?).must_equal(true)
-      end
-    end
-
-    given "Game#status_alliance_wins? = false'" do
-      subject { [loss1, standing_by1].sample }
-
-      it "returns false" do
-        _(subject.ended_in_victory?).must_equal(false)
-      end
-    end
-  end
-
-  describe "#ended_in_defeat?" do
-    given "Game#status_mines_win? == true" do
-      subject { loss1 }
-
-      it "returns true" do
-        _(subject.ended_in_defeat?).must_equal(true)
-      end
-    end
-
-    given "Game#status_mines_win? == false" do
-      subject { [win1, standing_by1].sample }
-
-      it "returns false" do
-        _(subject.ended_in_defeat?).must_equal(false)
-      end
-    end
-  end
-
   describe "#ended_a_while_ago?" do
     let(:deep_expiration_minutes) { 3.minutes }
 

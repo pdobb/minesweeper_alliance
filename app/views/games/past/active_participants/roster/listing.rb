@@ -22,8 +22,8 @@ class Games::Past::ActiveParticipants::Roster::Listing
 
   def created_game? = context.game_creator?(user)
   def started_game? = context.game_starter?(user)
-  def tripped_mine? = game.ended_in_defeat? && game_ender?
-  def cleared_board? = game.ended_in_victory? && game_ender?
+  def tripped_mine? = game_ended_in_defeat? && game_ender?
+  def cleared_board? = game_ended_in_victory? && game_ender?
 
   private
 
@@ -31,5 +31,7 @@ class Games::Past::ActiveParticipants::Roster::Listing
               :context
 
   def game = context.game
+  def game_ended_in_defeat? = Game::Status.ended_in_defeat?(game)
+  def game_ended_in_victory? = Game::Status.ended_in_victory?(game)
   def game_ender? = context.game_ender?(user)
 end

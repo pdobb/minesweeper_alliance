@@ -9,4 +9,12 @@ module Game::Status
   def self.over?(game)
     !on?(game)
   end
+
+  def self.ended_in_victory?(game)
+    game.status_alliance_wins?
+  end
+
+  def self.ended_in_defeat?(game)
+    game.status_mines_win?
+  end
 end

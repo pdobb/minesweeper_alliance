@@ -23,5 +23,5 @@ class Games::JustEnded::Actions
 
   attr_reader :game
 
-  def ended_in_victory? = game.ended_in_victory?
+  def ended_in_victory? = Game::Status.ended_in_victory?(game)
 end

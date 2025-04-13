@@ -47,6 +47,6 @@ class Games::Past::Board::Cell
   attr_reader :cell,
               :game
 
-  def game_ended_in_victory? = game.ended_in_victory?
+  def game_ended_in_victory? = Game::Status.ended_in_victory?(game)
   def incorrectly_flagged? = Cell::State.incorrectly_flagged?(cell)
 end

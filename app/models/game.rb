@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 # :reek:TooManyConstants
-# :reek:TooManyMethods
 
 # Game represents a game of Minesweeper Alliance. Game play is kept as close to
 # that of the original Microsoft Minesweeper game as possible, while adding a
@@ -65,7 +64,7 @@
 #   `game.active_participant_transactions.count`. Maintained by
 #   {ParticipantTransaction.create_active_between} and
 #   {ParticipantTransaction.activate_between}.
-class Game < ApplicationRecord # rubocop:disable Metrics/ClassLength
+class Game < ApplicationRecord
   self.inheritance_column = nil
   self.implicit_order_column = "created_at"
 
@@ -217,8 +216,6 @@ class Game < ApplicationRecord # rubocop:disable Metrics/ClassLength
 
   def just_started? = !!just_started
   def just_ended? = !!just_ended
-  def ended_in_victory? = status_alliance_wins?
-  def ended_in_defeat? = status_mines_win?
 
   def ended_a_while_ago?(minutes: FleetTracker::DEEP_EXPIRATION_MINUTES)
     return false unless ended_at?
