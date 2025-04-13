@@ -130,43 +130,6 @@ class CellTest < ActiveSupport::TestCase
     end
   end
 
-  describe "#highlight_neighborhood" do
-    given "an unrevealed Cell" do
-      subject { standing_by1_board_cell1 }
-
-      it "returns nil" do
-        result =
-          _(-> { subject.highlight_neighborhood }).wont_change(
-            "subject.neighbors.highlighted_count")
-        _(result).must_be_nil
-      end
-    end
-
-    given "a revealed Cell with unhighlighted neighbors" do
-      before do
-        Cell::Reveal.(subject)
-      end
-
-      subject { standing_by1_board_cell1 }
-
-      it "highlights the expected Cells, and returns them" do
-        result =
-          _(-> { subject.highlight_neighborhood }).must_change_all([
-            ["subject.highlight_origin?", to: true],
-            ["subject.neighbors.highlighted_count", from: 0, to: 3],
-          ])
-
-        origin, neighbors = result.to_a.first
-        _(origin).must_be_same_as(subject)
-        _(neighbors).must_match_array([
-          standing_by1_board_cell2,
-          standing_by1_board_cell4,
-          standing_by1_board_cell5,
-        ])
-      end
-    end
-  end
-
   describe "#dehighlight_neighborhood" do
     subject { standing_by1_board_cell1 }
 
@@ -181,7 +144,7 @@ class CellTest < ActiveSupport::TestCase
     given "a revealed Cell" do
       before do
         Cell::Reveal.(subject)
-        subject.highlight_neighborhood
+        Cell::HighlightNeighborhood.(subject)
       end
 
       subject { standing_by1_board_cell1 }

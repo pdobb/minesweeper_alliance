@@ -58,15 +58,6 @@ class Cell < ApplicationRecord
 
   def id?(value) = to_param == value.to_s
 
-  def highlight_neighborhood
-    return unless revealed?
-
-    set_highlight_origin
-    { self => highlight_neighbors }
-  end
-
-  def set_highlight_origin = update_column(:highlight_origin, true)
-
   def dehighlight_neighborhood
     return unless revealed?
 
@@ -74,6 +65,7 @@ class Cell < ApplicationRecord
     { self => dehighlight_neighbors }
   end
 
+  def set_highlight_origin = update_column(:highlight_origin, true)
   def unset_highlight_origin = update_column(:highlight_origin, false)
 
   def neighbors = Cell::Neighbors.new(cell: self)
@@ -87,20 +79,6 @@ class Cell < ApplicationRecord
   end
 
   private
-
-  # @return [Array<Cell>] The Cells that were just highlighted.
-  def highlight_neighbors
-    neighbors.each_with_object(CompactArray.new) { |neighboring_cell, acc|
-      acc << neighboring_cell.__send__(:highlight)
-    }.to_a
-  end
-
-  def highlight
-    return unless Cell::State.highlightable?(self)
-
-    update_column(:highlighted, true)
-    self
-  end
 
   def dehighlight_neighbors
     neighbors.each_with_object(CompactArray.new) { |neighboring_cell, acc|

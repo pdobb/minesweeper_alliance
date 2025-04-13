@@ -22,7 +22,7 @@ class Games::Current::Board::Cells::HighlightNeighborsController <
 
   def perform_effect
     game.with_lock do
-      cell.highlight_neighborhood
+      Cell::HighlightNeighborhood.(cell)
     end
   end
 end
