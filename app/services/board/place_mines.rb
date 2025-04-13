@@ -19,7 +19,7 @@ class Board::PlaceMines
     raise(Error, "can't place mines in an unsaved Board") if new_record?
     raise(Error, "mines have already been placed") if mines_placed?
 
-    updated_cells = place_mines
+    updated_cells = place_mines_in_cells
     save_mines_placement(updated_cells)
 
     self
@@ -36,7 +36,7 @@ class Board::PlaceMines
   def mines_placed? = board.mines_placed?
   def mines = board.mines
 
-  def place_mines
+  def place_mines_in_cells
     eligible_cells.each(&:place_mine)
   end
 

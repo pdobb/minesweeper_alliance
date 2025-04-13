@@ -46,7 +46,7 @@ class Game::Start
   end
 
   def place_mines
-    board.place_mines(seed_cell:)
+    Board::DetermineMinesPlacement.(board:, seed_cell:)
   end
 
   def update_game_status

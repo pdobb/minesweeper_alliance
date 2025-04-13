@@ -36,15 +36,6 @@ class Board < ApplicationRecord
 
   validate :validate_settings, on: :create
 
-  def place_mines(seed_cell:)
-    if pattern?
-      coordinates_array = pattern.coordinates_array
-      PlaceMines.(board: self, coordinates_array:, seed_cell:)
-    else
-      RandomlyPlaceMines.(board: self, seed_cell:)
-    end
-  end
-
   def settings
     @settings ||= Settings.new(**super)
   end
