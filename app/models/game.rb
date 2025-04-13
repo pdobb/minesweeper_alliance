@@ -234,8 +234,6 @@ class Game < ApplicationRecord # rubocop:disable Metrics/ClassLength
     ended_at + minutes <= Time.current
   end
 
-  def board_settings = board&.settings
-
   def best_categories
     @best_categories ||= Game::Bests.build_for(game: self).categories
   end

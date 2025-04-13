@@ -293,24 +293,6 @@ class GameTest < ActiveSupport::TestCase
     end
   end
 
-  describe "#board_settings" do
-    given "#board = nil" do
-      subject { new_game }
-
-      it "returns the expected Time Range" do
-        _(subject.board_settings).must_be_nil
-      end
-    end
-
-    given "#board != nil" do
-      subject { win1 }
-
-      it "returns the expected Time Range" do
-        _(subject.board_settings).must_be_instance_of(Board::Settings)
-      end
-    end
-  end
-
   describe "#user_bests" do
     given "a bestable Game type" do
       subject {
