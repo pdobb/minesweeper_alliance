@@ -12,8 +12,11 @@ class Cell::HighlightNeighborhood
   def call
     return unless revealed?
 
-    set_highlight_origin
-    result_cells = highlight_neighboring_cells
+    result_cells =
+      cell.transaction {
+        set_highlight_origin
+        highlight_neighboring_cells
+      }
 
     { cell => result_cells }
   end
