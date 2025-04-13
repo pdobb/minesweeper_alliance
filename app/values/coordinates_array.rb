@@ -29,6 +29,7 @@ class CoordinatesArray
       Array.wrap(coordinates_array).map { |coordinates|
         Conversions.Coordinates(coordinates)
       }
+    freeze
   end
 
   def to_ary = self

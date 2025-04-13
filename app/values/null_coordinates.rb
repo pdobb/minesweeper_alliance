@@ -5,6 +5,10 @@
 # stand-in for any {Cell} (or otherwise) that expects {Coordinates}, but doesn't
 # currently have a sensible X/Y value set.
 class NullCoordinates
+  def initialize
+    freeze
+  end
+
   def x = nil
   def y = nil
 

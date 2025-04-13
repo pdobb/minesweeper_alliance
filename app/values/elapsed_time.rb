@@ -17,6 +17,7 @@ class ElapsedTime
     now = Time.current
     @start_time = between.begin || now
     @end_time = between.end || now
+    freeze
   end
 
   # @return [ElapsedTime::Timestamp]
@@ -26,7 +27,7 @@ class ElapsedTime
 
   # @return [Integer] The total number of elapsed seconds.
   def to_i
-    @to_i ||= (end_time - start_time).to_i
+    (end_time - start_time).to_i
   end
 
   def over_a_day?
@@ -55,6 +56,7 @@ class ElapsedTime
 
     def initialize(total_seconds)
       @total_seconds = total_seconds
+      freeze
     end
 
     # @return [Array] e.g. [<hours>, <minutes>, <seconds>]
