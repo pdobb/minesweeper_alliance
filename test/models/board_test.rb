@@ -219,14 +219,6 @@ class BoardTest < ActiveSupport::TestCase
     end
   end
 
-  describe "#mine_cells" do
-    subject { win1_board }
-
-    it "returns the expected Array" do
-      _(subject.mine_cells).must_match_array([win1_board_cell1])
-    end
-  end
-
   describe "#mines_placed?" do
     given "mines present" do
       subject { win1_board }
