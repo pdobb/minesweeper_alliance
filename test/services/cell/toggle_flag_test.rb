@@ -32,6 +32,24 @@ class Cell::ToggleFlagTest < ActiveSupport::TestCase
           ])
         _(result).must_be_same_as(cell1)
       end
+
+      given "a highlighted Cell" do
+        let(:cell1) {
+          standing_by1_board_cell1.tap {
+            it.update(highlighted: true)
+          }
+        }
+
+        it "sets the expected attributes" do
+          result =
+            _(-> { subject.call(cell1) }).must_change_all([
+              ["cell1.flagged", to: true],
+              ["cell1.highlighted", to: false],
+              ["cell1.updated_at"],
+            ])
+          _(result).must_be_same_as(cell1)
+        end
+      end
     end
 
     given "a flagged Cell" do
@@ -48,6 +66,25 @@ class Cell::ToggleFlagTest < ActiveSupport::TestCase
             ["cell1.updated_at"],
           ])
         _(result).must_be_same_as(cell1)
+      end
+
+      given "a highlighted Cell" do
+        let(:cell1) {
+          standing_by1_board_cell1.tap {
+            it.update(flagged: true, highlighted: true)
+          }
+        }
+
+        it "sets the expected attributes" do
+          result =
+            _(-> {
+              _(-> { subject.call(cell1) }).wont_change("cell1.highlighted")
+            }).must_change_all([
+              ["cell1.flagged", to: false],
+              ["cell1.updated_at"],
+            ])
+          _(result).must_be_same_as(cell1)
+        end
       end
     end
   end
