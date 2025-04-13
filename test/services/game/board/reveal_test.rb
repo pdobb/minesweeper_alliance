@@ -74,7 +74,7 @@ class Game::Board::RevealTest < ActiveSupport::TestCase
 
     given "a previously revealed Cell" do
       before do
-        standing_by1_board_cell1.reveal
+        Cell::Reveal.(standing_by1_board_cell1)
       end
 
       subject { unit_class.new(context: context1) }

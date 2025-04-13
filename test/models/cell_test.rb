@@ -154,63 +154,6 @@ class CellTest < ActiveSupport::TestCase
     end
   end
 
-  describe "#reveal" do
-    given "an already revealed Cell" do
-      before do
-        standing_by1_board_cell1.reveal
-      end
-
-      subject { standing_by1_board_cell1 }
-
-      it "returns nil" do
-        result =
-          _(-> { subject.reveal }).wont_change_all([
-            ["subject.revealed"],
-            ["subject.highlighted"],
-            ["subject.flagged"],
-            ["subject.value"],
-          ])
-        _(result).must_be_nil
-      end
-    end
-
-    given "an unrevealed, flagged Cell" do
-      before do
-        subject.update_column(:flagged, true)
-      end
-
-      subject { standing_by1_board_cell1 }
-
-      it "updates itself as expected, and returns self" do
-        result =
-          _(-> { subject.reveal }).must_change_all([
-            ["subject.revealed", to: true],
-            ["subject.flagged", to: false],
-            ["subject.value"],
-          ])
-        _(result).must_be_same_as(subject)
-      end
-    end
-
-    given "an unrevealed, highlighted Cell" do
-      before do
-        subject.update_column(:highlighted, true)
-      end
-
-      subject { standing_by1_board_cell1 }
-
-      it "updates itself as expected, and returns self" do
-        result =
-          _(-> { subject.reveal }).must_change_all([
-            ["subject.revealed", to: true],
-            ["subject.highlighted", to: false],
-            ["subject.value"],
-          ])
-        _(result).must_be_same_as(subject)
-      end
-    end
-  end
-
   describe "#highlight_neighborhood" do
     given "an unrevealed Cell" do
       subject { standing_by1_board_cell1 }
@@ -225,7 +168,7 @@ class CellTest < ActiveSupport::TestCase
 
     given "a revealed Cell with unhighlighted neighbors" do
       before do
-        subject.reveal
+        Cell::Reveal.(subject)
       end
 
       subject { standing_by1_board_cell1 }
@@ -261,7 +204,7 @@ class CellTest < ActiveSupport::TestCase
 
     given "a revealed Cell" do
       before do
-        subject.reveal
+        Cell::Reveal.(subject)
         subject.highlight_neighborhood
       end
 

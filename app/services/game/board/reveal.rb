@@ -61,7 +61,7 @@ class Game::Board::Reveal
     cell.transaction do
       CellRevealTransaction.create_between(user:, cell:)
       ParticipantTransaction.activate_between(user:, game:)
-      cell.reveal
+      Cell::Reveal.(cell)
     end
   end
 

@@ -87,7 +87,7 @@ class Game::Board::RevealNeighbors
 
   # :reek:FeatureEnvy
   def reveal(neighboring_cell)
-    neighboring_cell.reveal
+    Cell::Reveal.(neighboring_cell)
 
     end_in_defeat(user:) if neighboring_cell.mine?
   end

@@ -64,12 +64,6 @@ class Cell < ApplicationRecord
     self
   end
 
-  def reveal
-    return if revealed?
-
-    Cell::SoftReveal.(self).tap(&:save!)
-  end
-
   def highlight_neighborhood
     return unless revealed?
 
