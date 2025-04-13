@@ -55,9 +55,6 @@ class Cell < ApplicationRecord
 
   def id?(value) = to_param == value.to_s
 
-  def set_highlight_origin = update_column(:highlight_origin, true)
-  def unset_highlight_origin = update_column(:highlight_origin, false)
-
   def upsertable_attributes
     attributes.except("updated_at")
   end

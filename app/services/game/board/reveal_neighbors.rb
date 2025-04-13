@@ -68,7 +68,7 @@ class Game::Board::RevealNeighbors
     end
   end
 
-  def unset_highlight_origin = cell.unset_highlight_origin
+  def unset_highlight_origin = cell.update_column(:highlight_origin, false)
 
   def revealable_neighboring_cells
     @revealable_neighboring_cells ||= neighbors.revealable_cells

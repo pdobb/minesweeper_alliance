@@ -28,7 +28,7 @@ class Cell::DehighlightNeighborhood
   def revealed? = cell.revealed?
   def neighbors = Cell::Neighbors.new(cell:)
 
-  def unset_highlight_origin = cell.unset_highlight_origin
+  def unset_highlight_origin = cell.update_column(:highlight_origin, false)
 
   # @return [Array<Cell>] The Cells that were just highlighted.
   def dehighlight_neighboring_cells

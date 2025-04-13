@@ -8,6 +8,7 @@ class Pattern::Cell
   def initialize(pattern:, coordinates:)
     @pattern = pattern
     @coordinates = coordinates
+    freeze
   end
 
   def x = coordinates.x
