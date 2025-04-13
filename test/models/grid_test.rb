@@ -3,14 +3,12 @@
 require "test_helper"
 
 class GridTest < ActiveSupport::TestCase
-  let(:unit_class) { Grid }
-
   let(:cells_array1) { [Coordinates[0, 0], Coordinates[1, 0]] }
   let(:coordinates1) { Coordinates[9, 9] }
 
   describe "#cells" do
     given "a Cell" do
-      subject { unit_class.new(coordinates1) }
+      subject { Grid.new(coordinates1) }
 
       it "returns the expected Array" do
         _(subject.cells).must_equal([coordinates1])
@@ -18,7 +16,7 @@ class GridTest < ActiveSupport::TestCase
     end
 
     given "an Array of Cells" do
-      subject { unit_class.new(cells_array1) }
+      subject { Grid.new(cells_array1) }
 
       it "returns the expected Array" do
         _(subject.cells).must_equal(cells_array1)
@@ -27,7 +25,7 @@ class GridTest < ActiveSupport::TestCase
   end
 
   describe "#cells_count" do
-    subject { unit_class.new([coordinates1]) }
+    subject { Grid.new([coordinates1]) }
 
     it "returns the expected Integer" do
       _(subject.cells_count).must_equal(1)
@@ -35,7 +33,7 @@ class GridTest < ActiveSupport::TestCase
   end
 
   describe "#columns_count" do
-    subject { unit_class.new(cells_array1) }
+    subject { Grid.new(cells_array1) }
 
     it "returns the expected Integer" do
       _(subject.columns_count).must_equal(2)
@@ -44,7 +42,7 @@ class GridTest < ActiveSupport::TestCase
 
   describe "#to_h" do
     given "Cell#y is not nil" do
-      subject { unit_class.new([coordinates1]) }
+      subject { Grid.new([coordinates1]) }
 
       it "returns the expected Hash" do
         _(subject.to_h).must_equal({ 9 => [coordinates1] })
@@ -52,7 +50,7 @@ class GridTest < ActiveSupport::TestCase
     end
 
     given "Cell#y is nil" do
-      subject { unit_class.new([Coordinates[nil, nil]]) }
+      subject { Grid.new([Coordinates[nil, nil]]) }
 
       it "returns the expected Hash" do
         _(subject.to_h).must_equal({ "nil" => [Coordinates[nil, nil]] })
@@ -61,7 +59,7 @@ class GridTest < ActiveSupport::TestCase
   end
 
   describe "#to_a" do
-    subject { unit_class.new(cells_array1) }
+    subject { Grid.new(cells_array1) }
 
     it "returns the expected Array" do
       _(subject.to_a).must_equal([cells_array1])
@@ -69,7 +67,7 @@ class GridTest < ActiveSupport::TestCase
   end
 
   describe "#map" do
-    subject { unit_class.new([coordinates1]) }
+    subject { Grid.new([coordinates1]) }
 
     it "returns an enumerator, GIVEN no block" do
       _(subject.map).must_be_instance_of(Enumerator)

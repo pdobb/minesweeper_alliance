@@ -3,10 +3,8 @@
 require "test_helper"
 
 class Board::SettingsTest < ActiveSupport::TestCase
-  let(:unit_class) { Board::Settings }
-
   context "Class Methods" do
-    subject { unit_class }
+    subject { Board::Settings }
 
     describe ".preset" do
       given "a valid type" do
@@ -14,8 +12,8 @@ class Board::SettingsTest < ActiveSupport::TestCase
 
         it "returns the expected instance" do
           result = subject.preset(type1)
-          _(result).must_be_instance_of(unit_class)
-          _(unit_class::PRESETS.keys).must_include(result.type)
+          _(result).must_be_instance_of(Board::Settings)
+          _(Board::Settings::PRESETS.keys).must_include(result.type)
         end
       end
 
@@ -37,21 +35,21 @@ class Board::SettingsTest < ActiveSupport::TestCase
     describe ".beginner" do
       it "returns the expected instance" do
         result = subject.beginner
-        _(result).must_be_instance_of(unit_class)
+        _(result).must_be_instance_of(Board::Settings)
         _(result.type).must_equal("Beginner")
       end
     end
     describe ".intermediate" do
       it "returns the expected instance" do
         result = subject.intermediate
-        _(result).must_be_instance_of(unit_class)
+        _(result).must_be_instance_of(Board::Settings)
         _(result.type).must_equal("Intermediate")
       end
     end
     describe ".expert" do
       it "returns the expected instance" do
         result = subject.expert
-        _(result).must_be_instance_of(unit_class)
+        _(result).must_be_instance_of(Board::Settings)
         _(result.type).must_equal("Expert")
       end
     end
@@ -64,8 +62,8 @@ class Board::SettingsTest < ActiveSupport::TestCase
 
         it "returns a random preset" do
           result = subject.random
-          _(result).must_be_instance_of(unit_class)
-          _(unit_class::PRESETS.keys).must_include(result.type)
+          _(result).must_be_instance_of(Board::Settings)
+          _(Board::Settings::PRESETS.keys).must_include(result.type)
         end
       end
 
@@ -77,7 +75,7 @@ class Board::SettingsTest < ActiveSupport::TestCase
 
           it "returns a random Preset Type" do
             result = subject.random
-            _(result).must_be_instance_of(unit_class)
+            _(result).must_be_instance_of(Board::Settings)
             _(result.type).wont_equal("Pattern")
             _(result.name).must_be_nil
           end
@@ -90,7 +88,7 @@ class Board::SettingsTest < ActiveSupport::TestCase
 
           it "returns a random Pattern Type" do
             result = subject.random
-            _(result).must_be_instance_of(unit_class)
+            _(result).must_be_instance_of(Board::Settings)
             _(result.type).must_equal("Pattern")
             _(result.name).wont_be_nil
           end
@@ -102,7 +100,7 @@ class Board::SettingsTest < ActiveSupport::TestCase
   describe "#validate" do
     describe "#type" do
       given "a #type" do
-        subject { unit_class.new(type: "Custom") }
+        subject { Board::Settings.new(type: "Custom") }
 
         it "passes validation" do
           subject.validate
@@ -111,7 +109,7 @@ class Board::SettingsTest < ActiveSupport::TestCase
       end
 
       given "no #type" do
-        subject { unit_class.new }
+        subject { Board::Settings.new }
 
         it "fails validation" do
           subject.validate
@@ -121,7 +119,7 @@ class Board::SettingsTest < ActiveSupport::TestCase
     end
 
     describe "#name" do
-      subject { unit_class.new(type: "Pattern", name: name1) }
+      subject { Board::Settings.new(type: "Pattern", name: name1) }
 
       given "#type = Pattern" do
         given "a #name" do
@@ -144,7 +142,7 @@ class Board::SettingsTest < ActiveSupport::TestCase
       end
 
       given "#type != Pattern" do
-        subject { unit_class.new }
+        subject { Board::Settings.new }
 
         it "passes validation, GIVEN no #name" do
           subject.validate
@@ -154,7 +152,7 @@ class Board::SettingsTest < ActiveSupport::TestCase
     end
 
     describe "#width" do
-      subject { unit_class[width1, 9, 4] }
+      subject { Board::Settings[width1, 9, 4] }
 
       given "a valid #width" do
         let(:width1) { 9 }
@@ -185,7 +183,7 @@ class Board::SettingsTest < ActiveSupport::TestCase
     end
 
     describe "#height" do
-      subject { unit_class[9, height1, 4] }
+      subject { Board::Settings[9, height1, 4] }
 
       given "a valid #height" do
         let(:height1) { 9 }
@@ -216,7 +214,7 @@ class Board::SettingsTest < ActiveSupport::TestCase
     end
 
     describe "#mines" do
-      subject { unit_class[9, 9, mines1] }
+      subject { Board::Settings[9, 9, mines1] }
 
       given "a valid #mines" do
         let(:mines1) { 10 }
@@ -246,7 +244,7 @@ class Board::SettingsTest < ActiveSupport::TestCase
       end
 
       given "other validation errors present" do
-        subject { unit_class[-1, 9, mines1] }
+        subject { Board::Settings[-1, 9, mines1] }
 
         given "too many #mines" do
           let(:mines1) { 99 }
@@ -270,7 +268,7 @@ class Board::SettingsTest < ActiveSupport::TestCase
       end
 
       given "no other validation errors present" do
-        subject { unit_class[9, 9, mines1] }
+        subject { Board::Settings[9, 9, mines1] }
 
         given "too many #mines" do
           let(:mines1) { 99 }
@@ -297,7 +295,7 @@ class Board::SettingsTest < ActiveSupport::TestCase
 
   describe "#type" do
     given "a preset" do
-      subject { unit_class.beginner }
+      subject { Board::Settings.beginner }
 
       it "returns the expected String" do
         _(subject.type).must_equal("Beginner")
@@ -305,7 +303,7 @@ class Board::SettingsTest < ActiveSupport::TestCase
     end
 
     given "custom attributes" do
-      subject { unit_class[6, 6, 9] }
+      subject { Board::Settings[6, 6, 9] }
 
       describe "#type" do
         it "returns the expected String" do
@@ -316,10 +314,10 @@ class Board::SettingsTest < ActiveSupport::TestCase
   end
 
   describe "#name" do
-    subject { unit_class.beginner }
+    subject { Board::Settings.beginner }
 
     given "a preset" do
-      subject { unit_class.beginner }
+      subject { Board::Settings.beginner }
 
       it "returns nil" do
         _(subject.name).must_be_nil
@@ -327,7 +325,7 @@ class Board::SettingsTest < ActiveSupport::TestCase
     end
 
     given "a pattern" do
-      subject { unit_class.pattern("Test Pattern 1") }
+      subject { Board::Settings.pattern("Test Pattern 1") }
 
       it "returns the expected String" do
         _(subject.name).must_equal("Test Pattern 1")
@@ -336,7 +334,7 @@ class Board::SettingsTest < ActiveSupport::TestCase
   end
 
   describe "#width" do
-    subject { unit_class.beginner }
+    subject { Board::Settings.beginner }
 
     describe "#width" do
       it "returns the expected Integer" do
@@ -346,7 +344,7 @@ class Board::SettingsTest < ActiveSupport::TestCase
   end
 
   describe "#height" do
-    subject { unit_class.beginner }
+    subject { Board::Settings.beginner }
 
     it "returns the expected Integer" do
       _(subject.height).must_equal(9)
@@ -354,7 +352,7 @@ class Board::SettingsTest < ActiveSupport::TestCase
   end
 
   describe "#mines" do
-    subject { unit_class.beginner }
+    subject { Board::Settings.beginner }
 
     it "returns the expected Integer" do
       _(subject.mines).must_equal(10)
@@ -363,7 +361,7 @@ class Board::SettingsTest < ActiveSupport::TestCase
 
   describe "#custom?" do
     given "a preset" do
-      subject { unit_class.beginner }
+      subject { Board::Settings.beginner }
 
       it "returns false" do
         _(subject.custom?).must_equal(false)
@@ -371,7 +369,7 @@ class Board::SettingsTest < ActiveSupport::TestCase
     end
 
     given "custom attributes" do
-      subject { unit_class[6, 6, 9] }
+      subject { Board::Settings[6, 6, 9] }
 
       it "returns true" do
         _(subject.custom?).must_equal(true)
@@ -381,7 +379,7 @@ class Board::SettingsTest < ActiveSupport::TestCase
 
   describe "#pattern?" do
     given "a preset" do
-      subject { unit_class.beginner }
+      subject { Board::Settings.beginner }
 
       it "returns false" do
         _(subject.pattern?).must_equal(false)
@@ -389,7 +387,7 @@ class Board::SettingsTest < ActiveSupport::TestCase
     end
 
     given "a pattern" do
-      subject { unit_class.pattern("Test Pattern 1") }
+      subject { Board::Settings.pattern("Test Pattern 1") }
 
       it "returns true" do
         _(subject.pattern?).must_equal(true)
@@ -399,7 +397,7 @@ class Board::SettingsTest < ActiveSupport::TestCase
 
   describe "#to_s" do
     given "a preset" do
-      subject { unit_class.beginner }
+      subject { Board::Settings.beginner }
 
       it "returns the expected String" do
         _(subject.to_s).must_equal("Beginner")
@@ -407,7 +405,7 @@ class Board::SettingsTest < ActiveSupport::TestCase
     end
 
     given "custom attributes" do
-      subject { unit_class[6, 6, 9] }
+      subject { Board::Settings[6, 6, 9] }
 
       it "returns the expected String" do
         _(subject.to_s).must_equal("Custom")
@@ -417,7 +415,7 @@ class Board::SettingsTest < ActiveSupport::TestCase
 
   describe "#to_h" do
     given "a preset" do
-      subject { unit_class.beginner }
+      subject { Board::Settings.beginner }
 
       it "returns the expected Hash" do
         _(subject.to_h).must_equal(
@@ -426,7 +424,7 @@ class Board::SettingsTest < ActiveSupport::TestCase
     end
 
     given "custom attributes" do
-      subject { unit_class[6, 6, 9] }
+      subject { Board::Settings[6, 6, 9] }
 
       describe "#to_h" do
         it "returns the expected Hash" do
@@ -438,7 +436,7 @@ class Board::SettingsTest < ActiveSupport::TestCase
   end
 
   describe "#as_json" do
-    subject { unit_class.beginner }
+    subject { Board::Settings.beginner }
 
     it "returns the expected Hash" do
       _(subject.as_json).must_equal(

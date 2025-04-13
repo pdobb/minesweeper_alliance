@@ -3,15 +3,13 @@
 require "test_helper"
 
 class Cell::StateTest < ActiveSupport::TestCase
-  let(:unit_class) { Cell::State }
-
   let(:win1_board_cell1) { cells(:win1_board_cell1) }
   let(:win1_board_cell2) { cells(:win1_board_cell2) }
   let(:win1_board_cell3) { cells(:win1_board_cell3) }
   let(:standing_by1_board_cell1) { cells(:standing_by1_board_cell1) }
 
   describe ".unrevealed?" do
-    subject { unit_class }
+    subject { Cell::State }
 
     given "Cell#revealed? == false" do
       it "returns true" do
@@ -27,7 +25,7 @@ class Cell::StateTest < ActiveSupport::TestCase
   end
 
   describe ".revealable?" do
-    subject { unit_class }
+    subject { Cell::State }
 
     given "Cell#revealed? == true" do
       it "returns false" do
@@ -51,7 +49,7 @@ class Cell::StateTest < ActiveSupport::TestCase
   end
 
   describe ".safely_revealable?" do
-    subject { unit_class }
+    subject { Cell::State }
 
     given "Cell#mine? == true" do
       it "returns false" do
@@ -76,7 +74,7 @@ class Cell::StateTest < ActiveSupport::TestCase
   end
 
   describe ".incorrectly_flagged?" do
-    subject { unit_class }
+    subject { Cell::State }
 
     given "Cell#flagged? = true" do
       given "Cell#mine? = true" do
@@ -104,7 +102,7 @@ class Cell::StateTest < ActiveSupport::TestCase
   end
 
   describe ".blank?" do
-    subject { unit_class }
+    subject { Cell::State }
 
     given "Cell#value == '0'" do
       it "returns true" do
@@ -126,7 +124,7 @@ class Cell::StateTest < ActiveSupport::TestCase
   end
 
   describe ".highlightable?" do
-    subject { unit_class }
+    subject { Cell::State }
 
     given "Cell#revealed? == Cell#flagged? == Cell#highlighted? == false" do
       it "returns true" do
@@ -166,7 +164,7 @@ class Cell::StateTest < ActiveSupport::TestCase
   end
 
   describe ".dehighlightable?" do
-    subject { unit_class }
+    subject { Cell::State }
 
     given "Cell#highlighted? == true" do
       before do

@@ -3,44 +3,42 @@
 require "test_helper"
 
 class CoordinatesTest < ActiveSupport::TestCase
-  let(:unit_class) { Coordinates }
-
   describe "#neighbors" do
     # rubocop:disable Layout/ExtraSpacing
     # rubocop:disable Layout/MultilineArrayLineBreaks
     # rubocop:disable Style/TrailingCommaInArrayLiteral
     given "an upper-left Coordinates" do
-      subject { unit_class[0, 0] }
+      subject { Coordinates[0, 0] }
 
       it "returns the expected Array" do
         _(subject.neighbors).must_equal([
-          unit_class[-1, -1], unit_class[0, -1], unit_class[1, -1],
-          unit_class[-1,  0],                    unit_class[1,  0],
-          unit_class[-1,  1], unit_class[0,  1], unit_class[1,  1],
+          Coordinates[-1, -1], Coordinates[0, -1], Coordinates[1, -1],
+          Coordinates[-1,  0],                    Coordinates[1,  0],
+          Coordinates[-1,  1], Coordinates[0,  1], Coordinates[1,  1],
         ])
       end
     end
 
     given "a middle Coordinates" do
-      subject { unit_class[1, 1] }
+      subject { Coordinates[1, 1] }
 
       it "returns the expected Array" do
         _(subject.neighbors).must_equal([
-          unit_class[0, 0], unit_class[1, 0], unit_class[2, 0],
-          unit_class[0, 1],                   unit_class[2, 1],
-          unit_class[0, 2], unit_class[1, 2], unit_class[2, 2],
+          Coordinates[0, 0], Coordinates[1, 0], Coordinates[2, 0],
+          Coordinates[0, 1],                   Coordinates[2, 1],
+          Coordinates[0, 2], Coordinates[1, 2], Coordinates[2, 2],
         ])
       end
     end
 
     given "a lower-right Coordinates" do
-      subject { unit_class[2, 2] }
+      subject { Coordinates[2, 2] }
 
       it "returns the expected Array" do
         _(subject.neighbors).must_equal([
-          unit_class[1, 1], unit_class[2, 1], unit_class[3, 1],
-          unit_class[1, 2],                   unit_class[3, 2],
-          unit_class[1, 3], unit_class[2, 3], unit_class[3, 3],
+          Coordinates[1, 1], Coordinates[2, 1], Coordinates[3, 1],
+          Coordinates[1, 2],                   Coordinates[3, 2],
+          Coordinates[1, 3], Coordinates[2, 3], Coordinates[3, 3],
         ])
       end
     end
@@ -51,16 +49,16 @@ class CoordinatesTest < ActiveSupport::TestCase
 
   describe "#<=>" do
     let(:coordinates_array1) {
-      [unit_class[1, 1], unit_class[0, 2], unit_class[0, 1]]
+      [Coordinates[1, 1], Coordinates[0, 2], Coordinates[0, 1]]
     }
 
     it "allows for sorting of Coordinates" do
       _(coordinates_array1.sort).must_equal(
-        [unit_class[0, 1], unit_class[1, 1], unit_class[0, 2]])
+        [Coordinates[0, 1], Coordinates[1, 1], Coordinates[0, 2]])
     end
 
     given "a non-Coordinates comparison object" do
-      subject { unit_class[0, 0] }
+      subject { Coordinates[0, 0] }
 
       it "raises TypeError" do
         exception = _(-> { subject <=> Object.new }).must_raise(TypeError)
@@ -71,7 +69,7 @@ class CoordinatesTest < ActiveSupport::TestCase
   end
 
   describe "#succ" do
-    subject { unit_class[0, 0] }
+    subject { Coordinates[0, 0] }
 
     it "returns the expected Coordinates" do
       _(subject.succ).must_equal(Coordinates[1, 0])
@@ -79,7 +77,7 @@ class CoordinatesTest < ActiveSupport::TestCase
   end
 
   describe "#to_a" do
-    subject { unit_class[0, 0] }
+    subject { Coordinates[0, 0] }
 
     it "returns the expected Array" do
       _(subject.to_a).must_equal([0, 0])

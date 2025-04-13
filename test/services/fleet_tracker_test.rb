@@ -3,8 +3,6 @@
 require "test_helper"
 
 class FleetTrackerTest < ActiveSupport::TestCase
-  let(:unit_class) { FleetTracker }
-
   before do
     freeze_time
     @old_rails_cache = Rails.cache
@@ -16,15 +14,15 @@ class FleetTrackerTest < ActiveSupport::TestCase
     unfreeze_time
   end
 
-  let(:empty1) { unit_class }
+  let(:empty1) { FleetTracker }
   let(:single_player_registry1) {
-    unit_class.add(user1_token)
-    unit_class
+    FleetTracker.add(user1_token)
+    FleetTracker
   }
   let(:two_player_registry1) {
-    unit_class.add(user1_token)
-    unit_class.add(user2_token)
-    unit_class
+    FleetTracker.add(user1_token)
+    FleetTracker.add(user2_token)
+    FleetTracker
   }
 
   let(:user1_token) { users(:user1).token }
@@ -88,7 +86,7 @@ class FleetTrackerTest < ActiveSupport::TestCase
 
       it "adds a new entry for the given token" do
         result = subject.add(user1_token)
-        _(result).must_be_instance_of(unit_class::Registry::Entry)
+        _(result).must_be_instance_of(FleetTracker::Registry::Entry)
         _(subject.to_a).must_equal([
           { token: user1_token, active: false, expires_at: },
         ])
@@ -110,7 +108,7 @@ class FleetTrackerTest < ActiveSupport::TestCase
 
         it "adds a new token" do
           result = subject.add(user2_token)
-          _(result).must_be_instance_of(unit_class::Registry::Entry)
+          _(result).must_be_instance_of(FleetTracker::Registry::Entry)
           _(subject.to_a).must_equal([
             { token: user1_token, active: false, expires_at: },
             { token: user2_token, active: false, expires_at: },
@@ -219,7 +217,7 @@ class FleetTrackerTest < ActiveSupport::TestCase
 
         it "expires the entry" do
           result = subject.expire(user1_token)
-          _(result).must_be_instance_of(unit_class::Registry::Entry)
+          _(result).must_be_instance_of(FleetTracker::Registry::Entry)
           _(subject.to_a).must_equal([
             {
               token: user1_token,
@@ -235,7 +233,7 @@ class FleetTrackerTest < ActiveSupport::TestCase
 
         it "expires the expected entry" do
           result = subject.expire(user2_token)
-          _(result).must_be_instance_of(unit_class::Registry::Entry)
+          _(result).must_be_instance_of(FleetTracker::Registry::Entry)
           _(subject.to_a).must_equal([
             { token: user1_token, active: false, expires_at: },
             {
@@ -319,7 +317,7 @@ class FleetTrackerTest < ActiveSupport::TestCase
 
       it "removes the entry" do
         result = subject.purge_deeply_expired_entries
-        _(result.sample).must_be_instance_of(unit_class::Registry::Entry)
+        _(result.sample).must_be_instance_of(FleetTracker::Registry::Entry)
         _(result.map(&:to_h)).must_equal([
           {
             token: user1_token,
@@ -360,11 +358,9 @@ class FleetTrackerTest < ActiveSupport::TestCase
   end
 
   describe "Registry" do
-    let(:unit_class) { FleetTracker::Registry }
-
-    let(:empty1) { unit_class.new }
+    let(:empty1) { FleetTracker::Registry.new }
     let(:mixed1) {
-      unit_class.new([
+      FleetTracker::Registry.new([
         { token: token1, active: true, expires_at: nil },
         { token: expiring_token1, active: true, expires_at: 1.second.from_now },
         { token: expired_token1, active: true, expires_at: Time.current },

@@ -3,13 +3,11 @@
 require "test_helper"
 
 class CoordinatesArrayTest < ActiveSupport::TestCase
-  let(:unit_class) { CoordinatesArray }
-
   let(:coordinates1) { Coordinates[1, 1] }
   let(:coordinates2) { Coordinates[2, 2] }
   let(:coordinates3) { Coordinates[3, 3] }
 
-  subject { unit_class.new([coordinates2, coordinates1]) }
+  subject { CoordinatesArray.new([coordinates2, coordinates1]) }
 
   describe "#<<" do
     it "works as expected" do
@@ -78,7 +76,7 @@ class CoordinatesArrayTest < ActiveSupport::TestCase
   end
 
   describe "#uniq!" do
-    subject { unit_class.new([coordinates1, coordinates1]) }
+    subject { CoordinatesArray.new([coordinates1, coordinates1]) }
 
     it "works as expected" do
       _(subject.to_a).must_equal([coordinates1, coordinates1])
@@ -88,7 +86,7 @@ class CoordinatesArrayTest < ActiveSupport::TestCase
   end
 
   describe "#to_ary" do
-    subject { unit_class.new }
+    subject { CoordinatesArray.new }
 
     it "returns self" do
       _(subject.to_ary).must_be_same_as(subject)

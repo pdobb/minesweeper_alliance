@@ -3,8 +3,6 @@
 require "test_helper"
 
 class CellTest < ActiveSupport::TestCase
-  let(:unit_class) { Cell }
-
   let(:win1_board) { boards(:win1_board) }
   let(:win1_board_cell1) { cells(:win1_board_cell1) }
   let(:win1_board_cell2) { cells(:win1_board_cell2) }
@@ -15,7 +13,7 @@ class CellTest < ActiveSupport::TestCase
 
   describe "#validate" do
     describe "#coordinates" do
-      subject { unit_class.new(board: win1_board, coordinates: coordinates1) }
+      subject { Cell.new(board: win1_board, coordinates: coordinates1) }
 
       given "valid, unique #coordinates" do
         let(:coordinates1) { Coordinates[9, 9] }
@@ -48,7 +46,7 @@ class CellTest < ActiveSupport::TestCase
     end
 
     describe "#value" do
-      subject { unit_class.new(value: value1) }
+      subject { Cell.new(value: value1) }
 
       given "a valid #value" do
         let(:value1) { Cell::VALUES_RANGE.to_a.sample }
@@ -131,7 +129,7 @@ class CellTest < ActiveSupport::TestCase
   end
 
   describe "#upsertable_attributes" do
-    subject { unit_class.new }
+    subject { Cell.new }
 
     it "returns the expected Hash" do
       _(subject.upsertable_attributes.keys).wont_include("updated_at")
@@ -140,7 +138,7 @@ class CellTest < ActiveSupport::TestCase
 
   describe "#place_mine" do
     given "#mine = false" do
-      subject { unit_class.new }
+      subject { Cell.new }
 
       it "sets #mine = true" do
         _(-> { subject.place_mine }).must_change(

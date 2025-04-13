@@ -3,8 +3,6 @@
 require "test_helper"
 
 class UserUpdateTransactionTest < ActiveSupport::TestCase
-  let(:unit_class) { UserUpdateTransaction }
-
   let(:user1) { users(:user1) }
 
   let(:valid_change_set1) {
@@ -15,7 +13,7 @@ class UserUpdateTransactionTest < ActiveSupport::TestCase
   describe "#validate" do
     describe "#change_set" do
       given "a #change_set" do
-        subject { unit_class.new(change_set: valid_change_set1) }
+        subject { UserUpdateTransaction.new(change_set: valid_change_set1) }
 
         it "passes validation" do
           subject.validate
@@ -24,7 +22,7 @@ class UserUpdateTransactionTest < ActiveSupport::TestCase
       end
 
       given "no #change_set" do
-        subject { unit_class.new(change_set: empty_change_set1) }
+        subject { UserUpdateTransaction.new(change_set: empty_change_set1) }
 
         it "fails validation" do
           subject.validate
@@ -36,13 +34,13 @@ class UserUpdateTransactionTest < ActiveSupport::TestCase
   end
 
   describe ".create_for" do
-    subject { unit_class }
+    subject { UserUpdateTransaction }
 
     it "creates the expected record, and returns it" do
       result =
         _(-> {
           subject.create_for(user: user1, change_set: valid_change_set1)
-        }).must_change("unit_class.count")
+        }).must_change("UserUpdateTransaction.count")
       _(result).must_be_instance_of(subject)
       _(result.user).must_be_same_as(user1)
     end

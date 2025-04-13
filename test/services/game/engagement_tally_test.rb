@@ -3,14 +3,12 @@
 require "test_helper"
 
 class Game::EngagementTallyTest < ActiveSupport::TestCase
-  let(:unit_class) { Game::EngagementTally }
-
   given "no arguments" do
-    subject { unit_class.new }
+    subject { Game::EngagementTally.new }
 
     describe "#start_time" do
       given "no Time range" do
-        subject { unit_class.new }
+        subject { Game::EngagementTally.new }
 
         let(:now) { Time.zone.local(2024, 9, 1, 12, 0, 0) }
 
@@ -24,7 +22,7 @@ class Game::EngagementTallyTest < ActiveSupport::TestCase
       given "a Time range" do
         let(:start_time) { Time.zone.local(2024, 9, 1, 12, 0, 0) }
 
-        subject { unit_class.new(start_time..) }
+        subject { Game::EngagementTally.new(start_time..) }
 
         it "returns the beginning of the given Time range" do
           travel_to(start_time) do
@@ -36,7 +34,7 @@ class Game::EngagementTallyTest < ActiveSupport::TestCase
 
     describe "#end_time" do
       given "no Time range" do
-        subject { unit_class.new }
+        subject { Game::EngagementTally.new }
 
         let(:now) { Time.zone.local(2024, 9, 1, 12, 0, 0) }
 
@@ -50,7 +48,7 @@ class Game::EngagementTallyTest < ActiveSupport::TestCase
       given "a Time range" do
         let(:end_time) { Time.zone.local(2024, 9, 1, 12, 0, 0) }
 
-        subject { unit_class.new(..end_time) }
+        subject { Game::EngagementTally.new(..end_time) }
 
         it "returns the end of the given Time range" do
           travel_to(end_time) do
@@ -98,7 +96,7 @@ class Game::EngagementTallyTest < ActiveSupport::TestCase
   end
 
   given "a narrow `between` Time range argument" do
-    subject { unit_class.new(15.seconds.ago..) }
+    subject { Game::EngagementTally.new(15.seconds.ago..) }
 
     describe "#to_h" do
       it "returns the expected Hash" do

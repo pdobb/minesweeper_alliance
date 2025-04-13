@@ -3,15 +3,13 @@
 require "test_helper"
 
 class Game::StatsTest < ActiveSupport::TestCase
-  let(:unit_class) { Game::Stats }
-
   let(:win1) { games(:win1) }
   let(:standing_by1) { games(:standing_by1) }
 
   let(:user1) { users(:user1) }
 
   describe ".duration" do
-    subject { unit_class }
+    subject { Game::Stats }
 
     given "Game#on?" do
       before { standing_by1.start(seed_cell: nil, user: user1) }
@@ -29,7 +27,7 @@ class Game::StatsTest < ActiveSupport::TestCase
   end
 
   describe "#engagement_time_range" do
-    subject { unit_class }
+    subject { Game::Stats }
 
     given "Game#on?" do
       it "returns the expected Time Range" do

@@ -3,8 +3,6 @@
 require "test_helper"
 
 class Board::GenerateTest < ActiveSupport::TestCase
-  let(:unit_class) { Board::Generate }
-
   let(:standing_by1_board) { boards(:standing_by1_board) }
 
   describe "#call" do
@@ -22,7 +20,7 @@ class Board::GenerateTest < ActiveSupport::TestCase
       now + (index * 0.00001r)
     end
 
-    subject { unit_class.new(board: standing_by1_board) }
+    subject { Board::Generate.new(board: standing_by1_board) }
 
     it "builds/inserts the expected cell data Hashes" do
       travel_to(now) do

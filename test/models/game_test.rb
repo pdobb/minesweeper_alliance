@@ -5,19 +5,17 @@ require "test_helper"
 class GameTest < ActiveSupport::TestCase
   ErrorDouble = Class.new(StandardError)
 
-  let(:unit_class) { Game }
-
   let(:win1) { games(:win1) }
   let(:loss1) { games(:loss1) }
   let(:standing_by1) { games(:standing_by1) }
-  let(:new_game) { unit_class.new }
+  let(:new_game) { Game.new }
   let(:preset_settings1) { Board::Settings.beginner }
   let(:custom_settings1) { Board::Settings[6, 6, 4] }
 
   let(:user1) { users(:user1) }
 
   context "Class Methods" do
-    subject { unit_class }
+    subject { Game }
 
     describe ".create_for" do
       given "a current Game already exists" do
@@ -34,7 +32,7 @@ class GameTest < ActiveSupport::TestCase
         it "returns a persisted Game with the expected attributes" do
           result =
             subject.create_for(settings: custom_settings1)
-          _(result).must_be_instance_of(unit_class)
+          _(result).must_be_instance_of(Game)
           _(result.persisted?).must_equal(true)
           _(result.status_standing_by?).must_equal(true)
           _(result.board).must_be_instance_of(Board)
@@ -66,7 +64,7 @@ class GameTest < ActiveSupport::TestCase
       it "orchestrates building of the expected object graph and returns "\
          "the new Game" do
         result = subject.build_for(settings: custom_settings1)
-        _(result).must_be_instance_of(unit_class)
+        _(result).must_be_instance_of(Game)
         _(result.board).must_be_instance_of(Board)
         _(result.board.cells).must_be_empty
       end
@@ -74,7 +72,7 @@ class GameTest < ActiveSupport::TestCase
 
     describe ".display_id_width" do
       before do
-        unit_class.instance_variable_set(:@display_id_width, nil)
+        Game.instance_variable_set(:@display_id_width, nil)
       end
 
       given "largest_id < 4 digits" do
@@ -101,10 +99,10 @@ class GameTest < ActiveSupport::TestCase
 
   describe "#validate" do
     describe "#type" do
-      subject { unit_class.new(type: type1) }
+      subject { Game.new(type: type1) }
 
       given "valid, unique #type" do
-        let(:type1) { unit_class::ALL_TYPES.sample }
+        let(:type1) { Game::ALL_TYPES.sample }
 
         it "passes validation" do
           subject.validate
@@ -125,7 +123,7 @@ class GameTest < ActiveSupport::TestCase
 
   describe "#display_id" do
     before do
-      unit_class.instance_variable_set(:@display_id_width, nil)
+      Game.instance_variable_set(:@display_id_width, nil)
       MuchStub.(subject.class, :largest_id) { 1 }
       MuchStub.(subject, :id) { 1 }
     end
@@ -140,7 +138,7 @@ class GameTest < ActiveSupport::TestCase
   describe "#type" do
     given "a standard Difficulty Level" do
       subject {
-        unit_class.build_for(settings: preset_settings1)
+        Game.build_for(settings: preset_settings1)
       }
 
       it "returns the expected String" do
@@ -150,7 +148,7 @@ class GameTest < ActiveSupport::TestCase
 
     given "a custom Difficulty Level" do
       subject {
-        unit_class.build_for(settings: custom_settings1)
+        Game.build_for(settings: custom_settings1)
       }
 
       it "returns the expected String" do
@@ -216,7 +214,7 @@ class GameTest < ActiveSupport::TestCase
       it "sets the expected Status" do
         _(-> { subject.end_in_victory(user: user1) }).must_change(
           "subject.status",
-          to: unit_class.status_alliance_wins)
+          to: Game.status_alliance_wins)
       end
 
       it "sets Game stats" do
@@ -259,7 +257,7 @@ class GameTest < ActiveSupport::TestCase
       it "sets the expected Status" do
         _(-> { subject.end_in_defeat(user: user1) }).must_change(
           "subject.status",
-          to: unit_class.status_mines_win)
+          to: Game.status_mines_win)
       end
 
       it "doesn't set Game stats" do
@@ -501,7 +499,7 @@ class GameTest < ActiveSupport::TestCase
   describe "#user_bests" do
     given "a bestable Game type" do
       subject {
-        unit_class.build_for(
+        Game.build_for(
           settings: [
             Board::Settings.beginner,
             Board::Settings.intermediate,

@@ -3,14 +3,12 @@
 require "test_helper"
 
 class User::Current::FindTest < ActiveSupport::TestCase
-  let(:unit_class) { User::Current::Find }
-
   let(:user1) { users(:user1) }
 
   describe "#call" do
     given "a stored User Token" do
       subject {
-        unit_class.new(
+        User::Current::Find.new(
           context: ContextDouble.new(User::Current::COOKIE => user_token))
       }
 
@@ -33,7 +31,7 @@ class User::Current::FindTest < ActiveSupport::TestCase
   end
 
   given "no stored User Token" do
-    subject { unit_class.new(context: ContextDouble.new) }
+    subject { User::Current::Find.new(context: ContextDouble.new) }
 
     it "builds a new Guest, and returns it" do
       _(subject.call).must_be_instance_of(Guest)

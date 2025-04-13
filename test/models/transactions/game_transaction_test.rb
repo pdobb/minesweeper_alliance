@@ -3,8 +3,6 @@
 require "test_helper"
 
 class GameTransactionTest < ActiveSupport::TestCase
-  let(:unit_class) { GameTransaction }
-
   let(:user1) { users(:user1) }
   let(:user2) { users(:user2) }
 
@@ -12,7 +10,7 @@ class GameTransactionTest < ActiveSupport::TestCase
   let(:standing_by1) { games(:standing_by1) }
 
   describe "#save(validate: false)" do
-    subject { unit_class.take }
+    subject { GameTransaction.take }
 
     it "raises ActiveRecord::RecordNotUnique" do
       exception =
@@ -28,7 +26,7 @@ class GameTransactionTest < ActiveSupport::TestCase
   end
 
   describe ".create_between" do
-    subject { unit_class }
+    subject { GameTransaction }
 
     it "raises NotImplementedError" do
       _(-> {
@@ -38,7 +36,7 @@ class GameTransactionTest < ActiveSupport::TestCase
   end
 
   describe ".exists_between?" do
-    subject { unit_class }
+    subject { GameTransaction }
 
     given "an existing pair" do
       it "returns true" do

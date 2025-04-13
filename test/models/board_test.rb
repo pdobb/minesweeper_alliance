@@ -3,25 +3,25 @@
 require "test_helper"
 
 class BoardTest < ActiveSupport::TestCase
-  let(:unit_class) { Board }
-
   let(:win1_board) { boards(:win1_board) }
   let(:loss1_board) { boards(:loss1_board) }
   let(:standing_by1_board) { boards(:standing_by1_board) }
   let(:new_board1) { new_game1.build_board(settings: custom_settings1) }
 
   let(:new_game1) { Game.new }
-  let(:preset_settings1) { unit_class::Settings.beginner }
-  let(:custom_settings1) { unit_class::Settings[4, 4, 1] }
+  let(:preset_settings1) { Board::Settings.beginner }
+  let(:custom_settings1) { Board::Settings[4, 4, 1] }
 
   let(:win1_board_cell1) { cells(:win1_board_cell1) }
 
   let(:user1) { users(:user1) }
 
   describe ".new" do
+    subject { Board }
+
     it "returns the expected Board" do
-      result = unit_class.new(settings: preset_settings1)
-      _(result).must_be_instance_of(unit_class)
+      result = subject.new(settings: preset_settings1)
+      _(result).must_be_instance_of(Board)
     end
   end
 
@@ -29,7 +29,7 @@ class BoardTest < ActiveSupport::TestCase
     describe "#settings" do
       subject {
         new_game1.build_board(
-          settings: unit_class::Settings[width1, height1, mines1])
+          settings: Board::Settings[width1, height1, mines1])
       }
       let(:width1) { 6 }
       let(:height1) { 6 }
@@ -311,8 +311,7 @@ class BoardTest < ActiveSupport::TestCase
     subject { win1_board }
 
     it "returns the expected object" do
-      _(subject.settings.to_h).must_equal(
-        unit_class::Settings[3, 3, 1].to_h)
+      _(subject.settings.to_h).must_equal(Board::Settings[3, 3, 1].to_h)
     end
   end
 end

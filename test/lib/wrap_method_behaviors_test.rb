@@ -3,35 +3,6 @@
 require "test_helper"
 
 class WrapMethodBehaviorsTest < ActiveSupport::TestCase
-  let(:unit_class1) {
-    Class.new do
-      include WrapMethodBehaviors
-
-      attr_reader :object,
-                  :object_kwargs
-
-      def initialize(object, **object_kwargs)
-        @object = object
-        @object_kwargs = object_kwargs
-      end
-    end
-  }
-  let(:unit_class2) {
-    Class.new do
-      include WrapMethodBehaviors
-
-      attr_reader :key,
-                  :value,
-                  :object_kwargs
-
-      def initialize(key, value, **object_kwargs)
-        @key = key
-        @value = value
-        @object_kwargs = object_kwargs
-      end
-    end
-  }
-
   let(:objects) { [object1, object2] }
   let(:object1) { Data.define(:name).new("TEST_OBJECT1") }
   let(:object2) { Data.define(:name).new("TEST_OBJECT2") }
@@ -44,7 +15,7 @@ class WrapMethodBehaviorsTest < ActiveSupport::TestCase
   }
 
   describe ".wrap" do
-    subject { unit_class1 }
+    subject { Wrapper1 }
 
     it "calls #new on each object" do
       wrapped_objects = subject.wrap(objects, **object_kwargs)
@@ -78,7 +49,7 @@ class WrapMethodBehaviorsTest < ActiveSupport::TestCase
       { "key1" => objects, "key2" => objects }
     }
 
-    subject { unit_class2 }
+    subject { Wrapper2 }
 
     it "calls #new on each object" do
       result = subject.wrap_hash(hash1, **object_kwargs)
@@ -94,7 +65,7 @@ class WrapMethodBehaviorsTest < ActiveSupport::TestCase
   end
 
   describe ".wrap_upto" do
-    subject { unit_class1 }
+    subject { Wrapper1 }
 
     given "limit < objects.size" do
       let(:limit) { 1 }
@@ -144,6 +115,32 @@ class WrapMethodBehaviorsTest < ActiveSupport::TestCase
           _(wrapped_objects[limit.pred]).must_be_nil
         end
       end
+    end
+  end
+
+  class Wrapper1
+    include WrapMethodBehaviors
+
+    attr_reader :object,
+                :object_kwargs
+
+    def initialize(object, **object_kwargs)
+      @object = object
+      @object_kwargs = object_kwargs
+    end
+  end
+
+  class Wrapper2
+    include WrapMethodBehaviors
+
+    attr_reader :key,
+                :value,
+                :object_kwargs
+
+    def initialize(key, value, **object_kwargs)
+      @key = key
+      @value = value
+      @object_kwargs = object_kwargs
     end
   end
 end

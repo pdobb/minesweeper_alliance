@@ -11,11 +11,9 @@ class ConfigurationBehaviorsTest < ActiveSupport::TestCase
     end
   end
 
-  let(:unit_class) { ConfigurableDouble }
-
-  subject { unit_class }
-
   describe ".configuration" do
+    subject { ConfigurableDouble }
+
     it "returns the expected Class" do
       _(subject.configuration).must_be_instance_of(subject::Configuration)
     end

@@ -3,38 +3,36 @@
 require "test_helper"
 
 class FlatArrayTest < ActiveSupport::TestCase
-  let(:unit_class) { FlatArray }
-
   describe ".new" do
-    subject { unit_class }
+    subject { FlatArray }
 
     it "builds an empty FlatArray" do
       result = subject.new
-      _(result).must_be_instance_of(unit_class)
+      _(result).must_be_instance_of(FlatArray)
       _(result.to_a).must_equal([])
     end
 
     given "items" do
       it "builds a new FlatArray out of them items" do
         result = subject.new(1, [2, 3])
-        _(result).must_be_instance_of(unit_class)
+        _(result).must_be_instance_of(FlatArray)
         _(result.to_a).must_equal([1, 2, 3])
       end
     end
   end
 
   describe ".[]" do
-    subject { unit_class }
+    subject { FlatArray }
 
     it "builds a new FlatArray" do
       result = subject[1, [2, 3]]
-      _(result).must_be_instance_of(unit_class)
+      _(result).must_be_instance_of(FlatArray)
       _(result.to_a).must_equal([1, 2, 3])
     end
   end
 
   describe "#<<" do
-    subject { unit_class.new }
+    subject { FlatArray.new }
 
     it "flat pushes items on" do
       subject << "TEST1"
@@ -57,7 +55,7 @@ class FlatArrayTest < ActiveSupport::TestCase
   end
 
   describe "#push" do
-    subject { unit_class.new }
+    subject { FlatArray.new }
 
     it "flat pushes items on" do
       subject.push("TEST1")
@@ -81,7 +79,7 @@ class FlatArrayTest < ActiveSupport::TestCase
   end
 
   describe "#concat" do
-    subject { unit_class.new }
+    subject { FlatArray.new }
 
     # rubocop:disable Style/ConcatArrayLiterals
     it "flat concatenates items on" do
@@ -106,7 +104,7 @@ class FlatArrayTest < ActiveSupport::TestCase
   end
 
   describe "[<FlatArray>]#flatten" do
-    subject { unit_class[4, 5, 6] }
+    subject { FlatArray[4, 5, 6] }
 
     it "splats itself as needed" do
       result = [1, 2, 3, subject].flatten
@@ -115,11 +113,11 @@ class FlatArrayTest < ActiveSupport::TestCase
   end
 
   describe "#sort" do
-    subject { unit_class.new([3, 1, [4, 2]]) }
+    subject { FlatArray.new([3, 1, [4, 2]]) }
 
     it "returns a sorted FlatArray" do
       result = subject.sort
-      _(result).must_be_instance_of(unit_class)
+      _(result).must_be_instance_of(FlatArray)
       _(result.to_a).must_equal([1, 2, 3, 4])
     end
   end

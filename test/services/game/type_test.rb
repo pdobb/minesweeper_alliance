@@ -3,8 +3,6 @@
 require "test_helper"
 
 class Game::TypeTest < ActiveSupport::TestCase
-  let(:unit_class) { Game::Type }
-
   let(:bestable_game_type1) {
     [
       Game::BEGINNER_TYPE,
@@ -20,7 +18,7 @@ class Game::TypeTest < ActiveSupport::TestCase
   }
 
   describe ".validate_bestable" do
-    subject { unit_class }
+    subject { Game::Type }
 
     given "a bestable Game type" do
       it "returns nil" do
@@ -43,7 +41,7 @@ class Game::TypeTest < ActiveSupport::TestCase
   end
 
   describe ".bestable?" do
-    subject { unit_class }
+    subject { Game::Type }
 
     given "a bestable Game type" do
       it "returns true" do

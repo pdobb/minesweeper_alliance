@@ -3,17 +3,17 @@
 require "test_helper"
 
 class CoordinatesTestType < ActiveSupport::TestCase
-  let(:unit_class) { CoordinatesType }
-
-  subject { CoordinatesType.new }
-
   describe "#type" do
+    subject { CoordinatesType.new }
+
     it "returns :coordinates" do
       _(subject.type).must_equal(:coordinates)
     end
   end
 
   describe "#cast" do
+    subject { CoordinatesType.new }
+
     given "a Coordinates" do
       it "returns the expected value" do
         result = subject.cast(Coordinates[9, 9])
@@ -52,6 +52,8 @@ class CoordinatesTestType < ActiveSupport::TestCase
   end
 
   describe "#serialize" do
+    subject { CoordinatesType.new }
+
     given "a Coordinates" do
       it "returns the Coordinates, formatted as JSON" do
         result = subject.serialize(Coordinates[9, 9])

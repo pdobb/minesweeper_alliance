@@ -3,13 +3,11 @@
 require "test_helper"
 
 class GameCreateTransactionTest < ActiveSupport::TestCase
-  let(:unit_class) { GameCreateTransaction }
-
   let(:any_user) { users.sample }
   let(:standing_by1) { games(:standing_by1) }
 
   describe ".create_between" do
-    subject { unit_class }
+    subject { GameCreateTransaction }
 
     given "a new, unique Game (regardless of what User)" do
       before do
@@ -21,7 +19,7 @@ class GameCreateTransactionTest < ActiveSupport::TestCase
         result =
           _(-> {
             subject.create_between(user: any_user, game: standing_by1)
-          }).must_change("unit_class.count")
+          }).must_change("GameCreateTransaction.count")
         _(result).must_be_instance_of(subject)
         _(result.user).must_be_same_as(any_user)
         _(result.game).must_be_same_as(standing_by1)

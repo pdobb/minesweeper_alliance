@@ -3,8 +3,6 @@
 require "test_helper"
 
 class ParticipantTransactionTest < ActiveSupport::TestCase
-  let(:unit_class) { ParticipantTransaction }
-
   let(:win1_participant_transaction_user1) {
     participant_transactions(:win1_participant_transaction_user1)
   }
@@ -19,7 +17,7 @@ class ParticipantTransactionTest < ActiveSupport::TestCase
   let(:standing_by1) { games(:standing_by1) }
 
   describe "#save(validate: false)" do
-    subject { unit_class.take }
+    subject { ParticipantTransaction.take }
 
     it "raises ActiveRecord::RecordNotUnique" do
       exception =
@@ -35,14 +33,14 @@ class ParticipantTransactionTest < ActiveSupport::TestCase
   end
 
   describe ".create_between" do
-    subject { unit_class }
+    subject { ParticipantTransaction }
 
     given "a new, unique User + Game pair" do
       it "creates the expected record, and returns it" do
         result =
           _(-> {
             subject.create_between(user: user1, game: standing_by1)
-          }).must_change("unit_class.count")
+          }).must_change("ParticipantTransaction.count")
         _(result).must_be_instance_of(subject)
         _(result.user).must_be_same_as(user1)
         _(result.game).must_be_same_as(standing_by1)
@@ -54,7 +52,7 @@ class ParticipantTransactionTest < ActiveSupport::TestCase
         result =
           _(-> {
             subject.create_between(user: user2, game: standing_by1)
-          }).wont_change("unit_class.count")
+          }).wont_change("ParticipantTransaction.count")
         _(result.valid?).must_equal(false)
         _(result.errors[:user]).must_include(ValidationError.taken)
       end
@@ -62,7 +60,7 @@ class ParticipantTransactionTest < ActiveSupport::TestCase
   end
 
   describe ".activate_between" do
-    subject { unit_class }
+    subject { ParticipantTransaction }
 
     given "an existing pair" do
       given "#active == false" do
@@ -108,7 +106,7 @@ class ParticipantTransactionTest < ActiveSupport::TestCase
   end
 
   describe ".find_between!" do
-    subject { unit_class }
+    subject { ParticipantTransaction }
 
     given "an existing pair" do
       it "returns the expected record" do

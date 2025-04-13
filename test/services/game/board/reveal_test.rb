@@ -5,8 +5,6 @@ require "test_helper"
 class Game::Board::RevealTest < ActiveSupport::TestCase
   CurrentContextDouble = Class.new(Struct.new(:game, :board, :cell, :user))
 
-  let(:unit_class) { Game::Board::Reveal }
-
   let(:context1) {
     CurrentContextDouble.new(
       game: standing_by1,
@@ -39,7 +37,7 @@ class Game::Board::RevealTest < ActiveSupport::TestCase
     end
 
     given "an unrevealed Cell" do
-      subject { unit_class.new(context: context1) }
+      subject { Game::Board::Reveal.new(context: context1) }
 
       it "orchestrates Game state checks and Cell reveal as expected, "\
          "and returns self" do
@@ -77,7 +75,7 @@ class Game::Board::RevealTest < ActiveSupport::TestCase
         Cell::Reveal.(standing_by1_board_cell1)
       end
 
-      subject { unit_class.new(context: context1) }
+      subject { Game::Board::Reveal.new(context: context1) }
 
       it "doesn't orchestrate any changes, and returns self" do
         result =

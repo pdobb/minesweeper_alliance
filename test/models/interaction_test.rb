@@ -3,14 +3,12 @@
 require "test_helper"
 
 class InteractionTest < ActiveSupport::TestCase
-  let(:unit_class) { Interaction }
-
   let(:interaction1) { interactions(:interaction1) }
 
   describe "#validate" do
     describe "#name" do
       given "#name == nil" do
-        subject { unit_class.new }
+        subject { Interaction.new }
 
         it "fails validation" do
           subject.validate
@@ -20,7 +18,7 @@ class InteractionTest < ActiveSupport::TestCase
 
       given "#name != nil" do
         given "#name is unique" do
-          subject { unit_class.new(name: "UNIQUE NAME") }
+          subject { Interaction.new(name: "UNIQUE NAME") }
 
           it "passes validation" do
             subject.validate
@@ -29,7 +27,7 @@ class InteractionTest < ActiveSupport::TestCase
         end
 
         given "#name is not unique" do
-          subject { unit_class.new(name: interaction1.name) }
+          subject { Interaction.new(name: interaction1.name) }
 
           it "fails validation" do
             subject.validate
@@ -40,7 +38,7 @@ class InteractionTest < ActiveSupport::TestCase
     end
 
     describe "#count" do
-      subject { unit_class.new(count: count1) }
+      subject { Interaction.new(count: count1) }
 
       given "a valid #count" do
         let(:count1) { 1 }

@@ -17,8 +17,6 @@ class AbstractBaseClassBehaviorsTest < ActiveSupport::TestCase
   }
 
   describe ".new" do
-    subject { unit_class }
-
     given "an AbstractBassClassBehaviors" do
       subject { abstract_base_class1 }
 

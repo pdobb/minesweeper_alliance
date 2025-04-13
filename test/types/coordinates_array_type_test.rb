@@ -3,20 +3,20 @@
 require "test_helper"
 
 class CoordinatesArrayTypeTest < ActiveSupport::TestCase
-  let(:unit_class) { CoordinatesArrayType }
-
   let(:coordinates_array1) { CoordinatesArray.new(coordinates1) }
   let(:coordinates1) { Coordinates[9, 9] }
 
-  subject { CoordinatesArrayType.new }
-
   describe "#type" do
+    subject { CoordinatesArrayType.new }
+
     it "returns :coordinates" do
       _(subject.type).must_equal(:coordinates_array)
     end
   end
 
   describe "#cast" do
+    subject { CoordinatesArrayType.new }
+
     given "a CoordinatesArray" do
       it "returns the expected value" do
         result = subject.cast(coordinates_array1)
@@ -55,6 +55,8 @@ class CoordinatesArrayTypeTest < ActiveSupport::TestCase
   end
 
   describe "#serialize" do
+    subject { CoordinatesArrayType.new }
+
     given "a CoordinatesArray" do
       it "returns the CoordinatesArray, formatted as JSON" do
         result = subject.serialize(coordinates_array1)

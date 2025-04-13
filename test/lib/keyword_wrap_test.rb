@@ -3,8 +3,6 @@
 require "test_helper"
 
 class KeywordWrapTest < ActiveSupport::TestCase
-  let(:unit_class) { KeywordWrap }
-
   let(:wrapper_class1) {
     Class.new do
       attr_reader :object,
@@ -26,7 +24,7 @@ class KeywordWrapTest < ActiveSupport::TestCase
     let(:objects) { [object1, [object2]] }
     let(:flat_objects) { objects.flatten }
 
-    subject { unit_class }
+    subject { KeywordWrap }
 
     it "returns properly wrapped objects" do
       result = subject.new(wrapper_class1, as: :object).call(objects, **kwargs)

@@ -3,8 +3,6 @@
 require "test_helper"
 
 class Board::Calc3BVTest < ActiveSupport::TestCase
-  let(:unit_class) { Board::Calc3BV }
-
   let(:win1_board) { boards(:win1_board) }
 
   let(:custom_game1_board) { custom_game1.board }
@@ -13,7 +11,7 @@ class Board::Calc3BVTest < ActiveSupport::TestCase
   }
 
   describe ".call" do
-    subject { unit_class }
+    subject { Board::Calc3BV }
 
     given "a simplistic board" do
       it "returns the expected Integer" do

@@ -3,15 +3,13 @@
 require "test_helper"
 
 class PatternTest < ActiveSupport::TestCase
-  let(:unit_class) { Pattern }
-
   let(:pattern1) { patterns(:pattern1) }
   let(:coordinates_array1) { [Coordinates[0, 0], Coordinates[1, 1]] }
 
   describe "#validate" do
     describe "#name" do
       given "#name == nil" do
-        subject { unit_class.new }
+        subject { Pattern.new }
 
         it "fails validation" do
           subject.validate
@@ -21,7 +19,7 @@ class PatternTest < ActiveSupport::TestCase
 
       given "#name != nil" do
         given "#name is unique" do
-          subject { unit_class.new(name: "UNIQUE NAME") }
+          subject { Pattern.new(name: "UNIQUE NAME") }
 
           it "passes validation" do
             subject.validate
@@ -30,7 +28,7 @@ class PatternTest < ActiveSupport::TestCase
         end
 
         given "#name is not unique" do
-          subject { unit_class.new(name: pattern1.name) }
+          subject { Pattern.new(name: pattern1.name) }
 
           it "fails validation" do
             subject.validate
@@ -42,7 +40,7 @@ class PatternTest < ActiveSupport::TestCase
 
     describe "#settings" do
       given "#settings != nil" do
-        subject { unit_class.new(settings: { width: 9, height: 9 }) }
+        subject { Pattern.new(settings: { width: 9, height: 9 }) }
 
         it "passes validation" do
           subject.validate
@@ -51,7 +49,7 @@ class PatternTest < ActiveSupport::TestCase
       end
 
       given "#settings that are invalid, per Pattern::Settings" do
-        subject { unit_class.new(settings: { width: 0 }) }
+        subject { Pattern.new(settings: { width: 0 }) }
 
         it "fails validation" do
           subject.validate
@@ -62,7 +60,7 @@ class PatternTest < ActiveSupport::TestCase
   end
 
   describe "#coordinates_array" do
-    subject { unit_class.new(coordinates_array: [Coordinates[9, 9]]) }
+    subject { Pattern.new(coordinates_array: [Coordinates[9, 9]]) }
 
     it "returns the expected CoordinatesArray" do
       result = subject.coordinates_array
@@ -72,7 +70,7 @@ class PatternTest < ActiveSupport::TestCase
   end
 
   describe "#settings" do
-    subject { unit_class.new }
+    subject { Pattern.new }
 
     it "returns a Pattern::Settings" do
       _(subject.settings).must_be_instance_of(Pattern::Settings)
@@ -84,7 +82,7 @@ class PatternTest < ActiveSupport::TestCase
   end
 
   describe "#width" do
-    subject { unit_class.new }
+    subject { Pattern.new }
 
     it "returns the expected Integer" do
       _(subject.width).must_equal(6)
@@ -92,7 +90,7 @@ class PatternTest < ActiveSupport::TestCase
   end
 
   describe "#height" do
-    subject { unit_class.new }
+    subject { Pattern.new }
 
     it "returns the expected Integer" do
       _(subject.height).must_equal(6)
@@ -100,7 +98,7 @@ class PatternTest < ActiveSupport::TestCase
   end
 
   describe "#cells_count" do
-    subject { unit_class.new }
+    subject { Pattern.new }
 
     it "returns the expected Integer" do
       _(subject.cells_count).must_equal(36)
@@ -108,7 +106,7 @@ class PatternTest < ActiveSupport::TestCase
   end
 
   describe "#dimensions" do
-    subject { unit_class.new }
+    subject { Pattern.new }
 
     it "returns the expected Integer" do
       _(subject.dimensions).must_equal("6x6")
@@ -116,7 +114,7 @@ class PatternTest < ActiveSupport::TestCase
   end
 
   describe "#grid" do
-    subject { unit_class.new }
+    subject { Pattern.new }
 
     it "returns a Grid with Pattern::Cells" do
       result = subject.grid
@@ -127,7 +125,7 @@ class PatternTest < ActiveSupport::TestCase
   end
 
   describe "#cells" do
-    subject { unit_class.new }
+    subject { Pattern.new }
 
     it "returns the expected Array" do
       result = subject.cells
@@ -139,7 +137,7 @@ class PatternTest < ActiveSupport::TestCase
 
   describe "#flag_density" do
     given "no flags" do
-      subject { unit_class.new }
+      subject { Pattern.new }
 
       it "returns the expected Float" do
         _(subject.flag_density).must_equal(0.0)
@@ -147,7 +145,7 @@ class PatternTest < ActiveSupport::TestCase
     end
 
     given "flags" do
-      subject { unit_class.new(coordinates_array: coordinates_array1) }
+      subject { Pattern.new(coordinates_array: coordinates_array1) }
 
       it "returns the expected Float" do
         _(subject.flag_density).must_be_close_to(0.05555555555555555)
@@ -157,7 +155,7 @@ class PatternTest < ActiveSupport::TestCase
 
   describe "#flags_count" do
     given "no flags" do
-      subject { unit_class.new }
+      subject { Pattern.new }
 
       it "returns the expected Integer" do
         _(subject.flags_count).must_equal(0)
@@ -165,7 +163,7 @@ class PatternTest < ActiveSupport::TestCase
     end
 
     given "flags" do
-      subject { unit_class.new(coordinates_array: coordinates_array1) }
+      subject { Pattern.new(coordinates_array: coordinates_array1) }
 
       it "returns the expected Integer" do
         _(subject.flags_count).must_equal(2)
@@ -175,7 +173,7 @@ class PatternTest < ActiveSupport::TestCase
 
   describe "#mines" do
     given "no flags" do
-      subject { unit_class.new }
+      subject { Pattern.new }
 
       it "returns the expected Integer" do
         _(subject.mines).must_equal(0)
@@ -183,7 +181,7 @@ class PatternTest < ActiveSupport::TestCase
     end
 
     given "flags" do
-      subject { unit_class.new(coordinates_array: coordinates_array1) }
+      subject { Pattern.new(coordinates_array: coordinates_array1) }
 
       it "returns the expected Integer" do
         _(subject.mines).must_equal(2)
@@ -192,7 +190,7 @@ class PatternTest < ActiveSupport::TestCase
   end
 
   describe "#flagged?" do
-    subject { unit_class.new(coordinates_array: coordinates_array1) }
+    subject { Pattern.new(coordinates_array: coordinates_array1) }
 
     given "an included Coordinates" do
       it "returns true" do

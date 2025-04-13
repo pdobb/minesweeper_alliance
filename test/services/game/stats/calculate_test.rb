@@ -3,12 +3,10 @@
 require "test_helper"
 
 class Game::Stats::CalculateTest < ActiveSupport::TestCase
-  let(:unit_class) { Game::Stats::Calculate }
-
   let(:win1) { games(:win1) }
 
   describe ".call" do
-    subject { unit_class }
+    subject { Game::Stats::Calculate }
 
     it "sets the expected values on the associated Game" do
       result =

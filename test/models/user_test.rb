@@ -3,14 +3,12 @@
 require "test_helper"
 
 class UserTest < ActiveSupport::TestCase
-  let(:unit_class) { User }
-
   let(:user1) { users(:user1) }
   let(:user2) { users(:user2) }
   let(:observer1) { users(:observer1) }
 
   describe ".first" do
-    subject { unit_class }
+    subject { User }
 
     it "returns the expected User (ordered by 'created_at')" do
       _(subject.first).must_equal(user1)
@@ -19,7 +17,7 @@ class UserTest < ActiveSupport::TestCase
 
   describe "#validate" do
     describe "#username" do
-      subject { unit_class.new(username: username1) }
+      subject { User.new(username: username1) }
 
       given "no #username" do
         let(:username1) { nil }
@@ -41,7 +39,7 @@ class UserTest < ActiveSupport::TestCase
 
       given "#username > max length" do
         let(:username1) { "T" * max_length.next }
-        let(:max_length) { unit_class::USERNAME_MAX_LEGNTH }
+        let(:max_length) { User::USERNAME_MAX_LEGNTH }
 
         it "fails validation" do
           subject.validate

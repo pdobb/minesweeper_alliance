@@ -3,10 +3,8 @@
 require "test_helper"
 
 class ConversionsTest < ActiveSupport::TestCase
-  let(:unit_class) { Conversions }
-
   describe ".Coordinates" do
-    subject { unit_class }
+    subject { Conversions }
 
     given "a Coordinates instance" do
       let(:instance) { Coordinates[9, 9] }

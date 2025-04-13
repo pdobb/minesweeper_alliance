@@ -3,11 +3,9 @@
 require "test_helper"
 
 class DurationTest < ActiveSupport::TestCase
-  let(:unit_class) { Duration }
-
   describe "#to_s" do
     given "a duration of < 1 minute" do
-      subject { unit_class.new(9.seconds.ago..) }
+      subject { Duration.new(9.seconds.ago..) }
 
       it "returns the expected String" do
         _(subject.to_s).must_equal("9s")
@@ -16,7 +14,7 @@ class DurationTest < ActiveSupport::TestCase
 
     given "a duration of < 1 hour" do
       context "WHERE duration is an even minute" do
-        subject { unit_class.new(9.minutes.ago..) }
+        subject { Duration.new(9.minutes.ago..) }
 
         it "returns the expected String" do
           _(subject.to_s).must_equal("9m")
@@ -24,7 +22,7 @@ class DurationTest < ActiveSupport::TestCase
       end
 
       context "WHERE duration is not an even minute" do
-        subject { unit_class.new((9.minutes + 9.seconds).ago..) }
+        subject { Duration.new((9.minutes + 9.seconds).ago..) }
 
         it "returns the expected String" do
           _(subject.to_s).must_equal("9m 9s")
@@ -36,7 +34,7 @@ class DurationTest < ActiveSupport::TestCase
       let(:now) { Time.zone.local(2024, 9, 1, 12, 0, 0) }
 
       subject {
-        unit_class.new(
+        Duration.new(
           (9.years + 9.weeks + 9.hours + 9.minutes + 9.seconds).ago..)
       }
 
@@ -49,7 +47,7 @@ class DurationTest < ActiveSupport::TestCase
   end
 
   describe "#to_i" do
-    subject { unit_class.new(9.seconds.ago..) }
+    subject { Duration.new(9.seconds.ago..) }
 
     it "returns the expected Integer" do
       _(subject.to_i).must_equal(9)

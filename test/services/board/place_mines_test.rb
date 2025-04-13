@@ -3,8 +3,6 @@
 require "test_helper"
 
 class Board::PlaceMinesTest < ActiveSupport::TestCase
-  let(:unit_class) { Board::PlaceMines }
-
   let(:win1_board) { boards(:win1_board) }
 
   let(:standing_by1_board) { boards(:standing_by1_board) }
@@ -18,7 +16,7 @@ class Board::PlaceMinesTest < ActiveSupport::TestCase
   describe "#call" do
     given "Board#new_record? = true" do
       subject {
-        unit_class.new(
+        Board::PlaceMines.new(
           board: new_board1,
           coordinates_array: nil,
           seed_cell: "ANYTHING")
@@ -35,7 +33,7 @@ class Board::PlaceMinesTest < ActiveSupport::TestCase
     given "Board#new_record? = false" do
       given "mines have already been placed" do
         subject {
-          unit_class.new(
+          Board::PlaceMines.new(
             board: win1_board,
             coordinates_array: nil,
             seed_cell: "ANYTHING")
@@ -50,7 +48,7 @@ class Board::PlaceMinesTest < ActiveSupport::TestCase
 
       given "mines have not yet been placed" do
         subject {
-          unit_class.new(
+          Board::PlaceMines.new(
             board: standing_by1_board,
             coordinates_array: coordinates_array1,
             seed_cell: seed_cell1)

@@ -3,8 +3,6 @@
 require "test_helper"
 
 class Board::RandomlyPlaceMinesTest < ActiveSupport::TestCase
-  let(:unit_class) { Board::RandomlyPlaceMines }
-
   let(:win1_board) { boards(:win1_board) }
   let(:standing_by1_board) { boards(:standing_by1_board) }
   let(:new_board1) { new_game1.build_board(settings: custom_settings1) }
@@ -14,7 +12,9 @@ class Board::RandomlyPlaceMinesTest < ActiveSupport::TestCase
 
   describe "#call" do
     given "Board#new_record? = true" do
-      subject { unit_class.new(board: new_board1, seed_cell: nil) }
+      subject {
+        Board::RandomlyPlaceMines.new(board: new_board1, seed_cell: nil)
+      }
 
       it "raises Board::RandomlyPlaceMines::Error" do
         exception =
@@ -26,7 +26,9 @@ class Board::RandomlyPlaceMinesTest < ActiveSupport::TestCase
 
     given "Board#new_record? = false" do
       given "mines have already been placed" do
-        subject { unit_class.new(board: win1_board, seed_cell: nil) }
+        subject {
+          Board::RandomlyPlaceMines.new(board: win1_board, seed_cell: nil)
+        }
 
         it "raises Board::RandomlyPlaceMines::Error" do
           exception =
@@ -38,7 +40,7 @@ class Board::RandomlyPlaceMinesTest < ActiveSupport::TestCase
 
       given "mines have not yet been placed" do
         subject {
-          unit_class.new(
+          Board::RandomlyPlaceMines.new(
             board: standing_by1_board,
             seed_cell: standing_by1_board_cell1)
         }

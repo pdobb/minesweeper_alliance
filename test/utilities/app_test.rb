@@ -3,13 +3,11 @@
 require "test_helper"
 
 class AppTest < ActiveSupport::TestCase
-  let(:unit_class) { App }
-
-  subject { unit_class }
-
   describe ".created_at" do
+    subject { App }
+
     it "returns the expected Time" do
-      result = unit_class.created_at
+      result = App.created_at
       _(result.year).must_equal(2024)
       _(result.month).must_equal(8)
       _(result.day).must_equal(9)
@@ -17,6 +15,8 @@ class AppTest < ActiveSupport::TestCase
   end
 
   describe ".debug?" do
+    subject { App }
+
     given "Rails.configuration.debug = true" do
       before do
         MuchStub.tap(Rails, :configuration) { |config|
@@ -43,6 +43,8 @@ class AppTest < ActiveSupport::TestCase
   end
 
   describe ".development?" do
+    subject { App }
+
     given "Rails.env.development? = true" do
       before do
         MuchStub.tap(Rails, :env) { |env|
@@ -69,6 +71,8 @@ class AppTest < ActiveSupport::TestCase
   end
 
   describe ".production?" do
+    subject { App }
+
     given "Rails.env.production? = true" do
       before do
         MuchStub.tap(Rails, :env) { |env|
