@@ -36,10 +36,6 @@ class Board < ApplicationRecord
 
   validate :validate_settings, on: :create
 
-  def generate_cells
-    Generate.(board: self)
-  end
-
   def place_mines(seed_cell:)
     if pattern?
       coordinates_array = pattern.coordinates_array

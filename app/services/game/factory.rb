@@ -10,7 +10,7 @@ module Game::Factory
 
         yield(new_game) if block_given?
 
-        new_game.board.generate_cells
+        Board::Generate.(board: new_game.board)
       end
     }
   end
