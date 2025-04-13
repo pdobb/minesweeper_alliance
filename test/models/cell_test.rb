@@ -130,30 +130,6 @@ class CellTest < ActiveSupport::TestCase
     end
   end
 
-  describe "#neighbors" do
-    given "no associated Board" do
-      subject { unit_class.new }
-
-      it "returns an empty collection" do
-        result = subject.neighbors
-        _(result).must_be_empty
-      end
-    end
-
-    given "an associated Board" do
-      subject { standing_by1_board_cell1 }
-
-      it "returns the expected collection of Cells" do
-        result = subject.neighbors
-        _(result).must_match_array([
-          cells(:standing_by1_board_cell2),
-          cells(:standing_by1_board_cell4),
-          cells(:standing_by1_board_cell5),
-        ])
-      end
-    end
-  end
-
   describe "#upsertable_attributes" do
     subject { unit_class.new }
 

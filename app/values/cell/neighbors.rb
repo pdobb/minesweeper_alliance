@@ -30,6 +30,7 @@ class Cell::Neighbors
 
   def revealable? = any_revealable_cells? && flags_count_matches_value?
   def revealable_cells = select { Cell::State.revealable?(it) }
+  def unrevealed_cells = reject(&:revealed?)
 
   def mines_count = count(&:mine?)
   def highlighted_count = count(&:highlighted?)

@@ -29,6 +29,10 @@ module Game::Board::RecursiveReveal
   # is no good reason not to. And not doing so creates awkward gaps in the Game
   # board.
   def self.unrevealed_neighboring_cells(cell)
-    cell.neighbors.reject(&:revealed?)
+    neighbors(cell:).unrevealed_cells
   end
+  private_class_method :unrevealed_neighboring_cells
+
+  def self.neighbors(cell:) = Cell::Neighbors.new(cell:)
+  private_class_method :neighbors
 end

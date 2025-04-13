@@ -1,8 +1,5 @@
 # frozen_string_literal: true
 
-# :reek:TooManyMethods
-# :reek:RepeatedConditional
-
 # Cell represents a clickable position on the {Board}. Cells:
 # - may secretly contain a mine
 # - may be blank (indicating that neither it nor any of its neighbors are
@@ -57,8 +54,6 @@ class Cell < ApplicationRecord
             numericality: { integer: true, in: VALUES_RANGE, allow_blank: true }
 
   def id?(value) = to_param == value.to_s
-
-  def neighbors = Cell::Neighbors.new(cell: self)
 
   def set_highlight_origin = update_column(:highlight_origin, true)
   def unset_highlight_origin = update_column(:highlight_origin, false)

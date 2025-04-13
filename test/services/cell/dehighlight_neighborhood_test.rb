@@ -17,7 +17,7 @@ class Cell::DehighlightNeighborhoodTest < ActiveSupport::TestCase
       it "returns nil" do
         result =
           _(-> { subject.call(cell1) }).wont_change(
-            "cell1.neighbors.highlighted_count")
+            "Cell::Neighbors.new(cell: cell1).highlighted_count")
         _(result).must_be_nil
       end
     end
@@ -34,7 +34,11 @@ class Cell::DehighlightNeighborhoodTest < ActiveSupport::TestCase
         result =
           _(-> { subject.call(cell1) }).must_change_all([
             ["cell1.highlight_origin?", to: false],
-            ["cell1.neighbors.highlighted_count", from: 3, to: 0],
+            [
+              "Cell::Neighbors.new(cell: cell1).highlighted_count",
+              from: 3,
+              to: 0,
+            ],
           ])
 
         origin, neighbors = result.to_a.first

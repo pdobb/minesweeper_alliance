@@ -12,6 +12,30 @@ class Cell::NeighborsTest < ActiveSupport::TestCase
     Cell::Neighbors.new(cell: standing_by1_board_cell1)
   }
 
+  describe "#to_a" do
+    given "no associated Board" do
+      subject { Cell::Neighbors.new(cell: Cell.new) }
+
+      it "returns an empty collection" do
+        result = subject.to_a
+        _(result).must_be_empty
+      end
+    end
+
+    given "an associated Board" do
+      subject { standing_by1_board_cell1_neighbors }
+
+      it "returns the expected collection of Cells" do
+        result = subject.to_a
+        _(result).must_match_array([
+          cells(:standing_by1_board_cell2),
+          cells(:standing_by1_board_cell4),
+          cells(:standing_by1_board_cell5),
+        ])
+      end
+    end
+  end
+
   describe "#revealable?" do
     given "#any_revealable_cells? == false" do
       before do
@@ -81,6 +105,21 @@ class Cell::NeighborsTest < ActiveSupport::TestCase
       it "returns an empty Array" do
         _(subject.revealable_cells).must_equal([])
       end
+    end
+  end
+
+  describe "#unrevealed_cells" do
+    subject { standing_by1_board_cell1_neighbors }
+
+    before do
+      standing_by1_board_cell2.update!(revealed: true)
+    end
+
+    it "returns the expected Array of Cells" do
+      _(subject.unrevealed_cells).must_equal([
+        standing_by1_board_cell4,
+        standing_by1_board_cell5,
+      ])
     end
   end
 
