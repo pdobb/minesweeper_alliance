@@ -5,7 +5,7 @@ class Metrics::GamesController < ApplicationController
 
   def show
     if (game = Game.find_by(id: params[:id]))
-      redirect_to(root_path) and return if game.on?
+      redirect_to(root_path) and return if Game::Status.on?(game)
 
       @show = Metrics::Games::Show.new(game:, user: @user)
     else

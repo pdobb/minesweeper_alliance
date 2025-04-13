@@ -25,7 +25,7 @@ class Game::EndInVictory
               :user
 
   def transaction(...) = game.transaction(...)
-  def over? = game.over?
+  def over? = Game::Status.over?(game)
   def set_status_alliance_wins! = game.set_status_alliance_wins!
 
   def not_endable? = over?

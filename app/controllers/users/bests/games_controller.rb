@@ -22,6 +22,6 @@ class Users::Bests::GamesController < ApplicationController
 
   def require_game
     self.game = Game.find_by(id: params[:id])
-    head(:no_content) unless game&.over?
+    head(:no_content) unless game && Game::Status.over?(game)
   end
 end

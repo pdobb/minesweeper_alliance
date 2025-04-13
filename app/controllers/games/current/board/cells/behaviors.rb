@@ -24,7 +24,7 @@ module Games::Current::Board::Cells::Behaviors
 
   def cells_arel
     arel = board.cells
-    arel = arel.readonly if game.over?
+    arel = arel.readonly if Game::Status.over?(game)
     arel
   end
 

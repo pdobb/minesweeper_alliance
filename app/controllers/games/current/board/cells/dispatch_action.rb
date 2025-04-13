@@ -45,7 +45,9 @@ class Games::Current::Board::Cells::DispatchAction
   def turbo_stream = context.__send__(:turbo_stream)
 
   def require_game_on
-    raise(Error, "Game is over: #{game.status.inspect}") if game.over?
+    return unless Game::Status.over?(game)
+
+    raise(Error, "Game is over: #{game.status.inspect}")
   end
 
   def require_participant

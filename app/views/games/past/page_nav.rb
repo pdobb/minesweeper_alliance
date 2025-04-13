@@ -20,7 +20,7 @@ class Games::Past::PageNav
   def previous_game? = !!previous_game
   def previous_game_url = Router.game_path(previous_game, filter_params)
 
-  def next_game? = next_game&.over?
+  def next_game? = next_game && Game::Status.over?(next_game)
   def next_game_url = Router.game_path(next_game, filter_params)
 
   private

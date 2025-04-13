@@ -215,14 +215,6 @@ class Game < ApplicationRecord # rubocop:disable Metrics/ClassLength
     self.just_ended = true
   end
 
-  def on?
-    status?([status_standing_by, status_sweep_in_progress])
-  end
-
-  def over?
-    !on?
-  end
-
   def just_started? = !!just_started
   def just_ended? = !!just_ended
   def ended_in_victory? = status_alliance_wins?
@@ -298,7 +290,7 @@ class Game < ApplicationRecord # rubocop:disable Metrics/ClassLength
 
     def reset
       do_reset {
-        set_status_sweep_in_progress! if over?
+        set_status_sweep_in_progress! if Game::Status.over?(self)
         game_start_transaction.update(created_at: Time.current)
         touch(:started_at, time: game_start_transaction.created_at)
         board.reset

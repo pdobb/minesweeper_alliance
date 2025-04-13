@@ -4,7 +4,7 @@
 # War Room nav link.
 #
 # The indicator light is meant to convey:
-# - Green -> A "Current {Game}" exists (and is {Game#on?} == true).
+# - Green -> A "Current {Game}" exists (and is {Game::Status#on?(...)} == true).
 # - Gray  -> No "Current {Game}" exists.
 #
 # Note: A "Just Ended" {Game} is not a "Current {Game}".

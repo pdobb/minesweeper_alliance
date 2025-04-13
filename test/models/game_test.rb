@@ -126,74 +126,6 @@ class GameTest < ActiveSupport::TestCase
     end
   end
 
-  describe "#on?" do
-    given "Game#status_standing_by? = true" do
-      subject { new_game }
-
-      it "returns true" do
-        _(subject.on?).must_equal(true)
-      end
-    end
-
-    given "Game#status_sweep_in_progress? = true" do
-      subject { new_game.set_status_sweep_in_progress }
-
-      it "returns true" do
-        _(subject.on?).must_equal(true)
-      end
-    end
-
-    given "Game#status_alliance_wins? = true" do
-      subject { new_game.set_status_alliance_wins }
-
-      it "returns false" do
-        _(subject.on?).must_equal(false)
-      end
-    end
-
-    given "Game#status_mines_win? = true" do
-      subject { new_game.set_status_mines_win }
-
-      it "returns false" do
-        _(subject.on?).must_equal(false)
-      end
-    end
-  end
-
-  describe "#over?" do
-    given "Game#status_standing_by? = true" do
-      subject { new_game }
-
-      it "returns false" do
-        _(subject.over?).must_equal(false)
-      end
-    end
-
-    given "Game#status_sweep_in_progress? = true" do
-      subject { new_game.set_status_sweep_in_progress }
-
-      it "returns false" do
-        _(subject.over?).must_equal(false)
-      end
-    end
-
-    given "Game#status_alliance_wins? = true" do
-      subject { new_game.set_status_alliance_wins }
-
-      it "returns true" do
-        _(subject.over?).must_equal(true)
-      end
-    end
-
-    given "Game#status_mines_win? = true" do
-      subject { new_game.set_status_mines_win }
-
-      it "returns true" do
-        _(subject.over?).must_equal(true)
-      end
-    end
-  end
-
   describe "#just_ended?" do
     given "Game#ended_at = nil" do
       subject { new_game }
@@ -242,7 +174,7 @@ class GameTest < ActiveSupport::TestCase
   end
 
   describe "#ended_in_defeat?" do
-    given "Game#status_mines_win? = true" do
+    given "Game#status_mines_win? == true" do
       subject { loss1 }
 
       it "returns true" do
@@ -250,7 +182,7 @@ class GameTest < ActiveSupport::TestCase
       end
     end
 
-    given "Game#status_mines_win? = false" do
+    given "Game#status_mines_win? == false" do
       subject { [win1, standing_by1].sample }
 
       it "returns false" do
@@ -262,7 +194,7 @@ class GameTest < ActiveSupport::TestCase
   describe "#ended_a_while_ago?" do
     let(:deep_expiration_minutes) { 3.minutes }
 
-    given "Game#on?" do
+    given "Game::Status.on?(...) == true" do
       subject {
         Game::Start.(game: standing_by1, user: user1, seed_cell: nil)
       }
@@ -272,7 +204,7 @@ class GameTest < ActiveSupport::TestCase
       end
     end
 
-    given "Game#over?" do
+    given "Game::Status.over?(...) == true" do
       subject { win1 }
 
       given "a recent Game#ended_at" do

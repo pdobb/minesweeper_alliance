@@ -48,7 +48,7 @@ class Games::Current::Board::Content
     @game ||= board.game
   end
 
-  def game_on? = game.on?
+  def game_on? = Game::Status.on?(game)
 
   def grid = board.grid
 end

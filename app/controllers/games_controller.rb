@@ -14,7 +14,7 @@ class GamesController < ApplicationController
 
   def show
     if (game = Game.find_by(id: params[:id]))
-      redirect_to(root_path) and return if game.on?
+      redirect_to(root_path) and return if Game::Status.on?(game)
 
       @show = Games::Show.new(game:)
     else

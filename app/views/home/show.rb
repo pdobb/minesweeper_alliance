@@ -23,7 +23,7 @@ class Home::Show
   def container
     return Games::New::Container.new unless current_game
 
-    if current_game.on?
+    if Game::Status.on?(current_game)
       Games::Current::Container.new(game: current_game)
     else
       Games::JustEnded::Container.new(game: current_game)

@@ -25,5 +25,5 @@ class Games::Current::Board
   attr_reader :board
 
   def game = board.game
-  def game_on? = game.on?
+  def game_on? = Game::Status.on?(game)
 end

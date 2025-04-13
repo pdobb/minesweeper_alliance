@@ -29,7 +29,7 @@ class Users::GamesController < ApplicationController
   # :reek:DuplicateMethodCall
   def require_game
     if (game = Game.find_by(id: params[:id]))
-      redirect_to(user_path(user)) and return if game.on?
+      redirect_to(user_path(user)) and return if Game::Status.on?(game)
 
       self.game = game
     else
