@@ -32,10 +32,10 @@ class Board::RandomlyPlaceMines
   def new_record? = board.new_record?
   def cells = @cells ||= board.cells
   def mines_placed? = board.mines_placed?
-  def mines = board.mines
+  def mines_count = board.mines
 
   def place_mines_in_random_cells
-    eligible_cells.sample(mines).each(&:place_mine)
+    eligible_cells.sample(mines_count).each(&:place_mine)
   end
 
   def eligible_cells

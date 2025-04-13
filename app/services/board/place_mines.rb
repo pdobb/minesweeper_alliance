@@ -34,7 +34,6 @@ class Board::PlaceMines
   def new_record? = board.new_record?
   def cells = @cells ||= board.cells
   def mines_placed? = board.mines_placed?
-  def mines = board.mines
 
   def place_mines_in_cells
     eligible_cells.each(&:place_mine)
