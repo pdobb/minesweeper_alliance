@@ -100,51 +100,6 @@ class GameTest < ActiveSupport::TestCase
     end
   end
 
-  describe "#end_in_victory" do
-    given "a Game that's still on" do
-      subject {
-        Game::Start.(game: standing_by1, user: user1, seed_cell: nil)
-      }
-
-      it "updates Game#ended_at" do
-        _(-> { subject.end_in_victory(user: user1) }).must_change(
-          "subject.ended_at",
-          from: nil)
-      end
-
-      it "sets the expected Status" do
-        _(-> { subject.end_in_victory(user: user1) }).must_change(
-          "subject.status",
-          to: Game.status_alliance_wins)
-      end
-
-      it "sets Game stats" do
-        _(-> { subject.end_in_victory(user: user1) }).must_change_all([
-          ["subject.score", from: nil],
-          ["subject.bbbv", from: nil],
-          ["subject.bbbvps", from: nil],
-          ["subject.efficiency", from: nil],
-        ])
-      end
-    end
-
-    given "a Game that's already over" do
-      before do
-        MuchStub.on_call(subject, :touch) { |call|
-          @touch_call = call
-        }
-      end
-
-      subject { win1 }
-
-      it "returns the Game without orchestrating any changes" do
-        result = subject.end_in_victory(user: user1)
-        _(result).must_be_same_as(subject)
-        _(@touch_call).must_be_nil
-      end
-    end
-  end
-
   describe "#end_in_defeat" do
     given "a Game that's still on" do
       subject {
@@ -304,7 +259,7 @@ class GameTest < ActiveSupport::TestCase
     given "Game#ended_at was just set/saved" do
       subject {
         Game::Start.(game: standing_by1, user: user1, seed_cell: nil)
-        standing_by1.end_in_victory(user: user1)
+        Game::EndInVictory.(game: standing_by1, user: user1)
       }
 
       it "returns true" do

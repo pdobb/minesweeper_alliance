@@ -205,13 +205,6 @@ class Game < ApplicationRecord # rubocop:disable Metrics/ClassLength
 
   def display_id = "##{id.to_s.rjust(self.class.display_id_width, "0")}"
 
-  def end_in_victory(user:)
-    end_game(user:) {
-      set_status_alliance_wins!
-      Stats::Calculate.(self)
-    }
-  end
-
   def end_in_defeat(user:)
     end_game(user:) {
       set_status_mines_win!

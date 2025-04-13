@@ -149,8 +149,8 @@ class BoardTest < ActiveSupport::TestCase
 
   describe "#check_for_victory" do
     before do
-      MuchStub.tap_on_call(subject.game, :end_in_victory) { |call|
-        @end_in_victory_call = call
+      MuchStub.tap_on_call(Game::EndInVictory, :call) { |call|
+        @game_end_in_victory_call = call
       }
     end
 
@@ -160,7 +160,7 @@ class BoardTest < ActiveSupport::TestCase
       it "doesn't orchestrate any changes, and returns nil" do
         result = subject.check_for_victory(user: user1)
         _(result).must_be_nil
-        _(@end_in_victory_call).must_be_nil
+        _(@game_end_in_victory_call).must_be_nil
       end
     end
 
@@ -175,7 +175,7 @@ class BoardTest < ActiveSupport::TestCase
         it "doesn't call Game#end_in_vicotry, and returns false" do
           result = subject.check_for_victory(user: user1)
           _(result).must_equal(false)
-          _(@end_in_victory_call).must_be_nil
+          _(@game_end_in_victory_call).must_be_nil
         end
       end
 
@@ -191,7 +191,7 @@ class BoardTest < ActiveSupport::TestCase
         it "calls Game#end_in_vicotry, and returns the Game" do
           result = subject.check_for_victory(user: user1)
           _(result).must_be_same_as(subject.game)
-          _(@end_in_victory_call).wont_be_nil
+          _(@game_end_in_victory_call).wont_be_nil
         end
       end
     end

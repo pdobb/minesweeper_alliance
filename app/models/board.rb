@@ -74,7 +74,7 @@ class Board < ApplicationRecord
   def check_for_victory(user:)
     return unless game.status_sweep_in_progress?
 
-    all_safe_cells_have_been_revealed? and game.end_in_victory(user:)
+    all_safe_cells_have_been_revealed? and Game::EndInVictory.(game:, user:)
   end
 
   def cells_at(coordinates_array)
