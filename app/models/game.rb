@@ -205,12 +205,6 @@ class Game < ApplicationRecord # rubocop:disable Metrics/ClassLength
 
   def display_id = "##{id.to_s.rjust(self.class.display_id_width, "0")}"
 
-  def end_in_defeat(user:)
-    end_game(user:) {
-      set_status_mines_win!
-    }
-  end
-
   def update_started_at(time:)
     touch(:started_at, time:)
     self.just_started = true
@@ -258,17 +252,6 @@ class Game < ApplicationRecord # rubocop:disable Metrics/ClassLength
 
   attr_accessor :just_started,
                 :just_ended
-
-  def end_game(user:)
-    return self if over?
-
-    transaction do
-      GameEndTransaction.create_between(user:, game: self)
-      yield
-    end
-
-    self
-  end
 
   concerning :ObjectInspection do
     include ObjectInspectionBehaviors

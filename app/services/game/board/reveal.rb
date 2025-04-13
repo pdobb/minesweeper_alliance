@@ -68,7 +68,7 @@ class Game::Board::Reveal
   def end_game_in_defeat_if_mine_revealed
     return unless cell.mine?
 
-    game.end_in_defeat(user:)
+    Game::EndInDefeat.(game:, user:)
     throw(:return, self)
   end
 

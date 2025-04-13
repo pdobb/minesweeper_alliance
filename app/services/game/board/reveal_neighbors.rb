@@ -91,7 +91,7 @@ class Game::Board::RevealNeighbors
   end
 
   def end_in_defeat(user:)
-    game.end_in_defeat(user:)
+    Game::EndInDefeat.(game:, user:)
     throw(:return, self)
   end
 
