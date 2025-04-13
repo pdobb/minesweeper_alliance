@@ -130,43 +130,6 @@ class CellTest < ActiveSupport::TestCase
     end
   end
 
-  describe "#dehighlight_neighborhood" do
-    subject { standing_by1_board_cell1 }
-
-    given "an unrevealed Cell" do
-      subject { standing_by1_board_cell1 }
-
-      it "returns nil" do
-        _(subject.dehighlight_neighborhood).must_be_nil
-      end
-    end
-
-    given "a revealed Cell" do
-      before do
-        Cell::Reveal.(subject)
-        Cell::HighlightNeighborhood.(subject)
-      end
-
-      subject { standing_by1_board_cell1 }
-
-      it "dehighlights the expected Cells, and returns them" do
-        result =
-          _(-> { subject.dehighlight_neighborhood }).must_change_all([
-            ["subject.highlight_origin?", to: false],
-            ["subject.neighbors.highlighted_count", from: 3, to: 0],
-          ])
-
-        origin, neighbors = result.to_a.first
-        _(origin).must_be_same_as(subject)
-        _(neighbors).must_match_array([
-          standing_by1_board_cell2,
-          standing_by1_board_cell4,
-          standing_by1_board_cell5,
-        ])
-      end
-    end
-  end
-
   describe "#neighbors" do
     given "no associated Board" do
       subject { unit_class.new }

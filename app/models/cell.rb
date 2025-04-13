@@ -58,17 +58,10 @@ class Cell < ApplicationRecord
 
   def id?(value) = to_param == value.to_s
 
-  def dehighlight_neighborhood
-    return unless revealed?
-
-    unset_highlight_origin
-    { self => dehighlight_neighbors }
-  end
+  def neighbors = Cell::Neighbors.new(cell: self)
 
   def set_highlight_origin = update_column(:highlight_origin, true)
   def unset_highlight_origin = update_column(:highlight_origin, false)
-
-  def neighbors = Cell::Neighbors.new(cell: self)
 
   def upsertable_attributes
     attributes.except("updated_at")
@@ -76,21 +69,6 @@ class Cell < ApplicationRecord
 
   def place_mine
     self.mine = true
-  end
-
-  private
-
-  def dehighlight_neighbors
-    neighbors.each_with_object(CompactArray.new) { |neighboring_cell, acc|
-      acc << neighboring_cell.__send__(:dehighlight)
-    }.to_a
-  end
-
-  def dehighlight
-    return unless Cell::State.dehighlightable?(self)
-
-    update_column(:highlighted, false)
-    self
   end
 
   concerning :ObjectInspection do

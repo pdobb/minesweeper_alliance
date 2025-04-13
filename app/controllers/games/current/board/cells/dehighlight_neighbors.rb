@@ -23,14 +23,14 @@ class Games::Current::Board::Cells::DehighlightNeighbors
   def game = context.__send__(:game)
   def cell = context.__send__(:cell)
 
+  def perform_effect
+    game.with_lock do
+      Cell::DehighlightNeighborhood.(cell)
+    end
+  end
+
   def dispatch_effect
     @dispatch_effect ||=
       Games::Current::Board::Cells::DispatchEffect.new(context:)
-  end
-
-  def perform_effect
-    game.with_lock do
-      cell.dehighlight_neighborhood
-    end
   end
 end
