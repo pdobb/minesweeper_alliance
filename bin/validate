@@ -9,3 +9,6 @@ bin/rails runner -e production_local '
   Say.("Successfully booted app in #{Rails.env} env.")
   exit
 '
+
+echo "\nChecking for unused routes..."
+bin/rails routes --no-unused
