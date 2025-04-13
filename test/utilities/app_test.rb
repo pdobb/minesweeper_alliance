@@ -3,6 +3,21 @@
 require "test_helper"
 
 class AppTest < ActiveSupport::TestCase
+  describe ".introspect" do
+    subject { App }
+
+    it "returns the expected Hash" do
+      result = subject.introspect
+      _(result).must_be_instance_of(Hash)
+      _(result.slice(:name, :created_at, :env, :debug_mode)).must_equal({
+        name: "Minesweeper Alliance",
+        created_at: Time.zone.local(2024, 8, 9),
+        env: "test",
+        debug_mode: false,
+      })
+    end
+  end
+
   describe ".created_at" do
     subject { App }
 
@@ -18,11 +33,7 @@ class AppTest < ActiveSupport::TestCase
     subject { App }
 
     given "Rails.configuration.debug = true" do
-      before do
-        MuchStub.tap(Rails, :configuration) { |config|
-          MuchStub.(config, :debug) { true }
-        }
-      end
+      before { MuchStub.spy(Rails, :configuration, debug: true) }
 
       it "returns true" do
         _(subject.debug?).must_equal(true)
@@ -30,14 +41,30 @@ class AppTest < ActiveSupport::TestCase
     end
 
     given "Rails.configuration.debug = false" do
-      before do
-        MuchStub.tap(Rails, :configuration) { |config|
-          MuchStub.(config, :debug) { false }
-        }
-      end
+      before { MuchStub.spy(Rails, :configuration, debug: false) }
 
       it "returns false" do
         _(subject.debug?).must_equal(false)
+      end
+    end
+  end
+
+  describe ".test?" do
+    subject { App }
+
+    given "Rails.env.test? = true" do
+      before { MuchStub.spy(Rails, :env, test?: true) }
+
+      it "returns true" do
+        _(subject.test?).must_equal(true)
+      end
+    end
+
+    given "Rails.env.test? = false" do
+      before { MuchStub.spy(Rails, :env, test?: false) }
+
+      it "returns false" do
+        _(subject.test?).must_equal(false)
       end
     end
   end
@@ -46,11 +73,7 @@ class AppTest < ActiveSupport::TestCase
     subject { App }
 
     given "Rails.env.development? = true" do
-      before do
-        MuchStub.tap(Rails, :env) { |env|
-          MuchStub.(env, :development?) { true }
-        }
-      end
+      before { MuchStub.spy(Rails, :env, development?: true) }
 
       it "returns true" do
         _(subject.development?).must_equal(true)
@@ -58,11 +81,7 @@ class AppTest < ActiveSupport::TestCase
     end
 
     given "Rails.env.development? = false" do
-      before do
-        MuchStub.tap(Rails, :env) { |env|
-          MuchStub.(env, :development?) { false }
-        }
-      end
+      before { MuchStub.spy(Rails, :env, development?: false) }
 
       it "returns false" do
         _(subject.development?).must_equal(false)
@@ -74,11 +93,7 @@ class AppTest < ActiveSupport::TestCase
     subject { App }
 
     given "Rails.env.production? = true" do
-      before do
-        MuchStub.tap(Rails, :env) { |env|
-          MuchStub.(env, :production?) { true }
-        }
-      end
+      before { MuchStub.spy(Rails, :env, production?: true) }
 
       it "returns true" do
         _(subject.production?).must_equal(true)
@@ -86,11 +101,7 @@ class AppTest < ActiveSupport::TestCase
     end
 
     given "Rails.env.production? = false" do
-      before do
-        MuchStub.tap(Rails, :env) { |env|
-          MuchStub.(env, :production?) { false }
-        }
-      end
+      before { MuchStub.spy(Rails, :env, production?: false) }
 
       it "returns false" do
         _(subject.production?).must_equal(false)
