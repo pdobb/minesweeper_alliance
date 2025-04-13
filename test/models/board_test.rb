@@ -187,14 +187,6 @@ class BoardTest < ActiveSupport::TestCase
     end
   end
 
-  describe "#mines" do
-    subject { win1_board }
-
-    it "returns the expected Integer" do
-      _(subject.mines).must_equal(1)
-    end
-  end
-
   describe "#flags_count" do
     subject { win1_board }
 

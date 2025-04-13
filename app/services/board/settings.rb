@@ -114,6 +114,8 @@ class Board::Settings
   def as_json = to_h
   def to_a = to_h.values
 
+  def dimensions = "#{width}x#{height}"
+
   concerning :ObjectInspection do
     include ObjectInspectionBehaviors
 

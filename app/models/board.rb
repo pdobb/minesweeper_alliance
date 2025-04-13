@@ -47,7 +47,7 @@ class Board < ApplicationRecord
   def width = settings.width
   def height = settings.height
   def mines = settings.mines
-  def dimensions = "#{width}x#{height}"
+  def dimensions = settings.dimensions
   def pattern? = settings.pattern?
 
   def pattern

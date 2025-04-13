@@ -213,6 +213,14 @@ class Board::SettingsTest < ActiveSupport::TestCase
       end
     end
 
+    describe "#dimensions" do
+      subject { Board::Settings[9, 9, 4] }
+
+      it "returns the expectd value" do
+        _(subject.dimensions).must_equal("9x9")
+      end
+    end
+
     describe "#mines" do
       subject { Board::Settings[9, 9, mines1] }
 
