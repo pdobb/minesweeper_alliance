@@ -11,7 +11,7 @@ class Board::Settings
   }.freeze
   # rubocop:enable Layout/HashAlignment, Layout/LineLength
 
-  PERCENT_CHANCE_FOR_RANDOM_PATTERN = 5
+  PERCENT_CHANCE_FOR_RANDOM_PATTERN = 10
 
   RANGES = {
     width: 6..30,
