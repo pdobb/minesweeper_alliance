@@ -3,95 +3,103 @@
 require "test_helper"
 
 class Board::SettingsTest < ActiveSupport::TestCase
-  context "Class Methods" do
+  describe ".preset" do
     subject { Board::Settings }
 
-    describe ".preset" do
-      given "a valid type" do
-        let(:type1) { ["Beginner", "intermediate", :expert].sample }
+    given "a valid type" do
+      let(:type1) { ["Beginner", "intermediate", :expert].sample }
 
-        it "returns the expected instance" do
-          result = subject.preset(type1)
-          _(result).must_be_instance_of(Board::Settings)
-          _(Board::Settings::PRESETS.keys).must_include(result.type)
-        end
-      end
-
-      given "an unknown type" do
-        it "raises KeyError" do
-          exception = _(-> { subject.preset("UNKNOWN") }).must_raise(KeyError)
-          _(exception.message).must_equal('key not found: "Unknown"')
-        end
-      end
-
-      given "type = nil" do
-        it "raises TypeError" do
-          exception = _(-> { subject.preset(nil) }).must_raise(TypeError)
-          _(exception.message).must_equal("type can't be blank")
-        end
-      end
-    end
-
-    describe ".beginner" do
       it "returns the expected instance" do
-        result = subject.beginner
+        result = subject.preset(type1)
         _(result).must_be_instance_of(Board::Settings)
-        _(result.type).must_equal("Beginner")
-      end
-    end
-    describe ".intermediate" do
-      it "returns the expected instance" do
-        result = subject.intermediate
-        _(result).must_be_instance_of(Board::Settings)
-        _(result.type).must_equal("Intermediate")
-      end
-    end
-    describe ".expert" do
-      it "returns the expected instance" do
-        result = subject.expert
-        _(result).must_be_instance_of(Board::Settings)
-        _(result.type).must_equal("Expert")
+        _(Board::Settings::PRESETS.keys).must_include(result.type)
       end
     end
 
-    describe ".random" do
-      given "no Patterns" do
+    given "an unknown type" do
+      it "raises KeyError" do
+        exception = _(-> { subject.preset("UNKNOWN") }).must_raise(KeyError)
+        _(exception.message).must_equal('key not found: "Unknown"')
+      end
+    end
+
+    given "type = nil" do
+      it "raises TypeError" do
+        exception = _(-> { subject.preset(nil) }).must_raise(TypeError)
+        _(exception.message).must_equal("type can't be blank")
+      end
+    end
+  end
+
+  describe ".beginner" do
+    subject { Board::Settings }
+
+    it "returns the expected instance" do
+      result = subject.beginner
+      _(result).must_be_instance_of(Board::Settings)
+      _(result.type).must_equal("Beginner")
+    end
+  end
+
+  describe ".intermediate" do
+    subject { Board::Settings }
+
+    it "returns the expected instance" do
+      result = subject.intermediate
+      _(result).must_be_instance_of(Board::Settings)
+      _(result.type).must_equal("Intermediate")
+    end
+  end
+
+  describe ".expert" do
+    subject { Board::Settings }
+
+    it "returns the expected instance" do
+      result = subject.expert
+      _(result).must_be_instance_of(Board::Settings)
+      _(result.type).must_equal("Expert")
+    end
+  end
+
+  describe ".random" do
+    subject { Board::Settings }
+
+    given "no Patterns" do
+      before do
+        Pattern.delete_all
+      end
+
+      it "returns a random preset" do
+        result = subject.random
+        _(result).must_be_instance_of(Board::Settings)
+        _(Board::Settings::PRESETS.keys).must_include(result.type)
+      end
+    end
+
+    given "Patterns exist" do
+      given "PercentChange.call returns true" do
         before do
-          Pattern.delete_all
+          MuchStub.(PercentChance, :call) { true }
         end
 
-        it "returns a random preset" do
+        it "returns a random Preset Type" do
           result = subject.random
           _(result).must_be_instance_of(Board::Settings)
-          _(Board::Settings::PRESETS.keys).must_include(result.type)
+          _(result.type).wont_equal("Pattern")
+          _(result.name).must_be_nil
         end
       end
 
-      given "Patterns exist" do
-        given "PercentChange.call returns true" do
-          before do
-            MuchStub.(PercentChance, :call) { true }
-          end
-
-          it "returns a random Preset Type" do
-            result = subject.random
-            _(result).must_be_instance_of(Board::Settings)
-            _(result.type).wont_equal("Pattern")
-            _(result.name).must_be_nil
-          end
+      given "PercentChange.call returns false" do
+        before do
+          MuchStub.(PercentChance, :call) { false }
         end
 
-        given "PercentChange.call returns false" do
-          before do
-            MuchStub.(PercentChance, :call) { false }
-          end
-
-          it "returns a random Pattern Type" do
-            result = subject.random
-            _(result).must_be_instance_of(Board::Settings)
-            _(result.type).must_equal("Pattern")
-            _(result.name).wont_be_nil
-          end
+        it "returns a random Pattern Type" do
+          result = subject.random
+          _(result).must_be_instance_of(Board::Settings)
+          _(result.type).must_equal("Pattern")
+          _(result.name).wont_be_nil
         end
       end
     end
