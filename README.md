@@ -13,7 +13,7 @@ Welcome to [Minesweeper Alliance](https://minesweeperalliance.net), an open-mult
 
 ## Development
 
-Ruby version: 3.4+
+Ruby version: 3.4+ (see: [`.ruby-version`](./.ruby-version))
 
 To get started:
 
