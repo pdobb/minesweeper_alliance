@@ -36,12 +36,6 @@ export default class extends Controller {
     this.isDesktop = !this.isMobile
   }
 
-  detectMobile() {
-    const hasTouch = "ontouchstart" in window || navigator.maxTouchPoints > 0
-    const hasCoarsePointer = window.matchMedia("(pointer: coarse)").matches
-    return hasTouch && hasCoarsePointer
-  }
-
   // Desktop Events
 
   dispatchMousedown(event) {
