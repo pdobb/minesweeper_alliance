@@ -40,7 +40,8 @@ class ConversionsTest < ActiveSupport::TestCase
       it "raises TypeError" do
         exception =
           _(-> { subject.Coordinates("Invalid Type") }).must_raise(TypeError)
-        _(exception.message).must_equal("Unexpected type, got String")
+        _(exception.message).must_equal(
+          "Can't convert unexpected type to Coordinates, got String")
       end
     end
   end
