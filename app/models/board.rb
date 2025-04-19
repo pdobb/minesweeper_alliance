@@ -47,7 +47,7 @@ class Board < ApplicationRecord
   def pattern = @pattern ||= Pattern.find_by!(name: pattern_name)
 
   def cells_at(coordinates_array)
-    coordinates_array = Array.wrap(coordinates_array)
+    coordinates_array = Conversions.CoordinatesArray(coordinates_array)
     cells.select { |cell| coordinates_array.include?(cell.coordinates) }
   end
 

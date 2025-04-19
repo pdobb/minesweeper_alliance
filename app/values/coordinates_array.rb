@@ -35,12 +35,7 @@ class CoordinatesArray
   def to_ary = self
 
   def <=>(other)
-    unless other.is_a?(self.class)
-      raise(
-        TypeError,
-        "can't compare with non-CoordinatesArray objects, got #{other.class}")
-    end
-
+    other = Conversions.CoordinatesArray(other)
     to_a <=> other.to_a
   end
 
