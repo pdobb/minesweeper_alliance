@@ -17,7 +17,9 @@ module Conversions
     when Array
       Coordinates[*value]
     else
-      raise(TypeError, "Unexpected type, got #{value.class}")
+      raise(
+        TypeError,
+        "Can't convert unexpected type to Coordinates, got #{value.class}")
     end
   end
   # rubocop:enable Naming/MethodName, Metrics/MethodLength

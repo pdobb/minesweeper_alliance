@@ -13,7 +13,7 @@ class CoordinatesTest < ActiveSupport::TestCase
       it "returns the expected Array" do
         _(subject.neighbors).must_equal([
           Coordinates[-1, -1], Coordinates[0, -1], Coordinates[1, -1],
-          Coordinates[-1,  0],                    Coordinates[1,  0],
+          Coordinates[-1,  0],                     Coordinates[1,  0],
           Coordinates[-1,  1], Coordinates[0,  1], Coordinates[1,  1],
         ])
       end
@@ -25,7 +25,7 @@ class CoordinatesTest < ActiveSupport::TestCase
       it "returns the expected Array" do
         _(subject.neighbors).must_equal([
           Coordinates[0, 0], Coordinates[1, 0], Coordinates[2, 0],
-          Coordinates[0, 1],                   Coordinates[2, 1],
+          Coordinates[0, 1],                    Coordinates[2, 1],
           Coordinates[0, 2], Coordinates[1, 2], Coordinates[2, 2],
         ])
       end
@@ -37,7 +37,7 @@ class CoordinatesTest < ActiveSupport::TestCase
       it "returns the expected Array" do
         _(subject.neighbors).must_equal([
           Coordinates[1, 1], Coordinates[2, 1], Coordinates[3, 1],
-          Coordinates[1, 2],                   Coordinates[3, 2],
+          Coordinates[1, 2],                    Coordinates[3, 2],
           Coordinates[1, 3], Coordinates[2, 3], Coordinates[3, 3],
         ])
       end
@@ -63,7 +63,7 @@ class CoordinatesTest < ActiveSupport::TestCase
       it "raises TypeError" do
         exception = _(-> { subject <=> Object.new }).must_raise(TypeError)
         _(exception.message).must_equal(
-          "can't compare with non-Coordinates objects, got Object")
+          "Can't convert unexpected type to Coordinates, got Object")
       end
     end
   end

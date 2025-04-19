@@ -25,14 +25,8 @@ class Coordinates < Data.define(:x, :y) # rubocop:disable Style/DataInheritance
 
   # rubocop:enable all
 
-  # Allow sorting with other Coordinates objects.
   def <=>(other)
-    unless other.is_a?(self.class) || other.is_a?(self.class::Console)
-      raise(
-        TypeError,
-        "can't compare with non-Coordinates objects, got #{other.class}")
-    end
-
+    other = Conversions.Coordinates(other)
     [y, x] <=> [other.y, other.x]
   end
 
