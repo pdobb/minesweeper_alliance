@@ -2,52 +2,52 @@
 
 require "test_helper"
 
-class CoordinatesArrayTypeTest < ActiveSupport::TestCase
-  let(:coordinates_array1) { CoordinatesArray.new(coordinates1) }
+class CoordinatesSetTypeTest < ActiveSupport::TestCase
+  let(:coordinates_set1) { CoordinatesSet.new(coordinates1) }
   let(:coordinates1) { Coordinates[9, 9] }
 
   describe "#type" do
-    subject { CoordinatesArrayType.new }
+    subject { CoordinatesSetType.new }
 
-    it "returns :coordinates" do
-      _(subject.type).must_equal(:coordinates_array)
+    it "returns :coordinates_set" do
+      _(subject.type).must_equal(:coordinates_set)
     end
   end
 
   describe "#cast" do
-    subject { CoordinatesArrayType.new }
+    subject { CoordinatesSetType.new }
 
-    given "a CoordinatesArray" do
-      it "returns the expected value" do
-        result = subject.cast(coordinates_array1)
-        _(result).must_equal(coordinates_array1)
+    given "a CoordinatesSet" do
+      it "returns the expected CoordinatesSet" do
+        result = subject.cast(coordinates_set1)
+        _(result).must_equal(coordinates_set1)
       end
     end
 
-    given "a Array" do
-      it "returns the expected value" do
+    given "an Array" do
+      it "returns the expected CoordinatesSet" do
         result = subject.cast([coordinates1])
-        _(result).must_equal(coordinates_array1)
+        _(result).must_equal(coordinates_set1)
       end
     end
 
     given "a validly formatted String" do
-      it "returns the expected value" do
+      it "returns the expected CoordinatesSet" do
         result =
           subject.cast(ActiveSupport::JSON.encode([coordinates1]))
-        _(result).must_equal(coordinates_array1)
+        _(result).must_equal(coordinates_set1)
       end
     end
 
     given "an invalidly formatted String" do
-      it "returns the expected value" do
+      it "returns an empty Array" do
         result = subject.cast("INVALID")
         _(result).must_equal([])
       end
     end
 
     given "an unexpected type" do
-      it "returns NullCoordinates" do
+      it "returns an empty Array" do
         result = subject.cast(Object.new)
         _(result).must_equal([])
       end
@@ -55,11 +55,11 @@ class CoordinatesArrayTypeTest < ActiveSupport::TestCase
   end
 
   describe "#serialize" do
-    subject { CoordinatesArrayType.new }
+    subject { CoordinatesSetType.new }
 
-    given "a CoordinatesArray" do
-      it "returns the CoordinatesArray, formatted as JSON" do
-        result = subject.serialize(coordinates_array1)
+    given "a CoordinatesSet" do
+      it "returns the CoordinatesSet, formatted as JSON" do
+        result = subject.serialize(coordinates_set1)
         _(result).must_equal(ActiveSupport::JSON.encode([coordinates1]))
       end
     end

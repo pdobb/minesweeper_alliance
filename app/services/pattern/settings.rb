@@ -41,6 +41,8 @@ class Pattern::Settings
   def to_a = to_h.values
   def as_json = to_h
 
+  def dimensions = "#{width}x#{height}"
+
   concerning :ObjectInspection do
     include ObjectInspectionBehaviors
 

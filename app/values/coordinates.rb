@@ -16,7 +16,7 @@ class Coordinates < Data.define(:x, :y) # rubocop:disable Style/DataInheritance
 
   def neighbors # rubocop:disable Metrics/AbcSize
     # rubocop:disable all
-    CoordinatesArray.new([
+    CoordinatesSet.new([
       with(x: x.pred, y: y.pred), with(y: y.pred), with(x: x.next, y: y.pred),
       with(x: x.pred           ),                  with(x: x.next           ),
       with(x: x.pred, y: y.next), with(y: y.next), with(x: x.next, y: y.next),

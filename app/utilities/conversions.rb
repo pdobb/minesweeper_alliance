@@ -24,17 +24,19 @@ module Conversions
   end
   # rubocop:enable Naming/MethodName, Metrics/MethodLength
 
-  def self.CoordinatesArray(value) # rubocop:disable Naming/MethodName
+  # :reek:UncommunicativeMethodName
+
+  def self.CoordinatesSet(value) # rubocop:disable Naming/MethodName
     case value
-    when CoordinatesArray
+    when CoordinatesSet
       value
     when Array,
          Coordinates
-      CoordinatesArray.new(value)
+      CoordinatesSet.new(value)
     else
       raise(
         TypeError,
-        "Can't convert unexpected type to CoordinatesArray, got #{value.class}")
+        "Can't convert unexpected type to CoordinatesSet, got #{value.class}")
     end
   end
 end

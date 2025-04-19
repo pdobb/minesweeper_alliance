@@ -46,9 +46,9 @@ class Board < ApplicationRecord
   def pattern? = settings.pattern?
   def pattern = @pattern ||= Pattern.find_by!(name: pattern_name)
 
-  def cells_at(coordinates_array)
-    coordinates_array = Conversions.CoordinatesArray(coordinates_array)
-    cells.select { |cell| coordinates_array.include?(cell.coordinates) }
+  def cells_at(coordinates_set)
+    coordinates_set = Conversions.CoordinatesSet(coordinates_set)
+    cells.select { |cell| coordinates_set.include?(cell.coordinates) }
   end
 
   def mines_placed? = cells.any?(&:mine?)

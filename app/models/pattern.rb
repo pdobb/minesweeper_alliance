@@ -10,14 +10,14 @@
 # @attr settings [Hash] An object that stores the width and height of the {Grid}
 #   of associated {Cell}s. Converted to {Pattern::Settings} via {#settings}
 #   getter override.
-# @attr coordinates_array [Array[Hash]] A list of "flagged" {Coordinates}.
+# @attr coordinates_set [Array[Hash]] A list of "flagged" {Coordinates}.
 #   These make up a minority of total possible {Coordinates} for the Pattern's
 #   {Grid}. They are later translated into mine placements when a {Board} is
 #   generated off of this Pattern.
 class Pattern < ApplicationRecord
   self.implicit_order_column = "created_at"
 
-  attribute :coordinates_array, CoordinatesArrayType.new
+  attribute :coordinates_set, CoordinatesSetType.new
 
   validates :name,
             presence: true,
@@ -29,7 +29,7 @@ class Pattern < ApplicationRecord
   def width = settings.width
   def height = settings.height
   def cells_count = width * height
-  def dimensions = "#{width}x#{height}"
+  def dimensions = settings.dimensions
 
   def grid
     Grid.new(cells)
@@ -40,14 +40,9 @@ class Pattern < ApplicationRecord
   end
 
   def toggle_flag(coordinates)
-    if flagged?(coordinates)
-      coordinates_array.delete(coordinates)
-    else
-      coordinates_array << coordinates
-      coordinates_array.sort!.uniq!
-    end
+    coordinates_set.toggle(coordinates)
 
-    update!(coordinates_array:)
+    update!(coordinates_set:)
 
     self
   end
@@ -56,15 +51,15 @@ class Pattern < ApplicationRecord
     flags_count / cells_count.to_f
   end
 
-  def flags_count = coordinates_array.size
+  def flags_count = coordinates_set.size
   def mines = flags_count
 
   def flagged?(coordinates)
-    coordinates_array.include?(coordinates)
+    coordinates_set.include?(coordinates)
   end
 
   def reset
-    update!(coordinates_array: [])
+    update!(coordinates_set: [])
 
     self
   end
@@ -81,7 +76,7 @@ class Pattern < ApplicationRecord
     include ObjectInspectionBehaviors
 
     def introspect
-      { self => coordinates_array.introspect }
+      { self => coordinates_set.introspect }
     end
 
     private

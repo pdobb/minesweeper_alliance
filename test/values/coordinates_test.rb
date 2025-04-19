@@ -11,11 +11,11 @@ class CoordinatesTest < ActiveSupport::TestCase
       subject { Coordinates[0, 0] }
 
       it "returns the expected Array" do
-        _(subject.neighbors).must_equal([
+        _(subject.neighbors).must_equal(CoordinatesSet.new([
           Coordinates[-1, -1], Coordinates[0, -1], Coordinates[1, -1],
           Coordinates[-1,  0],                     Coordinates[1,  0],
           Coordinates[-1,  1], Coordinates[0,  1], Coordinates[1,  1],
-        ])
+        ]))
       end
     end
 
@@ -23,11 +23,11 @@ class CoordinatesTest < ActiveSupport::TestCase
       subject { Coordinates[1, 1] }
 
       it "returns the expected Array" do
-        _(subject.neighbors).must_equal([
+        _(subject.neighbors).must_equal(CoordinatesSet.new([
           Coordinates[0, 0], Coordinates[1, 0], Coordinates[2, 0],
           Coordinates[0, 1],                    Coordinates[2, 1],
           Coordinates[0, 2], Coordinates[1, 2], Coordinates[2, 2],
-        ])
+        ]))
       end
     end
 
@@ -35,11 +35,11 @@ class CoordinatesTest < ActiveSupport::TestCase
       subject { Coordinates[2, 2] }
 
       it "returns the expected Array" do
-        _(subject.neighbors).must_equal([
+        _(subject.neighbors).must_equal(CoordinatesSet.new([
           Coordinates[1, 1], Coordinates[2, 1], Coordinates[3, 1],
           Coordinates[1, 2],                    Coordinates[3, 2],
           Coordinates[1, 3], Coordinates[2, 3], Coordinates[3, 3],
-        ])
+        ]))
       end
     end
     # rubocop:enable Style/TrailingCommaInArrayLiteral
@@ -48,12 +48,12 @@ class CoordinatesTest < ActiveSupport::TestCase
   end
 
   describe "#<=>" do
-    let(:coordinates_array1) {
+    let(:coordinates_set1) {
       [Coordinates[1, 1], Coordinates[0, 2], Coordinates[0, 1]]
     }
 
     it "allows for sorting of Coordinates" do
-      _(coordinates_array1.sort).must_equal(
+      _(coordinates_set1).must_match_array(
         [Coordinates[0, 1], Coordinates[1, 1], Coordinates[0, 2]])
     end
 

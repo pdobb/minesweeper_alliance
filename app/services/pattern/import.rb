@@ -19,7 +19,7 @@ class Pattern::Import
     result = ProcessCSV.(path:, header:)
 
     attributes = result.fetch(:attributes)
-    coordinates_array = result.fetch(:coordinates_array)
+    coordinates_set = result.fetch(:coordinates_set)
 
     Pattern.create(
       name: attributes.fetch(:name),
@@ -27,7 +27,7 @@ class Pattern::Import
         Pattern::Settings.new(
           width: attributes.fetch(:width),
           height: attributes.fetch(:height)),
-      coordinates_array:)
+      coordinates_set:)
   end
 
   private
@@ -54,9 +54,9 @@ class Pattern::Import
       meta_data, csv_data = split_meta_data_from_csv_data
 
       attributes = build_attributes(meta_data)
-      coordinates_array = build_coordinates_array(csv_data)
+      coordinates_set = build_coordinates_set(csv_data)
 
-      { attributes:, coordinates_array: }
+      { attributes:, coordinates_set: }
     end
 
     private
@@ -93,7 +93,7 @@ class Pattern::Import
     end
 
     # :reek:FeatureEnvy
-    def build_coordinates_array(csv_data)
+    def build_coordinates_set(csv_data)
       csv_table = parse_csv(csv_data)
 
       csv_table.map { |csv_row|

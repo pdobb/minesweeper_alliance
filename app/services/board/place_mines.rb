@@ -9,9 +9,9 @@ class Board::PlaceMines
 
   def self.call(...) = new(...).call
 
-  def initialize(board:, coordinates_array:, seed_cell:)
+  def initialize(board:, coordinates_set:, seed_cell:)
     @board = board
-    @coordinates_array = coordinates_array
+    @coordinates_set = coordinates_set
     @seed_cell = seed_cell
   end
 
@@ -28,7 +28,7 @@ class Board::PlaceMines
   private
 
   attr_reader :board,
-              :coordinates_array,
+              :coordinates_set,
               :seed_cell
 
   def new_record? = board.new_record?
@@ -40,7 +40,7 @@ class Board::PlaceMines
   end
 
   def eligible_cells
-    board.cells_at(coordinates_array).excluding(seed_cell)
+    board.cells_at(coordinates_set).excluding(seed_cell)
   end
 
   def save_mines_placement(mine_cells)

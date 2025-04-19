@@ -298,7 +298,7 @@ CREATE TABLE public.patterns (
     id bigint NOT NULL,
     name character varying NOT NULL,
     settings jsonb DEFAULT '{}'::jsonb NOT NULL,
-    coordinates_array jsonb DEFAULT '[]'::jsonb NOT NULL,
+    coordinates_set jsonb DEFAULT '[]'::jsonb NOT NULL,
     created_at timestamp(6) with time zone NOT NULL,
     updated_at timestamp(6) with time zone NOT NULL
 );
@@ -958,6 +958,7 @@ ALTER TABLE ONLY public.cells
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20250420155844'),
 ('20250308230756'),
 ('20250305200048'),
 ('20250226045424'),

@@ -20,7 +20,7 @@ end
 
 Pattern.find_or_create_by!(name: "Ruby") { |new_pattern|
   new_pattern.settings = { width: 18, height: 15 }
-  new_pattern.coordinates_array = [
+  new_pattern.coordinates_set = [
     [3, 1], [4, 1], [5, 1], [6, 1], [7, 1], [8, 1], [9, 1], [10, 1], [11, 1], [12, 1], [13, 1], [14, 1],
     [2, 2], [6, 2], [11, 2], [15, 2],
     [1, 3], [5, 3], [12, 3], [16, 3],
@@ -39,7 +39,7 @@ Pattern.find_or_create_by!(name: "Ruby") { |new_pattern|
 
 Pattern.find_or_create_by!(name: "Mine Flag") { |new_pattern|
   new_pattern.settings = { width: 25, height: 25 }
-  new_pattern.coordinates_array = [
+  new_pattern.coordinates_set = [
     [2, 1],
     [1, 2], [2, 2], [3, 2],
     [2, 3],

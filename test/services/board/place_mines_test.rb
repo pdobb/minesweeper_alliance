@@ -18,7 +18,7 @@ class Board::PlaceMinesTest < ActiveSupport::TestCase
       subject {
         Board::PlaceMines.new(
           board: new_board1,
-          coordinates_array: nil,
+          coordinates_set: nil,
           seed_cell: "ANYTHING")
       }
 
@@ -35,7 +35,7 @@ class Board::PlaceMinesTest < ActiveSupport::TestCase
         subject {
           Board::PlaceMines.new(
             board: win1_board,
-            coordinates_array: nil,
+            coordinates_set: nil,
             seed_cell: "ANYTHING")
         }
 
@@ -50,7 +50,7 @@ class Board::PlaceMinesTest < ActiveSupport::TestCase
         subject {
           Board::PlaceMines.new(
             board: standing_by1_board,
-            coordinates_array: coordinates_array1,
+            coordinates_set: coordinates_set1,
             seed_cell: seed_cell1)
         }
 
@@ -58,7 +58,7 @@ class Board::PlaceMinesTest < ActiveSupport::TestCase
           let(:seed_cell1) { standing_by1_board_cell4 }
 
           context "Given an Array of Coordinates" do
-            let(:coordinates_array1) {
+            let(:coordinates_set1) {
               [Coordinates[0, 0], Coordinates[2, 2]]
             }
 
@@ -67,14 +67,14 @@ class Board::PlaceMinesTest < ActiveSupport::TestCase
                 _(-> { subject.call }).must_change(
                   "standing_by1_board.cells.is_mine.count",
                   from: 0,
-                  to: coordinates_array1.size)
+                  to: coordinates_set1.size)
               _(result).must_be_same_as(subject)
             end
           end
 
-          given "an actual CoordinatesArray" do
-            let(:coordinates_array1) {
-              CoordinatesArray.new([Coordinates[0, 0], Coordinates[2, 2]])
+          given "an actual CoordinatesSet" do
+            let(:coordinates_set1) {
+              CoordinatesSet.new([Coordinates[0, 0], Coordinates[2, 2]])
             }
 
             it "places the expected number of mines" do
@@ -82,7 +82,7 @@ class Board::PlaceMinesTest < ActiveSupport::TestCase
                 _(-> { subject.call }).must_change(
                   "standing_by1_board.cells.is_mine.count",
                   from: 0,
-                  to: coordinates_array1.size)
+                  to: coordinates_set1.size)
               _(result).must_be_same_as(subject)
             end
           end
@@ -90,14 +90,14 @@ class Board::PlaceMinesTest < ActiveSupport::TestCase
 
         given "a mine/seed_cell collision" do
           let(:seed_cell1) { standing_by1_board_cell9 }
-          let(:coordinates_array1) { [Coordinates[0, 0], Coordinates[2, 2]] }
+          let(:coordinates_set1) { [Coordinates[0, 0], Coordinates[2, 2]] }
 
           it "places one less mine cell" do
             result =
               _(-> { subject.call }).must_change(
                 "standing_by1_board.cells.is_mine.count",
                 from: 0,
-                to: coordinates_array1.size.pred)
+                to: coordinates_set1.size.pred)
             _(result).must_be_same_as(subject)
           end
         end

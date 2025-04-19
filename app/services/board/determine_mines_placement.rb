@@ -12,7 +12,7 @@ class Board::DetermineMinesPlacement
 
   def call
     if pattern?
-      Board::PlaceMines.(board:, coordinates_array:, seed_cell:)
+      Board::PlaceMines.(board:, coordinates_set:, seed_cell:)
     else
       Board::RandomlyPlaceMines.(board:, seed_cell:)
     end
@@ -25,5 +25,5 @@ class Board::DetermineMinesPlacement
 
   def pattern? = board.pattern?
   def pattern = board.pattern
-  def coordinates_array = pattern.coordinates_array
+  def coordinates_set = pattern.coordinates_set
 end

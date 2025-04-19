@@ -26,8 +26,8 @@ class Board::Calc3BV
     count
   end
 
-  def cells_at(coordinates_array)
-    cells.select { |cell| coordinates_array.include?(cell.coordinates) }
+  def cells_at(coordinates_set)
+    cells.select { |cell| coordinates_set.include?(cell.coordinates) }
   end
 
   private

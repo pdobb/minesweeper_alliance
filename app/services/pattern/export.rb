@@ -58,6 +58,6 @@ class Pattern::Export
   end
 
   def body
-    pattern.coordinates_array.map(&:to_a)
+    pattern.coordinates_set.map(&:to_a)
   end
 end

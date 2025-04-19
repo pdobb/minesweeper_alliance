@@ -4,7 +4,9 @@ require "test_helper"
 
 class PatternTest < ActiveSupport::TestCase
   let(:pattern1) { patterns(:pattern1) }
-  let(:coordinates_array1) { [Coordinates[0, 0], Coordinates[1, 1]] }
+  let(:coordinates_set1) {
+    CoordinatesSet.new([Coordinates[0, 0], Coordinates[1, 1]])
+  }
 
   describe "#validate" do
     describe "#name" do
@@ -59,12 +61,12 @@ class PatternTest < ActiveSupport::TestCase
     end
   end
 
-  describe "#coordinates_array" do
-    subject { Pattern.new(coordinates_array: [Coordinates[9, 9]]) }
+  describe "#coordinates_set" do
+    subject { Pattern.new(coordinates_set: [Coordinates[9, 9]]) }
 
-    it "returns the expected CoordinatesArray" do
-      result = subject.coordinates_array
-      _(result).must_be_instance_of(CoordinatesArray)
+    it "returns the expected CoordinatesSet" do
+      result = subject.coordinates_set
+      _(result).must_be_instance_of(CoordinatesSet)
       _(result.to_a).must_equal([Coordinates[9, 9]])
     end
   end
@@ -145,7 +147,7 @@ class PatternTest < ActiveSupport::TestCase
     end
 
     given "flags" do
-      subject { Pattern.new(coordinates_array: coordinates_array1) }
+      subject { Pattern.new(coordinates_set: coordinates_set1) }
 
       it "returns the expected Float" do
         _(subject.flag_density).must_be_close_to(0.05555555555555555)
@@ -163,7 +165,7 @@ class PatternTest < ActiveSupport::TestCase
     end
 
     given "flags" do
-      subject { Pattern.new(coordinates_array: coordinates_array1) }
+      subject { Pattern.new(coordinates_set: coordinates_set1) }
 
       it "returns the expected Integer" do
         _(subject.flags_count).must_equal(2)
@@ -181,7 +183,7 @@ class PatternTest < ActiveSupport::TestCase
     end
 
     given "flags" do
-      subject { Pattern.new(coordinates_array: coordinates_array1) }
+      subject { Pattern.new(coordinates_set: coordinates_set1) }
 
       it "returns the expected Integer" do
         _(subject.mines).must_equal(2)
@@ -190,7 +192,7 @@ class PatternTest < ActiveSupport::TestCase
   end
 
   describe "#flagged?" do
-    subject { Pattern.new(coordinates_array: coordinates_array1) }
+    subject { Pattern.new(coordinates_set: coordinates_set1) }
 
     given "an included Coordinates" do
       it "returns true" do
@@ -210,7 +212,7 @@ class PatternTest < ActiveSupport::TestCase
 
     it "empties out #coordinate_array" do
       _(-> { subject.reset }).must_change(
-        "subject.coordinates_array.to_a", to: [])
+        "subject.coordinates_set.to_a", to: [])
     end
   end
 end
