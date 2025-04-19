@@ -23,4 +23,18 @@ module Conversions
     end
   end
   # rubocop:enable Naming/MethodName, Metrics/MethodLength
+
+  def self.CoordinatesArray(value) # rubocop:disable Naming/MethodName
+    case value
+    when CoordinatesArray
+      value
+    when Array,
+         Coordinates
+      CoordinatesArray.new(value)
+    else
+      raise(
+        TypeError,
+        "Can't convert unexpected type to CoordinatesArray, got #{value.class}")
+    end
+  end
 end

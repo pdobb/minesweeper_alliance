@@ -13,17 +13,16 @@ class Coordinates < Data.define(:x, :y) # rubocop:disable Style/DataInheritance
   include ConsoleBehaviors
 
   # :reek:DuplicateMethodCall
-  # rubocop:disable all
 
-  def neighbors
-    [
+  def neighbors # rubocop:disable Metrics/AbcSize
+    # rubocop:disable all
+    CoordinatesArray.new([
       with(x: x.pred, y: y.pred), with(y: y.pred), with(x: x.next, y: y.pred),
       with(x: x.pred           ),                  with(x: x.next           ),
       with(x: x.pred, y: y.next), with(y: y.next), with(x: x.next, y: y.next),
-    ]
+    ])
+    # rubocop:enable all
   end
-
-  # rubocop:enable all
 
   def <=>(other)
     other = Conversions.Coordinates(other)

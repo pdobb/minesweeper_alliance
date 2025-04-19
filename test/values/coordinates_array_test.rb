@@ -102,7 +102,7 @@ class CoordinatesArrayTest < ActiveSupport::TestCase
       it "raises TypeError" do
         exception = _(-> { subject <=> Object.new }).must_raise(TypeError)
         _(exception.message).must_equal(
-          "can't compare with non-CoordinatesArray objects, got Object")
+          "Can't convert unexpected type to CoordinatesArray, got Object")
       end
     end
   end
