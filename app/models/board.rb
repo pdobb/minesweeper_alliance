@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 # :reek:TooManyMethods
-# :reek:RepeatedConditional
 
 # Board represents a collection of {Cell}s. Internally, these {Cell}s are
 # organized as just one big Array, but they can best be visualized as an Array
@@ -36,27 +35,16 @@ class Board < ApplicationRecord
 
   validate :validate_settings, on: :create
 
-  def settings
-    @settings ||= Settings.new(**super)
-  end
-
-  def settings=(value)
-    super(value.to_h)
-  end
+  def settings = @settings ||= Settings.new(**super)
 
   def width = settings.width
   def height = settings.height
   def mines = settings.mines
   def dimensions = settings.dimensions
+
+  def pattern_name = settings.name
   def pattern? = settings.pattern?
-
-  def pattern
-    @pattern ||= Pattern.find_by!(name: pattern_name)
-  end
-
-  def pattern_name
-    settings.name if pattern?
-  end
+  def pattern = @pattern ||= Pattern.find_by!(name: pattern_name)
 
   def cells_at(coordinates_array)
     coordinates_array = Array.wrap(coordinates_array)
