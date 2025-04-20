@@ -24,7 +24,7 @@ class Games::JustEnded::Title
   end
 
   def elapsed_time
-    Games::Past::ElapsedTime.new(ended_at: game_ended_at)
+    Games::Past::ElapsedTime.new(game:)
   end
 
   private
@@ -32,5 +32,4 @@ class Games::JustEnded::Title
   attr_reader :game
 
   def game_started_at = game.started_at
-  def game_ended_at = game.ended_at
 end

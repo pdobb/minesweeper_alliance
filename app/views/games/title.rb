@@ -28,7 +28,7 @@ class Games::Title
   end
 
   def elapsed_time
-    Games::Past::ElapsedTime.new(ended_at: engagement_ended_at)
+    Games::Past::ElapsedTime.new(game:)
   end
 
   def engagement_time_range

@@ -16,6 +16,7 @@
 
   <% title.elapsed_time.tap do |elapsed_time| %>
     <span
+      title="<%= elapsed_time.time_range %>"
       class="
         max-sm:hidden inline-flex
         font-normal text-base text-dim normal-case
@@ -24,11 +25,10 @@
       T+
       <time
         data-controller="timer"
-        data-timer-start-value="<%= elapsed_time.started_at.to_i %>"
+        data-timer-start-value="<%= elapsed_time.game_ended_at.to_i %>"
         data-timer-format-value="MM:SS"
         data-timer-max-seconds-value="3599"
         data-timer-max-time-string-value="59:59+"
-        title="Engagement ended &lt;MM:SS&gt; ago"
         datetime="PT<%= elapsed_time.to_i %>S"
       ><%= elapsed_time %></time>
     </span>

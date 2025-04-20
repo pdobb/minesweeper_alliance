@@ -18,6 +18,7 @@
   <% if title.game_ended_today? %>
     <% title.elapsed_time.tap do |elapsed_time| %>
       <span
+        title="<%= elapsed_time.time_range %>"
         class="
           max-sm:hidden inline-flex
           font-normal text-base text-dim normal-case
@@ -26,11 +27,10 @@
         T+
         <time
           data-controller="timer"
-          data-timer-start-value="<%= elapsed_time.started_at.to_i %>"
+          data-timer-start-value="<%= elapsed_time.game_ended_at.to_i %>"
           data-timer-format-value="HH:MM:SS"
           data-timer-max-seconds-value="86399"
           data-timer-max-time-string-value="23:59:59+"
-          title="Engagement ended &lt;HH::MM:SS&gt; ago"
           datetime="PT<%= elapsed_time.to_i %>S"
         ><%= elapsed_time %></time>
       </span>
