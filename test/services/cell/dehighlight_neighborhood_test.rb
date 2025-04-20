@@ -22,7 +22,7 @@ class Cell::DehighlightNeighborhoodTest < ActiveSupport::TestCase
       end
     end
 
-    given "a revealed Cell with unhighlighted neighbors" do
+    given "a revealed Cell with highlighted neighbors" do
       before do
         Cell::Reveal.(cell1)
         Cell::HighlightNeighborhood.(cell1)
