@@ -12,8 +12,8 @@ module ActiveSupport::Testing::Assertions # rubocop:disable Metrics/ModuleLength
   #   assert_matched_arrays(array1, array2)
   #   _(array2).must_match_array(array1)
   def assert_matched_arrays(array1, array2)
-    assert_kind_of(Array, (array1 = array1.to_ary.sort))
-    assert_kind_of(Array, (array2 = array2.to_ary.sort))
+    assert_kind_of(Array, array1 = array1.to_ary.sort)
+    assert_kind_of(Array, array2 = array2.to_ary.sort)
     assert_equal(array1, array2)
   end
 

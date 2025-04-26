@@ -11,8 +11,8 @@ class TurboStreamActions
   end
 
   def <<(value)
-    response << (value)
-    broadcast << (value)
+    response << value
+    broadcast << value
   end
 
   def response = hash.fetch(:response)
