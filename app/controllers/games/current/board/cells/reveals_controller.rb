@@ -9,6 +9,8 @@ class Games::Current::Board::Cells::RevealsController < ApplicationController
       perform_action
       dispatch.call
     }
+  rescue Games::Current::Board::Cells::DispatchAction::GameOverError
+    render(turbo_stream: turbo_stream.refresh)
   end
 
   private

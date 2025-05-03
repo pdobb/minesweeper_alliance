@@ -14,10 +14,8 @@
 # {Game} play history. For passive Cell Actions, use
 # {Games::Current::Board::Cells::DispatchEffect} instead.
 class Games::Current::Board::Cells::DispatchAction
-  # Games::Current::Board::Cells::DispatchAction::Error represents any
-  # StandardError related to Games::Current::Board::Cells::DispatchAction
-  # processing.
-  Error = Class.new(StandardError)
+  # Games::Current::Board::Cells::DispatchAction::GameOverError
+  GameOverError = Class.new(StandardError)
 
   def initialize(context:)
     @context = context
@@ -47,7 +45,7 @@ class Games::Current::Board::Cells::DispatchAction
   def require_game_on
     return unless Game::Status.over?(game)
 
-    raise(Error, "Game is over: #{game.status.inspect}")
+    raise(GameOverError)
   end
 
   def require_participant

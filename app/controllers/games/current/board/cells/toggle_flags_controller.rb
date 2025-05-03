@@ -12,6 +12,8 @@ class Games::Current::Board::Cells::ToggleFlagsController <
       dispatch.call
       dispatch << generate_placed_flags_count_turbo_stream_update
     }
+  rescue Games::Current::Board::Cells::DispatchAction::GameOverError
+    render(turbo_stream: turbo_stream.refresh)
   end
 
   private
