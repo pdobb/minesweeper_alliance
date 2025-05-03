@@ -10,6 +10,10 @@ class Games::Past::Container
   end
 
   def turbo_frame_name = self.class.display_case_turbo_frame_name
+
+  # Dont cache recently-ended Games as they use a different display time format
+  # (Elapsed Time: T+HH:MM:SS) vs older games (Time Range: HH:MM:SS–HH:MM:SS).
+  def cacheable? = game_ended_over_a_day_ago?
   def cache_key = [:past_game_container, game, *game.users.pluck(:updated_at)]
 
   def content
@@ -23,4 +27,6 @@ class Games::Past::Container
   private
 
   attr_reader :game
+
+  def game_ended_over_a_day_ago? = 1.day.ago >= game.ended_at
 end
