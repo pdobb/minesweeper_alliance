@@ -6,5 +6,7 @@ class Games::Current::Board::Cells::DehighlightNeighborsController <
 
   def create
     Games::Current::Board::Cells::DehighlightNeighbors.(context: self)
+  rescue Games::Current::Board::Cells::DispatchEffect::GameOverError
+    render(turbo_stream: turbo_stream.refresh)
   end
 end

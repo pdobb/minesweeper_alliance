@@ -11,6 +11,8 @@ class Games::Current::Board::Cells::HighlightNeighborsController <
       perform_effect
       dispatch.call
     }
+  rescue Games::Current::Board::Cells::DispatchEffect::GameOverError
+    render(turbo_stream: turbo_stream.refresh)
   end
 
   private

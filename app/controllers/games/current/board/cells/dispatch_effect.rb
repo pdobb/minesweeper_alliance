@@ -11,6 +11,9 @@
 # the {Game} play history. For active Cell Actions, use
 # {Games::Current::Board::Cells::DispatchAction} instead.
 class Games::Current::Board::Cells::DispatchEffect
+  # Games::Current::Board::Cells::DispatchEffect::GameOverError
+  GameOverError = Class.new(StandardError)
+
   def initialize(context:)
     @context = context
     @turbo_stream_actions = TurboStreamActions.new
@@ -20,6 +23,8 @@ class Games::Current::Board::Cells::DispatchEffect
     yield(Dispatch.new(turbo_stream_actions:, context:))
 
     generate_response
+  rescue ActiveRecord::ReadOnlyRecord
+    raise(GameOverError)
   end
 
   private
