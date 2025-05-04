@@ -2,7 +2,7 @@
 
 <%= turbo_frame_tag(
       content.turbo_frame_name,
-      class: "flex max-md:flex-col justify-center items-center gap-6") do %>
+      class: "flex max-sm:flex-col justify-center items-center gap-6") do %>
   <% content.presets.each do |preset| %>
     <%= button_to(
           preset,
