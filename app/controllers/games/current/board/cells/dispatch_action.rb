@@ -138,7 +138,11 @@ class Games::Current::Board::Cells::DispatchAction
     end
 
     def generate_just_ended_game_update_action
-      # Just for the current user session:
+      generate_just_ended_game_update_action_for_current_user_session
+      generate_just_ended_game_update_action_for_other_users
+    end
+
+    def generate_just_ended_game_update_action_for_current_user_session
       html =
         render_to_string(
           partial: "games/just_ended/container",
@@ -147,8 +151,9 @@ class Games::Current::Board::Cells::DispatchAction
       target = Games::Current::Container.turbo_frame_name
       turbo_stream_actions.response <<
         turbo_stream.replace(target, html, method: :morph)
+    end
 
-      # Just for other user sessions:
+    def generate_just_ended_game_update_action_for_other_users
       turbo_stream_actions.broadcast << turbo_stream.refresh
     end
 
