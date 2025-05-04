@@ -52,13 +52,13 @@ class Games::Current::Board::Cells::DispatchAction
     return if current_user.participant?
 
     Games::Current::CreateParticipant.(game:, context:)
-    generate_user_nav_turbo_stream_update_action
+    generate_current_user_user_nav_turbo_stream_update_action
   end
 
-  def generate_user_nav_turbo_stream_update_action
+  def generate_current_user_user_nav_turbo_stream_update_action
     nav = CurrentUser::Nav.new(user: current_user)
 
-    turbo_stream_actions <<
+    turbo_stream_actions.response <<
       turbo_stream.replace(
         nav.turbo_target,
         method: :morph,

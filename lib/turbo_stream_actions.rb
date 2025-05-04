@@ -2,6 +2,18 @@
 
 # TurboStreamActions collects Turbo Stream actions intended for response,
 # broadcast, or both. Collections are {FlatArray}s.
+#
+# @example Add a Turbo Stream Response + a Turbo Stream Broadcast
+#   turbo_stream_actions = TurboStreamActions.new
+#   turbo_stream_actions << ...
+#
+# @example Add a Turbo Stream Response (only)
+#   turbo_stream_actions = TurboStreamActions.new
+#   turbo_stream_actions.response << ...
+#
+# @example Add a Turbo Stream Broadcast (only)
+#   turbo_stream_actions = TurboStreamActions.new
+#   turbo_stream_actions.broadcast << ...
 class TurboStreamActions
   # TurboStreamActions::Response collects response actions into a {FlatArray}.
   Response = Class.new(FlatArray)
