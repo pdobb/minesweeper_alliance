@@ -106,21 +106,15 @@ class Application::Tooltip
   end
 
   # Precedence order:
-  #   "tooltips.<scope>.<key>_html"
   #   "tooltips.<scope>.<key>"
-  #   "<scope>.<key>_html"
   #   "<scope>.<key>"
-  #   "tooltips.<key>_html"
   #   "tooltips.<key>"
   #   "<key>"
   def translate(key:, scope:)
     I18n.t(
-      :"#{DEFAULT_SCOPE}.#{scope}.#{key}_html",
+      :"#{DEFAULT_SCOPE}.#{scope}.#{key}",
       default: [
-        :"#{DEFAULT_SCOPE}.#{scope}.#{key}",
-        :"#{scope}.#{key}_html",
         :"#{scope}.#{key}",
-        :"#{DEFAULT_SCOPE}.#{key}_html",
         :"#{DEFAULT_SCOPE}.#{key}",
         key.to_sym,
       ]).html_safe

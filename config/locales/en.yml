@@ -100,7 +100,7 @@ en:
     successful_destroy_with_name: "Destroyed %{type} %{name}"
 
   tooltips:
-    roster_html: |
+    roster: |
       <div class="space-y-3">
         <p>The Fleet Roster lists current minesweepers (participants) in the War Room.</p>
         <p>
@@ -112,22 +112,22 @@ en:
         <p class="text-dim">Entries are persisted indefinitely during an engagement, timing out "away" participants at ~T+03:00 (about 3 minutes after an engagement ends).</p>
         <p class="text-dim">The Fleet Roster is reset at the beginning of each new engagement.</p>
       </div>
-    bbbv_html: |
+    bbbv: |
       The 3BV Value (a.k.a. BBBV) of a board represents the minimum number of reveals required to solve it (without placing any flags and without chording).<br>
       <span class="text-dim">- Higher value = greater solve difficulty.</span>
-    bbbvps_html: |
+    bbbvps: |
       3BV/s grades solve speed based on the 3BV (ideal solve value) for a specific board.<br>
       <span class="text-dim">- Higher is better.</span>
-    chords_html: |
+    chords: |
       Chords are groups of cells that are automatically revealed by clicking on a numbered Cell.<br>
       <span class="text-dim">- Available only after the corresponding number of surrounding cells have been flagged--whether correctly or not.</span>
-    efficiency_html: |
+    efficiency: |
       Efficiency measures the ratio of actual clicks to the ideal/minimal clicks<span class="font-sans">&mdash;</span>as defined by the board's 3BV value.<br>
       <span class="text-dim">- Fewer clicks = higher efficiency.</span><br>
       <span class="text-dim">- Efficiencies over 100% are possible when chording.</span>
     reveals: |
       Reveals are regular <span class="whitespace-nowrap">clicks/taps</span> on perviously <strong>unrevealed</strong> cells.<br>
-    score_html: |
+    score: |
       Score = solve speed in seconds.<br>
       <span class="text-dim">- Lower is better.</span>
     games:
