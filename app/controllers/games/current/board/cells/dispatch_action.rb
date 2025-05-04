@@ -89,11 +89,11 @@ class Games::Current::Board::Cells::DispatchAction
     def initialize(turbo_stream_actions:, context:)
       @turbo_stream_actions = turbo_stream_actions
       @context = context
-      @on_game_start_block = -> {}
+      @on_game_start_policy = -> {}
     end
 
     def on_game_start(&block)
-      @on_game_start_block = block
+      @on_game_start_policy = block
     end
 
     def call
@@ -114,7 +114,7 @@ class Games::Current::Board::Cells::DispatchAction
 
     attr_reader :turbo_stream_actions,
                 :context,
-                :on_game_start_block
+                :on_game_start_policy
 
     def game = context.__send__(:game)
     def board = context.__send__(:board)
@@ -124,7 +124,7 @@ class Games::Current::Board::Cells::DispatchAction
     def render_to_string(...) = context.render_to_string(...)
 
     def dispatch_game_start
-      turbo_stream_actions << on_game_start_block.call
+      turbo_stream_actions << on_game_start_policy.call
       generate_game_update_action
     end
 
