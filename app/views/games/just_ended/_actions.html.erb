@@ -1,7 +1,9 @@
 <%# locals: (actions:) %>
 
 <div class="space-y-10">
-  <h3 class="h4 text-center"><%= actions.game_over_message %></h3>
+  <% cache(actions.cache_key, expires_in: actions.cache_expires_in) do %>
+    <h3 class="h4 text-center"><%= actions.game_over_message %></h3>
+  <% end %>
 
   <%= render("games/new/content", content: actions.new_game_content) %>
 </div>

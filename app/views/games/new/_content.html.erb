@@ -20,6 +20,7 @@
           **content.debug_mode_data_attributes,
         }) %>
 
+  <% uncacheable! %>
   <% if content.show_new_custom_game_button?(current_user) %>
     <%= button_to(
           "Custom",

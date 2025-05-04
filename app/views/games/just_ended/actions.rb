@@ -7,6 +7,9 @@ class Games::JustEnded::Actions
     @game = game
   end
 
+  def cache_key = [:just_ended, game, :actions]
+  def cache_expires_in = Game::RECENTLY_ENDED_DURATION
+
   def game_over_message
     if ended_in_victory?
       I18n.t("game.victory.restart_html").sample
