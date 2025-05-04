@@ -17,6 +17,8 @@ class FlatArray
   def_delegators(
     :array,
     *%i[
+      -
+      |
       []
       []=
       concat
