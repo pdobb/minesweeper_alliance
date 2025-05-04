@@ -3,6 +3,8 @@
 # Games::JustEnded::FooterPartialOptions handles building out the proper footer
 # partial's rendering options based on whether or not the passed-in
 # {User} participated in, or was just a spectator of, the passed-in{Game}.
+# - Observers just see {Game} Results,
+# - Active Participants get the "Sign your name?" prompt + see {Game} results.
 class Games::JustEnded::FooterPartialOptions
   def self.call(...) = new(...).call
 
