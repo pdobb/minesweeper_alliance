@@ -18,7 +18,7 @@ class Games::JustEnded::ActiveParticipants::Signature
   end
 
   def link_content
-    user.signer? ? View.updateable_display_name(user:) : "Sign your name?"
+    user.signer? ? View.updateable_display_name(user:) : "Sign your username?"
   end
 
   def edit_url
@@ -26,6 +26,7 @@ class Games::JustEnded::ActiveParticipants::Signature
   end
 
   def signer? = user.signer?
+  def not_a_signer? = user.not_a_signer?
 
   private
 

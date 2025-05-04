@@ -180,7 +180,7 @@ class UserTest < ActiveSupport::TestCase
   end
 
   describe "#signer?" do
-    given "a User that has signed their name" do
+    given "a User that has signed their username" do
       subject { user1 }
 
       it "returns true" do
@@ -188,7 +188,7 @@ class UserTest < ActiveSupport::TestCase
       end
     end
 
-    given "a User that has not signed their name" do
+    given "a User that has not signed their username" do
       subject { user2 }
 
       it "returns false" do
