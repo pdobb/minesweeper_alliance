@@ -53,8 +53,6 @@ class Cell < ApplicationRecord
   validates :value,
             numericality: { integer: true, in: VALUES_RANGE, allow_blank: true }
 
-  def id?(value) = to_param == value.to_s
-
   def upsertable_attributes
     attributes.except("updated_at")
   end

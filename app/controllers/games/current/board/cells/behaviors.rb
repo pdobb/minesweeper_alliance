@@ -14,21 +14,6 @@ module Games::Current::Board::Cells::Behaviors
   end
 
   def cell
-    @cell ||= begin
-      id_string = params[:cell_id]
-      cells_arel.to_a.detect { |cell| cell.id?(id_string) }.tap { |cell|
-        raise(ActiveRecord::RecordNotFound, inspect_cell_lineage) unless cell
-      }
-    end
-  end
-
-  def cells_arel
-    arel = board.cells
-    arel = arel.readonly if Game::Status.over?(game)
-    arel
-  end
-
-  def inspect_cell_lineage
-    "#{game.identify} -> #{board.identify} -> Cell[#{params[:cell_id].inspect}]"
+    @cell ||= Game::Board::Cell::Find.(game:, cell_id: params[:cell_id])
   end
 end
