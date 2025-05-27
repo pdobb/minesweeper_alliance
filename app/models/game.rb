@@ -18,8 +18,9 @@
 # 2. Which builds an associated {Board} (storing off the given {Board::Settings}
 #    object into {Board#settings} as a serialized Hash).
 # 3. Generate an associated 1-dimensional Array of {Cell}s of length
-#    {Board#width} * {Board#height}--filling in {Cell#coordinates} for each,
-#    based on its Array index (see {Board::Generate#build_coordinates_for}).
+#    {Board#width} * {Board#height}--composed of {Coordinates} built based on
+#    the Array index (see {Board::Generate#build_coordinates_for}) and saved
+#    into {Cell#coordinates}.
 # 4. Atomically save all of the above to the database, while also setting the
 #    lifecycle state of the Game ({Game#status}) to "Standing By" (i.e. awaiting
 #    the first {Cell#reveal} of the Game).
@@ -30,16 +31,11 @@
 #     {Board#cells}.
 #    - Note: We ensure that the first-revealed Cell of the game (a.k.a. the
 #      "Seed Cell") is excluded from the set so that the first {Cell#reveal} of
-#      the Game is, in effect, always safe.º
+#      the Game is, in effect, always safe.
 #    - The number of mines to be placed comes from the stored {Board#settings}.
 #  2. Start the Game (i.e. transition to lifecycle state: "Sweep in Progress").
 #  3. Reveal the first-clicked-on {Cell}, following the general rules of
 #     Minesweeper gameplay from there.
-#
-#  º EXCEPTION: In the case of a "Pattern" Game board, mines are specifically
-#    placed after step 4 in the "Typical flow for Game creation/start", above.
-#    Which means that the first {Cell#reveal} of the Game for a "Pattern" Game
-#    board is *not* safe and *can* end the Game in defeat, straight away.
 #
 # @attr status [String] The current Game status / life-cycle state.
 # @attr type [String] The preset or Game type used to generate this Game's

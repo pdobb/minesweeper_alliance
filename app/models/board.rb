@@ -2,16 +2,13 @@
 
 # :reek:TooManyMethods
 
-# Board represents a collection of {Cell}s. Internally, these {Cell}s are
-# organized as just one big Array, but they can best be visualized as an Array
-# of Arrays--forming an X/Y grid. Indeed, we must represent the {Cell}s as a
-# grid in the UI at some point... and it is {Grid#to_h} that accomplishes this.
-# This grid of {Cell}s is never persisted, but, rather, is just always created
-# on demand / as needed.
+# Board represents a collection of {Cell}s. {Cell}s are stored in the database
+# as a single dimensional Array, but logically represent an X/Y grid (an Array
+# of Arrays). {Grid#to_h} handles this virtually (just-in-time).
 #
 # @attr settings [Hash] An object that stores the width, height,
 #   and number of mines (to be set) in the {Grid} of associated {Cell}s.
-#   Converted to {Board::Settings} via {#settings} getter override.
+#   Converted to {Board::Settings} via {#settings}.
 #
 # @see Grid
 class Board < ApplicationRecord
