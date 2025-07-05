@@ -133,7 +133,7 @@ en:
     games:
       just_ended:
         why_sign: |
-          Signing your username establishes your account as "experienced". This reveals a number of small features, like:<br>
+          Signing your username marks your account as established. This reveals a few small features, including:<br>
           <span class="text-dim">- Removing the welcome banner</span><br>
           <span class="text-dim">- Adding a New "Custom" Game type</span>
       past:

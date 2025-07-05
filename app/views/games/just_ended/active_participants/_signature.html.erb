@@ -18,7 +18,7 @@
     <% end %>
 
     <% if signature.not_a_signer? %>
-      <%= tt(key: "games.just_ended.why_sign") do %>
+      <%= tt(key: "games.just_ended.why_sign", css: { content: "max-w-90" }) do %>
         <%= inline_svg_tag(
               "heroicons/information-circle.svg",
               class: "text-dim-lg relative -right-px") %>
