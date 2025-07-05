@@ -1,31 +1,32 @@
 # frozen_string_literal: true
 
-# ConfigurationBehaviors implements a simple `configure do |config|` block-style
-# API for configuration of objects/services.
+# ConfigurationBehaviors provides a simple API for configuration of
+# objects/services using the familiar `configure do |config|` block style.
 #
 # @example Usage
 #   class MyObject
 #     include ConfigurationBehaviors
 #
-#     class Configuration
-#       attr_accessor :configurable_option1, :configurable_option2
-#     end
+#     Configuration = Struct.new(:option1, :option2)
 #   end
 #
 #   # Set the configuration (in e.g. config/environment.rb):
 #   MyObject.configure do |config|
-#     config.configurable_option1 = "Value 1"
-#     config.configurable_option2 = "Value 2"
+#     config.option1 = "Value 1"
+#     config.option2 = "Value 2"
 #   end
+#   # => #<struct MyObject::Configuration option1="Value 1", option2="Value 2">
 #
-#   # Use it:
-#   MyObject.configuration.configurable_option1 # => "Value 1"
+#   MyObject.configuration.option1 # => "Value 1"
+#   MyObject.configuration.option2 # => "Value 2"
+#   MyObject.configuration.to_h    # => {option1: "Value 1", option2: "Value 2"}
 module ConfigurationBehaviors
   extend ActiveSupport::Concern
 
   class_methods do
     def configure
       yield(configuration) if block_given?
+      configuration
     end
 
     def configuration
