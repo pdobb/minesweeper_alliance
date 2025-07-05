@@ -19,12 +19,14 @@
             "Reset",
             @show.pattern_reset_url,
             data: { turbo_confirm: "Really reset?" },
-            class: "btn-primary") %>
+            class: "btn-primary",
+          ) %>
       <%= button_to(
             "Export",
             @show.pattern_export_url,
             class: "btn-primary",
-            data: { turbo_frame: :_top }) %>
+            data: { turbo_frame: :_top },
+          ) %>
     </div>
   </div>
 </div>

@@ -20,7 +20,8 @@ class CurrentUser::Account::UsernameController < ApplicationController
             notice:
               t("flash.successful_update_to",
                 type: "username",
-                to: current_user.display_name))
+                to: current_user.display_name),
+          )
         end
         format.turbo_stream {
           username = CurrentUser::Account::Username.new(user: current_user)
@@ -29,7 +30,9 @@ class CurrentUser::Account::UsernameController < ApplicationController
               turbo_stream.update(
                 username.turbo_frame_name,
                 partial: "current_user/account/username",
-                locals: { username: }))
+                locals: { username: },
+              ),
+          )
         }
       end
     else

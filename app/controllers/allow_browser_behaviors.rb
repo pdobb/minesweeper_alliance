@@ -15,7 +15,9 @@ module AllowBrowserBehaviors
       block: -> { redirect_to(unsupported_browser_path) }, # Custom Error Page
       unless: -> {
         request.user_agent&.match?(
-          /Twitterbot|facebookexternalhit|Googlebot|Pinterestbot|redditbot/i)
-      })
+          /Twitterbot|facebookexternalhit|Googlebot|Pinterestbot|redditbot/i,
+        )
+      },
+    )
   end
 end

@@ -10,7 +10,8 @@ module Metrics::Engagements::Bests::TypeBehaviors
       Metrics::Engagements::Bests::Listing.wrap_upto(
         arel,
         limit:,
-        fill: Metrics::Engagements::Bests::NullListing.new)
+        fill: Metrics::Engagements::Bests::NullListing.new,
+      )
   end
 
   private

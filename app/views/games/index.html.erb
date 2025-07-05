@@ -14,7 +14,8 @@
       <% if @index.show_time_zone_form?(user: current_user) %>
         <%= render(
               "users/time_zone/form",
-              form: @index.time_zone_form(user: current_user)) %>
+              form: @index.time_zone_form(user: current_user),
+            ) %>
       <% else %>
         <%= @index.current_time_zone_description %>
       <% end %>
@@ -34,7 +35,8 @@
           <%= link_to(
                 type.filter_name,
                 type.games_filter_url,
-                class: type.css) %>
+                class: type.css,
+              ) %>
           <span class="text-dim-lg">
             (<%= type.games_count %> / <%= type.games_percentage %>)
           </span>
@@ -46,10 +48,12 @@
   <h2 class="h3 text-center">
     <%= render(
           "games/past/engagement_tally",
-          engagement_tally: @index.engagement_tally) %>
+          engagement_tally: @index.engagement_tally,
+        ) %>
   </h2>
 
   <%= render(
         "games/index/paginated_listings_groups",
-        paginated_listings_groups: @index.paginated_listings_groups) %>
+        paginated_listings_groups: @index.paginated_listings_groups,
+      ) %>
 </div>

@@ -30,7 +30,8 @@ class Users::Show
 
     I18n.l(
       Time.current.in_time_zone(user_time_zone),
-      format: :weekday_hours_minutes)
+      format: :weekday_hours_minutes,
+    )
   rescue TZInfo::InvalidTimezoneIdentifier
     nil
   end
@@ -55,7 +56,8 @@ class Users::Show
     Users::Games::Index.new(
       base_arel: user.actively_participated_in_games.for_game_over_statuses,
       user:,
-      context:)
+      context:,
+    )
   end
 
   private

@@ -7,6 +7,7 @@
       src: pager.next_page_url,
       loading: :lazy,
       data: { controller: "prefetch-lazy-frame" },
-      class: "block h-[1000px]") do %>
+      class: "block h-[1000px]",
+    ) do %>
   <%= inline_svg_tag("spinner.svg") %>
 <% end %>

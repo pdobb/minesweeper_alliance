@@ -21,7 +21,8 @@ class GameTransactionTest < ActiveSupport::TestCase
       _(exception.message).must_include(
         "PG::UniqueViolation: ERROR:  "\
         "duplicate key value violates unique constraint "\
-        '"index_game_transactions_on_game_id_and_type"')
+        '"index_game_transactions_on_game_id_and_type"',
+      )
     end
   end
 

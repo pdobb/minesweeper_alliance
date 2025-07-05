@@ -19,11 +19,12 @@ class Log::Exception
   def self.log_level = :error
 
   def initialize(
-        exception,
-        message: nil,
-        logger: Rails.logger,
-        backtrace_cleaner: nil,
-        skip: -> { App.test? })
+    exception,
+    message: nil,
+    logger: Rails.logger,
+    backtrace_cleaner: nil,
+    skip: -> { App.test? }
+  )
     raise(TypeError, "exception can't be nil") unless exception
 
     @exception = exception

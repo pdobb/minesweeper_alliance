@@ -2,7 +2,8 @@
 
 Rails.application.routes.draw do
   default_url_options(
-    Rails.application.config.action_mailer.default_url_options)
+    Rails.application.config.action_mailer.default_url_options,
+  )
 
   root "home#show"
 
@@ -36,7 +37,8 @@ Rails.application.routes.draw do
           resource(
             :current_user,
             controller: :current_user,
-            only: %i[show edit update])
+            only: %i[show edit update],
+          )
         end
       end
     end
@@ -79,7 +81,8 @@ Rails.application.routes.draw do
       resource(
         :toggle_dev_caching,
         controller: :toggle_dev_caching,
-        only: :create)
+        only: :create,
+      )
 
       resources :patterns do
         scope module: :patterns do
@@ -102,7 +105,8 @@ Rails.application.routes.draw do
       resource(
         :unsupported_browser_test,
         controller: :unsupported_browser_test,
-        only: :show)
+        only: :show,
+      )
     end
   end
 

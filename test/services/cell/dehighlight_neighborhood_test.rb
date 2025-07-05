@@ -17,7 +17,8 @@ class Cell::DehighlightNeighborhoodTest < ActiveSupport::TestCase
       it "returns nil" do
         result =
           _(-> { subject.call(cell1) }).wont_change(
-            "Cell::Neighbors.new(cell: cell1).highlighted_count")
+            "Cell::Neighbors.new(cell: cell1).highlighted_count",
+          )
 
         _(result).must_be_nil
       end

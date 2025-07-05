@@ -34,7 +34,8 @@ class Games::Current::Board::Cells::RevealsController < ApplicationController
   def generate_game_status_turbo_stream_update
     turbo_stream.replace(
       Games::Current::Status.game_status_turbo_target,
-      html: Games::Current::Status.new(game:).to_s)
+      html: Games::Current::Status.new(game:).to_s,
+    )
   end
 
   def generate_elapsed_time_turbo_stream_update
@@ -44,6 +45,7 @@ class Games::Current::Board::Cells::RevealsController < ApplicationController
       locals: {
         elapsed_time: Games::Board::ElapsedTime.new(game:),
       },
-      method: :morph)
+      method: :morph,
+    )
   end
 end

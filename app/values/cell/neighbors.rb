@@ -7,20 +7,18 @@ class Cell::Neighbors
 
   include Enumerable
 
-  def_delegators(
-    :array,
-    *%i[
-      []
-      each
-      empty?
-      first
-      include?
-      last
-      size
-      to_a
-      to_ary
-      uniq!
-    ])
+  def_delegators(:array, *%i[
+    []
+    each
+    empty?
+    first
+    include?
+    last
+    size
+    to_a
+    to_ary
+    uniq!
+  ])
 
   def initialize(cell:)
     @cell = cell

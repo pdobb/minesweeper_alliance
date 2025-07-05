@@ -26,8 +26,10 @@ class Pattern::Import
       settings:
         Pattern::Settings.new(
           width: attributes.fetch(:width),
-          height: attributes.fetch(:height)),
-      coordinates_set:)
+          height: attributes.fetch(:height),
+        ),
+      coordinates_set:,
+    )
   end
 
   private

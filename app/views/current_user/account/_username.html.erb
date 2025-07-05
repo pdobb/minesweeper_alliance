@@ -5,7 +5,8 @@
     <%= link_to(
           username.edit_url,
           data: { turbo_stream: true },
-          class: "icon-link") do %>
+          class: "icon-link",
+        ) do %>
       <%= username.link_content %>
       <%= inline_svg_tag("heroicons/pencil-square.svg") %>
     <% end %>

@@ -290,7 +290,8 @@ class Board::SettingsTest < ActiveSupport::TestCase
             subject.validate
 
             _(subject.errors[:mines]).wont_include(
-              "must be <= 12 (1/3 of total area)")
+              "must be <= 12 (1/3 of total area)",
+            )
           end
         end
 
@@ -301,7 +302,8 @@ class Board::SettingsTest < ActiveSupport::TestCase
             subject.validate
 
             _(subject.errors[:mines]).wont_include(
-              "must be >= 9 (10% of total area)")
+              "must be >= 9 (10% of total area)",
+            )
           end
         end
       end
@@ -316,7 +318,8 @@ class Board::SettingsTest < ActiveSupport::TestCase
             subject.validate
 
             _(subject.errors[:mines]).must_include(
-              "must be <= 27 (1/3 of total area)")
+              "must be <= 27 (1/3 of total area)",
+            )
           end
         end
 
@@ -327,7 +330,8 @@ class Board::SettingsTest < ActiveSupport::TestCase
             subject.validate
 
             _(subject.errors[:mines]).must_include(
-              "must be >= 9 (10% of total area)")
+              "must be >= 9 (10% of total area)",
+            )
           end
         end
       end
@@ -460,7 +464,8 @@ class Board::SettingsTest < ActiveSupport::TestCase
 
       it "returns the expected Hash" do
         _(subject.to_h).must_equal(
-          { type: "Beginner", width: 9, height: 9, mines: 10 })
+          { type: "Beginner", width: 9, height: 9, mines: 10 },
+        )
       end
     end
 
@@ -470,7 +475,8 @@ class Board::SettingsTest < ActiveSupport::TestCase
       describe "#to_h" do
         it "returns the expected Hash" do
           _(subject.to_h).must_equal(
-            { type: "Custom", width: 6, height: 6, mines: 9 })
+            { type: "Custom", width: 6, height: 6, mines: 9 },
+          )
         end
       end
     end
@@ -481,7 +487,8 @@ class Board::SettingsTest < ActiveSupport::TestCase
 
     it "returns the expected Hash" do
       _(subject.as_json).must_equal(
-        { type: "Beginner", width: 9, height: 9, mines: 10 })
+        { type: "Beginner", width: 9, height: 9, mines: 10 },
+      )
     end
   end
 end

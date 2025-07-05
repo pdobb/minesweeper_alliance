@@ -8,12 +8,14 @@ class AddHighlightOriginAndHighlightedToCells < ActiveRecord::Migration[8.0]
       :highlight_origin,
       :boolean,
       null: false,
-      default: false)
+      default: false,
+    )
     add_column(
       :cells,
       :highlighted,
       :boolean,
       null: false,
-      default: false)
+      default: false,
+    )
   end
 end

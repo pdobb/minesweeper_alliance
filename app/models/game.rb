@@ -145,7 +145,8 @@ class Game < ApplicationRecord
         "games.*",
         "ROW_NUMBER() OVER (PARTITION BY type ORDER BY score ASC) AS rn_score",
         "ROW_NUMBER() OVER (PARTITION BY type ORDER BY bbbvps DESC) AS rn_bbbvps",
-        "ROW_NUMBER() OVER (PARTITION BY type ORDER BY efficiency DESC) AS rn_efficiency")
+        "ROW_NUMBER() OVER (PARTITION BY type ORDER BY efficiency DESC) AS rn_efficiency",
+      )
         .where.not(score: nil).where.not(bbbvps: nil).where.not(efficiency: nil)
         .for_type(type)
     # rubocop:enable Layout/LineLength
@@ -169,14 +170,16 @@ class Game < ApplicationRecord
     where(
       Arel.sql("DATE(ended_at AT TIME ZONE :time_zone) = :date"),
       time_zone:,
-      date:)
+      date:,
+    )
   }
   scope :for_end_date_on_or_before,
         ->(date, time_zone = Time.zone.tzinfo.name) {
           where(
             Arel.sql("DATE(ended_at AT TIME ZONE :time_zone) <= :date"),
             time_zone:,
-            date:)
+            date:,
+          )
         }
 
   scope :by_most_recently_ended, -> { order(ended_at: :desc) }
@@ -316,7 +319,8 @@ class Game < ApplicationRecord
           score: nil,
           bbbv: nil,
           bbbvps: nil,
-          efficiency: nil)
+          efficiency: nil,
+        )
 
         game_end_transaction&.delete
         CellTransaction.for_id(cell_transaction_ids).delete_all

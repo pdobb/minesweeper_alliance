@@ -19,13 +19,15 @@ class Game::EndInVictoryTest < ActiveSupport::TestCase
       it "updates Game#ended_at" do
         _(-> { subject.call(game: game1, user: user1) }).must_change(
           "game1.ended_at",
-          from: nil)
+          from: nil,
+        )
       end
 
       it "sets the expected Status" do
         _(-> { subject.call(game: game1, user: user1) }).must_change(
           "game1.status",
-          to: Game.status_alliance_wins)
+          to: Game.status_alliance_wins,
+        )
       end
 
       it "sets Game stats" do

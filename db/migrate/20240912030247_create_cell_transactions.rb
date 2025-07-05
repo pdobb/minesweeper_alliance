@@ -6,9 +6,11 @@ class CreateCellTransactions < ActiveRecord::Migration[7.2]
     create_table(:cell_transactions) do |t|
       t.string(:type, null: false, index: true)
       t.references(
-        :user, type: :uuid, foreign_key: { on_delete: :nullify }, index: true)
+        :user, type: :uuid, foreign_key: { on_delete: :nullify }, index: true
+      )
       t.references(
-        :cell, null: false, foreign_key: { on_delete: :cascade })
+        :cell, null: false, foreign_key: { on_delete: :cascade }
+      )
 
       t.datetime(:created_at, null: false, index: true)
     end
@@ -21,6 +23,7 @@ class CreateCellTransactions < ActiveRecord::Migration[7.2]
       unique: true,
       where:
         CellTransaction.arel_table[:type].in(CellTransaction::UNIQUE_TYPES)
-          .to_sql)
+          .to_sql,
+    )
   end
 end

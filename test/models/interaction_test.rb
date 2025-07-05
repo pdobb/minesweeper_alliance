@@ -70,7 +70,8 @@ class InteractionTest < ActiveSupport::TestCase
           subject.validate
 
           _(subject.errors[:count]).must_include(
-            ValidationError.greater_than_or_equal_to(0))
+            ValidationError.greater_than_or_equal_to(0),
+          )
         end
       end
     end

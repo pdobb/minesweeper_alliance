@@ -34,12 +34,14 @@ class User::Update::Broadcast
   def display_name_updates
     turbo_stream.update_all(
       ".#{View.dom_id(user, :display_name)}",
-      html: user.display_name)
+      html: user.display_name,
+    )
   end
 
   def username_updates
     turbo_stream.update_all(
       ".#{View.dom_id(user, :username)}",
-      html: user.username)
+      html: user.username,
+    )
   end
 end

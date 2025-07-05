@@ -32,7 +32,8 @@ class CellTest < ActiveSupport::TestCase
           subject.validate
 
           _(subject.errors[:coordinates]).must_include(
-            ValidationError.presence)
+            ValidationError.presence,
+          )
         end
       end
 
@@ -43,7 +44,8 @@ class CellTest < ActiveSupport::TestCase
           subject.validate
 
           _(subject.errors[:coordinates]).must_include(
-            ValidationError.taken)
+            ValidationError.taken,
+          )
         end
       end
     end
@@ -78,7 +80,8 @@ class CellTest < ActiveSupport::TestCase
           subject.validate
 
           _(subject.errors[:value]).must_include(
-            ValidationError.in(Cell::VALUES_RANGE))
+            ValidationError.in(Cell::VALUES_RANGE),
+          )
         end
       end
     end
@@ -148,7 +151,8 @@ class CellTest < ActiveSupport::TestCase
 
       it "sets #mine = true" do
         _(-> { subject.place_mine }).must_change(
-          "subject.mine", from: false, to: true)
+          "subject.mine", from: false, to: true
+        )
       end
     end
   end

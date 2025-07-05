@@ -9,7 +9,8 @@
   <h4 class="h5 font-normal" title="Daily Engagements Tally">
     <%= render(
           "games/index/listings_group/engagement_tally",
-          engagement_tally: listings_group.engagement_tally) %>
+          engagement_tally: listings_group.engagement_tally,
+        ) %>
   </h4>
   <div
     class="
@@ -19,6 +20,7 @@
   >
     <%= render(
           partial: "games/index/listings_group/listing",
-          collection: listings_group.listings) %>
+          collection: listings_group.listings,
+        ) %>
   </div>
 </div>

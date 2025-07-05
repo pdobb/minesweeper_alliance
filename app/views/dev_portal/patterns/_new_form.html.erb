@@ -8,7 +8,8 @@
     <%= form_with(
           model: new_form.to_model,
           url: dev_portal_patterns_path,
-          html: { novalidate: true }) do |f| %>
+          html: { novalidate: true },
+        ) do |f| %>
       <div
         class="
           flex max-md:flex-col
@@ -24,7 +25,8 @@
                 autofocus: true,
                 onfocus: "this.select()",
                 data: { "1p-ignore": true },
-                class: "form-input w-32 p-1") %>
+                class: "form-input w-32 p-1",
+              ) %>
         </div>
 
         <%= f.fields_for(:settings, new_form.settings_form) do |sf| %>
@@ -36,7 +38,8 @@
                   in: sf.object.ranges(:width),
                   class: "form-input w-[72px] p-1",
                   inputmode: "numeric",
-                  pattern: "[0-9]{1,2}") %>
+                  pattern: "[0-9]{1,2}",
+                ) %>
           </div>
           <div class="flex items-baseline gap-x-3">
             <%= sf.label(:height, "Height:", class: "max-md:min-w-20") %>
@@ -46,7 +49,8 @@
                   in: sf.object.ranges(:height),
                   class: "form-input w-[72px] p-1",
                   inputmode: "numeric",
-                  pattern: "[0-9]{1,2}") %>
+                  pattern: "[0-9]{1,2}",
+                ) %>
           </div>
         <% end %>
 
@@ -59,7 +63,8 @@
                 data: {
                   inline_edit_target: "cancel",
                   turbo_stream: true,
-                }) %>
+                },
+              ) %>
         </div>
       </div>
 

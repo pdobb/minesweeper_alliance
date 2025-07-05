@@ -33,7 +33,8 @@
   <%= button_to(
         dev_portal_toggle_dev_caching_path,
         data: { turbo: false },
-        class: "btn-basic") do %>
+        class: "btn-basic",
+      ) do %>
     <% if Pathname(Rails::DevCaching.singleton_class::FILE).exist? %>
       <span title="Caching Enabled">📸</span>
     <% else %>

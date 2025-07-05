@@ -12,7 +12,8 @@ class CoordinatesSetTest < ActiveSupport::TestCase
 
     it "adds the given Coordinates" do
       _(-> { subject.add(coordinates3) }).must_change(
-        "subject.include?(coordinates3)", to: true)
+        "subject.include?(coordinates3)", to: true
+      )
     end
   end
 
@@ -21,7 +22,8 @@ class CoordinatesSetTest < ActiveSupport::TestCase
 
     it "adds the given Coordinates" do
       _(-> { subject.add(coordinates3) }).must_change(
-        "subject.include?(coordinates3)", to: true)
+        "subject.include?(coordinates3)", to: true
+      )
     end
   end
 
@@ -30,7 +32,8 @@ class CoordinatesSetTest < ActiveSupport::TestCase
 
     it "works as expected" do
       _(-> { subject.delete(coordinates1) }).must_change(
-        "subject.include?(coordinates1)", to: false)
+        "subject.include?(coordinates1)", to: false
+      )
     end
   end
 
@@ -117,7 +120,8 @@ class CoordinatesSetTest < ActiveSupport::TestCase
       it "raises TypeError" do
         exception = _(-> { subject <=> Object.new }).must_raise(TypeError)
         _(exception.message).must_equal(
-          "Can't convert unexpected type to CoordinatesSet, got Object")
+          "Can't convert unexpected type to CoordinatesSet, got Object",
+        )
       end
     end
   end
@@ -128,14 +132,16 @@ class CoordinatesSetTest < ActiveSupport::TestCase
     given "coordinates_set.include? == true" do
       it "removes the Coordinates" do
         _(-> { subject.toggle(coordinates2) }).must_change(
-          "subject.include?(coordinates2)", to: false)
+          "subject.include?(coordinates2)", to: false
+        )
       end
     end
 
     given "coordinates_set.include? == false" do
       it "adds the Coordinates" do
         _(-> { subject.toggle(coordinates3) }).must_change(
-          "subject.include?(coordinates3)", to: true)
+          "subject.include?(coordinates3)", to: true
+        )
       end
     end
   end

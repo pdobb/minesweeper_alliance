@@ -35,7 +35,8 @@ class Game::TypeTest < ActiveSupport::TestCase
 
         _(exception.message).must_equal(
           "bests not available for Game type "\
-          "#{non_bestable_game_type1.inspect}")
+          "#{non_bestable_game_type1.inspect}",
+        )
       end
     end
   end

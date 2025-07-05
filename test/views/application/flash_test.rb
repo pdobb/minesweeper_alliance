@@ -71,19 +71,19 @@ class Application::FlashTest < ActiveSupport::TestCase
   describe "Notification" do
     let(:notice_notification1) {
       Application::Flash::Notification.new(
-        type: :notice, content: "Test notice.")
+        type: :notice, content: "Test notice.",
+      )
     }
     let(:alert_notification1) {
-      Application::Flash::Notification.new(
-        type: :alert, content: "Test alert.")
+      Application::Flash::Notification.new(type: :alert, content: "Test alert.")
     }
     let(:info_notification1) {
-      Application::Flash::Notification.new(
-        type: :info, content: "Test info.")
+      Application::Flash::Notification.new(type: :info, content: "Test info.")
     }
     let(:warning_notification1) {
       Application::Flash::Notification.new(
-        type: :warning, content: "Test warning.")
+        type: :warning, content: "Test warning.",
+      )
     }
 
     describe "#container_css" do
@@ -167,7 +167,8 @@ class Application::FlashTest < ActiveSupport::TestCase
         subject {
           Application::Flash::Notification.new(
             type: :notice,
-            content: { text: "Test notice.", timeout: 9 })
+            content: { text: "Test notice.", timeout: 9 },
+          )
         }
 
         it "returns the expected Integer" do
@@ -181,7 +182,8 @@ class Application::FlashTest < ActiveSupport::TestCase
             type: :notice,
             content: {
               text: "Test notice.", timeout: [nil, false].sample
-            })
+            },
+          )
         }
 
         it "returns the expected Integer" do
@@ -205,7 +207,8 @@ class Application::FlashTest < ActiveSupport::TestCase
             type: :notice,
             content: {
               text: "Test notice.", timeout: [0, 9].sample
-            })
+            },
+          )
         }
 
         it "returns true" do
@@ -219,7 +222,8 @@ class Application::FlashTest < ActiveSupport::TestCase
             type: :notice,
             content: {
               text: "Test notice.", timeout: [nil, false].sample
-            })
+            },
+          )
         }
 
         it "returns false" do

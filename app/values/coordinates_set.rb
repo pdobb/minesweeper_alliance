@@ -9,17 +9,15 @@ class CoordinatesSet
   include Enumerable
   include Comparable
 
-  def_delegators(
-    :set,
-    *%i[
-      <<
-      add
-      delete
-      each
-      include?
-      size
-      to_a
-    ])
+  def_delegators(:set, *%i[
+    <<
+    add
+    delete
+    each
+    include?
+    size
+    to_a
+  ])
 
   def initialize(coordinates_set = [])
     @set =

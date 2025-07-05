@@ -34,14 +34,16 @@ class Game::StatsTest < ActiveSupport::TestCase
     given "Game::Status.on?(...) == true" do
       it "returns the expected Time Range" do
         _(subject.engagement_time_range(standing_by1)).must_equal(
-          standing_by1.started_at..)
+          standing_by1.started_at..,
+        )
       end
     end
 
     given "Game::Status.over?(...) == true" do
       it "returns the expected Time Range" do
         _(subject.engagement_time_range(win1)).must_equal(
-          win1.started_at..win1.ended_at)
+          win1.started_at..win1.ended_at,
+        )
       end
     end
   end

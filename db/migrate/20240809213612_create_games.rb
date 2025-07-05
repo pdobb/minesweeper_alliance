@@ -10,9 +10,8 @@ class CreateGames < ActiveRecord::Migration[7.1]
       t.index(
         :status,
         unique: true,
-        where: <<-SQL.squish)
-          status IN
-            ('#{Game.status_standing_by}', '#{Game.status_sweep_in_progress}')
+        where: <<~SQL.squish)
+          status IN ('#{Game.status_standing_by}', '#{Game.status_sweep_in_progress}')
         SQL
 
       t.datetime(:started_at)

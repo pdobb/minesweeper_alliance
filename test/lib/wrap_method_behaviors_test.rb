@@ -97,7 +97,8 @@ class WrapMethodBehaviorsTest < ActiveSupport::TestCase
            "up to the limit" do
           wrapped_objects =
             subject.wrap_upto(
-              objects, limit:, fill: "FILL_OBJECT_TEST", **object_kwargs)
+              objects, limit:, fill: "FILL_OBJECT_TEST", **object_kwargs
+            )
 
           _(wrapped_objects.size).must_equal(limit)
           _(wrapped_objects[limit.pred]).must_equal("FILL_OBJECT_TEST")

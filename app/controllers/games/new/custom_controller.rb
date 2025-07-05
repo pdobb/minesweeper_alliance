@@ -15,7 +15,8 @@ class Games::New::CustomController < ApplicationController
       Game::Current.(settings:, context:) {
         layout.store_http_cookie(
           Games::New::Custom::Form::COOKIE,
-          value: settings.to_json)
+          value: settings.to_json,
+        )
       }
 
       respond_to do |format|
@@ -38,6 +39,7 @@ class Games::New::CustomController < ApplicationController
         width
         height
         mines
-      ])
+      ],
+    )
   end
 end

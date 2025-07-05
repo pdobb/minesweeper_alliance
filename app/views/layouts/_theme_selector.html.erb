@@ -26,7 +26,8 @@
               "page#recordSelectInteraction",
             theme_target: "themeSelectorDropdown",
             interaction_name: "Set Mobile Theme",
-          }) %>
+          },
+        ) %>
   </div>
 </div>
 
@@ -42,7 +43,8 @@
         locals: {
           menu:
             layout.theme_menu(button_content: content_for(:theme_menu_button)),
-        }) do %>
+        },
+      ) do %>
     <ul
       role="listbox"
       data-theme-target="themeSelectorMenu"

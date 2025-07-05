@@ -20,7 +20,8 @@ class Board::RandomlyPlaceMinesTest < ActiveSupport::TestCase
         exception =
           _(-> { subject.call }).must_raise(Board::RandomlyPlaceMines::Error)
         _(exception.message).must_equal(
-          "can't place mines in an unsaved Board")
+          "can't place mines in an unsaved Board",
+        )
       end
     end
 
@@ -33,7 +34,8 @@ class Board::RandomlyPlaceMinesTest < ActiveSupport::TestCase
         it "raises Board::RandomlyPlaceMines::Error" do
           exception =
             _(-> { subject.call }).must_raise(
-              Board::RandomlyPlaceMines::Error)
+              Board::RandomlyPlaceMines::Error,
+            )
           _(exception.message).must_equal("mines have already been placed")
         end
       end
@@ -42,13 +44,15 @@ class Board::RandomlyPlaceMinesTest < ActiveSupport::TestCase
         subject {
           Board::RandomlyPlaceMines.new(
             board: standing_by1_board,
-            seed_cell: standing_by1_board_cell1)
+            seed_cell: standing_by1_board_cell1,
+          )
         }
 
         it "places the expected number of mines and returns the Board" do
           result =
             _(-> { subject.call }).must_change(
-              "standing_by1_board.cells.is_mine.count", from: 0, to: 1)
+              "standing_by1_board.cells.is_mine.count", from: 0, to: 1
+            )
 
           _(result).must_be_same_as(subject)
         end
@@ -60,7 +64,8 @@ class Board::RandomlyPlaceMinesTest < ActiveSupport::TestCase
           _(standing_by1_board.cells.size).must_equal(1)
 
           _(-> { subject.call }).wont_change(
-            "standing_by1_board.cells.is_mine.count")
+            "standing_by1_board.cells.is_mine.count",
+          )
         end
 
         # TODO: I'm not sure how to test for random placement...

@@ -29,7 +29,8 @@ class DevPortal::PatternsController < DevPortal::BaseController
         format.turbo_stream do
           render(
             turbo_stream:
-              turbo_stream.action(:redirect, dev_portal_pattern_path(pattern)))
+              turbo_stream.action(:redirect, dev_portal_pattern_path(pattern)),
+          )
         end
       end
     else
@@ -78,7 +79,8 @@ class DevPortal::PatternsController < DevPortal::BaseController
     return if (self.pattern = Pattern.for_id(params[:id]).take)
 
     redirect_to(
-      { action: :index }, alert: t("flash.not_found", type: "Pattern"))
+      { action: :index }, alert: t("flash.not_found", type: "Pattern")
+    )
   end
 
   def new_pattern_params
@@ -86,7 +88,8 @@ class DevPortal::PatternsController < DevPortal::BaseController
       pattern: [
         :name,
         { settings: %i[width height] },
-      ])
+      ],
+    )
   end
 
   def edit_pattern_params
@@ -96,7 +99,8 @@ class DevPortal::PatternsController < DevPortal::BaseController
   def store_pattern_settings(settings)
     layout.store_http_cookie(
       DevPortal::Patterns::New::SettingsForm::COOKIE,
-      value: settings.to_json)
+      value: settings.to_json,
+    )
   end
 
   def redirect_to_index_after_destroy(pattern)
@@ -105,6 +109,7 @@ class DevPortal::PatternsController < DevPortal::BaseController
       notice:
         t("flash.successful_destroy_with_name",
           type: "Pattern",
-          name: pattern.name.inspect))
+          name: pattern.name.inspect),
+    )
   end
 end

@@ -8,6 +8,7 @@ class DevPortal::Patterns::ExportsController < DevPortal::BaseController
 
     redirect_to(
       dev_portal_pattern_path(pattern),
-      notice: "Exported to: #{path.relative_path_from(Rails.root)}")
+      notice: "Exported to: #{path.relative_path_from(Rails.root)}",
+    )
   end
 end

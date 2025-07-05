@@ -10,7 +10,8 @@ class Game::JustEnded::BroadcastNewBestsNotificationJob < ApplicationJob
       Application::Layout.turbo_stream_name,
       target: Application::Flash.turbo_target,
       partial: "application/flash/notification",
-      collection:)
+      collection:,
+    )
   end
 
   private
@@ -31,6 +32,7 @@ class Game::JustEnded::BroadcastNewBestsNotificationJob < ApplicationJob
   def build_notification(text:)
     Application::Flash::Notification.new(
       type: :info,
-      content: { text:, timeout: false })
+      content: { text:, timeout: false },
+    )
   end
 end

@@ -19,7 +19,8 @@ module Conversions
     else
       raise(
         TypeError,
-        "Can't convert unexpected type to Coordinates, got #{value.class}")
+        "Can't convert unexpected type to Coordinates, got #{value.class}",
+      )
     end
   end
   # rubocop:enable Naming/MethodName, Metrics/MethodLength
@@ -36,7 +37,8 @@ module Conversions
     else
       raise(
         TypeError,
-        "Can't convert unexpected type to CoordinatesSet, got #{value.class}")
+        "Can't convert unexpected type to CoordinatesSet, got #{value.class}",
+      )
     end
   end
 end

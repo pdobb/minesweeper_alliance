@@ -47,14 +47,15 @@ class Application::Tooltip
   # @attr context [#mobile?] If `context.mobile? == true`, {#type} will be
   #   overridden, for mobile-friendly tooltips.
   def initialize( # rubocop:disable Metrics/ParameterLists
-        anchor,
-        content:,
-        key:,
-        scope:,
-        type:,
-        placement:,
-        css:,
-        context:)
+    anchor,
+    content:,
+    key:,
+    scope:,
+    type:,
+    placement:,
+    css:,
+    context:
+  )
     validate_anchor(anchor)
     validate_content(content ||= translate(key:, scope:))
     validate_type(type = type.to_sym)
@@ -117,6 +118,7 @@ class Application::Tooltip
         :"#{scope}.#{key}",
         :"#{DEFAULT_SCOPE}.#{key}",
         key.to_sym,
-      ]).html_safe
+      ],
+    ).html_safe
   end
 end

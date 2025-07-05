@@ -6,10 +6,12 @@ class Game::Current::BroadcastFleetMusteringNotificationJob < ApplicationJob
   def perform(previous_game:)
     Turbo::StreamsChannel.broadcast_prepend_to(
       Games::JustEnded::ActiveParticipants::Footer.turbo_stream_name(
-        game: previous_game),
+        game: previous_game,
+      ),
       target: Application::Flash.turbo_target,
       partial: "application/flash/notification",
-      locals: { notification: })
+      locals: { notification: },
+    )
   end
 
   private
@@ -23,6 +25,7 @@ class Game::Current::BroadcastFleetMusteringNotificationJob < ApplicationJob
         id: "fleetMusteringNotification",
         text:,
         timeout: false,
-      })
+      },
+    )
   end
 end

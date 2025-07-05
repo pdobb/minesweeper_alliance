@@ -24,13 +24,15 @@ class Board::Settings::MineDensityValidator < ActiveModel::Validator
         errors.add(
           :mines,
           "must be >= #{minimum_mines} "\
-          "(#{minimum_density_percentage} of total area)")
+          "(#{minimum_density_percentage} of total area)",
+        )
       end
 
       if too_dense?
         errors.add(
           :mines,
-          "must be <= #{maximum_mines} (#{maximum_density} of total area)")
+          "must be <= #{maximum_mines} (#{maximum_density} of total area)",
+        )
       end
     end
 
@@ -54,7 +56,8 @@ class Board::Settings::MineDensityValidator < ActiveModel::Validator
 
     def to_percentage(number, precision: 0, **)
       ActiveSupport::NumberHelper::NumberToPercentageConverter.convert(
-        number, precision:, **)
+        number, precision:, **
+      )
     end
   end
 end

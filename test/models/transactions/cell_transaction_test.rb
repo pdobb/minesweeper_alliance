@@ -23,7 +23,8 @@ class CellTransactionTest < ActiveSupport::TestCase
       _(exception.message).must_include(
         "PG::UniqueViolation: ERROR:  "\
         "duplicate key value violates unique constraint "\
-        '"index_cell_transactions_on_cell_id_and_type"')
+        '"index_cell_transactions_on_cell_id_and_type"',
+      )
     end
   end
 
@@ -35,7 +36,8 @@ class CellTransactionTest < ActiveSupport::TestCase
         result =
           _(-> {
             subject.create_between(
-              user: user1, cell: standing_by1_board_cell1)
+              user: user1, cell: standing_by1_board_cell1,
+            )
           }).must_change("CellTransaction.count")
 
         _(result).must_be_instance_of(subject)
@@ -52,7 +54,8 @@ class CellTransactionTest < ActiveSupport::TestCase
           }).must_raise(ActiveRecord::RecordInvalid)
 
         _(exception.message).must_equal(
-          "Validation failed: Cell has already been taken")
+          "Validation failed: Cell has already been taken",
+        )
       end
     end
   end

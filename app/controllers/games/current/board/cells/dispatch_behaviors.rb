@@ -11,13 +11,15 @@ module Games::Current::Board::Cells::DispatchBehaviors
     html =
       render_to_string(
         partial: "games/current/board/content",
-        locals: { content: })
+        locals: { content: },
+      )
 
     turbo_stream_actions <<
       turbo_stream.action(
         :versioned_replace,
         content.turbo_target,
         html,
-        method: :morph)
+        method: :morph,
+      )
   end
 end

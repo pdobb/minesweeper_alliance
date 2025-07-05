@@ -38,11 +38,12 @@ class Notify
 
   # @attr options [Hash]
   def initialize(
-        exception,
-        reraise: self.class.reraise?,
-        logger: Rails.logger,
-        backtrace_cleaner: nil,
-        **context)
+    exception,
+    reraise: self.class.reraise?,
+    logger: Rails.logger,
+    backtrace_cleaner: nil,
+    **context
+  )
     unless exception.is_a?(Exception)
       raise(TypeError, "Exception expected, got #{exception.class}")
     end
@@ -131,7 +132,8 @@ class Notify
       def notify_without_exception
         ::Honeybadger.notify(
           service_options.dig(:context, :info),
-          service_options)
+          service_options,
+        )
       end
     end
   end

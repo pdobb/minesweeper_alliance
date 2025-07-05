@@ -9,7 +9,8 @@
             "✏️",
             view.edit_pattern_url,
             data: { turbo_stream: true },
-            class: "btn-basic") %>
+            class: "btn-basic",
+          ) %>
       <%= button_to(
             Emoji.trash,
             view.destroy_pattern_url,
@@ -19,7 +20,8 @@
               turbo_confirm: "Really delete #{view.name.inspect}?",
             },
             title: "Delete",
-            class: "btn-basic") %>
+            class: "btn-basic",
+          ) %>
     </div>
   </div>
 <% end %>

@@ -30,7 +30,8 @@ class BoardTest < ActiveSupport::TestCase
     describe "#settings" do
       subject {
         new_game1.build_board(
-          settings: Board::Settings[width1, height1, mines1])
+          settings: Board::Settings[width1, height1, mines1],
+        )
       }
       let(:width1) { 6 }
       let(:height1) { 6 }
@@ -51,7 +52,8 @@ class BoardTest < ActiveSupport::TestCase
           subject.validate
 
           _(subject.errors[:width]).must_include(
-            ValidationError.in(6..30))
+            ValidationError.in(6..30),
+          )
         end
       end
 
@@ -70,7 +72,8 @@ class BoardTest < ActiveSupport::TestCase
           subject.validate
 
           _(subject.errors[:height]).must_include(
-            ValidationError.in(6..30))
+            ValidationError.in(6..30),
+          )
         end
       end
 
@@ -89,7 +92,8 @@ class BoardTest < ActiveSupport::TestCase
           subject.validate
 
           _(subject.errors[:mines]).must_include(
-            ValidationError.in(4..299))
+            ValidationError.in(4..299),
+          )
         end
       end
 
@@ -110,7 +114,8 @@ class BoardTest < ActiveSupport::TestCase
           subject.validate
 
           _(subject.errors[:mines]).must_include(
-            "must be <= 12 (1/3 of total area)")
+            "must be <= 12 (1/3 of total area)",
+          )
         end
       end
 
@@ -122,7 +127,8 @@ class BoardTest < ActiveSupport::TestCase
           subject.validate
 
           _(subject.errors[:mines]).must_include(
-            "must be >= 9 (10% of total area)")
+            "must be >= 9 (10% of total area)",
+          )
         end
       end
     end

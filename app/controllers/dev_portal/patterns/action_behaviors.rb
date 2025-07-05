@@ -19,7 +19,9 @@ module DevPortal::Patterns::ActionBehaviors
               partial: "dev_portal/patterns/grid",
               locals: {
                 view: DevPortal::Patterns::Show.new(pattern),
-              }))
+              },
+            ),
+        )
       }
     end
   end

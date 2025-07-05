@@ -35,7 +35,8 @@ class GameCreateTransactionTest < ActiveSupport::TestCase
           }).must_raise(ActiveRecord::RecordInvalid)
 
         _(exception.message).must_equal(
-          "Validation failed: Game has already been created")
+          "Validation failed: Game has already been created",
+        )
       end
     end
   end

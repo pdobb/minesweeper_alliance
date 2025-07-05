@@ -7,12 +7,13 @@ module ApplicationHelper
   #  - The current `controller_name` is contained in the given `includes` list.
   # ... and then forwards the rest on to `link_to` as per usual.
   def active_link_to(
-        name = nil,
-        url = nil,
-        active_css: "active",
-        includes: [],
-        **options,
-        &)
+    name = nil,
+    url = nil,
+    active_css: "active",
+    includes: [],
+    **options,
+    &
+  )
     url = name if block_given?
 
     options[:class] = [
@@ -45,14 +46,15 @@ module ApplicationHelper
 
   # rubocop:disable Metrics/ParameterLists
   def tt(
-        anchor = nil,
-        content: nil,
-        key: anchor.underscore,
-        scope: nil,
-        on: :hover,
-        placement: :top,
-        css: {},
-        &block)
+    anchor = nil,
+    content: nil,
+    key: anchor.underscore,
+    scope: nil,
+    on: :hover,
+    placement: :top,
+    css: {},
+    &block
+  )
     anchor = capture(&block) if block
     tooltip =
       Application::Tooltip.new(
@@ -63,7 +65,8 @@ module ApplicationHelper
         type: on,
         placement:,
         css:,
-        context: layout)
+        context: layout,
+      )
     render("application/tooltip", tooltip:)
   end
   # rubocop:enable Metrics/ParameterLists

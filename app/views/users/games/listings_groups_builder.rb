@@ -23,6 +23,7 @@ class Users::Games::ListingsGroupsBuilder < Games::Index::ListingsGroupsBuilder
     Router.user_games_path(
       user,
       cursor: paginated_activity_dates.cursor,
-      format: :turbo_stream)
+      format: :turbo_stream,
+    )
   end
 end

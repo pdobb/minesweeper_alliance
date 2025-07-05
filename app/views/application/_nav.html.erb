@@ -6,7 +6,8 @@
       <%= active_link_to("War Room", root_path, data: { turbo_prefetch: false }) %>
       <%= render(
             "games/current/activity_indicator",
-            activity_indicator: layout.activity_indicator) %>
+            activity_indicator: layout.activity_indicator,
+          ) %>
     </li>
     <li>
       <%= active_link_to(games_path, includes: GamesController.name) do %>
@@ -16,13 +17,15 @@
     </li>
     <li>
       <%= active_link_to(
-            "Metrics", metrics_path, includes: Metrics::GamesController.name) %>
+            "Metrics", metrics_path, includes: Metrics::GamesController.name
+          ) %>
     </li>
   </ul>
 
   <%= render(
         "current_user/nav",
-        nav: CurrentUser::Nav.new(user: current_user)) %>
+        nav: CurrentUser::Nav.new(user: current_user),
+      ) %>
 
   <% if content_for?(:page_nav) %>
     <div

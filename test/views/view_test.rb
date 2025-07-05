@@ -36,7 +36,8 @@ class ViewTest < ActiveSupport::TestCase
 
     it "returns the expected String" do
       _(subject.no_value_indicator_tag).must_equal(
-        %(<span class="text-dim-lg">—</span>))
+        %(<span class="text-dim-lg">—</span>),
+      )
     end
   end
 

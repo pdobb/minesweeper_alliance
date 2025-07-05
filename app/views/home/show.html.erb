@@ -21,6 +21,7 @@
 
 <%= render(
       layout: "slide_menu",
-      locals: { slide_menu: @show.slide_menu(context: layout) }) do %>
+      locals: { slide_menu: @show.slide_menu(context: layout) },
+    ) do %>
   <%= render("home/roster", roster: @show.roster) %>
 <% end %>

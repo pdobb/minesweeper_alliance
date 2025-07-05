@@ -63,7 +63,8 @@ class Games::Current::Board::Cells::DispatchAction
         nav.turbo_target,
         method: :morph,
         partial: "current_user/nav",
-        locals: { nav: })
+        locals: { nav: },
+      )
   end
 
   def generate_response
@@ -146,7 +147,8 @@ class Games::Current::Board::Cells::DispatchAction
       html =
         render_to_string(
           partial: "games/just_ended/container",
-          locals: { container: Games::JustEnded::Container.new(game:) })
+          locals: { container: Games::JustEnded::Container.new(game:) },
+        )
 
       target = Games::Current::Container.turbo_frame_name
       turbo_stream_actions.response <<
@@ -165,7 +167,8 @@ class Games::Current::Board::Cells::DispatchAction
       end
 
       Turbo::StreamsChannel.broadcast_refresh_later_to(
-        Games::Index.turbo_stream_name)
+        Games::Index.turbo_stream_name,
+      )
     end
 
     def game_type = game.type

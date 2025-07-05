@@ -40,7 +40,8 @@ class GameStartTransactionTest < ActiveSupport::TestCase
           }).must_raise(ActiveRecord::RecordInvalid)
 
         _(exception.message).must_equal(
-          "Validation failed: Game has already been started")
+          "Validation failed: Game has already been started",
+        )
       end
     end
   end

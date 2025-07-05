@@ -35,7 +35,8 @@ class DurationTest < ActiveSupport::TestCase
 
       subject {
         Duration.new(
-          (9.years + 9.weeks + 9.hours + 9.minutes + 9.seconds).ago..)
+          (9.years + 9.weeks + 9.hours + 9.minutes + 9.seconds).ago..,
+        )
       }
 
       it "returns the expected String" do

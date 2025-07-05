@@ -47,7 +47,8 @@ class UserTest < ActiveSupport::TestCase
           subject.validate
 
           _(subject.errors[:username]).must_include(
-            ValidationError.too_long(max_length))
+            ValidationError.too_long(max_length),
+          )
         end
       end
     end

@@ -111,7 +111,8 @@ class GameTest < ActiveSupport::TestCase
       _(-> { subject.update_started_at(time: now) }).must_change(
         "subject.started_at",
         from: nil,
-        to: now)
+        to: now,
+      )
     end
   end
 
@@ -199,7 +200,8 @@ class GameTest < ActiveSupport::TestCase
             Board::Settings.beginner,
             Board::Settings.intermediate,
             Board::Settings.expert,
-          ].sample)
+          ].sample,
+        )
       }
 
       it "returns the expected type" do

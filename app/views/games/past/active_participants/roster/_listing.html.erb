@@ -4,11 +4,13 @@
   <%= link_to(
         listing.updateable_display_name,
         listing.show_user_url,
-        data: { turbo_frame: :_top }) %>
+        data: { turbo_frame: :_top },
+      ) %>
 
   <% if listing.show_game_participation_indicators? %>
     <%= render(
           "games/past/active_participants/roster/listing_indicators",
-          listing:) %>
+          listing:,
+        ) %>
   <% end %>
 </li>

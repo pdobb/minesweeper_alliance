@@ -16,7 +16,8 @@
 
   <%= render(
         partial: "games/index/listings_group",
-        collection: paginated_listings_groups.listings_groups) %>
+        collection: paginated_listings_groups.listings_groups,
+      ) %>
 </div>
 
 <%= render("pager", pager: paginated_listings_groups.pager) %>

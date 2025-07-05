@@ -27,7 +27,8 @@ class AbstractBaseClassBehaviorsTest < ActiveSupport::TestCase
           }).must_raise(NotImplementedError)
 
         _(exception.message).must_include(
-          "is an abstract base class and cannot be instantiated.")
+          "is an abstract base class and cannot be instantiated.",
+        )
       end
     end
 

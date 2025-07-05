@@ -14,24 +14,22 @@ class CompactArray
 
   include Enumerable
 
-  def_delegators(
-    :array,
-    *%i[
-      []
-      []=
-      concat
-      each
-      first
-      include?
-      join
-      last
-      size
-      sort
-      sort!
-      to_a
-      to_ary
-      uniq!
-    ])
+  def_delegators(:array, *%i[
+    []
+    []=
+    concat
+    each
+    first
+    include?
+    join
+    last
+    size
+    sort
+    sort!
+    to_a
+    to_ary
+    uniq!
+  ])
 
   def self.[](*) = new(*)
 

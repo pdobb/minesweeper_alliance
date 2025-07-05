@@ -12,7 +12,8 @@
     <% if nav.participant? %>
       <%= active_link_to(
             nav.account_url,
-            data: { turbo_frame: :_top }) do %>
+            data: { turbo_frame: :_top },
+          ) do %>
         <span
           data-signer="<%= nav.signer? %>"
           class="max-md:hidden"

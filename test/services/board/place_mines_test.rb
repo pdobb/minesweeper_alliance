@@ -19,14 +19,16 @@ class Board::PlaceMinesTest < ActiveSupport::TestCase
         Board::PlaceMines.new(
           board: new_board1,
           coordinates_set: nil,
-          seed_cell: "ANYTHING")
+          seed_cell: "ANYTHING",
+        )
       }
 
       it "raises Board::PlaceMines::Error" do
         exception =
           _(-> { subject.call }).must_raise(Board::PlaceMines::Error)
         _(exception.message).must_equal(
-          "can't place mines in an unsaved Board")
+          "can't place mines in an unsaved Board",
+        )
       end
     end
 
@@ -36,7 +38,8 @@ class Board::PlaceMinesTest < ActiveSupport::TestCase
           Board::PlaceMines.new(
             board: win1_board,
             coordinates_set: nil,
-            seed_cell: "ANYTHING")
+            seed_cell: "ANYTHING",
+          )
         }
 
         it "raises Board::PlaceMines::Error" do
@@ -51,7 +54,8 @@ class Board::PlaceMinesTest < ActiveSupport::TestCase
           Board::PlaceMines.new(
             board: standing_by1_board,
             coordinates_set: coordinates_set1,
-            seed_cell: seed_cell1)
+            seed_cell: seed_cell1,
+          )
         }
 
         given "no mine/seed_cell collision" do
@@ -67,7 +71,8 @@ class Board::PlaceMinesTest < ActiveSupport::TestCase
                 _(-> { subject.call }).must_change(
                   "standing_by1_board.cells.is_mine.count",
                   from: 0,
-                  to: coordinates_set1.size)
+                  to: coordinates_set1.size,
+                )
 
               _(result).must_be_same_as(subject)
             end
@@ -83,7 +88,8 @@ class Board::PlaceMinesTest < ActiveSupport::TestCase
                 _(-> { subject.call }).must_change(
                   "standing_by1_board.cells.is_mine.count",
                   from: 0,
-                  to: coordinates_set1.size)
+                  to: coordinates_set1.size,
+                )
 
               _(result).must_be_same_as(subject)
             end
@@ -99,7 +105,8 @@ class Board::PlaceMinesTest < ActiveSupport::TestCase
               _(-> { subject.call }).must_change(
                 "standing_by1_board.cells.is_mine.count",
                 from: 0,
-                to: coordinates_set1.size.pred)
+                to: coordinates_set1.size.pred,
+              )
 
             _(result).must_be_same_as(subject)
           end

@@ -2,13 +2,15 @@
 
 <%= turbo_frame_tag(
       content.turbo_frame_name,
-      class: "flex max-sm:flex-col justify-center items-center gap-6") do %>
+      class: "flex max-sm:flex-col justify-center items-center gap-6",
+    ) do %>
   <% content.presets.each do |preset| %>
     <%= button_to(
           preset,
           content.game_url(preset),
           class: "btn-primary",
-          data: { turbo_frame: :_top }) %>
+          data: { turbo_frame: :_top },
+        ) %>
   <% end %>
 
   <%= button_to(
@@ -18,7 +20,8 @@
         data: {
           turbo_frame: :_top,
           **content.debug_mode_data_attributes,
-        }) %>
+        },
+      ) %>
 
   <% uncacheable! %>
   <% if content.show_new_custom_game_button?(current_user) %>
@@ -28,6 +31,7 @@
           method: :get,
           form: { id: "newCustomGameButton" },
           class: "btn-primary",
-          data: { turbo_stream: true }) %>
+          data: { turbo_stream: true },
+        ) %>
   <% end %>
 <% end %>

@@ -34,10 +34,12 @@
           "Authentication Link",
           tag.span(
             " > #{@show.display_name} — Minesweeper Alliance",
-            class: "hidden"),
+            class: "hidden",
+          ),
           inline_svg_tag(
             "heroicons/bookmark.svg",
-            class: "stroke-green-700 dark:stroke-green-600"),
+            class: "stroke-green-700 dark:stroke-green-600",
+          ),
         ])
 
         link_to(
@@ -49,7 +51,8 @@
             icon-link btn-basic
             text-green-700 dark:text-green-600
             decoration-green-700 dark:decoration-green-600
-          ])
+          ],
+        )
       %>
     </h3>
     <p>To preserve access to your account:</p>
@@ -76,11 +79,13 @@
               icon-link btn-basic
               text-red-700 dark:text-red-600
               decoration-red-700 dark:decoration-red-600
-            ]) do %>
+            ],
+          ) do %>
         Voluntary Discharge
         <%= inline_svg_tag(
               "heroicons/arrow-right-start-on-rectangle.svg",
-              class: "stroke-red-700 dark:stroke-red-600") %>
+              class: "stroke-red-700 dark:stroke-red-600",
+            ) %>
       <% end %>
     </h3>
     <p>Unlink this browser from your account.</p>

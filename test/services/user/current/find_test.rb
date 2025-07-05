@@ -9,7 +9,8 @@ class User::Current::FindTest < ActiveSupport::TestCase
     given "a stored User Token" do
       subject {
         User::Current::Find.new(
-          context: ContextDouble.new(User::Current::COOKIE => user_token))
+          context: ContextDouble.new(User::Current::COOKIE => user_token),
+        )
       }
 
       given "a User exists for the User Token" do

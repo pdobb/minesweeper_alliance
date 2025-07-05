@@ -8,7 +8,8 @@
     <%= form_with(
           model: pattern,
           url: dev_portal_pattern_path(pattern),
-          html: { novalidate: true }) do |f| %>
+          html: { novalidate: true },
+        ) do |f| %>
       <div class="flex items-baseline gap-x-3">
         <%= f.label(:name, "Name:", class: "max-md:min-w-20") %>
         <%= f.text_field(
@@ -17,7 +18,8 @@
               autofocus: true,
               onfocus: "this.select()",
               data: { "1p-ignore": true },
-              class: "form-input w-48 p-1") %>
+              class: "form-input w-48 p-1",
+            ) %>
 
         <%= f.submit("Update", class: "btn-primary") %>
         <%= link_to(
@@ -27,7 +29,8 @@
               data: {
                 inline_edit_target: "cancel",
                 turbo_stream: true,
-              }) %>
+              },
+            ) %>
       </div>
     <% end %>
   </div>

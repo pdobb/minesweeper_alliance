@@ -10,7 +10,8 @@ class Game::Board::RevealTest < ActiveSupport::TestCase
       game: standing_by1,
       board: standing_by1_board,
       cell: standing_by1_board_cell1,
-      user: user2)
+      user: user2,
+    )
   }
 
   let(:standing_by1) { games(:standing_by1) }
@@ -49,14 +50,16 @@ class Game::Board::RevealTest < ActiveSupport::TestCase
             [
               -> {
                 CellRevealTransaction.exists_between?(
-                  user: user2, cell: standing_by1_board_cell1)
+                  user: user2, cell: standing_by1_board_cell1,
+                )
               },
               to: true,
             ],
             [
               -> {
                 ParticipantTransaction.find_between!(
-                  user: user2, game: standing_by1)
+                  user: user2, game: standing_by1,
+                )
                   .active?
               },
               to: true,
@@ -87,13 +90,15 @@ class Game::Board::RevealTest < ActiveSupport::TestCase
             [
               -> {
                 CellRevealTransaction.exists_between?(
-                  user: user2, cell: standing_by1_board_cell1)
+                  user: user2, cell: standing_by1_board_cell1,
+                )
               },
             ],
             [
               -> {
                 ParticipantTransaction.find_between!(
-                  user: user2, game: standing_by1)
+                  user: user2, game: standing_by1,
+                )
                   .active?
               },
             ],

@@ -60,7 +60,8 @@ class Games::Index::ListingsGroupsBuilder
     Router.games_path(
       **filter_params,
       cursor: paginated_activity_dates.cursor,
-      format: :turbo_stream)
+      format: :turbo_stream,
+    )
   end
 
   def filter_params = query_parameters.slice(:type)

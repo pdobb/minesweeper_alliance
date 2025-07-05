@@ -11,7 +11,8 @@
           <%= f.file_field(
                 :file,
                 accept: ".csv,text/csv",
-                class: "form-file w-96") %>
+                class: "form-file w-96",
+              ) %>
 
           <div class="inline-flex items-center gap-x-6">
             <%= f.submit(Emoji.check, class: "btn-basic text-xl") %>
@@ -22,7 +23,8 @@
                   data: {
                     inline_edit_target: "cancel",
                     turbo_stream: true,
-                  }) %>
+                  },
+                ) %>
           </div>
         </div>
 

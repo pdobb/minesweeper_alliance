@@ -32,7 +32,8 @@ class ConfigurationBehaviorsTest < ActiveSupport::TestCase
 
     it "returns the exact same object (by identify), each time" do
       _(subject.configuration.object_id).must_equal(
-        subject.configuration.object_id)
+        subject.configuration.object_id,
+      )
     end
   end
 end

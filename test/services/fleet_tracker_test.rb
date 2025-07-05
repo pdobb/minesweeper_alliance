@@ -100,7 +100,8 @@ class FleetTrackerTest < ActiveSupport::TestCase
 
         it "doesn't add a new entry for the given token" do
           _(-> { subject.add(user1_token) }).wont_change(
-            "subject.entries")
+            "subject.entries",
+          )
         end
       end
 
@@ -134,7 +135,8 @@ class FleetTrackerTest < ActiveSupport::TestCase
 
       _(@broadcast_append_call.kargs[:target]).must_equal("fleetRoster")
       _(@broadcast_append_call.kargs[:partial]).must_equal(
-        "home/roster/listing")
+        "home/roster/listing",
+      )
     end
   end
 
@@ -148,7 +150,8 @@ class FleetTrackerTest < ActiveSupport::TestCase
         _(-> { subject.activate(new_token1) }).must_change(
           "subject.to_a",
           from: [],
-          to: [{ token: new_token1, active: true, expires_at: }])
+          to: [{ token: new_token1, active: true, expires_at: }],
+        )
       end
     end
 
@@ -163,7 +166,8 @@ class FleetTrackerTest < ActiveSupport::TestCase
           ],
           to: [
             { token: user1_token, active: true, expires_at: },
-          ])
+          ],
+        )
       end
     end
   end
@@ -185,9 +189,11 @@ class FleetTrackerTest < ActiveSupport::TestCase
         subject.activate!(user1_token)
 
         _(@broadcast_update_call.kargs).must_equal(
-          { target: "fleetSize", html: 1 })
+          { target: "fleetSize", html: 1 },
+        )
         _(@broadcast_replace_call.kargs[:partial]).must_equal(
-          "home/roster/listing")
+          "home/roster/listing",
+        )
       end
     end
 
@@ -264,7 +270,8 @@ class FleetTrackerTest < ActiveSupport::TestCase
         _(-> { subject.add(user1_token) }).must_change(
           "subject.entries.first.expires_at",
           from: 1.second.from_now,
-          to: expires_at)
+          to: expires_at,
+        )
       end
     end
   end
@@ -275,7 +282,8 @@ class FleetTrackerTest < ActiveSupport::TestCase
         MuchStub.spy(
           Home::Roster::Listing::BroadcastEntryExpirationJob,
           :set,
-          :perform_later)
+          :perform_later,
+        )
     end
 
     subject { single_player_registry1 }
@@ -284,9 +292,11 @@ class FleetTrackerTest < ActiveSupport::TestCase
       subject.expire!(user1_token)
 
       _(@query_spy.set_last_called_with.pargs).must_equal(
-        [wait: expiration_seconds])
+        [wait: expiration_seconds],
+      )
       _(@query_spy.perform_later_last_called_with.args).must_equal(
-        [user1_token])
+        [user1_token],
+      )
     end
   end
 
@@ -305,7 +315,8 @@ class FleetTrackerTest < ActiveSupport::TestCase
       before do
         subject.expire(user1_token)
         travel_to(
-          (deep_expiration_minutes + expiration_seconds - 1.second).from_now)
+          (deep_expiration_minutes + expiration_seconds - 1.second).from_now,
+        )
       end
 
       subject { two_player_registry1 }
@@ -356,7 +367,8 @@ class FleetTrackerTest < ActiveSupport::TestCase
       subject.purge_deeply_expired_entries!
 
       _(@broadcast_remove_call.kargs[:target]).must_equal(
-        "home_roster_listing-7fff4b12-83c2-50b2-845f-52ae10a9aeee")
+        "home_roster_listing-7fff4b12-83c2-50b2-845f-52ae10a9aeee",
+      )
     end
   end
 
@@ -389,7 +401,8 @@ class FleetTrackerTest < ActiveSupport::TestCase
 
       it "returns all token, regardless of expiry" do
         _(subject.entries.pluck(:token)).must_equal(
-          [token1, expiring_token1, expired_token1])
+          [token1, expiring_token1, expired_token1],
+        )
       end
     end
   end

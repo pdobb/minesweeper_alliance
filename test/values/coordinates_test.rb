@@ -54,7 +54,8 @@ class CoordinatesTest < ActiveSupport::TestCase
 
     it "allows for sorting of Coordinates" do
       _(coordinates_set1).must_match_array(
-        [Coordinates[0, 1], Coordinates[1, 1], Coordinates[0, 2]])
+        [Coordinates[0, 1], Coordinates[1, 1], Coordinates[0, 2]],
+      )
     end
 
     given "a non-Coordinates comparison object" do
@@ -63,7 +64,8 @@ class CoordinatesTest < ActiveSupport::TestCase
       it "raises TypeError" do
         exception = _(-> { subject <=> Object.new }).must_raise(TypeError)
         _(exception.message).must_equal(
-          "Can't convert unexpected type to Coordinates, got Object")
+          "Can't convert unexpected type to Coordinates, got Object",
+        )
       end
     end
   end

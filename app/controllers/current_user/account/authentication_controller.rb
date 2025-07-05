@@ -9,7 +9,8 @@ class CurrentUser::Account::AuthenticationController < ApplicationController
     if user
       redirect_to(
         current_user_account_path,
-        notice: t("account.authentication.success", name: user.display_name))
+        notice: t("account.authentication.success", name: user.display_name),
+      )
     else
       redirect_to(root_path, alert: t("account.authentication.invalid_token"))
     end

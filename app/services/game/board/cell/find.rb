@@ -45,6 +45,7 @@ class Game::Board::Cell::Find
 
     raise(
       ActiveRecord::RecordNotFound,
-      "#{game.identify} -> #{board.identify} -> Cell[#{cell_id.inspect}]")
+      "#{game.identify} -> #{board.identify} -> Cell[#{cell_id.inspect}]",
+    )
   end
 end

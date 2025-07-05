@@ -12,7 +12,8 @@
     <%= link_to(
           signature.edit_url,
           data: { turbo_stream: true },
-          class: "icon-link") do %>
+          class: "icon-link",
+        ) do %>
       <%= signature.link_content %>
       <%= inline_svg_tag("heroicons/pencil-square.svg") %>
     <% end %>
@@ -21,7 +22,8 @@
       <%= tt(key: "games.just_ended.why_sign", css: { content: "max-w-90" }) do %>
         <%= inline_svg_tag(
               "heroicons/information-circle.svg",
-              class: "text-dim-lg relative -right-px") %>
+              class: "text-dim-lg relative -right-px",
+            ) %>
       <% end %>
     <% end %>
   </div>

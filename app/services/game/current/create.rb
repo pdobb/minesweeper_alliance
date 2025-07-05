@@ -97,7 +97,8 @@ class Game::Current::Create
                 :block
 
     def broadcast_fleet_mustering_notification(
-          wait: TURBO_STREAM_DISCONNECT_AFFORDANCE_IN_SECONDS)
+      wait: TURBO_STREAM_DISCONNECT_AFFORDANCE_IN_SECONDS
+    )
       Game::Current::BroadcastFleetMusteringNotificationJob.set(wait:)
         .perform_later(previous_game:)
     end

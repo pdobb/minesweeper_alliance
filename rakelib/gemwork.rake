@@ -9,7 +9,9 @@ Dir.glob(
   Pathname.new(spec.gem_dir)
     .join(
       "lib/tasks",
-      "{util,rubocop,erb_lint,reek,eslint,prettier,brakeman}.rake")) do |task|
+      "{util,rubocop,erb_lint,reek,eslint,prettier,brakeman}.rake",
+    ),
+) do |task|
   load(task)
 end
 

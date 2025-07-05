@@ -30,6 +30,7 @@ class Games::Current::Board::Cells::ToggleFlagsController <
   def generate_placed_flags_count_turbo_stream_update
     turbo_stream.update(
       Games::Current::Board::Header.placed_flags_count_turbo_target,
-      board.flags_count)
+      board.flags_count,
+    )
   end
 end

@@ -28,7 +28,8 @@ class ParticipantTransactionTest < ActiveSupport::TestCase
       _(exception.message).must_include(
         "PG::UniqueViolation: ERROR:  "\
         "duplicate key value violates unique constraint "\
-        '"index_participant_transactions_on_user_id_and_game_id"')
+        '"index_participant_transactions_on_user_id_and_game_id"',
+      )
     end
   end
 
@@ -84,7 +85,8 @@ class ParticipantTransactionTest < ActiveSupport::TestCase
               to: {
                 "active" => true,
                 "started_actively_participating_at" => Time.current,
-              })
+              },
+            )
           end
         end
       end
@@ -94,7 +96,8 @@ class ParticipantTransactionTest < ActiveSupport::TestCase
           _(-> {
             subject.activate_between(user: user1, game: win1)
           }).wont_change(
-            "subject.find_between!(user: user1, game: win1).attributes")
+            "subject.find_between!(user: user1, game: win1).attributes",
+          )
         end
       end
     end
@@ -121,7 +124,8 @@ class ParticipantTransactionTest < ActiveSupport::TestCase
     given "a non-existent pair" do
       it "raises ActiveRecord::RecordNotFound" do
         _(-> { subject.find_between!(user: user2, game: win1) }).must_raise(
-          ActiveRecord::RecordNotFound)
+          ActiveRecord::RecordNotFound,
+        )
       end
     end
   end

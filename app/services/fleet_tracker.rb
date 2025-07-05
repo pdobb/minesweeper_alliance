@@ -99,7 +99,8 @@ module FleetTracker
   def self.broadcast_fleet_size_update
     WarRoomChannel.broadcast_update(
       target: Games::Current::Status.fleet_size_turbo_target,
-      html: FleetTracker.size)
+      html: FleetTracker.size,
+    )
   end
   private_class_method :broadcast_fleet_size_update
 
@@ -109,7 +110,8 @@ module FleetTracker
     WarRoomChannel.broadcast_append(
       target: Home::Roster.turbo_target,
       partial: "home/roster/listing",
-      locals: { listing: Home::Roster::Listing.new(entry) })
+      locals: { listing: Home::Roster::Listing.new(entry) },
+    )
   end
   private_class_method :broadcast_fleet_addition
 
@@ -120,18 +122,21 @@ module FleetTracker
       target: Home::Roster::Listing.turbo_target(entry:),
       attributes: { method: :morph },
       partial: "home/roster/listing",
-      locals: { listing: Home::Roster::Listing.new(entry) })
+      locals: { listing: Home::Roster::Listing.new(entry) },
+    )
   end
 
   def self.enqueue_fleet_entry_expiration_job(entry:, wait:)
     Home::Roster::Listing::BroadcastEntryExpirationJob.set(wait:).perform_later(
-      entry.token)
+      entry.token,
+    )
   end
   private_class_method :enqueue_fleet_entry_expiration_job
 
   def self.broadcast_fleet_entry_removal(entry:)
     WarRoomChannel.broadcast_remove(
-      target: Home::Roster::Listing.turbo_target(entry:))
+      target: Home::Roster::Listing.turbo_target(entry:),
+    )
   end
   private_class_method :broadcast_fleet_entry_removal
 

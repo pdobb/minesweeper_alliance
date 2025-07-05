@@ -15,7 +15,8 @@
                 onfocus: "this.select()",
                 placeholder: "Username",
                 data: { "1p-ignore": true },
-                class: "form-input w-full sm:w-70") %>
+                class: "form-input w-full sm:w-70",
+              ) %>
 
           <%= f.submit(Emoji.check, class: "btn-basic text-xl") %>
           <%= link_to(
@@ -25,7 +26,8 @@
                 data: {
                   inline_edit_target: "cancel",
                   turbo_stream: true,
-                }) %>
+                },
+              ) %>
         </div>
         <p class="form-error"><%= f.object.errors[:username].join(", ") %></p>
       </div>

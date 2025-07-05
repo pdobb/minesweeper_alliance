@@ -11,6 +11,7 @@ class Game::Current::BroadcastWarRoomActivityIndicatorUpdateJob < ApplicationJob
       target: activity_indicator.turbo_target,
       attributes: { method: :morph },
       partial: "games/current/activity_indicator",
-      locals: { activity_indicator: })
+      locals: { activity_indicator: },
+    )
   end
 end

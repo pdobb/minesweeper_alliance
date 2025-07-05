@@ -33,7 +33,8 @@ class Cell::ToggleFlag
   def set_flag
     update!(
       flagged: true,
-      highlighted: false)
+      highlighted: false,
+    )
   end
 
   def unset_flag

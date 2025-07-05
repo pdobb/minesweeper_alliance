@@ -105,7 +105,8 @@ class Board < ApplicationRecord
         flagged: false,
         highlight_origin: false,
         highlighted: false,
-        value: nil)
+        value: nil,
+      )
 
       self
     end
@@ -118,7 +119,8 @@ class Board < ApplicationRecord
         flagged: false,
         highlight_origin: false,
         highlighted: false,
-        value: nil)
+        value: nil,
+      )
 
       self
     end

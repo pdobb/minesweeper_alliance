@@ -12,6 +12,8 @@ class Metrics::Participants::MostActive::Beginner
   def arel
     base_arel.merge(
       ParticipantTransaction.joins(:game).merge(
-        base_game_arel.for_beginner_type))
+        base_game_arel.for_beginner_type,
+      ),
+    )
   end
 end

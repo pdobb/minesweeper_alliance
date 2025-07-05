@@ -9,7 +9,8 @@ class UIPortal::UnsupportedBrowserTestController < UIPortal::BaseController
       opera: false,
       ie: false,
     },
-    block: -> { redirect_to(unsupported_browser_path) })
+    block: -> { redirect_to(unsupported_browser_path) },
+  )
 
   def show
   end

@@ -220,7 +220,8 @@ class PatternTest < ActiveSupport::TestCase
 
     it "empties out #coordinate_array" do
       _(-> { subject.reset }).must_change(
-        "subject.coordinates_set.to_a", to: [])
+        "subject.coordinates_set.to_a", to: []
+      )
     end
   end
 end

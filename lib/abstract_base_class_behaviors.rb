@@ -24,7 +24,8 @@ module AbstractBaseClassBehaviors
         if abstract_base_class?
           raise(
             NotImplementedError,
-            "#{self} is an abstract base class and cannot be instantiated.")
+            "#{self} is an abstract base class and cannot be instantiated.",
+          )
         end
 
         super(*args, **kwargs, &block)

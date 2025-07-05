@@ -11,7 +11,9 @@ class Games::JustEnded::ActiveParticipants::Roster
 
   def listings
     Games::JustEnded::ActiveParticipants::Roster::Listing.wrap(
-      sorted_users, context:)
+      sorted_users,
+      context:,
+    )
   end
 
   private

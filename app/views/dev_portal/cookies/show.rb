@@ -10,12 +10,14 @@ class DevPortal::Cookies::Show
 
   def secret_key_base_from_config
     Rails.application.secret_key_base.truncate(
-      TRUNCATE_SECRET_KEY_BASE_AT)
+      TRUNCATE_SECRET_KEY_BASE_AT,
+    )
   end
 
   def secret_key_base_from_credentials
     Rails.application.credentials.secret_key_base.truncate(
-      TRUNCATE_SECRET_KEY_BASE_AT)
+      TRUNCATE_SECRET_KEY_BASE_AT,
+    )
   end
 
   def entries

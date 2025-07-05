@@ -10,7 +10,8 @@
         listing.updateable_display_name,
         listing.show_user_url,
         class: listing.username_turbo_target,
-        data: { turbo_frame: :_top }) %>
+        data: { turbo_frame: :_top },
+      ) %>
 
   <span
     title="<%= listing.participation_status_title %>"

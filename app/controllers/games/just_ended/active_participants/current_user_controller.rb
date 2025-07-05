@@ -7,13 +7,15 @@ class Games::JustEnded::ActiveParticipants::CurrentUserController <
   def show
     @show =
       Games::JustEnded::ActiveParticipants::CurrentUser::Show.new(
-        game:, user: current_user)
+        game:, user: current_user,
+      )
   end
 
   def edit
     @edit =
       Games::JustEnded::ActiveParticipants::CurrentUser::Edit.new(
-        game:, user: current_user)
+        game:, user: current_user,
+      )
   end
 
   def update # rubocop:disable Metrics/AbcSize
@@ -27,12 +29,14 @@ class Games::JustEnded::ActiveParticipants::CurrentUserController <
             notice:
               t("flash.successful_update_to",
                 type: "username",
-                to: current_user.display_name))
+                to: current_user.display_name),
+          )
         end
         format.turbo_stream {
           @update =
             Games::JustEnded::ActiveParticipants::CurrentUser::Update.new(
-              game:, user: current_user)
+              game:, user: current_user,
+            )
         }
       end
     else

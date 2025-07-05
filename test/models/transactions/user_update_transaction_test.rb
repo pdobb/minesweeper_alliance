@@ -29,7 +29,8 @@ class UserUpdateTransactionTest < ActiveSupport::TestCase
           subject.validate
 
           _(subject.errors[:change_set]).must_include(
-            ValidationError.presence)
+            ValidationError.presence,
+          )
         end
       end
     end

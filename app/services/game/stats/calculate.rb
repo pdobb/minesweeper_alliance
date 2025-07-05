@@ -14,7 +14,8 @@ class Game::Stats::Calculate
       score:,
       bbbv:,
       bbbvps:,
-      efficiency:)
+      efficiency:,
+    )
   end
 
   private

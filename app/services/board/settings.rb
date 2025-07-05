@@ -92,7 +92,8 @@ class Board::Settings
       name: pattern.name,
       width: pattern.width,
       height: pattern.height,
-      mines: pattern.mines)
+      mines: pattern.mines,
+    )
   end
 
   # Custom Settings: See {RANGES}.

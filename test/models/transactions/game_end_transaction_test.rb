@@ -40,7 +40,8 @@ class GameEndTransactionTest < ActiveSupport::TestCase
           }).must_raise(ActiveRecord::RecordInvalid)
 
         _(exception.message).must_equal(
-          "Validation failed: Game has already been ended")
+          "Validation failed: Game has already been ended",
+        )
       end
     end
   end

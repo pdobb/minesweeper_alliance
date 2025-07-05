@@ -70,7 +70,8 @@ class ParticipantTransaction < ApplicationRecord
       user.participant_transactions.create(
         game:,
         active: true,
-        started_actively_participating_at: Time.current)
+        started_actively_participating_at: Time.current,
+      )
       game.increment!(:active_participants_count)
     end
   end
@@ -81,7 +82,8 @@ class ParticipantTransaction < ApplicationRecord
         game.with_lock do
           transaction.update!(
             active: true,
-            started_actively_participating_at: Time.current)
+            started_actively_participating_at: Time.current,
+          )
           game.increment!(:active_participants_count)
         end
       end

@@ -30,7 +30,8 @@
                   <%= tt(
                         Emoji.ship,
                         scope: "metrics.engagements.bests",
-                        css: { content: "w-64" }) %>
+                        css: { content: "w-64" },
+                      ) %>
                 </th>
               </tr>
             </thead>
@@ -46,7 +47,8 @@
                           data: {
                             action: listing.link_action,
                             turbo_frame: listing.turbo_frame_name,
-                          }) %>
+                          },
+                        ) %>
                   </td>
                   <td><%= listing.fleet_size %></td>
                 </tr>

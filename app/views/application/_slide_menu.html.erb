@@ -23,7 +23,8 @@
     >
       <%= inline_svg_tag(
             "heroicons/chevron-#{open_button.direction}.svg",
-            class: ["stroke-2", open_button.svg_css]) %>
+            class: ["stroke-2", open_button.svg_css],
+          ) %>
       <%= open_button.text %>
     </button>
   <% end %>
@@ -59,7 +60,8 @@
       >
         <%= inline_svg_tag(
               "heroicons/chevron-#{close_button.direction}.svg",
-              class: "stroke-2") %>
+              class: "stroke-2",
+            ) %>
       </button>
     <% end %>
 

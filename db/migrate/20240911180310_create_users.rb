@@ -12,7 +12,8 @@ class CreateUsers < ActiveRecord::Migration[7.2]
       t.uuid(
         :authentication_token,
         null: false,
-        default: -> { "uuid_generate_v4()" })
+        default: -> { "uuid_generate_v4()" },
+      )
 
       t.timestamps
     end

@@ -218,7 +218,8 @@ class User < ApplicationRecord
         {
           user.identify(:mms_id, :username, :id) =>
             Router.current_user_account_authentication_url(
-              token: user.authentication_token),
+              token: user.authentication_token,
+            ),
         }
       }
     end
