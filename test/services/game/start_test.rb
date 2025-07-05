@@ -32,6 +32,7 @@ class Game::StartTest < ActiveSupport::TestCase
               to: Game.status_sweep_in_progress,
             ],
           ])
+
         _(result).must_be_same_as(game1)
         _(@randomly_place_mines_call.kargs.fetch(:seed_cell)).must_be_nil
       end
@@ -48,6 +49,7 @@ class Game::StartTest < ActiveSupport::TestCase
             ["game1.started_at"],
             ["game1.status"],
           ])
+
         _(result).must_be_same_as(game1)
         _(@randomly_place_mines_call).must_be_nil
       end

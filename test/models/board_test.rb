@@ -21,6 +21,7 @@ class BoardTest < ActiveSupport::TestCase
 
     it "returns the expected Board" do
       result = subject.new(settings: preset_settings1)
+
       _(result).must_be_instance_of(Board)
     end
   end
@@ -38,6 +39,7 @@ class BoardTest < ActiveSupport::TestCase
       given "a valid #width value" do
         it "passes validation" do
           subject.validate
+
           _(subject.errors[:mines]).must_be_empty
         end
       end
@@ -47,6 +49,7 @@ class BoardTest < ActiveSupport::TestCase
 
         it "fails validation" do
           subject.validate
+
           _(subject.errors[:width]).must_include(
             ValidationError.in(6..30))
         end
@@ -55,6 +58,7 @@ class BoardTest < ActiveSupport::TestCase
       given "a valid #height value" do
         it "passes validation" do
           subject.validate
+
           _(subject.errors[:mines]).must_be_empty
         end
       end
@@ -64,6 +68,7 @@ class BoardTest < ActiveSupport::TestCase
 
         it "fails validation" do
           subject.validate
+
           _(subject.errors[:height]).must_include(
             ValidationError.in(6..30))
         end
@@ -72,6 +77,7 @@ class BoardTest < ActiveSupport::TestCase
       given "a valid #mines value" do
         it "passes validation" do
           subject.validate
+
           _(subject.errors[:mines]).must_be_empty
         end
       end
@@ -81,6 +87,7 @@ class BoardTest < ActiveSupport::TestCase
 
         it "fails validation" do
           subject.validate
+
           _(subject.errors[:mines]).must_include(
             ValidationError.in(4..299))
         end
@@ -91,6 +98,7 @@ class BoardTest < ActiveSupport::TestCase
 
         it "passes validation" do
           subject.validate
+
           _(subject.errors[:mines]).must_be_empty
         end
       end
@@ -100,6 +108,7 @@ class BoardTest < ActiveSupport::TestCase
 
         it "fails validation" do
           subject.validate
+
           _(subject.errors[:mines]).must_include(
             "must be <= 12 (1/3 of total area)")
         end
@@ -111,6 +120,7 @@ class BoardTest < ActiveSupport::TestCase
 
         it "fails validation" do
           subject.validate
+
           _(subject.errors[:mines]).must_include(
             "must be >= 9 (10% of total area)")
         end
@@ -123,6 +133,7 @@ class BoardTest < ActiveSupport::TestCase
 
     it "sorts the association by least recent" do
       result = subject.cells.to_sql
+
       _(result).must_include(%(ORDER BY "cells"."created_at" ASC))
     end
   end
@@ -204,6 +215,7 @@ class BoardTest < ActiveSupport::TestCase
 
     it "forwards to Grid.new" do
       subject.grid
+
       _(@grid_new_call).wont_be_nil
       _(@grid_new_call.pargs).wont_be_empty
     end

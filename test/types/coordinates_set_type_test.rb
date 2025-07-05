@@ -20,6 +20,7 @@ class CoordinatesSetTypeTest < ActiveSupport::TestCase
     given "a CoordinatesSet" do
       it "returns the expected CoordinatesSet" do
         result = subject.cast(coordinates_set1)
+
         _(result).must_equal(coordinates_set1)
       end
     end
@@ -27,6 +28,7 @@ class CoordinatesSetTypeTest < ActiveSupport::TestCase
     given "an Array" do
       it "returns the expected CoordinatesSet" do
         result = subject.cast([coordinates1])
+
         _(result).must_equal(coordinates_set1)
       end
     end
@@ -35,6 +37,7 @@ class CoordinatesSetTypeTest < ActiveSupport::TestCase
       it "returns the expected CoordinatesSet" do
         result =
           subject.cast(ActiveSupport::JSON.encode([coordinates1]))
+
         _(result).must_equal(coordinates_set1)
       end
     end
@@ -42,6 +45,7 @@ class CoordinatesSetTypeTest < ActiveSupport::TestCase
     given "an invalidly formatted String" do
       it "returns an empty Array" do
         result = subject.cast("INVALID")
+
         _(result).must_equal([])
       end
     end
@@ -49,6 +53,7 @@ class CoordinatesSetTypeTest < ActiveSupport::TestCase
     given "an unexpected type" do
       it "returns an empty Array" do
         result = subject.cast(Object.new)
+
         _(result).must_equal([])
       end
     end
@@ -60,6 +65,7 @@ class CoordinatesSetTypeTest < ActiveSupport::TestCase
     given "a CoordinatesSet" do
       it "returns the CoordinatesSet, formatted as JSON" do
         result = subject.serialize(coordinates_set1)
+
         _(result).must_equal(ActiveSupport::JSON.encode([coordinates1]))
       end
     end
@@ -67,6 +73,7 @@ class CoordinatesSetTypeTest < ActiveSupport::TestCase
     given "nil" do
       it "returns an empty JSON object" do
         result = subject.serialize(nil)
+
         _(result).must_equal("[]")
       end
     end

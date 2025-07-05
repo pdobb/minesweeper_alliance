@@ -41,6 +41,7 @@ class GameTransactionTest < ActiveSupport::TestCase
     given "an existing pair" do
       it "returns true" do
         result = subject.exists_between?(user: user1, game: win1)
+
         _(result).must_equal(true)
       end
     end
@@ -48,6 +49,7 @@ class GameTransactionTest < ActiveSupport::TestCase
     given "a non-existent pair" do
       it "returns false" do
         result = subject.exists_between?(user: user2, game: win1)
+
         _(result).must_equal(false)
       end
     end

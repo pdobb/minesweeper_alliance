@@ -16,6 +16,7 @@ class Game::Stats::CalculateTest < ActiveSupport::TestCase
           ["win1.bbbvps", from: nil],
           ["win1.efficiency", from: nil, to: 0.2],
         ])
+
       _(result).must_equal(true)
     end
   end

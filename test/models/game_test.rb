@@ -49,6 +49,7 @@ class GameTest < ActiveSupport::TestCase
 
         it "passes validation" do
           subject.validate
+
           _(subject.errors[:type]).must_be_empty
         end
       end
@@ -58,6 +59,7 @@ class GameTest < ActiveSupport::TestCase
 
         it "fails validation" do
           subject.validate
+
           _(subject.errors[:type]).must_include(ValidationError.presence)
         end
       end
@@ -207,6 +209,7 @@ class GameTest < ActiveSupport::TestCase
           User::Bests::Intermediate,
           User::Bests::Expert,
         ]
+
         _(result.class.in?(target_types)).must_equal(true)
       end
     end

@@ -15,6 +15,7 @@ class Cell::SoftRevealTest < ActiveSupport::TestCase
 
       it "returns nil and doesn't change any attributes on Cell" do
         result = _(-> { subject.call(cell1) }).wont_change("cell1.attributes")
+
         _(result).must_be_nil
       end
     end
@@ -33,6 +34,7 @@ class Cell::SoftRevealTest < ActiveSupport::TestCase
             ["cell1.highlighted", from: true, to: false],
             ["cell1.value", from: nil, to: 0],
           ])
+
         _(result).must_be_same_as(cell1)
       end
     end
@@ -51,6 +53,7 @@ class Cell::SoftRevealTest < ActiveSupport::TestCase
             ["cell1.flagged", from: true, to: false],
             ["cell1.value", from: nil, to: 0],
           ])
+
         _(result).must_be_same_as(cell1)
       end
     end
@@ -70,6 +73,7 @@ class Cell::SoftRevealTest < ActiveSupport::TestCase
             ["cell1.revealed", from: false, to: true],
             ["cell1.value", from: nil, to: 1],
           ])
+
         _(result).must_be_same_as(cell1)
       end
     end

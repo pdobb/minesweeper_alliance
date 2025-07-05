@@ -37,6 +37,7 @@ class CellTransactionTest < ActiveSupport::TestCase
             subject.create_between(
               user: user1, cell: standing_by1_board_cell1)
           }).must_change("CellTransaction.count")
+
         _(result).must_be_instance_of(subject)
         _(result.user).must_be_same_as(user1)
         _(result.cell).must_be_same_as(standing_by1_board_cell1)
@@ -64,6 +65,7 @@ class CellTransactionTest < ActiveSupport::TestCase
 
       it "returns true" do
         result = subject.exists_between?(user: user1, cell: win1_board_cell2)
+
         _(result).must_equal(true)
       end
     end
@@ -72,6 +74,7 @@ class CellTransactionTest < ActiveSupport::TestCase
       it "returns false" do
         result =
           subject.exists_between?(user: user1, cell: standing_by1_board_cell1)
+
         _(result).must_equal(false)
       end
     end

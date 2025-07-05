@@ -41,6 +41,7 @@ class ParticipantTransactionTest < ActiveSupport::TestCase
           _(-> {
             subject.create_between(user: user1, game: standing_by1)
           }).must_change("ParticipantTransaction.count")
+
         _(result).must_be_instance_of(subject)
         _(result.user).must_be_same_as(user1)
         _(result.game).must_be_same_as(standing_by1)
@@ -53,6 +54,7 @@ class ParticipantTransactionTest < ActiveSupport::TestCase
           _(-> {
             subject.create_between(user: user2, game: standing_by1)
           }).wont_change("ParticipantTransaction.count")
+
         _(result.valid?).must_equal(false)
         _(result.errors[:user]).must_include(ValidationError.taken)
       end
@@ -111,6 +113,7 @@ class ParticipantTransactionTest < ActiveSupport::TestCase
     given "an existing pair" do
       it "returns the expected record" do
         result = subject.find_between!(user: user1, game: win1)
+
         _(result).must_equal(win1_participant_transaction_user1)
       end
     end

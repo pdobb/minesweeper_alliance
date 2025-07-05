@@ -8,6 +8,7 @@ class AppTest < ActiveSupport::TestCase
 
     it "returns the expected Hash" do
       result = subject.introspect
+
       _(result).must_be_instance_of(Hash)
       _(result.slice(:name, :created_at, :env, :debug_mode)).must_equal({
         name: "Minesweeper Alliance",
@@ -23,6 +24,7 @@ class AppTest < ActiveSupport::TestCase
 
     it "returns the expected Time" do
       result = App.created_at
+
       _(result.year).must_equal(2024)
       _(result.month).must_equal(8)
       _(result.day).must_equal(9)

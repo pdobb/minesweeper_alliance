@@ -14,6 +14,7 @@ class Game::Board::Cell::FindTest < ActiveSupport::TestCase
 
       it "returns the expected Cell" do
         result = subject.(game: standing_by1, cell_id:)
+
         _(result).must_equal(standing_by1_board_cell5)
       end
     end

@@ -15,6 +15,7 @@ class Cell::RevealTest < ActiveSupport::TestCase
 
       it "returns nil and doesn't change any attributes on Cell" do
         result = _(-> { subject.call(cell1) }).wont_change("cell1.attributes")
+
         _(result).must_be_nil
       end
     end
@@ -32,6 +33,7 @@ class Cell::RevealTest < ActiveSupport::TestCase
             ["cell1.value", from: nil, to: 0],
             ["cell1.updated_at"],
           ])
+
         _(result).must_be_same_as(cell1)
       end
     end
@@ -49,6 +51,7 @@ class Cell::RevealTest < ActiveSupport::TestCase
             ["cell1.value", from: nil, to: 0],
             ["cell1.updated_at"],
           ])
+
         _(result).must_be_same_as(cell1)
       end
     end
@@ -67,6 +70,7 @@ class Cell::RevealTest < ActiveSupport::TestCase
             ["cell1.value", from: nil, to: 1],
             ["cell1.updated_at"],
           ])
+
         _(result).must_be_same_as(cell1)
       end
     end

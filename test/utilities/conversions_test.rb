@@ -11,6 +11,7 @@ class ConversionsTest < ActiveSupport::TestCase
 
       it "returns the instance" do
         result = subject.Coordinates(instance)
+
         _(result).must_be_same_as(instance)
       end
     end
@@ -18,6 +19,7 @@ class ConversionsTest < ActiveSupport::TestCase
     given "a valid Hash with symbols for keys" do
       it "returns the expected Coordinates" do
         result = subject.Coordinates({ x: 9, y: 9 })
+
         _(result).must_equal(Coordinates[9, 9])
       end
     end
@@ -25,6 +27,7 @@ class ConversionsTest < ActiveSupport::TestCase
     given "a valid Hash with strings for keys" do
       it "returns the expected Coordinates" do
         result = subject.Coordinates({ "x" => 9, "y" => 9 })
+
         _(result).must_equal(Coordinates[9, 9])
       end
     end
@@ -32,6 +35,7 @@ class ConversionsTest < ActiveSupport::TestCase
     given "a valid Array" do
       it "returns the expected Coordinates" do
         result = subject.Coordinates([9, 9])
+
         _(result).must_equal(Coordinates[9, 9])
       end
     end

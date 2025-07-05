@@ -75,6 +75,7 @@ class GridTest < ActiveSupport::TestCase
 
     it "returns the expected mapping, GIVEN a block" do
       result = subject.map { |array| array.map(&:y) }
+
       _(result).must_equal([[9]])
     end
   end

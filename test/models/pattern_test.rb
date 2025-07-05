@@ -15,6 +15,7 @@ class PatternTest < ActiveSupport::TestCase
 
         it "fails validation" do
           subject.validate
+
           _(subject.errors[:name]).must_include(ValidationError.presence)
         end
       end
@@ -25,6 +26,7 @@ class PatternTest < ActiveSupport::TestCase
 
           it "passes validation" do
             subject.validate
+
             _(subject.errors[:name]).must_be_empty
           end
         end
@@ -34,6 +36,7 @@ class PatternTest < ActiveSupport::TestCase
 
           it "fails validation" do
             subject.validate
+
             _(subject.errors[:name]).must_include(ValidationError.taken)
           end
         end
@@ -46,6 +49,7 @@ class PatternTest < ActiveSupport::TestCase
 
         it "passes validation" do
           subject.validate
+
           _(subject.errors[:settings]).must_be_empty
         end
       end
@@ -55,6 +59,7 @@ class PatternTest < ActiveSupport::TestCase
 
         it "fails validation" do
           subject.validate
+
           _(subject.errors[:width]).must_include(ValidationError.in(6..30))
         end
       end
@@ -66,6 +71,7 @@ class PatternTest < ActiveSupport::TestCase
 
     it "returns the expected CoordinatesSet" do
       result = subject.coordinates_set
+
       _(result).must_be_instance_of(CoordinatesSet)
       _(result.to_a).must_equal([Coordinates[9, 9]])
     end
@@ -120,6 +126,7 @@ class PatternTest < ActiveSupport::TestCase
 
     it "returns a Grid with Pattern::Cells" do
       result = subject.grid
+
       _(result).must_be_instance_of(Grid)
       _(result.cells_count).must_equal(36)
       _(result.to_a.flatten!.sample).must_be_instance_of(Pattern::Cell)
@@ -131,6 +138,7 @@ class PatternTest < ActiveSupport::TestCase
 
     it "returns the expected Array" do
       result = subject.cells
+
       _(result).must_be_instance_of(Array)
       _(result.size).must_equal(36)
       _(result.sample).must_be_instance_of(Pattern::Cell)

@@ -20,6 +20,7 @@ class CellTest < ActiveSupport::TestCase
 
         it "passes validation" do
           subject.validate
+
           _(subject.errors[:coordinates]).must_be_empty
         end
       end
@@ -29,6 +30,7 @@ class CellTest < ActiveSupport::TestCase
 
         it "fails validation" do
           subject.validate
+
           _(subject.errors[:coordinates]).must_include(
             ValidationError.presence)
         end
@@ -39,6 +41,7 @@ class CellTest < ActiveSupport::TestCase
 
         it "fails validation" do
           subject.validate
+
           _(subject.errors[:coordinates]).must_include(
             ValidationError.taken)
         end
@@ -53,6 +56,7 @@ class CellTest < ActiveSupport::TestCase
 
         it "passes validation" do
           subject.validate
+
           _(subject.errors[:value]).must_be_empty
         end
       end
@@ -62,6 +66,7 @@ class CellTest < ActiveSupport::TestCase
 
         it "fails validation" do
           subject.validate
+
           _(subject.errors[:value]).must_include(ValidationError.numericality)
         end
       end
@@ -71,6 +76,7 @@ class CellTest < ActiveSupport::TestCase
 
         it "fails validation" do
           subject.validate
+
           _(subject.errors[:value]).must_include(
             ValidationError.in(Cell::VALUES_RANGE))
         end

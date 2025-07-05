@@ -13,7 +13,7 @@ class DevPortal::Patterns::Import::Form
   validates :file,
             presence: true
 
-  def import
+  def import # rubocop:disable Naming/PredicateMethod
     return false unless valid?
 
     @new_pattern = Pattern::Import.(path: file)

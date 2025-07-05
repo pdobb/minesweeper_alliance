@@ -18,6 +18,7 @@ class Cell::NeighborsTest < ActiveSupport::TestCase
 
       it "returns an empty collection" do
         result = subject.to_a
+
         _(result).must_be_empty
       end
     end

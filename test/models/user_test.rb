@@ -24,6 +24,7 @@ class UserTest < ActiveSupport::TestCase
 
         it "passes validation" do
           subject.validate
+
           _(subject.errors[:username]).must_be_empty
         end
       end
@@ -33,6 +34,7 @@ class UserTest < ActiveSupport::TestCase
 
         it "passes validation" do
           subject.validate
+
           _(subject.errors[:username]).must_be_empty
         end
       end
@@ -43,6 +45,7 @@ class UserTest < ActiveSupport::TestCase
 
         it "fails validation" do
           subject.validate
+
           _(subject.errors[:username]).must_include(
             ValidationError.too_long(max_length))
         end
@@ -55,6 +58,7 @@ class UserTest < ActiveSupport::TestCase
 
     it "is a GUID" do
       result = subject.id
+
       _(result).must_be_instance_of(String)
     end
   end
@@ -97,6 +101,7 @@ class UserTest < ActiveSupport::TestCase
     given "just white-space" do
       it "sets #username to nil" do
         subject.username = " "
+
         _(subject.username).must_be_nil
       end
     end
@@ -104,6 +109,7 @@ class UserTest < ActiveSupport::TestCase
     given "white-space before or after the given value" do
       it "sets the expected String" do
         subject.username = " TEST "
+
         _(subject.username).must_equal("TEST")
       end
     end

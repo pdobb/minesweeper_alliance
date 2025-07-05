@@ -17,6 +17,7 @@ class UserUpdateTransactionTest < ActiveSupport::TestCase
 
         it "passes validation" do
           subject.validate
+
           _(subject.errors[:change_set]).must_be_empty
         end
       end
@@ -26,6 +27,7 @@ class UserUpdateTransactionTest < ActiveSupport::TestCase
 
         it "fails validation" do
           subject.validate
+
           _(subject.errors[:change_set]).must_include(
             ValidationError.presence)
         end
@@ -41,6 +43,7 @@ class UserUpdateTransactionTest < ActiveSupport::TestCase
         _(-> {
           subject.create_for(user: user1, change_set: valid_change_set1)
         }).must_change("UserUpdateTransaction.count")
+
       _(result).must_be_instance_of(subject)
       _(result.user).must_be_same_as(user1)
     end

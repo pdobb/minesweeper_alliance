@@ -20,6 +20,7 @@ class Board::DetermineMinesPlacementTest < ActiveSupport::TestCase
       it "calls Board::PlaceMines" do
         MuchStub.(Board::PlaceMines, :call) { @place_mines_called = true }
         subject.call(board: board1, seed_cell: nil)
+
         _(@place_mines_called).must_equal(true)
       end
     end
@@ -30,6 +31,7 @@ class Board::DetermineMinesPlacementTest < ActiveSupport::TestCase
           @randomly_place_mines_called = true
         }
         subject.call(board: board1, seed_cell: nil)
+
         _(@randomly_place_mines_called).must_equal(true)
       end
     end

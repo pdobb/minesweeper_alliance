@@ -17,6 +17,7 @@ class CoordinatesTestType < ActiveSupport::TestCase
     given "a Coordinates" do
       it "returns the expected value" do
         result = subject.cast(Coordinates[9, 9])
+
         _(result).must_equal(Coordinates[9, 9])
       end
     end
@@ -24,6 +25,7 @@ class CoordinatesTestType < ActiveSupport::TestCase
     given "a Hash" do
       it "returns the expected value" do
         result = subject.cast({ x: 9, y: 9 })
+
         _(result).must_equal(Coordinates[9, 9])
       end
     end
@@ -32,6 +34,7 @@ class CoordinatesTestType < ActiveSupport::TestCase
       it "returns the expected value" do
         result =
           subject.cast(ActiveSupport::JSON.encode({ x: 9, y: 9 }))
+
         _(result).must_equal(Coordinates[9, 9])
       end
     end
@@ -39,6 +42,7 @@ class CoordinatesTestType < ActiveSupport::TestCase
     given "an invalidly formatted String" do
       it "returns the expected value" do
         result = subject.cast("INVALID")
+
         _(result).must_be_instance_of(NullCoordinates)
       end
     end
@@ -46,6 +50,7 @@ class CoordinatesTestType < ActiveSupport::TestCase
     given "an unexpected type" do
       it "returns NullCoordinates" do
         result = subject.cast(Object.new)
+
         _(result).must_be_instance_of(NullCoordinates)
       end
     end
@@ -57,6 +62,7 @@ class CoordinatesTestType < ActiveSupport::TestCase
     given "a Coordinates" do
       it "returns the Coordinates, formatted as JSON" do
         result = subject.serialize(Coordinates[9, 9])
+
         _(result).must_equal(ActiveSupport::JSON.encode({ x: 9, y: 9 }))
       end
     end
@@ -64,6 +70,7 @@ class CoordinatesTestType < ActiveSupport::TestCase
     given "a Hash" do
       it "returns the Hash, formatted as JSON" do
         result = subject.serialize({ x: 9, y: 9 })
+
         _(result).must_equal(ActiveSupport::JSON.encode({ x: 9, y: 9 }))
       end
     end
@@ -71,6 +78,7 @@ class CoordinatesTestType < ActiveSupport::TestCase
     given "a String" do
       it "returns the String, formatted as JSON" do
         result = subject.serialize("TEST")
+
         _(result).must_equal(ActiveSupport::JSON.encode("TEST"))
       end
     end
@@ -78,6 +86,7 @@ class CoordinatesTestType < ActiveSupport::TestCase
     given "nil" do
       it "returns an empty JSON object" do
         result = subject.serialize(nil)
+
         _(result).must_equal("{}")
       end
     end
@@ -85,6 +94,7 @@ class CoordinatesTestType < ActiveSupport::TestCase
     given "an unknown type" do
       it "returns a serialized NullCoordinates object" do
         result = subject.serialize(Object.new)
+
         _(result).must_equal(ActiveSupport::JSON.encode(NullCoordinates.new))
       end
     end

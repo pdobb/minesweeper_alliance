@@ -23,6 +23,7 @@ class Board::CheckForVictoryTest < ActiveSupport::TestCase
 
       it "doesn't orchestrate any changes, and returns nil" do
         result = subject.call(board: board1, user: user1)
+
         _(result).must_be_nil
         _(@game_end_in_victory_call).must_be_nil
       end
@@ -38,6 +39,7 @@ class Board::CheckForVictoryTest < ActiveSupport::TestCase
 
         it "doesn't call Game::EndInVictory, and returns false" do
           result = subject.call(board: board1, user: user1)
+
           _(result).must_equal(false)
           _(@game_end_in_victory_call).must_be_nil
         end
@@ -54,6 +56,7 @@ class Board::CheckForVictoryTest < ActiveSupport::TestCase
 
         it "calls Game::EndInVictory, and returns the Game" do
           result = subject.call(board: board1, user: user1)
+
           _(result).must_be_same_as(board1.game)
           _(@game_end_in_victory_call).wont_be_nil
         end

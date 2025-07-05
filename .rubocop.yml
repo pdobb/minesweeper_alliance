@@ -18,3 +18,6 @@ Rails/ApplicationController:
   Exclude:
     - app/controllers/dev_portal/**/*
     - app/controllers/ui_portal/**/*
+
+Minitest/MultipleAssertions:
+  Enabled: false

@@ -17,6 +17,7 @@ class ViewTest < ActiveSupport::TestCase
     given "a non-blank value" do
       it "returns the result of the given block" do
         result = subject.display(12.345) { |_value| "RESULT" }
+
         _(result).must_equal("RESULT")
       end
     end
@@ -24,6 +25,7 @@ class ViewTest < ActiveSupport::TestCase
     given "a blank value" do
       it "returns the expected value" do
         result = subject.display(nil) { |_value| "RESULT" }
+
         _(result).must_equal(%(<span class="text-dim-lg">—</span>))
       end
     end
@@ -84,6 +86,7 @@ class ViewTest < ActiveSupport::TestCase
     given "a pluralizable count" do
       it "returns the expected String" do
         result = subject.pluralize("test", count: 12_345)
+
         _(result).must_equal("12345 tests")
       end
     end
@@ -91,6 +94,7 @@ class ViewTest < ActiveSupport::TestCase
     given "a non-pluralizable count" do
       it "returns the expected String" do
         result = subject.pluralize("test", count: 1)
+
         _(result).must_equal("1 test")
       end
     end
@@ -102,6 +106,7 @@ class ViewTest < ActiveSupport::TestCase
     given "a pluralizable count" do
       it "returns the expected String" do
         result = subject.delimited_pluralize("test", count: 12_345)
+
         _(result).must_equal("12,345 tests")
       end
     end
@@ -109,6 +114,7 @@ class ViewTest < ActiveSupport::TestCase
     given "a non-pluralizable count" do
       it "returns the expected String" do
         result = subject.delimited_pluralize("test", count: 1)
+
         _(result).must_equal("1 test")
       end
     end

@@ -17,6 +17,7 @@ class GameEndTransactionTest < ActiveSupport::TestCase
           _(-> {
             subject.create_between(user: any_user, game: standing_by1)
           }).must_change("GameEndTransaction.count")
+
         _(result).must_be_instance_of(subject)
         _(result.user).must_be_same_as(any_user)
         _(result.game).must_be_same_as(standing_by1)

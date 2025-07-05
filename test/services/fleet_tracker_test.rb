@@ -86,6 +86,7 @@ class FleetTrackerTest < ActiveSupport::TestCase
 
       it "adds a new entry for the given token" do
         result = subject.add(user1_token)
+
         _(result).must_be_instance_of(FleetTracker::Registry::Entry)
         _(subject.to_a).must_equal([
           { token: user1_token, active: false, expires_at: },
@@ -108,6 +109,7 @@ class FleetTrackerTest < ActiveSupport::TestCase
 
         it "adds a new token" do
           result = subject.add(user2_token)
+
           _(result).must_be_instance_of(FleetTracker::Registry::Entry)
           _(subject.to_a).must_equal([
             { token: user1_token, active: false, expires_at: },
@@ -129,6 +131,7 @@ class FleetTrackerTest < ActiveSupport::TestCase
 
     it "calls Game::Current::BroadcastFleetRemovalJob, as expected" do
       subject.add!(user1_token)
+
       _(@broadcast_append_call.kargs[:target]).must_equal("fleetRoster")
       _(@broadcast_append_call.kargs[:partial]).must_equal(
         "home/roster/listing")
@@ -180,6 +183,7 @@ class FleetTrackerTest < ActiveSupport::TestCase
     given "an inactive entry" do
       it "broadcasts the expected update" do
         subject.activate!(user1_token)
+
         _(@broadcast_update_call.kargs).must_equal(
           { target: "fleetSize", html: 1 })
         _(@broadcast_replace_call.kargs[:partial]).must_equal(
@@ -195,6 +199,7 @@ class FleetTrackerTest < ActiveSupport::TestCase
       it "doesn't call "\
          "Home::Roster.broadcast_update_call" do
         subject.activate!(user1_token)
+
         _(@broadcast_update_call).must_be_nil
         _(@broadcast_replace_call).must_be_nil
       end
@@ -207,6 +212,7 @@ class FleetTrackerTest < ActiveSupport::TestCase
 
       it "returns the expected collection" do
         result = subject.expire(user1_token)
+
         _(result.to_a).must_equal([])
       end
     end
@@ -217,6 +223,7 @@ class FleetTrackerTest < ActiveSupport::TestCase
 
         it "expires the entry" do
           result = subject.expire(user1_token)
+
           _(result).must_be_instance_of(FleetTracker::Registry::Entry)
           _(subject.to_a).must_equal([
             {
@@ -233,6 +240,7 @@ class FleetTrackerTest < ActiveSupport::TestCase
 
         it "expires the expected entry" do
           result = subject.expire(user2_token)
+
           _(result).must_be_instance_of(FleetTracker::Registry::Entry)
           _(subject.to_a).must_equal([
             { token: user1_token, active: false, expires_at: },
@@ -288,6 +296,7 @@ class FleetTrackerTest < ActiveSupport::TestCase
 
       it "returns an empty Array" do
         result = subject.purge_deeply_expired_entries
+
         _(result).must_equal([])
       end
     end
@@ -303,6 +312,7 @@ class FleetTrackerTest < ActiveSupport::TestCase
 
       it "returns an empty Array" do
         result = subject.purge_deeply_expired_entries
+
         _(result).must_equal([])
       end
     end
@@ -317,6 +327,7 @@ class FleetTrackerTest < ActiveSupport::TestCase
 
       it "removes the entry" do
         result = subject.purge_deeply_expired_entries
+
         _(result.sample).must_be_instance_of(FleetTracker::Registry::Entry)
         _(result.map(&:to_h)).must_equal([
           {
@@ -343,6 +354,7 @@ class FleetTrackerTest < ActiveSupport::TestCase
 
     it "calls Game::Current::BroadcastFleetRemovalJob, as expected" do
       subject.purge_deeply_expired_entries!
+
       _(@broadcast_remove_call.kargs[:target]).must_equal(
         "home_roster_listing-7fff4b12-83c2-50b2-845f-52ae10a9aeee")
     end
@@ -353,6 +365,7 @@ class FleetTrackerTest < ActiveSupport::TestCase
 
     it "resets the collection" do
       subject.reset
+
       _(subject.to_a).must_equal([])
     end
   end

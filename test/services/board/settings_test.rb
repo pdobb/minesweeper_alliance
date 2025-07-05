@@ -11,6 +11,7 @@ class Board::SettingsTest < ActiveSupport::TestCase
 
       it "returns the expected instance" do
         result = subject.preset(type1)
+
         _(result).must_be_instance_of(Board::Settings)
         _(Board::Settings::PRESETS.keys).must_include(result.type)
       end
@@ -36,6 +37,7 @@ class Board::SettingsTest < ActiveSupport::TestCase
 
     it "returns the expected instance" do
       result = subject.beginner
+
       _(result).must_be_instance_of(Board::Settings)
       _(result.type).must_equal("Beginner")
     end
@@ -46,6 +48,7 @@ class Board::SettingsTest < ActiveSupport::TestCase
 
     it "returns the expected instance" do
       result = subject.intermediate
+
       _(result).must_be_instance_of(Board::Settings)
       _(result.type).must_equal("Intermediate")
     end
@@ -56,6 +59,7 @@ class Board::SettingsTest < ActiveSupport::TestCase
 
     it "returns the expected instance" do
       result = subject.expert
+
       _(result).must_be_instance_of(Board::Settings)
       _(result.type).must_equal("Expert")
     end
@@ -71,6 +75,7 @@ class Board::SettingsTest < ActiveSupport::TestCase
 
       it "returns a random preset" do
         result = subject.random
+
         _(result).must_be_instance_of(Board::Settings)
         _(Board::Settings::PRESETS.keys).must_include(result.type)
       end
@@ -84,6 +89,7 @@ class Board::SettingsTest < ActiveSupport::TestCase
 
         it "returns a random Preset Type" do
           result = subject.random
+
           _(result).must_be_instance_of(Board::Settings)
           _(result.type).wont_equal("Pattern")
           _(result.name).must_be_nil
@@ -97,6 +103,7 @@ class Board::SettingsTest < ActiveSupport::TestCase
 
         it "returns a random Pattern Type" do
           result = subject.random
+
           _(result).must_be_instance_of(Board::Settings)
           _(result.type).must_equal("Pattern")
           _(result.name).wont_be_nil
@@ -112,6 +119,7 @@ class Board::SettingsTest < ActiveSupport::TestCase
 
         it "passes validation" do
           subject.validate
+
           _(subject.errors[:type]).must_be_empty
         end
       end
@@ -121,6 +129,7 @@ class Board::SettingsTest < ActiveSupport::TestCase
 
         it "fails validation" do
           subject.validate
+
           _(subject.errors[:type]).must_include(ValidationError.presence)
         end
       end
@@ -135,6 +144,7 @@ class Board::SettingsTest < ActiveSupport::TestCase
 
           it "passes validation" do
             subject.validate
+
             _(subject.errors[:name]).must_be_empty
           end
         end
@@ -144,6 +154,7 @@ class Board::SettingsTest < ActiveSupport::TestCase
 
           it "fails validation" do
             subject.validate
+
             _(subject.errors[:name]).must_include(ValidationError.presence)
           end
         end
@@ -154,6 +165,7 @@ class Board::SettingsTest < ActiveSupport::TestCase
 
         it "passes validation, GIVEN no #name" do
           subject.validate
+
           _(subject.errors[:name]).must_be_empty
         end
       end
@@ -167,6 +179,7 @@ class Board::SettingsTest < ActiveSupport::TestCase
 
         it "passes validation" do
           subject.validate
+
           _(subject.errors[:width]).must_be_empty
         end
       end
@@ -176,6 +189,7 @@ class Board::SettingsTest < ActiveSupport::TestCase
 
         it "fails validation" do
           subject.validate
+
           _(subject.errors[:width]).must_include(ValidationError.in(6..30))
         end
       end
@@ -185,6 +199,7 @@ class Board::SettingsTest < ActiveSupport::TestCase
 
         it "fails validation" do
           subject.validate
+
           _(subject.errors[:width]).must_include(ValidationError.presence)
         end
       end
@@ -198,6 +213,7 @@ class Board::SettingsTest < ActiveSupport::TestCase
 
         it "passes validation" do
           subject.validate
+
           _(subject.errors[:height]).must_be_empty
         end
       end
@@ -207,6 +223,7 @@ class Board::SettingsTest < ActiveSupport::TestCase
 
         it "fails validation" do
           subject.validate
+
           _(subject.errors[:height]).must_include(ValidationError.in(6..30))
         end
       end
@@ -216,6 +233,7 @@ class Board::SettingsTest < ActiveSupport::TestCase
 
         it "fails validation" do
           subject.validate
+
           _(subject.errors[:height]).must_include(ValidationError.presence)
         end
       end
@@ -237,6 +255,7 @@ class Board::SettingsTest < ActiveSupport::TestCase
 
         it "passes validation" do
           subject.validate
+
           _(subject.errors[:mines]).must_be_empty
         end
       end
@@ -246,6 +265,7 @@ class Board::SettingsTest < ActiveSupport::TestCase
 
         it "fails validation" do
           subject.validate
+
           _(subject.errors[:mines]).must_include(ValidationError.in(4..299))
         end
       end
@@ -255,6 +275,7 @@ class Board::SettingsTest < ActiveSupport::TestCase
 
         it "fails validation" do
           subject.validate
+
           _(subject.errors[:mines]).must_include(ValidationError.presence)
         end
       end
@@ -267,6 +288,7 @@ class Board::SettingsTest < ActiveSupport::TestCase
 
           it "fails validation, but not due to density" do
             subject.validate
+
             _(subject.errors[:mines]).wont_include(
               "must be <= 12 (1/3 of total area)")
           end
@@ -277,6 +299,7 @@ class Board::SettingsTest < ActiveSupport::TestCase
 
           it "fails validation, but not due to sparseness" do
             subject.validate
+
             _(subject.errors[:mines]).wont_include(
               "must be >= 9 (10% of total area)")
           end
@@ -291,6 +314,7 @@ class Board::SettingsTest < ActiveSupport::TestCase
 
           it "fails validation" do
             subject.validate
+
             _(subject.errors[:mines]).must_include(
               "must be <= 27 (1/3 of total area)")
           end
@@ -301,6 +325,7 @@ class Board::SettingsTest < ActiveSupport::TestCase
 
           it "fails validation" do
             subject.validate
+
             _(subject.errors[:mines]).must_include(
               "must be >= 9 (10% of total area)")
           end

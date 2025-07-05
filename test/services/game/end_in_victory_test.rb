@@ -47,6 +47,7 @@ class Game::EndInVictoryTest < ActiveSupport::TestCase
 
       it "returns the Game without orchestrating any changes" do
         result = subject.call(game: game1, user: user1)
+
         _(result).must_be_same_as(game1)
         _(@touch_call).must_be_nil
       end

@@ -68,6 +68,7 @@ class Board::PlaceMinesTest < ActiveSupport::TestCase
                   "standing_by1_board.cells.is_mine.count",
                   from: 0,
                   to: coordinates_set1.size)
+
               _(result).must_be_same_as(subject)
             end
           end
@@ -83,6 +84,7 @@ class Board::PlaceMinesTest < ActiveSupport::TestCase
                   "standing_by1_board.cells.is_mine.count",
                   from: 0,
                   to: coordinates_set1.size)
+
               _(result).must_be_same_as(subject)
             end
           end
@@ -98,6 +100,7 @@ class Board::PlaceMinesTest < ActiveSupport::TestCase
                 "standing_by1_board.cells.is_mine.count",
                 from: 0,
                 to: coordinates_set1.size.pred)
+
             _(result).must_be_same_as(subject)
           end
         end

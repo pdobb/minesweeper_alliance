@@ -8,6 +8,7 @@ class CompactArrayTest < ActiveSupport::TestCase
 
     it "builds an empty CompactArray" do
       result = subject.new
+
       _(result).must_be_instance_of(CompactArray)
       _(result.to_a).must_equal([])
     end
@@ -15,6 +16,7 @@ class CompactArrayTest < ActiveSupport::TestCase
     given "items" do
       it "builds a new CompactArray out of them items" do
         result = subject.new(1, 2, nil, 3)
+
         _(result).must_be_instance_of(CompactArray)
         _(result.to_a).must_equal([1, 2, 3])
       end
@@ -26,6 +28,7 @@ class CompactArrayTest < ActiveSupport::TestCase
 
     it "builds a new CompactArray" do
       result = subject[1, 2, nil, 3]
+
       _(result).must_be_instance_of(CompactArray)
       _(result.to_a).must_equal([1, 2, 3])
     end
@@ -38,6 +41,7 @@ class CompactArrayTest < ActiveSupport::TestCase
       subject << nil
       subject << "TEST1"
       subject << false
+
       _(subject.to_a).must_equal(["TEST1", false])
     end
   end
@@ -49,6 +53,7 @@ class CompactArrayTest < ActiveSupport::TestCase
       subject.push(nil)
       subject.push("TEST1")
       subject.push(false, nil)
+
       _(subject.to_a).must_equal(["TEST1", false])
     end
   end
@@ -58,6 +63,7 @@ class CompactArrayTest < ActiveSupport::TestCase
 
     it "splats itself as needed" do
       result = [1, 2, 3, subject].flatten
+
       _(result).must_equal([1, 2, 3, 4, 5, 6])
     end
   end
@@ -67,6 +73,7 @@ class CompactArrayTest < ActiveSupport::TestCase
 
     it "returns a sorted CompactArray" do
       result = subject.sort
+
       _(result).must_be_instance_of(CompactArray)
       _(result.to_a).must_equal([1, 2])
     end

@@ -12,6 +12,7 @@ class InteractionTest < ActiveSupport::TestCase
 
         it "fails validation" do
           subject.validate
+
           _(subject.errors[:name]).must_include(ValidationError.presence)
         end
       end
@@ -22,6 +23,7 @@ class InteractionTest < ActiveSupport::TestCase
 
           it "passes validation" do
             subject.validate
+
             _(subject.errors[:name]).must_be_empty
           end
         end
@@ -31,6 +33,7 @@ class InteractionTest < ActiveSupport::TestCase
 
           it "fails validation" do
             subject.validate
+
             _(subject.errors[:name]).must_include(ValidationError.taken)
           end
         end
@@ -45,6 +48,7 @@ class InteractionTest < ActiveSupport::TestCase
 
         it "passes validation" do
           subject.validate
+
           _(subject.errors[:count]).must_be_empty
         end
       end
@@ -54,6 +58,7 @@ class InteractionTest < ActiveSupport::TestCase
 
         it "fails validation" do
           subject.validate
+
           _(subject.errors[:count]).must_include(ValidationError.numericality)
         end
       end
@@ -63,6 +68,7 @@ class InteractionTest < ActiveSupport::TestCase
 
         it "fails validation" do
           subject.validate
+
           _(subject.errors[:count]).must_include(
             ValidationError.greater_than_or_equal_to(0))
         end

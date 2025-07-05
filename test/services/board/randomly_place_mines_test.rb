@@ -49,12 +49,14 @@ class Board::RandomlyPlaceMinesTest < ActiveSupport::TestCase
           result =
             _(-> { subject.call }).must_change(
               "standing_by1_board.cells.is_mine.count", from: 0, to: 1)
+
           _(result).must_be_same_as(subject)
         end
 
         it "doesn't place a mine in the seed Cell" do
           standing_by1_board.cells.excluding(standing_by1_board_cell1)
             .delete_all
+
           _(standing_by1_board.cells.size).must_equal(1)
 
           _(-> { subject.call }).wont_change(

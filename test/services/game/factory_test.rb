@@ -22,6 +22,7 @@ class Game::FactoryTest < ActiveSupport::TestCase
 
       it "returns a persisted Game with the expected attributes" do
         result = subject.create_for(settings: custom_settings1)
+
         _(result).must_be_instance_of(Game)
         _(result.persisted?).must_equal(true)
         _(result.status_standing_by?).must_equal(true)
@@ -56,6 +57,7 @@ class Game::FactoryTest < ActiveSupport::TestCase
     it "orchestrates building of the expected object graph and returns "\
        "the new Game" do
       result = subject.build_for(settings: custom_settings1)
+
       _(result).must_be_instance_of(Game)
       _(result.board).must_be_instance_of(Board)
       _(result.board.cells).must_be_empty

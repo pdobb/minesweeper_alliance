@@ -18,6 +18,7 @@ class Cell::DehighlightNeighborhoodTest < ActiveSupport::TestCase
         result =
           _(-> { subject.call(cell1) }).wont_change(
             "Cell::Neighbors.new(cell: cell1).highlighted_count")
+
         _(result).must_be_nil
       end
     end
@@ -42,6 +43,7 @@ class Cell::DehighlightNeighborhoodTest < ActiveSupport::TestCase
           ])
 
         origin, neighbors = result.to_a.first
+
         _(origin).must_be_same_as(cell1)
         _(neighbors).must_match_array([
           standing_by1_board_cell2,

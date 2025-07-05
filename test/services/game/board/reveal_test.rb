@@ -62,6 +62,7 @@ class Game::Board::RevealTest < ActiveSupport::TestCase
               to: true,
             ],
           ])
+
         _(result).must_be_same_as(subject)
         _(@board_randomly_place_mines_call).wont_be_nil
         _(@cell_recursive_reveal_call_call).wont_be_nil
@@ -97,6 +98,7 @@ class Game::Board::RevealTest < ActiveSupport::TestCase
               },
             ],
           ])
+
         _(result).must_be_same_as(subject)
         _(@board_randomly_place_mines_call).must_be_nil
         _(@cell_recursive_reveal_call_call).must_be_nil

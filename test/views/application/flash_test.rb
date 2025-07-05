@@ -14,6 +14,7 @@ class Application::FlashTest < ActiveSupport::TestCase
 
       it "returns an empty Array" do
         result = subject.notifications
+
         _(result).must_be_empty
       end
     end
@@ -26,6 +27,7 @@ class Application::FlashTest < ActiveSupport::TestCase
 
       it "returns an Array of Notifications" do
         result = subject.notifications
+
         _(result).must_be_instance_of(Array)
         _(result.size).must_equal(1)
         _(result.sample).must_be_instance_of(Application::Flash::Notification)
@@ -40,6 +42,7 @@ class Application::FlashTest < ActiveSupport::TestCase
 
       it "returns an Array of Notifications" do
         result = subject.notifications
+
         _(result).must_be_instance_of(Array)
         _(result.size).must_equal(2)
         _(result.sample).must_be_instance_of(Application::Flash::Notification)
@@ -57,6 +60,7 @@ class Application::FlashTest < ActiveSupport::TestCase
 
       it "returns an Array of Notifications" do
         result = subject.notifications
+
         _(result).must_be_instance_of(Array)
         _(result.size).must_equal(2)
         _(result.sample).must_be_instance_of(Application::Flash::Notification)

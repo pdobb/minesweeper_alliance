@@ -15,6 +15,7 @@ class Cell::ToggleFlagTest < ActiveSupport::TestCase
 
       it "returns nil and doesn't change any attributes on Cell" do
         result = _(-> { subject.call(cell1) }).wont_change("cell1.attributes")
+
         _(result).must_be_nil
       end
     end
@@ -30,14 +31,13 @@ class Cell::ToggleFlagTest < ActiveSupport::TestCase
             ["cell1.flagged", to: true],
             ["cell1.updated_at"],
           ])
+
         _(result).must_be_same_as(cell1)
       end
 
       given "a highlighted Cell" do
         let(:cell1) {
-          standing_by1_board_cell1.tap {
-            it.update(highlighted: true)
-          }
+          standing_by1_board_cell1.tap { it.update(highlighted: true) }
         }
 
         it "sets the expected attributes" do
@@ -47,6 +47,7 @@ class Cell::ToggleFlagTest < ActiveSupport::TestCase
               ["cell1.highlighted", to: false],
               ["cell1.updated_at"],
             ])
+
           _(result).must_be_same_as(cell1)
         end
       end
@@ -65,13 +66,14 @@ class Cell::ToggleFlagTest < ActiveSupport::TestCase
             ["cell1.flagged", to: false],
             ["cell1.updated_at"],
           ])
+
         _(result).must_be_same_as(cell1)
       end
 
       given "a highlighted Cell" do
         let(:cell1) {
-          standing_by1_board_cell1.tap {
-            it.update(flagged: true, highlighted: true)
+          standing_by1_board_cell1.tap { |cell|
+            cell.update(flagged: true, highlighted: true)
           }
         }
 
@@ -83,6 +85,7 @@ class Cell::ToggleFlagTest < ActiveSupport::TestCase
               ["cell1.flagged", to: false],
               ["cell1.updated_at"],
             ])
+
           _(result).must_be_same_as(cell1)
         end
       end

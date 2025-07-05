@@ -27,6 +27,7 @@ class Board::GenerateTest < ActiveSupport::TestCase
         subject.call
 
         cell_data = @insert_all_call.pargs.first
+
         _(cell_data).must_equal([
           {
             board_id:,
