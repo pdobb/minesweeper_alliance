@@ -126,13 +126,13 @@ class Notify
                   :service_options
 
       def notify_with_exception
-        ::Honeybadger.notify(exception, service_options)
+        ::Honeybadger.notify(exception, **service_options)
       end
 
       def notify_without_exception
         ::Honeybadger.notify(
           service_options.dig(:context, :info),
-          service_options,
+          **service_options,
         )
       end
     end
