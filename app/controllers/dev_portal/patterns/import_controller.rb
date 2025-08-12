@@ -23,7 +23,7 @@ class DevPortal::Patterns::ImportController < DevPortal::BaseController
       end
     else
       @form = form
-      render(:new, status: :unprocessable_entity)
+      render(:new, status: :unprocessable_content)
     end
   end
 

@@ -37,7 +37,7 @@ class CurrentUser::Account::UsernameController < ApplicationController
       end
     else
       edit
-      render(:edit, status: :unprocessable_entity)
+      render(:edit, status: :unprocessable_content)
     end
   end
 

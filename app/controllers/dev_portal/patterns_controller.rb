@@ -35,7 +35,7 @@ class DevPortal::PatternsController < DevPortal::BaseController
       end
     else
       @new = DevPortal::Patterns::New.new(pattern, context: layout)
-      render(:new, status: :unprocessable_entity)
+      render(:new, status: :unprocessable_content)
     end
   end
 

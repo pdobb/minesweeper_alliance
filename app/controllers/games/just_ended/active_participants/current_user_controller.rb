@@ -41,7 +41,7 @@ class Games::JustEnded::ActiveParticipants::CurrentUserController <
       end
     else
       edit
-      render(:edit, status: :unprocessable_entity)
+      render(:edit, status: :unprocessable_content)
     end
   end
 

@@ -27,7 +27,7 @@ class Games::New::CustomController < ApplicationController
       end
     else
       @new = Games::New::Custom::New.new(settings:)
-      render(:new, status: :unprocessable_entity)
+      render(:new, status: :unprocessable_content)
     end
   end
 

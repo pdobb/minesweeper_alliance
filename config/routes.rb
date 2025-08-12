@@ -121,7 +121,7 @@ Rails.application.routes.draw do
   get "/400", to: "errors#bad_request", as: :bad_request
   get "/404", to: "errors#not_found", as: :not_found
   get "/406", to: "errors#unsupported_browser", as: :unsupported_browser
-  get "/422", to: "errors#unprocessable_entity", as: :unprocessable_entity
+  get "/422", to: "errors#unprocessable_content", as: :unprocessable_content
   get "/500", to: "errors#internal_server_error", as: :internal_server_error
 
   # Render dynamic PWA files from app/views/pwa/*
