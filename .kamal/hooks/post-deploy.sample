@@ -11,8 +11,4 @@
 # KAMAL_DESTINATION (if set)
 # KAMAL_RUNTIME
 
-RAILS_MASTER_KEY=$(cat config/master.key)
-
-bundle exec honeybadger deploy --revision=$(git rev-parse HEAD) --repository=$(git config --get remote.origin.url) --environment=production
-
 echo "$KAMAL_PERFORMER deployed $KAMAL_VERSION to $KAMAL_DESTINATION in $KAMAL_RUNTIME seconds"

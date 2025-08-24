@@ -39,7 +39,7 @@ class Pattern::Settings
 
   def to_h = { width:, height: }
   def to_a = to_h.values
-  def as_json = to_h
+  def as_json(*) = to_h
 
   def dimensions = "#{width}x#{height}"
 

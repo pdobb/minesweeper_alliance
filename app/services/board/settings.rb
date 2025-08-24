@@ -112,7 +112,7 @@ class Board::Settings
 
   def to_s = type
   def to_h = { type:, name:, width:, height:, mines: }.tap(&:compact!)
-  def as_json = to_h
+  def as_json(*) = to_h
   def to_a = to_h.values
 
   def dimensions = "#{width}x#{height}"
