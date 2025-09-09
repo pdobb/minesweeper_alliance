@@ -70,13 +70,46 @@ bin/rails test
 rake test
 ```
 
-Or, run all checks at once. Currently: `test`, `rubocop`, `erb_lint`, `reek`, `eslint`, `prettier`, `brakeman`, and `validate`.
+### Local CI
 
-```bash
-rake
+Prevent test failures and/or linting issues before committing/pushing by running the local CI suite.
+
+```sh
+# Run the test suite + all checks:
+bin/ci
 ```
 
-If a failure occurs during one of the checks, the rest will be halted.
+If any tests or any checks fail, the entire command will fail with exit code 1 (failure).
+This allows for chaining onto successful runs.
+
+For example:
+
+```sh
+# Won't run `git push` unless all checks pass.
+bin/ci && git push
+```
+
+#### Run Checks Individually
+
+```sh
+bin/rubocop
+bin/rubocop --autocorrect-all --disable-uncorrectable
+
+erb_lint --format=compact .
+
+reek
+
+npx eslint .
+
+npx prettier . --check
+npx prettier . --write # Autocorrect
+
+bin/validate
+
+bin/bundler-audit
+
+bin/brakeman
+```
 
 ## Web App
 

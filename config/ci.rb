@@ -4,8 +4,14 @@
 
 CI.run do
   step "Setup", "bin/setup --skip-server"
+  step "ENV: Validate", "bin/validate"
 
-  step "Style: Ruby", "bin/rubocop"
+  step "Style: Rubocop", "bin/rubocop"
+  step "Style: ERB Lint",
+       "erb_lint --format=compact --lint-all --config=.erb_lint.yml"
+  step "Style: Reek", "reek --config .reek.yml"
+  step "Style: ES Lint", "npx eslint app/javascript"
+  step "Style: Prettier (**/*.{js,yml,md})", "npx prettier . --check"
 
   step "Security: Gem audit", "bin/bundler-audit"
   step "Security: Importmap vulnerability audit", "bin/importmap audit"
