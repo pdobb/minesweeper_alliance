@@ -1,7 +1,11 @@
 # frozen_string_literal: true
 
-# View provides easy access to common Rails View-related helpers for use in View
-# Models.
+# Formats output for human consumption/viewing--from outside Rails' standard
+# front-end scope. Provides easy-access adapter methods for any formatter,
+# including Rails' View Helpers.
+#
+# Usage may include: view templates, email templates, log output, console
+# output, Turbo Stream responses, and so on...
 module View
   def self.dom_id(...) = helpers.dom_id(...)
 
