@@ -26,7 +26,6 @@ task :default do
       reek
       eslint
       prettier
-      brakeman
       validate
     ]
   run_tasks(tasks)

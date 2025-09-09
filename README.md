@@ -70,13 +70,52 @@ bin/rails test
 rake test
 ```
 
-Or, run all checks at once. Currently: `test`, `rubocop`, `erb_lint`, `reek`, `eslint`, `prettier`, `brakeman`, and `validate`.
+Or, run test, rubocop, erb_lint, reek, eslint, prettier, validate_env, and test:system all at once:
 
 ```bash
 rake
 ```
 
-If a failure occurs during one of the checks, the rest will be halted.
+### Local CI
+
+Prevent test failures and/or linting issues before committing/pushing by running the local CI suite.
+
+```sh
+# Run the test suite + all checks:
+bin/ci
+```
+
+If any tests or any checks fail, the entire command will fail with exit code 1 (failure).
+This allows for chaining onto successful runs.
+
+For example:
+
+```sh
+# Won't run `git push` unless all checks pass.
+bin/ci && git push
+```
+
+#### Run Checks Individually
+
+```sh
+bin/rubocop
+bin/rubocop --autocorrect-all --disable-uncorrectable
+
+erb_lint --format=compact .
+
+reek
+
+npx eslint .
+
+npx prettier . --check
+npx prettier . --write # Autocorrect
+
+bin/validate
+
+bin/bundler-audit
+
+bin/brakeman
+```
 
 ## Web App
 
@@ -152,7 +191,7 @@ View Models are Plain Old Ruby Objects (POROs) that:
 - Live alongside the view templates/partials they support, and
 - Are easily unit testable (where view template are not).
 
-View Models are can be thought of as somewhat similar to, yet much simpler than, GitHub's ViewComponent pattern/gem. Notably different: they make no attempt to intervene in the rendering stack or to provide a custom DSL.
+View Models can be thought of as somewhat similar to, yet much simpler than, GitHub's ViewComponent pattern/gem. Notably different: they make no attempt to intervene in the rendering stack or to provide a custom DSL.
 
 Again, View Models are just POROs, so the only thing to learn about them is when/where/how to apply them. Generally speaking, a View Model should be used any time a view template would otherwise need to interact with your ActiveRecord models or implement any kind of ERB logic/conditionals.
 
