@@ -53,7 +53,6 @@ en:
       blank: can't be blank
       in: "must be in range: %{count}"
       inclusion: invalid option
-      invariable: can't be changed
       present: can't be present
       required: can't be blank
       too_long: "can't be > %{count} characters"

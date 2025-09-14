@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# rubocop:disable Layout/LineLength
+
 # ValidationError facilitates retrieval of Rails' I18n-interpolated error
 # messages.
 #
@@ -20,24 +22,22 @@ module ValidationError
   def self.less_than(count) = lookup(:less_than, count:)
   def self.less_than_or_equal_to(count) = lookup(:less_than_or_equal_to, count:)
   def self.greater_than(count) = lookup(:greater_than, count:)
+  def self.greater_than_or_equal_to(count) = lookup(:greater_than_or_equal_to, count:)
+  def self.format = lookup(:invalid)
 
-  def self.greater_than_or_equal_to(count)
-    lookup(:greater_than_or_equal_to, count:)
-  end
-
-  # Presence
+  # Uniqueness
   def self.taken = lookup(:taken)
 
   # ActiveRecord Validations
-  def self.inclusion = activerecord_lookup(:inclusion)
   def self.absence = activerecord_lookup(:present)
   def self.presence = activerecord_lookup(:blank)
+  def self.inclusion = activerecord_lookup(:inclusion)
+  def self.exclusion = activerecord_lookup(:exclusion)
   def self.required_association = activerecord_lookup(:required)
-  def self.invariable = activerecord_lookup(:invariable)
 
-  def self.lookup(name, **)
-    I18n.t(name, **, scope: %i[errors messages])
-  end
+  # private
+
+  def self.lookup(name, **) = I18n.t(name, **, scope: %i[errors messages])
   private_class_method :lookup
 
   def self.activerecord_lookup(name, **)
@@ -45,3 +45,5 @@ module ValidationError
   end
   private_class_method :activerecord_lookup
 end
+
+# rubocop:enable Layout/LineLength
