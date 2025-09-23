@@ -23,9 +23,16 @@ class User < ApplicationRecord
   self.implicit_order_column = "created_at"
 
   DESIGNATION = "MMS" # Motor MineSweeper
+  public_constant :DESIGNATION
+
   TRUNCATED_TOKENS_LENGTH = 4
+  public_constant :TRUNCATED_TOKENS_LENGTH
+
   TRUNCATED_TOKENS_RANGE = (-TRUNCATED_TOKENS_LENGTH..)
+  private_constant :TRUNCATED_TOKENS_RANGE
+
   USERNAME_MAX_LEGNTH = 26
+  public_constant :USERNAME_MAX_LEGNTH
 
   include ConsoleBehaviors
 
@@ -33,12 +40,12 @@ class User < ApplicationRecord
 
   # Games that were joined in on by this User--in any fashion.
   # (Whether or not they were actively participated in by this User).
-  has_many :participant_transactions
+  has_many :participant_transactions # rubocop:disable Rails/HasManyOrHasOneDependent
   has_many :games, through: :participant_transactions
 
   # Games that were joined in on, but never actively participated in by this
   # User.
-  has_many :passive_participant_transactions,
+  has_many :passive_participant_transactions, # rubocop:disable Rails/HasManyOrHasOneDependent
            -> { is_passive },
            inverse_of: :user,
            class_name: "ParticipantTransaction"
@@ -47,7 +54,7 @@ class User < ApplicationRecord
            source: :game
 
   # Games that were actively participated in by this User.
-  has_many :active_participant_transactions,
+  has_many :active_participant_transactions, # rubocop:disable Rails/HasManyOrHasOneDependent
            -> { is_active },
            inverse_of: :user,
            class_name: "ParticipantTransaction"
@@ -56,20 +63,23 @@ class User < ApplicationRecord
            source: :game
 
   has_many :game_transactions, dependent: :nullify
-  has_many :game_create_transactions
-  has_many :game_start_transactions
-  has_many :game_end_transactions
+  has_many :game_create_transactions # rubocop:disable Rails/HasManyOrHasOneDependent
+  has_many :game_start_transactions # rubocop:disable Rails/HasManyOrHasOneDependent
+  has_many :game_end_transactions # rubocop:disable Rails/HasManyOrHasOneDependent
 
   has_many :cell_transactions, dependent: :nullify
-  has_many :cell_reveal_transactions
-  has_many :cell_chord_transactions
-  has_many :cell_flag_transactions
-  has_many :cell_unflag_transactions
+  has_many :cell_reveal_transactions # rubocop:disable Rails/HasManyOrHasOneDependent
+  has_many :cell_chord_transactions # rubocop:disable Rails/HasManyOrHasOneDependent
+  has_many :cell_flag_transactions # rubocop:disable Rails/HasManyOrHasOneDependent
+  has_many :cell_unflag_transactions # rubocop:disable Rails/HasManyOrHasOneDependent
 
   has_many :revealed_cells,
            -> { distinct },
            through: :cell_reveal_transactions,
            source: :cell
+
+  validates :username,
+            length: { maximum: USERNAME_MAX_LEGNTH }
 
   scope :is_dev, -> { where(dev: true) }
 
@@ -92,9 +102,6 @@ class User < ApplicationRecord
     joins(:actively_participated_in_games)
       .merge(ParticipantTransaction.by_started_actively_participating_at_asc)
   }
-
-  validates :username,
-            length: { maximum: USERNAME_MAX_LEGNTH }
 
   def token = id
   def identifier = username || internal_token
@@ -195,6 +202,7 @@ class User < ApplicationRecord
     include ConsoleObjectBehaviors
 
     TRUNCATED_TOKENS_REGEX = /\A\d{#{TRUNCATED_TOKENS_LENGTH}}\z/
+    private_constant :TRUNCATED_TOKENS_REGEX
 
     scope :for_mms_id, ->(mms_id) {
       mms_id = mms_id.to_s.delete_prefix("#{DESIGNATION}-")

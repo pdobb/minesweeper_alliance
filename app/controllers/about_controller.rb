@@ -3,6 +3,5 @@
 class AboutController < ApplicationController
   after_action RecordVisit
 
-  def show
-  end
+  def show; end
 end

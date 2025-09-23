@@ -4,6 +4,7 @@ require "test_helper"
 
 class Game::Board::RevealTest < ActiveSupport::TestCase
   CurrentContextDouble = Class.new(Struct.new(:game, :board, :cell, :user))
+  private_constant :CurrentContextDouble
 
   let(:context1) {
     CurrentContextDouble.new(
@@ -45,15 +46,15 @@ class Game::Board::RevealTest < ActiveSupport::TestCase
         result =
           _(-> { subject.call }).must_change_all([
             ["standing_by1.started_at"],
-            ["standing_by1.status", to: Game.status_sweep_in_progress],
-            ["standing_by1_board_cell1.revealed", to: true],
+            ["standing_by1.status", { to: Game.status_sweep_in_progress }],
+            ["standing_by1_board_cell1.revealed", { to: true }],
             [
               -> {
                 CellRevealTransaction.exists_between?(
                   user: user2, cell: standing_by1_board_cell1,
                 )
               },
-              to: true,
+              { to: true },
             ],
             [
               -> {
@@ -62,7 +63,7 @@ class Game::Board::RevealTest < ActiveSupport::TestCase
                 )
                   .active?
               },
-              to: true,
+              { to: true },
             ],
           ])
 

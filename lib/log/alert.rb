@@ -15,6 +15,7 @@
 #   # => nil
 class Log::Alert
   BELL_EMOJI = "🔔"
+  private_constant :BELL_EMOJI
 
   def self.call(...) = new(...).call
 

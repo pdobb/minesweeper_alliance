@@ -60,11 +60,12 @@
 #   `game.active_participant_transactions.count`. Maintained by
 #   {ParticipantTransaction.create_active_between} and
 #   {ParticipantTransaction.activate_between}.
-class Game < ApplicationRecord
+class Game < ApplicationRecord # rubocop:todo Metrics/ClassLength
   self.inheritance_column = nil
   self.implicit_order_column = "created_at"
 
   RECENTLY_ENDED_DURATION = 3.minutes
+  public_constant :RECENTLY_ENDED_DURATION
 
   ALL_TYPES = [
     BEGINNER_TYPE = "Beginner",
@@ -73,8 +74,10 @@ class Game < ApplicationRecord
     CUSTOM_TYPE = "Custom",
     PATTERN_TYPE = "Pattern",
   ].freeze
+  public_constant :ALL_TYPES
 
   MAX_SCORE = 999
+  public_constant :MAX_SCORE
 
   include ConsoleBehaviors
   include Statusable::HasStatuses
@@ -82,7 +85,7 @@ class Game < ApplicationRecord
   has_one :board, dependent: :delete, class_name: "::Board"
   validates_associated :board, on: :create
 
-  has_many :cells, through: :board
+  has_many :cells, through: :board # rubocop:disable Layout/ClassStructure
 
   # Users that joined in on this Game--in any fashion.
   # (Whether or not they were active participants in this Game).
@@ -90,7 +93,7 @@ class Game < ApplicationRecord
   has_many :users, through: :participant_transactions
 
   # Users that joined in on, but never actively participated in this Game.
-  has_many :passive_participant_transactions,
+  has_many :passive_participant_transactions, # rubocop:disable Rails/HasManyOrHasOneDependent
            -> { is_passive },
            inverse_of: :game,
            class_name: "ParticipantTransaction"
@@ -99,7 +102,7 @@ class Game < ApplicationRecord
            source: :user
 
   # Users that actively participated in this Game.
-  has_many :active_participant_transactions,
+  has_many :active_participant_transactions, # rubocop:disable Rails/HasManyOrHasOneDependent
            -> { is_active },
            inverse_of: :game,
            class_name: "ParticipantTransaction"
@@ -108,9 +111,9 @@ class Game < ApplicationRecord
            source: :user
 
   has_many :game_transactions, dependent: :delete_all
-  has_one :game_create_transaction
-  has_one :game_start_transaction
-  has_one :game_end_transaction
+  has_one :game_create_transaction # rubocop:disable Rails/HasManyOrHasOneDependent
+  has_one :game_start_transaction # rubocop:disable Rails/HasManyOrHasOneDependent
+  has_one :game_end_transaction # rubocop:disable Rails/HasManyOrHasOneDependent
 
   has_many :cell_transactions, through: :cells
   has_many :cell_reveal_transactions, through: :cells
@@ -124,6 +127,8 @@ class Game < ApplicationRecord
     "Alliance Wins",
     "Mines Win",
   ])
+
+  validates :type, presence: true
 
   scope :is_spam, -> { where(spam: true) }
   scope :is_not_spam, -> { where(spam: false) }
@@ -188,8 +193,6 @@ class Game < ApplicationRecord
   scope :by_efficiency_desc, -> {
     where.not(efficiency: nil).order(efficiency: :desc)
   }
-
-  validates :type, presence: true
 
   def self.display_id_width
     @display_id_width ||= [largest_id.digits.size, 4].max
@@ -280,7 +283,7 @@ class Game < ApplicationRecord
     include ConsoleObjectBehaviors
 
     def render
-      puts(inspect)
+      puts(inspect) # rubocop:disable Rails/Output
       board.render
     end
 

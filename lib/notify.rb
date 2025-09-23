@@ -103,13 +103,13 @@ class Notify
     class Honeybadger
       def self.call(...) = new(...).call
 
+      def self.available?
+        defined?(::Honeybadger)
+      end
+
       def initialize(exception, context:)
         @exception = exception
         @service_options = { context: }
-      end
-
-      def self.available?
-        defined?(::Honeybadger)
       end
 
       def call

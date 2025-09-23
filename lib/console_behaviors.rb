@@ -66,5 +66,5 @@ module ConsoleBehaviors
     end
   end
 
-  alias_method :cons, :console
+  alias cons console
 end

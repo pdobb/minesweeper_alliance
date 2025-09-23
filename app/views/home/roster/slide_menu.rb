@@ -3,6 +3,7 @@
 # Home::Roster::SlideMenu represents the War Room Roster slide menu.
 class Home::Roster::SlideMenu
   COOKIE = "war_room-roster"
+  public_constant :COOKIE
 
   def self.css
     # rubocop:disable Layout/MultilineArrayLineBreaks

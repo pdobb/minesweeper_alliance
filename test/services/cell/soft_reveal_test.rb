@@ -30,9 +30,9 @@ class Cell::SoftRevealTest < ActiveSupport::TestCase
           _(-> {
             _(-> { subject.call(cell1) }).wont_change("cell1.updated_at")
           }).must_change_all([
-            ["cell1.revealed", from: false, to: true],
-            ["cell1.highlighted", from: true, to: false],
-            ["cell1.value", from: nil, to: 0],
+            ["cell1.revealed", { from: false, to: true }],
+            ["cell1.highlighted", { from: true, to: false }],
+            ["cell1.value", { from: nil, to: 0 }],
           ])
 
         _(result).must_be_same_as(cell1)
@@ -49,9 +49,9 @@ class Cell::SoftRevealTest < ActiveSupport::TestCase
           _(-> {
             _(-> { subject.call(cell1) }).wont_change("cell1.updated_at")
           }).must_change_all([
-            ["cell1.revealed", from: false, to: true],
-            ["cell1.flagged", from: true, to: false],
-            ["cell1.value", from: nil, to: 0],
+            ["cell1.revealed", { from: false, to: true }],
+            ["cell1.flagged", { from: true, to: false }],
+            ["cell1.value", { from: nil, to: 0 }],
           ])
 
         _(result).must_be_same_as(cell1)
@@ -70,8 +70,8 @@ class Cell::SoftRevealTest < ActiveSupport::TestCase
           _(-> {
             _(-> { subject.call(cell1) }).wont_change("cell1.updated_at")
           }).must_change_all([
-            ["cell1.revealed", from: false, to: true],
-            ["cell1.value", from: nil, to: 1],
+            ["cell1.revealed", { from: false, to: true }],
+            ["cell1.value", { from: nil, to: 1 }],
           ])
 
         _(result).must_be_same_as(cell1)

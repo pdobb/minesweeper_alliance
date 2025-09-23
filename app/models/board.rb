@@ -95,7 +95,7 @@ class Board < ApplicationRecord
     def grid = super.console
 
     def render
-      puts(inspect)
+      puts(inspect) # rubocop:disable Rails/Output
       grid.render
     end
 

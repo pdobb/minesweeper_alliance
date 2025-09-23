@@ -8,6 +8,7 @@ module Game::Type
     Game::INTERMEDIATE_TYPE,
     Game::EXPERT_TYPE,
   ].freeze
+  public_constant :BESTABLE_TYPES
 
   def self.validate_bestable(type)
     return if bestable?(type)

@@ -73,6 +73,7 @@ class Game::Current::Create
   # "Current {Game}" is created. Accepts/calls a block for any one-off tasks.
   class AfterCreate
     TURBO_STREAM_DISCONNECT_AFFORDANCE_IN_SECONDS = 0.25.seconds
+    private_constant :TURBO_STREAM_DISCONNECT_AFFORDANCE_IN_SECONDS
 
     def self.call(...) = new(...).call
 

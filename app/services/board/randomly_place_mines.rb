@@ -6,6 +6,7 @@ class Board::RandomlyPlaceMines
   # Board::RandomlyPlaceMines::Error represents any StandardError related to
   # Board::RandomlyPlaceMines processing.
   Error = Class.new(StandardError)
+  public_constant :Error
 
   def self.call(...) = new(...).call
 

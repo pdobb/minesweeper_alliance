@@ -32,10 +32,10 @@ class Game::EndInDefeatTest < ActiveSupport::TestCase
 
       it "doesn't set Game stats" do
         _(-> { subject.call(game: game1, user: user1) }).wont_change_all([
-          ["game1.score", from: nil],
-          ["game1.bbbv", from: nil],
-          ["game1.bbbvps", from: nil],
-          ["game1.efficiency", from: nil],
+          ["game1.score", { from: nil }],
+          ["game1.bbbv", { from: nil }],
+          ["game1.bbbvps", { from: nil }],
+          ["game1.efficiency", { from: nil }],
         ])
       end
     end

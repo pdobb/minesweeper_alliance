@@ -12,6 +12,5 @@ class UIPortal::UnsupportedBrowserTestController < UIPortal::BaseController
     block: -> { redirect_to(unsupported_browser_path) },
   )
 
-  def show
-  end
+  def show; end
 end

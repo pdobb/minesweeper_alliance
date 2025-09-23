@@ -9,7 +9,10 @@ class Games::Past::Board::Cell
     shadow-inner shadow-gray-600 dark:shadow-neutral-800
   ].freeze
   # rubocop:enable Layout/MultilineArrayLineBreaks
+  private_constant :BG_ERROR_COLOR
+
   DIMMED_TEXT_COLOR = %w[text-dim-lg].freeze
+  private_constant :DIMMED_TEXT_COLOR
 
   include Games::Board::CellBehaviors
 

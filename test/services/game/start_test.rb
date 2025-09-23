@@ -28,8 +28,10 @@ class Game::StartTest < ActiveSupport::TestCase
             ["game1.started_at"],
             [
               "game1.status",
-              from: Game.status_standing_by,
-              to: Game.status_sweep_in_progress,
+              {
+                from: Game.status_standing_by,
+                to: Game.status_sweep_in_progress,
+              },
             ],
           ])
 

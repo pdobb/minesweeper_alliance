@@ -13,6 +13,7 @@
 class Games::Current::Board::Cells::DispatchEffect
   # Games::Current::Board::Cells::DispatchEffect::GameOverError
   GameOverError = Class.new(StandardError)
+  public_constant :GameOverError
 
   def initialize(context:)
     @context = context

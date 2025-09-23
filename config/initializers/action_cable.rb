@@ -7,7 +7,7 @@
 # - https://github.com/faye/permessage-deflate-ruby
 # - https://sapandiwakar.in/compressing-websocket-actioncable-frames-on-rails-with-permessage-deflate/
 class ActionCable::Connection::ClientSocket
-  alias_method :old_initialize, :initialize
+  alias old_initialize initialize
 
   def initialize(...)
     old_initialize(...)

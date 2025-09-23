@@ -47,6 +47,8 @@ class ParticipantTransaction < ApplicationRecord
   belongs_to :user
   belongs_to :game
 
+  validates :user, uniqueness: { scope: :game }
+
   scope :for_user, ->(user) { where(user:) }
   scope :for_game, ->(game) { where(game:) }
 
@@ -56,8 +58,6 @@ class ParticipantTransaction < ApplicationRecord
   scope :by_started_actively_participating_at_asc, -> {
     order(:started_actively_participating_at)
   }
-
-  validates :user, uniqueness: { scope: :game }
 
   def self.create_between(user:, game:)
     # We rely on our uniqueness validation to fail (without raising) if the

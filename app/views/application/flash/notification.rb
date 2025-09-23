@@ -6,6 +6,7 @@
 # Flash notifications can be simple (just a String) or complex (a Hash).
 class Application::Flash::Notification
   DEFAULT_TIMEOUT_IN_SECONDS = 10.seconds
+  private_constant :DEFAULT_TIMEOUT_IN_SECONDS
 
   attr_reader :type,
               :content,

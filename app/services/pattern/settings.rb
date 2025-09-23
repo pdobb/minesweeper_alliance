@@ -7,6 +7,7 @@ class Pattern::Settings
     width: Board::Settings::RANGES.fetch(:width),
     height: Board::Settings::RANGES.fetch(:height),
   }.freeze
+  public_constant :RANGES
 
   include ActiveModel::Model
   include ActiveModel::Attributes

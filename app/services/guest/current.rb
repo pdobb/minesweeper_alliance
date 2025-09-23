@@ -7,7 +7,10 @@
 # @see Guest
 class Guest::Current
   COOKIE = "guest_token"
+  public_constant :COOKIE
+
   COOKIE_EXPIRATION_PERIOD = 2.weeks
+  public_constant :COOKIE_EXPIRATION_PERIOD
 
   def self.call(...) = new(...).call
 

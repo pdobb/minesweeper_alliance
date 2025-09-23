@@ -5,6 +5,7 @@
 # broadcast event--even given multiple `update`s to perform.
 class User::Update::Broadcast
   STREAM_NAME = Application::Layout.turbo_stream_name
+  public_constant :STREAM_NAME
 
   def self.call(...) = new(...).call
 

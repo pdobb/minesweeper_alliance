@@ -13,6 +13,7 @@
 #   Duration.new(123459.seconds.ago..123458.seconds.ago).to_s # => "1s"
 class Duration
   UNITS_ORDER = %i[years months weeks days hours minutes seconds].freeze
+  private_constant :UNITS_ORDER
 
   attr_reader :start_time,
               :end_time

@@ -32,10 +32,10 @@ class Game::EndInVictoryTest < ActiveSupport::TestCase
 
       it "sets Game stats" do
         _(-> { subject.call(game: game1, user: user1) }).must_change_all([
-          ["game1.score", from: nil],
-          ["game1.bbbv", from: nil],
-          ["game1.bbbvps", from: nil],
-          ["game1.efficiency", from: nil],
+          ["game1.score", { from: nil }],
+          ["game1.bbbv", { from: nil }],
+          ["game1.bbbvps", { from: nil }],
+          ["game1.efficiency", { from: nil }],
         ])
       end
     end

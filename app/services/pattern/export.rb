@@ -5,8 +5,13 @@ require "csv"
 # Pattern::Export is a Service Object for exporting {Pattern}s to CSV.
 class Pattern::Export
   NAME_KEY = "Name"
+  public_constant :NAME_KEY
+
   DIMENSIONS_KEY = "Dimensions"
+  public_constant :DIMENSIONS_KEY
+
   META_DATA_LINES_COUNT = 2
+  public_constant :META_DATA_LINES_COUNT
 
   attr_reader :pattern,
               :path

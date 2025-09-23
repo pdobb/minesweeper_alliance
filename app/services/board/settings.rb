@@ -10,8 +10,7 @@ class Board::Settings
     Game::EXPERT_TYPE       => { width: 30, height: 16, mines: 99 }, # 20.6% mine density
   }.freeze
   # rubocop:enable Layout/HashAlignment, Layout/LineLength
-
-  PERCENT_CHANCE_FOR_RANDOM_PATTERN = 10
+  public_constant :PRESETS
 
   RANGES = {
     width: 6..30,
@@ -19,6 +18,10 @@ class Board::Settings
     mines: 4..299,
     mine_density: 1/10r..1/3r,
   }.freeze
+  public_constant :RANGES
+
+  PERCENT_CHANCE_FOR_RANDOM_PATTERN = 10
+  private_constant :PERCENT_CHANCE_FOR_RANDOM_PATTERN
 
   include ActiveModel::Model
   include ActiveModel::Attributes

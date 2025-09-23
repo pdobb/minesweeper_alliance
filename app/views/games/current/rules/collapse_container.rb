@@ -3,6 +3,7 @@
 # Games::Current::Rules::CollapseContainer
 class Games::Current::Rules::CollapseContainer
   COOKIE = "rules"
+  public_constant :COOKIE
 
   def initialize(context:)
     @context = context

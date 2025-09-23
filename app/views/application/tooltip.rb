@@ -11,6 +11,7 @@ class Application::Tooltip
     CLICK_TYPE = :click,
     HOVER_TYPE = :hover,
   ].freeze
+  private_constant :TYPE_OPTIONS
 
   PLACEMENT_OPTIONS = %i[
     top
@@ -26,8 +27,10 @@ class Application::Tooltip
     left-start
     left-end
   ].freeze
+  private_constant :PLACEMENT_OPTIONS
 
   DEFAULT_SCOPE = "tooltips"
+  private_constant :DEFAULT_SCOPE
 
   attr_reader :anchor,
               :content,

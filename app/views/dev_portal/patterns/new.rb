@@ -29,6 +29,7 @@ class DevPortal::Patterns::New
   # DevPortal::Patterns::New::SettingsForm
   class SettingsForm
     COOKIE = :pattern_settings
+    public_constant :COOKIE
 
     def initialize(pattern_settings, context:)
       @pattern_settings = pattern_settings

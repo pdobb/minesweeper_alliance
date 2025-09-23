@@ -8,6 +8,7 @@ module Games::Past::PerformanceMetrics::Behaviors
   extend ActiveSupport::Concern
 
   BEST_CONTAINER_CSS = "text-yellow-400 dark:text-yellow-300"
+  private_constant :BEST_CONTAINER_CSS
 
   attr_reader :value
 

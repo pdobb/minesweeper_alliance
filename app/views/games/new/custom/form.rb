@@ -3,6 +3,7 @@
 # Games::New::Custom::Form represents the "New Custom Game" form.
 class Games::New::Custom::Form
   COOKIE = :board_settings
+  public_constant :COOKIE
 
   def initialize(settings:, context:)
     @settings = settings

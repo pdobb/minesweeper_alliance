@@ -65,4 +65,5 @@ class Game::FactoryTest < ActiveSupport::TestCase
   end
 
   ErrorDouble = Class.new(StandardError)
+  private_constant :ErrorDouble
 end

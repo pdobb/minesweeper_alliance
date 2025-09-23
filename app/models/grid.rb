@@ -81,7 +81,7 @@ class Grid
     #   1 => ◻️ (0, 1) ◻️ (1, 1) ◻️ (2, 1)
     #   2 => ◻️ (0, 2) ◻️ (1, 2) ◻️ (2, 2)
     def render
-      to_h.each do |y, row|
+      to_h.each do |y, row| # rubocop:disable Naming/BlockParameterName
         render_row(y:, row:)
       end
 
@@ -91,6 +91,7 @@ class Grid
     private
 
     def render_row(y:, row:)
+      # rubocop:disable Rails/Output
       print("#{pad(y)}: ")
 
       row.each do |cell|
@@ -98,6 +99,7 @@ class Grid
       end
 
       print("\n")
+      # rubocop:enable Rails/Output
     end
 
     def pad(value)

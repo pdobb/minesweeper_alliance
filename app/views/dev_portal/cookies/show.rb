@@ -3,6 +3,7 @@
 # DevPortal::Cookies::Show represents ...
 class DevPortal::Cookies::Show
   TRUNCATE_SECRET_KEY_BASE_AT = 10
+  private_constant :TRUNCATE_SECRET_KEY_BASE_AT
 
   def initialize(context:)
     @cookies = context.__send__(:cookies)

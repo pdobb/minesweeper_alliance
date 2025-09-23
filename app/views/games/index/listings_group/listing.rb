@@ -8,6 +8,7 @@
 # previous/next {Game}s within the same, filtered context.
 class Games::Index::ListingsGroup::Listing
   SCORE_FORMAT = "%03d"
+  private_constant :SCORE_FORMAT
 
   include WrapMethodBehaviors
 

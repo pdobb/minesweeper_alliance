@@ -123,8 +123,8 @@ class GameTest < ActiveSupport::TestCase
 
     it "updates #ended_at" do
       _(-> { subject.update_ended_at(time: now) }).must_change_all([
-        ["subject.ended_at", from: nil, to: now],
-        ["subject.just_ended?", from: false, to: true],
+        ["subject.ended_at", { from: nil, to: now }],
+        ["subject.just_ended?", { from: false, to: true }],
       ])
     end
   end

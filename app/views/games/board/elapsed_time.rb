@@ -4,6 +4,7 @@
 # displaying elapsed time details for current/just-ended/past {Game}s.
 class Games::Board::ElapsedTime
   MAX_TIME_STRING = "23:59:59+"
+  private_constant :MAX_TIME_STRING
 
   def self.turbo_target = "elapsedTime"
 

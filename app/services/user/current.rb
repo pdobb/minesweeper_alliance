@@ -4,4 +4,5 @@
 # {User::Current::Create}.
 module User::Current
   COOKIE = "user_token"
+  public_constant :COOKIE
 end

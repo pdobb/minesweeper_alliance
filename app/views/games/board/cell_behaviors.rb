@@ -6,6 +6,7 @@ module Games::Board::CellBehaviors
   extend ActiveSupport::Concern
 
   BG_UNREVEALED_CELL_COLOR = "bg-slate-400 dark:bg-neutral-700"
+  private_constant :BG_UNREVEALED_CELL_COLOR
 
   include WrapMethodBehaviors
 

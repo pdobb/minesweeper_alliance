@@ -4,6 +4,7 @@
 # current {Game}.
 class Games::Current::Board::Content
   NULL_CELL_ID = 0
+  private_constant :NULL_CELL_ID
 
   def self.turbo_target = "gameBoard"
 

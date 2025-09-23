@@ -9,6 +9,7 @@
 # returned as well. They should be ignored.
 class ElapsedTime
   SECONDS_PER_DAY = 1.day.to_i
+  private_constant :SECONDS_PER_DAY
 
   attr_reader :start_time,
               :end_time
@@ -48,7 +49,10 @@ class ElapsedTime
   # minutes, and seconds Array.
   class Parse
     SECONDS_PER_HOUR = 1.hour.to_i
+    private_constant :SECONDS_PER_HOUR
+
     SECONDS_PER_MINUTE = 1.minute.to_i
+    private_constant :SECONDS_PER_MINUTE
 
     attr_reader :total_seconds
 

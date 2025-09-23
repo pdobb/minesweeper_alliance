@@ -50,6 +50,7 @@ class Coordinates < Data.define(:x, :y) # rubocop:disable Style/DataInheritance
   # Console-specific methods/logic.
   class Console
     BEGINNER_DIFFICULTY_LEVEL_CELLS_COUNT = 81
+    private_constant :BEGINNER_DIFFICULTY_LEVEL_CELLS_COUNT
 
     include ConsoleObjectBehaviors
 

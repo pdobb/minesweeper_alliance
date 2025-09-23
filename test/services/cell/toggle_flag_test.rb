@@ -28,7 +28,7 @@ class Cell::ToggleFlagTest < ActiveSupport::TestCase
           _(-> {
             subject.call(cell1)
           }).must_change_all([
-            ["cell1.flagged", to: true],
+            ["cell1.flagged", { to: true }],
             ["cell1.updated_at"],
           ])
 
@@ -43,8 +43,8 @@ class Cell::ToggleFlagTest < ActiveSupport::TestCase
         it "sets the expected attributes" do
           result =
             _(-> { subject.call(cell1) }).must_change_all([
-              ["cell1.flagged", to: true],
-              ["cell1.highlighted", to: false],
+              ["cell1.flagged", { to: true }],
+              ["cell1.highlighted", { to: false }],
               ["cell1.updated_at"],
             ])
 
@@ -63,7 +63,7 @@ class Cell::ToggleFlagTest < ActiveSupport::TestCase
           _(-> {
             subject.call(cell1)
           }).must_change_all([
-            ["cell1.flagged", to: false],
+            ["cell1.flagged", { to: false }],
             ["cell1.updated_at"],
           ])
 
@@ -82,7 +82,7 @@ class Cell::ToggleFlagTest < ActiveSupport::TestCase
             _(-> {
               _(-> { subject.call(cell1) }).wont_change("cell1.highlighted")
             }).must_change_all([
-              ["cell1.flagged", to: false],
+              ["cell1.flagged", { to: false }],
               ["cell1.updated_at"],
             ])
 

@@ -6,8 +6,10 @@ class Board::Generate
   # Board::Generate::Error represents any StandardError related to Board
   # generation.
   Error = Class.new(StandardError)
+  public_constant :Error
 
   ONE_MICROSECOND = 0.00001r
+  private_constant :ONE_MICROSECOND
 
   def self.call(...) = new(...).call
 

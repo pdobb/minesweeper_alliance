@@ -3,14 +3,8 @@
 require "test_helper"
 
 class ConfigurationBehaviorsTest < ActiveSupport::TestCase
-  class TestDouble
-    include ConfigurationBehaviors
-
-    Configuration = Class.new
-  end
-
   describe ".configure" do
-    subject { TestDouble }
+    subject { ConfigurableTestDouble }
 
     it "yields the expected Configuration object to the block" do
       subject.configure do |config|
@@ -24,7 +18,7 @@ class ConfigurationBehaviorsTest < ActiveSupport::TestCase
   end
 
   describe ".configuration" do
-    subject { TestDouble }
+    subject { ConfigurableTestDouble }
 
     it "returns the expected object type" do
       _(subject.configuration).must_be_instance_of(subject::Configuration)
@@ -35,5 +29,12 @@ class ConfigurationBehaviorsTest < ActiveSupport::TestCase
         subject.configuration.object_id,
       )
     end
+  end
+
+  class ConfigurableTestDouble
+    Configuration = Class.new
+    public_constant :Configuration
+
+    include ConfigurationBehaviors
   end
 end

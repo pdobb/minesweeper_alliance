@@ -72,8 +72,6 @@ class Log::Exception
   # cleaned-up backtrace--via the passed-in `backtrace_cleaner` (default:
   # Rails.backtrace_cleaner).
   class Detail
-    SEPARATOR = "\n - "
-
     def self.call(...) = new(...).call
 
     def initialize(exception, backtrace_cleaner:)
@@ -81,11 +79,11 @@ class Log::Exception
       @backtrace_cleaner = backtrace_cleaner
     end
 
-    def call
+    def call(separator: "\n - ")
       [
         detailed_message,
         *backtrace,
-      ].join(SEPARATOR)
+      ].join(separator)
     end
 
     private

@@ -26,6 +26,7 @@ class Cell < ApplicationRecord
   self.implicit_order_column = "created_at"
 
   VALUES_RANGE = 0..8
+  public_constant :VALUES_RANGE
 
   include ConsoleBehaviors
 
@@ -33,25 +34,25 @@ class Cell < ApplicationRecord
   has_one :game, through: :board
 
   has_many :cell_transactions, dependent: :delete_all
-  has_one :cell_reveal_transaction
-  has_one :cell_chord_transaction
-  has_many :cell_flag_transactions
-  has_many :cell_unflag_transactions
-
-  attribute :coordinates, CoordinatesType.new
-  def x = coordinates.x
-  def y = coordinates.y
-
-  scope :for_game, ->(game) { joins(:game).merge(Game.for_id(game)) }
-
-  scope :is_mine, -> { where(mine: true) }
-  scope :is_not_mine, -> { where(mine: false) }
+  has_one :cell_reveal_transaction # rubocop:disable Rails/HasManyOrHasOneDependent
+  has_one :cell_chord_transaction # rubocop:disable Rails/HasManyOrHasOneDependent
+  has_many :cell_flag_transactions # rubocop:disable Rails/HasManyOrHasOneDependent
+  has_many :cell_unflag_transactions # rubocop:disable Rails/HasManyOrHasOneDependent
 
   validates :coordinates,
             presence: true,
             uniqueness: { scope: :board_id }
   validates :value,
             numericality: { integer: true, in: VALUES_RANGE, allow_blank: true }
+
+  scope :for_game, ->(game) { joins(:game).merge(Game.for_id(game)) }
+
+  scope :is_mine, -> { where(mine: true) }
+  scope :is_not_mine, -> { where(mine: false) }
+
+  attribute :coordinates, CoordinatesType.new
+  def x = coordinates.x
+  def y = coordinates.y
 
   def upsertable_attributes
     attributes.except("updated_at")

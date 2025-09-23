@@ -28,9 +28,9 @@ class Cell::RevealTest < ActiveSupport::TestCase
       it "sets the expected attributes" do
         result =
           _(-> { subject.call(cell1) }).must_change_all([
-            ["cell1.revealed", from: false, to: true],
-            ["cell1.highlighted", from: true, to: false],
-            ["cell1.value", from: nil, to: 0],
+            ["cell1.revealed", { from: false, to: true }],
+            ["cell1.highlighted", { from: true, to: false }],
+            ["cell1.value", { from: nil, to: 0 }],
             ["cell1.updated_at"],
           ])
 
@@ -46,9 +46,9 @@ class Cell::RevealTest < ActiveSupport::TestCase
       it "sets the expected attributes" do
         result =
           _(-> { subject.call(cell1) }).must_change_all([
-            ["cell1.revealed", from: false, to: true],
-            ["cell1.flagged", from: true, to: false],
-            ["cell1.value", from: nil, to: 0],
+            ["cell1.revealed", { from: false, to: true }],
+            ["cell1.flagged", { from: true, to: false }],
+            ["cell1.value", { from: nil, to: 0 }],
             ["cell1.updated_at"],
           ])
 
@@ -66,8 +66,8 @@ class Cell::RevealTest < ActiveSupport::TestCase
       it "sets the expected attributes" do
         result =
           _(-> { subject.call(cell1) }).must_change_all([
-            ["cell1.revealed", from: false, to: true],
-            ["cell1.value", from: nil, to: 1],
+            ["cell1.revealed", { from: false, to: true }],
+            ["cell1.value", { from: nil, to: 1 }],
             ["cell1.updated_at"],
           ])
 

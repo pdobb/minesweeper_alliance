@@ -8,6 +8,7 @@
 # filtered by {Game#type} using `params[:type]` (via the passed-in `context`).
 class Games::Index::ListingsGroupsBuilder
   PER_PAGE = 10
+  private_constant :PER_PAGE
 
   def initialize(base_arel:, context:)
     @base_arel = base_arel

@@ -35,11 +35,10 @@ class Cell::DehighlightNeighborhoodTest < ActiveSupport::TestCase
       it "dehighlights the expected Cells, and returns them" do
         result =
           _(-> { subject.call(cell1) }).must_change_all([
-            ["cell1.highlight_origin?", to: false],
+            ["cell1.highlight_origin?", { to: false }],
             [
               "Cell::Neighbors.new(cell: cell1).highlighted_count",
-              from: 3,
-              to: 0,
+              { from: 3, to: 0 },
             ],
           ])
 

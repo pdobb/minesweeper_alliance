@@ -11,7 +11,10 @@
 # @see Guest::Current
 class Guest
   DESIGNATION = "GMS" # Guest MineSweeper
+  public_constant :DESIGNATION
+
   TOKEN_SENTINEL = "G"
+  public_constant :TOKEN_SENTINEL
 
   extend ActiveModel::Naming
 

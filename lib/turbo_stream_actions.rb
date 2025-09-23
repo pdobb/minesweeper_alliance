@@ -17,9 +17,11 @@
 class TurboStreamActions
   # TurboStreamActions::Response collects response actions into a {FlatArray}.
   Response = Class.new(FlatArray)
+  private_constant :Response
 
   # TurboStreamActions::Broadcast collects broadcast actions into a {FlatArray}.
   Broadcast = Class.new(FlatArray)
+  private_constant :Broadcast
 
   def initialize
     @hash = {

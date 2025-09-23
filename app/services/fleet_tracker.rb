@@ -42,8 +42,11 @@
 # @see https://api.rubyonrails.org/classes/ActiveSupport/Cache/MemoryStore.html
 module FleetTracker
   EXPIRATION_SECONDS = 2.seconds
+  private_constant :EXPIRATION_SECONDS
+
   # Meant to be similar to Game::RECENTLY_ENDED_DURATION
   DEEP_EXPIRATION_MINUTES = 3.minutes
+  public_constant :DEEP_EXPIRATION_MINUTES
 
   def self.to_a = registry.to_a
   def self.entries = registry.entries
@@ -145,6 +148,7 @@ module FleetTracker
   # FleetTracker::Registry is a collection of {FleetTracker::Registry::Entry}s.
   class Registry
     CACHE_KEY = :fleet_tracker
+    private_constant :CACHE_KEY
 
     attr_reader :entries
 

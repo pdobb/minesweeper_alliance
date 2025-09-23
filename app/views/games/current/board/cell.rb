@@ -3,9 +3,16 @@
 # Games::Current::Board::Cell represents {Cell}s for the current {Game}.
 class Games::Current::Board::Cell
   HIGHLIGHT_ORIGIN_COLOR = "text-blue-500"
+  private_constant :HIGHLIGHT_ORIGIN_COLOR
+
   BG_HIGHLIGHTED_COLOR = %w[bg-slate-300 dark:bg-neutral-500].freeze
+  private_constant :BG_HIGHLIGHTED_COLOR
+
   HIGHLIGHTED_ANIMATION = "animate-pulse-fast"
+  private_constant :HIGHLIGHTED_ANIMATION
+
   BG_UNREVEALED_MINE_COLOR = %w[bg-slate-500 dark:bg-neutral-900].freeze
+  private_constant :BG_UNREVEALED_MINE_COLOR
 
   include Games::Board::CellBehaviors
 

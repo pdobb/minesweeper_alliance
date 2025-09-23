@@ -3,6 +3,7 @@
 # Cell::State provides services related to the various {Cell} states.
 module Cell::State
   BLANK_VALUE = 0
+  private_constant :BLANK_VALUE
 
   def self.unrevealed?(cell) = !cell.revealed?
   def self.revealable?(cell) = !(cell.revealed? || cell.flagged?)

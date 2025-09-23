@@ -19,10 +19,10 @@ class GameTransaction < ApplicationRecord
   belongs_to :user
   belongs_to :game
 
+  validates :game, uniqueness: { scope: :type }
+
   scope :for_user, ->(user) { where(user:) }
   scope :for_game, ->(game) { where(game:) }
-
-  validates :game, uniqueness: { scope: :type }
 
   # :reek:UnusedParameters
   def self.create_between(user:, game:)

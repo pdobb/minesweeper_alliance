@@ -4,6 +4,7 @@
 # {Game}s, as a partial for reuse.
 class Games::New::Container
   TITLE_CACHE_EXPIRES_DURATION = 30.seconds
+  private_constant :TITLE_CACHE_EXPIRES_DURATION
 
   def partial_path
     "games/new/container"

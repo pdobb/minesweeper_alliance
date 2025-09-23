@@ -11,6 +11,7 @@
 # what we can rely on. See: {FleetTracker}.
 class WarRoomChannel < Turbo::StreamsChannel
   STREAM_NAME = "war_room"
+  public_constant :STREAM_NAME
 
   def self.broadcast_refresh = broadcast_refresh_to(STREAM_NAME)
 
