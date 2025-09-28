@@ -2,6 +2,15 @@
 
 # Duration is a utility class for supplying a full breakout of the total time
 # between a given start and end time.
+#
+# @example Relative to "now"
+#   Duration.new.to_s # => "0s"
+#   Duration.new(199.seconds.ago..).to_s # => "3m 19s"
+#   Duration.new(12349.seconds.ago..).to_s # => "3h 25m 49s"
+#   Duration.new(123459.seconds.ago..).to_s # => "1d 10h 17m 39s"
+#
+# @example Relative to another Time
+#   Duration.new(123459.seconds.ago..123458.seconds.ago).to_s # => "1s"
 class Duration
   UNITS_ORDER = %i[years months weeks days hours minutes seconds].freeze
 
