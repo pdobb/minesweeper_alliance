@@ -29,7 +29,7 @@
 #   Notify.(ex, logger: MyLogger.new)
 class Notify
   include ConfigurationBehaviors
-  include ObjectInspector::InspectorsHelper
+  include ObjectInspector::InspectBehaviors
 
   def self.call(...) = new(...).call
 

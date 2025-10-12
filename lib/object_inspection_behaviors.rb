@@ -1,16 +1,9 @@
 # frozen_string_literal: true
 
 # ObjectInspectionBehaviors is an interface layer to the inspection helper in
-# the object_inspector gem. Using this approach, we are able to e.g.
-# conditionally enable object_inspector throughout the entire app.
+# the object_inspector gem + other object inspection related behaviors.
 module ObjectInspectionBehaviors
-  extend ActiveSupport::Concern
-
-  included do
-    alias_method :__inspect__, :inspect
-
-    include ObjectInspector::InspectorsHelper
-  end
+  include ObjectInspector::InspectBehaviors
 
   def introspect
     self
