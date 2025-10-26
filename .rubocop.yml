@@ -13,3 +13,15 @@ Naming/MethodParameterName:
     - "on"
     - "x"
     - "y"
+
+Style/EmptyClassDefinition:
+  # Prefer using single-line constant definition for StandardError classes
+  # (only). e.g.
+  #   class MyModel < ApplicationRecord; end # Good
+  #   MyModel = Class.new(ApplicationRecord) # Bad
+  #
+  #   Error = Class.new(StandardError)       # Good
+  #   class Error < StandardError; end       # Bad
+  EnforcedStyle: class_keyword
+  AllowedParentClasses:
+    - StandardError

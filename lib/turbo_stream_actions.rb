@@ -16,11 +16,11 @@
 #   turbo_stream_actions.broadcast << ...
 class TurboStreamActions
   # TurboStreamActions::Response collects response actions into a {FlatArray}.
-  Response = Class.new(FlatArray)
+  Response = Class.new(FlatArray) # rubocop:disable Style/EmptyClassDefinition
   private_constant :Response
 
   # TurboStreamActions::Broadcast collects broadcast actions into a {FlatArray}.
-  Broadcast = Class.new(FlatArray)
+  Broadcast = Class.new(FlatArray) # rubocop:disable Style/EmptyClassDefinition
   private_constant :Broadcast
 
   def initialize

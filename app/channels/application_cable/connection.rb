@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
-# ApplicationCable::Connection is the base connection for Turbo::Streams.
+# The top level ActionCable connection for this app. Supports User connections
+# TurboStreams, for example.
 class ApplicationCable::Connection < ActionCable::Connection::Base
   identified_by :current_user
 

@@ -292,7 +292,7 @@ class FleetTrackerTest < ActiveSupport::TestCase
       subject.expire!(user1_token)
 
       _(@query_spy.set_last_called_with.pargs).must_equal(
-        [wait: expiration_seconds],
+        [{ wait: expiration_seconds }],
       )
       _(@query_spy.perform_later_last_called_with.args).must_equal(
         [user1_token],

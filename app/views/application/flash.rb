@@ -4,8 +4,8 @@
 # to pull together an Array of {Application::Flash::Notification} objects--for
 # display in the view layout.
 #
-# Note: We only wrap up flash has types from {.notification_types}. This way, we
-# can still use Rails' flash hash for other things as well.
+# Note: We only wrap up flash hash types from {.notification_types}. This way,
+# we can still use Rails' flash hash for other things as well.
 class Application::Flash
   def self.notification_types
     @notification_types ||= %w[alert notice info warning].freeze
