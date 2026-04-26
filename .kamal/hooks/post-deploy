@@ -15,4 +15,36 @@ RAILS_MASTER_KEY=$(cat config/master.key)
 
 bundle exec honeybadger deploy --revision=$(git rev-parse HEAD) --repository=$(git config --get remote.origin.url) --environment=production
 
+################################################################################
+# Tag the deploy using format: `YYYY.MM.DD.##`
+
+TODAY=$(date +%Y.%m.%d)
+
+# Find the highest existing deploy number for today
+LAST_TAG=$(git tag --list "${TODAY}.*" --sort=version:refname | tail -n 1)
+
+if [ -z "$LAST_TAG" ]; then
+  NEXT_NUM=1
+else
+  LAST_NUM=$(echo "$LAST_TAG" | awk -F. '{print $NF}' | sed 's/^0*//')
+  NEXT_NUM=$((LAST_NUM + 1))
+fi
+
+# Format as two-digit number (01, 02, ..., 10, etc.)
+printf -v TAG_NUM "%02d" "$NEXT_NUM"
+TAG="${TODAY}.${TAG_NUM}"
+
+echo "→ Creating daily deploy tag: $TAG"
+
+git tag -a "$TAG" -m "Deploy #${TAG_NUM} on ${TODAY}
+Kamal Version: ${KAMAL_VERSION}
+Deployed by: ${KAMAL_PERFORMER}
+At: ${KAMAL_RECORDED_AT}
+Hosts: ${KAMAL_HOSTS}"
+
+git push origin "$TAG"
+
+echo "✓ Git tag $TAG created and pushed successfully."
+################################################################################
+
 echo "$KAMAL_PERFORMER deployed $KAMAL_VERSION to $KAMAL_DESTINATION in $KAMAL_RUNTIME seconds"

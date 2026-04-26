@@ -92,7 +92,7 @@ builder:
 # Use a different ssh user than root
 ssh:
   user: parallels
-  proxy: paul@Neptune-Jr.local
+  proxy: paul@neptunejr.dsp.local
 
 # Use accessory services (secrets come from .kamal/secrets).
 accessories:
