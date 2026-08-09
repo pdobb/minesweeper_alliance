@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# rubocop:disable Layout/LineLength
-
 # ValidationError facilitates retrieval of Rails' I18n-interpolated error
 # messages.
 #
@@ -45,5 +43,3 @@ module ValidationError
   end
   private_class_method :activerecord_lookup
 end
-
-# rubocop:enable Layout/LineLength

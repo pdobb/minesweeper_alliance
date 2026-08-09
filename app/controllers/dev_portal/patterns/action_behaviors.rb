@@ -5,7 +5,7 @@ module DevPortal::Patterns::ActionBehaviors
   private
 
   def pattern
-    @pattern ||= Pattern.find(params[:pattern_id])
+    @pattern ||= Pattern.find(params.expect(:pattern_id))
   end
 
   def render_updated_grid

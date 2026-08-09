@@ -3,13 +3,13 @@
 # Board::Settings stores the {#type}, {#width}, {#height}, and number of
 # {#mines} (to be) in the {Grid} of a {Board}'s associated {Cell}s.
 class Board::Settings
-  # rubocop:disable Layout/HashAlignment, Layout/LineLength
+  # rubocop:disable Layout/HashAlignment
   PRESETS = {
     Game::BEGINNER_TYPE     => { width: 9,  height: 9,  mines: 10 }, # 12.3% mine density
     Game::INTERMEDIATE_TYPE => { width: 16, height: 16, mines: 40 }, # 15.6% mine density
     Game::EXPERT_TYPE       => { width: 30, height: 16, mines: 99 }, # 20.6% mine density
   }.freeze
-  # rubocop:enable Layout/HashAlignment, Layout/LineLength
+  # rubocop:enable Layout/HashAlignment
   public_constant :PRESETS
 
   RANGES = {

@@ -144,7 +144,6 @@ class Game < ApplicationRecord # rubocop:todo Metrics/ClassLength
         -> { for_bests_of_type(INTERMEDIATE_TYPE) }
   scope :for_bests_of_type_expert, -> { for_bests_of_type(EXPERT_TYPE) }
   scope :for_bests_of_type, ->(type) {
-    # rubocop:disable Layout/LineLength
     subquery =
       select(
         "games.*",
@@ -154,7 +153,6 @@ class Game < ApplicationRecord # rubocop:todo Metrics/ClassLength
       )
         .where.not(score: nil).where.not(bbbvps: nil).where.not(efficiency: nil)
         .for_type(type)
-    # rubocop:enable Layout/LineLength
 
     from(subquery, :games)
       .where("rn_score = 1 OR rn_bbbvps = 1 OR rn_efficiency = 1")

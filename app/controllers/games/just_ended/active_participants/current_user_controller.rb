@@ -50,7 +50,7 @@ class Games::JustEnded::ActiveParticipants::CurrentUserController <
   attr_accessor :game
 
   def require_game
-    self.game = Game.find(params[:game_id])
+    self.game = Game.find(params.expect(:game_id))
   end
 
   def update_params

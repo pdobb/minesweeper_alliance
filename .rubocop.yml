@@ -14,6 +14,19 @@ Naming/MethodParameterName:
     - "x"
     - "y"
 
+Style/GuardClause:
+  # Guard clauses are great, but it's OK to use straight conditionals if they
+  # tell the story better.
+  Enabled: false
+
+Style/IfUnlessModifier:
+  # Still prefer the modifier form of conditionals in general, just don't
+  # require it in all cases. It can be hard to reliably spot a modifier at the
+  # end of a long line. And, unfortunately, this cop will always require the
+  # modifier form if the resulting line can fit within Layout/LineLength's "Max"
+  # setting.
+  Enabled: false
+
 Style/EmptyClassDefinition:
   # Prefer using single-line constant definition for StandardError classes
   # (only). e.g.

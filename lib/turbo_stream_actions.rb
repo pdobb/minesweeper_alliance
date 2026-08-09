@@ -60,7 +60,7 @@ class TurboStreamActions
 
     def describe_response_counts(separator: ", ")
       counts = [
-        if unique_responses_count.positive? # rubocop:disable Style/IfUnlessModifier
+        if unique_responses_count.positive?
           "#{unique_responses_count} uniq"
         end,
         if non_unique_responses_count.positive?
