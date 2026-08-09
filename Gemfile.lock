@@ -270,7 +270,7 @@ GEM
     nokogiri (1.19.4-x86_64-linux-gnu)
       racc (~> 1.4)
     object_identifier (0.11.0)
-    object_inspector (1.0.0)
+    object_inspector (1.2.0)
     ostruct (0.6.3)
     parallel (2.1.0)
     parser (3.3.12.0)
@@ -586,7 +586,7 @@ CHECKSUMS
   nokogiri (1.19.4-arm64-darwin) sha256=a46db9853286e6597b36ebc6953817d15acf3a299583eb3f89fdc6f91dd63527
   nokogiri (1.19.4-x86_64-linux-gnu) sha256=379fae440b28915e3f19d752ce2dcf8465ed2b2fbefd2a7ca0dd497bc981a06a
   object_identifier (0.11.0) sha256=5bd8a6e093c49b72e8c4d7f1f1a5c6ab4c2326eb11ec84b25e4d2e8a2bb04eed
-  object_inspector (1.0.0) sha256=fd55711fa6c1133549daf262886837b7ca4b0af39ec001bd0ba6806db205b4f3
+  object_inspector (1.2.0) sha256=9d00843a6db0c6d726296123b5c614b27b9f02a08fdd2cffd7732c2e35e0abff
   ostruct (0.6.3) sha256=95a2ed4a4bd1d190784e666b47b2d3f078e4a9efda2fccf18f84ddc6538ed912
   parallel (2.1.0) sha256=b35258865c2e31134c5ecb708beaaf6772adf9d5efae28e93e99260877b09356
   parser (3.3.12.0) sha256=21a6d7f755d5a24dfbdc6e6b772e4e879a52e7631a88bc5a3a134606052c9828

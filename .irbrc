@@ -41,3 +41,43 @@ def toggle_verbose_query_logs
   Say.("ActiveRecord::Base.verbose_query_logs = #{state}")
   nil
 end
+
+# OBJECT INSPECTOR GEM
+
+ObjectInspector.configure do |config|
+  config.enabled = true
+end
+
+def toggle_object_inspector = ObjectInspector.configuration.toggle
+alias oit toggle_object_inspector
+
+def get_object_inspector_current_scope # rubocop:disable Naming/AccessorMethodName
+  ObjectInspector.configuration.default_scope
+end
+alias oi get_object_inspector_current_scope
+
+# :self is the default inspection scope.
+def set_object_inspector_scope_self = set_object_inspector_scope(:self)
+alias ois set_object_inspector_scope_self
+
+def set_object_inspector_scope_complex = set_object_inspector_scope(:complex)
+alias oic set_object_inspector_scope_complex
+
+def set_object_inspector_scope_verbose = set_object_inspector_scope(:verbose)
+alias oiv set_object_inspector_scope_verbose
+
+# Set :all (wild-card) inspection scope.
+def set_object_inspector_scope_all = set_object_inspector_scope(:all)
+alias oia set_object_inspector_scope_all
+
+# Set a custom scope or set of scopes.
+#
+# @example
+#   set_object_inspector_scope(:my_custom_scope)
+#   set_object_inspector_scope(:complex, :verbose)
+#   set_object_inspector_scope(%i[complex verbose my_custom_scope])
+def set_object_inspector_scope(*names)
+  ObjectInspector.configuration.default_scope = *names
+  get_object_inspector_current_scope
+end
+alias oiset set_object_inspector_scope
