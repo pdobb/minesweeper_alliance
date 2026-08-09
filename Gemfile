@@ -43,6 +43,7 @@ gem "thruster", require: false
 # App Gems
 
 gem "csv"
+gem "dotenv"
 gem "honeybadger"
 gem "inline_svg"
 gem "meta-tags"

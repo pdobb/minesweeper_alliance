@@ -468,6 +468,7 @@ DEPENDENCIES
   bundler-audit
   csv
   debug
+  dotenv
   erb_lint
   gemwork
   honeybadger
