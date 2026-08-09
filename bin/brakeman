@@ -1,7 +1,19 @@
 #!/usr/bin/env ruby
-require "rubygems"
-require "bundler/setup"
 
-ARGV.unshift("--ensure-latest")
+# This binstub ensures that you are running the latest version of Brakeman,
+# locally. This prevents having to update Gemfile.lock every time a new release
+# of Brakeman comes out while still allowing devs to always be running the
+# latest version.
+#
+# See:
+# - https://gist.github.com/presidentbeef/0cba3fae686c8edc20c626a6cf1d21d9
+# - https://github.com/presidentbeef/brakeman/issues/1989#issuecomment-3849709453
+
+require "bundler/inline"
+
+gemfile do
+  source "https://rubygems.org"
+  gem "brakeman", Gem.latest_version_for("brakeman")
+end
 
 load Gem.bin_path("brakeman", "brakeman")
