@@ -43,3 +43,11 @@ plugin :solid_queue if ENV["SOLID_QUEUE_IN_PUMA"]
 # Specify the PID file. Defaults to tmp/pids/server.pid in development.
 # In other environments, only set the PID file if requested.
 pidfile ENV["PIDFILE"] if ENV["PIDFILE"]
+
+if ENV.fetch("RAILS_ENV", "development") == "development"
+  # Display the Puma-dev URL for this app in the server startup output.
+  # lib/ isn't on the $LOAD_PATH this early in the boot process, so we must add
+  # it before the plugin can be properly resolved.
+  $LOAD_PATH.unshift(File.expand_path("../lib", __dir__))
+  plugin :puma_dev_urls
+end

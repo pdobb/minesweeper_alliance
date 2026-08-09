@@ -29,7 +29,12 @@ module MinesweeperAlliance # rubocop:disable Style/ClassAndModuleChildren
     # Please, add to the `ignore` list any other `lib` subdirectories that do
     # not contain `.rb` files, or that should not be reloaded or eager loaded.
     # Common ones are `templates`, `generators`, or `middleware`, for example.
-    config.autoload_lib(ignore: %w[assets tasks templates])
+    #
+    # Ignore lib/puma: custom Puma plugins live at lib/puma/plugin/*.rb so
+    # `plugin :name` can `require "puma/plugin/name"`. If Zeitwerk managed that
+    # tree it would define Puma::Plugin as a Module and collide with the real
+    # Puma::Plugin class from the gem.
+    config.autoload_lib(ignore: %w[assets tasks templates puma])
 
     # Configuration for the application, engines, and railties goes here.
     #
