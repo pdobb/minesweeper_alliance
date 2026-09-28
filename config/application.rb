@@ -49,6 +49,17 @@ module MinesweeperAlliance # rubocop:disable Style/ClassAndModuleChildren
 
     config.active_record.schema_format = :sql
 
+    # Scanners send Client-IP and X-Forwarded-For that disagree. Rails
+    # raises ActionDispatch::RemoteIp::IpSpoofAttackError while building
+    # the request log line, which is outside the exception app, so the
+    # client gets a 500 and Honeybadger records it.
+    # https://app.honeybadger.io/projects/129535/faults/131560971
+    #
+    # Kamal appends the connecting address to X-Forwarded-For. Rails
+    # already treats the private Docker range as a trusted proxy, so the
+    # client address still comes from that header.
+    config.action_dispatch.ip_spoofing_check = false
+
     ############################################################################
 
     Say.info("DEBUG MODE") if (config.debug = ENV["DEBUG"] == "1")

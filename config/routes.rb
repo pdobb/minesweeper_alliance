@@ -125,8 +125,23 @@ Rails.application.routes.draw do
   get "/500", to: "errors#internal_server_error", as: :internal_server_error
 
   # Render dynamic PWA files from app/views/pwa/*
-  get "service-worker", to: "rails/pwa#service_worker", as: :pwa_service_worker
-  get "manifest", to: "rails/pwa#manifest", as: :pwa_manifest
+  # Crawlers request these paths as HTML or JS. The templates exist for
+  # one format. A different format raises ActionView::MissingTemplate,
+  # which Honeybadger records as a 500.
+  # https://app.honeybadger.io/projects/129535/faults/125317904
+  get "service-worker",
+      to: "rails/pwa#service_worker",
+      as: :pwa_service_worker,
+      defaults: { format: :js },
+      format: false
+  get "manifest",
+      to: "rails/pwa#manifest",
+      as: :pwa_manifest,
+      defaults: { format: :json },
+      format: false
+  get "manifest.json",
+      to: "rails/pwa#manifest",
+      defaults: { format: :json }
 
   mount MissionControl::Jobs::Engine, at: "/jobs"
 end
