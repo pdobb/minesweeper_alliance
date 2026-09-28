@@ -103,6 +103,12 @@ class User < ApplicationRecord
       .merge(ParticipantTransaction.by_started_actively_participating_at_asc)
   }
 
+  # Browsers store legacy identifiers such as Asia/Calcutta. Rewrite those
+  # before Time.zone= and profile rendering look the name up.
+  def time_zone
+    TimeZoneName.canonical(super)
+  end
+
   def token = id
   def identifier = username || internal_token
 

@@ -20,7 +20,7 @@ class CurrentUser::TimeZoneUpdatesController < ApplicationController
 
   def new_time_zone
     @new_time_zone ||= begin
-      name = time_zone_params[:time_zone]
+      name = TimeZoneName.canonical(time_zone_params[:time_zone])
       ActiveSupport::TimeZone::MAPPING.key(name) || name
     end
   end

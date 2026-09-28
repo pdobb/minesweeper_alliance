@@ -16,24 +16,23 @@ class Users::Show
   def enlistment_date = I18n.l(user.created_at.to_date)
 
   # :reek:DuplicateMethodCall
-
   def time_zone
     return View.no_value_indicator_tag unless user_time_zone?
 
-    ActiveSupport::TimeZone.new(user_time_zone).to_s
-  rescue TZInfo::InvalidTimezoneIdentifier
-    View.no_value_indicator_tag
+    zone = ActiveSupport::TimeZone.new(user_time_zone)
+    return View.no_value_indicator_tag unless zone
+
+    zone.to_s
   end
 
   def local_time
     return unless user_time_zone?
+    return unless ActiveSupport::TimeZone.new(user_time_zone)
 
     I18n.l(
       Time.current.in_time_zone(user_time_zone),
       format: :weekday_hours_minutes,
     )
-  rescue TZInfo::InvalidTimezoneIdentifier
-    nil
   end
 
   def display_local_time
