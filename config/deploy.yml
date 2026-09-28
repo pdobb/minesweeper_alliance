@@ -46,15 +46,15 @@ env:
 
     # Match this to any external database server to configure Active Record correctly
     # Use minesweeper_alliance-db for a db accessory server on same machine via local kamal docker network.
-    DB_HOST: minesweeper_alliance-postgres
-    DB_PORT: 5432
-    POSTGRES_USER: minesweeper_alliance
+    DATABASE_HOST: minesweeper_alliance-postgres
+    DATABASE_PORT: 5432
+    DATABASE_USER: minesweeper_alliance
 
     # Log everything from Rails
     # RAILS_LOG_LEVEL: debug
   secret:
     - RAILS_MASTER_KEY
-    - POSTGRES_PASSWORD
+    - DATABASE_PASSWORD
 
 # Aliases are triggered with "bin/kamal <alias>". You can overwrite arguments on invocation:
 # "bin/kamal logs -r job" will tail logs from the first server in the job section.
@@ -102,9 +102,9 @@ accessories:
     port: 127.0.0.1:5432:5432
     env:
       clear:
-        POSTGRES_USER: minesweeper_alliance
+        DATABASE_USER: minesweeper_alliance
       secret:
-        - POSTGRES_PASSWORD
+        - DATABASE_PASSWORD
     directories:
       - data:/var/lib/postgresql/data
   # db:
