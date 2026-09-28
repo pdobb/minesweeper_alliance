@@ -18,6 +18,7 @@ FileUtils.chdir(APP_ROOT) do
 
   puts("== Installing dependencies ==")
   system("bundle check") || system!("bundle install")
+  system!("git config --local commit.template .gitmessage")
 
   puts("\n== Preparing database ==")
   system! "bin/rails db:prepare"
