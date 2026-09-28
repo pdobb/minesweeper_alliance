@@ -1,4 +1,5 @@
 #!/bin/sh
+set -e
 
 # A sample post-deploy hook
 #
@@ -11,9 +12,13 @@
 # KAMAL_DESTINATION (if set)
 # KAMAL_RUNTIME
 
-RAILS_MASTER_KEY=$(cat config/master.key)
-
-bundle exec honeybadger deploy --revision=$(git rev-parse HEAD) --repository=$(git config --get remote.origin.url) --environment=production
+bundle exec honeybadger deploy \
+  --skip-rails-load \
+  --api-key "$HONEYBADGER_API_KEY" \
+  --repository "$(git config --get remote.origin.url)" \
+  --revision "$KAMAL_VERSION" \
+  --environment production \
+  --user "$KAMAL_PERFORMER"
 
 ################################################################################
 # Tag the deploy using format: `YYYY.MM.DD.##`
