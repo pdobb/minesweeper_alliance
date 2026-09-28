@@ -3,12 +3,11 @@
 # Games::Past::Board::Cell is a View Model for displaying Inactive
 # {Cell}s. i.e. for a {Game} that's no longer In-Progress.
 class Games::Past::Board::Cell
-  # rubocop:disable Layout/MultilineArrayLineBreaks
+  # rubocop:disable-next Layout/MultilineArrayLineBreaks
   BG_ERROR_COLOR = %w[
     bg-red-600 dark:bg-red-800
     shadow-inner shadow-gray-600 dark:shadow-neutral-800
   ].freeze
-  # rubocop:enable Layout/MultilineArrayLineBreaks
   private_constant :BG_ERROR_COLOR
 
   DIMMED_TEXT_COLOR = %w[text-dim-lg].freeze

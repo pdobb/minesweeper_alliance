@@ -13,7 +13,8 @@ Welcome to [Minesweeper Alliance](https://minesweeperalliance.net), an open-mult
 
 ## Development
 
-Ruby version: 3.4+ (see: [`.ruby-version`](./.ruby-version))
+- Ruby version: [`.ruby-version`](./.ruby-version) (currently 4.0.7)
+- Database: PostgreSQL 17
 
 To get started:
 
@@ -57,8 +58,6 @@ DEBUG=1 bin/rails server [...]
 ```
 
 ### Services
-
-- PostgreSQL
 
 ### Test Suite
 

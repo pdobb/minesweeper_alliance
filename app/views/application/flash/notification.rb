@@ -14,7 +14,7 @@ class Application::Flash::Notification
               :id
 
   def self.css_map
-    # rubocop:disable Layout/MultilineArrayLineBreaks
+    # rubocop:disable-next Layout/MultilineArrayLineBreaks
     @css_map ||= {
       notice: {
         container: %w[
@@ -65,7 +65,6 @@ class Application::Flash::Notification
         ],
       },
     }.with_indifferent_access.freeze
-    # rubocop:enable Layout/MultilineArrayLineBreaks
   end
 
   def self.wrap(...)

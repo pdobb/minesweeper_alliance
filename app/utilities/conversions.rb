@@ -6,7 +6,7 @@
 module Conversions
   # :reek:UncommunicativeMethodName
 
-  # rubocop:disable Naming/MethodName, Metrics/MethodLength
+  # rubocop:disable-next Naming/MethodName, Metrics/MethodLength
   def self.Coordinates(value)
     case value
     when Coordinates
@@ -23,7 +23,6 @@ module Conversions
       )
     end
   end
-  # rubocop:enable Naming/MethodName, Metrics/MethodLength
 
   # :reek:UncommunicativeMethodName
 

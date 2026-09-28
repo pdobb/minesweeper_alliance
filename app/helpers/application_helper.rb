@@ -44,8 +44,7 @@ module ApplicationHelper
     end
   end
 
-  # rubocop:disable Metrics/ParameterLists
-  def tt(
+  def tt( # rubocop:disable Metrics/ParameterLists
     anchor = nil,
     content: nil,
     key: anchor.underscore,
@@ -69,7 +68,6 @@ module ApplicationHelper
       )
     render("application/tooltip", tooltip:)
   end
-  # rubocop:enable Metrics/ParameterLists
 
   private
 

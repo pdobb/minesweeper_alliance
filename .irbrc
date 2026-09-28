@@ -11,6 +11,8 @@ IRB.conf[:COMMAND_ALIASES].update(
   "!!!": :exit!,
 )
 
+IRB::StartupMessage.display if IRB.conf[:SHOW_BANNER] != false
+
 def eager_load! = Rails.application.eager_load!
 
 # Toggle display of SQL query logging. Query logging defaults to 'on' in

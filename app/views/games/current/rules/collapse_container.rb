@@ -31,5 +31,5 @@ class Games::Current::Rules::CollapseContainer
 
   def cookies = context.cookies
 
-  def unique_id = @unique_id ||= Time.new.to_i
+  def unique_id = @unique_id ||= Time.now.to_i
 end

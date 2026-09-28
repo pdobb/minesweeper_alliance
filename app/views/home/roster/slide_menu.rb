@@ -6,7 +6,7 @@ class Home::Roster::SlideMenu
   public_constant :COOKIE
 
   def self.css
-    # rubocop:disable Layout/MultilineArrayLineBreaks
+    # rubocop:disable-next Layout/MultilineArrayLineBreaks
     @css ||= {
       menu: %w[
         absolute -top-12 right-0 z-10 text-right
@@ -27,7 +27,6 @@ class Home::Roster::SlideMenu
         border-t border-r border-b border-dim rounded-r-md
       ],
     }.with_indifferent_access.freeze
-    # rubocop:enable Layout/MultilineArrayLineBreaks
   end
 
   def initialize(context:)

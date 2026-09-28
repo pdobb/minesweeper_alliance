@@ -161,8 +161,7 @@ class User < ApplicationRecord
   concerning :ObjectInspection do # rubocop:disable Metrics/BlockLength
     include ObjectInspectionBehaviors
 
-    # rubocop:disable Metrics/AbcSize
-    def introspect(limit: 5)
+    def introspect(limit: 5) # rubocop:disable Metrics/AbcSize
       {
         self => {
           profile_updates:
@@ -178,7 +177,6 @@ class User < ApplicationRecord
         },
       }
     end
-    # rubocop:enable Metrics/AbcSize
 
     private
 

@@ -8,7 +8,7 @@
 #
 # Coordinates are Comparable (sortable, etc.)
 #   (Coordinates[0, 0]..Coordinates[30, 0]).shuffle
-class Coordinates < Data.define(:x, :y) # rubocop:disable Style/DataInheritance
+class Coordinates < Data.define(:x, :y)
   include Comparable
   include ConsoleBehaviors
 

@@ -21,7 +21,7 @@ LOCAL_ENVS = %w[
 #   => Run `bin/rails server --help` for more startup options
 #   Puma starting in single mode...
 #   * Puma version: 8.0.2 ("Into the Arena")
-#   * Ruby version: ruby 4.0.6 (2026-07-14 revision 03b6d3f889) +PRISM [arm64-darwin27]
+#   * Ruby version: ruby 4.0.7 (2026-07-14 revision 03b6d3f889) +PRISM [arm64-darwin27]
 #   *  Min threads: 3
 #   *  Max threads: 3
 #   *  Environment: development
