@@ -47,7 +47,7 @@ class Game::Board::RevealTest < ActiveSupport::TestCase
           _(-> { subject.call }).must_change_all([
             ["standing_by1.started_at"],
             ["standing_by1.status", { to: Game.status_sweep_in_progress }],
-            ["standing_by1_board_cell1.revealed", { to: true }],
+            ["standing_by1_board_cell1.reload.revealed", { to: true }],
             [
               -> {
                 CellRevealTransaction.exists_between?(

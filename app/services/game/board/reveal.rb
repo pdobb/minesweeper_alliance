@@ -22,20 +22,9 @@ class Game::Board::Reveal
     @user = context.user
   end
 
-  # :reek:TooManyStatements
-
-  def call # rubocop:disable Metrics/MethodLength
-    return self if already_revealed?
-
+  def call
     catch(:return) {
-      start_game_if_standing_by
-      game.with_lock do
-        reveal_cell
-        end_game_in_defeat_if_mine_revealed
-        recursively_reveal_neighbors_if_revealed_cell_was_blank
-        end_game_in_victory_if_all_safe_cells_revealed
-      end
-
+      perform_action
       self
     }
   end
@@ -47,8 +36,23 @@ class Game::Board::Reveal
               :cell,
               :user
 
+  def perform_action
+    Game::Board::Lock.(game:, board:, cell:) do |fresh_cell|
+      @cell = fresh_cell
+      reveal_fresh_cell unless already_revealed?
+    end
+  end
+
   def already_revealed?
     cell.revealed?
+  end
+
+  def reveal_fresh_cell
+    start_game_if_standing_by
+    reveal_cell
+    end_game_in_defeat_if_mine_revealed
+    recursively_reveal_neighbors_if_revealed_cell_was_blank
+    end_game_in_victory_if_all_safe_cells_revealed
   end
 
   def start_game_if_standing_by

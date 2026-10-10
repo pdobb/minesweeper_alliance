@@ -11,21 +11,34 @@ class Games::Current::Board::Cells::RevealNeighborsController <
     if neighbors.revealable?
       do_reveal_neighbors
     else
-      Games::Current::Board::Cells::DehighlightNeighbors.(context: self)
+      dehighlight_neighbors
     end
+  rescue Games::Current::Board::Cells::DispatchAction::GameOverError,
+         Games::Current::Board::Cells::DispatchEffect::GameOverError
+    render(turbo_stream: turbo_stream.refresh)
   end
 
   private
 
   def neighbors = Cell::Neighbors.new(cell:)
 
+  def dehighlight_neighbors
+    Games::Current::Board::Cells::DehighlightNeighbors.(context: self) do
+      perform_effect
+    end
+  end
+
+  def perform_effect
+    Game::Board::Lock.(game:, board:, cell:) do |fresh_cell|
+      Cell::DehighlightNeighborhood.(fresh_cell)
+    end
+  end
+
   def do_reveal_neighbors
     dispatch_action.call { |dispatch|
       perform_action
       dispatch.call
     }
-  rescue Games::Current::Board::Cells::DispatchEffect::GameOverError
-    render(turbo_stream: turbo_stream.refresh)
   end
 
   def dispatch_action

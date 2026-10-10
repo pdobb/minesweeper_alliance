@@ -31,17 +31,9 @@ class Game::Board::RevealNeighbors
     @user = context.user
   end
 
-  # :reek:TooManyStatements
-
   def call
-    return self if Cell::State.unrevealed?(cell)
-
     catch(:return) {
-      game.with_lock do
-        reveal_neighbors
-        end_game_in_victory_if_all_safe_cells_revealed
-      end
-
+      perform_action
       self
     }
   end
@@ -52,6 +44,24 @@ class Game::Board::RevealNeighbors
               :board,
               :cell,
               :user
+
+  def perform_action
+    Game::Board::Lock.(game:, board:, cell:) do |fresh_cell|
+      @cell = fresh_cell
+      reveal_fresh_cell
+    end
+  end
+
+  def reveal_fresh_cell
+    return if Cell::State.unrevealed?(cell)
+
+    if neighbors.revealable?
+      reveal_neighbors
+      end_game_in_victory_if_all_safe_cells_revealed
+    else
+      Cell::DehighlightNeighborhood.(cell)
+    end
+  end
 
   # :reek:TooManyStatements
   def reveal_neighbors

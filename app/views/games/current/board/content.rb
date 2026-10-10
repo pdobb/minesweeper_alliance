@@ -13,7 +13,9 @@ class Games::Current::Board::Content
   end
 
   def turbo_target = self.class.turbo_target
-  def version = Time.current.to_f
+
+  # {Board#version}, advanced inside {Game::Board::Lock}.
+  def version = board.version
 
   def reveal_url
     Router.game_board_cell_reveal_path(game, NULL_CELL_ID)

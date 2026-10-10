@@ -9,6 +9,9 @@
 # @attr settings [Hash] An object that stores the width, height,
 #   and number of mines (to be set) in the {Grid} of associated {Cell}s.
 #   Converted to {Board::Settings} via {#settings}.
+# @attr version [Integer] Monotonic counter for the cell snapshot this board
+#   will render. {Game::Board::Lock} advances it inside {Game#with_lock}
+#   so a broadcast cannot outrank a newer snapshot.
 #
 # @see Grid
 class Board < ApplicationRecord

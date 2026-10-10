@@ -9,24 +9,30 @@ class Game::Board::ToggleFlag
 
   def initialize(context:)
     @game = context.game
+    @board = context.board
     @cell = context.cell
     @user = context.user
   end
 
   def call
-    game.with_lock do
-      create_transaction_records
-      toggle_flag
-    end
-
+    perform_action
     self
   end
 
   private
 
   attr_reader :game,
+              :board,
               :cell,
               :user
+
+  def perform_action
+    Game::Board::Lock.(game:, board:, cell:) do |fresh_cell|
+      @cell = fresh_cell
+      create_transaction_records
+      toggle_flag
+    end
+  end
 
   def create_transaction_records
     transaction_class.create_between(user:, cell:)

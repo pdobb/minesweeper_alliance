@@ -58,7 +58,8 @@ CREATE TABLE public.boards (
     game_id bigint NOT NULL,
     settings jsonb DEFAULT '{}'::jsonb NOT NULL,
     created_at timestamp(6) with time zone NOT NULL,
-    updated_at timestamp(6) with time zone NOT NULL
+    updated_at timestamp(6) with time zone NOT NULL,
+    version integer DEFAULT 0 NOT NULL
 );
 
 
@@ -958,6 +959,7 @@ ALTER TABLE ONLY public.cells
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20261009153000'),
 ('20250420155844'),
 ('20250308230756'),
 ('20250305200048'),

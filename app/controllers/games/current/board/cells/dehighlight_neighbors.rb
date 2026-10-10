@@ -2,7 +2,9 @@
 
 # Games::Current::Board::Cells::DehighlightNeighbors
 class Games::Current::Board::Cells::DehighlightNeighbors
-  def self.call(...) = new(...).call
+  # Pass the block on its own. Forwarding `...` into both calls gives {#call}
+  # the block as a positional argument and raises ArgumentError.
+  def self.call(context:, &) = new(context:).call(&)
 
   def initialize(context:)
     @context = context
@@ -10,7 +12,7 @@ class Games::Current::Board::Cells::DehighlightNeighbors
 
   def call
     dispatch_effect.call { |dispatch|
-      perform_effect
+      yield
       dispatch.call
     }
   end
@@ -18,16 +20,6 @@ class Games::Current::Board::Cells::DehighlightNeighbors
   private
 
   attr_reader :context
-
-  def params = context.params
-  def game = context.__send__(:game)
-  def cell = context.__send__(:cell)
-
-  def perform_effect
-    game.with_lock do
-      Cell::DehighlightNeighborhood.(cell)
-    end
-  end
 
   def dispatch_effect
     @dispatch_effect ||=
