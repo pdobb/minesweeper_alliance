@@ -13,7 +13,7 @@ Welcome to [Minesweeper Alliance](https://minesweeperalliance.net), an open-mult
 
 ## Development
 
-- Ruby version: [`.ruby-version`](./.ruby-version) (currently 4.0.7)
+- Ruby version: [`.tool-versions`](./.tool-versions) (currently 4.0.7)
 - Database: PostgreSQL 17
 
 To get started:
