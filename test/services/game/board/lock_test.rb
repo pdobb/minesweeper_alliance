@@ -35,6 +35,7 @@ class Game::Board::LockTest < ActiveSupport::TestCase
         ).must_equal(true)
         _(board.version).must_equal(1)
         _(game.board).must_be_same_as(board)
+        _(board.game).must_be_same_as(game)
         _(Games::Current::Board::Content.new(board:).version).must_equal(1)
       end
     end
