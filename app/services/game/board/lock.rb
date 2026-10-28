@@ -47,10 +47,14 @@ class Game::Board::Lock
   # {Game#with_lock} reloads the Game and drops its cached board. Later reads
   # of {Game#board} would be a different instance, and the view would keep
   # rendering this one. Point the association back at the board we reloaded.
+  #
+  # {Board#reload} likewise drops the board's cached game. Services that reach
+  # the game through the board (e.g. {Board::CheckForVictory}) would then load
+  # and end a different Game instance, so {Game#just_ended?} would never be
+  # set on the one the controller dispatches from. Point that side back, too.
   def pin_rendered_board
-    association = game.association(:board)
-    association.reset
-    association.target = board
+    game.association(:board).tap(&:reset).target = board
+    board.association(:game).tap(&:reset).target = game
   end
 
   def mark_cells_readonly
